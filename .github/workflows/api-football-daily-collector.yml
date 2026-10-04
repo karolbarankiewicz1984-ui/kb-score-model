@@ -1,0 +1,51 @@
+name: API-Football daily collector
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Optional YYYY-MM-DD; blank = yesterday'
+        required: false
+        type: string
+  schedule:
+    # 04:17 UTC = 06:17 CEST / 05:17 CET. Stats from the previous day should be settled.
+    - cron: '17 4 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: api-football-daily-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify API secret
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: test -n "$API_FOOTBALL_KEY"
+      - name: Collect finished-match statistics
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            python tools/api_football_daily_collector.py "${{ inputs.date }}"
+          else
+            python tools/api_football_daily_collector.py
+          fi
+      - name: Commit new data snapshot
+        run: |
+          if git diff --quiet -- data/api_football/daily && [ -z "$(git status --porcelain -- data/api_football/daily)" ]; then
+            echo "No data changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/api_football/daily
+          git commit -m "data: collect API-Football daily snapshot"
+          git push
