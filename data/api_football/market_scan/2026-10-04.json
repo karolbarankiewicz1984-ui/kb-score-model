@@ -1,0 +1,645 @@
+{
+  "schema": "api-market-scan-v1",
+  "date": "2026-10-04",
+  "fixtures_scanned": 18,
+  "history_matches_loaded": 1940,
+  "candidate_markets_before_dedupe": 29,
+  "top_positions": [
+    {
+      "fixture_id": 1528941,
+      "kickoff": "2026-10-04T20:45:00+02:00",
+      "competition": "UEFA Nations League",
+      "category": "national_team",
+      "home": "Portugal",
+      "away": "Norway",
+      "team_id": 27,
+      "team": "Portugal",
+      "opponent": "Norway",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone drużyny",
+      "line": 0.5,
+      "selection": "Portugal over 0.5 — spalone drużyny",
+      "coverage_pct": 100.0,
+      "confidence_kb_api": 9.3,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 11,
+          "n": 11,
+          "pct": 100.0
+        }
+      },
+      "venue": {
+        "hits": 7,
+        "n": 7,
+        "pct": 100.0
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 10,
+        "opponent_allowed_available": 11
+      },
+      "explanation": "własne L15 10/10 (100%); rywal dopuszcza L15 11/11 (100%); dom/wyjazd 7/7 (100%)."
+    },
+    {
+      "fixture_id": 1629004,
+      "kickoff": "2026-10-04T04:00:00+02:00",
+      "competition": "Friendlies",
+      "category": "national_team",
+      "home": "USA",
+      "away": "Mexico",
+      "team_id": 16,
+      "team": "Mexico",
+      "opponent": "USA",
+      "team_side": "away",
+      "market": "fouls",
+      "market_label": "faule drużyny",
+      "line": 7.5,
+      "selection": "Mexico over 7.5 — faule drużyny",
+      "coverage_pct": 95.1,
+      "confidence_kb_api": 8.7,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 9,
+          "n": 10,
+          "pct": 90.0
+        },
+        "L15": {
+          "hits": 9,
+          "n": 10,
+          "pct": 90.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 9,
+          "n": 9,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 9,
+          "n": 9,
+          "pct": 100.0
+        }
+      },
+      "venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 10,
+        "opponent_allowed_available": 9
+      },
+      "explanation": "własne L15 9/10 (90%); rywal dopuszcza L15 9/9 (100%)."
+    },
+    {
+      "fixture_id": 1528941,
+      "kickoff": "2026-10-04T20:45:00+02:00",
+      "competition": "UEFA Nations League",
+      "category": "national_team",
+      "home": "Portugal",
+      "away": "Norway",
+      "team_id": 27,
+      "team": "Portugal",
+      "opponent": "Norway",
+      "team_side": "home",
+      "market": "shots",
+      "market_label": "strzały drużyny",
+      "line": 7.5,
+      "selection": "Portugal over 7.5 — strzały drużyny",
+      "coverage_pct": 94.2,
+      "confidence_kb_api": 8.7,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 9,
+          "n": 10,
+          "pct": 90.0
+        },
+        "L15": {
+          "hits": 9,
+          "n": 10,
+          "pct": 90.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 11,
+          "n": 11,
+          "pct": 100.0
+        }
+      },
+      "venue": {
+        "hits": 6,
+        "n": 7,
+        "pct": 85.71428571428571
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 10,
+        "opponent_allowed_available": 11
+      },
+      "explanation": "własne L15 9/10 (90%); rywal dopuszcza L15 11/11 (100%); dom/wyjazd 6/7 (86%)."
+    },
+    {
+      "fixture_id": 1629004,
+      "kickoff": "2026-10-04T04:00:00+02:00",
+      "competition": "Friendlies",
+      "category": "national_team",
+      "home": "USA",
+      "away": "Mexico",
+      "team_id": 16,
+      "team": "Mexico",
+      "opponent": "USA",
+      "team_side": "away",
+      "market": "team_goals",
+      "market_label": "gole drużyny",
+      "line": 0.5,
+      "selection": "Mexico over 0.5 — gole drużyny",
+      "coverage_pct": 91.5,
+      "confidence_kb_api": 8.2,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 9,
+          "pct": 77.77777777777777
+        },
+        "L15": {
+          "hits": 7,
+          "n": 9,
+          "pct": 77.77777777777777
+        }
+      },
+      "venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 10,
+        "opponent_allowed_available": 9
+      },
+      "explanation": "własne L15 10/10 (100%); rywal dopuszcza L15 7/9 (78%)."
+    },
+    {
+      "fixture_id": 1528941,
+      "kickoff": "2026-10-04T20:45:00+02:00",
+      "competition": "UEFA Nations League",
+      "category": "national_team",
+      "home": "Portugal",
+      "away": "Norway",
+      "team_id": 1090,
+      "team": "Norway",
+      "opponent": "Portugal",
+      "team_side": "away",
+      "market": "goalkeeper_saves",
+      "market_label": "interwencje bramkarza",
+      "line": 1.5,
+      "selection": "Norway over 1.5 — interwencje bramkarza",
+      "coverage_pct": 91.0,
+      "confidence_kb_api": 8.5,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 9,
+          "n": 10,
+          "pct": 90.0
+        },
+        "L15": {
+          "hits": 10,
+          "n": 11,
+          "pct": 90.9090909090909
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 9,
+          "n": 10,
+          "pct": 90.0
+        },
+        "L15": {
+          "hits": 9,
+          "n": 10,
+          "pct": 90.0
+        }
+      },
+      "venue": {
+        "hits": 4,
+        "n": 5,
+        "pct": 80.0
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 11,
+        "opponent_allowed_available": 10
+      },
+      "explanation": "własne L15 10/11 (91%); rywal dopuszcza L15 9/10 (90%); dom/wyjazd 4/5 (80%)."
+    },
+    {
+      "fixture_id": 1528941,
+      "kickoff": "2026-10-04T20:45:00+02:00",
+      "competition": "UEFA Nations League",
+      "category": "national_team",
+      "home": "Portugal",
+      "away": "Norway",
+      "team_id": 1090,
+      "team": "Norway",
+      "opponent": "Portugal",
+      "team_side": "away",
+      "market": "team_goals",
+      "market_label": "gole drużyny",
+      "line": 0.5,
+      "selection": "Norway over 0.5 — gole drużyny",
+      "coverage_pct": 90.2,
+      "confidence_kb_api": 8.1,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 11,
+          "n": 11,
+          "pct": 100.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 10,
+          "pct": 70.0
+        },
+        "L15": {
+          "hits": 7,
+          "n": 10,
+          "pct": 70.0
+        }
+      },
+      "venue": {
+        "hits": 5,
+        "n": 5,
+        "pct": 100.0
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 11,
+        "opponent_allowed_available": 10
+      },
+      "explanation": "własne L15 11/11 (100%); rywal dopuszcza L15 7/10 (70%); dom/wyjazd 5/5 (100%)."
+    },
+    {
+      "fixture_id": 1528941,
+      "kickoff": "2026-10-04T20:45:00+02:00",
+      "competition": "UEFA Nations League",
+      "category": "national_team",
+      "home": "Portugal",
+      "away": "Norway",
+      "team_id": 1090,
+      "team": "Norway",
+      "opponent": "Portugal",
+      "team_side": "away",
+      "market": "corners",
+      "market_label": "rożne drużyny",
+      "line": 2.5,
+      "selection": "Norway over 2.5 — rożne drużyny",
+      "coverage_pct": 90.2,
+      "confidence_kb_api": 8.1,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 11,
+          "n": 11,
+          "pct": 100.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 10,
+          "pct": 70.0
+        },
+        "L15": {
+          "hits": 7,
+          "n": 10,
+          "pct": 70.0
+        }
+      },
+      "venue": {
+        "hits": 5,
+        "n": 5,
+        "pct": 100.0
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 11,
+        "opponent_allowed_available": 10
+      },
+      "explanation": "własne L15 11/11 (100%); rywal dopuszcza L15 7/10 (70%); dom/wyjazd 5/5 (100%)."
+    },
+    {
+      "fixture_id": 1528941,
+      "kickoff": "2026-10-04T20:45:00+02:00",
+      "competition": "UEFA Nations League",
+      "category": "national_team",
+      "home": "Portugal",
+      "away": "Norway",
+      "team_id": 1090,
+      "team": "Norway",
+      "opponent": "Portugal",
+      "team_side": "away",
+      "market": "shots",
+      "market_label": "strzały drużyny",
+      "line": 7.5,
+      "selection": "Norway over 7.5 — strzały drużyny",
+      "coverage_pct": 90.2,
+      "confidence_kb_api": 8.1,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 11,
+          "n": 11,
+          "pct": 100.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 10,
+          "pct": 70.0
+        },
+        "L15": {
+          "hits": 7,
+          "n": 10,
+          "pct": 70.0
+        }
+      },
+      "venue": {
+        "hits": 5,
+        "n": 5,
+        "pct": 100.0
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 11,
+        "opponent_allowed_available": 10
+      },
+      "explanation": "własne L15 11/11 (100%); rywal dopuszcza L15 7/10 (70%); dom/wyjazd 5/5 (100%)."
+    },
+    {
+      "fixture_id": 1629004,
+      "kickoff": "2026-10-04T04:00:00+02:00",
+      "competition": "Friendlies",
+      "category": "national_team",
+      "home": "USA",
+      "away": "Mexico",
+      "team_id": 16,
+      "team": "Mexico",
+      "opponent": "USA",
+      "team_side": "away",
+      "market": "shots",
+      "market_label": "strzały drużyny",
+      "line": 7.5,
+      "selection": "Mexico over 7.5 — strzały drużyny",
+      "coverage_pct": 88.0,
+      "confidence_kb_api": 7.8,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 6,
+          "n": 9,
+          "pct": 66.66666666666667
+        },
+        "L15": {
+          "hits": 6,
+          "n": 9,
+          "pct": 66.66666666666667
+        }
+      },
+      "venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 10,
+        "opponent_allowed_available": 9
+      },
+      "explanation": "własne L15 10/10 (100%); rywal dopuszcza L15 6/9 (67%)."
+    },
+    {
+      "fixture_id": 1629004,
+      "kickoff": "2026-10-04T04:00:00+02:00",
+      "competition": "Friendlies",
+      "category": "national_team",
+      "home": "USA",
+      "away": "Mexico",
+      "team_id": 16,
+      "team": "Mexico",
+      "opponent": "USA",
+      "team_side": "away",
+      "market": "shots_on_goal",
+      "market_label": "strzały celne drużyny",
+      "line": 2.5,
+      "selection": "Mexico over 2.5 — strzały celne drużyny",
+      "coverage_pct": 88.0,
+      "confidence_kb_api": 7.8,
+      "scope": "reprezentacje",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 10,
+          "n": 10,
+          "pct": 100.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 6,
+          "n": 9,
+          "pct": 66.66666666666667
+        },
+        "L15": {
+          "hits": 6,
+          "n": 9,
+          "pct": 66.66666666666667
+        }
+      },
+      "venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 10,
+        "opponent_allowed_available": 9
+      },
+      "explanation": "własne L15 10/10 (100%); rywal dopuszcza L15 6/9 (67%)."
+    }
+  ],
+  "thresholds": {
+    "min_combined_coverage_pct": 72.0,
+    "min_own_L10_pct": 60.0,
+    "min_opponent_allowed_L10_pct": 50.0,
+    "min_side_sample": 7,
+    "top_n": 10
+  },
+  "rate_limit_remaining": "5071",
+  "isolation": "API_COVERAGE_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}
