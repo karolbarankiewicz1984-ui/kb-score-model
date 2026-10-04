@@ -2,9 +2,10 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-07-07",
-  "stored": 10,
+  "stored": 12,
   "competition_counts": {
-    "UEFA Champions League": 10
+    "UEFA Champions League": 10,
+    "UEFA Europa Conference League": 2
   },
   "rows": [
     {
@@ -353,6 +354,80 @@
       "home": "Vikingur Reykjavik",
       "away_id": 2402,
       "away": "Gyori ETO FC",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1554389,
+      "date": "2026-07-07T20:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "1st Qualifying Round",
+      "home_id": 20406,
+      "home": "AF Elbasani",
+      "away_id": 388,
+      "away": "Bate Borisov",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1554410,
+      "date": "2026-07-07T19:15:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "1st Qualifying Round",
+      "home_id": 2036,
+      "home": "UNA Strassen",
+      "away_id": 2249,
+      "away": "La Fiorita",
       "goals": {
         "home": 1,
         "away": 0

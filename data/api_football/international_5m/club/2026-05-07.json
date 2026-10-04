@@ -2,9 +2,10 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-05-07",
-  "stored": 2,
+  "stored": 4,
   "competition_counts": {
-    "UEFA Europa League": 2
+    "UEFA Europa League": 2,
+    "UEFA Europa Conference League": 2
   },
   "rows": [
     {
@@ -152,6 +153,154 @@
           "passes_accurate": 171,
           "offsides": 1,
           "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1540881,
+      "date": "2026-05-07T21:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2025,
+      "round": "Semi-finals",
+      "home_id": 52,
+      "home": "Crystal Palace",
+      "away_id": 550,
+      "away": "Shakhtar Donetsk",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 52,
+          "team": "Crystal Palace",
+          "corners": 1,
+          "fouls": 8,
+          "yellow": 0,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 5,
+          "shots_inside_box": 7,
+          "shots_outside_box": 4,
+          "blocked_shots": 2,
+          "possession": "34%",
+          "passes": 272,
+          "passes_accurate": 209,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 550,
+          "team": "Shakhtar Donetsk",
+          "corners": 5,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 6,
+          "shots_inside_box": 13,
+          "shots_outside_box": 4,
+          "blocked_shots": 4,
+          "possession": "66%",
+          "passes": 541,
+          "passes_accurate": 495,
+          "offsides": 0,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1540882,
+      "date": "2026-05-07T21:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2025,
+      "round": "Semi-finals",
+      "home_id": 95,
+      "home": "Strasbourg",
+      "away_id": 728,
+      "away": "Rayo Vallecano",
+      "goals": {
+        "home": 0,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 95,
+          "team": "Strasbourg",
+          "corners": 5,
+          "fouls": 7,
+          "yellow": 2,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 3,
+          "shots_inside_box": 8,
+          "shots_outside_box": 3,
+          "blocked_shots": 4,
+          "possession": "49%",
+          "passes": 432,
+          "passes_accurate": 365,
+          "offsides": 2,
+          "goalkeeper_saves": 7
+        },
+        {
+          "team_id": 728,
+          "team": "Rayo Vallecano",
+          "corners": 6,
+          "fouls": 19,
+          "yellow": 3,
+          "red": null,
+          "shots": 22,
+          "shots_on_goal": 8,
+          "shots_inside_box": 14,
+          "shots_outside_box": 8,
+          "blocked_shots": 4,
+          "possession": "51%",
+          "passes": 447,
+          "passes_accurate": 374,
+          "offsides": 0,
+          "goalkeeper_saves": 3
         }
       ]
     }

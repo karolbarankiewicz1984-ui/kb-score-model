@@ -2,9 +2,10 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-07-29",
-  "stored": 8,
+  "stored": 11,
   "competition_counts": {
-    "UEFA Champions League": 8
+    "UEFA Champions League": 8,
+    "UEFA Europa Conference League": 3
   },
   "rows": [
     {
@@ -152,6 +153,154 @@
           "passes_accurate": 397,
           "offsides": 2,
           "goalkeeper_saves": 8
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1556531,
+      "date": "2026-07-29T16:30:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "2nd Qualifying Round",
+      "home_id": 14393,
+      "home": "Dukagjini",
+      "away_id": 606,
+      "away": "FC Lugano",
+      "goals": {
+        "home": 1,
+        "away": 5
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 3
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 5
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 14393,
+          "team": "Dukagjini",
+          "corners": 1,
+          "fouls": 16,
+          "yellow": null,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 4,
+          "shots_inside_box": 6,
+          "shots_outside_box": 3,
+          "blocked_shots": 0,
+          "possession": "37%",
+          "passes": 288,
+          "passes_accurate": 229,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 606,
+          "team": "FC Lugano",
+          "corners": 5,
+          "fouls": 16,
+          "yellow": null,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 7,
+          "shots_inside_box": 11,
+          "shots_outside_box": 1,
+          "blocked_shots": 1,
+          "possession": "63%",
+          "passes": 499,
+          "passes_accurate": 442,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1556532,
+      "date": "2026-07-29T19:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "2nd Qualifying Round",
+      "home_id": 400,
+      "home": "FC Copenhagen",
+      "away_id": 6496,
+      "away": "Polessya",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 400,
+          "team": "FC Copenhagen",
+          "corners": 2,
+          "fouls": 6,
+          "yellow": 1,
+          "red": 1,
+          "shots": 5,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 1,
+          "blocked_shots": 2,
+          "possession": "30%",
+          "passes": 259,
+          "passes_accurate": 204,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 6496,
+          "team": "Polessya",
+          "corners": 14,
+          "fouls": 12,
+          "yellow": 1,
+          "red": 0,
+          "shots": 26,
+          "shots_on_goal": 4,
+          "shots_inside_box": 7,
+          "shots_outside_box": 19,
+          "blocked_shots": 11,
+          "possession": "70%",
+          "passes": 566,
+          "passes_accurate": 508,
+          "offsides": 0,
+          "goalkeeper_saves": 0
         }
       ]
     },
@@ -376,6 +525,80 @@
         }
       },
       "teams": []
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1593514,
+      "date": "2026-07-29T20:30:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "2nd Qualifying Round",
+      "home_id": 781,
+      "home": "Rapid Vienna",
+      "away_id": 591,
+      "away": "FC Santa Coloma",
+      "goals": {
+        "home": 6,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 3,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 6,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 781,
+          "team": "Rapid Vienna",
+          "corners": 2,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 10,
+          "shots_inside_box": 11,
+          "shots_outside_box": 4,
+          "blocked_shots": 1,
+          "possession": "54%",
+          "passes": 514,
+          "passes_accurate": 467,
+          "offsides": 2,
+          "goalkeeper_saves": 0
+        },
+        {
+          "team_id": 591,
+          "team": "FC Santa Coloma",
+          "corners": 3,
+          "fouls": 19,
+          "yellow": 3,
+          "red": null,
+          "shots": 6,
+          "shots_on_goal": 2,
+          "shots_inside_box": 3,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "46%",
+          "passes": 442,
+          "passes_accurate": 383,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
     }
   ],
   "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",

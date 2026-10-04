@@ -6,7 +6,7 @@
   },
   "club_competitions": [
     "UEFA Champions League",
-    "UEFA Conference League",
+    "UEFA Europa Conference League",
     "UEFA Europa League",
     "UEFA Super Cup"
   ],
@@ -20,12 +20,13 @@
   ],
   "requests_this_run": 995,
   "stored": {
-    "international_club": 213,
+    "international_club": 474,
     "national_team": 629
   },
   "competition_counts": {
     "international_club": {
       "UEFA Champions League": 111,
+      "UEFA Europa Conference League": 261,
       "UEFA Europa League": 101,
       "UEFA Super Cup": 1
     },
@@ -41,5 +42,12 @@
   "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
   "model_effect": "NONE",
   "kb_n_effect": 0,
-  "dev_n_effect": 0
+  "dev_n_effect": 0,
+  "conference_patch": {
+    "added": 261,
+    "requests": 414,
+    "day_errors": [],
+    "detail_errors": [],
+    "rate_limit_remaining": "5284"
+  }
 }

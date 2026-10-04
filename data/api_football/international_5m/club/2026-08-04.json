@@ -2,10 +2,11 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-08-04",
-  "stored": 10,
+  "stored": 11,
   "competition_counts": {
     "UEFA Champions League": 8,
-    "UEFA Europa League": 2
+    "UEFA Europa League": 2,
+    "UEFA Europa Conference League": 1
   },
   "rows": [
     {
@@ -562,6 +563,43 @@
           "goalkeeper_saves": null
         }
       ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1607573,
+      "date": "2026-08-04T18:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "3rd Qualifying Round",
+      "home_id": 4135,
+      "home": "Auda",
+      "away_id": 3326,
+      "away": "Dinamo Tirana",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
     }
   ],
   "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",

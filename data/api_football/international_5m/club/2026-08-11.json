@@ -2,10 +2,11 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-08-11",
-  "stored": 11,
+  "stored": 13,
   "competition_counts": {
     "UEFA Champions League": 10,
-    "UEFA Europa League": 1
+    "UEFA Europa League": 1,
+    "UEFA Europa Conference League": 2
   },
   "rows": [
     {
@@ -819,6 +820,154 @@
           "passes_accurate": null,
           "offsides": 2,
           "goalkeeper_saves": null
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1607601,
+      "date": "2026-08-11T19:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "3rd Qualifying Round",
+      "home_id": 602,
+      "home": "Apollon Limassol",
+      "away_id": 319,
+      "away": "Brann",
+      "goals": {
+        "home": 2,
+        "away": 4
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": 1,
+          "away": 2
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 602,
+          "team": "Apollon Limassol",
+          "corners": 9,
+          "fouls": 13,
+          "yellow": 3,
+          "red": 0,
+          "shots": null,
+          "shots_on_goal": 9,
+          "shots_inside_box": null,
+          "shots_outside_box": null,
+          "blocked_shots": 4,
+          "possession": "25%",
+          "passes": null,
+          "passes_accurate": null,
+          "offsides": 2,
+          "goalkeeper_saves": null
+        },
+        {
+          "team_id": 319,
+          "team": "Brann",
+          "corners": 1,
+          "fouls": 12,
+          "yellow": 3,
+          "red": 1,
+          "shots": null,
+          "shots_on_goal": 6,
+          "shots_inside_box": null,
+          "shots_outside_box": null,
+          "blocked_shots": 1,
+          "possession": "75%",
+          "passes": null,
+          "passes_accurate": null,
+          "offsides": 0,
+          "goalkeeper_saves": null
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1607603,
+      "date": "2026-08-11T19:30:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "3rd Qualifying Round",
+      "home_id": 1426,
+      "home": "CSKA 1948",
+      "away_id": 617,
+      "away": "Panathinaikos",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": 0,
+          "away": 1
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 1426,
+          "team": "CSKA 1948",
+          "corners": 3,
+          "fouls": 13,
+          "yellow": 2,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 5,
+          "shots_inside_box": 9,
+          "shots_outside_box": 5,
+          "blocked_shots": 1,
+          "possession": "50%",
+          "passes": 638,
+          "passes_accurate": 553,
+          "offsides": 1,
+          "goalkeeper_saves": 9
+        },
+        {
+          "team_id": 617,
+          "team": "Panathinaikos",
+          "corners": 6,
+          "fouls": 13,
+          "yellow": 2,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 11,
+          "shots_inside_box": 12,
+          "shots_outside_box": 9,
+          "blocked_shots": 2,
+          "possession": "50%",
+          "passes": 661,
+          "passes_accurate": 576,
+          "offsides": 2,
+          "goalkeeper_saves": 4
         }
       ]
     }

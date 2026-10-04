@@ -2,9 +2,10 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-07-21",
-  "stored": 11,
+  "stored": 14,
   "competition_counts": {
-    "UEFA Champions League": 11
+    "UEFA Champions League": 11,
+    "UEFA Europa Conference League": 3
   },
   "rows": [
     {
@@ -527,6 +528,43 @@
     },
     {
       "category": "international_club",
+      "fixture_id": 1589428,
+      "date": "2026-07-21T19:30:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "2nd Qualifying Round",
+      "home_id": 4625,
+      "home": "Floriana",
+      "away_id": 14281,
+      "away": "Drita",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "international_club",
       "fixture_id": 1591934,
       "date": "2026-07-21T20:45:00+02:00",
       "league_id": 2,
@@ -550,6 +588,117 @@
         "fulltime": {
           "home": 0,
           "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1591941,
+      "date": "2026-07-21T20:15:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "2nd Qualifying Round",
+      "home_id": 15847,
+      "home": "Atert Bissen",
+      "away_id": 2402,
+      "away": "Gyori ETO FC",
+      "goals": {
+        "home": 2,
+        "away": 6
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 3
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 6
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 15847,
+          "team": "Atert Bissen",
+          "corners": 5,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 10,
+          "shots_inside_box": 12,
+          "shots_outside_box": 9,
+          "blocked_shots": 2,
+          "possession": "49%",
+          "passes": 498,
+          "passes_accurate": 429,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 2402,
+          "team": "Gyori ETO FC",
+          "corners": 4,
+          "fouls": 12,
+          "yellow": 1,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 10,
+          "shots_inside_box": 9,
+          "shots_outside_box": 6,
+          "blocked_shots": 1,
+          "possession": "51%",
+          "passes": 523,
+          "passes_accurate": 455,
+          "offsides": 5,
+          "goalkeeper_saves": 8
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1593486,
+      "date": "2026-07-21T19:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "2nd Qualifying Round",
+      "home_id": 366,
+      "home": "IFK Goteborg",
+      "away_id": 2273,
+      "away": "FC Levadia Tallinn",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
         },
         "extratime": {
           "home": null,

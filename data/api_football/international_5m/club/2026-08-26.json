@@ -2,9 +2,10 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-08-26",
-  "stored": 4,
+  "stored": 5,
   "competition_counts": {
-    "UEFA Champions League": 4
+    "UEFA Champions League": 4,
+    "UEFA Europa Conference League": 1
   },
   "rows": [
     {
@@ -300,6 +301,80 @@
           "passes_accurate": 483,
           "offsides": 2,
           "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1623429,
+      "date": "2026-08-26T18:45:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "Playoff round",
+      "home_id": 781,
+      "home": "Rapid Vienna",
+      "away_id": 254,
+      "away": "Heart Of Midlothian",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": 3,
+          "away": 4
+        }
+      },
+      "teams": [
+        {
+          "team_id": 781,
+          "team": "Rapid Vienna",
+          "corners": 13,
+          "fouls": 20,
+          "yellow": 3,
+          "red": 0,
+          "shots": 33,
+          "shots_on_goal": 6,
+          "shots_inside_box": 15,
+          "shots_outside_box": 18,
+          "blocked_shots": 10,
+          "possession": "68%",
+          "passes": 754,
+          "passes_accurate": 680,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 254,
+          "team": "Heart Of Midlothian",
+          "corners": 6,
+          "fouls": 18,
+          "yellow": 5,
+          "red": 1,
+          "shots": 12,
+          "shots_on_goal": 7,
+          "shots_inside_box": 8,
+          "shots_outside_box": 4,
+          "blocked_shots": 1,
+          "possession": "32%",
+          "passes": 349,
+          "passes_accurate": 264,
+          "offsides": 0,
+          "goalkeeper_saves": 4
         }
       ]
     }

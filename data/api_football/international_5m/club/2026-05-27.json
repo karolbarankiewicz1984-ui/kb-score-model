@@ -2,9 +2,86 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-05-27",
-  "stored": 0,
-  "competition_counts": {},
-  "rows": [],
+  "stored": 1,
+  "competition_counts": {
+    "UEFA Europa Conference League": 1
+  },
+  "rows": [
+    {
+      "category": "international_club",
+      "fixture_id": 1544608,
+      "date": "2026-05-27T21:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2025,
+      "round": "Final",
+      "home_id": 52,
+      "home": "Crystal Palace",
+      "away_id": 728,
+      "away": "Rayo Vallecano",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 52,
+          "team": "Crystal Palace",
+          "corners": 4,
+          "fouls": 16,
+          "yellow": 3,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 3,
+          "shots_inside_box": 8,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "42%",
+          "passes": 306,
+          "passes_accurate": 234,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 728,
+          "team": "Rayo Vallecano",
+          "corners": 1,
+          "fouls": 15,
+          "yellow": 6,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 1,
+          "shots_inside_box": 3,
+          "shots_outside_box": 7,
+          "blocked_shots": 1,
+          "possession": "58%",
+          "passes": 412,
+          "passes_accurate": 330,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        }
+      ]
+    }
+  ],
   "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
   "model_effect": "NONE",
   "kb_n_effect": 0,

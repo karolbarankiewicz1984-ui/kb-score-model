@@ -2,9 +2,10 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-07-15",
-  "stored": 4,
+  "stored": 6,
   "competition_counts": {
-    "UEFA Champions League": 4
+    "UEFA Champions League": 4,
+    "UEFA Europa Conference League": 2
   },
   "rows": [
     {
@@ -191,6 +192,80 @@
           "goalkeeper_saves": null
         }
       ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1554421,
+      "date": "2026-07-15T20:30:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "1st Qualifying Round",
+      "home_id": 3745,
+      "home": "Dečić",
+      "away_id": 661,
+      "away": "FK Liepaja",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1554428,
+      "date": "2026-07-15T16:30:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "1st Qualifying Round",
+      "home_id": 15576,
+      "home": "Malisheva",
+      "away_id": 3339,
+      "away": "Vllaznia Shkodër",
+      "goals": {
+        "home": 5,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 5,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
     }
   ],
   "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",

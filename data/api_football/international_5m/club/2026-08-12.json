@@ -2,9 +2,10 @@
   "schema": "api-football-international-5m-v1",
   "category": "international_club",
   "date": "2026-08-12",
-  "stored": 1,
+  "stored": 4,
   "competition_counts": {
-    "UEFA Super Cup": 1
+    "UEFA Super Cup": 1,
+    "UEFA Europa Conference League": 3
   },
   "rows": [
     {
@@ -78,6 +79,228 @@
           "passes_accurate": 289,
           "offsides": 0,
           "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1607607,
+      "date": "2026-08-12T18:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "3rd Qualifying Round",
+      "home_id": 400,
+      "home": "FC Copenhagen",
+      "away_id": 2392,
+      "away": "Debreceni VSC",
+      "goals": {
+        "home": 5,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 5,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 400,
+          "team": "FC Copenhagen",
+          "corners": 6,
+          "fouls": 16,
+          "yellow": 1,
+          "red": null,
+          "shots": 22,
+          "shots_on_goal": 11,
+          "shots_inside_box": 20,
+          "shots_outside_box": 2,
+          "blocked_shots": 2,
+          "possession": "57%",
+          "passes": 470,
+          "passes_accurate": 392,
+          "offsides": 6,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 2392,
+          "team": "Debreceni VSC",
+          "corners": 3,
+          "fouls": 12,
+          "yellow": 2,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 6,
+          "blocked_shots": 4,
+          "possession": "43%",
+          "passes": 345,
+          "passes_accurate": 269,
+          "offsides": 2,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1607609,
+      "date": "2026-08-12T18:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "3rd Qualifying Round",
+      "home_id": 3484,
+      "home": "GKS Katowice",
+      "away_id": 4501,
+      "away": "Hapoel Tel Aviv",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 3484,
+          "team": "GKS Katowice",
+          "corners": 7,
+          "fouls": 18,
+          "yellow": 1,
+          "red": 0,
+          "shots": null,
+          "shots_on_goal": 7,
+          "shots_inside_box": null,
+          "shots_outside_box": null,
+          "blocked_shots": 4,
+          "possession": "67%",
+          "passes": null,
+          "passes_accurate": null,
+          "offsides": 3,
+          "goalkeeper_saves": null
+        },
+        {
+          "team_id": 4501,
+          "team": "Hapoel Tel Aviv",
+          "corners": 3,
+          "fouls": 18,
+          "yellow": 2,
+          "red": 0,
+          "shots": null,
+          "shots_on_goal": 3,
+          "shots_inside_box": null,
+          "shots_outside_box": null,
+          "blocked_shots": 2,
+          "possession": "33%",
+          "passes": null,
+          "passes_accurate": null,
+          "offsides": 2,
+          "goalkeeper_saves": null
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1607625,
+      "date": "2026-08-12T18:00:00+02:00",
+      "league_id": 848,
+      "competition": "UEFA Europa Conference League",
+      "country": "World",
+      "season": 2026,
+      "round": "3rd Qualifying Round",
+      "home_id": 781,
+      "home": "Rapid Vienna",
+      "away_id": 3528,
+      "away": "Paide",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 781,
+          "team": "Rapid Vienna",
+          "corners": 5,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 23,
+          "shots_on_goal": 7,
+          "shots_inside_box": 16,
+          "shots_outside_box": 7,
+          "blocked_shots": 5,
+          "possession": "65%",
+          "passes": 673,
+          "passes_accurate": 609,
+          "offsides": 4,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 3528,
+          "team": "Paide",
+          "corners": 1,
+          "fouls": 3,
+          "yellow": 2,
+          "red": null,
+          "shots": 2,
+          "shots_on_goal": 1,
+          "shots_inside_box": 1,
+          "shots_outside_box": 1,
+          "blocked_shots": 1,
+          "possession": "35%",
+          "passes": 365,
+          "passes_accurate": 296,
+          "offsides": 3,
+          "goalkeeper_saves": 5
         }
       ]
     }
