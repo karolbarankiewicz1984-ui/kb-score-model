@@ -1,0 +1,62 @@
+name: API-Football 5-month backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_date:
+        description: "From YYYY-MM-DD"
+        required: true
+        default: "2026-05-04"
+      to_date:
+        description: "To YYYY-MM-DD"
+        required: true
+        default: "2026-10-03"
+  push:
+    paths:
+      - ".github/workflows/api-football-backfill-5m.yml"
+      - "tools/api_football_backfill_5m.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: api-football-backfill-5m
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify API secret
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: test -n "$API_FOOTBALL_KEY"
+
+      - name: Collect isolated five-month historical dataset
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python tools/api_football_backfill_5m.py "${{ inputs.from_date }}" "${{ inputs.to_date }}"
+          else
+            python tools/api_football_backfill_5m.py "2026-05-04" "2026-10-03"
+          fi
+
+      - name: Commit backfill dataset
+        shell: bash
+        run: |
+          if git diff --quiet -- data/api_football/backfill_5m && [ -z "$(git status --porcelain -- data/api_football/backfill_5m)" ]; then
+            echo "No backfill data changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/api_football/backfill_5m
+          git commit -m "data: API-Football five-month backfill"
+          git pull --rebase origin main
+          git push origin main
