@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-03",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Poland | Ekstraklasa": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1553110,
+      "date": "2026-08-03T19:00:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 350,
+      "home": "Cracovia Krakow",
+      "away_id": 348,
+      "away": "Pogon Szczecin",
+      "goals": {
+        "home": 0,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 350,
+          "team": "Cracovia Krakow",
+          "corners": 6,
+          "fouls": 7,
+          "yellow": 2,
+          "red": null,
+          "shots": 19,
+          "shots_on_goal": 7,
+          "shots_inside_box": 12,
+          "shots_outside_box": 7,
+          "blocked_shots": 6,
+          "possession": "59%",
+          "passes": 456,
+          "passes_accurate": 388,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 348,
+          "team": "Pogon Szczecin",
+          "corners": 6,
+          "fouls": 14,
+          "yellow": 1,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 4,
+          "shots_inside_box": 7,
+          "shots_outside_box": 4,
+          "blocked_shots": 2,
+          "possession": "41%",
+          "passes": 318,
+          "passes_accurate": 257,
+          "offsides": 3,
+          "goalkeeper_saves": 7
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

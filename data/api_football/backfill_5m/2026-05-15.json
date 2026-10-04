@@ -1,0 +1,383 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-15",
+  "finished_whitelist_fixtures": 5,
+  "stored": 5,
+  "league_counts": {
+    "Poland | Ekstraklasa": 2,
+    "Turkey | Süper Lig": 1,
+    "Belgium | Jupiler Pro League": 1,
+    "England | Premier League": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1379330,
+      "date": "2026-05-15T21:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 37",
+      "home_id": 66,
+      "home": "Aston Villa",
+      "away_id": 40,
+      "away": "Liverpool",
+      "goals": {
+        "home": 4,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 4,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 66,
+          "team": "Aston Villa",
+          "corners": 4,
+          "fouls": 12,
+          "yellow": 3,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 9,
+          "shots_inside_box": 9,
+          "shots_outside_box": 5,
+          "blocked_shots": 3,
+          "possession": "45%",
+          "passes": 360,
+          "passes_accurate": 297,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 40,
+          "team": "Liverpool",
+          "corners": 9,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 5,
+          "shots_inside_box": 10,
+          "shots_outside_box": 6,
+          "blocked_shots": 3,
+          "possession": "55%",
+          "passes": 430,
+          "passes_accurate": 372,
+          "offsides": 3,
+          "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "fixture_id": 1380674,
+      "date": "2026-05-15T20:30:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 346,
+      "home": "Korona Kielce",
+      "away_id": 6962,
+      "away": "Widzew Łódź",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 346,
+          "team": "Korona Kielce",
+          "corners": 3,
+          "fouls": 23,
+          "yellow": 3,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 7,
+          "blocked_shots": 7,
+          "possession": "43%",
+          "passes": 295,
+          "passes_accurate": 224,
+          "offsides": 4,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 6962,
+          "team": "Widzew Łódź",
+          "corners": 2,
+          "fouls": 16,
+          "yellow": 3,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 3,
+          "shots_inside_box": 5,
+          "shots_outside_box": 2,
+          "blocked_shots": 2,
+          "possession": "57%",
+          "passes": 389,
+          "passes_accurate": 310,
+          "offsides": 0,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1380680,
+      "date": "2026-05-15T18:00:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 345,
+      "home": "Zaglebie Lubin",
+      "away_id": 348,
+      "away": "Pogon Szczecin",
+      "goals": {
+        "home": 0,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 345,
+          "team": "Zaglebie Lubin",
+          "corners": 3,
+          "fouls": 8,
+          "yellow": 1,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 3,
+          "shots_inside_box": 6,
+          "shots_outside_box": 4,
+          "blocked_shots": 1,
+          "possession": "30%",
+          "passes": 237,
+          "passes_accurate": 159,
+          "offsides": 6,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 348,
+          "team": "Pogon Szczecin",
+          "corners": 6,
+          "fouls": 12,
+          "yellow": 3,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 5,
+          "shots_inside_box": 8,
+          "shots_outside_box": 9,
+          "blocked_shots": 6,
+          "possession": "70%",
+          "passes": 563,
+          "passes_accurate": 496,
+          "offsides": 4,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1394736,
+      "date": "2026-05-15T19:00:00+02:00",
+      "league_id": 203,
+      "league": "Süper Lig",
+      "country": "Turkey",
+      "season": 2025,
+      "round": "Regular Season - 34",
+      "home_id": 1007,
+      "home": "Rizespor",
+      "away_id": 549,
+      "away": "Beşiktaş",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 1007,
+          "team": "Rizespor",
+          "corners": 8,
+          "fouls": 7,
+          "yellow": 2,
+          "red": null,
+          "shots": 22,
+          "shots_on_goal": 5,
+          "shots_inside_box": 17,
+          "shots_outside_box": 5,
+          "blocked_shots": 8,
+          "possession": "47%",
+          "passes": 396,
+          "passes_accurate": 334,
+          "offsides": 2,
+          "goalkeeper_saves": 7
+        },
+        {
+          "team_id": 549,
+          "team": "Beşiktaş",
+          "corners": 3,
+          "fouls": 11,
+          "yellow": 3,
+          "red": null,
+          "shots": 23,
+          "shots_on_goal": 9,
+          "shots_inside_box": 15,
+          "shots_outside_box": 8,
+          "blocked_shots": 7,
+          "possession": "53%",
+          "passes": 463,
+          "passes_accurate": 397,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1536959,
+      "date": "2026-05-15T20:45:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Conference League Group - 38",
+      "home_id": 260,
+      "home": "OH Leuven",
+      "away_id": 740,
+      "away": "Antwerp",
+      "goals": {
+        "home": 3,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 260,
+          "team": "OH Leuven",
+          "corners": 1,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 4,
+          "shots_inside_box": 7,
+          "shots_outside_box": 4,
+          "blocked_shots": 1,
+          "possession": "35%",
+          "passes": 295,
+          "passes_accurate": 225,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 740,
+          "team": "Antwerp",
+          "corners": 11,
+          "fouls": 5,
+          "yellow": 1,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 4,
+          "shots_inside_box": 9,
+          "shots_outside_box": 5,
+          "blocked_shots": 3,
+          "possession": "65%",
+          "passes": 548,
+          "passes_accurate": 481,
+          "offsides": 6,
+          "goalkeeper_saves": 1
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

@@ -1,0 +1,162 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-09-09",
+  "finished_whitelist_fixtures": 2,
+  "stored": 2,
+  "league_counts": {
+    "Netherlands | Eredivisie": 1,
+    "Portugal | Primeira Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1552142,
+      "date": "2026-09-09T18:45:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2026,
+      "round": "Regular Season - 3",
+      "home_id": 415,
+      "home": "Twente",
+      "away_id": 427,
+      "away": "Telstar",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 415,
+          "team": "Twente",
+          "corners": 9,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 22,
+          "shots_on_goal": 8,
+          "shots_inside_box": 15,
+          "shots_outside_box": 7,
+          "blocked_shots": 5,
+          "possession": "63%",
+          "passes": 613,
+          "passes_accurate": 534,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 427,
+          "team": "Telstar",
+          "corners": 2,
+          "fouls": 11,
+          "yellow": 3,
+          "red": null,
+          "shots": 3,
+          "shots_on_goal": 2,
+          "shots_inside_box": 3,
+          "shots_outside_box": 0,
+          "blocked_shots": 0,
+          "possession": "37%",
+          "passes": 368,
+          "passes_accurate": 288,
+          "offsides": 1,
+          "goalkeeper_saves": 7
+        }
+      ]
+    },
+    {
+      "fixture_id": 1575469,
+      "date": "2026-09-09T21:45:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2026,
+      "round": "Regular Season - 3",
+      "home_id": 215,
+      "home": "Moreirense",
+      "away_id": 211,
+      "away": "Benfica",
+      "goals": {
+        "home": 0,
+        "away": 4
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 4
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 215,
+          "team": "Moreirense",
+          "corners": 3,
+          "fouls": 17,
+          "yellow": 4,
+          "red": null,
+          "shots": 8,
+          "shots_on_goal": 1,
+          "shots_inside_box": 5,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "26%",
+          "passes": 243,
+          "passes_accurate": 167,
+          "offsides": 0,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 211,
+          "team": "Benfica",
+          "corners": 7,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 9,
+          "shots_inside_box": 16,
+          "shots_outside_box": 5,
+          "blocked_shots": 3,
+          "possession": "74%",
+          "passes": 701,
+          "passes_accurate": 629,
+          "offsides": 3,
+          "goalkeeper_saves": 1
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

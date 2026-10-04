@@ -1,0 +1,236 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-17",
+  "finished_whitelist_fixtures": 3,
+  "stored": 3,
+  "league_counts": {
+    "Turkey | Süper Lig": 1,
+    "Spain | La Liga": 1,
+    "Portugal | Primeira Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1570337,
+      "date": "2026-08-17T21:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 544,
+      "home": "Deportivo La Coruna",
+      "away_id": 797,
+      "away": "Elche",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 544,
+          "team": "Deportivo La Coruna",
+          "corners": 2,
+          "fouls": 17,
+          "yellow": 2,
+          "red": null,
+          "shots": 8,
+          "shots_on_goal": 3,
+          "shots_inside_box": 6,
+          "shots_outside_box": 2,
+          "blocked_shots": 1,
+          "possession": "39%",
+          "passes": 401,
+          "passes_accurate": 326,
+          "offsides": 2,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 797,
+          "team": "Elche",
+          "corners": 6,
+          "fouls": 12,
+          "yellow": 2,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 6,
+          "shots_inside_box": 7,
+          "shots_outside_box": 4,
+          "blocked_shots": 3,
+          "possession": "61%",
+          "passes": 641,
+          "passes_accurate": 567,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1575459,
+      "date": "2026-08-17T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 4716,
+      "home": "Casa Pia",
+      "away_id": 211,
+      "away": "Benfica",
+      "goals": {
+        "home": 0,
+        "away": 7
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 7
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 4716,
+          "team": "Casa Pia",
+          "corners": 1,
+          "fouls": 11,
+          "yellow": 3,
+          "red": 1,
+          "shots": 3,
+          "shots_on_goal": 0,
+          "shots_inside_box": 3,
+          "shots_outside_box": 0,
+          "blocked_shots": 0,
+          "possession": "36%",
+          "passes": 343,
+          "passes_accurate": 272,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 211,
+          "team": "Benfica",
+          "corners": 3,
+          "fouls": 13,
+          "yellow": 0,
+          "red": 0,
+          "shots": 20,
+          "shots_on_goal": 8,
+          "shots_inside_box": 14,
+          "shots_outside_box": 6,
+          "blocked_shots": 8,
+          "possession": "64%",
+          "passes": 620,
+          "passes_accurate": 556,
+          "offsides": 4,
+          "goalkeeper_saves": 0
+        }
+      ]
+    },
+    {
+      "fixture_id": 1584375,
+      "date": "2026-08-17T20:30:00+02:00",
+      "league_id": 203,
+      "league": "Süper Lig",
+      "country": "Turkey",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 3603,
+      "home": "Samsunspor",
+      "away_id": 994,
+      "away": "Göztepe",
+      "goals": {
+        "home": 3,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 3603,
+          "team": "Samsunspor",
+          "corners": 4,
+          "fouls": 8,
+          "yellow": 1,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 3,
+          "shots_inside_box": 14,
+          "shots_outside_box": 7,
+          "blocked_shots": 11,
+          "possession": "69%",
+          "passes": 509,
+          "passes_accurate": 408,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 994,
+          "team": "Göztepe",
+          "corners": 8,
+          "fouls": 13,
+          "yellow": 4,
+          "red": null,
+          "shots": 20,
+          "shots_on_goal": 7,
+          "shots_inside_box": 14,
+          "shots_outside_box": 6,
+          "blocked_shots": 7,
+          "possession": "31%",
+          "passes": 230,
+          "passes_accurate": 138,
+          "offsides": 1,
+          "goalkeeper_saves": 0
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

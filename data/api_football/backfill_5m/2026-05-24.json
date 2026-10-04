@@ -1,0 +1,1625 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-24",
+  "finished_whitelist_fixtures": 22,
+  "stored": 22,
+  "league_counts": {
+    "Netherlands | Eredivisie": 1,
+    "Italy | Serie A": 7,
+    "England | Premier League": 10,
+    "Belgium | Jupiler Pro League": 3,
+    "Spain | La Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1378235,
+      "date": "2026-05-24T20:45:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 520,
+      "home": "Cremonese",
+      "away_id": 895,
+      "away": "Como",
+      "goals": {
+        "home": 1,
+        "away": 4
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 4
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 520,
+          "team": "Cremonese",
+          "corners": 2,
+          "fouls": 14,
+          "yellow": 4,
+          "red": 3,
+          "shots": 6,
+          "shots_on_goal": 1,
+          "shots_inside_box": 4,
+          "shots_outside_box": 2,
+          "blocked_shots": 1,
+          "possession": "30%",
+          "passes": 208,
+          "passes_accurate": 143,
+          "offsides": 3,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 895,
+          "team": "Como",
+          "corners": 4,
+          "fouls": 12,
+          "yellow": 2,
+          "red": 0,
+          "shots": 15,
+          "shots_on_goal": 6,
+          "shots_inside_box": 12,
+          "shots_outside_box": 3,
+          "blocked_shots": 6,
+          "possession": "70%",
+          "passes": 510,
+          "passes_accurate": 455,
+          "offsides": 3,
+          "goalkeeper_saves": 0
+        }
+      ]
+    },
+    {
+      "fixture_id": 1378238,
+      "date": "2026-05-24T20:45:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 867,
+      "home": "Lecce",
+      "away_id": 495,
+      "away": "Genoa",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 867,
+          "team": "Lecce",
+          "corners": 1,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 4,
+          "shots_inside_box": 7,
+          "shots_outside_box": 2,
+          "blocked_shots": 0,
+          "possession": "32%",
+          "passes": 240,
+          "passes_accurate": 175,
+          "offsides": 3,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 495,
+          "team": "Genoa",
+          "corners": 6,
+          "fouls": 6,
+          "yellow": 0,
+          "red": null,
+          "shots": 8,
+          "shots_on_goal": 1,
+          "shots_inside_box": 6,
+          "shots_outside_box": 2,
+          "blocked_shots": 2,
+          "possession": "68%",
+          "passes": 510,
+          "passes_accurate": 432,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1378239,
+      "date": "2026-05-24T20:45:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 489,
+      "home": "AC Milan",
+      "away_id": 490,
+      "away": "Cagliari",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 489,
+          "team": "AC Milan",
+          "corners": 5,
+          "fouls": 8,
+          "yellow": 2,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 3,
+          "shots_inside_box": 13,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "48%",
+          "passes": 455,
+          "passes_accurate": 395,
+          "offsides": 3,
+          "goalkeeper_saves": 9
+        },
+        {
+          "team_id": 490,
+          "team": "Cagliari",
+          "corners": 5,
+          "fouls": 9,
+          "yellow": 2,
+          "red": null,
+          "shots": 25,
+          "shots_on_goal": 10,
+          "shots_inside_box": 16,
+          "shots_outside_box": 9,
+          "blocked_shots": 7,
+          "possession": "52%",
+          "passes": 487,
+          "passes_accurate": 430,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1378240,
+      "date": "2026-05-24T18:00:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 492,
+      "home": "Napoli",
+      "away_id": 494,
+      "away": "Udinese",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 492,
+          "team": "Napoli",
+          "corners": 3,
+          "fouls": 3,
+          "yellow": 0,
+          "red": 0,
+          "shots": 14,
+          "shots_on_goal": 6,
+          "shots_inside_box": 7,
+          "shots_outside_box": 7,
+          "blocked_shots": 3,
+          "possession": "67%",
+          "passes": 700,
+          "passes_accurate": 647,
+          "offsides": 4,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 494,
+          "team": "Udinese",
+          "corners": 3,
+          "fouls": 13,
+          "yellow": 3,
+          "red": 1,
+          "shots": 10,
+          "shots_on_goal": 3,
+          "shots_inside_box": 7,
+          "shots_outside_box": 3,
+          "blocked_shots": 6,
+          "possession": "33%",
+          "passes": 332,
+          "passes_accurate": 267,
+          "offsides": 0,
+          "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "fixture_id": 1378241,
+      "date": "2026-05-24T15:00:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 523,
+      "home": "Parma",
+      "away_id": 488,
+      "away": "Sassuolo",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 523,
+          "team": "Parma",
+          "corners": 1,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 3,
+          "shots_inside_box": 9,
+          "shots_outside_box": 7,
+          "blocked_shots": 2,
+          "possession": "52%",
+          "passes": 402,
+          "passes_accurate": 335,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 488,
+          "team": "Sassuolo",
+          "corners": 1,
+          "fouls": 14,
+          "yellow": 2,
+          "red": null,
+          "shots": 6,
+          "shots_on_goal": 1,
+          "shots_inside_box": 3,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "48%",
+          "passes": 382,
+          "passes_accurate": 320,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1378242,
+      "date": "2026-05-24T20:45:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 503,
+      "home": "Torino",
+      "away_id": 496,
+      "away": "Juventus",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 503,
+          "team": "Torino",
+          "corners": 6,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 5,
+          "shots_inside_box": 7,
+          "shots_outside_box": 5,
+          "blocked_shots": 4,
+          "possession": "43%",
+          "passes": 327,
+          "passes_accurate": 258,
+          "offsides": null,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 496,
+          "team": "Juventus",
+          "corners": 6,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 4,
+          "shots_inside_box": 12,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "57%",
+          "passes": 440,
+          "passes_accurate": 373,
+          "offsides": null,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1378243,
+      "date": "2026-05-24T20:45:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 504,
+      "home": "Hellas Verona",
+      "away_id": 497,
+      "away": "AS Roma",
+      "goals": {
+        "home": 0,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 504,
+          "team": "Hellas Verona",
+          "corners": 6,
+          "fouls": 12,
+          "yellow": 3,
+          "red": 1,
+          "shots": 8,
+          "shots_on_goal": 3,
+          "shots_inside_box": 4,
+          "shots_outside_box": 4,
+          "blocked_shots": 3,
+          "possession": "33%",
+          "passes": 272,
+          "passes_accurate": 205,
+          "offsides": 0,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 497,
+          "team": "AS Roma",
+          "corners": 6,
+          "fouls": 10,
+          "yellow": 1,
+          "red": 0,
+          "shots": 19,
+          "shots_on_goal": 7,
+          "shots_inside_box": 14,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "67%",
+          "passes": 580,
+          "passes_accurate": 510,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379339,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 51,
+      "home": "Brighton",
+      "away_id": 33,
+      "away": "Manchester United",
+      "goals": {
+        "home": 0,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 51,
+          "team": "Brighton",
+          "corners": 0,
+          "fouls": 11,
+          "yellow": 0,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 2,
+          "shots_inside_box": 9,
+          "shots_outside_box": 4,
+          "blocked_shots": 5,
+          "possession": "52%",
+          "passes": 484,
+          "passes_accurate": 415,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 33,
+          "team": "Manchester United",
+          "corners": 3,
+          "fouls": 8,
+          "yellow": 1,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 7,
+          "shots_inside_box": 7,
+          "shots_outside_box": 4,
+          "blocked_shots": 1,
+          "possession": "48%",
+          "passes": 450,
+          "passes_accurate": 372,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379340,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 44,
+      "home": "Burnley",
+      "away_id": 39,
+      "away": "Wolves",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 44,
+          "team": "Burnley",
+          "corners": 7,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 8,
+          "shots_inside_box": 7,
+          "shots_outside_box": 9,
+          "blocked_shots": 6,
+          "possession": "70%",
+          "passes": 569,
+          "passes_accurate": 498,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 39,
+          "team": "Wolves",
+          "corners": 7,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 4,
+          "shots_inside_box": 10,
+          "shots_outside_box": 6,
+          "blocked_shots": 7,
+          "possession": "30%",
+          "passes": 225,
+          "passes_accurate": 163,
+          "offsides": 3,
+          "goalkeeper_saves": 7
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379341,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 52,
+      "home": "Crystal Palace",
+      "away_id": 42,
+      "away": "Arsenal",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 52,
+          "team": "Crystal Palace",
+          "corners": 3,
+          "fouls": 9,
+          "yellow": 0,
+          "red": null,
+          "shots": 8,
+          "shots_on_goal": 3,
+          "shots_inside_box": 8,
+          "shots_outside_box": 0,
+          "blocked_shots": 2,
+          "possession": "40%",
+          "passes": 328,
+          "passes_accurate": 261,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 42,
+          "team": "Arsenal",
+          "corners": 4,
+          "fouls": 12,
+          "yellow": 1,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 7,
+          "shots_inside_box": 14,
+          "shots_outside_box": 3,
+          "blocked_shots": 4,
+          "possession": "60%",
+          "passes": 518,
+          "passes_accurate": 460,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379342,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 36,
+      "home": "Fulham",
+      "away_id": 34,
+      "away": "Newcastle",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 36,
+          "team": "Fulham",
+          "corners": 6,
+          "fouls": 13,
+          "yellow": 2,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 6,
+          "shots_inside_box": 10,
+          "shots_outside_box": 11,
+          "blocked_shots": 6,
+          "possession": "45%",
+          "passes": 418,
+          "passes_accurate": 345,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 34,
+          "team": "Newcastle",
+          "corners": 6,
+          "fouls": 6,
+          "yellow": 2,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "55%",
+          "passes": 508,
+          "passes_accurate": 445,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379343,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 40,
+      "home": "Liverpool",
+      "away_id": 55,
+      "away": "Brentford",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 40,
+          "team": "Liverpool",
+          "corners": 14,
+          "fouls": 9,
+          "yellow": 2,
+          "red": null,
+          "shots": 24,
+          "shots_on_goal": 8,
+          "shots_inside_box": 17,
+          "shots_outside_box": 7,
+          "blocked_shots": 8,
+          "possession": "60%",
+          "passes": 508,
+          "passes_accurate": 438,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 55,
+          "team": "Brentford",
+          "corners": 2,
+          "fouls": 9,
+          "yellow": 3,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 2,
+          "shots_inside_box": 9,
+          "shots_outside_box": 2,
+          "blocked_shots": 3,
+          "possession": "40%",
+          "passes": 333,
+          "passes_accurate": 262,
+          "offsides": 0,
+          "goalkeeper_saves": 7
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379344,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 50,
+      "home": "Manchester City",
+      "away_id": 66,
+      "away": "Aston Villa",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 50,
+          "team": "Manchester City",
+          "corners": 9,
+          "fouls": 8,
+          "yellow": 1,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 3,
+          "shots_inside_box": 10,
+          "shots_outside_box": 6,
+          "blocked_shots": 6,
+          "possession": "53%",
+          "passes": 481,
+          "passes_accurate": 426,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 66,
+          "team": "Aston Villa",
+          "corners": 4,
+          "fouls": 4,
+          "yellow": 0,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 5,
+          "shots_inside_box": 9,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "47%",
+          "passes": 440,
+          "passes_accurate": 397,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379345,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 65,
+      "home": "Nottingham Forest",
+      "away_id": 35,
+      "away": "Bournemouth",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 65,
+          "team": "Nottingham Forest",
+          "corners": 6,
+          "fouls": 11,
+          "yellow": 1,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 5,
+          "shots_inside_box": 10,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "45%",
+          "passes": 396,
+          "passes_accurate": 307,
+          "offsides": 3,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 35,
+          "team": "Bournemouth",
+          "corners": 3,
+          "fouls": 7,
+          "yellow": 1,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 4,
+          "shots_inside_box": 6,
+          "shots_outside_box": 11,
+          "blocked_shots": 7,
+          "possession": "55%",
+          "passes": 485,
+          "passes_accurate": 409,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379346,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 746,
+      "home": "Sunderland",
+      "away_id": 49,
+      "away": "Chelsea",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 746,
+          "team": "Sunderland",
+          "corners": 6,
+          "fouls": 15,
+          "yellow": 5,
+          "red": 0,
+          "shots": 21,
+          "shots_on_goal": 6,
+          "shots_inside_box": 16,
+          "shots_outside_box": 5,
+          "blocked_shots": 7,
+          "possession": "44%",
+          "passes": 346,
+          "passes_accurate": 285,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 49,
+          "team": "Chelsea",
+          "corners": 2,
+          "fouls": 12,
+          "yellow": 5,
+          "red": 1,
+          "shots": 8,
+          "shots_on_goal": 3,
+          "shots_inside_box": 4,
+          "shots_outside_box": 4,
+          "blocked_shots": 2,
+          "possession": "56%",
+          "passes": 452,
+          "passes_accurate": 376,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379347,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 47,
+      "home": "Tottenham",
+      "away_id": 45,
+      "away": "Everton",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 47,
+          "team": "Tottenham",
+          "corners": 7,
+          "fouls": 15,
+          "yellow": 3,
+          "red": null,
+          "shots": 20,
+          "shots_on_goal": 2,
+          "shots_inside_box": 15,
+          "shots_outside_box": 5,
+          "blocked_shots": 9,
+          "possession": "50%",
+          "passes": 381,
+          "passes_accurate": 321,
+          "offsides": null,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 45,
+          "team": "Everton",
+          "corners": 7,
+          "fouls": 18,
+          "yellow": 2,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 1,
+          "shots_inside_box": 8,
+          "shots_outside_box": 2,
+          "blocked_shots": 3,
+          "possession": "50%",
+          "passes": 384,
+          "passes_accurate": 316,
+          "offsides": null,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379348,
+      "date": "2026-05-24T17:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 48,
+      "home": "West Ham",
+      "away_id": 63,
+      "away": "Leeds",
+      "goals": {
+        "home": 3,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 48,
+          "team": "West Ham",
+          "corners": 6,
+          "fouls": 11,
+          "yellow": 0,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 9,
+          "shots_inside_box": 13,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "42%",
+          "passes": 316,
+          "passes_accurate": 239,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 63,
+          "team": "Leeds",
+          "corners": 4,
+          "fouls": 14,
+          "yellow": 3,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 3,
+          "shots_inside_box": 9,
+          "shots_outside_box": 4,
+          "blocked_shots": 4,
+          "possession": "58%",
+          "passes": 453,
+          "passes_accurate": 374,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "fixture_id": 1391198,
+      "date": "2026-05-24T21:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 533,
+      "home": "Villarreal",
+      "away_id": 530,
+      "away": "Atletico Madrid",
+      "goals": {
+        "home": 5,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 4,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 5,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 533,
+          "team": "Villarreal",
+          "corners": 5,
+          "fouls": 3,
+          "yellow": 0,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 8,
+          "shots_inside_box": 10,
+          "shots_outside_box": 4,
+          "blocked_shots": 5,
+          "possession": "48%",
+          "passes": 502,
+          "passes_accurate": 433,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 530,
+          "team": "Atletico Madrid",
+          "corners": 9,
+          "fouls": 12,
+          "yellow": 1,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 4,
+          "shots_inside_box": 7,
+          "shots_outside_box": 2,
+          "blocked_shots": 0,
+          "possession": "52%",
+          "passes": 529,
+          "passes_accurate": 467,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1537005,
+      "date": "2026-05-24T18:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Championship Group - 40",
+      "home_id": 735,
+      "home": "St. Truiden",
+      "away_id": 266,
+      "away": "KV Mechelen",
+      "goals": {
+        "home": 3,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 735,
+          "team": "St. Truiden",
+          "corners": 2,
+          "fouls": 6,
+          "yellow": 2,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 3,
+          "shots_inside_box": 6,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "47%",
+          "passes": 384,
+          "passes_accurate": 316,
+          "offsides": 4,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 266,
+          "team": "KV Mechelen",
+          "corners": 2,
+          "fouls": 5,
+          "yellow": 2,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 1,
+          "shots_inside_box": 4,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "53%",
+          "passes": 425,
+          "passes_accurate": 336,
+          "offsides": 0,
+          "goalkeeper_saves": 0
+        }
+      ]
+    },
+    {
+      "fixture_id": 1537006,
+      "date": "2026-05-24T18:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Championship Group - 40",
+      "home_id": 1393,
+      "home": "Union St. Gilloise",
+      "away_id": 554,
+      "away": "Anderlecht",
+      "goals": {
+        "home": 5,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 4,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 5,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 1393,
+          "team": "Union St. Gilloise",
+          "corners": 4,
+          "fouls": 10,
+          "yellow": 2,
+          "red": 0,
+          "shots": 22,
+          "shots_on_goal": 9,
+          "shots_inside_box": 16,
+          "shots_outside_box": 6,
+          "blocked_shots": 5,
+          "possession": "67%",
+          "passes": 535,
+          "passes_accurate": 481,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 554,
+          "team": "Anderlecht",
+          "corners": 1,
+          "fouls": 14,
+          "yellow": 2,
+          "red": 1,
+          "shots": 9,
+          "shots_on_goal": 3,
+          "shots_inside_box": 4,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "33%",
+          "passes": 270,
+          "passes_accurate": 205,
+          "offsides": 0,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1537007,
+      "date": "2026-05-24T18:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Championship Group - 40",
+      "home_id": 569,
+      "home": "Club Brugge KV",
+      "away_id": 631,
+      "away": "Gent",
+      "goals": {
+        "home": 5,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 3,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 5,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 569,
+          "team": "Club Brugge KV",
+          "corners": 5,
+          "fouls": 4,
+          "yellow": 0,
+          "red": null,
+          "shots": 26,
+          "shots_on_goal": 11,
+          "shots_inside_box": 21,
+          "shots_outside_box": 5,
+          "blocked_shots": 8,
+          "possession": "56%",
+          "passes": 532,
+          "passes_accurate": 486,
+          "offsides": null,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 631,
+          "team": "Gent",
+          "corners": 8,
+          "fouls": 11,
+          "yellow": 1,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 2,
+          "shots_inside_box": 10,
+          "shots_outside_box": 4,
+          "blocked_shots": 7,
+          "possession": "44%",
+          "passes": 424,
+          "passes_accurate": 364,
+          "offsides": null,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "fixture_id": 1546052,
+      "date": "2026-05-24T12:15:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2025,
+      "round": "Final",
+      "home_id": 194,
+      "home": "Ajax",
+      "away_id": 207,
+      "away": "Utrecht",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": 1,
+          "away": 1
+        },
+        "penalty": {
+          "home": 4,
+          "away": 3
+        }
+      },
+      "teams": [
+        {
+          "team_id": 194,
+          "team": "Ajax",
+          "corners": 8,
+          "fouls": 16,
+          "yellow": 2,
+          "red": null,
+          "shots": 24,
+          "shots_on_goal": 8,
+          "shots_inside_box": 14,
+          "shots_outside_box": 10,
+          "blocked_shots": 7,
+          "possession": "63%",
+          "passes": 714,
+          "passes_accurate": 616,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 207,
+          "team": "Utrecht",
+          "corners": 4,
+          "fouls": 17,
+          "yellow": 1,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 4,
+          "shots_inside_box": 9,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "37%",
+          "passes": 419,
+          "passes_accurate": 323,
+          "offsides": 1,
+          "goalkeeper_saves": 7
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

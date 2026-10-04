@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-19",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Spain | La Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1570334,
+      "date": "2026-08-19T21:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 530,
+      "home": "Atletico Madrid",
+      "away_id": 535,
+      "away": "Malaga",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 530,
+          "team": "Atletico Madrid",
+          "corners": 6,
+          "fouls": 17,
+          "yellow": 2,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 6,
+          "shots_inside_box": 8,
+          "shots_outside_box": 7,
+          "blocked_shots": 4,
+          "possession": "53%",
+          "passes": 520,
+          "passes_accurate": 455,
+          "offsides": 2,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 535,
+          "team": "Malaga",
+          "corners": 1,
+          "fouls": 11,
+          "yellow": 3,
+          "red": null,
+          "shots": 5,
+          "shots_on_goal": 1,
+          "shots_inside_box": 4,
+          "shots_outside_box": 1,
+          "blocked_shots": 2,
+          "possession": "47%",
+          "passes": 467,
+          "passes_accurate": 395,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

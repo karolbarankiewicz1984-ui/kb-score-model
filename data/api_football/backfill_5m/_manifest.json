@@ -1,0 +1,41 @@
+{
+  "schema": "api-football-backfill-5m-manifest-v1",
+  "requested_window": {
+    "from": "2026-05-04",
+    "to": "2026-10-03"
+  },
+  "leagues": [
+    "Belgium | Jupiler Pro League",
+    "England | Premier League",
+    "France | Ligue 1",
+    "Germany | Bundesliga",
+    "Italy | Serie A",
+    "Netherlands | Eredivisie",
+    "Poland | Ekstraklasa",
+    "Portugal | Primeira Liga",
+    "Spain | La Liga",
+    "Turkey | Süper Lig"
+  ],
+  "requests_this_run": 990,
+  "finished_whitelist_fixtures": 837,
+  "stored_rows": 837,
+  "league_counts": {
+    "Belgium | Jupiler Pro League": 93,
+    "England | Premier League": 83,
+    "France | Ligue 1": 66,
+    "Germany | Bundesliga": 56,
+    "Italy | Serie A": 82,
+    "Netherlands | Eredivisie": 84,
+    "Poland | Ekstraklasa": 108,
+    "Portugal | Primeira Liga": 83,
+    "Spain | La Liga": 110,
+    "Turkey | Süper Lig": 72
+  },
+  "day_errors": [],
+  "detail_errors": [],
+  "rate_limit_remaining": "6969",
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

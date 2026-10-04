@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-26",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "France | Ligue 1": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1545408,
+      "date": "2026-05-26T20:45:00+02:00",
+      "league_id": 61,
+      "league": "Ligue 1",
+      "country": "France",
+      "season": 2025,
+      "round": "Final",
+      "home_id": 1063,
+      "home": "Saint Etienne",
+      "away_id": 84,
+      "away": "Nice",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 1063,
+          "team": "Saint Etienne",
+          "corners": 6,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 0,
+          "shots_inside_box": 0,
+          "shots_outside_box": 7,
+          "blocked_shots": 3,
+          "possession": "45%",
+          "passes": 367,
+          "passes_accurate": 303,
+          "offsides": 1,
+          "goalkeeper_saves": null
+        },
+        {
+          "team_id": 84,
+          "team": "Nice",
+          "corners": 6,
+          "fouls": 7,
+          "yellow": 0,
+          "red": null,
+          "shots": 4,
+          "shots_on_goal": 0,
+          "shots_inside_box": 2,
+          "shots_outside_box": 2,
+          "blocked_shots": 0,
+          "possession": "55%",
+          "passes": 450,
+          "passes_accurate": 380,
+          "offsides": 2,
+          "goalkeeper_saves": null
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

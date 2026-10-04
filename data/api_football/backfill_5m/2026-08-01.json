@@ -1,0 +1,161 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-01",
+  "finished_whitelist_fixtures": 2,
+  "stored": 2,
+  "league_counts": {
+    "Poland | Ekstraklasa": 2
+  },
+  "rows": [
+    {
+      "fixture_id": 1553115,
+      "date": "2026-08-01T14:45:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 349,
+      "home": "Piast Gliwice",
+      "away_id": 338,
+      "away": "Wisla Krakow",
+      "goals": {
+        "home": 4,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 4,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 349,
+          "team": "Piast Gliwice",
+          "corners": 4,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 8,
+          "shots_inside_box": 10,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "47%",
+          "passes": 329,
+          "passes_accurate": 262,
+          "offsides": 0,
+          "goalkeeper_saves": 9
+        },
+        {
+          "team_id": 338,
+          "team": "Wisla Krakow",
+          "corners": 11,
+          "fouls": 6,
+          "yellow": 0,
+          "red": null,
+          "shots": 26,
+          "shots_on_goal": 12,
+          "shots_inside_box": 17,
+          "shots_outside_box": 9,
+          "blocked_shots": 9,
+          "possession": "53%",
+          "passes": 368,
+          "passes_accurate": 298,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1553117,
+      "date": "2026-08-01T17:30:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 17115,
+      "home": "Wieczysta Kraków",
+      "away_id": 347,
+      "away": "Lech Poznan",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 17115,
+          "team": "Wieczysta Kraków",
+          "corners": 4,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 2,
+          "shots_inside_box": 9,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "52%",
+          "passes": 468,
+          "passes_accurate": 415,
+          "offsides": 3,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 347,
+          "team": "Lech Poznan",
+          "corners": 7,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 7,
+          "shots_inside_box": 11,
+          "shots_outside_box": 10,
+          "blocked_shots": 4,
+          "possession": "48%",
+          "passes": 428,
+          "passes_accurate": 372,
+          "offsides": 0,
+          "goalkeeper_saves": 1
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

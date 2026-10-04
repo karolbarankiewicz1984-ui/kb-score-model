@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-25",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Spain | La Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1570342,
+      "date": "2026-08-25T21:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 532,
+      "home": "Valencia",
+      "away_id": 543,
+      "away": "Real Betis",
+      "goals": {
+        "home": 0,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 532,
+          "team": "Valencia",
+          "corners": 8,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 3,
+          "shots_inside_box": 10,
+          "shots_outside_box": 6,
+          "blocked_shots": 8,
+          "possession": "42%",
+          "passes": 371,
+          "passes_accurate": 290,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 543,
+          "team": "Real Betis",
+          "corners": 2,
+          "fouls": 11,
+          "yellow": 1,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 3,
+          "shots_inside_box": 6,
+          "shots_outside_box": 9,
+          "blocked_shots": 5,
+          "possession": "58%",
+          "passes": 540,
+          "passes_accurate": 473,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

@@ -1,0 +1,161 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-09-17",
+  "finished_whitelist_fixtures": 2,
+  "stored": 2,
+  "league_counts": {
+    "Spain | La Liga": 2
+  },
+  "rows": [
+    {
+      "fixture_id": 1570386,
+      "date": "2026-09-17T19:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 6",
+      "home_id": 543,
+      "home": "Real Betis",
+      "away_id": 546,
+      "away": "Getafe",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 543,
+          "team": "Real Betis",
+          "corners": 4,
+          "fouls": 13,
+          "yellow": 1,
+          "red": 0,
+          "shots": 22,
+          "shots_on_goal": 8,
+          "shots_inside_box": 9,
+          "shots_outside_box": 13,
+          "blocked_shots": 6,
+          "possession": "75%",
+          "passes": 674,
+          "passes_accurate": 599,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 546,
+          "team": "Getafe",
+          "corners": 3,
+          "fouls": 24,
+          "yellow": 5,
+          "red": 1,
+          "shots": 8,
+          "shots_on_goal": 2,
+          "shots_inside_box": 3,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "25%",
+          "passes": 217,
+          "passes_accurate": 148,
+          "offsides": 3,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "fixture_id": 1570390,
+      "date": "2026-09-17T21:30:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 6",
+      "home_id": 535,
+      "home": "Malaga",
+      "away_id": 533,
+      "away": "Villarreal",
+      "goals": {
+        "home": 1,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 535,
+          "team": "Malaga",
+          "corners": 4,
+          "fouls": 17,
+          "yellow": 5,
+          "red": null,
+          "shots": 5,
+          "shots_on_goal": 1,
+          "shots_inside_box": 4,
+          "shots_outside_box": 1,
+          "blocked_shots": 0,
+          "possession": "37%",
+          "passes": 347,
+          "passes_accurate": 281,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 533,
+          "team": "Villarreal",
+          "corners": 8,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 7,
+          "shots_inside_box": 12,
+          "shots_outside_box": 4,
+          "blocked_shots": 4,
+          "possession": "63%",
+          "passes": 598,
+          "passes_accurate": 538,
+          "offsides": 3,
+          "goalkeeper_saves": 0
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

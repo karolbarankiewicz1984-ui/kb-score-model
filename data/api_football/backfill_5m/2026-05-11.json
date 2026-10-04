@@ -1,0 +1,896 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-11",
+  "finished_whitelist_fixtures": 12,
+  "stored": 12,
+  "league_counts": {
+    "Netherlands | Eredivisie": 1,
+    "Poland | Ekstraklasa": 1,
+    "Italy | Serie A": 1,
+    "England | Premier League": 1,
+    "Spain | La Liga": 1,
+    "Portugal | Primeira Liga": 7
+  },
+  "rows": [
+    {
+      "fixture_id": 1378220,
+      "date": "2026-05-11T20:45:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 36",
+      "home_id": 492,
+      "home": "Napoli",
+      "away_id": 500,
+      "away": "Bologna",
+      "goals": {
+        "home": 2,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 492,
+          "team": "Napoli",
+          "corners": 7,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 5,
+          "shots_inside_box": 11,
+          "shots_outside_box": 3,
+          "blocked_shots": 4,
+          "possession": "52%",
+          "passes": 484,
+          "passes_accurate": 425,
+          "offsides": 4,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 500,
+          "team": "Bologna",
+          "corners": 1,
+          "fouls": 12,
+          "yellow": 4,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 4,
+          "shots_inside_box": 5,
+          "shots_outside_box": 5,
+          "blocked_shots": 1,
+          "possession": "48%",
+          "passes": 458,
+          "passes_accurate": 386,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379327,
+      "date": "2026-05-11T21:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 36",
+      "home_id": 47,
+      "home": "Tottenham",
+      "away_id": 63,
+      "away": "Leeds",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 47,
+          "team": "Tottenham",
+          "corners": 14,
+          "fouls": 12,
+          "yellow": 3,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 3,
+          "shots_inside_box": 13,
+          "shots_outside_box": 3,
+          "blocked_shots": 5,
+          "possession": "57%",
+          "passes": 431,
+          "passes_accurate": 345,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 63,
+          "team": "Leeds",
+          "corners": 2,
+          "fouls": 7,
+          "yellow": 1,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 4,
+          "shots_inside_box": 6,
+          "shots_outside_box": 5,
+          "blocked_shots": 1,
+          "possession": "43%",
+          "passes": 336,
+          "passes_accurate": 243,
+          "offsides": 3,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1380663,
+      "date": "2026-05-11T19:00:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2025,
+      "round": "Regular Season - 32",
+      "home_id": 350,
+      "home": "Cracovia Krakow",
+      "away_id": 4248,
+      "away": "Radomiak Radom",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 350,
+          "team": "Cracovia Krakow",
+          "corners": 5,
+          "fouls": 12,
+          "yellow": 5,
+          "red": 0,
+          "shots": 17,
+          "shots_on_goal": 4,
+          "shots_inside_box": 10,
+          "shots_outside_box": 7,
+          "blocked_shots": 6,
+          "possession": "60%",
+          "passes": 428,
+          "passes_accurate": 346,
+          "offsides": 0,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 4248,
+          "team": "Radomiak Radom",
+          "corners": 4,
+          "fouls": 7,
+          "yellow": 4,
+          "red": 1,
+          "shots": 6,
+          "shots_on_goal": 1,
+          "shots_inside_box": 3,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "40%",
+          "passes": 296,
+          "passes_accurate": 207,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1381160,
+      "date": "2026-05-11T14:30:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 203,
+      "home": "NAC Breda",
+      "away_id": 210,
+      "away": "Heerenveen",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 203,
+          "team": "NAC Breda",
+          "corners": 7,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 19,
+          "shots_on_goal": 4,
+          "shots_inside_box": 11,
+          "shots_outside_box": 8,
+          "blocked_shots": 8,
+          "possession": "48%",
+          "passes": 360,
+          "passes_accurate": 258,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 210,
+          "team": "Heerenveen",
+          "corners": 3,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 2,
+          "shots_inside_box": 9,
+          "shots_outside_box": 4,
+          "blocked_shots": 9,
+          "possession": "52%",
+          "passes": 397,
+          "passes_accurate": 297,
+          "offsides": 3,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1391165,
+      "date": "2026-05-11T21:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2025,
+      "round": "Regular Season - 35",
+      "home_id": 728,
+      "home": "Rayo Vallecano",
+      "away_id": 547,
+      "away": "Girona",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 728,
+          "team": "Rayo Vallecano",
+          "corners": 9,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 18,
+          "shots_on_goal": 5,
+          "shots_inside_box": 9,
+          "shots_outside_box": 9,
+          "blocked_shots": 7,
+          "possession": "59%",
+          "passes": 484,
+          "passes_accurate": 404,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 547,
+          "team": "Girona",
+          "corners": 5,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 5,
+          "shots_inside_box": 6,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "41%",
+          "passes": 343,
+          "passes_accurate": 272,
+          "offsides": 0,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1396527,
+      "date": "2026-05-11T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 211,
+      "home": "Benfica",
+      "away_id": 217,
+      "away": "SC Braga",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 211,
+          "team": "Benfica",
+          "corners": 8,
+          "fouls": 6,
+          "yellow": 1,
+          "red": null,
+          "shots": 24,
+          "shots_on_goal": 8,
+          "shots_inside_box": 16,
+          "shots_outside_box": 8,
+          "blocked_shots": 8,
+          "possession": "52%",
+          "passes": 469,
+          "passes_accurate": 385,
+          "offsides": 2,
+          "goalkeeper_saves": 0
+        },
+        {
+          "team_id": 217,
+          "team": "SC Braga",
+          "corners": 2,
+          "fouls": 11,
+          "yellow": 4,
+          "red": null,
+          "shots": 5,
+          "shots_on_goal": 2,
+          "shots_inside_box": 2,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "48%",
+          "passes": 443,
+          "passes_accurate": 354,
+          "offsides": 1,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "fixture_id": 1396528,
+      "date": "2026-05-11T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 15130,
+      "home": "Estrela",
+      "away_id": 242,
+      "away": "Famalicao",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 15130,
+          "team": "Estrela",
+          "corners": 3,
+          "fouls": 16,
+          "yellow": 3,
+          "red": null,
+          "shots": 4,
+          "shots_on_goal": 1,
+          "shots_inside_box": 3,
+          "shots_outside_box": 1,
+          "blocked_shots": 2,
+          "possession": "39%",
+          "passes": 305,
+          "passes_accurate": 224,
+          "offsides": 0,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 242,
+          "team": "Famalicao",
+          "corners": 10,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 4,
+          "shots_inside_box": 9,
+          "shots_outside_box": 6,
+          "blocked_shots": 3,
+          "possession": "61%",
+          "passes": 475,
+          "passes_accurate": 407,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1396529,
+      "date": "2026-05-11T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 762,
+      "home": "GIL Vicente",
+      "away_id": 240,
+      "away": "Arouca",
+      "goals": {
+        "home": 1,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 762,
+          "team": "GIL Vicente",
+          "corners": 6,
+          "fouls": 13,
+          "yellow": 2,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 5,
+          "shots_inside_box": 10,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "45%",
+          "passes": 354,
+          "passes_accurate": 312,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 240,
+          "team": "Arouca",
+          "corners": 2,
+          "fouls": 17,
+          "yellow": 1,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 6,
+          "shots_inside_box": 7,
+          "shots_outside_box": 6,
+          "blocked_shots": 3,
+          "possession": "55%",
+          "passes": 453,
+          "passes_accurate": 379,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1396530,
+      "date": "2026-05-11T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 226,
+      "home": "Rio Ave",
+      "away_id": 228,
+      "away": "Sporting CP",
+      "goals": {
+        "home": 1,
+        "away": 4
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 4
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 226,
+          "team": "Rio Ave",
+          "corners": 5,
+          "fouls": 9,
+          "yellow": 5,
+          "red": 2,
+          "shots": 12,
+          "shots_on_goal": 3,
+          "shots_inside_box": 9,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "36%",
+          "passes": 299,
+          "passes_accurate": 245,
+          "offsides": null,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 228,
+          "team": "Sporting CP",
+          "corners": 6,
+          "fouls": 7,
+          "yellow": 2,
+          "red": 0,
+          "shots": 16,
+          "shots_on_goal": 5,
+          "shots_inside_box": 11,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "64%",
+          "passes": 535,
+          "passes_accurate": 486,
+          "offsides": null,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1396531,
+      "date": "2026-05-11T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 227,
+      "home": "Santa Clara",
+      "away_id": 225,
+      "away": "Nacional",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 227,
+          "team": "Santa Clara",
+          "corners": 4,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 1,
+          "shots_inside_box": 8,
+          "shots_outside_box": 4,
+          "blocked_shots": 3,
+          "possession": "41%",
+          "passes": 304,
+          "passes_accurate": 227,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 225,
+          "team": "Nacional",
+          "corners": 6,
+          "fouls": 16,
+          "yellow": 2,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 1,
+          "shots_inside_box": 7,
+          "shots_outside_box": 5,
+          "blocked_shots": 3,
+          "possession": "59%",
+          "passes": 451,
+          "passes_accurate": 365,
+          "offsides": 0,
+          "goalkeeper_saves": 0
+        }
+      ]
+    },
+    {
+      "fixture_id": 1396532,
+      "date": "2026-05-11T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 218,
+      "home": "Tondela",
+      "away_id": 215,
+      "away": "Moreirense",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 218,
+          "team": "Tondela",
+          "corners": 1,
+          "fouls": 14,
+          "yellow": 1,
+          "red": 0,
+          "shots": 14,
+          "shots_on_goal": 3,
+          "shots_inside_box": 8,
+          "shots_outside_box": 6,
+          "blocked_shots": 5,
+          "possession": "40%",
+          "passes": 365,
+          "passes_accurate": 288,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 215,
+          "team": "Moreirense",
+          "corners": 8,
+          "fouls": 9,
+          "yellow": 3,
+          "red": 1,
+          "shots": 10,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 6,
+          "blocked_shots": 2,
+          "possession": "60%",
+          "passes": 538,
+          "passes_accurate": 463,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1396533,
+      "date": "2026-05-11T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2025,
+      "round": "Regular Season - 33",
+      "home_id": 224,
+      "home": "Vitória SC",
+      "away_id": 4716,
+      "away": "Casa Pia",
+      "goals": {
+        "home": 0,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 224,
+          "team": "Vitória SC",
+          "corners": 6,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 2,
+          "shots_inside_box": 10,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "71%",
+          "passes": 499,
+          "passes_accurate": 418,
+          "offsides": 3,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 4716,
+          "team": "Casa Pia",
+          "corners": 4,
+          "fouls": 16,
+          "yellow": 1,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 5,
+          "shots_inside_box": 8,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "29%",
+          "passes": 207,
+          "passes_accurate": 127,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

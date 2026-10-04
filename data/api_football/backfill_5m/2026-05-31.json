@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-31",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Belgium | Jupiler Pro League": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1546340,
+      "date": "2026-05-31T18:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Conference League Play-offs - Final",
+      "home_id": 631,
+      "home": "Gent",
+      "away_id": 742,
+      "away": "Genk",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": 1,
+          "away": 1
+        },
+        "penalty": {
+          "home": 5,
+          "away": 4
+        }
+      },
+      "teams": [
+        {
+          "team_id": 631,
+          "team": "Gent",
+          "corners": 3,
+          "fouls": 8,
+          "yellow": 2,
+          "red": 0,
+          "shots": 15,
+          "shots_on_goal": 4,
+          "shots_inside_box": 10,
+          "shots_outside_box": 5,
+          "blocked_shots": 4,
+          "possession": "48%",
+          "passes": 519,
+          "passes_accurate": 442,
+          "offsides": 6,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 742,
+          "team": "Genk",
+          "corners": 3,
+          "fouls": 20,
+          "yellow": 3,
+          "red": 1,
+          "shots": 15,
+          "shots_on_goal": 5,
+          "shots_inside_box": 8,
+          "shots_outside_box": 7,
+          "blocked_shots": 6,
+          "possession": "52%",
+          "passes": 593,
+          "passes_accurate": 497,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

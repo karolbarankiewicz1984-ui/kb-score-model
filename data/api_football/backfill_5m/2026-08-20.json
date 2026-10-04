@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-20",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Spain | La Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1570351,
+      "date": "2026-08-20T21:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 728,
+      "home": "Rayo Vallecano",
+      "away_id": 542,
+      "away": "Alaves",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 728,
+          "team": "Rayo Vallecano",
+          "corners": 9,
+          "fouls": 14,
+          "yellow": 1,
+          "red": null,
+          "shots": 8,
+          "shots_on_goal": 3,
+          "shots_inside_box": 5,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "48%",
+          "passes": 323,
+          "passes_accurate": 255,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 542,
+          "team": "Alaves",
+          "corners": 7,
+          "fouls": 13,
+          "yellow": 2,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 3,
+          "shots_inside_box": 9,
+          "shots_outside_box": 6,
+          "blocked_shots": 3,
+          "possession": "52%",
+          "passes": 340,
+          "passes_accurate": 273,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

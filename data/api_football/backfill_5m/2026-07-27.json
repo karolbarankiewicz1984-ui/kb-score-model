@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-07-27",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Poland | Ekstraklasa": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1553109,
+      "date": "2026-07-27T19:00:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 345,
+      "home": "Zaglebie Lubin",
+      "away_id": 349,
+      "away": "Piast Gliwice",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 345,
+          "team": "Zaglebie Lubin",
+          "corners": 5,
+          "fouls": 18,
+          "yellow": 1,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 2,
+          "shots_inside_box": 5,
+          "shots_outside_box": 8,
+          "blocked_shots": 4,
+          "possession": "35%",
+          "passes": 244,
+          "passes_accurate": 165,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 349,
+          "team": "Piast Gliwice",
+          "corners": 11,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 2,
+          "shots_inside_box": 8,
+          "shots_outside_box": 9,
+          "blocked_shots": 3,
+          "possession": "65%",
+          "passes": 433,
+          "passes_accurate": 357,
+          "offsides": 2,
+          "goalkeeper_saves": 0
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

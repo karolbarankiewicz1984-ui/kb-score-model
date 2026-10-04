@@ -1,0 +1,161 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-07-24",
+  "finished_whitelist_fixtures": 2,
+  "stored": 2,
+  "league_counts": {
+    "Poland | Ekstraklasa": 2
+  },
+  "rows": [
+    {
+      "fixture_id": 1553104,
+      "date": "2026-07-24T20:30:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 348,
+      "home": "Pogon Szczecin",
+      "away_id": 339,
+      "away": "Legia Warszawa",
+      "goals": {
+        "home": 0,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 348,
+          "team": "Pogon Szczecin",
+          "corners": 3,
+          "fouls": 15,
+          "yellow": 1,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 5,
+          "shots_inside_box": 7,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "41%",
+          "passes": 340,
+          "passes_accurate": 262,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 339,
+          "team": "Legia Warszawa",
+          "corners": 5,
+          "fouls": 14,
+          "yellow": 1,
+          "red": null,
+          "shots": 25,
+          "shots_on_goal": 7,
+          "shots_inside_box": 19,
+          "shots_outside_box": 6,
+          "blocked_shots": 8,
+          "possession": "59%",
+          "passes": 477,
+          "passes_accurate": 406,
+          "offsides": 4,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1553105,
+      "date": "2026-07-24T18:00:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 4248,
+      "home": "Radomiak Radom",
+      "away_id": 17115,
+      "away": "Wieczysta Kraków",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 4248,
+          "team": "Radomiak Radom",
+          "corners": 5,
+          "fouls": 19,
+          "yellow": 3,
+          "red": 0,
+          "shots": 13,
+          "shots_on_goal": 4,
+          "shots_inside_box": 8,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "42%",
+          "passes": 372,
+          "passes_accurate": 305,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 17115,
+          "team": "Wieczysta Kraków",
+          "corners": 2,
+          "fouls": 19,
+          "yellow": 6,
+          "red": 1,
+          "shots": 13,
+          "shots_on_goal": 3,
+          "shots_inside_box": 6,
+          "shots_outside_box": 7,
+          "blocked_shots": 2,
+          "possession": "58%",
+          "passes": 500,
+          "passes_accurate": 442,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

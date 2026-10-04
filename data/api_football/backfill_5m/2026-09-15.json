@@ -1,0 +1,455 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-09-15",
+  "finished_whitelist_fixtures": 6,
+  "stored": 6,
+  "league_counts": {
+    "Poland | Ekstraklasa": 2,
+    "Spain | La Liga": 3,
+    "Netherlands | Eredivisie": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1552143,
+      "date": "2026-09-15T20:00:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2026,
+      "round": "Regular Season - 3",
+      "home_id": 194,
+      "home": "Ajax",
+      "away_id": 195,
+      "away": "Willem II",
+      "goals": {
+        "home": 5,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 5,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 194,
+          "team": "Ajax",
+          "corners": 14,
+          "fouls": 6,
+          "yellow": null,
+          "red": null,
+          "shots": 33,
+          "shots_on_goal": 12,
+          "shots_inside_box": 26,
+          "shots_outside_box": 7,
+          "blocked_shots": 10,
+          "possession": "70%",
+          "passes": 755,
+          "passes_accurate": 691,
+          "offsides": 3,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 195,
+          "team": "Willem II",
+          "corners": 2,
+          "fouls": 3,
+          "yellow": null,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 4,
+          "shots_inside_box": 7,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "30%",
+          "passes": 327,
+          "passes_accurate": 266,
+          "offsides": 4,
+          "goalkeeper_saves": 7
+        }
+      ]
+    },
+    {
+      "fixture_id": 1553112,
+      "date": "2026-09-15T20:30:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 346,
+      "home": "Korona Kielce",
+      "away_id": 340,
+      "away": "Gornik Zabrze",
+      "goals": {
+        "home": 0,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 346,
+          "team": "Korona Kielce",
+          "corners": 6,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 2,
+          "shots_on_goal": 0,
+          "shots_inside_box": 1,
+          "shots_outside_box": 2,
+          "blocked_shots": 1,
+          "possession": "64%",
+          "passes": 600,
+          "passes_accurate": 517,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 340,
+          "team": "Gornik Zabrze",
+          "corners": 3,
+          "fouls": 7,
+          "yellow": 1,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 5,
+          "shots_inside_box": 10,
+          "shots_outside_box": 4,
+          "blocked_shots": 5,
+          "possession": "36%",
+          "passes": 349,
+          "passes_accurate": 281,
+          "offsides": 0,
+          "goalkeeper_saves": 0
+        }
+      ]
+    },
+    {
+      "fixture_id": 1553125,
+      "date": "2026-09-15T18:00:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 3",
+      "home_id": 3491,
+      "home": "Raków Częstochowa",
+      "away_id": 345,
+      "away": "Zaglebie Lubin",
+      "goals": {
+        "home": 2,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 3491,
+          "team": "Raków Częstochowa",
+          "corners": 5,
+          "fouls": 8,
+          "yellow": 5,
+          "red": 1,
+          "shots": 21,
+          "shots_on_goal": 7,
+          "shots_inside_box": 17,
+          "shots_outside_box": 4,
+          "blocked_shots": 5,
+          "possession": "66%",
+          "passes": 554,
+          "passes_accurate": 459,
+          "offsides": 2,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 345,
+          "team": "Zaglebie Lubin",
+          "corners": 2,
+          "fouls": 19,
+          "yellow": 4,
+          "red": 0,
+          "shots": 9,
+          "shots_on_goal": 4,
+          "shots_inside_box": 5,
+          "shots_outside_box": 4,
+          "blocked_shots": 1,
+          "possession": "34%",
+          "passes": 288,
+          "passes_accurate": 199,
+          "offsides": 0,
+          "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "fixture_id": 1570383,
+      "date": "2026-09-15T20:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 6",
+      "home_id": 542,
+      "home": "Alaves",
+      "away_id": 532,
+      "away": "Valencia",
+      "goals": {
+        "home": 0,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 542,
+          "team": "Alaves",
+          "corners": 2,
+          "fouls": 7,
+          "yellow": 1,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 3,
+          "shots_inside_box": 11,
+          "shots_outside_box": 4,
+          "blocked_shots": 4,
+          "possession": "43%",
+          "passes": 344,
+          "passes_accurate": 271,
+          "offsides": 3,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 532,
+          "team": "Valencia",
+          "corners": 5,
+          "fouls": 14,
+          "yellow": 4,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 3,
+          "shots_inside_box": 5,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "57%",
+          "passes": 475,
+          "passes_accurate": 389,
+          "offsides": 4,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1570388,
+      "date": "2026-09-15T21:30:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 6",
+      "home_id": 797,
+      "home": "Elche",
+      "away_id": 541,
+      "away": "Real Madrid",
+      "goals": {
+        "home": 2,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 797,
+          "team": "Elche",
+          "corners": 2,
+          "fouls": 21,
+          "yellow": 4,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 3,
+          "shots_inside_box": 7,
+          "shots_outside_box": 4,
+          "blocked_shots": 2,
+          "possession": "56%",
+          "passes": 542,
+          "passes_accurate": 493,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 541,
+          "team": "Real Madrid",
+          "corners": 5,
+          "fouls": 8,
+          "yellow": 2,
+          "red": null,
+          "shots": 20,
+          "shots_on_goal": 4,
+          "shots_inside_box": 15,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "44%",
+          "passes": 430,
+          "passes_accurate": 383,
+          "offsides": 5,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1570391,
+      "date": "2026-09-15T19:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 6",
+      "home_id": 728,
+      "home": "Rayo Vallecano",
+      "away_id": 540,
+      "away": "Espanyol",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 728,
+          "team": "Rayo Vallecano",
+          "corners": 3,
+          "fouls": 10,
+          "yellow": 5,
+          "red": 0,
+          "shots": 16,
+          "shots_on_goal": 2,
+          "shots_inside_box": 9,
+          "shots_outside_box": 7,
+          "blocked_shots": 4,
+          "possession": "55%",
+          "passes": 450,
+          "passes_accurate": 370,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 540,
+          "team": "Espanyol",
+          "corners": 5,
+          "fouls": 15,
+          "yellow": 1,
+          "red": 1,
+          "shots": 19,
+          "shots_on_goal": 5,
+          "shots_inside_box": 12,
+          "shots_outside_box": 7,
+          "blocked_shots": 7,
+          "possession": "45%",
+          "passes": 361,
+          "passes_accurate": 285,
+          "offsides": 2,
+          "goalkeeper_saves": 0
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

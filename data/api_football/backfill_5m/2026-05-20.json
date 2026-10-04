@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-20",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Portugal | Primeira Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1545403,
+      "date": "2026-05-20T19:00:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2025,
+      "round": "Final",
+      "home_id": 4799,
+      "home": "Torreense",
+      "away_id": 4716,
+      "away": "Casa Pia",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 4799,
+          "team": "Torreense",
+          "corners": 5,
+          "fouls": 12,
+          "yellow": 1,
+          "red": 0,
+          "shots": 14,
+          "shots_on_goal": 2,
+          "shots_inside_box": 10,
+          "shots_outside_box": 4,
+          "blocked_shots": 5,
+          "possession": "59%",
+          "passes": 385,
+          "passes_accurate": 305,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 4716,
+          "team": "Casa Pia",
+          "corners": 3,
+          "fouls": 17,
+          "yellow": 5,
+          "red": 1,
+          "shots": 6,
+          "shots_on_goal": 2,
+          "shots_inside_box": 3,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "41%",
+          "passes": 281,
+          "passes_accurate": 197,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

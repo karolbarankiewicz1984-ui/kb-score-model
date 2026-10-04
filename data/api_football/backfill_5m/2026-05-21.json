@@ -1,0 +1,455 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-21",
+  "finished_whitelist_fixtures": 6,
+  "stored": 6,
+  "league_counts": {
+    "Netherlands | Eredivisie": 2,
+    "Belgium | Jupiler Pro League": 3,
+    "Germany | Bundesliga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1537002,
+      "date": "2026-05-21T20:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Championship Group - 39",
+      "home_id": 266,
+      "home": "KV Mechelen",
+      "away_id": 569,
+      "away": "Club Brugge KV",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 266,
+          "team": "KV Mechelen",
+          "corners": 3,
+          "fouls": 6,
+          "yellow": 1,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 4,
+          "shots_inside_box": 8,
+          "shots_outside_box": 6,
+          "blocked_shots": 5,
+          "possession": "40%",
+          "passes": 325,
+          "passes_accurate": 242,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 569,
+          "team": "Club Brugge KV",
+          "corners": 5,
+          "fouls": 12,
+          "yellow": 2,
+          "red": null,
+          "shots": 18,
+          "shots_on_goal": 7,
+          "shots_inside_box": 13,
+          "shots_outside_box": 5,
+          "blocked_shots": 8,
+          "possession": "60%",
+          "passes": 509,
+          "passes_accurate": 425,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1537003,
+      "date": "2026-05-21T20:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Championship Group - 39",
+      "home_id": 631,
+      "home": "Gent",
+      "away_id": 1393,
+      "away": "Union St. Gilloise",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 631,
+          "team": "Gent",
+          "corners": 8,
+          "fouls": 7,
+          "yellow": 4,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 1,
+          "shots_inside_box": 7,
+          "shots_outside_box": 2,
+          "blocked_shots": 2,
+          "possession": "46%",
+          "passes": 451,
+          "passes_accurate": 383,
+          "offsides": 2,
+          "goalkeeper_saves": 8
+        },
+        {
+          "team_id": 1393,
+          "team": "Union St. Gilloise",
+          "corners": 5,
+          "fouls": 9,
+          "yellow": 0,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 8,
+          "shots_inside_box": 9,
+          "shots_outside_box": 6,
+          "blocked_shots": 2,
+          "possession": "54%",
+          "passes": 549,
+          "passes_accurate": 470,
+          "offsides": 3,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1537004,
+      "date": "2026-05-21T20:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Championship Group - 39",
+      "home_id": 554,
+      "home": "Anderlecht",
+      "away_id": 735,
+      "away": "St. Truiden",
+      "goals": {
+        "home": 3,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 554,
+          "team": "Anderlecht",
+          "corners": 8,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 20,
+          "shots_on_goal": 7,
+          "shots_inside_box": 10,
+          "shots_outside_box": 10,
+          "blocked_shots": 10,
+          "possession": "40%",
+          "passes": 340,
+          "passes_accurate": 260,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 735,
+          "team": "St. Truiden",
+          "corners": 9,
+          "fouls": 12,
+          "yellow": 2,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 3,
+          "shots_inside_box": 11,
+          "shots_outside_box": 1,
+          "blocked_shots": 3,
+          "possession": "60%",
+          "passes": 524,
+          "passes_accurate": 444,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1545411,
+      "date": "2026-05-21T18:45:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2025,
+      "round": "Semi-finals",
+      "home_id": 194,
+      "home": "Ajax",
+      "away_id": 202,
+      "away": "Groningen",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 194,
+          "team": "Ajax",
+          "corners": 4,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 5,
+          "shots_inside_box": 8,
+          "shots_outside_box": 4,
+          "blocked_shots": 3,
+          "possession": "62%",
+          "passes": 546,
+          "passes_accurate": 448,
+          "offsides": 4,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 202,
+          "team": "Groningen",
+          "corners": 0,
+          "fouls": 17,
+          "yellow": 4,
+          "red": null,
+          "shots": 5,
+          "shots_on_goal": 1,
+          "shots_inside_box": 2,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "38%",
+          "passes": 345,
+          "passes_accurate": 257,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1545412,
+      "date": "2026-05-21T21:00:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2025,
+      "round": "Semi-finals",
+      "home_id": 207,
+      "home": "Utrecht",
+      "away_id": 210,
+      "away": "Heerenveen",
+      "goals": {
+        "home": 3,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 207,
+          "team": "Utrecht",
+          "corners": 9,
+          "fouls": 11,
+          "yellow": 0,
+          "red": null,
+          "shots": 23,
+          "shots_on_goal": 8,
+          "shots_inside_box": 16,
+          "shots_outside_box": 7,
+          "blocked_shots": 7,
+          "possession": "41%",
+          "passes": 367,
+          "passes_accurate": 306,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 210,
+          "team": "Heerenveen",
+          "corners": 6,
+          "fouls": 6,
+          "yellow": 1,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 5,
+          "shots_inside_box": 9,
+          "shots_outside_box": 4,
+          "blocked_shots": 2,
+          "possession": "59%",
+          "passes": 543,
+          "passes_accurate": 464,
+          "offsides": 0,
+          "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "fixture_id": 1545417,
+      "date": "2026-05-21T20:30:00+02:00",
+      "league_id": 78,
+      "league": "Bundesliga",
+      "country": "Germany",
+      "season": 2025,
+      "round": "Final",
+      "home_id": 161,
+      "home": "VfL Wolfsburg",
+      "away_id": 185,
+      "away": "SC Paderborn 07",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 161,
+          "team": "VfL Wolfsburg",
+          "corners": 4,
+          "fouls": 12,
+          "yellow": 1,
+          "red": 0,
+          "shots": 17,
+          "shots_on_goal": 6,
+          "shots_inside_box": 7,
+          "shots_outside_box": 10,
+          "blocked_shots": 3,
+          "possession": "63%",
+          "passes": 599,
+          "passes_accurate": 512,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 185,
+          "team": "SC Paderborn 07",
+          "corners": 1,
+          "fouls": 16,
+          "yellow": 4,
+          "red": 1,
+          "shots": 2,
+          "shots_on_goal": 1,
+          "shots_inside_box": 2,
+          "shots_outside_box": 0,
+          "blocked_shots": 1,
+          "possession": "37%",
+          "passes": 344,
+          "passes_accurate": 261,
+          "offsides": 0,
+          "goalkeeper_saves": 7
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

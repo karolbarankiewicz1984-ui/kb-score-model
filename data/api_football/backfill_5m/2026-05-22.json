@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-22",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Italy | Serie A": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1378236,
+      "date": "2026-05-22T20:45:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2025,
+      "round": "Regular Season - 38",
+      "home_id": 502,
+      "home": "Fiorentina",
+      "away_id": 499,
+      "away": "Atalanta",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 502,
+          "team": "Fiorentina",
+          "corners": 3,
+          "fouls": 11,
+          "yellow": 0,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 4,
+          "shots_inside_box": 8,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "40%",
+          "passes": 409,
+          "passes_accurate": 350,
+          "offsides": 4,
+          "goalkeeper_saves": 6
+        },
+        {
+          "team_id": 499,
+          "team": "Atalanta",
+          "corners": 3,
+          "fouls": 14,
+          "yellow": 2,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 6,
+          "shots_inside_box": 11,
+          "shots_outside_box": 10,
+          "blocked_shots": 3,
+          "possession": "60%",
+          "passes": 612,
+          "passes_accurate": 552,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

@@ -1,0 +1,675 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-13",
+  "finished_whitelist_fixtures": 9,
+  "stored": 9,
+  "league_counts": {
+    "Poland | Ekstraklasa": 2,
+    "France | Ligue 1": 2,
+    "Spain | La Liga": 4,
+    "England | Premier League": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1379275,
+      "date": "2026-05-13T21:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 31",
+      "home_id": 50,
+      "home": "Manchester City",
+      "away_id": 52,
+      "away": "Crystal Palace",
+      "goals": {
+        "home": 3,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 50,
+          "team": "Manchester City",
+          "corners": 9,
+          "fouls": 10,
+          "yellow": 0,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 4,
+          "shots_inside_box": 10,
+          "shots_outside_box": 5,
+          "blocked_shots": 3,
+          "possession": "73%",
+          "passes": 743,
+          "passes_accurate": 662,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 52,
+          "team": "Crystal Palace",
+          "corners": 4,
+          "fouls": 7,
+          "yellow": 2,
+          "red": null,
+          "shots": 6,
+          "shots_on_goal": 2,
+          "shots_inside_box": 6,
+          "shots_outside_box": 0,
+          "blocked_shots": 2,
+          "possession": "27%",
+          "passes": 281,
+          "passes_accurate": 216,
+          "offsides": 4,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1380654,
+      "date": "2026-05-13T18:00:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2025,
+      "round": "Regular Season - 31",
+      "home_id": 344,
+      "home": "Arka Gdynia",
+      "away_id": 340,
+      "away": "Gornik Zabrze",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 344,
+          "team": "Arka Gdynia",
+          "corners": 1,
+          "fouls": 14,
+          "yellow": 0,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 2,
+          "shots_inside_box": 8,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "36%",
+          "passes": 278,
+          "passes_accurate": 193,
+          "offsides": 0,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 340,
+          "team": "Gornik Zabrze",
+          "corners": 9,
+          "fouls": 12,
+          "yellow": 2,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 2,
+          "shots_inside_box": 6,
+          "shots_outside_box": 9,
+          "blocked_shots": 5,
+          "possession": "64%",
+          "passes": 486,
+          "passes_accurate": 399,
+          "offsides": 3,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1380661,
+      "date": "2026-05-13T20:30:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2025,
+      "round": "Regular Season - 31",
+      "home_id": 3491,
+      "home": "Raków Częstochowa",
+      "away_id": 336,
+      "away": "Jagiellonia",
+      "goals": {
+        "home": 0,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 3491,
+          "team": "Raków Częstochowa",
+          "corners": 6,
+          "fouls": 8,
+          "yellow": 1,
+          "red": null,
+          "shots": 25,
+          "shots_on_goal": 3,
+          "shots_inside_box": 16,
+          "shots_outside_box": 9,
+          "blocked_shots": 9,
+          "possession": "60%",
+          "passes": 496,
+          "passes_accurate": 433,
+          "offsides": 0,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 336,
+          "team": "Jagiellonia",
+          "corners": 4,
+          "fouls": 9,
+          "yellow": 4,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 7,
+          "shots_inside_box": 8,
+          "shots_outside_box": 5,
+          "blocked_shots": 3,
+          "possession": "40%",
+          "passes": 347,
+          "passes_accurate": 266,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1387951,
+      "date": "2026-05-13T19:00:00+02:00",
+      "league_id": 61,
+      "league": "Ligue 1",
+      "country": "France",
+      "season": 2025,
+      "round": "Regular Season - 29",
+      "home_id": 106,
+      "home": "Stade Brestois 29",
+      "away_id": 95,
+      "away": "Strasbourg",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 106,
+          "team": "Stade Brestois 29",
+          "corners": 5,
+          "fouls": 10,
+          "yellow": 0,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 6,
+          "shots_inside_box": 16,
+          "shots_outside_box": 5,
+          "blocked_shots": 8,
+          "possession": "48%",
+          "passes": 468,
+          "passes_accurate": 389,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 95,
+          "team": "Strasbourg",
+          "corners": 4,
+          "fouls": 11,
+          "yellow": 1,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 5,
+          "shots_inside_box": 7,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "52%",
+          "passes": 524,
+          "passes_accurate": 444,
+          "offsides": 4,
+          "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "fixture_id": 1387952,
+      "date": "2026-05-13T21:00:00+02:00",
+      "league_id": 61,
+      "league": "Ligue 1",
+      "country": "France",
+      "season": 2025,
+      "round": "Regular Season - 29",
+      "home_id": 116,
+      "home": "Lens",
+      "away_id": 85,
+      "away": "Paris Saint Germain",
+      "goals": {
+        "home": 0,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 116,
+          "team": "Lens",
+          "corners": 6,
+          "fouls": 9,
+          "yellow": 0,
+          "red": null,
+          "shots": 25,
+          "shots_on_goal": 10,
+          "shots_inside_box": 19,
+          "shots_outside_box": 6,
+          "blocked_shots": 4,
+          "possession": "38%",
+          "passes": 419,
+          "passes_accurate": 333,
+          "offsides": 3,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 85,
+          "team": "Paris Saint Germain",
+          "corners": 3,
+          "fouls": 3,
+          "yellow": 1,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 3,
+          "shots_inside_box": 8,
+          "shots_outside_box": 2,
+          "blocked_shots": 4,
+          "possession": "62%",
+          "passes": 716,
+          "passes_accurate": 631,
+          "offsides": 1,
+          "goalkeeper_saves": 8
+        }
+      ]
+    },
+    {
+      "fixture_id": 1391169,
+      "date": "2026-05-13T21:30:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2025,
+      "round": "Regular Season - 36",
+      "home_id": 542,
+      "home": "Alaves",
+      "away_id": 529,
+      "away": "Barcelona",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 542,
+          "team": "Alaves",
+          "corners": 6,
+          "fouls": 14,
+          "yellow": 1,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 3,
+          "shots_inside_box": 7,
+          "shots_outside_box": 2,
+          "blocked_shots": 3,
+          "possession": "23%",
+          "passes": 189,
+          "passes_accurate": 112,
+          "offsides": 3,
+          "goalkeeper_saves": 0
+        },
+        {
+          "team_id": 529,
+          "team": "Barcelona",
+          "corners": 4,
+          "fouls": 8,
+          "yellow": 2,
+          "red": null,
+          "shots": 8,
+          "shots_on_goal": 0,
+          "shots_inside_box": 4,
+          "shots_outside_box": 4,
+          "blocked_shots": 3,
+          "possession": "77%",
+          "passes": 676,
+          "passes_accurate": 605,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1391172,
+      "date": "2026-05-13T19:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2025,
+      "round": "Regular Season - 36",
+      "home_id": 540,
+      "home": "Espanyol",
+      "away_id": 531,
+      "away": "Athletic Club",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 540,
+          "team": "Espanyol",
+          "corners": 8,
+          "fouls": 9,
+          "yellow": null,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 5,
+          "shots_inside_box": 7,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "63%",
+          "passes": 493,
+          "passes_accurate": 388,
+          "offsides": 4,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 531,
+          "team": "Athletic Club",
+          "corners": 9,
+          "fouls": 14,
+          "yellow": null,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 4,
+          "shots_inside_box": 10,
+          "shots_outside_box": 1,
+          "blocked_shots": 3,
+          "possession": "37%",
+          "passes": 275,
+          "passes_accurate": 180,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1391173,
+      "date": "2026-05-13T21:30:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2025,
+      "round": "Regular Season - 36",
+      "home_id": 546,
+      "home": "Getafe",
+      "away_id": 798,
+      "away": "Mallorca",
+      "goals": {
+        "home": 3,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 546,
+          "team": "Getafe",
+          "corners": 3,
+          "fouls": 17,
+          "yellow": 3,
+          "red": null,
+          "shots": 6,
+          "shots_on_goal": 4,
+          "shots_inside_box": 5,
+          "shots_outside_box": 1,
+          "blocked_shots": 0,
+          "possession": "40%",
+          "passes": 313,
+          "passes_accurate": 225,
+          "offsides": 0,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 798,
+          "team": "Mallorca",
+          "corners": 3,
+          "fouls": 18,
+          "yellow": 4,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 2,
+          "shots_inside_box": 6,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "60%",
+          "passes": 494,
+          "passes_accurate": 408,
+          "offsides": 2,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1391178,
+      "date": "2026-05-13T19:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2025,
+      "round": "Regular Season - 36",
+      "home_id": 533,
+      "home": "Villarreal",
+      "away_id": 536,
+      "away": "Sevilla",
+      "goals": {
+        "home": 2,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 533,
+          "team": "Villarreal",
+          "corners": 6,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 6,
+          "shots_on_goal": 4,
+          "shots_inside_box": 4,
+          "shots_outside_box": 2,
+          "blocked_shots": 1,
+          "possession": "63%",
+          "passes": 553,
+          "passes_accurate": 499,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 536,
+          "team": "Sevilla",
+          "corners": 4,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 5,
+          "shots_inside_box": 7,
+          "shots_outside_box": 6,
+          "blocked_shots": 5,
+          "possession": "37%",
+          "passes": 326,
+          "passes_accurate": 276,
+          "offsides": 3,
+          "goalkeeper_saves": 1
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

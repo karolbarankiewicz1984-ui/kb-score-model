@@ -1,0 +1,161 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-09-08",
+  "finished_whitelist_fixtures": 2,
+  "stored": 2,
+  "league_counts": {
+    "Netherlands | Eredivisie": 2
+  },
+  "rows": [
+    {
+      "fixture_id": 1552136,
+      "date": "2026-09-08T18:45:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2026,
+      "round": "Regular Season - 3",
+      "home_id": 413,
+      "home": "NEC Nijmegen",
+      "away_id": 196,
+      "away": "Excelsior",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 413,
+          "team": "NEC Nijmegen",
+          "corners": 2,
+          "fouls": 5,
+          "yellow": 1,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 3,
+          "shots_inside_box": 8,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "69%",
+          "passes": 677,
+          "passes_accurate": 582,
+          "offsides": 3,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 196,
+          "team": "Excelsior",
+          "corners": 4,
+          "fouls": 16,
+          "yellow": 3,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 5,
+          "shots_inside_box": 7,
+          "shots_outside_box": 7,
+          "blocked_shots": 4,
+          "possession": "31%",
+          "passes": 298,
+          "passes_accurate": 213,
+          "offsides": 0,
+          "goalkeeper_saves": 1
+        }
+      ]
+    },
+    {
+      "fixture_id": 1552155,
+      "date": "2026-09-08T14:00:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2026,
+      "round": "Regular Season - 5",
+      "home_id": 207,
+      "home": "Utrecht",
+      "away_id": 410,
+      "away": "GO Ahead Eagles",
+      "goals": {
+        "home": 3,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 207,
+          "team": "Utrecht",
+          "corners": 7,
+          "fouls": 16,
+          "yellow": 2,
+          "red": null,
+          "shots": 19,
+          "shots_on_goal": 6,
+          "shots_inside_box": 14,
+          "shots_outside_box": 5,
+          "blocked_shots": 8,
+          "possession": "52%",
+          "passes": 452,
+          "passes_accurate": 368,
+          "offsides": 0,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 410,
+          "team": "GO Ahead Eagles",
+          "corners": 5,
+          "fouls": 8,
+          "yellow": 1,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 7,
+          "shots_inside_box": 10,
+          "shots_outside_box": 3,
+          "blocked_shots": 4,
+          "possession": "48%",
+          "passes": 421,
+          "passes_accurate": 336,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

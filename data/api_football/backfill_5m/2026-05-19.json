@@ -1,0 +1,381 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-05-19",
+  "finished_whitelist_fixtures": 5,
+  "stored": 5,
+  "league_counts": {
+    "England | Premier League": 2,
+    "Belgium | Jupiler Pro League": 3
+  },
+  "rows": [
+    {
+      "fixture_id": 1379331,
+      "date": "2026-05-19T20:30:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 37",
+      "home_id": 35,
+      "home": "Bournemouth",
+      "away_id": 50,
+      "away": "Manchester City",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 35,
+          "team": "Bournemouth",
+          "corners": 7,
+          "fouls": 16,
+          "yellow": 4,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 2,
+          "shots_inside_box": 6,
+          "shots_outside_box": 4,
+          "blocked_shots": 3,
+          "possession": "46%",
+          "passes": 446,
+          "passes_accurate": 361,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 50,
+          "team": "Manchester City",
+          "corners": 6,
+          "fouls": 7,
+          "yellow": 2,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 5,
+          "shots_inside_box": 10,
+          "shots_outside_box": 4,
+          "blocked_shots": 6,
+          "possession": "54%",
+          "passes": 536,
+          "passes_accurate": 464,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1379333,
+      "date": "2026-05-19T21:15:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2025,
+      "round": "Regular Season - 37",
+      "home_id": 49,
+      "home": "Chelsea",
+      "away_id": 47,
+      "away": "Tottenham",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 49,
+          "team": "Chelsea",
+          "corners": 3,
+          "fouls": 11,
+          "yellow": 4,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 4,
+          "shots_inside_box": 4,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "44%",
+          "passes": 425,
+          "passes_accurate": 354,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 47,
+          "team": "Tottenham",
+          "corners": 4,
+          "fouls": 18,
+          "yellow": 3,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 3,
+          "shots_inside_box": 8,
+          "shots_outside_box": 1,
+          "blocked_shots": 1,
+          "possession": "56%",
+          "passes": 539,
+          "passes_accurate": 474,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1536960,
+      "date": "2026-05-19T20:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Conference League Group - 39",
+      "home_id": 261,
+      "home": "KVC Westerlo",
+      "away_id": 733,
+      "away": "Standard Liege",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 261,
+          "team": "KVC Westerlo",
+          "corners": 6,
+          "fouls": 11,
+          "yellow": 3,
+          "red": null,
+          "shots": 24,
+          "shots_on_goal": 4,
+          "shots_inside_box": 14,
+          "shots_outside_box": 10,
+          "blocked_shots": 8,
+          "possession": "61%",
+          "passes": 548,
+          "passes_accurate": 480,
+          "offsides": 0,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 733,
+          "team": "Standard Liege",
+          "corners": 1,
+          "fouls": 12,
+          "yellow": 2,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 6,
+          "shots_inside_box": 11,
+          "shots_outside_box": 1,
+          "blocked_shots": 3,
+          "possession": "39%",
+          "passes": 353,
+          "passes_accurate": 259,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1536961,
+      "date": "2026-05-19T20:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Conference League Group - 39",
+      "home_id": 742,
+      "home": "Genk",
+      "away_id": 740,
+      "away": "Antwerp",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 742,
+          "team": "Genk",
+          "corners": 11,
+          "fouls": 8,
+          "yellow": 0,
+          "red": null,
+          "shots": 34,
+          "shots_on_goal": 13,
+          "shots_inside_box": 22,
+          "shots_outside_box": 12,
+          "blocked_shots": 13,
+          "possession": "62%",
+          "passes": 573,
+          "passes_accurate": 490,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 740,
+          "team": "Antwerp",
+          "corners": 3,
+          "fouls": 8,
+          "yellow": 2,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 1,
+          "shots_inside_box": 8,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "38%",
+          "passes": 359,
+          "passes_accurate": 281,
+          "offsides": 1,
+          "goalkeeper_saves": 12
+        }
+      ]
+    },
+    {
+      "fixture_id": 1536962,
+      "date": "2026-05-19T20:30:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2025,
+      "round": "Conference League Group - 39",
+      "home_id": 736,
+      "home": "Charleroi",
+      "away_id": 260,
+      "away": "OH Leuven",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 736,
+          "team": "Charleroi",
+          "corners": 14,
+          "fouls": 9,
+          "yellow": null,
+          "red": null,
+          "shots": 23,
+          "shots_on_goal": 7,
+          "shots_inside_box": 15,
+          "shots_outside_box": 8,
+          "blocked_shots": 6,
+          "possession": "62%",
+          "passes": 478,
+          "passes_accurate": 418,
+          "offsides": 3,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 260,
+          "team": "OH Leuven",
+          "corners": 6,
+          "fouls": 8,
+          "yellow": null,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 2,
+          "shots_inside_box": 9,
+          "shots_outside_box": 2,
+          "blocked_shots": 4,
+          "possession": "38%",
+          "passes": 287,
+          "passes_accurate": 229,
+          "offsides": 0,
+          "goalkeeper_saves": 6
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

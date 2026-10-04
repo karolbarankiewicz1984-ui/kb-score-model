@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-10",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Portugal | Primeira Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1575453,
+      "date": "2026-08-10T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 227,
+      "home": "Santa Clara",
+      "away_id": 225,
+      "away": "Nacional",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 227,
+          "team": "Santa Clara",
+          "corners": 4,
+          "fouls": 15,
+          "yellow": 2,
+          "red": null,
+          "shots": 19,
+          "shots_on_goal": 7,
+          "shots_inside_box": 11,
+          "shots_outside_box": 8,
+          "blocked_shots": 7,
+          "possession": "52%",
+          "passes": 389,
+          "passes_accurate": 319,
+          "offsides": 0,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 225,
+          "team": "Nacional",
+          "corners": 4,
+          "fouls": 14,
+          "yellow": 2,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 4,
+          "shots_inside_box": 8,
+          "shots_outside_box": 2,
+          "blocked_shots": 1,
+          "possession": "48%",
+          "passes": 373,
+          "passes_accurate": 293,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

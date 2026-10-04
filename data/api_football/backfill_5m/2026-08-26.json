@@ -1,0 +1,88 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-26",
+  "finished_whitelist_fixtures": 1,
+  "stored": 1,
+  "league_counts": {
+    "Spain | La Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1570340,
+      "date": "2026-08-26T21:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 541,
+      "home": "Real Madrid",
+      "away_id": 548,
+      "away": "Real Sociedad",
+      "goals": {
+        "home": 4,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 4,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 541,
+          "team": "Real Madrid",
+          "corners": 4,
+          "fouls": 10,
+          "yellow": 3,
+          "red": null,
+          "shots": 20,
+          "shots_on_goal": 11,
+          "shots_inside_box": 14,
+          "shots_outside_box": 6,
+          "blocked_shots": 6,
+          "possession": "51%",
+          "passes": 581,
+          "passes_accurate": 531,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 548,
+          "team": "Real Sociedad",
+          "corners": 7,
+          "fouls": 8,
+          "yellow": 3,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 3,
+          "shots_inside_box": 7,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "49%",
+          "passes": 554,
+          "passes_accurate": 501,
+          "offsides": 0,
+          "goalkeeper_saves": 7
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

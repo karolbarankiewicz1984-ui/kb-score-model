@@ -1,0 +1,753 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-09-18",
+  "finished_whitelist_fixtures": 10,
+  "stored": 10,
+  "league_counts": {
+    "Poland | Ekstraklasa": 2,
+    "Turkey | Süper Lig": 1,
+    "Netherlands | Eredivisie": 1,
+    "Germany | Bundesliga": 1,
+    "Italy | Serie A": 1,
+    "France | Ligue 1": 1,
+    "Belgium | Jupiler Pro League": 1,
+    "England | Premier League": 1,
+    "Spain | La Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1550133,
+      "date": "2026-09-18T20:45:00+02:00",
+      "league_id": 135,
+      "league": "Serie A",
+      "country": "Italy",
+      "season": 2026,
+      "round": "Regular Season - 5",
+      "home_id": 1579,
+      "home": "Monza",
+      "away_id": 488,
+      "away": "Sassuolo",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 1579,
+          "team": "Monza",
+          "corners": 7,
+          "fouls": 13,
+          "yellow": 4,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 6,
+          "shots_inside_box": 8,
+          "shots_outside_box": 7,
+          "blocked_shots": 3,
+          "possession": "35%",
+          "passes": 312,
+          "passes_accurate": 247,
+          "offsides": 0,
+          "goalkeeper_saves": 7
+        },
+        {
+          "team_id": 488,
+          "team": "Sassuolo",
+          "corners": 5,
+          "fouls": 6,
+          "yellow": 1,
+          "red": null,
+          "shots": 20,
+          "shots_on_goal": 8,
+          "shots_inside_box": 13,
+          "shots_outside_box": 7,
+          "blocked_shots": 5,
+          "possession": "65%",
+          "passes": 581,
+          "passes_accurate": 513,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1552173,
+      "date": "2026-09-18T20:00:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2026,
+      "round": "Regular Season - 7",
+      "home_id": 202,
+      "home": "Groningen",
+      "away_id": 193,
+      "away": "PEC Zwolle",
+      "goals": {
+        "home": 3,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 202,
+          "team": "Groningen",
+          "corners": 5,
+          "fouls": 7,
+          "yellow": 0,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 7,
+          "shots_inside_box": 8,
+          "shots_outside_box": 9,
+          "blocked_shots": 8,
+          "possession": "52%",
+          "passes": 495,
+          "passes_accurate": 410,
+          "offsides": null,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 193,
+          "team": "PEC Zwolle",
+          "corners": 6,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 1,
+          "shots_inside_box": 4,
+          "shots_outside_box": 5,
+          "blocked_shots": 6,
+          "possession": "48%",
+          "passes": 452,
+          "passes_accurate": 372,
+          "offsides": null,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1552769,
+      "date": "2026-09-18T20:45:00+02:00",
+      "league_id": 61,
+      "league": "Ligue 1",
+      "country": "France",
+      "season": 2026,
+      "round": "Regular Season - 5",
+      "home_id": 91,
+      "home": "Monaco",
+      "away_id": 116,
+      "away": "Lens",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 91,
+          "team": "Monaco",
+          "corners": 2,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 6,
+          "shots_inside_box": 6,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "50%",
+          "passes": 531,
+          "passes_accurate": 464,
+          "offsides": 3,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 116,
+          "team": "Lens",
+          "corners": 8,
+          "fouls": 11,
+          "yellow": 1,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 4,
+          "shots_inside_box": 10,
+          "shots_outside_box": 2,
+          "blocked_shots": 4,
+          "possession": "50%",
+          "passes": 528,
+          "passes_accurate": 455,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        }
+      ]
+    },
+    {
+      "fixture_id": 1553179,
+      "date": "2026-09-18T18:30:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 9",
+      "home_id": 6962,
+      "home": "Widzew Łódź",
+      "away_id": 17115,
+      "away": "Wieczysta Kraków",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 6962,
+          "team": "Widzew Łódź",
+          "corners": 8,
+          "fouls": 11,
+          "yellow": 1,
+          "red": null,
+          "shots": 19,
+          "shots_on_goal": 5,
+          "shots_inside_box": 11,
+          "shots_outside_box": 8,
+          "blocked_shots": 5,
+          "possession": "50%",
+          "passes": 396,
+          "passes_accurate": 317,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 17115,
+          "team": "Wieczysta Kraków",
+          "corners": 3,
+          "fouls": 9,
+          "yellow": 2,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 5,
+          "shots_inside_box": 9,
+          "shots_outside_box": 4,
+          "blocked_shots": 3,
+          "possession": "50%",
+          "passes": 407,
+          "passes_accurate": 334,
+          "offsides": 3,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1553180,
+      "date": "2026-09-18T20:30:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 9",
+      "home_id": 338,
+      "home": "Wisla Krakow",
+      "away_id": 337,
+      "away": "Slask Wroclaw",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 338,
+          "team": "Wisla Krakow",
+          "corners": 4,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 26,
+          "shots_on_goal": 6,
+          "shots_inside_box": 20,
+          "shots_outside_box": 6,
+          "blocked_shots": 7,
+          "possession": "54%",
+          "passes": 466,
+          "passes_accurate": 386,
+          "offsides": 1,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 337,
+          "team": "Slask Wroclaw",
+          "corners": 3,
+          "fouls": 16,
+          "yellow": 3,
+          "red": null,
+          "shots": 5,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 1,
+          "blocked_shots": 1,
+          "possession": "46%",
+          "passes": 405,
+          "passes_accurate": 326,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1557408,
+      "date": "2026-09-18T21:00:00+02:00",
+      "league_id": 39,
+      "league": "Premier League",
+      "country": "England",
+      "season": 2026,
+      "round": "Regular Season - 5",
+      "home_id": 55,
+      "home": "Brentford",
+      "away_id": 49,
+      "away": "Chelsea",
+      "goals": {
+        "home": 3,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 55,
+          "team": "Brentford",
+          "corners": 4,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 6,
+          "shots_inside_box": 9,
+          "shots_outside_box": 4,
+          "blocked_shots": 4,
+          "possession": "40%",
+          "passes": 349,
+          "passes_accurate": 276,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 49,
+          "team": "Chelsea",
+          "corners": 12,
+          "fouls": 7,
+          "yellow": 0,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 2,
+          "shots_inside_box": 8,
+          "shots_outside_box": 4,
+          "blocked_shots": 7,
+          "possession": "60%",
+          "passes": 514,
+          "passes_accurate": 446,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "fixture_id": 1558635,
+      "date": "2026-09-18T20:45:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2026,
+      "round": "Regular Season - 7",
+      "home_id": 631,
+      "home": "Gent",
+      "away_id": 733,
+      "away": "Standard Liege",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 631,
+          "team": "Gent",
+          "corners": 5,
+          "fouls": 11,
+          "yellow": 1,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 6,
+          "shots_inside_box": 10,
+          "shots_outside_box": 1,
+          "blocked_shots": 1,
+          "possession": "45%",
+          "passes": 426,
+          "passes_accurate": 372,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 733,
+          "team": "Standard Liege",
+          "corners": 6,
+          "fouls": 5,
+          "yellow": 0,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 4,
+          "shots_inside_box": 10,
+          "shots_outside_box": 4,
+          "blocked_shots": 6,
+          "possession": "55%",
+          "passes": 538,
+          "passes_accurate": 458,
+          "offsides": 1,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1570397,
+      "date": "2026-09-18T21:00:00+02:00",
+      "league_id": 140,
+      "league": "La Liga",
+      "country": "Spain",
+      "season": 2026,
+      "round": "Regular Season - 7",
+      "home_id": 540,
+      "home": "Espanyol",
+      "away_id": 797,
+      "away": "Elche",
+      "goals": {
+        "home": 1,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 540,
+          "team": "Espanyol",
+          "corners": 3,
+          "fouls": 14,
+          "yellow": 2,
+          "red": 0,
+          "shots": 23,
+          "shots_on_goal": 4,
+          "shots_inside_box": 13,
+          "shots_outside_box": 10,
+          "blocked_shots": 5,
+          "possession": "66%",
+          "passes": 509,
+          "passes_accurate": 448,
+          "offsides": 9,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 797,
+          "team": "Elche",
+          "corners": 3,
+          "fouls": 9,
+          "yellow": 2,
+          "red": 1,
+          "shots": 9,
+          "shots_on_goal": 6,
+          "shots_inside_box": 6,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "34%",
+          "passes": 282,
+          "passes_accurate": 193,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "fixture_id": 1575167,
+      "date": "2026-09-18T20:30:00+02:00",
+      "league_id": 78,
+      "league": "Bundesliga",
+      "country": "Germany",
+      "season": 2026,
+      "round": "Regular Season - 4",
+      "home_id": 157,
+      "home": "Bayern München",
+      "away_id": 182,
+      "away": "Union Berlin",
+      "goals": {
+        "home": 7,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 3,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 7,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 157,
+          "team": "Bayern München",
+          "corners": 9,
+          "fouls": 12,
+          "yellow": 1,
+          "red": null,
+          "shots": 23,
+          "shots_on_goal": 15,
+          "shots_inside_box": 14,
+          "shots_outside_box": 9,
+          "blocked_shots": 5,
+          "possession": "68%",
+          "passes": 642,
+          "passes_accurate": 587,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 182,
+          "team": "Union Berlin",
+          "corners": 2,
+          "fouls": 9,
+          "yellow": 3,
+          "red": null,
+          "shots": 3,
+          "shots_on_goal": 2,
+          "shots_inside_box": 2,
+          "shots_outside_box": 1,
+          "blocked_shots": 0,
+          "possession": "32%",
+          "passes": 299,
+          "passes_accurate": 224,
+          "offsides": 2,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "fixture_id": 1584418,
+      "date": "2026-09-18T19:00:00+02:00",
+      "league_id": 203,
+      "league": "Süper Lig",
+      "country": "Turkey",
+      "season": 2026,
+      "round": "Regular Season - 6",
+      "home_id": 1004,
+      "home": "Kasımpaşa",
+      "away_id": 607,
+      "away": "Konyaspor",
+      "goals": {
+        "home": 0,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 1004,
+          "team": "Kasımpaşa",
+          "corners": 6,
+          "fouls": 17,
+          "yellow": 3,
+          "red": null,
+          "shots": 14,
+          "shots_on_goal": 2,
+          "shots_inside_box": 9,
+          "shots_outside_box": 5,
+          "blocked_shots": 6,
+          "possession": "47%",
+          "passes": 366,
+          "passes_accurate": 282,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 607,
+          "team": "Konyaspor",
+          "corners": 4,
+          "fouls": 16,
+          "yellow": 4,
+          "red": null,
+          "shots": 11,
+          "shots_on_goal": 4,
+          "shots_inside_box": 8,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "53%",
+          "passes": 414,
+          "passes_accurate": 330,
+          "offsides": 3,
+          "goalkeeper_saves": 2
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

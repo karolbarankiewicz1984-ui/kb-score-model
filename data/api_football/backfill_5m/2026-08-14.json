@@ -1,0 +1,384 @@
+{
+  "schema": "api-football-backfill-5m-v1",
+  "date": "2026-08-14",
+  "finished_whitelist_fixtures": 5,
+  "stored": 5,
+  "league_counts": {
+    "Netherlands | Eredivisie": 1,
+    "Poland | Ekstraklasa": 1,
+    "Turkey | Süper Lig": 1,
+    "Belgium | Jupiler Pro League": 1,
+    "Portugal | Primeira Liga": 1
+  },
+  "rows": [
+    {
+      "fixture_id": 1552126,
+      "date": "2026-08-14T20:00:00+02:00",
+      "league_id": 88,
+      "league": "Eredivisie",
+      "country": "Netherlands",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 427,
+      "home": "Telstar",
+      "away_id": 426,
+      "away": "Sparta Rotterdam",
+      "goals": {
+        "home": 1,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 427,
+          "team": "Telstar",
+          "corners": 7,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 1,
+          "shots_inside_box": 4,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "61%",
+          "passes": 509,
+          "passes_accurate": 424,
+          "offsides": 1,
+          "goalkeeper_saves": 6
+        },
+        {
+          "team_id": 426,
+          "team": "Sparta Rotterdam",
+          "corners": 5,
+          "fouls": 17,
+          "yellow": 1,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 9,
+          "shots_inside_box": 13,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "39%",
+          "passes": 327,
+          "passes_accurate": 256,
+          "offsides": 0,
+          "goalkeeper_saves": 0
+        }
+      ]
+    },
+    {
+      "fixture_id": 1553131,
+      "date": "2026-08-14T20:30:00+02:00",
+      "league_id": 106,
+      "league": "Ekstraklasa",
+      "country": "Poland",
+      "season": 2026,
+      "round": "Regular Season - 4",
+      "home_id": 339,
+      "home": "Legia Warszawa",
+      "away_id": 4248,
+      "away": "Radomiak Radom",
+      "goals": {
+        "home": 5,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 4,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 5,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 339,
+          "team": "Legia Warszawa",
+          "corners": 3,
+          "fouls": 21,
+          "yellow": 1,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 7,
+          "shots_inside_box": 11,
+          "shots_outside_box": 6,
+          "blocked_shots": 4,
+          "possession": "49%",
+          "passes": 393,
+          "passes_accurate": 335,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 4248,
+          "team": "Radomiak Radom",
+          "corners": 2,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 3,
+          "blocked_shots": 2,
+          "possession": "51%",
+          "passes": 411,
+          "passes_accurate": 353,
+          "offsides": 2,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "fixture_id": 1558590,
+      "date": "2026-08-14T20:45:00+02:00",
+      "league_id": 144,
+      "league": "Jupiler Pro League",
+      "country": "Belgium",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 741,
+      "home": "Cercle Brugge",
+      "away_id": 735,
+      "away": "St. Truiden",
+      "goals": {
+        "home": 3,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 741,
+          "team": "Cercle Brugge",
+          "corners": 10,
+          "fouls": 7,
+          "yellow": 0,
+          "red": null,
+          "shots": 26,
+          "shots_on_goal": 8,
+          "shots_inside_box": 20,
+          "shots_outside_box": 6,
+          "blocked_shots": 4,
+          "possession": "55%",
+          "passes": 473,
+          "passes_accurate": 390,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 735,
+          "team": "St. Truiden",
+          "corners": 3,
+          "fouls": 9,
+          "yellow": 3,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 7,
+          "shots_inside_box": 8,
+          "shots_outside_box": 5,
+          "blocked_shots": 4,
+          "possession": "45%",
+          "passes": 401,
+          "passes_accurate": 321,
+          "offsides": 4,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "fixture_id": 1575463,
+      "date": "2026-08-14T21:15:00+02:00",
+      "league_id": 94,
+      "league": "Primeira Liga",
+      "country": "Portugal",
+      "season": 2026,
+      "round": "Regular Season - 2",
+      "home_id": 228,
+      "home": "Sporting CP",
+      "away_id": 224,
+      "away": "Vitória SC",
+      "goals": {
+        "home": 3,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 3,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 228,
+          "team": "Sporting CP",
+          "corners": 5,
+          "fouls": 12,
+          "yellow": 4,
+          "red": null,
+          "shots": 5,
+          "shots_on_goal": 3,
+          "shots_inside_box": 3,
+          "shots_outside_box": 2,
+          "blocked_shots": 2,
+          "possession": "56%",
+          "passes": 512,
+          "passes_accurate": 446,
+          "offsides": 2,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 224,
+          "team": "Vitória SC",
+          "corners": 1,
+          "fouls": 21,
+          "yellow": 4,
+          "red": null,
+          "shots": 12,
+          "shots_on_goal": 3,
+          "shots_inside_box": 11,
+          "shots_outside_box": 1,
+          "blocked_shots": 2,
+          "possession": "44%",
+          "passes": 398,
+          "passes_accurate": 327,
+          "offsides": 0,
+          "goalkeeper_saves": 0
+        }
+      ]
+    },
+    {
+      "fixture_id": 1584370,
+      "date": "2026-08-14T20:30:00+02:00",
+      "league_id": 203,
+      "league": "Süper Lig",
+      "country": "Turkey",
+      "season": 2026,
+      "round": "Regular Season - 1",
+      "home_id": 645,
+      "home": "Galatasaray",
+      "away_id": 6343,
+      "away": "Çorum FK",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 645,
+          "team": "Galatasaray",
+          "corners": 8,
+          "fouls": 11,
+          "yellow": 1,
+          "red": 0,
+          "shots": 38,
+          "shots_on_goal": 13,
+          "shots_inside_box": 22,
+          "shots_outside_box": 16,
+          "blocked_shots": 9,
+          "possession": "64%",
+          "passes": 523,
+          "passes_accurate": 466,
+          "offsides": 4,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 6343,
+          "team": "Çorum FK",
+          "corners": 1,
+          "fouls": 6,
+          "yellow": 0,
+          "red": 1,
+          "shots": 8,
+          "shots_on_goal": 3,
+          "shots_inside_box": 3,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "36%",
+          "passes": 306,
+          "passes_accurate": 215,
+          "offsides": 4,
+          "goalkeeper_saves": 11
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}
