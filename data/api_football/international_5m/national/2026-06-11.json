@@ -1,0 +1,201 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-06-11",
+  "stored": 4,
+  "competition_counts": {
+    "Friendlies": 3,
+    "World Cup": 1
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1489369,
+      "date": "2026-06-11T21:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Group Stage - 1",
+      "home_id": 16,
+      "home": "Mexico",
+      "away_id": 1531,
+      "away": "South Africa",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 16,
+          "team": "Mexico",
+          "corners": 3,
+          "fouls": 12,
+          "yellow": 1,
+          "red": 1,
+          "shots": 16,
+          "shots_on_goal": 4,
+          "shots_inside_box": 9,
+          "shots_outside_box": 7,
+          "blocked_shots": 5,
+          "possession": "61%",
+          "passes": 520,
+          "passes_accurate": 467,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 1531,
+          "team": "South Africa",
+          "corners": 1,
+          "fouls": 11,
+          "yellow": 2,
+          "red": 2,
+          "shots": 3,
+          "shots_on_goal": 2,
+          "shots_inside_box": 1,
+          "shots_outside_box": 2,
+          "blocked_shots": 0,
+          "possession": "39%",
+          "passes": 334,
+          "passes_accurate": 272,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1548458,
+      "date": "2026-06-11T02:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 2381,
+      "home": "Bolivia",
+      "away_id": 1532,
+      "away": "Algeria",
+      "goals": {
+        "home": 0,
+        "away": 4
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 4
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1550832,
+      "date": "2026-06-11T01:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 12502,
+      "home": "Brazil U17",
+      "away_id": 12522,
+      "away": "United States U17",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1550855,
+      "date": "2026-06-11T17:45:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 17868,
+      "home": "Costa Rica U23",
+      "away_id": 17869,
+      "away": "Cuba U23",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

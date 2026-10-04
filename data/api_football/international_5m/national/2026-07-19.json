@@ -1,0 +1,127 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-07-19",
+  "stored": 2,
+  "competition_counts": {
+    "Friendlies": 1,
+    "World Cup": 1
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1591866,
+      "date": "2026-07-19T21:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Final",
+      "home_id": 9,
+      "home": "Spain",
+      "away_id": 26,
+      "away": "Argentina",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 0
+        },
+        "extratime": {
+          "home": 1,
+          "away": 0
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 9,
+          "team": "Spain",
+          "corners": 9,
+          "fouls": 21,
+          "yellow": 0,
+          "red": 0,
+          "shots": 20,
+          "shots_on_goal": 12,
+          "shots_inside_box": 9,
+          "shots_outside_box": 11,
+          "blocked_shots": 3,
+          "possession": "65%",
+          "passes": 852,
+          "passes_accurate": 762,
+          "offsides": 4,
+          "goalkeeper_saves": 0
+        },
+        {
+          "team_id": 26,
+          "team": "Argentina",
+          "corners": 4,
+          "fouls": 25,
+          "yellow": 6,
+          "red": 1,
+          "shots": 2,
+          "shots_on_goal": 0,
+          "shots_inside_box": 1,
+          "shots_outside_box": 1,
+          "blocked_shots": 1,
+          "possession": "35%",
+          "passes": 463,
+          "passes_accurate": 357,
+          "offsides": 1,
+          "goalkeeper_saves": 11
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1610870,
+      "date": "2026-07-19T17:30:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 11048,
+      "home": "Togo U20",
+      "away_id": 11019,
+      "away": "Benin U20",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

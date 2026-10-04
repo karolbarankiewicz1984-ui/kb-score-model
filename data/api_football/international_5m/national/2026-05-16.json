@@ -1,0 +1,89 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-05-16",
+  "stored": 1,
+  "competition_counts": {
+    "Friendlies": 1
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1537647,
+      "date": "2026-05-16T18:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 776,
+      "home": "Rep. Of Ireland",
+      "away_id": 5533,
+      "away": "Grenada",
+      "goals": {
+        "home": 5,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 5,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 776,
+          "team": "Rep. Of Ireland",
+          "corners": 12,
+          "fouls": 12,
+          "yellow": 0,
+          "red": null,
+          "shots": 37,
+          "shots_on_goal": 14,
+          "shots_inside_box": 26,
+          "shots_outside_box": 11,
+          "blocked_shots": 8,
+          "possession": "56%",
+          "passes": 409,
+          "passes_accurate": 340,
+          "offsides": 3,
+          "goalkeeper_saves": 0
+        },
+        {
+          "team_id": 5533,
+          "team": "Grenada",
+          "corners": 1,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 2,
+          "shots_on_goal": 0,
+          "shots_inside_box": 1,
+          "shots_outside_box": 1,
+          "blocked_shots": 0,
+          "possession": "44%",
+          "passes": 343,
+          "passes_accurate": 250,
+          "offsides": 1,
+          "goalkeeper_saves": 9
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

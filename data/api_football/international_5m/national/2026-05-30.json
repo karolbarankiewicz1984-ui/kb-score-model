@@ -1,0 +1,237 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-05-30",
+  "stored": 5,
+  "competition_counts": {
+    "Friendlies": 5
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1511779,
+      "date": "2026-05-30T14:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 1108,
+      "home": "Scotland",
+      "away_id": 5530,
+      "away": "Curaçao",
+      "goals": {
+        "home": 4,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 4,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 1108,
+          "team": "Scotland",
+          "corners": 8,
+          "fouls": 17,
+          "yellow": 2,
+          "red": 0,
+          "shots": 18,
+          "shots_on_goal": 11,
+          "shots_inside_box": 14,
+          "shots_outside_box": 4,
+          "blocked_shots": 2,
+          "possession": "67%",
+          "passes": 591,
+          "passes_accurate": 535,
+          "offsides": null,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 5530,
+          "team": "Curaçao",
+          "corners": 2,
+          "fouls": 11,
+          "yellow": 2,
+          "red": 1,
+          "shots": 9,
+          "shots_on_goal": 3,
+          "shots_inside_box": 4,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "33%",
+          "passes": 299,
+          "passes_accurate": 234,
+          "offsides": null,
+          "goalkeeper_saves": 7
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1545262,
+      "date": "2026-05-30T15:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 8186,
+      "home": "Croatia U21",
+      "away_id": 8198,
+      "away": "Greece U21",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1548414,
+      "date": "2026-05-30T15:30:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 1537,
+      "home": "India",
+      "away_id": 1522,
+      "away": "Zimbabwe",
+      "goals": {
+        "home": 0,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1548415,
+      "date": "2026-05-30T16:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 8185,
+      "home": "Bulgaria U21",
+      "away_id": 8212,
+      "away": "North Macedonia U21",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1548416,
+      "date": "2026-05-30T20:30:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 2385,
+      "home": "Jamaica",
+      "away_id": 19,
+      "away": "Nigeria",
+      "goals": {
+        "home": 0,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

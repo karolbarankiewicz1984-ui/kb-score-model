@@ -1,0 +1,52 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-05-14",
+  "stored": 1,
+  "competition_counts": {
+    "Friendlies": 1
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1545275,
+      "date": "2026-05-14T18:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 27551,
+      "home": "Egypt U19",
+      "away_id": 27755,
+      "away": "Oman U19",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": null,
+          "away": null
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

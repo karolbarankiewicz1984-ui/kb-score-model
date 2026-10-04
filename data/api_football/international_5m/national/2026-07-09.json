@@ -1,0 +1,164 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-07-09",
+  "stored": 3,
+  "competition_counts": {
+    "Friendlies": 2,
+    "World Cup": 1
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1578539,
+      "date": "2026-07-09T22:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Quarter-finals",
+      "home_id": 2,
+      "home": "France",
+      "away_id": 31,
+      "away": "Morocco",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 2,
+          "team": "France",
+          "corners": 5,
+          "fouls": 10,
+          "yellow": 0,
+          "red": null,
+          "shots": 22,
+          "shots_on_goal": 8,
+          "shots_inside_box": 12,
+          "shots_outside_box": 10,
+          "blocked_shots": 5,
+          "possession": "48%",
+          "passes": 486,
+          "passes_accurate": 432,
+          "offsides": null,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 31,
+          "team": "Morocco",
+          "corners": 5,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 5,
+          "shots_on_goal": 1,
+          "shots_inside_box": 1,
+          "shots_outside_box": 4,
+          "blocked_shots": 1,
+          "possession": "52%",
+          "passes": 526,
+          "passes_accurate": 452,
+          "offsides": null,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1586124,
+      "date": "2026-07-09T17:15:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 19629,
+      "home": "Oman U20",
+      "away_id": 21060,
+      "away": "Tajikistan U20",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": null,
+          "away": null
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1586125,
+      "date": "2026-07-09T18:15:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 19624,
+      "home": "Bahrain U20",
+      "away_id": 19630,
+      "away": "Palestine U20",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": null,
+          "away": null
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

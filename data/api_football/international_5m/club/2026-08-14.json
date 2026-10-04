@@ -1,0 +1,89 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "international_club",
+  "date": "2026-08-14",
+  "stored": 1,
+  "competition_counts": {
+    "UEFA Europa League": 1
+  },
+  "rows": [
+    {
+      "category": "international_club",
+      "fixture_id": 1607181,
+      "date": "2026-08-14T20:00:00+02:00",
+      "league_id": 3,
+      "competition": "UEFA Europa League",
+      "country": "World",
+      "season": 2026,
+      "round": "3rd Qualifying Round",
+      "home_id": 701,
+      "home": "KI Klaksvik",
+      "away_id": 347,
+      "away": "Lech Poznan",
+      "goals": {
+        "home": 0,
+        "away": 5
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 5
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 701,
+          "team": "KI Klaksvik",
+          "corners": 4,
+          "fouls": 14,
+          "yellow": 4,
+          "red": 0,
+          "shots": 11,
+          "shots_on_goal": 3,
+          "shots_inside_box": null,
+          "shots_outside_box": null,
+          "blocked_shots": 3,
+          "possession": "46%",
+          "passes": null,
+          "passes_accurate": null,
+          "offsides": 3,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 347,
+          "team": "Lech Poznan",
+          "corners": 9,
+          "fouls": 10,
+          "yellow": 2,
+          "red": 0,
+          "shots": 18,
+          "shots_on_goal": 9,
+          "shots_inside_box": null,
+          "shots_outside_box": null,
+          "blocked_shots": 2,
+          "possession": "54%",
+          "passes": null,
+          "passes_accurate": null,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

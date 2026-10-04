@@ -1,0 +1,163 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-06-12",
+  "stored": 2,
+  "competition_counts": {
+    "World Cup": 2
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1538999,
+      "date": "2026-06-12T04:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Group Stage - 1",
+      "home_id": 17,
+      "home": "South Korea",
+      "away_id": 770,
+      "away": "Czechia",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 17,
+          "team": "South Korea",
+          "corners": 4,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 6,
+          "shots_inside_box": 10,
+          "shots_outside_box": 5,
+          "blocked_shots": 4,
+          "possession": "62%",
+          "passes": 541,
+          "passes_accurate": 469,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 770,
+          "team": "Czechia",
+          "corners": 5,
+          "fouls": 16,
+          "yellow": 0,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 4,
+          "shots_inside_box": 5,
+          "shots_outside_box": 2,
+          "blocked_shots": 1,
+          "possession": "38%",
+          "passes": 327,
+          "passes_accurate": 230,
+          "offsides": 2,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1539000,
+      "date": "2026-06-12T21:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Group Stage - 1",
+      "home_id": 5529,
+      "home": "Canada",
+      "away_id": 1113,
+      "away": "Bosnia & Herzegovina",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 5529,
+          "team": "Canada",
+          "corners": 9,
+          "fouls": 10,
+          "yellow": 2,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 4,
+          "shots_inside_box": 10,
+          "shots_outside_box": 3,
+          "blocked_shots": 4,
+          "possession": "61%",
+          "passes": 421,
+          "passes_accurate": 310,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 1113,
+          "team": "Bosnia & Herzegovina",
+          "corners": 4,
+          "fouls": 20,
+          "yellow": 3,
+          "red": null,
+          "shots": 8,
+          "shots_on_goal": 3,
+          "shots_inside_box": 5,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "39%",
+          "passes": 271,
+          "passes_accurate": 172,
+          "offsides": 0,
+          "goalkeeper_saves": 1
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

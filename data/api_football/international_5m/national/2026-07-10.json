@@ -1,0 +1,164 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-07-10",
+  "stored": 3,
+  "competition_counts": {
+    "Friendlies": 2,
+    "World Cup": 1
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1581821,
+      "date": "2026-07-10T21:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Quarter-finals",
+      "home_id": 9,
+      "home": "Spain",
+      "away_id": 1,
+      "away": "Belgium",
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 9,
+          "team": "Spain",
+          "corners": 5,
+          "fouls": 13,
+          "yellow": 2,
+          "red": null,
+          "shots": 17,
+          "shots_on_goal": 8,
+          "shots_inside_box": 10,
+          "shots_outside_box": 7,
+          "blocked_shots": 5,
+          "possession": "68%",
+          "passes": 665,
+          "passes_accurate": 598,
+          "offsides": 3,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 1,
+          "team": "Belgium",
+          "corners": 1,
+          "fouls": 18,
+          "yellow": 2,
+          "red": null,
+          "shots": 5,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 1,
+          "blocked_shots": 2,
+          "possession": "32%",
+          "passes": 314,
+          "passes_accurate": 244,
+          "offsides": 1,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1586126,
+      "date": "2026-07-10T17:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 10297,
+      "home": "Panama U20",
+      "away_id": 10994,
+      "away": "Cuba U20",
+      "goals": {
+        "home": 7,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": null,
+          "away": null
+        },
+        "fulltime": {
+          "home": 7,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1586127,
+      "date": "2026-07-10T20:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 2280,
+      "home": "Club Tijuana",
+      "away_id": 5159,
+      "away": "El Salvador",
+      "goals": {
+        "home": 2,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

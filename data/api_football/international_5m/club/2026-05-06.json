@@ -1,0 +1,89 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "international_club",
+  "date": "2026-05-06",
+  "stored": 1,
+  "competition_counts": {
+    "UEFA Champions League": 1
+  },
+  "rows": [
+    {
+      "category": "international_club",
+      "fixture_id": 1540844,
+      "date": "2026-05-06T21:00:00+02:00",
+      "league_id": 2,
+      "competition": "UEFA Champions League",
+      "country": "World",
+      "season": 2025,
+      "round": "Semi-finals",
+      "home_id": 157,
+      "home": "Bayern München",
+      "away_id": 85,
+      "away": "Paris Saint Germain",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 157,
+          "team": "Bayern München",
+          "corners": 1,
+          "fouls": 11,
+          "yellow": 3,
+          "red": null,
+          "shots": 18,
+          "shots_on_goal": 6,
+          "shots_inside_box": 13,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "66%",
+          "passes": 573,
+          "passes_accurate": 499,
+          "offsides": 1,
+          "goalkeeper_saves": 6
+        },
+        {
+          "team_id": 85,
+          "team": "Paris Saint Germain",
+          "corners": 8,
+          "fouls": 12,
+          "yellow": 3,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 7,
+          "shots_inside_box": 8,
+          "shots_outside_box": 7,
+          "blocked_shots": 5,
+          "possession": "34%",
+          "passes": 301,
+          "passes_accurate": 212,
+          "offsides": 0,
+          "goalkeeper_saves": 5
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

@@ -1,0 +1,163 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-06-13",
+  "stored": 2,
+  "competition_counts": {
+    "World Cup": 2
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1489370,
+      "date": "2026-06-13T03:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Group Stage - 1",
+      "home_id": 2384,
+      "home": "USA",
+      "away_id": 2380,
+      "away": "Paraguay",
+      "goals": {
+        "home": 4,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 3,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 4,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 2384,
+          "team": "USA",
+          "corners": 3,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 6,
+          "shots_inside_box": 13,
+          "shots_outside_box": 3,
+          "blocked_shots": 4,
+          "possession": "65%",
+          "passes": 598,
+          "passes_accurate": 509,
+          "offsides": 2,
+          "goalkeeper_saves": 1
+        },
+        {
+          "team_id": 2380,
+          "team": "Paraguay",
+          "corners": 1,
+          "fouls": 17,
+          "yellow": 5,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 1,
+          "shots_inside_box": 4,
+          "shots_outside_box": 5,
+          "blocked_shots": 5,
+          "possession": "35%",
+          "passes": 319,
+          "passes_accurate": 232,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1489373,
+      "date": "2026-06-13T21:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Group Stage - 1",
+      "home_id": 1569,
+      "home": "Qatar",
+      "away_id": 15,
+      "away": "Switzerland",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 1569,
+          "team": "Qatar",
+          "corners": 3,
+          "fouls": 12,
+          "yellow": 2,
+          "red": null,
+          "shots": 6,
+          "shots_on_goal": 3,
+          "shots_inside_box": 4,
+          "shots_outside_box": 2,
+          "blocked_shots": 0,
+          "possession": "32%",
+          "passes": 278,
+          "passes_accurate": 200,
+          "offsides": 0,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 15,
+          "team": "Switzerland",
+          "corners": 10,
+          "fouls": 11,
+          "yellow": 1,
+          "red": null,
+          "shots": 26,
+          "shots_on_goal": 7,
+          "shots_inside_box": 18,
+          "shots_outside_box": 8,
+          "blocked_shots": 9,
+          "possession": "68%",
+          "passes": 576,
+          "passes_accurate": 527,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

@@ -1,0 +1,200 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "international_club",
+  "date": "2026-07-15",
+  "stored": 4,
+  "competition_counts": {
+    "UEFA Champions League": 4
+  },
+  "rows": [
+    {
+      "category": "international_club",
+      "fixture_id": 1554375,
+      "date": "2026-07-15T20:15:00+02:00",
+      "league_id": 2,
+      "competition": "UEFA Champions League",
+      "country": "World",
+      "season": 2026,
+      "round": "1st Qualifying Round",
+      "home_id": 15847,
+      "home": "Atert Bissen",
+      "away_id": 701,
+      "away": "KI Klaksvik",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1554377,
+      "date": "2026-07-15T21:00:00+02:00",
+      "league_id": 2,
+      "competition": "UEFA Champions League",
+      "country": "World",
+      "season": 2026,
+      "round": "1st Qualifying Round",
+      "home_id": 3327,
+      "home": "Egnatia Rrogozhinë",
+      "away_id": 2271,
+      "away": "Petrocub",
+      "goals": {
+        "home": 6,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 3,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 6,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1554386,
+      "date": "2026-07-15T21:00:00+02:00",
+      "league_id": 2,
+      "competition": "UEFA Champions League",
+      "country": "World",
+      "season": 2026,
+      "round": "1st Qualifying Round",
+      "home_id": 673,
+      "home": "Sutjeska",
+      "away_id": 664,
+      "away": "Kairat Almaty",
+      "goals": {
+        "home": 0,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1554388,
+      "date": "2026-07-15T19:30:00+02:00",
+      "league_id": 2,
+      "competition": "UEFA Champions League",
+      "country": "World",
+      "season": 2026,
+      "round": "1st Qualifying Round",
+      "home_id": 632,
+      "home": "Universitatea Craiova",
+      "away_id": 7808,
+      "away": "ML Vitebsk",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 632,
+          "team": "Universitatea Craiova",
+          "corners": 2,
+          "fouls": null,
+          "yellow": 0,
+          "red": 0,
+          "shots": 4,
+          "shots_on_goal": 1,
+          "shots_inside_box": null,
+          "shots_outside_box": null,
+          "blocked_shots": 0,
+          "possession": "49%",
+          "passes": null,
+          "passes_accurate": null,
+          "offsides": null,
+          "goalkeeper_saves": null
+        },
+        {
+          "team_id": 7808,
+          "team": "ML Vitebsk",
+          "corners": 1,
+          "fouls": null,
+          "yellow": 0,
+          "red": 0,
+          "shots": 1,
+          "shots_on_goal": 1,
+          "shots_inside_box": null,
+          "shots_outside_box": null,
+          "blocked_shots": 0,
+          "possession": "51%",
+          "passes": null,
+          "passes_accurate": null,
+          "offsides": null,
+          "goalkeeper_saves": null
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

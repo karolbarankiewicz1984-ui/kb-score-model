@@ -1,0 +1,201 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-07-06",
+  "stored": 3,
+  "competition_counts": {
+    "Friendlies": 1,
+    "World Cup": 2
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1570714,
+      "date": "2026-07-06T03:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Round of 16",
+      "home_id": 16,
+      "home": "Mexico",
+      "away_id": 10,
+      "away": "England",
+      "goals": {
+        "home": 2,
+        "away": 3
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 3
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 16,
+          "team": "Mexico",
+          "corners": 12,
+          "fouls": 14,
+          "yellow": 2,
+          "red": 0,
+          "shots": 20,
+          "shots_on_goal": 5,
+          "shots_inside_box": 12,
+          "shots_outside_box": 8,
+          "blocked_shots": 7,
+          "possession": "67%",
+          "passes": 455,
+          "passes_accurate": 420,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 10,
+          "team": "England",
+          "corners": 2,
+          "fouls": 7,
+          "yellow": 4,
+          "red": 1,
+          "shots": 6,
+          "shots_on_goal": 5,
+          "shots_inside_box": 4,
+          "shots_outside_box": 2,
+          "blocked_shots": 0,
+          "possession": "33%",
+          "passes": 244,
+          "passes_accurate": 195,
+          "offsides": 0,
+          "goalkeeper_saves": 3
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1576756,
+      "date": "2026-07-06T21:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Round of 16",
+      "home_id": 27,
+      "home": "Portugal",
+      "away_id": 9,
+      "away": "Spain",
+      "goals": {
+        "home": 0,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 27,
+          "team": "Portugal",
+          "corners": 3,
+          "fouls": 9,
+          "yellow": 2,
+          "red": null,
+          "shots": 10,
+          "shots_on_goal": 2,
+          "shots_inside_box": 7,
+          "shots_outside_box": 3,
+          "blocked_shots": 3,
+          "possession": "45%",
+          "passes": 427,
+          "passes_accurate": 357,
+          "offsides": 2,
+          "goalkeeper_saves": 5
+        },
+        {
+          "team_id": 9,
+          "team": "Spain",
+          "corners": 7,
+          "fouls": 13,
+          "yellow": 1,
+          "red": null,
+          "shots": 15,
+          "shots_on_goal": 6,
+          "shots_inside_box": 8,
+          "shots_outside_box": 7,
+          "blocked_shots": 3,
+          "possession": "55%",
+          "passes": 530,
+          "passes_accurate": 467,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1583641,
+      "date": "2026-07-06T00:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 1616,
+      "home": "Los Angeles FC",
+      "away_id": 5159,
+      "away": "El Salvador",
+      "goals": {
+        "home": 3,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

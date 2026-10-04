@@ -1,0 +1,164 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-07-12",
+  "stored": 3,
+  "competition_counts": {
+    "World Cup": 1,
+    "Friendlies": 2
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1582681,
+      "date": "2026-07-12T03:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "Quarter-finals",
+      "home_id": 26,
+      "home": "Argentina",
+      "away_id": 15,
+      "away": "Switzerland",
+      "goals": {
+        "home": 3,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": 2,
+          "away": 0
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 26,
+          "team": "Argentina",
+          "corners": 8,
+          "fouls": 14,
+          "yellow": 3,
+          "red": 0,
+          "shots": 22,
+          "shots_on_goal": 7,
+          "shots_inside_box": 12,
+          "shots_outside_box": 10,
+          "blocked_shots": 7,
+          "possession": "59%",
+          "passes": 691,
+          "passes_accurate": 614,
+          "offsides": 4,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 15,
+          "team": "Switzerland",
+          "corners": 2,
+          "fouls": 18,
+          "yellow": 2,
+          "red": 1,
+          "shots": 11,
+          "shots_on_goal": 5,
+          "shots_inside_box": 5,
+          "shots_outside_box": 6,
+          "blocked_shots": 3,
+          "possession": "41%",
+          "passes": 474,
+          "passes_accurate": 398,
+          "offsides": 3,
+          "goalkeeper_saves": 4
+        }
+      ]
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1586128,
+      "date": "2026-07-12T17:15:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 19629,
+      "home": "Oman U20",
+      "away_id": 21060,
+      "away": "Tajikistan U20",
+      "goals": {
+        "home": 1,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1586129,
+      "date": "2026-07-12T18:15:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 19624,
+      "home": "Bahrain U20",
+      "away_id": 19630,
+      "away": "Palestine U20",
+      "goals": {
+        "home": 0,
+        "away": 2
+      },
+      "score": {
+        "halftime": {
+          "home": null,
+          "away": null
+        },
+        "fulltime": {
+          "home": 0,
+          "away": 2
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

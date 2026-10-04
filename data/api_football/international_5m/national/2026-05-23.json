@@ -1,0 +1,89 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-05-23",
+  "stored": 1,
+  "competition_counts": {
+    "Friendlies": 1
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1528281,
+      "date": "2026-05-23T04:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 16,
+      "home": "Mexico",
+      "away_id": 1504,
+      "away": "Ghana",
+      "goals": {
+        "home": 2,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 16,
+          "team": "Mexico",
+          "corners": 9,
+          "fouls": 16,
+          "yellow": 1,
+          "red": null,
+          "shots": 16,
+          "shots_on_goal": 8,
+          "shots_inside_box": 11,
+          "shots_outside_box": 5,
+          "blocked_shots": 2,
+          "possession": "59%",
+          "passes": 534,
+          "passes_accurate": 496,
+          "offsides": 2,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 1504,
+          "team": "Ghana",
+          "corners": 3,
+          "fouls": 9,
+          "yellow": 1,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 3,
+          "shots_inside_box": 4,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "41%",
+          "passes": 379,
+          "passes_accurate": 332,
+          "offsides": 1,
+          "goalkeeper_saves": 6
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

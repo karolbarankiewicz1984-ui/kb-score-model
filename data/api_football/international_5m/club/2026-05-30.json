@@ -1,0 +1,89 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "international_club",
+  "date": "2026-05-30",
+  "stored": 1,
+  "competition_counts": {
+    "UEFA Champions League": 1
+  },
+  "rows": [
+    {
+      "category": "international_club",
+      "fixture_id": 1544371,
+      "date": "2026-05-30T18:00:00+02:00",
+      "league_id": 2,
+      "competition": "UEFA Champions League",
+      "country": "World",
+      "season": 2025,
+      "round": "Final",
+      "home_id": 85,
+      "home": "Paris Saint Germain",
+      "away_id": 42,
+      "away": "Arsenal",
+      "goals": {
+        "home": 1,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 1
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 1
+        },
+        "extratime": {
+          "home": 0,
+          "away": 0
+        },
+        "penalty": {
+          "home": 4,
+          "away": 3
+        }
+      },
+      "teams": [
+        {
+          "team_id": 85,
+          "team": "Paris Saint Germain",
+          "corners": 11,
+          "fouls": 11,
+          "yellow": 2,
+          "red": null,
+          "shots": 21,
+          "shots_on_goal": 4,
+          "shots_inside_box": 12,
+          "shots_outside_box": 9,
+          "blocked_shots": 5,
+          "possession": "75%",
+          "passes": 889,
+          "passes_accurate": 809,
+          "offsides": 0,
+          "goalkeeper_saves": 0
+        },
+        {
+          "team_id": 42,
+          "team": "Arsenal",
+          "corners": 3,
+          "fouls": 17,
+          "yellow": 4,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 1,
+          "shots_inside_box": 5,
+          "shots_outside_box": 2,
+          "blocked_shots": 5,
+          "possession": "25%",
+          "passes": 285,
+          "passes_accurate": 196,
+          "offsides": 3,
+          "goalkeeper_saves": 3
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

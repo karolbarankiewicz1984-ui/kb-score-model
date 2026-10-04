@@ -1,0 +1,127 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "national_team",
+  "date": "2026-07-18",
+  "stored": 2,
+  "competition_counts": {
+    "Friendlies": 1,
+    "World Cup": 1
+  },
+  "rows": [
+    {
+      "category": "national_team",
+      "fixture_id": 1586132,
+      "date": "2026-07-18T14:00:00+02:00",
+      "league_id": 10,
+      "competition": "Friendlies",
+      "country": "World",
+      "season": 2026,
+      "round": "Friendly International",
+      "home_id": 1542,
+      "home": "Vietnam",
+      "away_id": 1556,
+      "away": "Myanmar",
+      "goals": {
+        "home": 4,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 4,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": []
+    },
+    {
+      "category": "national_team",
+      "fixture_id": 1591865,
+      "date": "2026-07-18T23:00:00+02:00",
+      "league_id": 1,
+      "competition": "World Cup",
+      "country": "World",
+      "season": 2026,
+      "round": "3rd Place Final",
+      "home_id": 2,
+      "home": "France",
+      "away_id": 10,
+      "away": "England",
+      "goals": {
+        "home": 4,
+        "away": 6
+      },
+      "score": {
+        "halftime": {
+          "home": 0,
+          "away": 4
+        },
+        "fulltime": {
+          "home": 4,
+          "away": 6
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 2,
+          "team": "France",
+          "corners": 3,
+          "fouls": 14,
+          "yellow": null,
+          "red": null,
+          "shots": 19,
+          "shots_on_goal": 9,
+          "shots_inside_box": 12,
+          "shots_outside_box": 7,
+          "blocked_shots": 4,
+          "possession": "46%",
+          "passes": 445,
+          "passes_accurate": 405,
+          "offsides": 3,
+          "goalkeeper_saves": 4
+        },
+        {
+          "team_id": 10,
+          "team": "England",
+          "corners": 4,
+          "fouls": 8,
+          "yellow": null,
+          "red": null,
+          "shots": 19,
+          "shots_on_goal": 11,
+          "shots_inside_box": 16,
+          "shots_outside_box": 3,
+          "blocked_shots": 6,
+          "possession": "54%",
+          "passes": 515,
+          "passes_accurate": 467,
+          "offsides": 3,
+          "goalkeeper_saves": 5
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

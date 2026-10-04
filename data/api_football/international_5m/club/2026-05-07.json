@@ -1,0 +1,163 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "international_club",
+  "date": "2026-05-07",
+  "stored": 2,
+  "competition_counts": {
+    "UEFA Europa League": 2
+  },
+  "rows": [
+    {
+      "category": "international_club",
+      "fixture_id": 1540873,
+      "date": "2026-05-07T21:00:00+02:00",
+      "league_id": 3,
+      "competition": "UEFA Europa League",
+      "country": "World",
+      "season": 2025,
+      "round": "Semi-finals",
+      "home_id": 66,
+      "home": "Aston Villa",
+      "away_id": 65,
+      "away": "Nottingham Forest",
+      "goals": {
+        "home": 4,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 4,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 66,
+          "team": "Aston Villa",
+          "corners": 6,
+          "fouls": 13,
+          "yellow": 0,
+          "red": null,
+          "shots": 18,
+          "shots_on_goal": 10,
+          "shots_inside_box": 12,
+          "shots_outside_box": 6,
+          "blocked_shots": 5,
+          "possession": "51%",
+          "passes": 381,
+          "passes_accurate": 317,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 65,
+          "team": "Nottingham Forest",
+          "corners": 3,
+          "fouls": 12,
+          "yellow": 2,
+          "red": null,
+          "shots": 7,
+          "shots_on_goal": 2,
+          "shots_inside_box": 4,
+          "shots_outside_box": 3,
+          "blocked_shots": 1,
+          "possession": "49%",
+          "passes": 362,
+          "passes_accurate": 299,
+          "offsides": 2,
+          "goalkeeper_saves": 6
+        }
+      ]
+    },
+    {
+      "category": "international_club",
+      "fixture_id": 1540874,
+      "date": "2026-05-07T21:00:00+02:00",
+      "league_id": 3,
+      "competition": "UEFA Europa League",
+      "country": "World",
+      "season": 2025,
+      "round": "Semi-finals",
+      "home_id": 160,
+      "home": "SC Freiburg",
+      "away_id": 217,
+      "away": "SC Braga",
+      "goals": {
+        "home": 3,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 2,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 3,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 160,
+          "team": "SC Freiburg",
+          "corners": 4,
+          "fouls": 16,
+          "yellow": 0,
+          "red": 0,
+          "shots": 19,
+          "shots_on_goal": 8,
+          "shots_inside_box": 13,
+          "shots_outside_box": 6,
+          "blocked_shots": 4,
+          "possession": "66%",
+          "passes": 500,
+          "passes_accurate": 427,
+          "offsides": 1,
+          "goalkeeper_saves": 3
+        },
+        {
+          "team_id": 217,
+          "team": "SC Braga",
+          "corners": 8,
+          "fouls": 10,
+          "yellow": 4,
+          "red": 1,
+          "shots": 14,
+          "shots_on_goal": 5,
+          "shots_inside_box": 7,
+          "shots_outside_box": 7,
+          "blocked_shots": 6,
+          "possession": "34%",
+          "passes": 250,
+          "passes_accurate": 171,
+          "offsides": 1,
+          "goalkeeper_saves": 5
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}

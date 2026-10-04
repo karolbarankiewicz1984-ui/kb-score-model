@@ -1,0 +1,89 @@
+{
+  "schema": "api-football-international-5m-v1",
+  "category": "international_club",
+  "date": "2026-05-05",
+  "stored": 1,
+  "competition_counts": {
+    "UEFA Champions League": 1
+  },
+  "rows": [
+    {
+      "category": "international_club",
+      "fixture_id": 1540843,
+      "date": "2026-05-05T21:00:00+02:00",
+      "league_id": 2,
+      "competition": "UEFA Champions League",
+      "country": "World",
+      "season": 2025,
+      "round": "Semi-finals",
+      "home_id": 42,
+      "home": "Arsenal",
+      "away_id": 530,
+      "away": "Atletico Madrid",
+      "goals": {
+        "home": 1,
+        "away": 0
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 1,
+          "away": 0
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "teams": [
+        {
+          "team_id": 42,
+          "team": "Arsenal",
+          "corners": 5,
+          "fouls": 10,
+          "yellow": 1,
+          "red": null,
+          "shots": 13,
+          "shots_on_goal": 2,
+          "shots_inside_box": 6,
+          "shots_outside_box": 7,
+          "blocked_shots": 3,
+          "possession": "53%",
+          "passes": 445,
+          "passes_accurate": 378,
+          "offsides": 1,
+          "goalkeeper_saves": 2
+        },
+        {
+          "team_id": 530,
+          "team": "Atletico Madrid",
+          "corners": 2,
+          "fouls": 13,
+          "yellow": 2,
+          "red": null,
+          "shots": 9,
+          "shots_on_goal": 2,
+          "shots_inside_box": 7,
+          "shots_outside_box": 2,
+          "blocked_shots": 3,
+          "possession": "47%",
+          "passes": 386,
+          "passes_accurate": 320,
+          "offsides": 2,
+          "goalkeeper_saves": 1
+        }
+      ]
+    }
+  ],
+  "isolation": "API_COVERAGE_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0
+}
