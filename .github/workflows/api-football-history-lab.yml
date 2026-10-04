@@ -1,0 +1,34 @@
+name: API-Football historical Data Lab
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_date:
+        description: "From YYYY-MM-DD"
+        required: true
+        default: "2026-09-27"
+      to_date:
+        description: "To YYYY-MM-DD"
+        required: true
+        default: "2026-10-03"
+
+permissions:
+  contents: read
+
+jobs:
+  history-lab:
+    runs-on: ubuntu-latest
+    env:
+      API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Verify API secret
+        shell: bash
+        run: |
+          if [ -z "$API_FOOTBALL_KEY" ]; then
+            echo "ERROR: API_FOOTBALL_KEY is missing"
+            exit 1
+          fi
+      - name: Historical quality sample
+        run: python tools/api_football_history_lab.py "${{ inputs.from_date }}" "${{ inputs.to_date }}"
