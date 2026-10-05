@@ -251,7 +251,7 @@ def recompute_national(item, fixture, rows):
     pure = 0.60 * own_score + 0.40 * opp_score
     reliability = reliability_from_blocks(own_w.get("L15"), opp_w.get("L15"), None, 0)
     return {
-        "api_pure_pct": round(pure, 1),
+        "competition_adjusted_pct": round(pure, 1),
         "reliability_adjusted_pct": round(reliability, 1) if reliability is not None else round(pure, 1),
         "national_weighting": {"own": own_w, "opponent_allowed": opp_w, "matches_own": len(own_series), "matches_opponent": len(opp_series)},
     }
@@ -289,7 +289,7 @@ def recompute_europe(item, fixture, rows):
     pure = domestic["pure"] if not europe else (1 - w_euro) * domestic["pure"] + w_euro * europe["pure"]
     rel = domestic["reliability"] if not europe else (1 - w_euro) * domestic["reliability"] + w_euro * europe["reliability"]
     return {
-        "api_pure_pct": round(pure, 1),
+        "competition_adjusted_pct": round(pure, 1),
         "reliability_adjusted_pct": round(rel, 1),
         "competition_split": {"domestic": domestic, "europe": europe, "europe_weight": round(w_euro, 3)},
     }
@@ -436,18 +436,21 @@ def main():
         elif item.get("category") == "international_club":
             rec = recompute_europe(item, fixture, rows)
         else:
-            rec = {"api_pure_pct": float(item["api_pure_pct"]), "reliability_adjusted_pct": reliability_existing(item)}
+            rec = {"competition_adjusted_pct": float(item["api_pure_pct"]), "reliability_adjusted_pct": reliability_existing(item)}
         if rec:
             item.update(rec)
 
         # Re-apply the same market evidence against the v3 API PURE baseline.
         market = item.get("market_data") or {}
-        market_item = v2.apply_market_overlay(item, market, prior)
+        market_candidate = dict(item)
+        market_candidate["api_pure_pct"] = float(item.get("competition_adjusted_pct", item["api_pure_pct"]))
+        market_item = v2.apply_market_overlay(market_candidate, market, prior)
         item.update({k: market_item[k] for k in ("market_adjusted_pct", "market_delta_pp", "market_signal", "market_reliability", "market_data", "market_movement_pp", "market_comment")})
 
         c = context_for_item(item, fixture, context)
         item["context"] = c
-        rel_penalty = clamp(float(item["reliability_adjusted_pct"]) - float(item["api_pure_pct"]), -12.0, 0.0)
+        reliability_base = float(item.get("competition_adjusted_pct", item["api_pure_pct"]))
+        rel_penalty = clamp(float(item["reliability_adjusted_pct"]) - reliability_base, -12.0, 0.0)
         item["reliability_penalty_pp"] = round(rel_penalty, 1)
         final = clamp(float(item["market_adjusted_pct"]) + rel_penalty + float(c["adjustment_pp"]), 1.0, 99.0)
         item["final_assessment_pct"] = round(final, 1)
