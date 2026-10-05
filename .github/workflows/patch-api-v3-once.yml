@@ -1,0 +1,57 @@
+name: Finalize API Market v3 once
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-api-v3-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch v2 feeder, PDF renderer and collector
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p=Path('tools/api_market_scan.py')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('TOP_N = 10', 'TOP_N = 30')
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('tools/render_api_market_pdf.py')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('API Market Scan v2 | osobny od KB Score 2.1 CORE | KB N +0 | DEV N +0','API Market Scan v3 | osobny od KB Score 2.1 CORE | KB N +0 | DEV N +0')
+          s=s.replace('API PURE = czysta statystyka historyczna. Po analizie rynku = osobna, bieżąca korekta rynku.','API PURE = czysta historia. Ocena końcowa = wynik po reliability, kontekście rozgrywek, rynku i ostrożnym filtrze bieżącego kontekstu.')
+          s=s.replace('adjusted = item.get("market_adjusted_pct", pure)\n            delta = item.get("market_delta_pp", 0)', 'adjusted = item.get("final_assessment_pct", item.get("market_adjusted_pct", pure))\n            delta = float(adjusted or pure or 0) - float(pure or 0)')
+          s=s.replace('signal = safe(signal_text(item.get("market_signal")))\n            comment = safe(item.get("market_comment") or "")', 'signal = safe(item.get("final_status") or signal_text(item.get("market_signal")))\n            comment = safe(item.get("final_comment") or item.get("market_comment") or "")')
+          s=s.replace('<b>Po analizie rynku:</b>', '<b>Ocena końcowa:</b>')
+          s=s.replace('<b>Sygnał rynku:</b> {signal}', '<b>Status:</b> {signal}')
+          old='''<b>API PURE</b> - co wynika wyłącznie z naszej historii i statystyk API, bez kursów. <b>Po analizie rynku</b> - ta sama pozycja po sprawdzeniu aktualnych notowań bukmacherów. <b>↑ / ↓ / →</b> - rynek odpowiednio podnosi, obniża albo praktycznie nie zmienia oceny. <b>Sygnał rynku</b> - krótka ocena, czy rynek potwierdza statystykę, jest neutralny czy ostrzega. <b>Komentarz</b> - prostym językiem wyjaśnia, dlaczego ocena się zmieniła lub pozostała bez zmian. Ten raport jest osobny od KB Score 2.1 CORE i nie zmienia jego ustawień ani N.'''
+          new='''<b>API PURE</b> - surowy wynik z historii i statystyk, bez późniejszych korekt. <b>Ocena końcowa</b> - konserwatywna ocena po sprawdzeniu wiarygodności próby, rodzaju rozgrywek, rynku i dostępnego bieżącego kontekstu. <b>↑ / ↓ / →</b> - ocena końcowa jest odpowiednio wyższa, niższa albo podobna do API PURE. <b>Status STRONG</b> oznacza najmocniejsze pozycje; <b>ACCEPT</b> - pozycje spełniające warunki publikacji. <b>Komentarz</b> prostym językiem mówi, co najbardziej wpłynęło na ocenę. Cała techniczna warstwa pozostaje w JSON-ie na GitHubie. Raport jest osobny od KB Score 2.1 CORE i nie zmienia jego ustawień ani N.'''
+          s=s.replace(old,new)
+          s=s.replace('if payload.get("schema") != "api-market-scan-v2":', 'if payload.get("schema") not in {"api-market-scan-v2", "api-market-scan-v3"}:')
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('tools/api_football_daily_collector.py')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('"team": b.get("team",{}).get("name"),', '"team_id": b.get("team",{}).get("id"), "team": b.get("team",{}).get("name"),')
+          s=s.replace('"fixture_id": fid, "date": g["fixture"].get("date"),', '"fixture_id": fid, "date": g["fixture"].get("date"), "referee": g["fixture"].get("referee"),')
+          s=s.replace('"home": g["teams"]["home"].get("name"), "away": g["teams"]["away"].get("name"),', '"home": g["teams"]["home"].get("name"), "away": g["teams"]["away"].get("name"), "home_id": g["teams"]["home"].get("id"), "away_id": g["teams"]["away"].get("id"),')
+          s=s.replace('"UEFA Conference League"', '"UEFA Europa Conference League"')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit and self-remove
+        shell: bash
+        run: |
+          rm .github/workflows/patch-api-v3-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tools/api_market_scan.py tools/render_api_market_pdf.py tools/api_football_daily_collector.py .github/workflows/patch-api-v3-once.yml
+          git commit -m "feat: finalize API Market Scan v3 presentation and feeder"
+          git pull --rebase origin main
+          git push origin main
