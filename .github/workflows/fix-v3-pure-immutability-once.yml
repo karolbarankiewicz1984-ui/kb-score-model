@@ -1,0 +1,46 @@
+name: Keep API PURE immutable in v3 once
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-v3-pure-immutability-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch v3 pure provenance
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('tools/api_market_v3_enrich.py')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('"api_pure_pct": round(pure, 1),\n        "reliability_adjusted_pct": round(reliability, 1) if reliability is not None else round(pure, 1),', '"competition_adjusted_pct": round(pure, 1),\n        "reliability_adjusted_pct": round(reliability, 1) if reliability is not None else round(pure, 1),')
+          s = s.replace('"api_pure_pct": round(pure, 1),\n        "reliability_adjusted_pct": round(rel, 1),', '"competition_adjusted_pct": round(pure, 1),\n        "reliability_adjusted_pct": round(rel, 1),')
+          s = s.replace('rec = {"api_pure_pct": float(item["api_pure_pct"]), "reliability_adjusted_pct": reliability_existing(item)}', 'rec = {"competition_adjusted_pct": float(item["api_pure_pct"]), "reliability_adjusted_pct": reliability_existing(item)}')
+          old = '        market = item.get("market_data") or {}\n        market_item = v2.apply_market_overlay(item, market, prior)\n'
+          new = '        market = item.get("market_data") or {}\n        market_candidate = dict(item)\n        market_candidate["api_pure_pct"] = float(item.get("competition_adjusted_pct", item["api_pure_pct"]))\n        market_item = v2.apply_market_overlay(market_candidate, market, prior)\n'
+          if old not in s:
+              raise SystemExit('market overlay block not found')
+          s = s.replace(old, new)
+          old = '        rel_penalty = clamp(float(item["reliability_adjusted_pct"]) - float(item["api_pure_pct"]), -12.0, 0.0)\n'
+          new = '        reliability_base = float(item.get("competition_adjusted_pct", item["api_pure_pct"]))\n        rel_penalty = clamp(float(item["reliability_adjusted_pct"]) - reliability_base, -12.0, 0.0)\n'
+          if old not in s:
+              raise SystemExit('reliability penalty block not found')
+          s = s.replace(old, new)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit and self-remove
+        shell: bash
+        run: |
+          rm .github/workflows/fix-v3-pure-immutability-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tools/api_market_v3_enrich.py .github/workflows/fix-v3-pure-immutability-once.yml
+          git commit -m "fix: preserve immutable API PURE through v3 layers"
+          git pull --rebase origin main
+          git push origin main
