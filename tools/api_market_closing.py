@@ -6,17 +6,18 @@ from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import api_market_scan as v2
+from api_market_policy import target_date
+from api_market_storage import frozen_candidates
 
 WARSAW=ZoneInfo("Europe/Warsaw")
-TARGET=sys.argv[1] if len(sys.argv)>1 and sys.argv[1].strip() else datetime.now(WARSAW).date().isoformat()
+TARGET=target_date(sys.argv[1] if len(sys.argv)>1 else None)
 SRC=Path("data/api_football/market_scan")/f"{TARGET}.json"
 OUT=Path("data/api_football/closing_snapshots")/TARGET
 
 def main():
-    if not SRC.exists():
-        print(json.dumps({"date":TARGET,"status":"no-freeze"})); return
-    payload=json.loads(SRC.read_text(encoding="utf-8"))
-    positions=payload.get("top_positions") or []
+    positions=list({v2.market_key(x): x for x in frozen_candidates(TARGET)}.values())
+    if not positions:
+        print(json.dumps({"date":TARGET,"status":"no-verified-freeze"})); return
     now=datetime.now(timezone.utc)
     active=[]
     for x in positions:

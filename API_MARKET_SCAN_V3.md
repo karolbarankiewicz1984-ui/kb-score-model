@@ -1,125 +1,51 @@
-# API Market Scan v3 — trwała specyfikacja
+# API Market Scan v3.1 - niezależny model API
 
-## 1. Izolacja od KB Score 2.1 CORE
+Obowiązuje od wdrożenia 2026-10-05. Uzgodnienie użytkownika: najpierw pokrycie historyczne z płatnego API, następnie ocena na podstawie dostępnej sytuacji meczowej, jedna lista od 67 bez limitów ilościowych. Próg będzie oceniany w czasie na własnych wynikach API.
 
-API Market Scan v3 jest osobnym modułem. Nie zmienia KB Score 2.1 CORE, jego parametrów, KB N ani DEV N.
+## Izolacja KB Score
 
-Stałe zasady:
-- `KB N += 0`
-- `DEV N += 0`
-- API PURE pozostaje widoczną wartością bazową.
-- Warstwy v3 nie mogą przepisywać ustawień CORE.
+API nie odczytuje ani nie zapisuje parametrów, rejestrów, N, kalibracji i reguł KB Score. Nie przekazuje swoich wyników do Google Sheets ani do codziennego procesu KB Score. Kod używa wyłącznie własnego `config/api_market.json`, danych `data/api_football/` i raportów `reports/api_market_scan/`.
 
-## 2. Co liczy się w tle
+`api_market_integrity.py` zatrzymuje publikację zmian Git, jeśli wykonanie workflow zmieni plik poza dozwolonymi katalogami danych API. Test pełnego przebiegu sprawdza niezmienność pliku CORE. To kontrola kodu i zapisów przed push; GitHub `contents: write` pozostaje uprawnieniem całego repozytorium, a nie izolacją systemu operacyjnego. Zewnętrzny import wyników API do KB Score jest zabroniony do oddzielnej decyzji użytkownika.
 
-Kolejność warstw:
+## Obliczenia i wybór pozycji
 
-`API PURE -> Reliability -> Competition Context -> Market Overlay -> Current Context -> FINAL API ASSESSMENT`
+1. API PURE: historyczne pokrycie dla każdej obsługiwanej linii statystycznej; L5/L10/L15, historia własna, historia tego, co dopuszcza przeciwnik, dom/wyjazd. Brak progów PURE 72, L10 60/50 i minimum siedmiu meczów. Do obliczenia potrzebna jest niepusta historia liczbowa obu stron.
+2. Oddzielna korekta rozgrywek: historia reprezentacyjna z wagami rodzaju meczu; dla klubów rozdział liga/puchary. `competition_adjusted_pct` nie nadpisuje `api_pure_pct`.
+3. Wiarygodność próby: dolna granica Wilsona obniża ocenę bez wcześniejszej twardej bramki liczby meczów. Usunięto ograniczenie obniżki do 12 punktów, aby pojedynczy udany mecz nie wyglądał jak mocna próba.
+4. Bieżący rynek: odmarżowiony konsensus dokładnej linii i własne wcześniejsze snapshoty; może wzmocnić lub osłabić ocenę. Korekta nie jest nakładana wielokrotnie na wcześniejszy wynik.
+5. Dostępny bieżący kontekst API: kontuzje, składy i sędzia. Nieobecności mogą dać dotychczasowy mały ujemny bezpiecznik. Składy/sędzia są zapisywane do audytu; nie dodajemy nieuzasadnionych dodatnich wag. Nieudane pobranie jest błędem/ograniczeniem danych, a nie wiadomością, że absencji nie ma.
+6. Publikacja: **ocena końcowa >= 67/100**. Jest to jedyna liczbowa bramka. Brak limitu globalnego, na mecz lub na parametr, brak odrzucenia na podstawie statusu i ostrzeżenia rynku. Wszystkie obliczalne linie przechodzą do oceny, także jeśli wcześniej odpadłyby przez deduplikację.
 
-### API PURE
-Czysta statystyka historyczna z API-Football, bez kursów i bez bieżących newsów.
+Zakres dostępnych rozgrywek i obsługiwanych parametrów określa kolektor i `api_market_scan.py`. Nie wymyślamy danych dla rynków bez historii. Nie wydajemy nowych prognoz po rozpoczęciu meczu. To warunki poprawnego wejścia, nie progi atrakcyjności typu.
 
-### Reliability
-Konserwatywny filtr wielkości i stabilności próby. Używa dolnej granicy Wilsona jako zabezpieczenia przed nadmiernym zaufaniem do wysokich procentów z małej próby. Reliability może obniżyć ocenę, ale nie może sztucznie podwyższyć API PURE.
+Lista pokazuje najpierw praktyczne linie z faktycznymi notowaniami, następnie rynki specjalistyczne i dostępność niepotwierdzoną. W każdej grupie kolejność jest malejąca po ocenie końcowej; żadna grupa nie jest ukrywana ani limitowana. API PURE oznacza pokrycie historyczne; ocena końcowa /100 jest wskaźnikiem wymagającym empirycznej kalibracji, nie gwarantowanym prawdopodobieństwem wygranej.
 
-### Competition Context
-- ligi krajowe: profil krajowy,
-- europejskie puchary: historia krajowa i europejska są liczone osobno, a udział warstwy europejskiej rośnie wraz z jej próbą,
-- reprezentacje: dynamiczna historia ostatnich 20 meczów oraz mniejsza waga sparingów niż spotkań o stawkę.
+## STS
 
-Wagi startowe reprezentacji:
-- Friendlies: 0.55
-- UEFA Nations League: 0.85
-- World Cup: 1.00
-- World Cup Qualification Europe: 0.95
-- Euro Championship: 1.00
-- Euro Championship Qualification: 0.95
+Usunięto sztywną listę dopuszczonych trzech rodzin rynków oraz zakazy linii kartek 0.5 i rożnych 2.5. Nie utożsamiamy brakującego notowania w API z brakiem oferty STS.
 
-### Market Overlay
-Bieżące pre-match odds dla dokładnie tej samej linii. System:
-- zbiera Over i Under od wielu bukmacherów,
-- usuwa marżę,
-- liczy medianę prawdopodobieństwa rynku,
-- ocenia szerokość i spójność rynku,
-- wykorzystuje wcześniejsze własne snapshoty do pomiaru ruchu.
+Każda pozycja dostaje informację o dokładnej linii w danych kursowych i o niepewności dostępności w STS. Typowe linie z faktycznym notowaniem mają pierwszeństwo w prezentacji. Rynek specjalistyczny lub brak notowania jest jawnie opisany. Bez bezpośredniego notowania STS nie deklarujemy weryfikacji jego oferty i nie ukrywamy pozycji na podstawie przypuszczenia.
 
-API PURE pozostaje zachowane oddzielnie.
+## Dane i trwały zapis
 
-### Current Context
-Warstwa bieżąca korzysta z dostępnych danych API o:
-- kontuzjach/nieobecnościach,
-- sędzim,
-- oficjalnych składach, gdy są już opublikowane.
+- `market_work/YYYY-MM-DD.json`: robocza statystyka/enrichment, nie służy do rozliczeń.
+- `market_scan/YYYY-MM-DD.json`: najnowszy opublikowany widok.
+- `predictions/YYYY-MM-DD/<id>.json`: niezmienna wersja pełnej puli i opublikowanej listy, z czasem UTC, wersją modelu, konfiguracją i rewizją kodu.
+- `market_snapshots/` i `closing_snapshots/`: notowania w czasie.
+- `calibration/YYYY-MM-DD.json`: wyniki wszystkich kandydatów, także poniżej 67.
+- `calibration/_summary.json`: oddzielna kalibracja API.
 
-Do czasu zebrania odpowiedniej próbki kalibracyjnej jest to warstwa audit-first. Może uruchomić mały negatywny bezpiecznik, ale nie dostaje dużej dodatniej wagi na podstawie intuicji. Maksymalny startowy ujemny filtr kontekstowy to 1.5 pp.
+Publikacja zapisuje pełną wersję przed zastąpieniem aktualnego widoku. Starszy widok bez potwierdzonego czasu jest zachowywany jako legacy, bez dorabiania wiarygodnego freeze. Takie dane nie zwiększają próby treningowej. Rozpoczęte mecze nie trafiają do nowej listy ani nowych danych treningowych.
 
-## 3. Ocena końcowa i publikacja
+Rozliczenie wybiera pierwszą potwierdzoną prognozę przedmeczową dla kombinacji data/model/mecz/drużyna/parametr/linia. Kolejne uruchomienia nie mnożą N ani nie podmieniają pierwotnej oceny. Przerwa API podczas ponownego rozliczania nie usuwa udanych wcześniejszych wyników.
 
-Użytkowy ranking jest oparty na `FINAL API ASSESSMENT`, a nie wyłącznie na surowym procencie historycznym.
+## Nauka i zmiany w czasie
 
-Statusy:
-- `STRONG` — najmocniejsze pozycje po wszystkich warstwach,
-- `ACCEPT` — pozycje spełniające warunki publikacji,
-- `WATCH` — obserwacja; nie trafia do głównej listy PDF.
+API ma własne obserwacje HIT/MISS, Brier i log loss dla PURE i oceny końcowej, grupowane po wersji, rynku, przedziale ocen, korekcie rynku i publikacji. Przechowuje również rozgrywki, wielkość próby i kontekst. Liczymy osobno liczbę typów i meczów, ponieważ kilka zakładów z jednego meczu jest skorelowanych.
 
-Nie ma obowiązku publikowania 10 pozycji. Jeśli warunki spełniają 2 lub 3 pozycje, raport zawiera tylko 2 lub 3.
+Zebrane wyniki służą do porównania progu 67 z innymi wartościami oraz do kalibracji warstw. Zachowujemy ostrożne checkpointy 50/100/250, z uwzględnieniem liczby różnych meczów. Nie zmieniamy wag automatycznie po kilku wynikach. Każda zmiana obliczeń lub progu jest wersjonowana wyłącznie w module API; nie zmienia KB Score.
 
-## 4. Widok dla użytkownika
+## Kontrole
 
-PDF pozostaje celowo prosty. Dla każdej publikowanej pozycji pokazuje głównie:
-- pozycję i mecz,
-- `API PURE`,
-- `Ocena końcowa`,
-- kierunek zmiany,
-- `STRONG` lub `ACCEPT`,
-- krótki komentarz zwykłym językiem.
-
-Reliability, L5/L10/L15, rozdział domestic/Europe, szczegóły rynku, injuries, referee, lineup, surowe kursy i inne dane audytowe pozostają w JSON-ie na GitHubie.
-
-Na końcu PDF zawsze znajduje się krótka sekcja „Jak czytać ten raport”.
-
-## 5. Closing market
-
-Osobny workflow sprawdza w ciągu dnia tylko zamrożone pozycje, których start jest blisko. Zapisuje końcowe/near-closing snapshoty rynku do:
-
-`data/api_football/closing_snapshots/YYYY-MM-DD/`
-
-Closing market służy do audytu i kalibracji. Nie zmienia po fakcie opublikowanego freeze.
-
-## 6. Automatyczne rozliczenie
-
-Po zakończeniu dnia osobny proces pobiera rzeczywiste statystyki meczów i rozlicza każdą opublikowaną pozycję jako HIT/MISS. Zapisuje m.in.:
-- API PURE,
-- reliability-adjusted,
-- market-adjusted,
-- FINAL API ASSESSMENT,
-- status,
-- wynik rzeczywisty,
-- closing market, jeśli został wiarygodnie zebrany.
-
-Dane trafiają do:
-
-`data/api_football/calibration/YYYY-MM-DD.json`
-
-## 7. Kalibracja
-
-System automatycznie odbudowuje podsumowanie kalibracyjne i mierzy m.in. hit rate, Brier oraz log loss dla API PURE i oceny końcowej.
-
-Analizy są grupowane m.in. według:
-- rodzaju rynku,
-- statusu STRONG/ACCEPT,
-- przedziału API PURE,
-- przedziału oceny końcowej,
-- kierunku korekty rynku.
-
-Polityka zmian wag:
-- N < 50: tylko obserwacja,
-- N 50–99: pierwsze sygnały, bez istotnego dostrajania,
-- N >= 100: możliwa ostrożna kalibracja,
-- N >= 250 dla danej warstwy/rynku: mocniejsza podstawa do zmian.
-
-Wagi nie zmieniają się automatycznie tylko dlatego, że kilka ostatnich typów wygrało lub przegrało. Każda istotna korekta wymaga powtarzalnego sygnału i pozostaje wersjonowana na GitHubie.
-
-## 8. Zasada nadrzędna
-
-Model ma być bardziej złożony w środku, ale prostszy dla użytkownika. Rozbudowa zaplecza ma służyć trafności, a nie liczbie wskaźników w raporcie.
+Testy offline pokrywają brak ukrytych limitów i progów, zachowanie PURE, jednokrotną korektę rynku, jawne błędy prefetch, zachowanie cache przy błędzie, niezmienne wersje, odrzucenie danych po starcie, rozliczanie kandydatów odrzuconych, brak podwójnego liczenia i brak zapisów CORE. Workflow wykonuje testy przed produkcyjnym skanem.

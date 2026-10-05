@@ -1,0 +1,24 @@
+name: API Market checks
+on:
+  push:
+    paths:
+      - 'tools/api_market*.py'
+      - 'tools/api_national_today_prefetch.py'
+      - 'tools/render_api_market_pdf.py'
+      - 'config/api_market.json'
+      - 'tests/test_api_market*.py'
+      - '.github/workflows/api-market*.yml'
+  pull_request:
+    paths:
+      - 'tools/api_market*.py'
+      - 'tools/api_national_today_prefetch.py'
+      - 'config/api_market.json'
+      - 'tests/test_api_market*.py'
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -B -m unittest discover -s tests -p 'test_api_market*.py'

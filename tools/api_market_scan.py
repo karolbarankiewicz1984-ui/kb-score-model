@@ -10,7 +10,7 @@ It NEVER changes KB Score 2.1 CORE, KB/DEV registers, model parameters, KB N or
 DEV N. Market data can change only the separate MARKET ADJUSTED field.
 
 Outputs:
-  data/api_football/market_scan/YYYY-MM-DD.json
+  data/api_football/market_work/YYYY-MM-DD.json
   data/api_football/market_snapshots/YYYY-MM-DD/*.json
   reports/api_market_scan/YYYY-MM-DD.md
 """
@@ -27,11 +27,13 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from statistics import median, pstdev
 
+from api_market_policy import target_date
+
 BASE = "https://v3.football.api-sports.io"
 KEY = os.environ.get("API_FOOTBALL_KEY")
-TARGET = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else date.today().isoformat()
+TARGET = target_date(sys.argv[1] if len(sys.argv) > 1 else None)
 
-OUT_JSON = Path("data/api_football/market_scan")
+OUT_JSON = Path("data/api_football/market_work")
 OUT_MD = Path("reports/api_market_scan")
 OUT_SNAPSHOTS = Path("data/api_football/market_snapshots")
 
@@ -76,11 +78,6 @@ BET_IDS = {
     "goalkeeper_saves": {"home": 268, "away": 274},    # Home/Away Goalkeeper Saves
 }
 
-MIN_COMBINED = 72.0
-MIN_OWN_L10 = 60.0
-MIN_OPP_L10 = 50.0
-MIN_SIDE_SAMPLE = 7
-TOP_N = 150
 MAX_MARKET_ADJUSTMENT_PP = 10.0
 MAX_MOVEMENT_COMPONENT_PP = 2.0
 
@@ -304,7 +301,7 @@ def build_candidate(rows, fixture, team_side: str, market: str, line: float):
     own_vals = [metric_value(row, team_id, market) for row in own_hist]
     own_vals = [v for v in own_vals if isinstance(v, (int, float))]
     allowed_vals = opponent_allowed_values(opp_hist, opp_id, market)
-    if len(own_vals) < MIN_SIDE_SAMPLE or len(allowed_vals) < MIN_SIDE_SAMPLE:
+    if not own_vals or not allowed_vals:
         return None
 
     own_w = window_set(own_vals, line)
@@ -313,8 +310,6 @@ def build_candidate(rows, fixture, team_side: str, market: str, line: float):
     opp_score = weighted_windows(opp_w)
     if own_score is None or opp_score is None:
         return None
-    if own_w["L10"]["pct"] < MIN_OWN_L10 or opp_w["L10"]["pct"] < MIN_OPP_L10:
-        return None
 
     venue_vals = venue_values(own_hist, team_id, market, team_side == "home")
     venue = coverage(venue_vals, line, 10) if len(venue_vals) >= 4 else None
@@ -322,8 +317,6 @@ def build_candidate(rows, fixture, team_side: str, market: str, line: float):
         combined = 0.55 * own_score + 0.35 * opp_score + 0.10 * venue["pct"]
     else:
         combined = 0.61 * own_score + 0.39 * opp_score
-    if combined < MIN_COMBINED:
-        return None
 
     pcts = []
     for block in (own_w, opp_w):
@@ -454,21 +447,6 @@ def market_key(candidate):
     return f"{candidate['fixture_id']}|{candidate['team_id']}|{candidate['market']}|{candidate['line']:.1f}"
 
 
-def sts_line_preference(market, line):
-    """Prefer practical STS-like lines within the same team/market family.
-
-    This affects which candidate line is carried forward, not the API PURE
-    calculation itself. Unknown/specialist markets keep neutral preference.
-    """
-    line = float(line)
-    preferences = {
-        "yellow": {1.5: 5, 2.5: 4, 3.5: 3, 0.5: 0},
-        "corners": {3.5: 5, 4.5: 4, 5.5: 3, 6.5: 2, 7.5: 1, 2.5: 0},
-        "team_goals": {0.5: 5, 1.5: 4, 2.5: 3},
-    }
-    return preferences.get(market, {}).get(line, 1)
-
-
 def load_prior_market_probabilities(target):
     folder = OUT_SNAPSHOTS / target
     prior = {}
@@ -557,9 +535,9 @@ def market_signal(delta, market, reliability):
 
 def market_comment(delta, market, reliability, movement_pp):
     if not market.get("exact_line_available"):
-        return "Dla tej dokładnej linii nie znalazłem bieżącej oferty w danych rynkowych. Zostawiam ocenę API PURE bez korekty."
+        return "Dla tej dokładnej linii nie znalazłem bieżącej oferty w danych rynkowych. Korekta samego rynku wynosi zero."
     if market.get("paired_books", 0) < 2:
-        return "Linia jest dostępna, ale rynek jest zbyt wąski, żeby bezpiecznie korygować statystykę historyczną. Ocena API PURE pozostaje bez zmian."
+        return "Linia jest dostępna, ale rynek jest zbyt wąski, żeby bezpiecznie korygować statystykę historyczną. Korekta samego rynku wynosi zero."
 
     if delta >= 4.0:
         opening = "Rynek wyraźnie potwierdza kierunek wskazany przez historię i podnosi ocenę."
@@ -675,30 +653,8 @@ def main():
             "bookmaker_spread_pp": market.get("bookmaker_spread_pp"),
         })
 
-    # Keep one line per team/market. Prefer a line actually offered by the market,
-    # then the highest final assessment, while API PURE remains visible unchanged.
-    best_by_market = {}
-    for item in enriched:
-        key = (item["fixture_id"], item["team_id"], item["market"])
-        old = best_by_market.get(key)
-        offered = 1 if item["market_data"].get("exact_line_available") else 0
-        practical = sts_line_preference(item["market"], item["line"])
-        rank = (practical, offered, item["market_adjusted_pct"], item["api_pure_pct"], item["confidence_api"], item["line"])
-        if old is None:
-            best_by_market[key] = item
-        else:
-            old_rank = (sts_line_preference(old["market"], old["line"]), 1 if old["market_data"].get("exact_line_available") else 0, old["market_adjusted_pct"], old["api_pure_pct"], old["confidence_api"], old["line"])
-            if rank > old_rank:
-                best_by_market[key] = item
-
-    ranked = sorted(
-        best_by_market.values(),
-        key=lambda c: (
-            1 if c["market_data"].get("exact_line_available") else 0,
-            c["market_adjusted_pct"], c["api_pure_pct"], c["confidence_api"]
-        ),
-        reverse=True,
-    )[:TOP_N]
+    # Preserve every calculable line. Selection happens only after all API layers.
+    ranked = sorted(enriched, key=lambda c: (c["api_pure_pct"], c["confidence_api"]), reverse=True)
 
     now = datetime.now(timezone.utc)
     stamp = now.strftime("%H%M%S")
@@ -722,6 +678,8 @@ def main():
         "fixtures_scanned": len(fixtures),
         "history_matches_loaded": len(rows),
         "pure_candidates_before_dedupe": len(pure_candidates),
+        "background_candidates": ranked,
+        "generated_at_utc": now.isoformat(),
         "top_positions": ranked,
         "market_overlay": {
             "method": "devigged multi-bookmaker consensus + own snapshot movement",
@@ -731,11 +689,9 @@ def main():
             "snapshot": str(snapshot_path),
         },
         "thresholds": {
-            "min_api_pure_coverage_pct": MIN_COMBINED,
-            "min_own_L10_pct": MIN_OWN_L10,
-            "min_opponent_allowed_L10_pct": MIN_OPP_L10,
-            "min_side_sample": MIN_SIDE_SAMPLE,
-            "top_n": TOP_N,
+            "raw_coverage_threshold": None,
+            "raw_sample_gate": "nonempty numeric history on both sides",
+            "top_n": None,
         },
         "rate_limit_remaining": last_odds_headers.get("x-ratelimit-requests-remaining") or fixture_headers.get("x-ratelimit-requests-remaining"),
         "isolation": "API_PURE_PLUS_MARKET_OVERLAY_NO_KB_SCORE_CORE_WRITES",
@@ -748,33 +704,6 @@ def main():
     OUT_MD.mkdir(parents=True, exist_ok=True)
     (OUT_JSON / f"{TARGET}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    lines = [
-        f"# API Market Scan v2 — {TARGET}", "",
-        "> API PURE pozostaje czystą statystyką historyczną. MARKET ADJUSTED jest osobną korektą bieżącego rynku. KB Score 2.1 CORE pozostaje bez zmian.", "",
-        f"Przeskanowane nierozpoczęte mecze: **{len(fixtures)}**  ",
-        f"Historia w bazie: **{len(rows)} meczów**", "",
-    ]
-    if not ranked:
-        lines += ["## Brak pozycji spełniających dzisiejsze progi", "", "System nie dobija listy słabszymi kandydatami."]
-    else:
-        lines += ["## TOP pozycje — API PURE + rynek", ""]
-        for idx, item in enumerate(ranked, 1):
-            delta = item["market_delta_pp"]
-            delta_text = f"{delta:+.1f} pp" if abs(delta) >= 0.05 else "0.0 pp"
-            lines += [
-                f"### {idx}. {item['selection']}",
-                f"**Mecz:** {item['home']} – {item['away']} ({item['competition']})  ",
-                f"**API PURE:** {item['api_pure_pct']:.1f}%  ",
-                f"**Po analizie rynku:** **{item['market_adjusted_pct']:.1f}% {arrow(delta)}** ({delta_text})  ",
-                f"**Sygnał rynku:** {signal_label(item['market_signal'])}  ",
-                f"**Komentarz:** {item['market_comment']}", "",
-            ]
-    lines += [
-        "---", "",
-        "Szczegółowe L5/L10/L15, liczba bukmacherów, odmarżowione prawdopodobieństwo rynku i surowe notowania pozostają w pliku JSON do audytu, ale nie zaśmiecają raportu użytkowego.",
-    ]
-    (OUT_MD / f"{TARGET}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-
     print(json.dumps({
         "schema": "api-market-scan-v2",
         "date": TARGET,
@@ -783,7 +712,7 @@ def main():
         "top_positions": len(ranked),
         "odds_requests": odds_requests,
         "snapshot": str(snapshot_path),
-        "report": str(OUT_MD / f"{TARGET}.md"),
+        "working_file": str(OUT_JSON / f"{TARGET}.json"),
         "kb_n_effect": 0,
         "dev_n_effect": 0,
     }, ensure_ascii=False))

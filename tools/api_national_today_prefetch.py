@@ -12,11 +12,12 @@ import json
 import sys
 from datetime import date
 from pathlib import Path
+from api_market_policy import target_date
 
 import api_market_scan as v2
 import api_market_v3_enrich as v3
 
-TARGET = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].strip() else date.today().isoformat()
+TARGET = target_date(sys.argv[1] if len(sys.argv) > 1 else None)
 BRIDGE = Path("data/api_football/international_5m/national/dynamic_last20.json")
 
 
@@ -43,8 +44,10 @@ def consolidate_dynamic_rows():
 
 
 def main():
-    payload, _ = v2.api_get_all_pages("fixtures", date=TARGET, timezone="Europe/Warsaw")
-    fixtures = [] if payload.get("errors") else payload.get("response", [])
+    payload, _ = v2.api_get("fixtures", date=TARGET, timezone="Europe/Warsaw")
+    if payload.get("errors"):
+        raise RuntimeError("National fixtures: " + json.dumps(payload["errors"], ensure_ascii=False))
+    fixtures = payload.get("response", [])
     national = [
         g for g in fixtures
         if v2.competition_category(g.get("league", {})) == "national_team"

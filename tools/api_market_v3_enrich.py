@@ -21,14 +21,14 @@ from statistics import mean
 from zoneinfo import ZoneInfo
 
 import api_market_scan as v2
+from api_market_policy import load_policy, rank_positions, target_date
 
 WARSAW = ZoneInfo("Europe/Warsaw")
-TARGET = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].strip() else datetime.now(WARSAW).date().isoformat()
-SOURCE = Path("data/api_football/market_scan") / f"{TARGET}.json"
+TARGET = target_date(sys.argv[1] if len(sys.argv) > 1 else None)
+SOURCE = Path("data/api_football/market_work") / f"{TARGET}.json"
 OUT = SOURCE
 NATIONAL_CACHE = Path("data/api_football/national_dynamic")
-MAX_PUBLISH = 10
-MIN_PUBLISH_FINAL = 75.0
+MIN_PUBLISH_FINAL = load_policy()["publish_min_final_pct"]
 
 NATIONAL_WEIGHTS = {
     "Friendlies": 0.55,
@@ -129,7 +129,9 @@ def refresh_national_history(fixtures, base_rows):
     for tid in sorted(team_ids):
         try:
             payload, _ = v2.api_get("fixtures", team=tid, last=20, timezone="Europe/Warsaw")
-            games = [] if payload.get("errors") else payload.get("response", [])
+            if payload.get("errors"):
+                raise RuntimeError(json.dumps(payload["errors"], ensure_ascii=False))
+            games = payload.get("response", [])
         except Exception as exc:
             summary["errors"].append({"team_id": tid, "stage": "fixtures", "error": str(exc)})
             continue
@@ -145,7 +147,9 @@ def refresh_national_history(fixtures, base_rows):
                 continue
             try:
                 detail, _ = v2.api_get("fixtures/statistics", fixture=fid)
-                blocks = [] if detail.get("errors") else detail.get("response", [])
+                if detail.get("errors"):
+                    raise RuntimeError(json.dumps(detail["errors"], ensure_ascii=False))
+                blocks = detail.get("response", [])
                 row = stat_row_from_fixture(g, blocks)
                 rows.append(row)
                 existing[fid] = row
@@ -241,7 +245,7 @@ def recompute_national(item, fixture, rows):
     opp_hist = v2.team_history(rows, opp_id, dt, "national")
     own_series = national_series(own_hist, team_id, item["market"], False)
     opp_series = national_series(opp_hist, opp_id, item["market"], True)
-    if len(own_series) < 7 or len(opp_series) < 7:
+    if not own_series or not opp_series:
         return None
     own_w = weighted_windows(own_series, item["line"])
     opp_w = weighted_windows(opp_series, item["line"])
@@ -263,7 +267,7 @@ def simple_combined(rows, team_id, opp_id, dt, market, line, scope):
     own_vals = [v2.metric_value(r, team_id, market) for r in own_hist]
     own_vals = [x for x in own_vals if isinstance(x, (int, float))]
     opp_vals = v2.opponent_allowed_values(opp_hist, opp_id, market)
-    if len(own_vals) < 4 or len(opp_vals) < 4:
+    if not own_vals or not opp_vals:
         return None
     ow, pw = v2.window_set(own_vals, line), v2.window_set(opp_vals, line)
     os, ps = v2.weighted_windows(ow), v2.weighted_windows(pw)
@@ -304,7 +308,9 @@ def fetch_context(fixtures, positions):
     context = {"injuries": {}, "lineups": {}, "errors": []}
     try:
         injuries, _ = v2.api_get_all_pages("injuries", date=TARGET, timezone="Europe/Warsaw")
-        for x in injuries.get("response", []) if not injuries.get("errors") else []:
+        if injuries.get("errors"):
+            raise RuntimeError(json.dumps(injuries["errors"], ensure_ascii=False))
+        for x in injuries.get("response", []):
             fid = x.get("fixture", {}).get("id")
             tid = x.get("team", {}).get("id")
             if fid and tid:
@@ -363,12 +369,11 @@ def context_for_item(item, fixture, ctx):
     }
 
 
-def status_for(final, market_signal):
-    if final >= 84 and market_signal not in {"WARNING", "STRONG_WARNING"}:
+def status_for(final, market_signal=None):
+    # Descriptive only. Market warnings already affect the score, never veto it.
+    if final >= 84:
         return "STRONG"
-    if final >= 75 and market_signal != "STRONG_WARNING":
-        return "ACCEPT"
-    return "WATCH"
+    return "ACCEPT" if final >= MIN_PUBLISH_FINAL else "BELOW_THRESHOLD"
 
 
 def comment_for(item):
@@ -381,6 +386,9 @@ def comment_for(item):
         bits.append("Próba jest wystarczająca, choć reliability lekko studzi surowy wynik historii.")
     else:
         bits.append("Wynik historyczny jest dobrze podparty wielkością próby.")
+    competition_delta = float(item.get("competition_adjusted_pct", pure)) - pure
+    if abs(competition_delta) >= 0.5:
+        bits.append("Profil rozgrywek " + ("podnosi" if competition_delta > 0 else "obniża") + " bazową ocenę.")
     sig = item.get("market_signal")
     if sig in {"STRONG_CONFIRMATION", "CONFIRMATION"}:
         bits.append("Rynek potwierdza kierunek.")
@@ -404,7 +412,9 @@ def main():
         raise SystemExit(f"Unexpected schema: {base.get('schema')}")
 
     fixtures_payload, headers = v2.api_get("fixtures", date=TARGET, timezone="Europe/Warsaw")
-    fixtures_all = fixtures_payload.get("response", []) if not fixtures_payload.get("errors") else []
+    if fixtures_payload.get("errors"):
+        raise RuntimeError(json.dumps(fixtures_payload["errors"], ensure_ascii=False))
+    fixtures_all = fixtures_payload.get("response", [])
     fixture_map = {g.get("fixture", {}).get("id"): g for g in fixtures_all}
 
     raw_positions = base.get("background_candidates") or base.get("top_positions") or []
@@ -418,7 +428,7 @@ def main():
             seen_fixtures.add(fid)
 
     base_rows = v2.load_rows()
-    # Build dynamic last-20 history only for teams that survived the raw API PURE sieve.
+    # Prefetch covers the full fixture scope before raw statistics. Reuse the cache here.
     national_refresh = refresh_national_history(relevant_fixtures, base_rows)
     rows = merge_rows(base_rows, load_dynamic_rows())
 
@@ -437,10 +447,11 @@ def main():
             rec = recompute_europe(item, fixture, rows)
         else:
             rec = {"competition_adjusted_pct": float(item["api_pure_pct"]), "reliability_adjusted_pct": reliability_existing(item)}
-        if rec:
-            item.update(rec)
+        if rec is None:
+            rec = {"competition_adjusted_pct": float(item["api_pure_pct"]), "reliability_adjusted_pct": reliability_existing(item)}
+        item.update(rec)
 
-        # Re-apply the same market evidence against the v3 API PURE baseline.
+        # Apply current market evidence to the separate competition-adjusted baseline.
         market = item.get("market_data") or {}
         market_candidate = dict(item)
         market_candidate["api_pure_pct"] = float(item.get("competition_adjusted_pct", item["api_pure_pct"]))
@@ -450,16 +461,17 @@ def main():
         c = context_for_item(item, fixture, context)
         item["context"] = c
         reliability_base = float(item.get("competition_adjusted_pct", item["api_pure_pct"]))
-        rel_penalty = clamp(float(item["reliability_adjusted_pct"]) - reliability_base, -12.0, 0.0)
+        # Full uncertainty correction replaces the former hard sample-size gate.
+        rel_penalty = min(0.0, float(item["reliability_adjusted_pct"]) - reliability_base)
         item["reliability_penalty_pp"] = round(rel_penalty, 1)
         final = clamp(float(item["market_adjusted_pct"]) + rel_penalty + float(c["adjustment_pp"]), 1.0, 99.0)
         item["final_assessment_pct"] = round(final, 1)
-        item["final_status"] = status_for(final, item.get("market_signal"))
+        item["final_status"] = status_for(item["final_assessment_pct"], item.get("market_signal"))
         item["final_comment"] = comment_for(item)
         enriched.append(item)
 
-    enriched.sort(key=lambda x: ({"STRONG": 2, "ACCEPT": 1, "WATCH": 0}[x["final_status"]], x["final_assessment_pct"], x["reliability_adjusted_pct"], x["confidence_api"]), reverse=True)
-    published = [x for x in enriched if x["final_status"] in {"STRONG", "ACCEPT"} and x["final_assessment_pct"] >= MIN_PUBLISH_FINAL][:MAX_PUBLISH]
+    enriched.sort(key=lambda x: (x["final_assessment_pct"], x["api_pure_pct"]), reverse=True)
+    published = rank_positions(enriched, MIN_PUBLISH_FINAL)
 
     payload = dict(base)
     payload.update({
@@ -477,6 +489,7 @@ def main():
             "national_refresh": national_refresh,
             "context_errors": context.get("errors", []),
         },
+        "model_version": load_policy()["model_version"],
         "rate_limit_remaining_v3": headers.get("x-ratelimit-requests-remaining"),
         "isolation": "API_V3_ONLY_NO_KB_SCORE_CORE_WRITES",
         "model_effect": "NONE_ON_KB_SCORE_CORE",

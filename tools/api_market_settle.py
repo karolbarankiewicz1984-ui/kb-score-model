@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Settle frozen API Market positions and rebuild calibration summary.
 
-Works with v3 freezes and tolerates older v2 freezes. No writes to KB Score CORE,
+Settles all verified candidates from immutable API publications. No writes to KB Score CORE,
 KB N or DEV N.
 """
 from __future__ import annotations
@@ -14,9 +14,11 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import api_market_scan as v2
+from api_market_policy import target_date
+from api_market_storage import frozen_candidates, atomic_write, dumps
 
 WARSAW = ZoneInfo("Europe/Warsaw")
-TARGET = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].strip() else (datetime.now(WARSAW).date() - timedelta(days=1)).isoformat()
+TARGET = target_date(sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].strip() else (datetime.now(WARSAW).date() - timedelta(days=1)).isoformat())
 SRC = Path("data/api_football/market_scan") / f"{TARGET}.json"
 OUTDIR = Path("data/api_football/calibration")
 CLOSE = Path("data/api_football/closing_snapshots") / TARGET
@@ -41,7 +43,14 @@ def stat_value(stats, name):
 
 def actual_metric(fixture, blocks, item):
     if item.get("market") == "team_goals":
+        fulltime = (fixture.get("score") or {}).get("fulltime") or {}
+        if fulltime.get(item.get("team_side")) is not None:
+            return fulltime[item["team_side"]]
+        if fixture.get("fixture", {}).get("status", {}).get("short") != "FT":
+            return None
         return (fixture.get("goals") or {}).get(item.get("team_side"))
+    if fixture.get("fixture", {}).get("status", {}).get("short") != "FT":
+        return None  # No regulation-time statistical split for extra-time games.
     target = item.get("team_id")
     stat_name = STAT_NAMES.get(item.get("market"))
     if not stat_name:
@@ -112,6 +121,9 @@ def rebuild_summary():
         except Exception:
             pass
 
+    # Repeated snapshots and settlement retries are never extra observations.
+    observations = list({r["observation_id"]: r for r in observations
+        if r.get("training_eligible") and r.get("observation_id")}.values())
     groups = {}
     def add(key, row):
         g = groups.setdefault(key, {"n": 0, "hits": 0, "brier_api": [], "brier_final": [], "logloss_api": [], "logloss_final": []})
@@ -123,6 +135,8 @@ def rebuild_summary():
                 g[field].append(value)
 
     for row in observations:
+        add(f"version:{row.get('model_version')}", row)
+        add("published:" + str(bool(row.get("published"))), row)
         add(f"market:{row.get('market')}", row)
         add(f"status:{row.get('final_status') or 'LEGACY'}", row)
         add(f"api_band:{band(row.get('api_pure_pct'))}", row)
@@ -145,6 +159,8 @@ def rebuild_summary():
     payload = {
         "schema": "api-market-calibration-summary-v1",
         "observations": len(observations),
+        "distinct_fixtures": len({r["fixture_id"] for r in observations}),
+        "correlation_note": "Different lines and markets of one fixture are correlated; checkpoints must consider distinct fixtures.",
         "groups": summary,
         "policy": {
             "n_lt_50": "observe_only",
@@ -157,17 +173,15 @@ def rebuild_summary():
         "kb_n_effect": 0,
         "dev_n_effect": 0,
     }
-    (OUTDIR / "_summary.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write(OUTDIR / "_summary.json", dumps(payload))
     return len(observations)
 
 
 def main():
-    if not SRC.exists():
-        print(json.dumps({"date": TARGET, "status": "no-freeze"}))
+    positions = frozen_candidates(TARGET)
+    if not positions:
+        print(json.dumps({"date": TARGET, "status": "no-verified-prematch-predictions"}))
         return
-
-    freeze = json.loads(SRC.read_text(encoding="utf-8"))
-    positions = freeze.get("top_positions") or []
     observations, errors, cache = [], [], {}
 
     for item in positions:
@@ -177,9 +191,13 @@ def main():
         if fid not in cache:
             try:
                 fp, _ = v2.api_get("fixtures", id=fid)
-                fixtures = [] if fp.get("errors") else fp.get("response", [])
+                if fp.get("errors"):
+                    raise RuntimeError(json.dumps(fp["errors"]))
+                fixtures = fp.get("response", [])
                 sp, _ = v2.api_get("fixtures/statistics", fixture=fid)
-                blocks = [] if sp.get("errors") else sp.get("response", [])
+                if sp.get("errors"):
+                    raise RuntimeError(json.dumps(sp["errors"]))
+                blocks = sp.get("response", [])
                 cache[fid] = (fixtures[0] if fixtures else {}, blocks)
             except Exception as exc:
                 errors.append({"fixture_id": fid, "error": str(exc)})
@@ -200,6 +218,16 @@ def main():
         final_status = item.get("final_status") or "LEGACY"
         row = {
             "date": TARGET,
+            "observation_id": item["observation_id"],
+            "prediction_id": item["prediction_id"],
+            "prediction_path": item["prediction_path"],
+            "captured_at_utc": item["captured_at_utc"],
+            "model_version": item["model_version"],
+            "training_eligible": item["training_eligible"],
+            "published": item["published"],
+            "ever_published": item["ever_published"],
+            "team_id": item["team_id"],
+            "kickoff": item.get("kickoff"),
             "fixture_id": fid,
             "selection": item.get("selection"),
             "competition": item.get("competition"),
@@ -209,6 +237,10 @@ def main():
             "actual": actual,
             "hit": hit,
             "api_pure_pct": item.get("api_pure_pct"),
+            "competition_adjusted_pct": item.get("competition_adjusted_pct"),
+            "samples": item.get("samples"),
+            "context": item.get("context"),
+            "market_data": item.get("market_data"),
             "reliability_adjusted_pct": item.get("reliability_adjusted_pct", item.get("api_pure_pct")),
             "market_adjusted_pct": item.get("market_adjusted_pct", item.get("api_pure_pct")),
             "market_delta_pp": item.get("market_delta_pp", 0),
@@ -224,16 +256,19 @@ def main():
 
     OUTDIR.mkdir(parents=True, exist_ok=True)
     out = OUTDIR / f"{TARGET}.json"
-    out.write_text(json.dumps({
-        "schema": "api-market-settlement-v1",
+    previous = json.loads(out.read_text(encoding="utf-8")).get("observations", []) if out.exists() else []
+    merged = {x["observation_id"]: x for x in previous if x.get("observation_id")}
+    merged.update({x["observation_id"]: x for x in observations})
+    atomic_write(out, dumps({
+        "schema": "api-market-settlement-v2",
         "date": TARGET,
-        "source_schema": freeze.get("schema"),
-        "observations": observations,
+        "source": "immutable-pre-match-publications",
+        "observations": sorted(merged.values(), key=lambda x: x["observation_id"]),
         "errors": errors,
         "isolation": "API_ONLY_NO_KB_SCORE_CORE_WRITES",
         "kb_n_effect": 0,
         "dev_n_effect": 0,
-    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    }))
     total = rebuild_summary()
     print(json.dumps({"date": TARGET, "settled": len(observations), "errors": len(errors), "calibration_total": total, "output": str(out)}, ensure_ascii=False))
 

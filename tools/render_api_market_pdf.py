@@ -11,6 +11,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from api_market_policy import load_policy, target_date
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
@@ -22,7 +23,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 WARSAW = ZoneInfo("Europe/Warsaw")
-TARGET = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].strip() else datetime.now(WARSAW).date().isoformat()
+TARGET = target_date(sys.argv[1] if len(sys.argv) > 1 else None)
 SOURCE = Path("data/api_football/market_scan") / f"{TARGET}.json"
 OUT_DIR = Path("reports/api_market_scan")
 OUTPUT = OUT_DIR / f"API_MARKET_SCAN_{TARGET}.pdf"
@@ -103,12 +104,16 @@ def build_pdf(payload):
     comment_style = ParagraphStyle("Comment", parent=styles["BodyText"], fontName=regular, fontSize=8.2, leading=10.4, textColor=colors.HexColor("#374151"), spaceAfter=0)
 
     positions = payload.get("top_positions") or []
+    policy = (payload.get("publication") or {}).get("policy") or load_policy()
+    floor = policy["publish_min_final_pct"]
     story = [
         Paragraph(f"API MARKET SCAN - {safe(TARGET)}", title),
         Paragraph(
             f"Nierozpoczęte mecze: <b>{payload.get('fixtures_scanned', 0)}</b> &nbsp;&nbsp; | &nbsp;&nbsp; "
             f"historia: <b>{payload.get('history_matches_loaded', 0)}</b> meczów &nbsp;&nbsp; | &nbsp;&nbsp; pozycje: <b>{len(positions)}</b><br/>"
-            "Profil użytkowy: <b>STS</b>. API PURE = czysta historia. Ocena końcowa = wynik po sprawdzeniu wiarygodności próby, rodzaju rozgrywek, rynku i dostępnego bieżącego kontekstu.",
+            f"<b>Próg oceny końcowej: {floor:g}/100. Bez limitu liczby pozycji.</b><br/>"
+            "Najpierw praktyczne linie z notowaniami; dalej pozycje wymagające sprawdzenia dostępności.<br/>"
+            "API PURE = pokrycie historyczne. Ocena końcowa uwzględnia wiarygodność próby, rozgrywki, bieżący rynek i dostępny kontekst meczowy.",
             subtitle,
         ),
     ]
@@ -120,14 +125,14 @@ def build_pdf(payload):
             pure = item.get("api_pure_pct")
             final = item.get("final_assessment_pct", item.get("market_adjusted_pct", pure))
             delta = float(final or pure or 0) - float(pure or 0)
-            status = item.get("final_status") or fallback_signal(item.get("market_signal"))
+            availability = (item.get("sts_availability") or {}).get("label", "Dostępność w STS niepotwierdzona.")
             comment = item.get("final_comment") or item.get("market_comment") or ""
             color = "#166534" if delta > 0.4 else "#B91C1C" if delta < -0.4 else "#374151"
             block = [
                 Paragraph(f"{idx}. {safe(item.get('selection'))}", heading),
                 Paragraph(f"{safe(item.get('home'))} - {safe(item.get('away'))} ({safe(item.get('competition'))})", match_style),
-                Paragraph(f"<b>API PURE:</b> {pct(pure)} &nbsp;&nbsp;&nbsp; <b>Ocena końcowa:</b> <font color='{color}'><b>{pct(final)} {arrow(delta)}</b>{delta_text(delta)}</font>", metric_style),
-                Paragraph(f"<b>Status:</b> {safe(status)}", metric_style),
+                Paragraph(f"<b>API PURE:</b> {pct(pure)} &nbsp;&nbsp;&nbsp; <b>Ocena końcowa:</b> <font color='{color}'><b>{float(final):.1f}/100 {arrow(delta)}</b>{delta_text(delta)}</font>", metric_style),
+                Paragraph(f"<b>Dostępność:</b> {safe(availability)}", match_style),
                 Paragraph(f"<b>Komentarz:</b> {safe(comment)}", comment_style),
             ]
             box = Table([[block]], colWidths=[A4[0] - 28 * mm], hAlign="LEFT")
@@ -148,7 +153,9 @@ def build_pdf(payload):
             "<b>API PURE</b> - surowy wynik z historii i statystyk, bez późniejszych korekt. "
             "<b>Ocena końcowa</b> - konserwatywna ocena po sprawdzeniu wiarygodności próby, rodzaju rozgrywek, rynku i dostępnego bieżącego kontekstu. "
             "<b>↑ / ↓ / →</b> - ocena końcowa jest odpowiednio wyższa, niższa albo podobna do API PURE. "
-            "<b>STRONG</b> oznacza najmocniejsze pozycje; <b>ACCEPT</b> - pozycje spełniające warunki publikacji. "
+            f"Lista obejmuje wszystkie pozycje z oceną końcową od {floor:g}, uporządkowane według dostępności linii, a w każdej grupie malejąco po ocenie. "
+            "Ocena /100 jest wskaźnikiem modelu, kalibrowanym na jego własnych wynikach. "
+            "Oznaczenie dostępności pomaga znaleźć praktyczne rynki, ale oferta STS wymaga sprawdzenia. "
             "<b>Komentarz</b> prostym językiem mówi, co najbardziej wpłynęło na ocenę. "
             "Pełna warstwa techniczna pozostaje w GitHubie. Raport jest osobny od KB Score 2.1 CORE i nie zmienia jego ustawień ani N.",
             comment_style,

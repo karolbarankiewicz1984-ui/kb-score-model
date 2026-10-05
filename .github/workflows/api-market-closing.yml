@@ -10,6 +10,9 @@ on:
         required: false
         type: string
 
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
 permissions:
   contents: write
 
@@ -41,6 +44,7 @@ jobs:
       - name: Commit closing snapshot
         shell: bash
         run: |
+          python tools/api_market_integrity.py
           if [ -z "$(git status --porcelain -- data/api_football/closing_snapshots)" ]; then
             echo "No closing snapshot to commit."
             exit 0

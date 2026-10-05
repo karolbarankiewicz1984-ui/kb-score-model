@@ -16,13 +16,19 @@ on:
     - cron: '30 8 * * *'
     - cron: '30 9 * * *'
   push:
+    branches: [main]
     paths:
       - ".github/workflows/api-market-scan.yml"
-      - "tools/api_market_scan.py"
+      - "tools/api_market*.py"
+      - "config/api_market.json"
+      - "tests/test_api_market*.py"
       - "tools/api_market_v3_enrich.py"
       - "tools/api_national_today_prefetch.py"
       - "tools/api_market_report_diversify.py"
       - "tools/render_api_market_pdf.py"
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
 
 permissions:
   contents: write
@@ -46,21 +52,21 @@ jobs:
           RUN_SCAN=yes
           RENDER_PDF=yes
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            UTC_HOUR=$(date -u +%H)
-            LOCAL_HOUR=$(TZ=Europe/Warsaw date +%H)
-            # Early runs collect only market movement. The final local 10:30 run
-            # refreshes full national-team history, enriches v3 and generates PDF.
-            if [ "$LOCAL_HOUR" != "10" ]; then
-              RENDER_PDF=no
-            fi
-            # Of the 08:30/09:30 UTC pair, keep only the one landing at 10:30 Poland time.
-            if { [ "$UTC_HOUR" = "08" ] || [ "$UTC_HOUR" = "09" ]; } && [ "$LOCAL_HOUR" != "10" ]; then
-              RUN_SCAN=no
-              RENDER_PDF=no
-            fi
+            OFFSET=$(TZ=Europe/Warsaw date +%z)
+            SLOT="${{ github.event.schedule }}"
+            RENDER_PDF=no
+            case "$SLOT" in
+              '30 8 * * *')
+                if [ "$OFFSET" = "+0200" ]; then RENDER_PDF=yes; else RUN_SCAN=no; fi ;;
+              '30 9 * * *')
+                if [ "$OFFSET" = "+0100" ]; then RENDER_PDF=yes; else RUN_SCAN=no; fi ;;
+            esac
           fi
           echo "run_scan=$RUN_SCAN" >> "$GITHUB_OUTPUT"
           echo "render_pdf=$RENDER_PDF" >> "$GITHUB_OUTPUT"
+
+      - name: Test API calculations, publication and isolation
+        run: python -B -m unittest discover -s tests -p "test_api_market*.py"
 
       - name: Verify API secret
         if: steps.slot.outputs.run_scan == 'yes'
@@ -104,7 +110,7 @@ jobs:
             python tools/api_market_v3_enrich.py
           fi
 
-      - name: Diversify user-facing positions
+      - name: Freeze and publish unlimited API ranking
         if: steps.slot.outputs.render_pdf == 'yes'
         shell: bash
         run: |
@@ -132,7 +138,8 @@ jobs:
         if: steps.slot.outputs.run_scan == 'yes'
         shell: bash
         run: |
-          TRACKED="data/api_football/market_scan data/api_football/market_snapshots data/api_football/national_dynamic data/api_football/international_5m/national reports/api_market_scan"
+          python tools/api_market_integrity.py
+          TRACKED="data/api_football/predictions data/api_football/market_scan data/api_football/market_snapshots data/api_football/national_dynamic data/api_football/international_5m/national reports/api_market_scan"
           if git diff --quiet -- $TRACKED && [ -z "$(git status --porcelain -- $TRACKED)" ]; then
             echo "No scan changes to commit."
             exit 0
