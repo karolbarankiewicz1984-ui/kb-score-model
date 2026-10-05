@@ -10,11 +10,11 @@ on:
         required: false
         type: string
   schedule:
-    # Early market snapshots, then a final run near 11:05 Europe/Warsaw.
+    # Early market snapshots, then a final run near 10:30 Europe/Warsaw.
     - cron: '5 4 * * *'
     - cron: '5 7 * * *'
-    - cron: '5 9 * * *'
-    - cron: '5 10 * * *'
+    - cron: '30 8 * * *'
+    - cron: '30 9 * * *'
   push:
     paths:
       - ".github/workflows/api-market-scan.yml"
@@ -46,13 +46,13 @@ jobs:
           if [ "${{ github.event_name }}" = "schedule" ]; then
             UTC_HOUR=$(date -u +%H)
             LOCAL_HOUR=$(TZ=Europe/Warsaw date +%H)
-            # Early runs collect only market movement. The final local 11:05 run
+            # Early runs collect only market movement. The final local 10:30 run
             # enriches the freeze with v3 layers and generates the user PDF.
-            if [ "$LOCAL_HOUR" != "11" ]; then
+            if [ "$LOCAL_HOUR" != "10" ]; then
               RENDER_PDF=no
             fi
-            # Of the 09:05/10:05 UTC pair, keep only the one landing at 11:05 Poland time.
-            if { [ "$UTC_HOUR" = "09" ] || [ "$UTC_HOUR" = "10" ]; } && [ "$LOCAL_HOUR" != "11" ]; then
+            # Of the 08:30/09:30 UTC pair, keep only the one landing at 10:30 Poland time.
+            if { [ "$UTC_HOUR" = "08" ] || [ "$UTC_HOUR" = "09" ]; } && [ "$LOCAL_HOUR" != "10" ]; then
               RUN_SCAN=no
               RENDER_PDF=no
             fi
