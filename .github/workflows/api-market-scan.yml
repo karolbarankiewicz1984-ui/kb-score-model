@@ -8,8 +8,11 @@ on:
         required: false
         type: string
   schedule:
-    # 09:05 UTC = 11:05 CEST / 10:05 CET. Kept ahead of the 11:30 KB Score routine.
+    # Early market snapshots, then a final run near 11:05 Europe/Warsaw.
+    - cron: '5 4 * * *'
+    - cron: '5 7 * * *'
     - cron: '5 9 * * *'
+    - cron: '5 10 * * *'
   push:
     paths:
       - ".github/workflows/api-market-scan.yml"
@@ -30,12 +33,29 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Resolve scheduled slot
+        id: slot
+        shell: bash
+        run: |
+          RUN_SCAN=yes
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            UTC_HOUR=$(date -u +%H)
+            LOCAL_HOUR=$(TZ=Europe/Warsaw date +%H)
+            # Of the 09:05/10:05 UTC pair, keep only the run that lands at 11:05 in Poland.
+            if { [ "$UTC_HOUR" = "09" ] || [ "$UTC_HOUR" = "10" ]; } && [ "$LOCAL_HOUR" != "11" ]; then
+              RUN_SCAN=no
+            fi
+          fi
+          echo "run_scan=$RUN_SCAN" >> "$GITHUB_OUTPUT"
+
       - name: Verify API secret
+        if: steps.slot.outputs.run_scan == 'yes'
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
         run: test -n "$API_FOOTBALL_KEY"
 
-      - name: Build API Market Scan
+      - name: Build API Market Scan v2
+        if: steps.slot.outputs.run_scan == 'yes'
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
         shell: bash
@@ -46,16 +66,17 @@ jobs:
             python tools/api_market_scan.py
           fi
 
-      - name: Commit scan output
+      - name: Commit scan output and market snapshot
+        if: steps.slot.outputs.run_scan == 'yes'
         shell: bash
         run: |
-          if git diff --quiet -- data/api_football/market_scan reports/api_market_scan && [ -z "$(git status --porcelain -- data/api_football/market_scan reports/api_market_scan)" ]; then
+          if git diff --quiet -- data/api_football/market_scan data/api_football/market_snapshots reports/api_market_scan && [ -z "$(git status --porcelain -- data/api_football/market_scan data/api_football/market_snapshots reports/api_market_scan)" ]; then
             echo "No scan changes to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/api_football/market_scan reports/api_market_scan
-          git commit -m "report: API Market Scan"
+          git add data/api_football/market_scan data/api_football/market_snapshots reports/api_market_scan
+          git commit -m "report: API Market Scan v2"
           git pull --rebase origin main
           git push origin main
