@@ -1,0 +1,53 @@
+name: API Market Closing Snapshot
+
+on:
+  schedule:
+    - cron: '15 * * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Date YYYY-MM-DD; blank = today"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: api-market-closing
+  cancel-in-progress: false
+
+jobs:
+  closing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify API secret
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: test -n "$API_FOOTBALL_KEY"
+      - name: Collect near-kickoff market
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            python tools/api_market_closing.py "${{ inputs.date }}"
+          else
+            python tools/api_market_closing.py
+          fi
+      - name: Commit closing snapshot
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- data/api_football/closing_snapshots)" ]; then
+            echo "No closing snapshot to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/api_football/closing_snapshots
+          git commit -m "data: closing market snapshot"
+          git pull --rebase origin main
+          git push origin main
