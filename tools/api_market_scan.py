@@ -454,6 +454,21 @@ def market_key(candidate):
     return f"{candidate['fixture_id']}|{candidate['team_id']}|{candidate['market']}|{candidate['line']:.1f}"
 
 
+def sts_line_preference(market, line):
+    """Prefer practical STS-like lines within the same team/market family.
+
+    This affects which candidate line is carried forward, not the API PURE
+    calculation itself. Unknown/specialist markets keep neutral preference.
+    """
+    line = float(line)
+    preferences = {
+        "yellow": {1.5: 5, 2.5: 4, 3.5: 3, 0.5: 0},
+        "corners": {3.5: 5, 4.5: 4, 5.5: 3, 6.5: 2, 7.5: 1, 2.5: 0},
+        "team_goals": {0.5: 5, 1.5: 4, 2.5: 3},
+    }
+    return preferences.get(market, {}).get(line, 1)
+
+
 def load_prior_market_probabilities(target):
     folder = OUT_SNAPSHOTS / target
     prior = {}
@@ -667,11 +682,12 @@ def main():
         key = (item["fixture_id"], item["team_id"], item["market"])
         old = best_by_market.get(key)
         offered = 1 if item["market_data"].get("exact_line_available") else 0
-        rank = (offered, item["market_adjusted_pct"], item["api_pure_pct"], item["confidence_api"], item["line"])
+        practical = sts_line_preference(item["market"], item["line"])
+        rank = (practical, offered, item["market_adjusted_pct"], item["api_pure_pct"], item["confidence_api"], item["line"])
         if old is None:
             best_by_market[key] = item
         else:
-            old_rank = (1 if old["market_data"].get("exact_line_available") else 0, old["market_adjusted_pct"], old["api_pure_pct"], old["confidence_api"], old["line"])
+            old_rank = (sts_line_preference(old["market"], old["line"]), 1 if old["market_data"].get("exact_line_available") else 0, old["market_adjusted_pct"], old["api_pure_pct"], old["confidence_api"], old["line"])
             if rank > old_rank:
                 best_by_market[key] = item
 

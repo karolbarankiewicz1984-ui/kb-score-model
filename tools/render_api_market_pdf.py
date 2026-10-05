@@ -108,7 +108,7 @@ def build_pdf(payload):
         Paragraph(
             f"Nierozpoczęte mecze: <b>{payload.get('fixtures_scanned', 0)}</b> &nbsp;&nbsp; | &nbsp;&nbsp; "
             f"historia: <b>{payload.get('history_matches_loaded', 0)}</b> meczów &nbsp;&nbsp; | &nbsp;&nbsp; pozycje: <b>{len(positions)}</b><br/>"
-            "API PURE = czysta historia. Ocena końcowa = wynik po sprawdzeniu wiarygodności próby, rodzaju rozgrywek, rynku i dostępnego bieżącego kontekstu.",
+            "Profil użytkowy: <b>STS</b>. API PURE = czysta historia. Ocena końcowa = wynik po sprawdzeniu wiarygodności próby, rodzaju rozgrywek, rynku i dostępnego bieżącego kontekstu.",
             subtitle,
         ),
     ]
