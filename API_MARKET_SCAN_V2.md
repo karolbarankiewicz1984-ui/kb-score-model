@@ -113,7 +113,26 @@ Przed głównym skanem zapisywane są wcześniejsze snapshoty rynku. Ostatni zap
 
 Zmiana czasu letni/zimowy jest obsługiwana przez sprawdzanie lokalnej godziny Europe/Warsaw w workflow.
 
-## 10. Zasada dalszego rozwoju
+## 10. Codzienny raport PDF
+
+Finalny przebieg około 11:05 generuje jeden krótki raport użytkowy:
+
+`reports/api_market_scan/API_MARKET_SCAN_YYYY-MM-DD.pdf`
+
+PDF jest warstwą prezentacyjną i nie wykonuje ponownego liczenia modelu. Czyta gotowy JSON z API Market Scan v2 i pokazuje:
+
+- mecz i pozycję,
+- `API PURE`,
+- `Po analizie rynku`,
+- kierunek i wielkość zmiany,
+- opisowy sygnał rynku,
+- krótki komentarz.
+
+Pełne L5/L10/L15, notowania bukmacherów, odmarżowione prawdopodobieństwa i snapshoty pozostają w JSON. Wcześniejsze snapshoty w ciągu dnia nie generują osobnych PDF-ów. Ręczne uruchomienie workflow może wygenerować PDF testowy dla wskazanej daty.
+
+PDF pozostaje osobny od codziennego `KB Score 2.1 CORE` PDF.
+
+## 11. Zasada dalszego rozwoju
 
 Najpierw zbieramy historię:
 
