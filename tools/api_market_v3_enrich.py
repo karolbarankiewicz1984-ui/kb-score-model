@@ -407,11 +407,21 @@ def main():
     fixtures_all = fixtures_payload.get("response", []) if not fixtures_payload.get("errors") else []
     fixture_map = {g.get("fixture", {}).get("id"): g for g in fixtures_all}
 
+    raw_positions = base.get("background_candidates") or base.get("top_positions") or []
+    relevant_fixtures = []
+    seen_fixtures = set()
+    for item in raw_positions:
+        fid = item.get("fixture_id")
+        fixture = fixture_map.get(fid)
+        if fixture and fid not in seen_fixtures:
+            relevant_fixtures.append(fixture)
+            seen_fixtures.add(fid)
+
     base_rows = v2.load_rows()
-    national_refresh = refresh_national_history(fixtures_all, base_rows)
+    # Build dynamic last-20 history only for teams that survived the raw API PURE sieve.
+    national_refresh = refresh_national_history(relevant_fixtures, base_rows)
     rows = merge_rows(base_rows, load_dynamic_rows())
 
-    raw_positions = base.get("background_candidates") or base.get("top_positions") or []
     context = fetch_context(fixture_map, raw_positions)
     prior = v2.load_prior_market_probabilities(TARGET)
     enriched = []
