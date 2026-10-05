@@ -517,7 +517,7 @@ def apply_market_overlay(candidate, market, prior):
         "market_delta_pp": delta,
         "market_signal": signal,
         "market_reliability": reliability,
-        "market": market,
+        "market_data": market,
         "market_movement_pp": movement_pp,
         "market_comment": market_comment(delta, market, reliability, movement_pp),
     })
@@ -661,19 +661,19 @@ def main():
     for item in enriched:
         key = (item["fixture_id"], item["team_id"], item["market"])
         old = best_by_market.get(key)
-        offered = 1 if item["market"].get("exact_line_available") else 0
+        offered = 1 if item["market_data"].get("exact_line_available") else 0
         rank = (offered, item["market_adjusted_pct"], item["api_pure_pct"], item["confidence_api"], item["line"])
         if old is None:
             best_by_market[key] = item
         else:
-            old_rank = (1 if old["market"].get("exact_line_available") else 0, old["market_adjusted_pct"], old["api_pure_pct"], old["confidence_api"], old["line"])
+            old_rank = (1 if old["market_data"].get("exact_line_available") else 0, old["market_adjusted_pct"], old["api_pure_pct"], old["confidence_api"], old["line"])
             if rank > old_rank:
                 best_by_market[key] = item
 
     ranked = sorted(
         best_by_market.values(),
         key=lambda c: (
-            1 if c["market"].get("exact_line_available") else 0,
+            1 if c["market_data"].get("exact_line_available") else 0,
             c["market_adjusted_pct"], c["api_pure_pct"], c["confidence_api"]
         ),
         reverse=True,
