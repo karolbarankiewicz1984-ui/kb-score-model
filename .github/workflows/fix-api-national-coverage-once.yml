@@ -1,0 +1,70 @@
+name: Fix API national coverage once
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-api-national-coverage-once.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch API scan and v3 publishing
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('tools/api_market_scan.py')
+          s = p.read_text(encoding='utf-8')
+          old = '''    files += list(Path("data/api_football/international_5m/club").glob("*.json"))
+    files += list(Path("data/api_football/international_5m/national").glob("*.json"))
+'''
+          new = '''    files += list(Path("data/api_football/international_5m/club").glob("*.json"))
+    files += list(Path("data/api_football/international_5m/national").glob("*.json"))
+    # Dynamic last-20 national-team cache is populated before the final daily sieve.
+    files += list(Path("data/api_football/national_dynamic").glob("team_*.json"))
+'''
+          if old not in s:
+              raise SystemExit('api_market_scan load_rows target not found')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+
+          p = Path('tools/api_market_v3_enrich.py')
+          s = p.read_text(encoding='utf-8')
+          old = '''    enriched.sort(key=lambda x: ({"STRONG": 2, "ACCEPT": 1, "WATCH": 0}[x["final_status"]], x["final_assessment_pct"], x["reliability_adjusted_pct"], x["confidence_api"]), reverse=True)
+    published = [x for x in enriched if x["final_status"] in {"STRONG", "ACCEPT"} and x["final_assessment_pct"] >= MIN_PUBLISH_FINAL][:MAX_PUBLISH]
+'''
+          new = '''    enriched.sort(key=lambda x: ({"STRONG": 2, "ACCEPT": 1, "WATCH": 0}[x["final_status"]], x["final_assessment_pct"], x["reliability_adjusted_pct"], x["confidence_api"]), reverse=True)
+
+    # Keep the user report useful and diversified: at most two published positions
+    # from the same fixture. We never backfill with weaker WATCH positions.
+    published = []
+    per_fixture = {}
+    for x in enriched:
+        if x["final_status"] not in {"STRONG", "ACCEPT"} or x["final_assessment_pct"] < MIN_PUBLISH_FINAL:
+            continue
+        fid = x.get("fixture_id")
+        if per_fixture.get(fid, 0) >= 2:
+            continue
+        published.append(x)
+        per_fixture[fid] = per_fixture.get(fid, 0) + 1
+        if len(published) >= MAX_PUBLISH:
+            break
+'''
+          if old not in s:
+              raise SystemExit('api_market_v3 publish target not found')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Commit and self-remove
+        shell: bash
+        run: |
+          rm .github/workflows/fix-api-national-coverage-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tools/api_market_scan.py tools/api_market_v3_enrich.py .github/workflows/fix-api-national-coverage-once.yml
+          git commit -m "fix: broaden national API coverage and cap per-fixture publication"
+          git pull --rebase origin main
+          git push origin main
