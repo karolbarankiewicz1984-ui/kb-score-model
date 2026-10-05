@@ -1,0 +1,40 @@
+name: API-Football odds reference sync
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/api-football-odds-reference.yml"
+      - "tools/api_football_odds_reference.py"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify API secret
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: test -n "$API_FOOTBALL_KEY"
+      - name: Sync odds references
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: python tools/api_football_odds_reference.py
+      - name: Commit reference data
+        shell: bash
+        run: |
+          if git diff --quiet -- data/api_football/reference && [ -z "$(git status --porcelain -- data/api_football/reference)" ]; then
+            echo "No reference changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/api_football/reference
+          git commit -m "data: sync API-Football odds references"
+          git pull --rebase origin main
+          git push origin main
