@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-"""API Market Scan — separate statistical layer for KB Score project.
+"""API Market Scan v2 — PURE history plus a separate pre-match market overlay.
 
-Reads locally stored API-Football history, fetches fixtures for a target day and
-ranks team-market candidates by historical coverage. This module NEVER changes
-KB Score 2.1 CORE, KB/DEV registers, model parameters, KB N or DEV N.
+The script deliberately keeps two values:
+  1) API PURE: historical coverage calculated only from stored match statistics.
+  2) MARKET ADJUSTED: a conservative overlay from current bookmaker consensus
+     and, when available, line movement between our own saved odds snapshots.
 
-Output:
+It NEVER changes KB Score 2.1 CORE, KB/DEV registers, model parameters, KB N or
+DEV N. Market data can change only the separate MARKET ADJUSTED field.
+
+Outputs:
   data/api_football/market_scan/YYYY-MM-DD.json
+  data/api_football/market_snapshots/YYYY-MM-DD/*.json
   reports/api_market_scan/YYYY-MM-DD.md
 """
 from __future__ import annotations
@@ -14,19 +19,21 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 import sys
 import urllib.parse
 import urllib.request
-from collections import defaultdict
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
+from statistics import median, pstdev
 
 BASE = "https://v3.football.api-sports.io"
 KEY = os.environ.get("API_FOOTBALL_KEY")
-TARGET = sys.argv[1] if len(sys.argv) > 1 else date.today().isoformat()
+TARGET = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else date.today().isoformat()
 
 OUT_JSON = Path("data/api_football/market_scan")
 OUT_MD = Path("reports/api_market_scan")
+OUT_SNAPSHOTS = Path("data/api_football/market_snapshots")
 
 DOMESTIC = {
     ("England", "Premier League"), ("Spain", "La Liga"), ("Italy", "Serie A"),
@@ -44,8 +51,7 @@ NATIONAL = {
     "Euro Championship - Qualification", "UEFA Nations League", "Friendlies",
 }
 
-# Statistical lines only — no bookmaker-settlement assumptions are hidden.
-# Cards are explicitly YELLOW cards, not bookmaker card-points.
+# PURE lines we are willing to evaluate. Half-lines avoid push ambiguity.
 MARKETS = {
     "team_goals": {"label": "gole drużyny", "lines": [0.5, 1.5, 2.5]},
     "yellow": {"label": "żółte kartki drużyny", "lines": [0.5, 1.5, 2.5, 3.5]},
@@ -57,11 +63,26 @@ MARKETS = {
     "goalkeeper_saves": {"label": "interwencje bramkarza", "lines": [1.5, 2.5, 3.5, 4.5, 5.5]},
 }
 
+# Exact API-Football pre-match bet IDs, synced from /odds/bets.
+# PURE yellow cards are matched only to yellow-card markets, not generic card points.
+BET_IDS = {
+    "team_goals": {"home": 16, "away": 17},             # Total - Home/Away
+    "yellow": {"home": 150, "away": 151},              # Home/Away Team Yellow Cards
+    "corners": {"home": 57, "away": 58},               # Home/Away Corners O/U
+    "fouls": {"home": 171, "away": 170},               # Fouls Home/Away Total
+    "shots": {"home": 221, "away": 220},               # Shots Home/Away Total
+    "shots_on_goal": {"home": 88, "away": 89},         # Home/Away Total ShotOnGoal
+    "offsides": {"home": 167, "away": 168},            # Offsides Home/Away Total
+    "goalkeeper_saves": {"home": 268, "away": 274},    # Home/Away Goalkeeper Saves
+}
+
 MIN_COMBINED = 72.0
 MIN_OWN_L10 = 60.0
 MIN_OPP_L10 = 50.0
 MIN_SIDE_SAMPLE = 7
 TOP_N = 10
+MAX_MARKET_ADJUSTMENT_PP = 10.0
+MAX_MOVEMENT_COMPONENT_PP = 2.0
 
 
 def api_get(endpoint: str, **params):
@@ -71,6 +92,23 @@ def api_get(endpoint: str, **params):
     req = urllib.request.Request(url, headers={"x-apisports-key": KEY})
     with urllib.request.urlopen(req, timeout=40) as response:
         return json.load(response), {k.lower(): v for k, v in response.headers.items()}
+
+
+def api_get_all_pages(endpoint: str, **params):
+    page = 1
+    merged = []
+    last_headers = {}
+    while True:
+        payload, last_headers = api_get(endpoint, page=page, **params)
+        if payload.get("errors"):
+            return payload, last_headers
+        merged.extend(payload.get("response", []))
+        paging = payload.get("paging") or {}
+        total = int(paging.get("total") or 1)
+        if page >= total:
+            break
+        page += 1
+    return {"errors": [], "response": merged, "pages": page}, last_headers
 
 
 def competition_category(league: dict) -> str | None:
@@ -129,7 +167,6 @@ def load_rows():
                 continue
             row = dict(row)
             row["_category"] = cat
-            # Prefer a record with detailed team blocks if duplicates exist.
             old = by_id.get(fid)
             if old is None or len(row.get("teams") or []) > len(old.get("teams") or []):
                 by_id[fid] = row
@@ -140,7 +177,6 @@ def team_block(row: dict, team_id: int):
     for block in row.get("teams") or []:
         if block.get("team_id") == team_id:
             return block
-    # Older domestic rows may not have team_id inside blocks; resolve by home/away order/name.
     h_id, a_id = row.get("home_id"), row.get("away_id")
     blocks = row.get("teams") or []
     if len(blocks) == 2:
@@ -168,9 +204,7 @@ def metric_value(row: dict, team_id: int, market: str):
             return goals.get("away")
         return None
     block = team_block(row, team_id)
-    if not block:
-        return None
-    return block.get(market)
+    return block.get(market) if block else None
 
 
 def team_history(rows, team_id: int, fixture_dt: datetime, scope: str):
@@ -270,7 +304,6 @@ def build_candidate(rows, fixture, team_side: str, market: str, line: float):
     own_vals = [metric_value(row, team_id, market) for row in own_hist]
     own_vals = [v for v in own_vals if isinstance(v, (int, float))]
     allowed_vals = opponent_allowed_values(opp_hist, opp_id, market)
-
     if len(own_vals) < MIN_SIDE_SAMPLE or len(allowed_vals) < MIN_SIDE_SAMPLE:
         return None
 
@@ -280,21 +313,15 @@ def build_candidate(rows, fixture, team_side: str, market: str, line: float):
     opp_score = weighted_windows(opp_w)
     if own_score is None or opp_score is None:
         return None
-
-    own_l10 = own_w.get("L10")
-    opp_l10 = opp_w.get("L10")
-    if not own_l10 or not opp_l10 or own_l10["pct"] < MIN_OWN_L10 or opp_l10["pct"] < MIN_OPP_L10:
+    if own_w["L10"]["pct"] < MIN_OWN_L10 or opp_w["L10"]["pct"] < MIN_OPP_L10:
         return None
 
     venue_vals = venue_values(own_hist, team_id, market, team_side == "home")
     venue = coverage(venue_vals, line, 10) if len(venue_vals) >= 4 else None
-
-    # Primary coverage: own trend has greatest weight, opponent allowance confirms it.
     if venue:
         combined = 0.55 * own_score + 0.35 * opp_score + 0.10 * venue["pct"]
     else:
         combined = 0.61 * own_score + 0.39 * opp_score
-
     if combined < MIN_COMBINED:
         return None
 
@@ -330,8 +357,8 @@ def build_candidate(rows, fixture, team_side: str, market: str, line: float):
         "market_label": MARKETS[market]["label"],
         "line": line,
         "selection": f"{team.get('name')} over {line:.1f} — {MARKETS[market]['label']}",
-        "coverage_pct": round(combined, 1),
-        "confidence_kb_api": round(confidence, 1),
+        "api_pure_pct": round(combined, 1),
+        "confidence_api": round(confidence, 1),
         "scope": scope_label,
         "own": own_w,
         "opponent_allowed": opp_w,
@@ -341,82 +368,356 @@ def build_candidate(rows, fixture, team_side: str, market: str, line: float):
     }
 
 
-def fmt_window(block, key):
-    item = block.get(key) if block else None
-    if not item:
-        return "—"
-    return f"{item['hits']}/{item['n']} ({item['pct']:.0f}%)"
+def parse_decimal(value):
+    try:
+        x = float(str(value).replace(",", "."))
+        return x if x > 1.0 else None
+    except Exception:
+        return None
 
 
-def explanation(candidate):
-    parts = [
-        f"własne L15 {fmt_window(candidate['own'], 'L15')}",
-        f"rywal dopuszcza L15 {fmt_window(candidate['opponent_allowed'], 'L15')}",
-    ]
-    if candidate.get("venue"):
-        v = candidate["venue"]
-        parts.append(f"dom/wyjazd {v['hits']}/{v['n']} ({v['pct']:.0f}%)")
-    if candidate.get("europe_only") and candidate["europe_only"].get("L10"):
-        parts.append(f"Europa L10 {fmt_window(candidate['europe_only'], 'L10')}")
-    return "; ".join(parts) + "."
+def parse_ou_value(value, handicap=None):
+    text = str(value or "").strip()
+    low = text.lower()
+    side = "over" if "over" in low else "under" if "under" in low else None
+    if not side:
+        return None, None
+    numbers = re.findall(r"[-+]?\d+(?:[\.,]\d+)?", text)
+    if numbers:
+        line = float(numbers[-1].replace(",", "."))
+    else:
+        try:
+            line = float(str(handicap).replace(",", ".")) if handicap is not None else None
+        except Exception:
+            line = None
+    return side, line
+
+
+def extract_market_quotes(odds_response, candidate):
+    bet_id = BET_IDS[candidate["market"]][candidate["team_side"]]
+    target_line = float(candidate["line"])
+    books = []
+    offered_books = 0
+
+    for fixture_block in odds_response:
+        for bookmaker in fixture_block.get("bookmakers") or []:
+            bname = bookmaker.get("name") or f"bookmaker-{bookmaker.get('id')}"
+            for bet in bookmaker.get("bets") or []:
+                if int(bet.get("id") or -1) != bet_id:
+                    continue
+                pair = {"over": None, "under": None}
+                for item in bet.get("values") or []:
+                    side, line = parse_ou_value(item.get("value"), item.get("handicap"))
+                    if side is None or line is None or abs(line - target_line) > 1e-6:
+                        continue
+                    odd = parse_decimal(item.get("odd"))
+                    if odd:
+                        pair[side] = odd
+                if pair["over"] or pair["under"]:
+                    offered_books += 1
+                if pair["over"] and pair["under"]:
+                    raw_over = 1.0 / pair["over"]
+                    raw_under = 1.0 / pair["under"]
+                    devig = raw_over / (raw_over + raw_under)
+                    books.append({
+                        "bookmaker": bname,
+                        "over_odd": round(pair["over"], 4),
+                        "under_odd": round(pair["under"], 4),
+                        "devig_over_probability": round(devig * 100.0, 2),
+                    })
+                break
+
+    probs = [b["devig_over_probability"] for b in books]
+    if not probs:
+        return {
+            "bet_id": bet_id,
+            "exact_line_available": offered_books > 0,
+            "offered_books": offered_books,
+            "paired_books": 0,
+            "market_probability_pct": None,
+            "bookmaker_spread_pp": None,
+            "quotes": [],
+        }
+    spread = pstdev(probs) if len(probs) >= 2 else 0.0
+    return {
+        "bet_id": bet_id,
+        "exact_line_available": True,
+        "offered_books": offered_books,
+        "paired_books": len(books),
+        "market_probability_pct": round(median(probs), 1),
+        "bookmaker_spread_pp": round(spread, 1),
+        "quotes": books,
+    }
+
+
+def market_key(candidate):
+    return f"{candidate['fixture_id']}|{candidate['team_id']}|{candidate['market']}|{candidate['line']:.1f}"
+
+
+def load_prior_market_probabilities(target):
+    folder = OUT_SNAPSHOTS / target
+    prior = {}
+    if not folder.exists():
+        return prior
+    for path in sorted(folder.glob("*.json")):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        for item in payload.get("items", []):
+            p = item.get("market_probability_pct")
+            if p is None:
+                continue
+            key = item.get("key")
+            if key and key not in prior:
+                prior[key] = {"probability": float(p), "snapshot": path.name}
+    return prior
+
+
+def clamp(value, low, high):
+    return max(low, min(high, value))
+
+
+def market_weight(paired_books, spread_pp):
+    if paired_books < 2:
+        return 0.0, "insufficient"
+    if paired_books >= 6 and (spread_pp is None or spread_pp <= 6.0):
+        return 0.35, "strong"
+    if paired_books >= 3 and (spread_pp is None or spread_pp <= 10.0):
+        return 0.25, "medium"
+    return 0.15, "weak"
+
+
+def apply_market_overlay(candidate, market, prior):
+    pure = float(candidate["api_pure_pct"])
+    market_prob = market.get("market_probability_pct")
+    movement_pp = None
+    weight, reliability = market_weight(market.get("paired_books", 0), market.get("bookmaker_spread_pp"))
+
+    key = market_key(candidate)
+    if market_prob is not None and key in prior:
+        movement_pp = round(float(market_prob) - float(prior[key]["probability"]), 1)
+
+    if market_prob is None or weight == 0.0:
+        adjusted = pure
+        delta = 0.0
+        movement_component = 0.0
+    else:
+        consensus_component = (float(market_prob) - pure) * weight
+        movement_component = 0.0 if movement_pp is None else clamp(movement_pp * 0.25, -MAX_MOVEMENT_COMPONENT_PP, MAX_MOVEMENT_COMPONENT_PP)
+        delta = clamp(consensus_component + movement_component, -MAX_MARKET_ADJUSTMENT_PP, MAX_MARKET_ADJUSTMENT_PP)
+        adjusted = clamp(pure + delta, 1.0, 99.0)
+
+    delta = round(adjusted - pure, 1)
+    adjusted = round(adjusted, 1)
+    signal = market_signal(delta, market, reliability)
+    result = dict(candidate)
+    result.update({
+        "market_adjusted_pct": adjusted,
+        "market_delta_pp": delta,
+        "market_signal": signal,
+        "market_reliability": reliability,
+        "market": market,
+        "market_movement_pp": movement_pp,
+        "market_comment": market_comment(delta, market, reliability, movement_pp),
+    })
+    return result
+
+
+def market_signal(delta, market, reliability):
+    if not market.get("exact_line_available"):
+        return "NO_MARKET_LINE"
+    if market.get("paired_books", 0) < 2:
+        return "THIN_MARKET"
+    if delta >= 4.0:
+        return "STRONG_CONFIRMATION"
+    if delta >= 1.5:
+        return "CONFIRMATION"
+    if delta <= -4.0:
+        return "STRONG_WARNING"
+    if delta <= -1.5:
+        return "WARNING"
+    return "NEUTRAL"
+
+
+def market_comment(delta, market, reliability, movement_pp):
+    if not market.get("exact_line_available"):
+        return "Dla tej dokładnej linii nie znalazłem bieżącej oferty w danych rynkowych. Zostawiam ocenę API PURE bez korekty."
+    if market.get("paired_books", 0) < 2:
+        return "Linia jest dostępna, ale rynek jest zbyt wąski, żeby bezpiecznie korygować statystykę historyczną. Ocena API PURE pozostaje bez zmian."
+
+    if delta >= 4.0:
+        opening = "Rynek wyraźnie potwierdza kierunek wskazany przez historię i podnosi ocenę."
+    elif delta >= 1.5:
+        opening = "Rynek umiarkowanie potwierdza sygnał historyczny, dlatego ocena rośnie."
+    elif delta <= -4.0:
+        opening = "Rynek wyraźnie nie zgadza się z mocnym wynikiem historycznym, więc ocena zostaje istotnie obniżona."
+    elif delta <= -1.5:
+        opening = "Rynek jest ostrożniejszy niż sama historia i lekko obniża ocenę."
+    else:
+        opening = "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty."
+
+    extras = []
+    spread = market.get("bookmaker_spread_pp")
+    if reliability == "strong":
+        extras.append("Notowania wielu bukmacherów są spójne.")
+    elif reliability == "weak" or (spread is not None and spread > 10):
+        extras.append("Między bukmacherami widać większy rozrzut, dlatego korekta jest ograniczona.")
+
+    if movement_pp is not None:
+        if movement_pp >= 3.0:
+            extras.append("Od wcześniejszego odczytu rynek przesuwa się dodatkowo w stronę over.")
+        elif movement_pp <= -3.0:
+            extras.append("Od wcześniejszego odczytu rynek przesuwa się przeciwko over.")
+        else:
+            extras.append("Od wcześniejszego odczytu nie ma istotnego ruchu rynku.")
+    else:
+        extras.append("To pierwszy zapis rynku dla tej pozycji, więc ruch kursu nie jest jeszcze oceniany.")
+    return " ".join([opening] + extras)
+
+
+def arrow(delta):
+    if delta > 0.4:
+        return "↑"
+    if delta < -0.4:
+        return "↓"
+    return "→"
+
+
+def signal_label(signal):
+    return {
+        "STRONG_CONFIRMATION": "mocne potwierdzenie",
+        "CONFIRMATION": "potwierdzenie",
+        "NEUTRAL": "neutralny",
+        "WARNING": "ostrzeżenie",
+        "STRONG_WARNING": "mocne ostrzeżenie",
+        "THIN_MARKET": "zbyt mało danych rynkowych",
+        "NO_MARKET_LINE": "brak dokładnej linii rynkowej",
+    }.get(signal, signal)
 
 
 def main():
     rows = load_rows()
-    fixtures_payload, headers = api_get("fixtures", date=TARGET, timezone="Europe/Warsaw")
+    fixtures_payload, fixture_headers = api_get("fixtures", date=TARGET, timezone="Europe/Warsaw")
     if fixtures_payload.get("errors"):
         raise RuntimeError(json.dumps(fixtures_payload.get("errors"), ensure_ascii=False))
 
+    # v2 scans only matches that have not started. Finished/live fixtures never enter a betting shortlist.
     fixtures = []
     for fixture in fixtures_payload.get("response", []):
         cat = competition_category(fixture.get("league", {}))
         status = fixture.get("fixture", {}).get("status", {}).get("short")
-        if cat and status not in {"PST", "CANC", "ABD"}:
+        if cat and status in {"NS", "TBD"}:
             fixtures.append(fixture)
 
-    candidates = []
+    pure_candidates = []
     for fixture in fixtures:
         for side in ("home", "away"):
             for market, spec in MARKETS.items():
                 for line in spec["lines"]:
                     cand = build_candidate(rows, fixture, side, market, line)
                     if cand:
-                        candidates.append(cand)
+                        pure_candidates.append(cand)
 
-    # Avoid stacking many adjacent lines for the same team/market. Keep the strongest line.
+    odds_by_fixture = {}
+    odds_errors = []
+    odds_requests = 0
+    last_odds_headers = {}
+    for fixture in fixtures:
+        fid = fixture.get("fixture", {}).get("id")
+        try:
+            payload, last_odds_headers = api_get_all_pages("odds", fixture=fid)
+            odds_requests += int(payload.get("pages") or 1)
+            if payload.get("errors"):
+                odds_errors.append({"fixture_id": fid, "errors": payload.get("errors")})
+                odds_by_fixture[fid] = []
+            else:
+                odds_by_fixture[fid] = payload.get("response", [])
+        except Exception as exc:
+            odds_errors.append({"fixture_id": fid, "error": str(exc)})
+            odds_by_fixture[fid] = []
+
+    prior = load_prior_market_probabilities(TARGET)
+    enriched = []
+    snapshot_items = []
+    for candidate in pure_candidates:
+        market = extract_market_quotes(odds_by_fixture.get(candidate["fixture_id"], []), candidate)
+        item = apply_market_overlay(candidate, market, prior)
+        enriched.append(item)
+        snapshot_items.append({
+            "key": market_key(candidate),
+            "fixture_id": candidate["fixture_id"],
+            "team": candidate["team"],
+            "market": candidate["market"],
+            "line": candidate["line"],
+            "market_probability_pct": market.get("market_probability_pct"),
+            "paired_books": market.get("paired_books", 0),
+            "bookmaker_spread_pp": market.get("bookmaker_spread_pp"),
+        })
+
+    # Keep one line per team/market. Prefer a line actually offered by the market,
+    # then the highest final assessment, while API PURE remains visible unchanged.
     best_by_market = {}
-    for cand in candidates:
-        key = (cand["fixture_id"], cand["team_id"], cand["market"])
+    for item in enriched:
+        key = (item["fixture_id"], item["team_id"], item["market"])
         old = best_by_market.get(key)
-        rank = (cand["coverage_pct"], cand["confidence_kb_api"], cand["line"])
-        if old is None or rank > (old["coverage_pct"], old["confidence_kb_api"], old["line"]):
-            best_by_market[key] = cand
+        offered = 1 if item["market"].get("exact_line_available") else 0
+        rank = (offered, item["market_adjusted_pct"], item["api_pure_pct"], item["confidence_api"], item["line"])
+        if old is None:
+            best_by_market[key] = item
+        else:
+            old_rank = (1 if old["market"].get("exact_line_available") else 0, old["market_adjusted_pct"], old["api_pure_pct"], old["confidence_api"], old["line"])
+            if rank > old_rank:
+                best_by_market[key] = item
 
     ranked = sorted(
         best_by_market.values(),
-        key=lambda c: (c["coverage_pct"], c["confidence_kb_api"], c["samples"]["own_available"]),
+        key=lambda c: (
+            1 if c["market"].get("exact_line_available") else 0,
+            c["market_adjusted_pct"], c["api_pure_pct"], c["confidence_api"]
+        ),
         reverse=True,
     )[:TOP_N]
 
-    for item in ranked:
-        item["explanation"] = explanation(item)
+    now = datetime.now(timezone.utc)
+    stamp = now.strftime("%H%M%S")
+    snapshot_folder = OUT_SNAPSHOTS / TARGET
+    snapshot_folder.mkdir(parents=True, exist_ok=True)
+    snapshot_path = snapshot_folder / f"{stamp}.json"
+    snapshot_payload = {
+        "schema": "api-market-snapshot-v1",
+        "date": TARGET,
+        "captured_at_utc": now.isoformat(),
+        "items": snapshot_items,
+        "isolation": "MARKET_OVERLAY_ONLY_NO_KB_SCORE_CORE_WRITES",
+        "kb_n_effect": 0,
+        "dev_n_effect": 0,
+    }
+    snapshot_path.write_text(json.dumps(snapshot_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     payload = {
-        "schema": "api-market-scan-v1",
+        "schema": "api-market-scan-v2",
         "date": TARGET,
         "fixtures_scanned": len(fixtures),
         "history_matches_loaded": len(rows),
-        "candidate_markets_before_dedupe": len(candidates),
+        "pure_candidates_before_dedupe": len(pure_candidates),
         "top_positions": ranked,
+        "market_overlay": {
+            "method": "devigged multi-bookmaker consensus + own snapshot movement",
+            "max_adjustment_pp": MAX_MARKET_ADJUSTMENT_PP,
+            "odds_requests": odds_requests,
+            "odds_errors": odds_errors,
+            "snapshot": str(snapshot_path),
+        },
         "thresholds": {
-            "min_combined_coverage_pct": MIN_COMBINED,
+            "min_api_pure_coverage_pct": MIN_COMBINED,
             "min_own_L10_pct": MIN_OWN_L10,
             "min_opponent_allowed_L10_pct": MIN_OPP_L10,
             "min_side_sample": MIN_SIDE_SAMPLE,
             "top_n": TOP_N,
         },
-        "rate_limit_remaining": headers.get("x-ratelimit-requests-remaining"),
-        "isolation": "API_COVERAGE_ONLY_NO_KB_SCORE_CORE_WRITES",
+        "rate_limit_remaining": last_odds_headers.get("x-ratelimit-requests-remaining") or fixture_headers.get("x-ratelimit-requests-remaining"),
+        "isolation": "API_PURE_PLUS_MARKET_OVERLAY_NO_KB_SCORE_CORE_WRITES",
         "model_effect": "NONE",
         "kb_n_effect": 0,
         "dev_n_effect": 0,
@@ -427,35 +728,40 @@ def main():
     (OUT_JSON / f"{TARGET}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     lines = [
-        f"# API Market Scan — {TARGET}", "",
-        "> Osobna warstwa statystyczna. Nie zmienia KB Score 2.1 CORE, KB N ani DEV N.", "",
-        f"Przeskanowane mecze: **{len(fixtures)}**  ",
-        f"Historia w bazie: **{len(rows)} meczów**  ",
-        f"Minimalne pokrycie rankingu: **{MIN_COMBINED:.0f}%**", "",
+        f"# API Market Scan v2 — {TARGET}", "",
+        "> API PURE pozostaje czystą statystyką historyczną. MARKET ADJUSTED jest osobną korektą bieżącego rynku. KB Score 2.1 CORE pozostaje bez zmian.", "",
+        f"Przeskanowane nierozpoczęte mecze: **{len(fixtures)}**  ",
+        f"Historia w bazie: **{len(rows)} meczów**", "",
     ]
     if not ranked:
         lines += ["## Brak pozycji spełniających dzisiejsze progi", "", "System nie dobija listy słabszymi kandydatami."]
     else:
-        lines.append("## TOP pozycje API")
-        lines.append("")
+        lines += ["## TOP pozycje — API PURE + rynek", ""]
         for idx, item in enumerate(ranked, 1):
+            delta = item["market_delta_pp"]
+            delta_text = f"{delta:+.1f} pp" if abs(delta) >= 0.05 else "0.0 pp"
             lines += [
                 f"### {idx}. {item['selection']}",
-                f"**Pokrycie:** {item['coverage_pct']:.1f}%  ",
-                f"**Confidence API:** {item['confidence_kb_api']:.1f}/10  ",
                 f"**Mecz:** {item['home']} – {item['away']} ({item['competition']})  ",
-                f"**L5/L10/L15 własne:** {fmt_window(item['own'],'L5')} / {fmt_window(item['own'],'L10')} / {fmt_window(item['own'],'L15')}  ",
-                f"**L5/L10/L15 od strony rywala:** {fmt_window(item['opponent_allowed'],'L5')} / {fmt_window(item['opponent_allowed'],'L10')} / {fmt_window(item['opponent_allowed'],'L15')}  ",
-                f"**Dlaczego:** {item['explanation']}", "",
+                f"**API PURE:** {item['api_pure_pct']:.1f}%  ",
+                f"**Po analizie rynku:** **{item['market_adjusted_pct']:.1f}% {arrow(delta)}** ({delta_text})  ",
+                f"**Sygnał rynku:** {signal_label(item['market_signal'])}  ",
+                f"**Komentarz:** {item['market_comment']}", "",
             ]
+    lines += [
+        "---", "",
+        "Szczegółowe L5/L10/L15, liczba bukmacherów, odmarżowione prawdopodobieństwo rynku i surowe notowania pozostają w pliku JSON do audytu, ale nie zaśmiecają raportu użytkowego.",
+    ]
     (OUT_MD / f"{TARGET}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print(json.dumps({
+        "schema": "api-market-scan-v2",
         "date": TARGET,
         "fixtures_scanned": len(fixtures),
         "history_matches_loaded": len(rows),
         "top_positions": len(ranked),
-        "json": str(OUT_JSON / f"{TARGET}.json"),
+        "odds_requests": odds_requests,
+        "snapshot": str(snapshot_path),
         "report": str(OUT_MD / f"{TARGET}.md"),
         "kb_n_effect": 0,
         "dev_n_effect": 0,
