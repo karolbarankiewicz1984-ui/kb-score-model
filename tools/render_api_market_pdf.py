@@ -199,6 +199,17 @@ def build_pdf(payload):
             "Pełne L5/L10/L15, odmarżowione prawdopodobieństwa, liczba bukmacherów, snapshoty rynku i surowe notowania są archiwizowane w JSON-ie na GitHubie.",
             subtitle,
         ),
+        Spacer(1, 1.5 * mm),
+        Paragraph("Jak czytać ten raport - w skrócie", heading),
+        Paragraph(
+            "<b>API PURE</b> - co wynika wyłącznie z naszej historii i statystyk API, bez kursów. "
+            "<b>Po analizie rynku</b> - ta sama pozycja po sprawdzeniu aktualnych notowań bukmacherów. "
+            "<b>↑ / ↓ / →</b> - rynek odpowiednio podnosi, obniża albo praktycznie nie zmienia oceny. "
+            "<b>Sygnał rynku</b> - krótka ocena, czy rynek potwierdza statystykę, jest neutralny czy ostrzega. "
+            "<b>Komentarz</b> - prostym językiem wyjaśnia, dlaczego ocena się zmieniła lub pozostała bez zmian. "
+            "Ten raport jest osobny od KB Score 2.1 CORE i nie zmienia jego ustawień ani N.",
+            comment_style,
+        ),
     ])
 
     doc.build(story, onFirstPage=footer, onLaterPages=footer)

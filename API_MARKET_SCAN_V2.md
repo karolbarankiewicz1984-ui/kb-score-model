@@ -132,7 +132,11 @@ Pełne L5/L10/L15, notowania bukmacherów, odmarżowione prawdopodobieństwa i s
 
 PDF pozostaje osobny od codziennego `KB Score 2.1 CORE` PDF.
 
-## 11. Zasada dalszego rozwoju
+## 11. Obowiązkowa legenda na końcu PDF
+
+Każdy codzienny PDF API Market Scan kończy się krótką sekcją „Jak czytać ten raport - w skrócie”, napisaną prostym językiem. Wyjaśnia ona: API PURE, ocenę po analizie rynku, znaczenie strzałek, sygnał rynku i komentarz oraz przypomina, że raport jest osobny od KB Score 2.1 CORE.
+
+## 12. Zasada dalszego rozwoju
 
 Najpierw zbieramy historię:
 
