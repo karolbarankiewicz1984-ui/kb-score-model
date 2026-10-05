@@ -1,0 +1,53 @@
+name: API Market Settle
+
+on:
+  schedule:
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Date YYYY-MM-DD; blank = yesterday Europe/Warsaw"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: api-market-settle
+  cancel-in-progress: false
+
+jobs:
+  settle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify API secret
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: test -n "$API_FOOTBALL_KEY"
+      - name: Settle and rebuild calibration
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            python tools/api_market_settle.py "${{ inputs.date }}"
+          else
+            python tools/api_market_settle.py
+          fi
+      - name: Commit settlement
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- data/api_football/calibration)" ]; then
+            echo "No settlement changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/api_football/calibration
+          git commit -m "data: settle API Market positions and calibration"
+          git pull --rebase origin main
+          git push origin main
