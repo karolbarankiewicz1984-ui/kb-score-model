@@ -89,7 +89,7 @@ def footer(canvas, doc):
     canvas.saveState()
     canvas.setFont("MarketSans", 7.2)
     canvas.setFillColor(colors.HexColor("#6B7280"))
-    canvas.drawString(14 * mm, 8 * mm, "API Market Scan v2 | osobny od KB Score 2.1 CORE | KB N +0 | DEV N +0")
+    canvas.drawString(14 * mm, 8 * mm, "API Market Scan v3 | osobny od KB Score 2.1 CORE | KB N +0 | DEV N +0")
     canvas.drawRightString(A4[0] - 14 * mm, 8 * mm, f"strona {doc.page}")
     canvas.restoreState()
 
@@ -144,7 +144,7 @@ def build_pdf(payload):
         Paragraph(
             f"Nierozpoczęte mecze: <b>{fixtures}</b> &nbsp;&nbsp; | &nbsp;&nbsp; historia: <b>{history}</b> meczów "
             f"&nbsp;&nbsp; | &nbsp;&nbsp; pozycje: <b>{len(positions)}</b><br/>"
-            "API PURE = czysta statystyka historyczna. Po analizie rynku = osobna, bieżąca korekta rynku.",
+            "API PURE = czysta historia. Ocena końcowa = wynik po reliability, kontekście rozgrywek, rynku i ostrożnym filtrze bieżącego kontekstu.",
             subtitle,
         ),
     ]
@@ -155,14 +155,14 @@ def build_pdf(payload):
     else:
         for idx, item in enumerate(positions, 1):
             pure = item.get("api_pure_pct")
-            adjusted = item.get("market_adjusted_pct", pure)
-            delta = item.get("market_delta_pp", 0)
+            adjusted = item.get("final_assessment_pct", item.get("market_adjusted_pct", pure))
+            delta = float(adjusted or pure or 0) - float(pure or 0)
             selection = safe(item.get("selection") or "")
             home = safe(item.get("home") or "")
             away = safe(item.get("away") or "")
             competition = safe(item.get("competition") or "")
-            signal = safe(signal_text(item.get("market_signal")))
-            comment = safe(item.get("market_comment") or "")
+            signal = safe(item.get("final_status") or signal_text(item.get("market_signal")))
+            comment = safe(item.get("final_comment") or item.get("market_comment") or "")
 
             if float(delta or 0) > 0.4:
                 adjusted_color = "#166534"
@@ -176,10 +176,10 @@ def build_pdf(payload):
                 Paragraph(f"{home} - {away} ({competition})", match_style),
                 Paragraph(
                     f"<b>API PURE:</b> {pct(pure)} &nbsp;&nbsp;&nbsp; "
-                    f"<b>Po analizie rynku:</b> <font color='{adjusted_color}'><b>{pct(adjusted)} {arrow(delta)}</b>{delta_text(delta)}</font>",
+                    f"<b>Ocena końcowa:</b> <font color='{adjusted_color}'><b>{pct(adjusted)} {arrow(delta)}</b>{delta_text(delta)}</font>",
                     metric_style,
                 ),
-                Paragraph(f"<b>Sygnał rynku:</b> {signal}", metric_style),
+                Paragraph(f"<b>Status:</b> {signal}", metric_style),
                 Paragraph(f"<b>Komentarz:</b> {comment}", comment_style),
             ]
             box = Table([[block]], colWidths=[A4[0] - 28 * mm], hAlign="LEFT")
@@ -219,7 +219,7 @@ def main():
     if not SOURCE.exists():
         raise SystemExit(f"Missing source JSON: {SOURCE}")
     payload = json.loads(SOURCE.read_text(encoding="utf-8"))
-    if payload.get("schema") != "api-market-scan-v2":
+    if payload.get("schema") not in {"api-market-scan-v2", "api-market-scan-v3"}:
         raise SystemExit(f"Unexpected schema: {payload.get('schema')}")
     build_pdf(payload)
     print(json.dumps({"date": TARGET, "pdf": str(OUTPUT), "positions": len(payload.get("top_positions") or [])}, ensure_ascii=False))

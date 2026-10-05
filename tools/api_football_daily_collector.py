@@ -12,7 +12,7 @@ BASE = "https://v3.football.api-sports.io"
 KEY = os.environ.get("API_FOOTBALL_KEY")
 OUT = Path("data/api_football/daily")
 DOMESTIC = {("England","Premier League"),("Spain","La Liga"),("Italy","Serie A"),("Germany","Bundesliga"),("France","Ligue 1"),("Portugal","Primeira Liga"),("Netherlands","Eredivisie"),("Belgium","Jupiler Pro League"),("Turkey","Süper Lig"),("Poland","Ekstraklasa")}
-CUPS = {"UEFA Champions League","UEFA Europa League","UEFA Conference League","UEFA Nations League","World Cup"}
+CUPS = {"UEFA Champions League","UEFA Europa League","UEFA Europa Conference League","UEFA Nations League","World Cup"}
 
 
 def get(endpoint, **params):
@@ -58,7 +58,7 @@ def main():
         for b in blocks:
             s = b.get("statistics", [])
             teams.append({
-                "team": b.get("team",{}).get("name"),
+                "team_id": b.get("team",{}).get("id"), "team": b.get("team",{}).get("name"),
                 "corners": sv(s,"Corner Kicks"), "fouls": sv(s,"Fouls"),
                 "yellow": sv(s,"Yellow Cards"), "red": sv(s,"Red Cards"),
                 "shots": sv(s,"Total Shots"), "shots_on_goal": sv(s,"Shots on Goal"),
@@ -68,10 +68,10 @@ def main():
                 "offsides": sv(s,"Offsides"), "goalkeeper_saves": sv(s,"Goalkeeper Saves")
             })
         rows.append({
-            "fixture_id": fid, "date": g["fixture"].get("date"),
+            "fixture_id": fid, "date": g["fixture"].get("date"), "referee": g["fixture"].get("referee"),
             "league": g["league"].get("name"), "country": g["league"].get("country"),
             "season": g["league"].get("season"),
-            "home": g["teams"]["home"].get("name"), "away": g["teams"]["away"].get("name"),
+            "home": g["teams"]["home"].get("name"), "away": g["teams"]["away"].get("name"), "home_id": g["teams"]["home"].get("id"), "away_id": g["teams"]["away"].get("id"),
             "goals": g.get("goals",{}), "score": g.get("score",{}), "teams": teams
         })
 
