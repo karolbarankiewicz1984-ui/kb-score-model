@@ -1,5 +1,5 @@
 # API Market Scan v3: PURE + reliability + market + context + compact daily PDF
-# Validation marker: immutable API PURE + optimized cache verified by a full push run.
+# Final national-team coverage is populated before the raw sieve.
 name: API Market Scan
 
 on:
@@ -20,6 +20,8 @@ on:
       - ".github/workflows/api-market-scan.yml"
       - "tools/api_market_scan.py"
       - "tools/api_market_v3_enrich.py"
+      - "tools/api_national_today_prefetch.py"
+      - "tools/api_market_report_diversify.py"
       - "tools/render_api_market_pdf.py"
 
 permissions:
@@ -47,7 +49,7 @@ jobs:
             UTC_HOUR=$(date -u +%H)
             LOCAL_HOUR=$(TZ=Europe/Warsaw date +%H)
             # Early runs collect only market movement. The final local 10:30 run
-            # enriches the freeze with v3 layers and generates the user PDF.
+            # refreshes full national-team history, enriches v3 and generates PDF.
             if [ "$LOCAL_HOUR" != "10" ]; then
               RENDER_PDF=no
             fi
@@ -65,6 +67,18 @@ jobs:
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
         run: test -n "$API_FOOTBALL_KEY"
+
+      - name: Prefetch full national-team last-20 history
+        if: steps.slot.outputs.render_pdf == 'yes'
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            python tools/api_national_today_prefetch.py "${{ inputs.date }}"
+          else
+            python tools/api_national_today_prefetch.py
+          fi
 
       - name: Build raw API Market freeze and market snapshot
         if: steps.slot.outputs.run_scan == 'yes'
@@ -90,6 +104,16 @@ jobs:
             python tools/api_market_v3_enrich.py
           fi
 
+      - name: Diversify user-facing positions
+        if: steps.slot.outputs.render_pdf == 'yes'
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            python tools/api_market_report_diversify.py "${{ inputs.date }}"
+          else
+            python tools/api_market_report_diversify.py
+          fi
+
       - name: Install PDF renderer
         if: steps.slot.outputs.render_pdf == 'yes'
         run: python -m pip install --disable-pip-version-check 'reportlab>=4,<5'
@@ -108,13 +132,14 @@ jobs:
         if: steps.slot.outputs.run_scan == 'yes'
         shell: bash
         run: |
-          if git diff --quiet -- data/api_football/market_scan data/api_football/market_snapshots data/api_football/national_dynamic reports/api_market_scan && [ -z "$(git status --porcelain -- data/api_football/market_scan data/api_football/market_snapshots data/api_football/national_dynamic reports/api_market_scan)" ]; then
+          TRACKED="data/api_football/market_scan data/api_football/market_snapshots data/api_football/national_dynamic data/api_football/international_5m/national reports/api_market_scan"
+          if git diff --quiet -- $TRACKED && [ -z "$(git status --porcelain -- $TRACKED)" ]; then
             echo "No scan changes to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/api_football/market_scan data/api_football/market_snapshots data/api_football/national_dynamic reports/api_market_scan
+          git add $TRACKED
           git commit -m "report: API Market Scan v3"
           git pull --rebase origin main
           git push origin main
