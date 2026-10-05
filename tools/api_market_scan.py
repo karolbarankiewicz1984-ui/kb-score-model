@@ -559,10 +559,15 @@ def market_comment(delta, market, reliability, movement_pp):
 
     extras = []
     spread = market.get("bookmaker_spread_pp")
+    paired = market.get("paired_books", 0)
     if reliability == "strong":
         extras.append("Notowania wielu bukmacherów są spójne.")
-    elif reliability == "weak" or (spread is not None and spread > 10):
+    elif paired <= 2:
+        extras.append("Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona.")
+    elif spread is not None and spread > 10:
         extras.append("Między bukmacherami widać większy rozrzut, dlatego korekta jest ograniczona.")
+    elif reliability == "medium":
+        extras.append("Konsensus rynku jest wystarczająco szeroki do umiarkowanej korekty.")
 
     if movement_pp is not None:
         if movement_pp >= 3.0:
