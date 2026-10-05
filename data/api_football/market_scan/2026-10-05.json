@@ -93,8 +93,8 @@
           }
         ]
       },
-      "market_movement_pp": null,
-      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Między bukmacherami widać większy rozrzut, dlatego korekta jest ograniczona. To pierwszy zapis rynku dla tej pozycji, więc ruch kursu nie jest jeszcze oceniany."
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku."
     },
     {
       "fixture_id": 1528944,
@@ -202,8 +202,8 @@
           }
         ]
       },
-      "market_movement_pp": null,
-      "market_comment": "Rynek umiarkowanie potwierdza sygnał historyczny, dlatego ocena rośnie. To pierwszy zapis rynku dla tej pozycji, więc ruch kursu nie jest jeszcze oceniany."
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek umiarkowanie potwierdza sygnał historyczny, dlatego ocena rośnie. Konsensus rynku jest wystarczająco szeroki do umiarkowanej korekty. Od wcześniejszego odczytu nie ma istotnego ruchu rynku."
     },
     {
       "fixture_id": 1528944,
@@ -835,7 +835,7 @@
     "max_adjustment_pp": 10.0,
     "odds_requests": 22,
     "odds_errors": [],
-    "snapshot": "data/api_football/market_snapshots/2026-10-05/040608.json"
+    "snapshot": "data/api_football/market_snapshots/2026-10-05/042600.json"
   },
   "thresholds": {
     "min_api_pure_coverage_pct": 72.0,
@@ -844,7 +844,7 @@
     "min_side_sample": 7,
     "top_n": 10
   },
-  "rate_limit_remaining": "7430",
+  "rate_limit_remaining": "7427",
   "isolation": "API_PURE_PLUS_MARKET_OVERLAY_NO_KB_SCORE_CORE_WRITES",
   "model_effect": "NONE",
   "kb_n_effect": 0,
