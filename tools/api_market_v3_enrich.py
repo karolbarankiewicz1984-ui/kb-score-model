@@ -128,7 +128,7 @@ def refresh_national_history(fixtures, base_rows):
     summary = {"teams": len(team_ids), "new_statistics_calls": 0, "errors": []}
     for tid in sorted(team_ids):
         try:
-            payload, _ = v2.api_get_all_pages("fixtures", team=tid, last=20, timezone="Europe/Warsaw")
+            payload, _ = v2.api_get("fixtures", team=tid, last=20, timezone="Europe/Warsaw")
             games = [] if payload.get("errors") else payload.get("response", [])
         except Exception as exc:
             summary["errors"].append({"team_id": tid, "stage": "fixtures", "error": str(exc)})
@@ -403,7 +403,7 @@ def main():
     if base.get("schema") not in {"api-market-scan-v2", "api-market-scan-v3"}:
         raise SystemExit(f"Unexpected schema: {base.get('schema')}")
 
-    fixtures_payload, headers = v2.api_get_all_pages("fixtures", date=TARGET, timezone="Europe/Warsaw")
+    fixtures_payload, headers = v2.api_get("fixtures", date=TARGET, timezone="Europe/Warsaw")
     fixtures_all = fixtures_payload.get("response", []) if not fixtures_payload.get("errors") else []
     fixture_map = {g.get("fixture", {}).get("id"): g for g in fixtures_all}
 
