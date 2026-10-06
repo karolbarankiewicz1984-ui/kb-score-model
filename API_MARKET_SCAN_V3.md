@@ -20,7 +20,9 @@ API nie odczytuje ani nie zapisuje parametrów, rejestrów, N, kalibracji i regu
 
 Zakres dostępnych rozgrywek i obsługiwanych parametrów określa kolektor i `api_market_scan.py`. Nie wymyślamy danych dla rynków bez historii. Nie wydajemy nowych prognoz po rozpoczęciu meczu. To warunki poprawnego wejścia, nie progi atrakcyjności typu.
 
-Lista pokazuje najpierw gole i rożne z faktycznymi notowaniami, następnie kwotowane statystyki szczegółowe. W każdej grupie kolejność jest malejąca po ocenie końcowej, bez limitu pozycji. Raport podaje kierunek, zakres, godzinę meczu w Polsce, kursy i nazwy bukmacherów źródłowych. Brak ceny nie jest zastępowany wynikiem czysto teoretycznym. API PURE oznacza pokrycie historyczne; ocena końcowa /100 jest wskaźnikiem wymagającym empirycznej kalibracji, nie gwarantowanym prawdopodobieństwem wygranej.
+Raport PDF i Markdown grupują wszystkie opublikowane typy według meczu. Mecze są ułożone według godziny rozpoczęcia w Polsce; pod każdym jest tabela zawierająca komplet jego typów, PURE, ocenę, kursy, źródła i komentarze. W obrębie meczu zachowana jest kolejność rankingu: najpierw gole i rożne, następnie statystyki szczegółowe, w grupach malejąco po ocenie. Nagłówek meczu powtarza się przy przejściu tabeli na następną stronę. Grupowanie jest wyłącznie prezentacją: nie zmienia ocen, progu, liczby typów, archiwów ani rozliczeń. Renderer może odczytać wcześniejszą prognozę przez `--source` i zapisać osobny plik przez `--output --regrouped`, bez ponownego zamrażania prognozy.
+
+Brak ceny nie jest zastępowany wynikiem czysto teoretycznym. API PURE oznacza pokrycie historyczne; ocena końcowa /100 jest wskaźnikiem wymagającym empirycznej kalibracji, nie gwarantowanym prawdopodobieństwem wygranej.
 
 ## STS
 

@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
-"""Render the compact user-facing API Market Scan PDF.
-
-Presentation only. All technical v3 layers stay in JSON on GitHub.
-Never writes to KB Score CORE, KB N or DEV N.
-"""
+"""Render all published API positions grouped by match, without changing scores."""
 from __future__ import annotations
 
+import argparse
 import json
-import sys
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
-from api_market_policy import load_policy, quote_text, target_date
 
+from api_market_policy import load_policy, quote_text, target_date
+from api_market_presentation import group_positions, kickoff_time
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
@@ -20,13 +17,9 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import LongTable, Paragraph, SimpleDocTemplate, Spacer, TableStyle
 
 WARSAW = ZoneInfo("Europe/Warsaw")
-TARGET = target_date(sys.argv[1] if len(sys.argv) > 1 else None)
-SOURCE = Path("data/api_football/market_scan") / f"{TARGET}.json"
-OUT_DIR = Path("reports/api_market_scan")
-OUTPUT = OUT_DIR / f"API_MARKET_SCAN_{TARGET}.pdf"
 
 
 def register_fonts():
@@ -38,150 +31,128 @@ def register_fonts():
         if Path(regular).exists() and Path(bold).exists():
             pdfmetrics.registerFont(TTFont("MarketSans", regular))
             pdfmetrics.registerFont(TTFont("MarketSans-Bold", bold))
+            pdfmetrics.registerFontFamily("MarketSans", normal="MarketSans", bold="MarketSans-Bold")
             return "MarketSans", "MarketSans-Bold"
     raise RuntimeError("No Unicode TTF font found")
-
-
-def pct(value):
-    return "-" if value is None else f"{float(value):.1f}%"
-
-
-def delta_text(value):
-    value = float(value or 0)
-    sign = "+" if value > 0 else ""
-    return f" ({sign}{value:.1f} pp)"
-
-
-def arrow(value):
-    value = float(value or 0)
-    if value > 0.4:
-        return "↑"
-    if value < -0.4:
-        return "↓"
-    return "→"
 
 
 def safe(text):
     return str(text or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def fallback_signal(value):
-    return {
-        "STRONG_CONFIRMATION": "mocne potwierdzenie",
-        "CONFIRMATION": "potwierdzenie",
-        "NEUTRAL": "neutralny",
-        "WARNING": "ostrzeżenie",
-        "STRONG_WARNING": "mocne ostrzeżenie",
-        "THIN_MARKET": "zbyt mało danych rynkowych",
-        "NO_MARKET_LINE": "brak dokładnej linii rynkowej",
-    }.get(value, str(value or "-"))
-
-
 def footer(canvas, doc):
     canvas.saveState()
     canvas.setFont("MarketSans", 7.2)
     canvas.setFillColor(colors.HexColor("#6B7280"))
-    canvas.drawString(14 * mm, 8 * mm, "API Market Scan v3 | osobny od KB Score 2.1 CORE | KB N +0 | DEV N +0")
+    canvas.drawString(14 * mm, 8 * mm, "API Market Scan | według meczów | osobno od KB Score | KB N +0 | DEV N +0")
     canvas.drawRightString(A4[0] - 14 * mm, 8 * mm, f"strona {doc.page}")
     canvas.restoreState()
 
 
-def build_pdf(payload):
+def build_pdf(payload, output=None, *, regrouped=False):
     regular, bold = register_fonts()
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    doc = SimpleDocTemplate(
-        str(OUTPUT), pagesize=A4,
-        leftMargin=14 * mm, rightMargin=14 * mm,
-        topMargin=13 * mm, bottomMargin=16 * mm,
-        title=f"API Market Scan {TARGET}", author="API Market Scan v3",
-    )
+    target = target_date(payload.get("date"))
+    output = Path(output) if output else Path("reports/api_market_scan") / f"API_MARKET_SCAN_{target}.pdf"
+    output.parent.mkdir(parents=True, exist_ok=True)
+    doc = SimpleDocTemplate(str(output), pagesize=A4,
+        leftMargin=14 * mm, rightMargin=14 * mm, topMargin=13 * mm, bottomMargin=16 * mm,
+        title=f"API Market Scan {target} - według meczów", author="API Market Scan")
     styles = getSampleStyleSheet()
-    title = ParagraphStyle("MarketTitle", parent=styles["Title"], fontName=bold, fontSize=17, leading=20, alignment=TA_LEFT, textColor=colors.HexColor("#111827"), spaceAfter=3 * mm)
-    subtitle = ParagraphStyle("MarketSubtitle", parent=styles["BodyText"], fontName=regular, fontSize=8.2, leading=10.4, textColor=colors.HexColor("#4B5563"), spaceAfter=3 * mm)
-    heading = ParagraphStyle("PositionHeading", parent=styles["Heading3"], fontName=bold, fontSize=10.2, leading=12.3, textColor=colors.HexColor("#111827"), spaceAfter=1.3 * mm)
-    match_style = ParagraphStyle("Match", parent=styles["BodyText"], fontName=regular, fontSize=8.1, leading=9.8, textColor=colors.HexColor("#6B7280"), spaceAfter=1.2 * mm)
-    metric_style = ParagraphStyle("Metric", parent=styles["BodyText"], fontName=regular, fontSize=8.9, leading=11, textColor=colors.HexColor("#111827"), spaceAfter=1 * mm)
-    comment_style = ParagraphStyle("Comment", parent=styles["BodyText"], fontName=regular, fontSize=8.2, leading=10.4, textColor=colors.HexColor("#374151"), spaceAfter=0)
+    title = ParagraphStyle("MarketTitle", parent=styles["Title"], fontName=bold, fontSize=17,
+        leading=20, alignment=TA_LEFT, textColor=colors.HexColor("#111827"), spaceAfter=3 * mm)
+    subtitle = ParagraphStyle("MarketSubtitle", parent=styles["BodyText"], fontName=regular,
+        fontSize=8.2, leading=11, textColor=colors.HexColor("#4B5563"), spaceAfter=3 * mm)
+    match_style = ParagraphStyle("MatchHeading", parent=styles["BodyText"], fontName=bold,
+        fontSize=10, leading=13, textColor=colors.white)
+    column_style = ParagraphStyle("ColumnHeading", parent=styles["BodyText"], fontName=bold,
+        fontSize=7.8, leading=10, textColor=colors.HexColor("#243650"))
+    cell_style = ParagraphStyle("Cell", parent=styles["BodyText"], fontName=regular,
+        fontSize=7.8, leading=10.3, textColor=colors.HexColor("#111827"))
+    note_style = ParagraphStyle("Note", parent=cell_style, fontSize=7.2, leading=9.2,
+        textColor=colors.HexColor("#4B5563"))
+    score_style = ParagraphStyle("Score", parent=cell_style, fontName=bold, fontSize=9, leading=12)
 
     positions = payload.get("top_positions") or []
+    groups = group_positions(positions)
     policy = (payload.get("publication") or {}).get("policy") or load_policy()
     floor = policy["publish_min_final_pct"]
     captured = payload.get("generated_at_utc") or (payload.get("publication") or {}).get("captured_at_utc")
-    quote_time = datetime.fromisoformat(captured.replace("Z", "+00:00")).astimezone(WARSAW).strftime("%H:%M") if captured else "-"
-    story = [
-        Paragraph(f"API MARKET SCAN - {safe(TARGET)}", title),
-        Paragraph(
-            f"Nierozpoczęte mecze: <b>{payload.get('fixtures_scanned', 0)}</b> &nbsp;&nbsp; | &nbsp;&nbsp; "
-            f"historia: <b>{payload.get('history_matches_loaded', 0)}</b> meczów &nbsp;&nbsp; | &nbsp;&nbsp; pozycje: <b>{len(positions)}</b><br/>"
-            f"<b>Próg oceny końcowej: {floor:g}/100. Bez limitu liczby pozycji.</b><br/>"
-            f"Odczyt notowań: {quote_time} czasu polskiego.<br/>"
-            "Wyłącznie kwotowane warianty powyżej/poniżej: drużyna lub cały mecz. Najpierw gole i rożne.<br/>"
-            "<b>Notowania API nie potwierdzają oferty STS.</b> Przy każdej pozycji podajemy źródło kursu.<br/>"
-            "API PURE = pokrycie historyczne. Ocena końcowa uwzględnia wiarygodność próby, rozgrywki, bieżący rynek i dostępny kontekst meczowy.",
-            subtitle,
-        ),
-    ]
-    odds_errors = (payload.get("market_overlay") or {}).get("odds_errors") or []
-    if odds_errors:
-        story.append(Paragraph(f"Uwaga: nie udało się pobrać notowań dla {len(odds_errors)} meczów. Lista może być niepełna.", subtitle))
+    quote_time = datetime.fromisoformat(captured.replace("Z", "+00:00")).astimezone(WARSAW).strftime("%d.%m.%Y, %H:%M") if captured else "-"
+    story = [Paragraph(f"API MARKET SCAN - {safe(target)}", title),
+        Paragraph("MECZ PO MECZU — WSZYSTKIE TYPY", subtitle),
+        Paragraph(f"<b>{len(groups)} meczów • {len(positions)} typów • próg {floor:g}/100</b><br/>"
+            f"Odczyt notowań: <b>{quote_time}</b>, czas polski.<br/>"
+            "Mecze według godziny rozpoczęcia. Pod każdym meczem komplet typów w kolejności z rankingu API. Bez limitu pozycji.<br/>"
+            "<b>Notowania API nie potwierdzają oferty STS.</b> Przy typach podajemy źródła kursów.", subtitle)]
+    if regrouped:
+        story.append(Paragraph("<b>Przegrupowanie wcześniejszego raportu.</b> Zachowano wszystkie jego typy, oceny i notowania z podanej wyżej godziny. Część meczów może być już rozpoczęta lub zakończona.", subtitle))
+    errors = (payload.get("market_overlay") or {}).get("odds_errors") or []
+    if errors:
+        story.append(Paragraph(f"Uwaga: nie udało się pobrać notowań dla {len(errors)} meczów. Lista może być niepełna.", subtitle))
 
-    if not positions:
-        story += [Paragraph("Brak kwotowanych wariantów z oceną od ustalonego progu.", heading), Paragraph("Raport nie jest uzupełniany liniami bez notowań.", comment_style)]
-    else:
-        for idx, item in enumerate(positions, 1):
+    for match_index, items in enumerate(groups, 1):
+        first = items[0]
+        header = (f"{match_index}. {safe(first['home'])} — {safe(first['away'])}<br/>"
+            f"<font size='8'>{kickoff_time(first)} Polska • {safe(first['competition'])} • typy: {len(items)}</font>")
+        rows = [[Paragraph(header, match_style), "", "", ""],
+            [Paragraph(label, column_style) for label in ("Typ i komentarz", "API PURE", "Ocena /100", "Kursy w API / źródła")]]
+        for type_index, item in enumerate(items, 1):
             pure = item.get("api_pure_pct")
             final = item.get("final_assessment_pct", item.get("market_adjusted_pct", pure))
-            delta = float(final or pure or 0) - float(pure or 0)
-            availability = (item.get("sts_availability") or {}).get("label", "Dostępność w STS niepotwierdzona.")
             comment = item.get("final_comment") or item.get("market_comment") or ""
-            kickoff = datetime.fromisoformat(item["kickoff"].replace("Z", "+00:00")).astimezone(WARSAW).strftime("%H:%M")
-            color = "#166534" if delta > 0.4 else "#B91C1C" if delta < -0.4 else "#374151"
-            block = [
-                Paragraph(f"{idx}. {safe(item.get('selection'))}", heading),
-                Paragraph(f"{kickoff} Polska | {safe(item.get('home'))} - {safe(item.get('away'))} ({safe(item.get('competition'))})", match_style),
-                Paragraph(f"<b>API PURE:</b> {pct(pure)} &nbsp;&nbsp;&nbsp; <b>Ocena końcowa:</b> <font color='{color}'><b>{float(final):.1f}/100 {arrow(delta)}</b>{delta_text(delta)}</font>", metric_style),
-                Paragraph(f"<b>Dostępność:</b> {safe(availability)}", match_style),
-                Paragraph(safe(quote_text(item)), match_style),
-                Paragraph(f"<b>Komentarz:</b> {safe(comment)}", comment_style),
-            ]
-            box = Table([[block]], colWidths=[A4[0] - 28 * mm], hAlign="LEFT")
-            box.setStyle(TableStyle([
-                ("BOX", (0, 0), (-1, -1), 0.55, colors.HexColor("#D1D5DB")),
-                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#F9FAFB")),
-                ("LEFTPADDING", (0, 0), (-1, -1), 7), ("RIGHTPADDING", (0, 0), (-1, -1), 7),
-                ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-            ]))
-            story.extend([box, Spacer(1, 2.2 * mm)])
+            details = [Paragraph(f"<b>{match_index}.{type_index} {safe(item['selection'])}</b>", cell_style)]
+            if comment:
+                details += [Spacer(1, 1.2 * mm), Paragraph(safe(comment), note_style)]
+            quote = safe(quote_text(item).removeprefix("Kursy w API: ")).replace(". Źródła notowań: ", "<br/>")
+            availability = (item.get("sts_availability") or {}).get("status")
+            label = "STS: notowanie w API." if availability == "verified_quote" else "STS: niepotwierdzone."
+            if item.get("market") not in {"team_goals", "corners"}:
+                label += " Sprawdź linię i zasady rozliczenia."
+            rows.append([details,
+                Paragraph("-" if pure is None else f"{float(pure):.1f}%", cell_style),
+                Paragraph("-" if final is None else f"{float(final):.1f}", score_style),
+                [Paragraph(quote, cell_style), Spacer(1, 1.2 * mm), Paragraph(label, note_style)]])
+        table = LongTable(rows, colWidths=[88 * mm, 18 * mm, 21 * mm, 55 * mm],
+            hAlign="LEFT", repeatRows=2, splitByRow=1)
+        table.setStyle(TableStyle([
+            ("SPAN", (0, 0), (-1, 0)),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#243650")),
+            ("BACKGROUND", (0, 1), (-1, 1), colors.HexColor("#E8EDF4")),
+            ("ROWBACKGROUNDS", (0, 2), (-1, -1), [colors.white, colors.HexColor("#F5F7FA")]),
+            ("LINEBELOW", (0, 1), (-1, -1), 0.35, colors.HexColor("#D5DCE5")),
+            ("BOX", (0, 0), (-1, -1), 0.4, colors.HexColor("#D5DCE5")),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 6), ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+            ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ]))
+        story.extend([table, Spacer(1, 4 * mm)])
 
-    story.extend([
-        Spacer(1, 1 * mm),
-        Paragraph("Pełne dane techniczne - L5/L10/L15, reliability, podział domestic/Europa, notowania, snapshoty rynku i bieżący kontekst - są archiwizowane w JSON-ie na GitHubie.", subtitle),
-        Spacer(1, 1.5 * mm),
-        Paragraph("Jak czytać ten raport - w skrócie", heading),
-        Paragraph(
-            "<b>API PURE</b> - surowy wynik z historii i statystyk, bez późniejszych korekt. "
-            "<b>Ocena końcowa</b> - konserwatywna ocena po sprawdzeniu wiarygodności próby, rodzaju rozgrywek, rynku i dostępnego bieżącego kontekstu. "
-            "<b>↑ / ↓ / →</b> - ocena końcowa jest odpowiednio wyższa, niższa albo podobna do API PURE. "
-            f"Lista obejmuje wszystkie kwotowane warianty z oceną końcową od {floor:g}; najpierw gole i rożne, w grupach malejąco po ocenie. "
-            "Ocena /100 jest wskaźnikiem modelu, kalibrowanym na jego własnych wynikach. "
-            "Oznaczenie dostępności pomaga znaleźć praktyczne rynki, ale oferta STS wymaga sprawdzenia. "
-            "Żółte kartki nie zastępują punktów/liczby kartek z uwzględnieniem czerwonych. "
-            "<b>Komentarz</b> prostym językiem mówi, co najbardziej wpłynęło na ocenę. "
-            "Pełna warstwa techniczna pozostaje w GitHubie. Raport jest osobny od KB Score 2.1 CORE i nie zmienia jego ustawień ani N.",
-            comment_style,
-        ),
-    ])
+    if not positions:
+        story.append(Paragraph("Brak kwotowanych wariantów z oceną od ustalonego progu.", subtitle))
+    story.append(Paragraph(
+        "<b>Jak czytać:</b> API PURE oznacza pokrycie historyczne. Ocena końcowa /100 uwzględnia wiarygodność próby, rozgrywki, rynek i dostępny kontekst; nie jest skalibrowanym prawdopodobieństwem. "
+        "W obrębie meczu zachowano kolejność rankingu: najpierw gole i rożne, następnie statystyki szczegółowe; w grupach malejąco ocena. "
+        "Żółte kartki nie zastępują liczby/punktów kartek z uwzględnieniem czerwonych. "
+        "Pełne dane i wersje prognoz są zapisane w repozytorium. API pozostaje osobne od KB Score i nie zmienia jego danych ani N.", subtitle))
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
+    return output
 
 
 def main():
-    if not SOURCE.exists():
-        raise SystemExit(f"Missing source JSON: {SOURCE}")
-    payload = json.loads(SOURCE.read_text(encoding="utf-8"))
-    if payload.get("schema") not in {"api-market-scan-v2", "api-market-scan-v3"}:
-        raise SystemExit(f"Unexpected schema: {payload.get('schema')}")
-    build_pdf(payload)
-    print(json.dumps({"date": TARGET, "pdf": str(OUTPUT), "positions": len(payload.get("top_positions") or [])}, ensure_ascii=False))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("date", nargs="?", help="YYYY-MM-DD; default: today in Poland")
+    parser.add_argument("--source", type=Path, help="Read an existing prediction without recalculating it")
+    parser.add_argument("--output", type=Path, help="Write a separate report")
+    parser.add_argument("--regrouped", action="store_true", help="Label a regrouped earlier publication")
+    args = parser.parse_args()
+    target = target_date(args.date)
+    source = args.source or Path("data/api_football/market_scan") / f"{target}.json"
+    payload = json.loads(source.read_text(encoding="utf-8"))
+    if payload.get("schema") not in {"api-market-scan-v2", "api-market-scan-v3"} or payload.get("date") != target:
+        raise SystemExit("Unexpected source schema or date")
+    output = build_pdf(payload, args.output, regrouped=args.regrouped)
+    print(json.dumps({"date": target, "pdf": str(output), "positions": len(payload.get("top_positions") or []),
+        "matches": len(group_positions(payload.get("top_positions") or []))}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
