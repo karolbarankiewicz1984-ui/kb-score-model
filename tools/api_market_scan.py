@@ -21,16 +21,16 @@ import math
 import os
 import re
 import sys
-import urllib.parse
-import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
 from statistics import median, pstdev
 
 from api_market_policy import target_date
+from api_market_http import ApiClient
 
 BASE = "https://v3.football.api-sports.io"
 KEY = os.environ.get("API_FOOTBALL_KEY")
+API_CLIENT = ApiClient()
 TARGET = target_date(sys.argv[1] if len(sys.argv) > 1 else None)
 
 OUT_JSON = Path("data/api_football/market_work")
@@ -83,12 +83,7 @@ MAX_MOVEMENT_COMPONENT_PP = 2.0
 
 
 def api_get(endpoint: str, **params):
-    if not KEY:
-        raise RuntimeError("Missing API_FOOTBALL_KEY")
-    url = f"{BASE}/{endpoint}?{urllib.parse.urlencode(params)}"
-    req = urllib.request.Request(url, headers={"x-apisports-key": KEY})
-    with urllib.request.urlopen(req, timeout=40) as response:
-        return json.load(response), {k.lower(): v for k, v in response.headers.items()}
+    return API_CLIENT.get(BASE, KEY, endpoint, **params)
 
 
 def api_get_all_pages(endpoint: str, **params):

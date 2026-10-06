@@ -48,4 +48,6 @@ Zebrane wyniki służą do porównania progu 67 z innymi wartościami oraz do ka
 
 ## Kontrole
 
+Od 2026-10-06 wspólny klient odczytów API rozkłada zapytania w czasie i uwzględnia nagłówki limitu minutowego. Błąd 429 lub JSON `rateLimit` powoduje oczekiwanie i ograniczoną liczbę ponowień; wyczerpana pula dzienna zatrzymuje dalsze zapytania. Obsługa połączenia nie zmienia wzorów oceny, progu 67 ani izolacji KB Score.
+
 Testy offline pokrywają brak ukrytych limitów i progów, zachowanie PURE, jednokrotną korektę rynku, jawne błędy prefetch, zachowanie cache przy błędzie, niezmienne wersje, odrzucenie danych po starcie, rozliczanie kandydatów odrzuconych, brak podwójnego liczenia i brak zapisów CORE. Workflow wykonuje testy przed produkcyjnym skanem.
