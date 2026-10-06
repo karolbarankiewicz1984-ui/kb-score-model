@@ -113,7 +113,7 @@ def merge_rows(base, extra):
     return sorted(by_id.values(), key=lambda r: v2.parse_dt(r.get("date")))
 
 
-def refresh_national_history(fixtures, base_rows):
+def refresh_national_history(fixtures, base_rows, reuse_current=False):
     NATIONAL_CACHE.mkdir(parents=True, exist_ok=True)
     existing = {r.get("fixture_id"): r for r in merge_rows(base_rows, load_dynamic_rows())}
     team_ids = set()
@@ -125,8 +125,15 @@ def refresh_national_history(fixtures, base_rows):
             if tid:
                 team_ids.add(tid)
 
-    summary = {"teams": len(team_ids), "new_statistics_calls": 0, "errors": []}
+    summary = {"teams": len(team_ids), "new_statistics_calls": 0, "cached_teams": 0, "errors": []}
     for tid in sorted(team_ids):
+        path = NATIONAL_CACHE / f"team_{tid}.json"
+        if reuse_current and path.exists():
+            cached = json.loads(path.read_text(encoding="utf-8"))
+            if cached.get("target") == TARGET and cached.get("complete") is True:
+                summary["cached_teams"] += 1
+                continue
+        errors_before = len(summary["errors"])
         try:
             payload, _ = v2.api_get("fixtures", team=tid, last=20, timezone="Europe/Warsaw")
             if payload.get("errors"):
@@ -156,11 +163,11 @@ def refresh_national_history(fixtures, base_rows):
                 summary["new_statistics_calls"] += 1
             except Exception as exc:
                 summary["errors"].append({"fixture_id": fid, "stage": "statistics", "error": str(exc)})
-        path = NATIONAL_CACHE / f"team_{tid}.json"
         path.write_text(json.dumps({
             "schema": "api-national-dynamic-v1",
             "team_id": tid,
             "target": TARGET,
+            "complete": len(summary["errors"]) == errors_before,
             "rows": rows,
             "isolation": "API_DATA_ONLY_NO_KB_SCORE_CORE_WRITES",
             "kb_n_effect": 0,
@@ -169,20 +176,20 @@ def refresh_national_history(fixtures, base_rows):
     return summary
 
 
-def weighted_cov(series, line, n):
+def weighted_cov(series, line, n, direction="over"):
     vals = series[-n:]
     if not vals:
         return None
     denom = sum(w for _, w in vals)
     if denom <= 0:
         return None
-    hits = sum(w for value, w in vals if value > line)
-    raw_hits = sum(1 for value, _ in vals if value > line)
+    hits = sum(w for value, w in vals if v2.outcome_hit(value, line, direction))
+    raw_hits = sum(v2.outcome_hit(value, line, direction) for value, _ in vals)
     return {"hits": raw_hits, "n": len(vals), "weighted_n": round(denom, 2), "pct": 100.0 * hits / denom}
 
 
-def weighted_windows(series, line):
-    return {f"L{n}": weighted_cov(series, line, n) for n in (5, 10, 15)}
+def weighted_windows(series, line, direction="over"):
+    return {f"L{n}": weighted_cov(series, line, n, direction) for n in (5, 10, 15)}
 
 
 def weighted_window_score(windows):
@@ -194,7 +201,7 @@ def weighted_window_score(windows):
     return sum(p * w for p, w in pairs) / d
 
 
-def national_series(history, team_id, market, opponent_allowed=False):
+def national_series(history, team_id, market, opponent_allowed=False, market_scope="team"):
     out = []
     for row in history:
         league = row.get("league") or row.get("competition")
@@ -203,9 +210,9 @@ def national_series(history, team_id, market, opponent_allowed=False):
             other = v2.opponent_id(row, team_id)
             if other is None:
                 continue
-            value = v2.metric_value(row, other, market)
+            value = v2.observed_value(row, other, market, market_scope)
         else:
-            value = v2.metric_value(row, team_id, market)
+            value = v2.observed_value(row, team_id, market, market_scope)
         if isinstance(value, (int, float)):
             out.append((float(value), weight))
     return out
@@ -227,13 +234,13 @@ def block_lower(block):
     return wilson_lower_pct(block.get("hits", 0), block.get("n", 0))
 
 
-def reliability_from_blocks(own_l15, opp_l15, venue=None, venue_weight=0.10):
+def reliability_from_blocks(own_l15, opp_l15, venue=None, venue_weight=0.10, own_weight=0.61):
     a, b = block_lower(own_l15), block_lower(opp_l15)
     if a is None or b is None:
         return None
     if venue and block_lower(venue) is not None and venue_weight > 0:
-        return (1.0 - venue_weight) * (0.61 * a + 0.39 * b) + venue_weight * block_lower(venue)
-    return 0.61 * a + 0.39 * b
+        return (1.0 - venue_weight) * (own_weight * a + (1-own_weight) * b) + venue_weight * block_lower(venue)
+    return own_weight * a + (1-own_weight) * b
 
 
 def recompute_national(item, fixture, rows):
@@ -243,17 +250,19 @@ def recompute_national(item, fixture, rows):
     dt = v2.parse_dt(item.get("kickoff"))
     own_hist = v2.team_history(rows, team_id, dt, "national")
     opp_hist = v2.team_history(rows, opp_id, dt, "national")
-    own_series = national_series(own_hist, team_id, item["market"], False)
-    opp_series = national_series(opp_hist, opp_id, item["market"], True)
+    scope, direction = item.get("market_scope", "team"), item.get("direction", "over")
+    own_series = national_series(own_hist, team_id, item["market"], False, scope)
+    opp_series = national_series(opp_hist, opp_id, item["market"], True, scope)
     if not own_series or not opp_series:
         return None
-    own_w = weighted_windows(own_series, item["line"])
-    opp_w = weighted_windows(opp_series, item["line"])
+    own_w = weighted_windows(own_series, item["line"], direction)
+    opp_w = weighted_windows(opp_series, item["line"], direction)
     own_score, opp_score = weighted_window_score(own_w), weighted_window_score(opp_w)
     if own_score is None or opp_score is None:
         return None
-    pure = 0.60 * own_score + 0.40 * opp_score
-    reliability = reliability_from_blocks(own_w.get("L15"), opp_w.get("L15"), None, 0)
+    own_weight = 0.5 if scope == "match" else 0.60
+    pure = own_weight * own_score + (1-own_weight) * opp_score
+    reliability = reliability_from_blocks(own_w.get("L15"), opp_w.get("L15"), None, 0, 0.5 if scope == "match" else 0.61)
     return {
         "competition_adjusted_pct": round(pure, 1),
         "reliability_adjusted_pct": round(reliability, 1) if reliability is not None else round(pure, 1),
@@ -261,20 +270,21 @@ def recompute_national(item, fixture, rows):
     }
 
 
-def simple_combined(rows, team_id, opp_id, dt, market, line, scope):
+def simple_combined(rows, team_id, opp_id, dt, market, line, scope, direction="over", market_scope="team"):
     own_hist = v2.team_history(rows, team_id, dt, scope)
     opp_hist = v2.team_history(rows, opp_id, dt, scope)
-    own_vals = [v2.metric_value(r, team_id, market) for r in own_hist]
+    own_vals = [v2.observed_value(r, team_id, market, market_scope) for r in own_hist]
     own_vals = [x for x in own_vals if isinstance(x, (int, float))]
-    opp_vals = v2.opponent_allowed_values(opp_hist, opp_id, market)
+    opp_vals = v2.opponent_allowed_values(opp_hist, opp_id, market, market_scope)
     if not own_vals or not opp_vals:
         return None
-    ow, pw = v2.window_set(own_vals, line), v2.window_set(opp_vals, line)
+    ow, pw = v2.window_set(own_vals, line, direction), v2.window_set(opp_vals, line, direction)
     os, ps = v2.weighted_windows(ow), v2.weighted_windows(pw)
     if os is None or ps is None:
         return None
-    pure = 0.61 * os + 0.39 * ps
-    reliability = reliability_from_blocks(ow.get("L15"), pw.get("L15"), None, 0)
+    own_weight = 0.5 if market_scope == "match" else 0.61
+    pure = own_weight * os + (1-own_weight) * ps
+    reliability = reliability_from_blocks(ow.get("L15"), pw.get("L15"), None, 0, own_weight)
     return {"pure": pure, "reliability": reliability, "own": ow, "opp": pw, "n": min(len(own_vals), len(opp_vals))}
 
 
@@ -283,8 +293,9 @@ def recompute_europe(item, fixture, rows):
     opp_side = "away" if item["team_side"] == "home" else "home"
     opp_id = fixture.get("teams", {}).get(opp_side, {}).get("id")
     dt = v2.parse_dt(item.get("kickoff"))
-    domestic = simple_combined(rows, team_id, opp_id, dt, item["market"], item["line"], "domestic")
-    europe = simple_combined(rows, team_id, opp_id, dt, item["market"], item["line"], "europe_only")
+    extra = (item.get("direction", "over"), item.get("market_scope", "team"))
+    domestic = simple_combined(rows, team_id, opp_id, dt, item["market"], item["line"], "domestic", *extra)
+    europe = simple_combined(rows, team_id, opp_id, dt, item["market"], item["line"], "europe_only", *extra)
     if not domestic:
         return None
     w_euro = 0.0
@@ -300,7 +311,11 @@ def recompute_europe(item, fixture, rows):
 
 
 def reliability_existing(item):
-    rel = reliability_from_blocks((item.get("own") or {}).get("L15"), (item.get("opponent_allowed") or {}).get("L15"), item.get("venue"), 0.10)
+    match = item.get("market_scope") == "match"
+    rel = reliability_from_blocks((item.get("own") or {}).get("L15"), (item.get("opponent_allowed") or {}).get("L15"), item.get("venue"), 0.10, 0.5 if match else 0.61)
+    venues = item.get("match_venue") or {}
+    if match and rel is not None and venues.get("home") and venues.get("away"):
+        rel = 0.9 * rel + 0.05 * block_lower(venues["home"]) + 0.05 * block_lower(venues["away"])
     return round(rel if rel is not None else float(item["api_pure_pct"]), 1)
 
 
@@ -326,7 +341,10 @@ def fetch_context(fixtures, positions):
         context["errors"].append({"stage": "injuries", "error": str(exc)})
 
     now = datetime.now(timezone.utc)
+    relevant_ids = {item["fixture_id"] for item in positions}
     for fid, g in fixtures.items():
+        if fid not in relevant_ids:
+            continue
         try:
             ko = datetime.fromisoformat(g.get("fixture", {}).get("date", "").replace("Z", "+00:00"))
             mins = (ko.astimezone(timezone.utc) - now).total_seconds() / 60.0
@@ -349,10 +367,14 @@ def context_for_item(item, fixture, ctx):
     # Context is audit-first in v3. It is not allowed to add positive points until calibrated.
     delta = 0.0
     flags = []
-    if own.get("missing", 0) >= opp.get("missing", 0) + 4:
+    if item.get("market_scope") == "match":
+        if max(own.get("missing", 0), opp.get("missing", 0)) >= 6:
+            delta -= 0.5
+            flags.append("fixture_squad_uncertainty")
+    elif own.get("missing", 0) >= opp.get("missing", 0) + 4:
         delta -= 1.0
         flags.append("selected_team_more_missing")
-    if own.get("missing", 0) >= 6:
+    if item.get("market_scope") != "match" and own.get("missing", 0) >= 6:
         delta -= 0.5
         flags.append("selected_team_many_missing")
     delta = max(-1.5, delta)
@@ -429,7 +451,7 @@ def main():
 
     base_rows = v2.load_rows()
     # Prefetch covers the full fixture scope before raw statistics. Reuse the cache here.
-    national_refresh = refresh_national_history(relevant_fixtures, base_rows)
+    national_refresh = refresh_national_history(relevant_fixtures, base_rows, reuse_current=True)
     rows = merge_rows(base_rows, load_dynamic_rows())
 
     context = fetch_context(fixture_map, raw_positions)

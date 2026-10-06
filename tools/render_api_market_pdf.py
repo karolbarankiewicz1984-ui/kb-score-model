@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
-from api_market_policy import load_policy, target_date
+from api_market_policy import load_policy, quote_text, target_date
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
@@ -106,20 +106,27 @@ def build_pdf(payload):
     positions = payload.get("top_positions") or []
     policy = (payload.get("publication") or {}).get("policy") or load_policy()
     floor = policy["publish_min_final_pct"]
+    captured = payload.get("generated_at_utc") or (payload.get("publication") or {}).get("captured_at_utc")
+    quote_time = datetime.fromisoformat(captured.replace("Z", "+00:00")).astimezone(WARSAW).strftime("%H:%M") if captured else "-"
     story = [
         Paragraph(f"API MARKET SCAN - {safe(TARGET)}", title),
         Paragraph(
             f"Nierozpoczęte mecze: <b>{payload.get('fixtures_scanned', 0)}</b> &nbsp;&nbsp; | &nbsp;&nbsp; "
             f"historia: <b>{payload.get('history_matches_loaded', 0)}</b> meczów &nbsp;&nbsp; | &nbsp;&nbsp; pozycje: <b>{len(positions)}</b><br/>"
             f"<b>Próg oceny końcowej: {floor:g}/100. Bez limitu liczby pozycji.</b><br/>"
-            "Najpierw praktyczne linie z notowaniami; dalej pozycje wymagające sprawdzenia dostępności.<br/>"
+            f"Odczyt notowań: {quote_time} czasu polskiego.<br/>"
+            "Wyłącznie kwotowane warianty powyżej/poniżej: drużyna lub cały mecz. Najpierw gole i rożne.<br/>"
+            "<b>Notowania API nie potwierdzają oferty STS.</b> Przy każdej pozycji podajemy źródło kursu.<br/>"
             "API PURE = pokrycie historyczne. Ocena końcowa uwzględnia wiarygodność próby, rozgrywki, bieżący rynek i dostępny kontekst meczowy.",
             subtitle,
         ),
     ]
+    odds_errors = (payload.get("market_overlay") or {}).get("odds_errors") or []
+    if odds_errors:
+        story.append(Paragraph(f"Uwaga: nie udało się pobrać notowań dla {len(odds_errors)} meczów. Lista może być niepełna.", subtitle))
 
     if not positions:
-        story += [Paragraph("Brak pozycji spełniających dzisiejsze progi.", heading), Paragraph("System nie uzupełnia raportu słabszymi kandydatami.", comment_style)]
+        story += [Paragraph("Brak kwotowanych wariantów z oceną od ustalonego progu.", heading), Paragraph("Raport nie jest uzupełniany liniami bez notowań.", comment_style)]
     else:
         for idx, item in enumerate(positions, 1):
             pure = item.get("api_pure_pct")
@@ -127,12 +134,14 @@ def build_pdf(payload):
             delta = float(final or pure or 0) - float(pure or 0)
             availability = (item.get("sts_availability") or {}).get("label", "Dostępność w STS niepotwierdzona.")
             comment = item.get("final_comment") or item.get("market_comment") or ""
+            kickoff = datetime.fromisoformat(item["kickoff"].replace("Z", "+00:00")).astimezone(WARSAW).strftime("%H:%M")
             color = "#166534" if delta > 0.4 else "#B91C1C" if delta < -0.4 else "#374151"
             block = [
                 Paragraph(f"{idx}. {safe(item.get('selection'))}", heading),
-                Paragraph(f"{safe(item.get('home'))} - {safe(item.get('away'))} ({safe(item.get('competition'))})", match_style),
+                Paragraph(f"{kickoff} Polska | {safe(item.get('home'))} - {safe(item.get('away'))} ({safe(item.get('competition'))})", match_style),
                 Paragraph(f"<b>API PURE:</b> {pct(pure)} &nbsp;&nbsp;&nbsp; <b>Ocena końcowa:</b> <font color='{color}'><b>{float(final):.1f}/100 {arrow(delta)}</b>{delta_text(delta)}</font>", metric_style),
                 Paragraph(f"<b>Dostępność:</b> {safe(availability)}", match_style),
+                Paragraph(safe(quote_text(item)), match_style),
                 Paragraph(f"<b>Komentarz:</b> {safe(comment)}", comment_style),
             ]
             box = Table([[block]], colWidths=[A4[0] - 28 * mm], hAlign="LEFT")
@@ -153,9 +162,10 @@ def build_pdf(payload):
             "<b>API PURE</b> - surowy wynik z historii i statystyk, bez późniejszych korekt. "
             "<b>Ocena końcowa</b> - konserwatywna ocena po sprawdzeniu wiarygodności próby, rodzaju rozgrywek, rynku i dostępnego bieżącego kontekstu. "
             "<b>↑ / ↓ / →</b> - ocena końcowa jest odpowiednio wyższa, niższa albo podobna do API PURE. "
-            f"Lista obejmuje wszystkie pozycje z oceną końcową od {floor:g}, uporządkowane według dostępności linii, a w każdej grupie malejąco po ocenie. "
+            f"Lista obejmuje wszystkie kwotowane warianty z oceną końcową od {floor:g}; najpierw gole i rożne, w grupach malejąco po ocenie. "
             "Ocena /100 jest wskaźnikiem modelu, kalibrowanym na jego własnych wynikach. "
             "Oznaczenie dostępności pomaga znaleźć praktyczne rynki, ale oferta STS wymaga sprawdzenia. "
+            "Żółte kartki nie zastępują punktów/liczby kartek z uwzględnieniem czerwonych. "
             "<b>Komentarz</b> prostym językiem mówi, co najbardziej wpłynęło na ocenę. "
             "Pełna warstwa techniczna pozostaje w GitHubie. Raport jest osobny od KB Score 2.1 CORE i nie zmienia jego ustawień ani N.",
             comment_style,

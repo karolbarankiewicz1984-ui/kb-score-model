@@ -26,7 +26,7 @@ with patch.object(sys, "argv", ["tests", "2030-01-02"]):
 def item(line=0.5, score=70, **kwargs):
     result = dict(fixture_id=1, team_id=10, team_side="home", market="team_goals", line=line,
         kickoff="2030-01-02T20:00:00+00:00", api_pure_pct=80, final_assessment_pct=score,
-        market_data={}, final_status="WATCH", market_signal="STRONG_WARNING",
+        market_data={"exact_line_available":True, "quotes":[{"bookmaker":"TestBook", "over_odd":1.8, "under_odd":1.8}]}, final_status="WATCH", market_signal="STRONG_WARNING",
         home="Home", away="Away", competition="Premier League", selection=f"Home over {line}",
         confidence_api=7, reliability_adjusted_pct=70)
     result.update(kwargs)
@@ -47,6 +47,14 @@ def history(count=5):
         for i in range(count)]
 
 
+def quoted_odds():
+    values = [{"value":f"{direction} {i+0.5}", "odd":"1.8"}
+              for i in range(24) for direction in ("Over", "Under")]
+    return [{"bookmakers":[{"id":1, "name":"TestBook", "bets":[
+        {"id":221, "name":"Shots. Home Total", "values":values},
+        {"id":5, "name":"Goals Over/Under", "values":values}]}]}]
+
+
 class PolicyTests(unittest.TestCase):
     def test_one_threshold_no_quantity_status_market_or_fixture_filter(self):
         candidates = [item(line=i+0.5, score=67, market="shots") for i in range(180)]
@@ -57,14 +65,13 @@ class PolicyTests(unittest.TestCase):
         self.assertTrue(all(x["market_signal"] == "STRONG_WARNING" for x in ranked))
 
     def test_sts_is_not_falsely_verified(self):
-        unknown = policy.sts_availability(item())
+        unknown = policy.sts_availability(item(market_data={}))
         self.assertEqual(unknown["status"], "unknown")
-        actual = policy.sts_availability(item(market_data={"quotes":[{"bookmaker":"STS"}]}))
+        actual = policy.sts_availability(item(market_data={"quotes":[{"bookmaker":"STS", "over_odd":1.8}]}))
         self.assertEqual(actual["status"], "verified_quote")
 
     def test_practical_lines_are_preferred_without_hiding_other_results(self):
-        candidates = [item(score=90, market="shots"),
-                      item(score=68, market_data={"exact_line_available":True})]
+        candidates = [item(score=90, market="shots"), item(score=68)]
         ranked = policy.rank_positions(candidates,67)
         self.assertEqual(len(ranked),2)
         self.assertEqual(ranked[0]["final_assessment_pct"],68)
@@ -192,6 +199,8 @@ class FreezeTests(IsolatedWorkspace):
         def api(endpoint,**kwargs):
             if endpoint=="fixtures":
                 return {"response":[fixture()],"errors":[]},{}
+            if endpoint=="odds":
+                return {"response":quoted_odds(), "errors":[], "paging":{"total":1}},{}
             return {"response":[],"errors":[],"paging":{"total":1}},{}
         with patch.object(raw,"api_get",side_effect=api), patch.object(raw,"load_rows",return_value=history()):
             raw.main()
@@ -204,6 +213,9 @@ class FreezeTests(IsolatedWorkspace):
             publication.main()
         output=json.loads(Path("data/api_football/market_scan/2030-01-02.json").read_text())
         self.assertGreater(len(output["top_positions"]),10)
+        self.assertEqual({x["direction"] for x in output["top_positions"]}, {"over", "under"})
+        self.assertEqual({x["market_scope"] for x in output["top_positions"]}, {"team", "match"})
+        self.assertTrue(all(policy.selection_quotes(x) for x in output["top_positions"]))
         self.assertEqual(len(output["background_candidates"]),len(source["background_candidates"]))
         self.assertEqual(sentinel.read_text(),"protected-core")
         integrity.assert_api_paths([str(p) for p in Path(".").rglob("*") if p.is_file() and p!=sentinel])

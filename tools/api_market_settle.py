@@ -42,23 +42,27 @@ def stat_value(stats, name):
 
 
 def actual_metric(fixture, blocks, item):
+    sides = ("home", "away") if item.get("market_scope") == "match" else (item.get("team_side"),)
     if item.get("market") == "team_goals":
         fulltime = (fixture.get("score") or {}).get("fulltime") or {}
-        if fulltime.get(item.get("team_side")) is not None:
-            return fulltime[item["team_side"]]
-        if fixture.get("fixture", {}).get("status", {}).get("short") != "FT":
-            return None
-        return (fixture.get("goals") or {}).get(item.get("team_side"))
+        values = []
+        for side in sides:
+            value = fulltime.get(side)
+            if value is None and fixture.get("fixture", {}).get("status", {}).get("short") == "FT":
+                value = (fixture.get("goals") or {}).get(side)
+            values.append(value)
+        return sum(values) if all(isinstance(x, (int, float)) for x in values) else None
     if fixture.get("fixture", {}).get("status", {}).get("short") != "FT":
         return None  # No regulation-time statistical split for extra-time games.
-    target = item.get("team_id")
+    targets = [item.get("team_id")] if item.get("market_scope") != "match" else [
+        (fixture.get("teams") or {}).get(side, {}).get("id") for side in sides]
     stat_name = STAT_NAMES.get(item.get("market"))
     if not stat_name:
         return None
-    for block in blocks or []:
-        if block.get("team", {}).get("id") == target:
-            return stat_value(block.get("statistics") or [], stat_name)
-    return None
+    values = {block.get("team", {}).get("id"): stat_value(block.get("statistics") or [], stat_name)
+              for block in blocks or []}
+    actuals = [values.get(target) if target is not None else None for target in targets]
+    return sum(actuals) if all(isinstance(x, (int, float)) for x in actuals) else None
 
 
 def closing_for(item):
@@ -138,6 +142,9 @@ def rebuild_summary():
         add(f"version:{row.get('model_version')}", row)
         add("published:" + str(bool(row.get("published"))), row)
         add(f"market:{row.get('market')}", row)
+        add(f"scope:{row.get('market_scope', 'team')}", row)
+        add(f"direction:{row.get('direction', 'over')}", row)
+        add(f"outcome:{row.get('market')}:{row.get('market_scope', 'team')}:{row.get('direction', 'over')}", row)
         add(f"status:{row.get('final_status') or 'LEGACY'}", row)
         add(f"api_band:{band(row.get('api_pure_pct'))}", row)
         add(f"final_band:{band(row.get('final_assessment_pct'))}", row)
@@ -211,7 +218,7 @@ def main():
             errors.append({"fixture_id": fid, "selection": item.get("selection"), "error": "missing_actual_metric"})
             continue
 
-        hit = 1 if float(actual) > float(item.get("line")) else 0
+        hit = int(v2.outcome_hit(float(actual), float(item.get("line")), item.get("direction", "over")))
         final_pct = item.get("final_assessment_pct")
         if final_pct is None:
             final_pct = item.get("market_adjusted_pct", item.get("api_pure_pct"))
@@ -233,6 +240,10 @@ def main():
             "competition": item.get("competition"),
             "category": item.get("category"),
             "market": item.get("market"),
+            "market_scope": item.get("market_scope", "team"),
+            "direction": item.get("direction", "over"),
+            "team_side": item.get("team_side"),
+            "bet_id": item.get("bet_id"),
             "line": item.get("line"),
             "actual": actual,
             "hit": hit,
