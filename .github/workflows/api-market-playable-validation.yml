@@ -1,0 +1,26 @@
+name: API playable shadow validation
+on:
+  push:
+    branches:
+      - experiment/api-market-2-playable-odds
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unit tests
+        run: python -B -m unittest discover -s tests -p 'test_api_market_playable_shadow.py' -v
+      - name: Shadow run on archived days
+        run: |
+          python tools/api_market_playable_shadow.py 2026-10-06
+          python tools/api_market_playable_shadow.py 2026-10-08
+          cat reports/api_market_scan/v2/API_MARKET_SCAN_PLAYABLE_2026-10-06.json
+          cat reports/api_market_scan/v2/API_MARKET_SCAN_PLAYABLE_2026-10-08.json
+      - name: Upload experimental outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-playable-shadow-reports
+          path: reports/api_market_scan/v2/
