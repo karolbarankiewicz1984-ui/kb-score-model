@@ -1,0 +1,66 @@
+name: API Market Scan multi-day experiment
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: 'First date YYYY-MM-DD (blank = today Europe/Warsaw)'
+        required: false
+        type: string
+      days:
+        description: 'Number of consecutive days (1-7)'
+        required: true
+        default: '3'
+        type: choice
+        options: ['1', '2', '3', '4', '5', '6', '7']
+permissions:
+  contents: read
+jobs:
+  multiday:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out experimental scan code
+        uses: actions/checkout@v4
+        with:
+          ref: experiment/api-market-2-playable-odds
+      - name: Test experimental date planner and market filters
+        run: |
+          python -m unittest discover -s tests -p 'test_api_market_multiday_dates.py' -v
+          python -m unittest discover -s tests -p 'test_api_market_playable_shadow.py' -v
+      - name: Independent scan per date
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          START_DATE: ${{ inputs.start_date }}
+          DAYS: ${{ inputs.days }}
+        shell: bash
+        run: |
+          set -u
+          test -n "$API_FOOTBALL_KEY" || { echo "Missing API_FOOTBALL_KEY"; exit 1; }
+          mkdir -p reports/api_market_scan/multiday_status
+          args=(--days "$DAYS")
+          if [ -n "$START_DATE" ]; then args+=(--start "$START_DATE"); fi
+          python tools/api_market_multiday_dates.py "${args[@]}" > /tmp/api_scan_dates.txt
+          while IFS= read -r target; do
+            echo "::group::API Market Scan $target"
+            if python tools/api_national_today_prefetch.py "$target" &&
+               python tools/api_market_scan.py "$target" &&
+               python tools/api_market_v3_enrich.py "$target" &&
+               python tools/api_market_report_diversify.py "$target" &&
+               python tools/api_market_playable_shadow.py "$target"; then
+              printf '{"date":"%s","status":"ok"}\n' "$target" > "reports/api_market_scan/multiday_status/$target.json"
+            else
+              printf '{"date":"%s","status":"error","reason":"Scan failed; see logs"}\n' "$target" > "reports/api_market_scan/multiday_status/$target.json"
+              echo "::warning::Scan failed for $target"
+            fi
+            echo "::endgroup::"
+          done < /tmp/api_scan_dates.txt
+      - name: Upload dated reports and statuses
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-market-multiday-experiment
+          path: |
+            reports/api_market_scan/v2/API_MARKET_SCAN_PLAYABLE_*.md
+            reports/api_market_scan/v2/API_MARKET_SCAN_PLAYABLE_*.json
+            reports/api_market_scan/multiday_status/*.json
+          if-no-files-found: warn
