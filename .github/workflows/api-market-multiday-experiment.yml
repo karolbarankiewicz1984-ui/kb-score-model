@@ -25,7 +25,7 @@ jobs:
       - name: Check Warsaw schedule (DST-aware)
         id: warsaw
         env:
-          EVENT_NAME: \${{ github.event_name }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           if [ "$EVENT_NAME" = 'schedule' ]; then
             hour=$(TZ=Europe/Warsaw date +%H)
