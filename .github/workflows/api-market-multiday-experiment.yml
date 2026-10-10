@@ -69,6 +69,7 @@ jobs:
                python tools/api_market_v3_enrich.py "$target" &&
                python tools/api_market_report_diversify.py "$target" &&
                python tools/api_market_playable_shadow.py "$target" &&
+               python tools/api_market_freeze.py "$target" &&
                python tools/api_market_to_pdf.py "$target"; then
               printf '{"date":"%s","status":"ok"}\n' "$target" > "reports/api_market_scan/multiday_status/$target.json"
             else
@@ -87,4 +88,5 @@ jobs:
             reports/api_market_scan/v2/API_MARKET_SCAN_PLAYABLE_*.json
             reports/api_market_scan/multiday_status/*.json
             reports/api_market_scan/pdf/API_MARKET_SCAN_*.pdf
+            reports/api_market_scan/audit_input/*.json
           if-no-files-found: warn
