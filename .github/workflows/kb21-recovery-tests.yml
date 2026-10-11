@@ -6,9 +6,11 @@ on:
       - 'tools/kb21_api_prematch.py'
       - 'tools/kb21_api_diagnostic.py'
       - 'tools/kb21_gate_audit.py'
+      - 'tools/kb21_independent_calendar.py'
       - 'tests/test_kb21_engine.py'
       - 'tests/test_kb21_api_diagnostic.py'
       - 'tests/test_kb21_gate_audit.py'
+      - 'tests/test_kb21_independent_calendar.py'
       - '.github/workflows/kb21-recovery-tests.yml'
   workflow_dispatch:
 jobs:
