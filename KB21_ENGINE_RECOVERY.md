@@ -1,0 +1,6 @@
+# KB Score 2.1 — recovery engine (provisional)
+This is a **working calculation module**, not a certified reconstruction of the historical model.
+Run: `python -m unittest discover -s tests -p 'test_kb21_engine.py'`
+Run a candidate: `python tools/kb21_engine.py input.json --output candidate.json`.
+The input requires: two verified fixture sources, a dated pre-match snapshot, independently documented normalized 0–100 structural/quality/matchup scores, and home/away expected goals. Missing inputs **fail closed**, never fabricated. Sport Score = 35/35/30. Raw P(model) is calculated from a transparent independent Poisson goal model, not from bookmaker odds. P(cal) is diagnostic only.
+**Not yet validated:** The historical KB Score did not specify an exact mathematical conversion from Sport Score and xG to P(model). This Poisson estimator is a provisional replacement, not guaranteed identical to previous KB decisions. Never silently merge its predictions with the existing KB N, promote to PLAY, or backfill history until forward validation and approval. No automatic Google Sheets writing, settlement, market snapshots or PDF publication is provided by this module. Existing N150/N200 and DEV checkpoints remain unchanged.
