@@ -12,6 +12,8 @@ def assess(record):
     if not record.get("fixture_verified_independent"): reasons.append("INDEPENDENT_FIXTURE_UNVERIFIED")
     sources=record.get("sources") or []
     if len(set(sources))<2: reasons.append("SOURCE_PROVENANCE_INSUFFICIENT")
+    if sources and all("api-football" in str(source).lower() for source in sources):
+        reasons.append("ONLY_ONE_SOURCE_PROVIDER")
     for name in FIELDS:
         v=record.get(name)
         if isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v):
