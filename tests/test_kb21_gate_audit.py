@@ -15,6 +15,7 @@ class GateAuditTests(unittest.TestCase):
     def test_even_complete_review_is_not_play(self):
         row={"fixture_id":2,"event":"A - B","fixture_verified_official":True,
              "fixture_verified_independent":True,"sources":["official","independent"],
+             "calendar_evidence":{"official":"official fixture reference","independent":"independent fixture reference"},
              "structural_0_100":70,"quality_0_100":60,"matchup_0_100":50,
              "home_expected_goals":1.3,"away_expected_goals":1.1,
              "api_goal_rates":{"home":{"sample_size":10},"away":{"sample_size":10}}}
