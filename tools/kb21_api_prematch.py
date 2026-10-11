@@ -93,6 +93,9 @@ def main():
         candidates.append({
             "event":teams["home"]["name"]+" – "+teams["away"]["name"],
             "fixture_id":fixture["fixture"]["id"],
+            "home_team_id":teams["home"]["id"],"away_team_id":teams["away"]["id"],
+            "home_team":teams["home"]["name"],"away_team":teams["away"]["name"],
+            "league_season":fixture["league"].get("season"),
             "league_id":fixture["league"].get("id"),"league_country":fixture["league"].get("country"),
             "league":fixture["league"]["name"],
             "kickoff_utc":fixture["fixture"]["date"],
