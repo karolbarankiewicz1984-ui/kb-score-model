@@ -1,0 +1,44 @@
+name: KB21 independent football-data.org snapshot
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'YYYY-MM-DD (blank = Warsaw today)'
+        required: false
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: kb21-independent-calendar
+  cancel-in-progress: false
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check independent API credential
+        env:
+          FOOTBALL_DATA_ORG_KEY: ${{ secrets.FOOTBALL_DATA_ORG_KEY }}
+        run: test -n "$FOOTBALL_DATA_ORG_KEY"
+      - name: Fetch independent fixture snapshot
+        env:
+          FOOTBALL_DATA_ORG_KEY: ${{ secrets.FOOTBALL_DATA_ORG_KEY }}
+          REQUESTED_DATE: ${{ inputs.date }}
+        run: |
+          DATE="$REQUESTED_DATE"
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
+          python -m tools.kb21_football_data_org --date "$DATE"
+      - name: Commit snapshot (not model data)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/football_data_org/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data: independent football-data.org fixture snapshot"
+          git pull --rebase
+          git push
