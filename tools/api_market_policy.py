@@ -48,7 +48,7 @@ def quote_text(item):
         return "Brak notowania wybranego wariantu."
     prices = [q["selected_odd"] for q in quotes]
     price = f"{min(prices):.2f}" if min(prices) == max(prices) else f"{min(prices):.2f}–{max(prices):.2f}"
-    names = sorted({str(q.get("bookmaker") or "nieznany") for q in quotes}, key=lambda name: (name.casefold() != "sts", name))
+    names = sorted({str(q.get("bookmaker") or "nieznany") for q in quotes}, key=str.casefold)
     names_text = ", ".join(names[:3]) + (f" i {len(names)-3} innych" if len(names) > 3 else "")
     return f"Kursy w API: {price}. Źródła notowań: {names_text}."
 
@@ -80,10 +80,9 @@ def rank_positions(candidates, floor):
         if not selection_quotes(old):
             continue
         item = dict(old)
-        item["sts_availability"] = sts_availability(item)
+        item["sts_availability"] = {"status":"not_evaluated","preference":0,"label":"Bez dopasowywania do STS i Superbet."}
         result.append(item)
     result.sort(key=lambda x: (
-        -x["sts_availability"]["preference"],
         -float(x["final_assessment_pct"]),
         -float(x.get("api_pure_pct") or 0),
         candidate_key(x),
