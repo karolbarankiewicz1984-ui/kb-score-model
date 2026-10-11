@@ -1,5 +1,22 @@
 """Read-only match grouping shared by API reports; never changes predictions."""
 from datetime import datetime, timezone
+
+
+def practical_shortlist(positions, limit=12, min_odd=1.15, max_per_match=2):
+    """Display-only shortlist; original rankings and archives remain untouched."""
+    from api_market_policy import selection_quotes
+    ranked = sorted(positions, key=lambda x: (-float(x.get("final_assessment_pct") or 0), str(x.get("fixture_id"))))
+    selected, counts = [], {}
+    for item in ranked:
+        odds = [q["selected_odd"] for q in selection_quotes(item)]
+        if not odds or max(odds) < min_odd or counts.get(item["fixture_id"], 0) >= max_per_match:
+            continue
+        selected.append(item)
+        counts[item["fixture_id"]] = counts.get(item["fixture_id"], 0) + 1
+        if len(selected) >= limit:
+            break
+    return selected
+
 from zoneinfo import ZoneInfo
 
 
@@ -29,17 +46,24 @@ def grouped_markdown(payload, floor):
     positions = payload.get("top_positions") or []
     groups = group_positions(positions)
     from api_market_policy import quote_text
+    shortlist = practical_shortlist(positions)
     lines = [f"# API Market Scan - {payload['date']} - według meczów", "",
         f"Mecze: {len(groups)}. Typy: {len(positions)}. Próg oceny końcowej: {floor:g}/100. Bez limitu pozycji.",
         "Mecze według godziny rozpoczęcia w Polsce. Pod każdym meczem wszystkie jego typy w kolejności z rankingu API.",
         "API PURE to pokrycie historyczne; ocena końcowa uwzględnia próbę, rozgrywki, rynek i dostępny kontekst. Ocena /100 nie jest skalibrowanym prawdopodobieństwem.",
-        "Notowania pochodzą od wymienionych bukmacherów. Dostępność i kurs w STS pozostają niepotwierdzone bez notowania STS.",
+        "Bez dopasowywania do STS i Superbet. Kursy to wyłącznie notowania od dostawcy API.",
         "Żółte kartki to odrębna statystyka; nie zastępują liczby/punktów kartek z uwzględnieniem czerwonych.", "",
         f"Odczyt notowań: {payload.get('generated_at_utc') or payload.get('publication', {}).get('captured_at_utc')} (UTC).",
         f"Wersja prognozy: `{payload.get('publication', {}).get('id', '-')}`", ""]
     errors = (payload.get("market_overlay") or {}).get("odds_errors") or []
     if errors:
         lines += [f"Uwaga: pobranie notowań nie powiodło się dla {len(errors)} meczów; lista może być niepełna.", ""]
+    lines += ["## Krótka lista praktycznych wariantów (informacyjna)", "Do 12 pozycji, maksymalnie 2 na mecz, z notowaniem co najmniej 1,15. To filtr prezentacji, nie zmiana oceny ani rekomendacja obstawiania.", ""]
+    for item in shortlist:
+        lines.append(f"- {item['home']} – {item['away']}: {item['selection']} | ocena {item['final_assessment_pct']:.1f}/100 | {quote_text(item)}")
+    if not shortlist:
+        lines.append("Brak pozycji spełniających dodatkowe warunki listy praktycznej.")
+    lines += ["", "## Pełny ranking według meczów", ""]
     for index, items in enumerate(groups, 1):
         first = items[0]
         lines += [f"## {index}. {first['home']} - {first['away']}",
@@ -47,9 +71,8 @@ def grouped_markdown(payload, floor):
             "| Typ | API PURE | Ocena /100 | Kursy i dostępność | Komentarz |",
             "| --- | ---: | ---: | --- | --- |"]
         for item in items:
-            availability = (item.get("sts_availability") or {}).get("label", "STS: niepotwierdzone.")
             cells = [item['selection'], f"{item['api_pure_pct']:.1f}%", f"{item['final_assessment_pct']:.1f}",
-                quote_text(item) + " " + availability, item.get('final_comment') or item.get('market_comment') or ""]
+                quote_text(item), item.get('final_comment') or item.get('market_comment') or ""]
             lines.append("| " + " | ".join(markdown_cell(cell) for cell in cells) + " |")
         lines.append("")
     if not positions:
