@@ -2,18 +2,19 @@
 from datetime import datetime, timezone
 
 
-def practical_shortlist(positions, limit=12, min_odd=1.15, max_per_match=2):
+def practical_shortlist(positions, limit=None, min_odd=1.20, max_per_match=3, min_score=67.0):
     """Display-only shortlist; original rankings and archives remain untouched."""
     from api_market_policy import selection_quotes
     ranked = sorted(positions, key=lambda x: (-float(x.get("final_assessment_pct") or 0), str(x.get("fixture_id"))))
     selected, counts = [], {}
     for item in ranked:
         odds = [q["selected_odd"] for q in selection_quotes(item)]
-        if not odds or max(odds) < min_odd or counts.get(item["fixture_id"], 0) >= max_per_match:
+        if (float(item.get("final_assessment_pct") or 0) < min_score or not odds
+                or max(odds) < min_odd or counts.get(item["fixture_id"], 0) >= max_per_match):
             continue
         selected.append(item)
         counts[item["fixture_id"]] = counts.get(item["fixture_id"], 0) + 1
-        if len(selected) >= limit:
+        if limit is not None and len(selected) >= limit:
             break
     return selected
 
@@ -58,12 +59,12 @@ def grouped_markdown(payload, floor):
     errors = (payload.get("market_overlay") or {}).get("odds_errors") or []
     if errors:
         lines += [f"Uwaga: pobranie notowań nie powiodło się dla {len(errors)} meczów; lista może być niepełna.", ""]
-    lines += ["## Krótka lista praktycznych wariantów (informacyjna)", "Do 12 pozycji, maksymalnie 2 na mecz, z notowaniem co najmniej 1,15. To filtr prezentacji, nie zmiana oceny ani rekomendacja obstawiania.", ""]
+    lines += [f"## LISTA GŁÓWNA — {len(shortlist)} wariantów", "Kurs API od 1,20; ocena co najmniej 67/100; maksymalnie 3 propozycje na mecz. Bez limitu łącznej liczby meczów. Filtr prezentacji, nie zmiana oceny ani rekomendacja obstawiania.", ""]
     for item in shortlist:
         lines.append(f"- {item['home']} – {item['away']}: {item['selection']} | ocena {item['final_assessment_pct']:.1f}/100 | {quote_text(item)}")
     if not shortlist:
         lines.append("Brak pozycji spełniających dodatkowe warunki listy praktycznej.")
-    lines += ["", "## Pełny ranking według meczów", ""]
+    lines += ["", "## PEŁNE ARCHIWUM — wszystkie zakwalifikowane warianty według meczów", ""]
     for index, items in enumerate(groups, 1):
         first = items[0]
         lines += [f"## {index}. {first['home']} - {first['away']}",
