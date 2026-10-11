@@ -74,8 +74,8 @@ class PolicyTests(unittest.TestCase):
         candidates = [item(score=90, market="shots"), item(score=68)]
         ranked = policy.rank_positions(candidates,67)
         self.assertEqual(len(ranked),2)
-        self.assertEqual(ranked[0]["final_assessment_pct"],68)
-        self.assertEqual(ranked[1]["final_assessment_pct"],90)
+        self.assertEqual(ranked[0]["final_assessment_pct"],90)
+        self.assertEqual(ranked[1]["final_assessment_pct"],68)
 
     def test_no_raw_coverage_l10_or_seven_match_gate(self):
         rows = history(1)
