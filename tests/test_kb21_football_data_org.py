@@ -34,6 +34,15 @@ class IndependentAdapterTests(unittest.TestCase):
         self.assertEqual(result["competition_count"],1)
         self.assertEqual(result["competitions"][0]["code"],"PL")
         self.assertEqual(result["kb_n_effect"],0)
+    def test_competition_filter(self):
+        def opener(request,timeout):
+            self.assertIn("competitions=PL%2CPD",request.full_url)
+            response=FakeResponse()
+            response.payload=io.BytesIO(b'{"matches":[]}')
+            return response
+        result=fetch("2030-01-01","token",opener,competition_codes=["PL","PD"])
+        self.assertEqual(result["requested_competitions"],["PL","PD"])
+        self.assertEqual(result["fixtures"],[])
     def test_reject_bad_date(self):
         with self.assertRaises(ValueError):
             fetch("not-a-date","token")
