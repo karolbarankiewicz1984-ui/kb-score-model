@@ -148,5 +148,22 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add $TRACKED
           git commit -m "report: API Market Scan v3"
-          git pull --rebase origin main
-          git push origin main
+          # Concurrent report writers can modify the same date snapshot. Preserve the
+          # latest generated scan while retrying the push on top of current main.
+          for attempt in 1 2 3 4 5; do
+            if git push origin HEAD:main; then
+              echo "Scan published on attempt $attempt."
+              exit 0
+            fi
+            echo "Push race (attempt $attempt); replaying our report commit on latest main."
+            git fetch origin main
+            # Keep the new report commit, preferring our freshly generated scan files
+            # when another workflow published a snapshot for the same date.
+            GIT_SEQUENCE_EDITOR=: git -c merge.renormalize=true rebase -X ours origin/main || {
+              echo "Automatic report rebase failed; aborting to avoid corrupting data."
+              git rebase --abort || true
+              exit 1
+            }
+          done
+          echo "Could not publish after five attempts."
+          exit 1
