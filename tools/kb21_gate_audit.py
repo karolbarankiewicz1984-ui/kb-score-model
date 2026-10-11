@@ -29,6 +29,10 @@ def assess(record):
 def audit(data):
     rows=[assess(r) for r in data.get("candidates",[])]
     ready=sum(x["ready_for_review"] for x in rows)
+    reason_counts={}
+    for row in rows:
+        for reason in row["blocking_reasons"]:
+            reason_counts[reason]=reason_counts.get(reason,0)+1
     return {"date":data.get("date"),"status":"GATE_AUDIT_ONLY",
             "total":len(rows),"ready_for_review":ready,
             "blocked":len(rows)-ready,"blocker_counts":dict(sorted(reason_counts.items())),
