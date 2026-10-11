@@ -92,7 +92,7 @@ def build_pdf(payload, output=None, *, regrouped=False):
 
     shortlist = practical_shortlist(positions)
     story.append(Paragraph("<b>LISTA GŁÓWNA — PRAKTYCZNE WARIANTY</b>", subtitle))
-    story.append(Paragraph("Kurs API od 1,20; ocena od 67/100; do 3 pozycji na mecz, bez limitu liczby meczów. Filtr wyłącznie prezentacyjny; nie zmienia ocen ani pełnego rankingu.", subtitle))
+    story.append(Paragraph("Kurs API od 1,20; ocena od 67/100; do 3 pozycji na mecz, bez powtarzania tej samej statystyki i kierunku przy innych liniach. Bez limitu liczby meczów. Filtr wyłącznie prezentacyjny; nie zmienia ocen ani pełnego rankingu.", subtitle))
     if not shortlist:
         story.append(Paragraph("Brak pozycji spełniających warunki dodatkowej listy.", subtitle))
     for item in shortlist:
