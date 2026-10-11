@@ -3,7 +3,10 @@ on:
   push:
     paths:
       - 'tools/kb21_engine.py'
+      - 'tools/kb21_api_prematch.py'
+      - 'tools/kb21_api_diagnostic.py'
       - 'tests/test_kb21_engine.py'
+      - 'tests/test_kb21_api_diagnostic.py'
       - '.github/workflows/kb21-recovery-tests.yml'
   workflow_dispatch:
 jobs:
@@ -15,4 +18,4 @@ jobs:
         with:
           python-version: '3.11'
       - name: Unit tests
-        run: python -m unittest discover -s tests -p 'test_kb21_engine.py' -v
+        run: python -m unittest discover -s tests -p 'test_kb21*.py' -v
