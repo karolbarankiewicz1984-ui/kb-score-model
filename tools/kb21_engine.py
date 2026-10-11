@@ -52,9 +52,8 @@ def calculate(record, now=None):
     if selection not in probabilities:
         raise ValueError("Unsupported market; use home/draw/away/over_2_5/btts_yes")
     p = probabilities[selection]
-    bins = [(0,.45,.43),(.45,.55,.54),(.55,.60,.65),(.60,.65,.70),
-            (.65,.75,.75),(.75,.80,.83),(.80,.85,.84),(.85,1.00001,.88)]
-    p_cal = next(v for lo,hi,v in bins if lo <= p < hi)
+    # P(cal) requires empirical out-of-sample calibration; never fabricate bins.
+    p_cal = None
     odds = record.get("decimal_odds")
     if odds is not None:
         odds = required_number(record, "decimal_odds", 1.001, 1000)
