@@ -1,187 +1,21 @@
 {
   "date": "2026-10-11",
-  "snapshot_utc": "2026-10-11T18:28:38.714832+00:00",
+  "snapshot_utc": "2026-10-11T19:22:24.164013+00:00",
   "source": "API-Football",
-  "api_all_fixtures": 1167,
-  "pre_match_fixtures": 4,
+  "api_all_fixtures": 1166,
+  "pre_match_fixtures": 1,
+  "history_api_calls": 2,
+  "calendar_gate": "UNVERIFIED",
+  "coverage_warning": "API league filter is not an independent or official calendar verification",
   "candidates": [
-    {
-      "event": "Cagliari – Juventus",
-      "fixture_id": 1550138,
-      "league": "Serie A",
-      "kickoff_utc": "2026-10-11T20:45:00+02:00",
-      "snapshot_utc": "2026-10-11T18:28:38.714832+00:00",
-      "api_goal_rates": {
-        "home": {
-          "sample_size": 10,
-          "goals_for_per_match": 1.0,
-          "goals_against_per_match": 0.6,
-          "fixture_ids": [
-            1550135,
-            1550117,
-            1550109,
-            1628956,
-            1550099,
-            1550093,
-            1619650,
-            1585076,
-            1548049,
-            1548031
-          ]
-        },
-        "away": {
-          "sample_size": 10,
-          "goals_for_per_match": 1.7,
-          "goals_against_per_match": 0.7,
-          "fixture_ids": [
-            1643474,
-            1550132,
-            1636278,
-            1550124,
-            1550114,
-            1550101,
-            1550090,
-            1542351,
-            1542349,
-            1542346
-          ]
-        }
-      },
-      "fixture_verified_official": false,
-      "fixture_verified_independent": false,
-      "structural_0_100": null,
-      "quality_0_100": null,
-      "matchup_0_100": null,
-      "home_expected_goals": null,
-      "away_expected_goals": null,
-      "selection": "home",
-      "sources": [
-        "API-Football fixtures",
-        "API-Football historical fixtures"
-      ],
-      "readiness": "NOT_READY: independently verify calendar, normalized 35/35/30 and expected goals",
-      "freeze_allowed": false
-    },
-    {
-      "event": "Estac Troyes – Marseille",
-      "fixture_id": 1552782,
-      "league": "Ligue 1",
-      "kickoff_utc": "2026-10-11T20:45:00+02:00",
-      "snapshot_utc": "2026-10-11T18:28:38.714832+00:00",
-      "api_goal_rates": {
-        "home": {
-          "sample_size": 10,
-          "goals_for_per_match": 1.6,
-          "goals_against_per_match": 1.7,
-          "fixture_ids": [
-            1643493,
-            1552765,
-            1552760,
-            1552755,
-            1552740,
-            1552737,
-            1604790,
-            1585065,
-            1607244,
-            1563006
-          ]
-        },
-        "away": {
-          "sample_size": 10,
-          "goals_for_per_match": 1.4,
-          "goals_against_per_match": 1.9,
-          "fixture_ids": [
-            1552773,
-            1636232,
-            1552763,
-            1552751,
-            1552742,
-            1552733,
-            1604789,
-            1604785,
-            1604706,
-            1604512
-          ]
-        }
-      },
-      "fixture_verified_official": false,
-      "fixture_verified_independent": false,
-      "structural_0_100": null,
-      "quality_0_100": null,
-      "matchup_0_100": null,
-      "home_expected_goals": null,
-      "away_expected_goals": null,
-      "selection": "home",
-      "sources": [
-        "API-Football fixtures",
-        "API-Football historical fixtures"
-      ],
-      "readiness": "NOT_READY: independently verify calendar, normalized 35/35/30 and expected goals",
-      "freeze_allowed": false
-    },
-    {
-      "event": "Racing Santander – Valencia",
-      "fixture_id": 1570409,
-      "league": "La Liga",
-      "kickoff_utc": "2026-10-11T21:00:00+02:00",
-      "snapshot_utc": "2026-10-11T18:28:38.714832+00:00",
-      "api_goal_rates": {
-        "home": {
-          "sample_size": 10,
-          "goals_for_per_match": 1.6,
-          "goals_against_per_match": 2.6,
-          "fixture_ids": [
-            1570395,
-            1570385,
-            1570378,
-            1570370,
-            1570359,
-            1570348,
-            1570339,
-            1585046,
-            1585039,
-            1583587
-          ]
-        },
-        "away": {
-          "sample_size": 10,
-          "goals_for_per_match": 0.6,
-          "goals_against_per_match": 1.7,
-          "fixture_ids": [
-            1570401,
-            1570383,
-            1570381,
-            1570371,
-            1570356,
-            1570342,
-            1570352,
-            1618926,
-            1585078,
-            1583593
-          ]
-        }
-      },
-      "fixture_verified_official": false,
-      "fixture_verified_independent": false,
-      "structural_0_100": null,
-      "quality_0_100": null,
-      "matchup_0_100": null,
-      "home_expected_goals": null,
-      "away_expected_goals": null,
-      "selection": "home",
-      "sources": [
-        "API-Football fixtures",
-        "API-Football historical fixtures"
-      ],
-      "readiness": "NOT_READY: independently verify calendar, normalized 35/35/30 and expected goals",
-      "freeze_allowed": false
-    },
     {
       "event": "Arouca – Estrela",
       "fixture_id": 1575510,
+      "league_id": 94,
+      "league_country": "Portugal",
       "league": "Primeira Liga",
       "kickoff_utc": "2026-10-11T21:30:00+02:00",
-      "snapshot_utc": "2026-10-11T18:28:38.714832+00:00",
+      "snapshot_utc": "2026-10-11T19:22:24.164013+00:00",
       "api_goal_rates": {
         "home": {
           "sample_size": 10,
