@@ -31,7 +31,8 @@ def audit(data):
     ready=sum(x["ready_for_review"] for x in rows)
     return {"date":data.get("date"),"status":"GATE_AUDIT_ONLY",
             "total":len(rows),"ready_for_review":ready,
-            "blocked":len(rows)-ready,"rows":rows,
+            "blocked":len(rows)-ready,"blocker_counts":dict(sorted(reason_counts.items())),
+            "rows":rows,
             "calendar_gate":"UNVERIFIED" if data.get("calendar_gate")!="VERIFIED" else "REVIEW_REQUIRED",
             "kb_n_effect":0,"dev_n_effect":0,"register_writes":False,
             "note":"Passing this input audit alone never authorizes PLAY or an original KB21 P(model)."}
