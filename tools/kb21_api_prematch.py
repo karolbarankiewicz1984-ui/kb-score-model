@@ -67,18 +67,22 @@ def main():
     all_fixtures=payload.get("response",[])
     fixtures=[f for f in all_fixtures if in_scope(f) and parse_utc(f["fixture"]["date"])>now and f["fixture"]["status"]["short"]=="NS"]
     candidates=[]
+    history_cache={}
     for fixture in fixtures:
         start=parse_utc(fixture["fixture"]["date"])
         teams=fixture["teams"]
         rates={}
         for side in ("home","away"):
             team_id=teams[side]["id"]
-            past,_=client.get(BASE,key,"fixtures",team=team_id,last=12)
-            if past.get("errors"): raise RuntimeError(str(past["errors"]))
-            rates[side]=historic_goal_rates(past.get("response",[]),team_id,start)
+            if team_id not in history_cache:
+                past,_=client.get(BASE,key,"fixtures",team=team_id,last=12)
+                if past.get("errors"): raise RuntimeError(str(past["errors"]))
+                history_cache[team_id]=past.get("response",[])
+            rates[side]=historic_goal_rates(history_cache[team_id],team_id,min(start,now))
         candidates.append({
             "event":teams["home"]["name"]+" – "+teams["away"]["name"],
             "fixture_id":fixture["fixture"]["id"],
+            "league_id":fixture["league"].get("id"),"league_country":fixture["league"].get("country"),
             "league":fixture["league"]["name"],
             "kickoff_utc":fixture["fixture"]["date"],
             "snapshot_utc":now.isoformat(),
@@ -96,6 +100,7 @@ def main():
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps({"date":args.date,"snapshot_utc":now.isoformat(),
         "source":"API-Football","api_all_fixtures":len(all_fixtures),"pre_match_fixtures":len(fixtures),
+        "history_api_calls":len(history_cache),"calendar_gate":"UNVERIFIED",
         "candidates":candidates,"kb_n_effect":0,"dev_n_effect":0,
         "model_effect":"NONE","register_writes":False},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print(json.dumps({"output":str(path),"pre_match_fixtures":len(fixtures),
