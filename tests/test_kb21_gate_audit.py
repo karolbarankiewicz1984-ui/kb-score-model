@@ -8,6 +8,10 @@ class GateAuditTests(unittest.TestCase):
         self.assertIn("OFFICIAL_FIXTURE_UNVERIFIED",r["blocking_reasons"])
         self.assertIn("MISSING_HOME_EXPECTED_GOALS",r["blocking_reasons"])
         self.assertFalse(r["freeze_allowed"])
+    def test_same_provider_is_not_independent(self):
+        row={"sources":["API-Football fixtures","API-Football historical fixtures"],"api_goal_rates":{}}
+        result=assess(row)
+        self.assertIn("ONLY_ONE_SOURCE_PROVIDER",result["blocking_reasons"])
     def test_even_complete_review_is_not_play(self):
         row={"fixture_id":2,"event":"A - B","fixture_verified_official":True,
              "fixture_verified_independent":True,"sources":["official","independent"],
