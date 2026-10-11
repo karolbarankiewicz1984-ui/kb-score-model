@@ -10,6 +10,7 @@ import datetime as dt
 import json
 import os
 from pathlib import Path
+from zoneinfo import ZoneInfo
 from tools.api_market_http import ApiClient
 
 BASE="https://v3.football.api-sports.io"
@@ -55,7 +56,7 @@ def historic_goal_rates(matches, team_id, cutoff):
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument("--date",default=dt.datetime.now(dt.timezone(dt.timedelta(hours=2))).date().isoformat())
+    ap.add_argument("--date",default=dt.datetime.now(ZoneInfo("Europe/Warsaw")).date().isoformat())
     ap.add_argument("--out",default="data/api_football/kb21_inputs")
     ap.add_argument("--max-history-calls",type=int,default=100)
     args=ap.parse_args()
