@@ -17,7 +17,19 @@ def main():
     fixtures=allfixtures+api("fixtures",{"date":(datetime.date.fromisoformat(args.date)+datetime.timedelta(days=1)).isoformat(),"timezone":"Europe/Warsaw"})
     seen={f["fixture"]["id"]:f for f in fixtures}
     fixtures=list(seen.values())
-    mapping={"gole w meczu":("team_goals","match"),"gole druzyny":("team_goals","team"),"rozne w meczu":("corners","match"),"rozne druzyny":("corners","team"),"faule w meczu":("fouls","match"),"zolte kartki druzyny":("yellow","team"),"strzaly w meczu":("shots","match"),"strzaly celne w meczu":("shots_on_goal","match"),"spalone w meczu":("offsides","match"),"spalone druzyny":("offsides","team")}
+    mapping={norm(k):v for k,v in {
+        "gole w meczu":("team_goals","match"),
+        "gole drużyny":("team_goals","team"),
+        "rożne w meczu":("corners","match"),
+        "rożne drużyny":("corners","team"),
+        "faule w meczu":("fouls","match"),
+        "żółte kartki drużyny":("yellow","team"),
+        "strzały w meczu":("shots","match"),
+        "strzały celne w meczu":("shots_on_goal","match"),
+        "spalone w meczu":("offsides","match"),
+        "spalone drużyny":("offsides","team")
+    }.items()}
+
     picks=[];audit_matches=[]
     for i,m in enumerate(matches):
         home,away,kickoff=m.groups()
