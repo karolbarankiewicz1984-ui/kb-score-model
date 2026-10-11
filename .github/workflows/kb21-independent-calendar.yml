@@ -2,6 +2,11 @@ name: KB21 independent football-data.org snapshot
 on:
   workflow_dispatch:
     inputs:
+      discover_coverage:
+        description: "Only inspect competitions available to this API key"
+        required: false
+        type: boolean
+        default: false
       date:
         description: 'YYYY-MM-DD (blank = Warsaw today)'
         required: false
@@ -29,7 +34,12 @@ jobs:
         env:
           FOOTBALL_DATA_ORG_KEY: ${{ secrets.FOOTBALL_DATA_ORG_KEY }}
           REQUESTED_DATE: ${{ inputs.date }}
+          DISCOVER_COVERAGE: ${{ inputs.discover_coverage }}
         run: |
+          if [ "$DISCOVER_COVERAGE" = "true" ]; then
+            python -m tools.kb21_football_data_org --coverage-only
+            exit 0
+          fi
           DATE="$REQUESTED_DATE"
           if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
           python -m tools.kb21_football_data_org --date "$DATE"
