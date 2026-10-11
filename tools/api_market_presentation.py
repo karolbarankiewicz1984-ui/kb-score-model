@@ -6,13 +6,13 @@ def practical_shortlist(positions, limit=None, min_odd=1.20, max_per_match=3, mi
     """Display-only shortlist; original rankings and archives remain untouched."""
     from api_market_policy import selection_quotes
     ranked = sorted(positions, key=lambda x: (-float(x.get("final_assessment_pct") or 0), str(x.get("fixture_id"))))
-    selected, counts = [], {}
+    selected, counts, seen_families = [], {}, set()
     for item in ranked:
         odds = [q["selected_odd"] for q in selection_quotes(item)]
         if (float(item.get("final_assessment_pct") or 0) < min_score or not odds
                 or max(odds) < min_odd or counts.get(item["fixture_id"], 0) >= max_per_match):
             continue
-        selected.append(item)
+        # Same fixture, team, market, scope and direction with a different\n        # threshold is an overlapping bet, not an independent proposal.\n        family = (item.get("fixture_id"), item.get("team_id"),\n                  item.get("market"), item.get("market_scope", "team"),\n                  item.get("direction", "over"))\n        if family in seen_families:\n            continue\n        seen_families.add(family)\n        selected.append(item)
         counts[item["fixture_id"]] = counts.get(item["fixture_id"], 0) + 1
         if limit is not None and len(selected) >= limit:
             break
@@ -59,7 +59,7 @@ def grouped_markdown(payload, floor):
     errors = (payload.get("market_overlay") or {}).get("odds_errors") or []
     if errors:
         lines += [f"Uwaga: pobranie notowań nie powiodło się dla {len(errors)} meczów; lista może być niepełna.", ""]
-    lines += [f"## LISTA GŁÓWNA — {len(shortlist)} wariantów", "Kurs API od 1,20; ocena co najmniej 67/100; maksymalnie 3 propozycje na mecz. Bez limitu łącznej liczby meczów. Filtr prezentacji, nie zmiana oceny ani rekomendacja obstawiania.", ""]
+    lines += [f"## LISTA GŁÓWNA — {len(shortlist)} wariantów", "Kurs API od 1,20; ocena co najmniej 67/100; maksymalnie 3 propozycje na mecz; bez powtarzania tej samej statystyki, drużyny i kierunku dla różnych linii. Bez limitu łącznej liczby meczów. Filtr prezentacji, nie zmiana oceny ani rekomendacja obstawiania.", ""]
     for item in shortlist:
         lines.append(f"- {item['home']} – {item['away']}: {item['selection']} | ocena {item['final_assessment_pct']:.1f}/100 | {quote_text(item)}")
     if not shortlist:
