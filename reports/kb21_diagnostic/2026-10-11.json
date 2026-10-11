@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-11",
+  "status": "DIAGNOSTIC_ONLY",
+  "rows": [
+    {
+      "event": "Legia Warszawa – Wisla Krakow",
+      "fixture_id": 1553184,
+      "league": "Ekstraklasa",
+      "kickoff_utc": "2026-10-11T20:15:00+02:00",
+      "status": "EXPLORATORY_API_ONLY",
+      "p_model": null,
+      "diagnostic_probabilities": {
+        "home": 0.46283,
+        "draw": 0.2146,
+        "away": 0.32258,
+        "over_2_5": 0.70601
+      },
+      "goal_rate_estimates": {
+        "home": 2.0,
+        "away": 1.65
+      },
+      "limitations": "Last-10 goals proxy, no xG/ELO/lineup/league-strength; no PLAY, LEARN, CONTROL, freeze or N."
+    },
+    {
+      "event": "Cagliari – Juventus",
+      "fixture_id": 1550138,
+      "league": "Serie A",
+      "kickoff_utc": "2026-10-11T20:45:00+02:00",
+      "status": "EXPLORATORY_API_ONLY",
+      "p_model": null,
+      "diagnostic_probabilities": {
+        "home": 0.26994,
+        "draw": 0.30369,
+        "away": 0.42638,
+        "over_2_5": 0.32332
+      },
+      "goal_rate_estimates": {
+        "home": 0.85,
+        "away": 1.15
+      },
+      "limitations": "Last-10 goals proxy, no xG/ELO/lineup/league-strength; no PLAY, LEARN, CONTROL, freeze or N."
+    },
+    {
+      "event": "Estac Troyes – Marseille",
+      "fixture_id": 1552782,
+      "league": "Ligue 1",
+      "kickoff_utc": "2026-10-11T20:45:00+02:00",
+      "status": "EXPLORATORY_API_ONLY",
+      "p_model": null,
+      "diagnostic_probabilities": {
+        "home": 0.42753,
+        "draw": 0.22909,
+        "away": 0.34338,
+        "over_2_5": 0.64057
+      },
+      "goal_rate_estimates": {
+        "home": 1.75,
+        "away": 1.55
+      },
+      "limitations": "Last-10 goals proxy, no xG/ELO/lineup/league-strength; no PLAY, LEARN, CONTROL, freeze or N."
+    },
+    {
+      "event": "Racing Santander – Valencia",
+      "fixture_id": 1570409,
+      "league": "La Liga",
+      "kickoff_utc": "2026-10-11T21:00:00+02:00",
+      "status": "EXPLORATORY_API_ONLY",
+      "p_model": null,
+      "diagnostic_probabilities": {
+        "home": 0.39453,
+        "draw": 0.23216,
+        "away": 0.37332,
+        "over_2_5": 0.63043
+      },
+      "goal_rate_estimates": {
+        "home": 1.65,
+        "away": 1.6
+      },
+      "limitations": "Last-10 goals proxy, no xG/ELO/lineup/league-strength; no PLAY, LEARN, CONTROL, freeze or N."
+    },
+    {
+      "event": "Arouca – Estrela",
+      "fixture_id": 1575510,
+      "league": "Primeira Liga",
+      "kickoff_utc": "2026-10-11T21:30:00+02:00",
+      "status": "EXPLORATORY_API_ONLY",
+      "p_model": null,
+      "diagnostic_probabilities": {
+        "home": 0.36629,
+        "draw": 0.24526,
+        "away": 0.38845,
+        "over_2_5": 0.56552
+      },
+      "goal_rate_estimates": {
+        "home": 1.45,
+        "away": 1.5
+      },
+      "limitations": "Last-10 goals proxy, no xG/ELO/lineup/league-strength; no PLAY, LEARN, CONTROL, freeze or N."
+    }
+  ],
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "register_writes": false
+}
