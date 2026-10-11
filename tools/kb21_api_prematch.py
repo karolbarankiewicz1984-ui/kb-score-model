@@ -55,7 +55,7 @@ def historic_goal_rates(matches, team_id, cutoff):
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument("--date",default=dt.datetime.now(dt.timezone.utc).date().isoformat())
+    ap.add_argument("--date",default=dt.datetime.now(dt.timezone(dt.timedelta(hours=2))).date().isoformat())
     ap.add_argument("--out",default="data/api_football/kb21_inputs")
     ap.add_argument("--max-history-calls",type=int,default=100)
     args=ap.parse_args()
@@ -63,10 +63,15 @@ def main():
     if not key: raise SystemExit("API_FOOTBALL_KEY missing; no network requests made")
     client=ApiClient()
     now=dt.datetime.now(dt.timezone.utc)
+    try:
+        dt.date.fromisoformat(args.date)
+    except ValueError:
+        raise SystemExit("Invalid date: expected YYYY-MM-DD")
     payload,_=client.get(BASE,key,"fixtures",date=args.date,timezone="Europe/Warsaw")
     if payload.get("errors"): raise RuntimeError(str(payload["errors"]))
     all_fixtures=payload.get("response",[])
     fixtures=[f for f in all_fixtures if in_scope(f) and parse_utc(f["fixture"]["date"])>now and f["fixture"]["status"]["short"]=="NS"]
+    fixtures.sort(key=lambda f:(f["fixture"]["date"],f["fixture"]["id"]))
     candidates=[]
     history_cache={}
     if args.max_history_calls<0: raise SystemExit("max-history-calls must be nonnegative")
