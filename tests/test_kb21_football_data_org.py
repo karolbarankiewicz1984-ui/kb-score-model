@@ -1,7 +1,7 @@
 import io
 import json
 import unittest
-from tools.kb21_football_data_org import fetch
+from tools.kb21_football_data_org import fetch,coverage
 
 class FakeResponse:
     def __enter__(self): return self
@@ -24,6 +24,16 @@ class IndependentAdapterTests(unittest.TestCase):
         self.assertTrue(result["provider_ids_are_not_api_football_ids"])
         self.assertEqual(result["kb_n_effect"],0)
         self.assertEqual(result["status"],"INDEPENDENT_SNAPSHOT_UNMATCHED")
+    def test_subscription_coverage(self):
+        def opener(request,timeout):
+            self.assertTrue(request.full_url.endswith("/v4/competitions"))
+            response=FakeResponse()
+            response.payload=io.BytesIO(json.dumps({"competitions":[{"id":2021,"code":"PL","name":"Premier League","area":{"name":"England"},"plan":"TIER_ONE"}]}).encode())
+            return response
+        result=coverage("test-token",opener)
+        self.assertEqual(result["competition_count"],1)
+        self.assertEqual(result["competitions"][0]["code"],"PL")
+        self.assertEqual(result["kb_n_effect"],0)
     def test_reject_bad_date(self):
         with self.assertRaises(ValueError):
             fetch("not-a-date","token")
