@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/api-market-test-2026-10-12.yml"
+      - "tools/api_market_presentation.py"
+      - "tools/render_api_market_pdf.py"
   workflow_dispatch:
 permissions:
   contents: read
@@ -27,6 +29,10 @@ jobs:
         run: python tools/api_market_v3_enrich.py 2026-10-12
       - name: Rank test positions for 2026-10-12
         run: python tools/api_market_report_diversify.py 2026-10-12
+      - name: Install PDF renderer
+        run: python -m pip install --disable-pip-version-check "reportlab>=4,<5"
+      - name: Render test PDF for 2026-10-12
+        run: python tools/render_api_market_pdf.py 2026-10-12 --source data/api_football/market_scan/2026-10-12.json --output /tmp/API_MARKET_TEST_2026-10-12.pdf
       - name: Upload diagnostic outputs without modifying production data
         if: always()
         uses: actions/upload-artifact@v4
@@ -36,4 +42,5 @@ jobs:
             data/api_football/market_work/2026-10-12.json
             data/api_football/market_scan/2026-10-12.json
             reports/api_market_scan/2026-10-12.md
+            /tmp/API_MARKET_TEST_2026-10-12.pdf
           if-no-files-found: ignore
