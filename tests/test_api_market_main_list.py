@@ -8,7 +8,7 @@ from api_market_presentation import practical_shortlist
 
 def candidate(fixture, score, odd, number):
     return {
-        "fixture_id": fixture, "final_assessment_pct": score,
+        "fixture_id": fixture, "team_id": fixture, "market": "corners",\n        "market_scope": "team", "direction": "under", "line": number + 0.5,\n        "final_assessment_pct": score,
         "direction": "under", "selection": str(number),
         "market_data": {"quotes": [{"bookmaker": "Any API source", "under_odd": odd}]},
     }
@@ -20,12 +20,12 @@ class MainListTests(unittest.TestCase):
         positions += [candidate(2, 90, 1.19, 6), candidate(3, 66, 1.8, 7)]
         positions += [candidate(4, 80, 1.20, 8)]
         result = practical_shortlist(positions)
-        self.assertEqual(len(result), 4)
-        self.assertEqual(sum(x["fixture_id"] == 1 for x in result), 3)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(sum(x["fixture_id"] == 1 for x in result), 1)
         self.assertTrue(any(x["fixture_id"] == 4 for x in result))
         self.assertEqual(len(positions), 8)
 
-    def test_no_total_limit(self):
+    def test_different_market_or_direction_remains_eligible(self):\n        a = candidate(1, 85, 1.25, 5)\n        b = candidate(1, 84, 1.30, 6)\n        b["market"] = "yellow_cards"\n        c = candidate(1, 83, 1.35, 7)\n        c["direction"] = "over"\n        c["market_data"]["quotes"][0]["over_odd"] = 1.35\n        self.assertEqual(len(practical_shortlist([a, b, c])), 3)\n\n    def test_no_total_limit(self):
         positions = [candidate(i, 70, 1.25, i) for i in range(15)]
         self.assertEqual(len(practical_shortlist(positions)), 15)
 
