@@ -41,11 +41,16 @@ jobs:
           DATE="${{ inputs.date }}"
           if [ -z "$DATE" ]; then DATE="$(date -u +%F)"; fi
           python -m tools.kb21_api_diagnostic "data/api_football/kb21_inputs/$DATE.json" --output "reports/kb21_diagnostic/$DATE.json"
+      - name: Audit KB21 readiness blockers
+        run: |
+          DATE="${{ inputs.date }}"
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
+          python -m tools.kb21_gate_audit "data/api_football/kb21_inputs/$DATE.json" --output "reports/kb21_gate/$DATE.json"
       - name: Commit factual snapshot only
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/api_football/kb21_inputs reports/kb21_diagnostic
+          git add data/api_football/kb21_inputs reports/kb21_diagnostic reports/kb21_gate
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "data: KB21 pre-match API candidate inputs"
           git push
