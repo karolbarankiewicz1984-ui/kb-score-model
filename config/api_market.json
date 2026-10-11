@@ -1,14 +1,15 @@
 {
   "model_version": "api-market-v3.2-quoted-lines-2026-10-06",
-  "publish_min_final_pct": 67.0,
+  "publish_min_final_pct": 67,
   "quantity_limit": null,
   "per_fixture_limit": null,
   "raw_coverage_threshold": null,
   "candidate_source": "exact_quoted_half_line_outcomes",
-  "sts_policy": "quoted_markets_only_sts_unverified_without_sts_quote",
+  "sts_policy": "disabled_no_sts_or_superbet_availability_matching",
   "calibration": {
     "settle_all_candidates": true,
     "automatic_weight_changes": false,
     "kb_score_integration": false
-  }
+  },
+  "bookmaker_matching_enabled": false
 }
