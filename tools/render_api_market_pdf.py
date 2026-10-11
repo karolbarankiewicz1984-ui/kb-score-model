@@ -9,7 +9,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from api_market_policy import load_policy, quote_text, target_date
-from api_market_presentation import group_positions, kickoff_time
+from api_market_presentation import group_positions, kickoff_time, practical_shortlist
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
@@ -83,13 +83,22 @@ def build_pdf(payload, output=None, *, regrouped=False):
         Paragraph(f"<b>{len(groups)} meczów • {len(positions)} typów • próg {floor:g}/100</b><br/>"
             f"Odczyt notowań: <b>{quote_time}</b>, czas polski.<br/>"
             "Mecze według godziny rozpoczęcia. Pod każdym meczem komplet typów w kolejności z rankingu API. Bez limitu pozycji.<br/>"
-            "<b>Notowania API nie potwierdzają oferty STS.</b> Przy typach podajemy źródła kursów.", subtitle)]
+            "<b>Bez dopasowywania do STS i Superbet.</b> Notowania pochodzą z API.", subtitle)]
     if regrouped:
         story.append(Paragraph("<b>Przegrupowanie wcześniejszego raportu.</b> Zachowano wszystkie jego typy, oceny i notowania z podanej wyżej godziny. Część meczów może być już rozpoczęta lub zakończona.", subtitle))
     errors = (payload.get("market_overlay") or {}).get("odds_errors") or []
     if errors:
         story.append(Paragraph(f"Uwaga: nie udało się pobrać notowań dla {len(errors)} meczów. Lista może być niepełna.", subtitle))
 
+    shortlist = practical_shortlist(positions)
+    story.append(Paragraph("<b>KRÓTKA LISTA PRAKTYCZNYCH WARIANTÓW</b>", subtitle))
+    story.append(Paragraph("Maksymalnie 12 pozycji, do 2 na mecz, z notowaniem co najmniej 1,15. Filtr wyłącznie prezentacyjny; nie zmienia ocen ani pełnego rankingu.", subtitle))
+    if not shortlist:
+        story.append(Paragraph("Brak pozycji spełniających warunki dodatkowej listy.", subtitle))
+    for item in shortlist:
+        story.append(Paragraph(f"<b>{safe(item['home'])} — {safe(item['away'])}</b>: {safe(item['selection'])} | ocena {float(item['final_assessment_pct']):.1f}/100 | {safe(quote_text(item))}", note_style))
+    story.append(Spacer(1, 4 * mm))
+    story.append(Paragraph("<b>PEŁNY RANKING WEDŁUG MECZÓW</b>", subtitle))
     for match_index, items in enumerate(groups, 1):
         first = items[0]
         header = (f"{match_index}. {safe(first['home'])} — {safe(first['away'])}<br/>"
@@ -104,10 +113,7 @@ def build_pdf(payload, output=None, *, regrouped=False):
             if comment:
                 details += [Spacer(1, 1.2 * mm), Paragraph(safe(comment), note_style)]
             quote = safe(quote_text(item).removeprefix("Kursy w API: ")).replace(". Źródła notowań: ", "<br/>")
-            availability = (item.get("sts_availability") or {}).get("status")
-            label = "STS: notowanie w API." if availability == "verified_quote" else "STS: niepotwierdzone."
-            if item.get("market") not in {"team_goals", "corners"}:
-                label += " Sprawdź linię i zasady rozliczenia."
+            label = "Sprawdź dokładną linię i zasady rozliczenia." if item.get("market") not in {"team_goals", "corners"} else "Notowanie dostawcy API."
             rows.append([details,
                 Paragraph("-" if pure is None else f"{float(pure):.1f}%", cell_style),
                 Paragraph("-" if final is None else f"{float(final):.1f}", score_style),
@@ -131,7 +137,7 @@ def build_pdf(payload, output=None, *, regrouped=False):
         story.append(Paragraph("Brak kwotowanych wariantów z oceną od ustalonego progu.", subtitle))
     story.append(Paragraph(
         "<b>Jak czytać:</b> API PURE oznacza pokrycie historyczne. Ocena końcowa /100 uwzględnia wiarygodność próby, rozgrywki, rynek i dostępny kontekst; nie jest skalibrowanym prawdopodobieństwem. "
-        "W obrębie meczu zachowano kolejność rankingu: najpierw gole i rożne, następnie statystyki szczegółowe; w grupach malejąco ocena. "
+        "W obrębie meczu zachowano kolejność rankingu API, bez preferencji bukmachera. "
         "Żółte kartki nie zastępują liczby/punktów kartek z uwzględnieniem czerwonych. "
         "Pełne dane i wersje prognoz są zapisane w repozytorium. API pozostaje osobne od KB Score i nie zmienia jego danych ani N.", subtitle))
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
