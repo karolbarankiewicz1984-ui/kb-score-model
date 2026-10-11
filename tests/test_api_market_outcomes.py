@@ -33,7 +33,7 @@ class OutcomeTests(unittest.TestCase):
         under["market_data"] = raw.extract_market_quotes(offered,under)
         self.assertFalse(over["market_data"]["exact_line_available"])
         self.assertTrue(under["market_data"]["exact_line_available"])
-        self.assertEqual(policy.rank_positions([over,under],67), [dict(under, sts_availability=policy.sts_availability(under))])
+        self.assertEqual(policy.rank_positions([over,under],67), [dict(under, sts_availability={"status":"not_evaluated","preference":0,"label":"Bez dopasowywania do STS i Superbet."})])
         self.assertEqual(under["market_data"]["paired_books"],0)
         self.assertIn("1.90",policy.quote_text(under))
 
