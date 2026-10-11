@@ -1,0 +1,39 @@
+name: API Market test 2026-10-12
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/api-market-test-2026-10-12.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-next-day:
+    runs-on: ubuntu-latest
+    env:
+      API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check API credential
+        run: test -n "$API_FOOTBALL_KEY"
+      - name: Regression tests
+        run: python -B -m unittest discover -s tests -p "test_api_market*.py"
+      - name: Prefetch national teams for 2026-10-12
+        run: python tools/api_national_today_prefetch.py 2026-10-12
+      - name: Test raw market scan for 2026-10-12
+        run: python tools/api_market_scan.py 2026-10-12
+      - name: Build v3 enrichment for 2026-10-12
+        run: python tools/api_market_v3_enrich.py 2026-10-12
+      - name: Rank test positions for 2026-10-12
+        run: python tools/api_market_report_diversify.py 2026-10-12
+      - name: Upload diagnostic outputs without modifying production data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-market-2026-10-12-test
+          path: |
+            data/api_football/market_work/2026-10-12.json
+            data/api_football/market_scan/2026-10-12.json
+            reports/api_market_scan/2026-10-12.md
+          if-no-files-found: ignore
