@@ -79,7 +79,7 @@ def build_pdf(payload, output=None, *, regrouped=False):
     captured = payload.get("generated_at_utc") or (payload.get("publication") or {}).get("captured_at_utc")
     quote_time = datetime.fromisoformat(captured.replace("Z", "+00:00")).astimezone(WARSAW).strftime("%d.%m.%Y, %H:%M") if captured else "-"
     story = [Paragraph(f"API MARKET SCAN - {safe(target)}", title),
-        Paragraph("MECZ PO MECZU — WSZYSTKIE TYPY", subtitle),
+        Paragraph("LISTA GŁÓWNA + PEŁNE ARCHIWUM", subtitle),
         Paragraph(f"<b>{len(groups)} meczów • {len(positions)} typów • próg {floor:g}/100</b><br/>"
             f"Odczyt notowań: <b>{quote_time}</b>, czas polski.<br/>"
             "Mecze według godziny rozpoczęcia. Pod każdym meczem komplet typów w kolejności z rankingu API. Bez limitu pozycji.<br/>"
@@ -91,14 +91,14 @@ def build_pdf(payload, output=None, *, regrouped=False):
         story.append(Paragraph(f"Uwaga: nie udało się pobrać notowań dla {len(errors)} meczów. Lista może być niepełna.", subtitle))
 
     shortlist = practical_shortlist(positions)
-    story.append(Paragraph("<b>KRÓTKA LISTA PRAKTYCZNYCH WARIANTÓW</b>", subtitle))
-    story.append(Paragraph("Maksymalnie 12 pozycji, do 2 na mecz, z notowaniem co najmniej 1,15. Filtr wyłącznie prezentacyjny; nie zmienia ocen ani pełnego rankingu.", subtitle))
+    story.append(Paragraph("<b>LISTA GŁÓWNA — PRAKTYCZNE WARIANTY</b>", subtitle))
+    story.append(Paragraph("Kurs API od 1,20; ocena od 67/100; do 3 pozycji na mecz, bez limitu liczby meczów. Filtr wyłącznie prezentacyjny; nie zmienia ocen ani pełnego rankingu.", subtitle))
     if not shortlist:
         story.append(Paragraph("Brak pozycji spełniających warunki dodatkowej listy.", subtitle))
     for item in shortlist:
         story.append(Paragraph(f"<b>{safe(item['home'])} — {safe(item['away'])}</b>: {safe(item['selection'])} | ocena {float(item['final_assessment_pct']):.1f}/100 | {safe(quote_text(item))}", note_style))
     story.append(Spacer(1, 4 * mm))
-    story.append(Paragraph("<b>PEŁNY RANKING WEDŁUG MECZÓW</b>", subtitle))
+    story.append(Paragraph("<b>PEŁNE ARCHIWUM — WSZYSTKIE TYPY WEDŁUG MECZÓW</b>", subtitle))
     for match_index, items in enumerate(groups, 1):
         first = items[0]
         header = (f"{match_index}. {safe(first['home'])} — {safe(first['away'])}<br/>"
