@@ -9,9 +9,13 @@ import urllib.request
 from pathlib import Path
 
 BASE="https://api.football-data.org/v4/matches"
-def fetch(date, token, opener=urllib.request.urlopen):
+TARGET_CODES=("PL","PD","BL1","SA","FL1","DED","PPL","CL","ELC","EC","WC")
+def fetch(date, token, opener=urllib.request.urlopen, competition_codes=None):
     dt.date.fromisoformat(date)
-    query=urllib.parse.urlencode({"dateFrom":date,"dateTo":date})
+    filters={"dateFrom":date,"dateTo":date}
+    if competition_codes:
+        filters["competitions"]=",".join(competition_codes)
+    query=urllib.parse.urlencode(filters)
     req=urllib.request.Request(BASE+"?"+query,headers={"X-Auth-Token":token,"Accept":"application/json"})
     try:
         with opener(req,timeout=25) as response:
@@ -34,6 +38,7 @@ def fetch(date, token, opener=urllib.request.urlopen):
                      "status":m.get("status"),"source_url":None})
     return {"date":date,"provider":"football-data.org","provider_endpoint":BASE,
             "provider_ids_are_not_api_football_ids":True,"fixtures":rows,
+            "requested_competitions":list(competition_codes or []),
             "status":"INDEPENDENT_SNAPSHOT_UNMATCHED","kb_n_effect":0,
             "dev_n_effect":0,"register_writes":False}
 
@@ -55,12 +60,20 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument("--date")
     p.add_argument("--coverage-only",action="store_true")
+    p.add_argument("--target-competitions",action="store_true",help="Filter to available KB21 target competitions")
     p.add_argument("--out",default="data/football_data_org")
     a=p.parse_args()
     token=os.environ.get("FOOTBALL_DATA_ORG_KEY")
     if not token: raise SystemExit("FOOTBALL_DATA_ORG_KEY missing")
     if not a.coverage_only and not a.date: raise SystemExit("--date required unless --coverage-only")
-    result=coverage(token) if a.coverage_only else fetch(a.date,token)
+    codes=None
+    if a.target_competitions and not a.coverage_only:
+        coverage_path=Path(a.out)/"coverage.json"
+        if not coverage_path.exists(): raise SystemExit("Coverage snapshot missing; run --coverage-only first")
+        known=json.loads(coverage_path.read_text(encoding="utf-8")).get("competitions",[])
+        codes=[c["code"] for c in known if c.get("code") in TARGET_CODES and c.get("plan")=="TIER_ONE"]
+        if not codes: raise SystemExit("No eligible TIER_ONE target competitions in coverage snapshot")
+    result=coverage(token) if a.coverage_only else fetch(a.date,token,competition_codes=codes)
     path=Path(a.out)/("coverage.json" if a.coverage_only else a.date+".json")
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
