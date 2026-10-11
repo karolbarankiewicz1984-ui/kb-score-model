@@ -57,6 +57,7 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--date",default=dt.datetime.now(dt.timezone.utc).date().isoformat())
     ap.add_argument("--out",default="data/api_football/kb21_inputs")
+    ap.add_argument("--max-history-calls",type=int,default=100)
     args=ap.parse_args()
     key=os.getenv("API_FOOTBALL_KEY")
     if not key: raise SystemExit("API_FOOTBALL_KEY missing; no network requests made")
@@ -68,6 +69,10 @@ def main():
     fixtures=[f for f in all_fixtures if in_scope(f) and parse_utc(f["fixture"]["date"])>now and f["fixture"]["status"]["short"]=="NS"]
     candidates=[]
     history_cache={}
+    if args.max_history_calls<0: raise SystemExit("max-history-calls must be nonnegative")
+    required_teams={f["teams"][side]["id"] for f in fixtures for side in ("home","away")}
+    if len(required_teams)>args.max_history_calls:
+        raise SystemExit(f"Safety stop: {len(required_teams)} team histories exceeds limit {args.max_history_calls}; no incomplete report written")
     for fixture in fixtures:
         start=parse_utc(fixture["fixture"]["date"])
         teams=fixture["teams"]
@@ -101,6 +106,7 @@ def main():
     path.write_text(json.dumps({"date":args.date,"snapshot_utc":now.isoformat(),
         "source":"API-Football","api_all_fixtures":len(all_fixtures),"pre_match_fixtures":len(fixtures),
         "history_api_calls":len(history_cache),"calendar_gate":"UNVERIFIED",
+        "coverage_warning":"API league filter is not an independent or official calendar verification",
         "candidates":candidates,"kb_n_effect":0,"dev_n_effect":0,
         "model_effect":"NONE","register_writes":False},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print(json.dumps({"output":str(path),"pre_match_fixtures":len(fixtures),
