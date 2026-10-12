@@ -48,8 +48,7 @@ def group_positions(positions):
 
 
 def markdown_cell(value):
-    return str(value or "").replace("|", "\\|").replace("
-", "<br>")
+    return str(value or "").replace("|", "\\|").replace("\n", "<br>")
 
 
 def grouped_markdown(payload, floor):
@@ -87,5 +86,4 @@ def grouped_markdown(payload, floor):
         lines.append("")
     if not positions:
         lines += ["Brak kwotowanych wariantów z oceną od ustalonego progu.", ""]
-    return "
-".join(lines)
+    return "\n".join(lines)
