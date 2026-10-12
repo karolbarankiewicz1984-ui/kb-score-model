@@ -2968,13 +2968,13 @@
         "direction": "under",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 79.7,
+        "market_probability_pct": 79.5,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 4.6,
+            "over_odd": 4.55,
             "under_odd": 1.17,
             "selected_odd": 1.17,
             "direction": "under",
@@ -3198,13 +3198,13 @@
         "direction": "under",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 90.1,
+        "market_probability_pct": 89.9,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 9.5,
+            "over_odd": 9.25,
             "under_odd": 1.04,
             "selected_odd": 1.04,
             "direction": "under",
@@ -3909,15 +3909,15 @@
         "direction": "over",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 80.7,
+        "market_probability_pct": 82.0,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 1.16,
-            "under_odd": 4.85,
-            "selected_odd": 1.16,
+            "over_odd": 1.14,
+            "under_odd": 5.2,
+            "selected_odd": 1.14,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 80.7,
@@ -5707,8 +5707,8 @@
         "direction": "under",
         "offered_books": 2,
         "paired_books": 2,
-        "market_probability_pct": 94.2,
-        "bookmaker_spread_pp": 2.0,
+        "market_probability_pct": 94.1,
+        "bookmaker_spread_pp": 2.1,
         "quotes": [
           {
             "bookmaker": "Bet365",
@@ -5724,7 +5724,7 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 12.0,
+            "over_odd": 11.75,
             "under_odd": 1.02,
             "selected_odd": 1.02,
             "direction": "under",
@@ -7361,8 +7361,8 @@
         "own_available": 8,
         "opponent_allowed_available": 5
       },
-      "market_adjusted_pct": 98.2,
-      "market_delta_pp": -1.8,
+      "market_adjusted_pct": 98.3,
+      "market_delta_pp": -1.7,
       "market_signal": "WARNING",
       "market_reliability": "medium",
       "market_data": {
@@ -7437,7 +7437,7 @@
         "policy": "audit-first; only conservative negative guard before calibration"
       },
       "reliability_penalty_pp": -15.2,
-      "final_assessment_pct": 83.0,
+      "final_assessment_pct": 83.1,
       "final_status": "ACCEPT",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek jest ostrożniejszy i obniża ocenę.",
       "prematch_verified": true
@@ -19144,6 +19144,161 @@
       "home": "Atalanta",
       "away": "Venezia",
       "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "corners",
+      "market_label": "rożne w meczu",
+      "market_scope": "match",
+      "direction": "under",
+      "bet_id": 45,
+      "settlement_period": "regulation_time",
+      "line": 12.5,
+      "selection": "Cały mecz: poniżej 12.5 — rożne w meczu",
+      "api_pure_pct": 93.7,
+      "confidence_api": 8.0,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 8,
+          "pct": 87.5
+        },
+        "L15": {
+          "hits": 7,
+          "n": 8,
+          "pct": 87.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 4,
+          "n": 4,
+          "pct": 100.0
+        },
+        "away": {
+          "hits": 2,
+          "n": 2,
+          "pct": 100.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 91.6,
+      "market_delta_pp": -2.1,
+      "market_signal": "WARNING",
+      "market_reliability": "medium",
+      "market_data": {
+        "bet_id": 45,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 4,
+        "paired_books": 4,
+        "market_probability_pct": 85.4,
+        "bookmaker_spread_pp": 2.3,
+        "quotes": [
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 6.35,
+            "under_odd": 1.06,
+            "selected_odd": 1.06,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 14.3,
+            "devig_probability": 85.7
+          },
+          {
+            "bookmaker": "Betfair",
+            "bookmaker_id": 3,
+            "over_odd": 7.0,
+            "under_odd": 1.07,
+            "selected_odd": 1.07,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 13.26,
+            "devig_probability": 86.74
+          },
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 4.57,
+            "under_odd": 1.09,
+            "selected_odd": 1.09,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 19.26,
+            "devig_probability": 80.74
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 6.3,
+            "under_odd": 1.1,
+            "selected_odd": 1.1,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 14.86,
+            "devig_probability": 85.14
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest ostrożniejszy niż sama historia i lekko obniża ocenę. Konsensus rynku jest wystarczająco szeroki do umiarkowanej korekty. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 93.7,
+      "reliability_adjusted_pct": 77.0,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -16.7,
+      "final_assessment_pct": 74.9,
+      "final_status": "ACCEPT",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek jest ostrożniejszy i obniża ocenę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
       "team": "Atalanta",
       "opponent": "Venezia",
       "team_side": "home",
@@ -27504,7 +27659,7 @@
         "offered_books": 5,
         "paired_books": 5,
         "market_probability_pct": 59.8,
-        "bookmaker_spread_pp": 1.6,
+        "bookmaker_spread_pp": 1.5,
         "quotes": [
           {
             "bookmaker": "Marathonbet",
@@ -27554,8 +27709,8 @@
             "bookmaker": "Betano",
             "bookmaker_id": 32,
             "over_odd": 2.42,
-            "under_odd": 1.52,
-            "selected_odd": 1.52,
+            "under_odd": 1.53,
+            "selected_odd": 1.53,
             "direction": "under",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 38.58,
@@ -31215,15 +31370,15 @@
         "direction": "over",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 91.3,
+        "market_probability_pct": 91.5,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 1.03,
-            "under_odd": 10.75,
-            "selected_odd": 1.03,
+            "over_odd": 1.02,
+            "under_odd": 11.0,
+            "selected_odd": 1.02,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 91.26,
@@ -38856,92 +39011,92 @@
       "prematch_verified": true
     },
     {
-      "fixture_id": 1550137,
-      "kickoff": "2026-10-12T18:30:00+02:00",
-      "competition": "Serie A",
+      "fixture_id": 1557420,
+      "kickoff": "2026-10-12T21:00:00+02:00",
+      "competition": "Premier League",
       "category": "domestic",
-      "home": "Atalanta",
-      "away": "Venezia",
-      "team_id": 499,
+      "home": "Coventry",
+      "away": "Newcastle",
+      "team_id": 1346,
       "team": "Cały mecz",
-      "opponent": "Venezia",
+      "opponent": "Newcastle",
       "team_side": "home",
-      "market": "offsides",
-      "market_label": "spalone w meczu",
+      "market": "shots_on_goal",
+      "market_label": "strzały celne w meczu",
       "market_scope": "match",
-      "direction": "under",
-      "bet_id": 164,
+      "direction": "over",
+      "bet_id": 87,
       "settlement_period": "regulation_time",
-      "line": 5.5,
-      "selection": "Cały mecz: poniżej 5.5 — spalone w meczu",
-      "api_pure_pct": 82.2,
-      "confidence_api": 7.4,
+      "line": 6.5,
+      "selection": "Cały mecz: powyżej 6.5 — strzały celne w meczu",
+      "api_pure_pct": 79.5,
+      "confidence_api": 6.6,
       "scope": "liga krajowa",
       "own": {
         "L5": {
-          "hits": 4,
+          "hits": 3,
           "n": 5,
-          "pct": 80.0
+          "pct": 60.0
         },
         "L10": {
-          "hits": 7,
-          "n": 8,
-          "pct": 87.5
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
         },
         "L15": {
-          "hits": 7,
-          "n": 8,
-          "pct": 87.5
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
         }
       },
       "opponent_allowed": {
         "L5": {
-          "hits": 4,
+          "hits": 5,
           "n": 5,
-          "pct": 80.0
+          "pct": 100.0
         },
         "L10": {
-          "hits": 4,
-          "n": 5,
-          "pct": 80.0
+          "hits": 8,
+          "n": 8,
+          "pct": 100.0
         },
         "L15": {
-          "hits": 4,
-          "n": 5,
-          "pct": 80.0
+          "hits": 8,
+          "n": 8,
+          "pct": 100.0
         }
       },
       "venue": null,
       "match_venue": {
         "home": {
-          "hits": 4,
-          "n": 4,
-          "pct": 100.0
-        },
-        "away": {
           "hits": 1,
           "n": 2,
           "pct": 50.0
+        },
+        "away": {
+          "hits": 4,
+          "n": 4,
+          "pct": 100.0
         }
       },
       "europe_only": null,
       "samples": {
-        "own_available": 8,
-        "opponent_allowed_available": 5
+        "own_available": 5,
+        "opponent_allowed_available": 8
       },
-      "market_adjusted_pct": 80.5,
-      "market_delta_pp": -1.7,
-      "market_signal": "WARNING",
+      "market_adjusted_pct": 78.8,
+      "market_delta_pp": -0.8,
+      "market_signal": "NEUTRAL",
       "market_reliability": "weak",
       "market_data": {
-        "bet_id": 164,
+        "bet_id": 87,
         "exact_line_available": true,
         "selected_outcome_available": true,
-        "direction": "under",
+        "direction": "over",
         "offered_books": 2,
         "paired_books": 2,
-        "market_probability_pct": 71.1,
-        "bookmaker_spread_pp": 0.3,
+        "market_probability_pct": 74.5,
+        "bookmaker_spread_pp": 0.2,
         "quotes": [
           {
             "bookmaker": "1xBet",
@@ -38968,9 +39123,9 @@
         ]
       },
       "market_movement_pp": 0.0,
-      "market_comment": "Rynek jest ostrożniejszy niż sama historia i lekko obniża ocenę. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
-      "competition_adjusted_pct": 82.2,
-      "reliability_adjusted_pct": 63.3,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 79.5,
+      "reliability_adjusted_pct": 62.3,
       "context": {
         "adjustment_pp": 0.0,
         "selected_team_missing": 0,
@@ -38978,14 +39133,14 @@
         "opponent_missing": 0,
         "opponent_questionable": 0,
         "official_lineup_available": false,
-        "referee": "Paride Tremolada",
+        "referee": "John Brooks",
         "flags": [],
         "policy": "audit-first; only conservative negative guard before calibration"
       },
-      "reliability_penalty_pp": -18.9,
+      "reliability_penalty_pp": -17.2,
       "final_assessment_pct": 61.6,
       "final_status": "BELOW_THRESHOLD",
-      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek jest ostrożniejszy i obniża ocenę.",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
       "prematch_verified": true
     },
     {
@@ -48564,6 +48719,132 @@
       "prematch_verified": true
     },
     {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Atalanta",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone drużyny",
+      "market_scope": "team",
+      "direction": "under",
+      "bet_id": 167,
+      "settlement_period": "regulation_time",
+      "line": 2.5,
+      "selection": "Atalanta: poniżej 2.5 — spalone drużyny",
+      "api_pure_pct": 77.3,
+      "confidence_api": 7.2,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 6,
+          "n": 8,
+          "pct": 75.0
+        },
+        "L15": {
+          "hits": 6,
+          "n": 8,
+          "pct": 75.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L15": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        }
+      },
+      "venue": {
+        "hits": 3,
+        "n": 4,
+        "pct": 75.0
+      },
+      "match_venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 76.1,
+      "market_delta_pp": -1.2,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 167,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 69.1,
+        "bookmaker_spread_pp": 5.7,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 3.6,
+            "under_odd": 1.21,
+            "selected_odd": 1.21,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 25.16,
+            "devig_probability": 74.84
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 2.55,
+            "under_odd": 1.47,
+            "selected_odd": 1.47,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 36.57,
+            "devig_probability": 63.43
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 77.3,
+      "reliability_adjusted_pct": 56.9,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -20.4,
+      "final_assessment_pct": 55.7,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
       "fixture_id": 1570407,
       "kickoff": "2026-10-12T21:00:00+02:00",
       "competition": "La Liga",
@@ -48993,7 +49274,7 @@
       "match_venue": null,
       "europe_only": null,
       "samples": {
-        "own_available": 8,
+        "own_available": 5,
         "opponent_allowed_available": 8
       },
       "market_adjusted_pct": 70.3,
@@ -49499,9 +49780,9 @@
       },
       "opponent_allowed": {
         "L5": {
-          "hits": 4,
+          "hits": 1,
           "n": 5,
-          "pct": 80.0
+          "pct": 20.0
         },
         "L10": {
           "hits": 6,
@@ -49529,7 +49810,7 @@
         "bet_id": 168,
         "exact_line_available": true,
         "selected_outcome_available": true,
-        "direction": "over",
+        "direction": "under",
         "offered_books": 2,
         "paired_books": 2,
         "market_probability_pct": 61.9,
@@ -50874,6 +51155,431 @@
       "prematch_verified": true
     },
     {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Atalanta",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "team_goals",
+      "market_label": "gole drużyny",
+      "market_scope": "team",
+      "direction": "under",
+      "bet_id": 16,
+      "settlement_period": "regulation_time",
+      "line": 2.5,
+      "selection": "Atalanta: poniżej 2.5 — gole drużyny",
+      "api_pure_pct": 80.5,
+      "confidence_api": 6.7,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 8,
+          "pct": 87.5
+        },
+        "L15": {
+          "hits": 7,
+          "n": 8,
+          "pct": 87.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        },
+        "L10": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        },
+        "L15": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        }
+      },
+      "venue": {
+        "hits": 4,
+        "n": 4,
+        "pct": 100.0
+      },
+      "match_venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 73.9,
+      "market_delta_pp": -6.6,
+      "market_signal": "STRONG_WARNING",
+      "market_reliability": "strong",
+      "market_data": {
+        "bet_id": 16,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 7,
+        "paired_books": 7,
+        "market_probability_pct": 61.7,
+        "bookmaker_spread_pp": 0.8,
+        "quotes": [
+          {
+            "bookmaker": "Bet365",
+            "bookmaker_id": 8,
+            "over_odd": 2.5,
+            "under_odd": 1.5,
+            "selected_odd": 1.5,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 37.5,
+            "devig_probability": 62.5
+          },
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 2.44,
+            "under_odd": 1.54,
+            "selected_odd": 1.54,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 38.69,
+            "devig_probability": 61.31
+          },
+          {
+            "bookmaker": "Betfair",
+            "bookmaker_id": 3,
+            "over_odd": 2.55,
+            "under_odd": 1.45,
+            "selected_odd": 1.45,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 36.25,
+            "devig_probability": 63.75
+          },
+          {
+            "bookmaker": "BetVictor",
+            "bookmaker_id": 36,
+            "over_odd": 2.4,
+            "under_odd": 1.5,
+            "selected_odd": 1.5,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 38.46,
+            "devig_probability": 61.54
+          },
+          {
+            "bookmaker": "Pinnacle",
+            "bookmaker_id": 4,
+            "over_odd": 2.49,
+            "under_odd": 1.56,
+            "selected_odd": 1.56,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 38.52,
+            "devig_probability": 61.48
+          },
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 2.5,
+            "under_odd": 1.5,
+            "selected_odd": 1.5,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 37.5,
+            "devig_probability": 62.5
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 2.45,
+            "under_odd": 1.52,
+            "selected_odd": 1.52,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 38.29,
+            "devig_probability": 61.71
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek wyraźnie nie zgadza się z mocnym wynikiem historycznym, więc ocena zostaje istotnie obniżona. Notowania wielu bukmacherów są spójne. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 80.5,
+      "reliability_adjusted_pct": 60.7,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -19.8,
+      "final_assessment_pct": 54.1,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek jest ostrożniejszy i obniża ocenę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1575514,
+      "kickoff": "2026-10-12T21:15:00+02:00",
+      "competition": "Primeira Liga",
+      "category": "domestic",
+      "home": "Famalicao",
+      "away": "Alverca",
+      "team_id": 242,
+      "team": "Cały mecz",
+      "opponent": "Alverca",
+      "team_side": "home",
+      "market": "shots",
+      "market_label": "strzały w meczu",
+      "market_scope": "match",
+      "direction": "over",
+      "bet_id": 211,
+      "settlement_period": "regulation_time",
+      "line": 19.5,
+      "selection": "Cały mecz: powyżej 19.5 — strzały w meczu",
+      "api_pure_pct": 74.5,
+      "confidence_api": 7.0,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 6,
+          "n": 9,
+          "pct": 66.66666666666667
+        },
+        "L15": {
+          "hits": 6,
+          "n": 9,
+          "pct": 66.66666666666667
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 9,
+          "pct": 77.77777777777777
+        },
+        "L15": {
+          "hits": 7,
+          "n": 9,
+          "pct": 77.77777777777777
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 2,
+          "n": 4,
+          "pct": 50.0
+        },
+        "away": {
+          "hits": 3,
+          "n": 4,
+          "pct": 75.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 9,
+        "opponent_allowed_available": 9
+      },
+      "market_adjusted_pct": 74.5,
+      "market_delta_pp": 0.0,
+      "market_signal": "THIN_MARKET",
+      "market_reliability": "insufficient",
+      "market_data": {
+        "bet_id": 211,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 1,
+        "paired_books": 1,
+        "market_probability_pct": 74.1,
+        "bookmaker_spread_pp": 0.0,
+        "quotes": [
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.26,
+            "under_odd": 3.6,
+            "selected_odd": 1.26,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:57:16+00:00",
+            "devig_over_probability": 74.07,
+            "devig_probability": 74.07
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Linia jest dostępna, ale rynek jest zbyt wąski, żeby bezpiecznie korygować statystykę historyczną. Korekta samego rynku wynosi zero.",
+      "competition_adjusted_pct": 74.5,
+      "reliability_adjusted_pct": 54.1,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Sergio Jose Dos Santos Guelho",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -20.4,
+      "final_assessment_pct": 54.1,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1575514,
+      "kickoff": "2026-10-12T21:15:00+02:00",
+      "competition": "Primeira Liga",
+      "category": "domestic",
+      "home": "Famalicao",
+      "away": "Alverca",
+      "team_id": 242,
+      "team": "Cały mecz",
+      "opponent": "Alverca",
+      "team_side": "home",
+      "market": "shots_on_goal",
+      "market_label": "strzały celne w meczu",
+      "market_scope": "match",
+      "direction": "over",
+      "bet_id": 87,
+      "settlement_period": "regulation_time",
+      "line": 4.5,
+      "selection": "Cały mecz: powyżej 4.5 — strzały celne w meczu",
+      "api_pure_pct": 72.6,
+      "confidence_api": 7.1,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 9,
+          "pct": 77.77777777777777
+        },
+        "L15": {
+          "hits": 7,
+          "n": 9,
+          "pct": 77.77777777777777
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 6,
+          "n": 9,
+          "pct": 66.66666666666667
+        },
+        "L15": {
+          "hits": 6,
+          "n": 9,
+          "pct": 66.66666666666667
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 2,
+          "n": 4,
+          "pct": 50.0
+        },
+        "away": {
+          "hits": 3,
+          "n": 4,
+          "pct": 75.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 9,
+        "opponent_allowed_available": 9
+      },
+      "market_adjusted_pct": 72.6,
+      "market_delta_pp": 0.0,
+      "market_signal": "THIN_MARKET",
+      "market_reliability": "insufficient",
+      "market_data": {
+        "bet_id": 87,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 1,
+        "paired_books": 1,
+        "market_probability_pct": 85.8,
+        "bookmaker_spread_pp": 0.0,
+        "quotes": [
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.09,
+            "under_odd": 6.6,
+            "selected_odd": 1.09,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:57:16+00:00",
+            "devig_over_probability": 85.83,
+            "devig_probability": 85.83
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Linia jest dostępna, ale rynek jest zbyt wąski, żeby bezpiecznie korygować statystykę historyczną. Korekta samego rynku wynosi zero.",
+      "competition_adjusted_pct": 72.6,
+      "reliability_adjusted_pct": 54.1,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Sergio Jose Dos Santos Guelho",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -18.5,
+      "final_assessment_pct": 54.1,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
       "fixture_id": 1575514,
       "kickoff": "2026-10-12T21:15:00+02:00",
       "competition": "Primeira Liga",
@@ -51534,60 +52240,67 @@
       "home": "Atalanta",
       "away": "Venezia",
       "team_id": 499,
-      "team": "Atalanta",
+      "team": "Cały mecz",
       "opponent": "Venezia",
       "team_side": "home",
-      "market": "team_goals",
-      "market_label": "gole drużyny",
-      "market_scope": "team",
-      "direction": "under",
-      "bet_id": 16,
+      "market": "offsides",
+      "market_label": "spalone w meczu",
+      "market_scope": "match",
+      "direction": "over",
+      "bet_id": 164,
       "settlement_period": "regulation_time",
-      "line": 2.5,
-      "selection": "Atalanta: poniżej 2.5 — gole drużyny",
-      "api_pure_pct": 80.5,
-      "confidence_api": 6.7,
+      "line": 3.5,
+      "selection": "Cały mecz: powyżej 3.5 — spalone w meczu",
+      "api_pure_pct": 75.9,
+      "confidence_api": 6.9,
       "scope": "liga krajowa",
       "own": {
         "L5": {
-          "hits": 5,
+          "hits": 3,
           "n": 5,
-          "pct": 100.0
+          "pct": 60.0
         },
         "L10": {
-          "hits": 7,
+          "hits": 6,
           "n": 8,
-          "pct": 87.5
+          "pct": 75.0
         },
         "L15": {
-          "hits": 7,
+          "hits": 6,
           "n": 8,
-          "pct": 87.5
+          "pct": 75.0
         }
       },
       "opponent_allowed": {
         "L5": {
-          "hits": 3,
+          "hits": 4,
           "n": 5,
-          "pct": 60.0
+          "pct": 80.0
         },
         "L10": {
-          "hits": 3,
+          "hits": 4,
           "n": 5,
-          "pct": 60.0
+          "pct": 80.0
         },
         "L15": {
-          "hits": 3,
+          "hits": 4,
           "n": 5,
-          "pct": 60.0
+          "pct": 80.0
         }
       },
-      "venue": {
-        "hits": 4,
-        "n": 4,
-        "pct": 100.0
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 2,
+          "n": 4,
+          "pct": 50.0
+        },
+        "away": {
+          "hits": 2,
+          "n": 2,
+          "pct": 100.0
+        }
       },
-      "match_venue": null,
       "europe_only": null,
       "samples": {
         "own_available": 8,
@@ -51598,7 +52311,7 @@
       "market_signal": "STRONG_WARNING",
       "market_reliability": "strong",
       "market_data": {
-        "bet_id": 16,
+        "bet_id": 164,
         "exact_line_available": true,
         "selected_outcome_available": true,
         "direction": "under",
@@ -58047,7 +58760,7 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 1.88,
+            "over_odd": 1.87,
             "under_odd": 1.93,
             "selected_odd": 1.93,
             "direction": "under",
@@ -62763,6 +63476,139 @@
         "policy": "audit-first; only conservative negative guard before calibration"
       },
       "reliability_penalty_pp": -16.5,
+      "final_assessment_pct": 45.5,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone w meczu",
+      "market_scope": "match",
+      "direction": "under",
+      "bet_id": 164,
+      "settlement_period": "regulation_time",
+      "line": 4.5,
+      "selection": "Cały mecz: poniżej 4.5 — spalone w meczu",
+      "api_pure_pct": 61.7,
+      "confidence_api": 5.4,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 8,
+          "pct": 87.5
+        },
+        "L15": {
+          "hits": 7,
+          "n": 8,
+          "pct": 87.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L15": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 4,
+          "n": 4,
+          "pct": 100.0
+        },
+        "away": {
+          "hits": 0,
+          "n": 2,
+          "pct": 0.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 61.3,
+      "market_delta_pp": -0.4,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 164,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 59.1,
+        "bookmaker_spread_pp": 2.0,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 2.16,
+            "under_odd": 1.62,
+            "selected_odd": 1.62,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 42.86,
+            "devig_probability": 57.14
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 2.4,
+            "under_odd": 1.53,
+            "selected_odd": 1.53,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 38.93,
+            "devig_probability": 61.07
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 61.7,
+      "reliability_adjusted_pct": 45.9,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -15.8,
       "final_assessment_pct": 45.5,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
@@ -77619,9 +78465,9 @@
       },
       "opponent_allowed": {
         "L5": {
-          "hits": 2,
+          "hits": 3,
           "n": 5,
-          "pct": 40.0
+          "pct": 60.0
         },
         "L10": {
           "hits": 4,
@@ -77635,32 +78481,43 @@
         }
       },
       "venue": null,
-      "match_venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 1,
+          "n": 2,
+          "pct": 50.0
+        },
+        "away": {
+          "hits": 3,
+          "n": 4,
+          "pct": 75.0
+        }
+      },
       "europe_only": null,
       "samples": {
         "own_available": 5,
         "opponent_allowed_available": 8
       },
-      "market_adjusted_pct": 56.0,
-      "market_delta_pp": 0.7,
+      "market_adjusted_pct": 57.8,
+      "market_delta_pp": 1.2,
       "market_signal": "NEUTRAL",
       "market_reliability": "weak",
       "market_data": {
-        "bet_id": 168,
+        "bet_id": 211,
         "exact_line_available": true,
         "selected_outcome_available": true,
         "direction": "under",
         "offered_books": 2,
         "paired_books": 2,
-        "market_probability_pct": 60.0,
-        "bookmaker_spread_pp": 9.5,
+        "market_probability_pct": 64.3,
+        "bookmaker_spread_pp": 1.7,
         "quotes": [
           {
             "bookmaker": "1xBet",
             "bookmaker_id": 11,
-            "over_odd": 1.85,
-            "under_odd": 1.81,
-            "selected_odd": 1.81,
+            "over_odd": 2.43,
+            "under_odd": 1.45,
+            "selected_odd": 1.45,
             "direction": "under",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 49.45,
@@ -77669,9 +78526,9 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 3.05,
-            "under_odd": 1.34,
-            "selected_odd": 1.34,
+            "over_odd": 2.75,
+            "under_odd": 1.42,
+            "selected_odd": 1.42,
             "direction": "under",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 30.52,
@@ -77681,8 +78538,8 @@
       },
       "market_movement_pp": 0.0,
       "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
-      "competition_adjusted_pct": 55.3,
-      "reliability_adjusted_pct": 36.3,
+      "competition_adjusted_pct": 56.6,
+      "reliability_adjusted_pct": 35.8,
       "context": {
         "adjustment_pp": 0.0,
         "selected_team_missing": 0,
@@ -77690,11 +78547,11 @@
         "opponent_missing": 0,
         "opponent_questionable": 0,
         "official_lineup_available": false,
-        "referee": "Paride Tremolada",
+        "referee": "John Brooks",
         "flags": [],
         "policy": "audit-first; only conservative negative guard before calibration"
       },
-      "reliability_penalty_pp": -19.0,
+      "reliability_penalty_pp": -20.8,
       "final_assessment_pct": 37.0,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
@@ -86530,6 +87387,194 @@
       "prematch_verified": true
     },
     {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "team_goals",
+      "market_label": "gole w meczu",
+      "market_scope": "match",
+      "direction": "over",
+      "bet_id": 5,
+      "settlement_period": "regulation_time",
+      "line": 2.5,
+      "selection": "Cały mecz: powyżej 2.5 — gole w meczu",
+      "api_pure_pct": 46.4,
+      "confidence_api": 5.1,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        },
+        "L10": {
+          "hits": 4,
+          "n": 8,
+          "pct": 50.0
+        },
+        "L15": {
+          "hits": 4,
+          "n": 8,
+          "pct": 50.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L15": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 2,
+          "n": 4,
+          "pct": 50.0
+        },
+        "away": {
+          "hits": 1,
+          "n": 2,
+          "pct": 50.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 51.9,
+      "market_delta_pp": 5.5,
+      "market_signal": "STRONG_CONFIRMATION",
+      "market_reliability": "strong",
+      "market_data": {
+        "bet_id": 5,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 7,
+        "paired_books": 7,
+        "market_probability_pct": 62.0,
+        "bookmaker_spread_pp": 0.8,
+        "quotes": [
+          {
+            "bookmaker": "Bet365",
+            "bookmaker_id": 8,
+            "over_odd": 1.53,
+            "under_odd": 2.5,
+            "selected_odd": 1.53,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 62.03,
+            "devig_probability": 62.03
+          },
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 1.5,
+            "under_odd": 2.36,
+            "selected_odd": 1.5,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 61.14,
+            "devig_probability": 61.14
+          },
+          {
+            "bookmaker": "Betfair",
+            "bookmaker_id": 3,
+            "over_odd": 1.5,
+            "under_odd": 2.55,
+            "selected_odd": 1.5,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 62.96,
+            "devig_probability": 62.96
+          },
+          {
+            "bookmaker": "BetVictor",
+            "bookmaker_id": 36,
+            "over_odd": 1.49,
+            "under_odd": 2.38,
+            "selected_odd": 1.49,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 61.5,
+            "devig_probability": 61.5
+          },
+          {
+            "bookmaker": "Pinnacle",
+            "bookmaker_id": 4,
+            "over_odd": 1.52,
+            "under_odd": 2.63,
+            "selected_odd": 1.52,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 63.37,
+            "devig_probability": 63.37
+          },
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 1.5,
+            "under_odd": 2.36,
+            "selected_odd": 1.5,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 61.14,
+            "devig_probability": 61.14
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.55,
+            "under_odd": 2.55,
+            "selected_odd": 1.55,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 62.2,
+            "devig_probability": 62.2
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek wyraźnie potwierdza kierunek wskazany przez historię i podnosi ocenę. Notowania wielu bukmacherów są spójne. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 46.4,
+      "reliability_adjusted_pct": 27.2,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -19.2,
+      "final_assessment_pct": 32.7,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek potwierdza kierunek.",
+      "prematch_verified": true
+    },
+    {
       "fixture_id": 1570407,
       "kickoff": "2026-10-12T21:00:00+02:00",
       "competition": "La Liga",
@@ -86848,6 +87893,362 @@
       "final_assessment_pct": 32.6,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek potwierdza kierunek.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550146,
+      "kickoff": "2026-10-12T20:45:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Torino",
+      "away": "Udinese",
+      "team_id": 503,
+      "team": "Cały mecz",
+      "opponent": "Udinese",
+      "team_side": "home",
+      "market": "team_goals",
+      "market_label": "gole w meczu",
+      "market_scope": "match",
+      "direction": "under",
+      "bet_id": 5,
+      "settlement_period": "regulation_time",
+      "line": 2.5,
+      "selection": "Cały mecz: poniżej 2.5 — gole w meczu",
+      "api_pure_pct": 42.5,
+      "confidence_api": 4.7,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 2,
+          "n": 8,
+          "pct": 25.0
+        },
+        "L15": {
+          "hits": 2,
+          "n": 8,
+          "pct": 25.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 5,
+          "n": 8,
+          "pct": 62.5
+        },
+        "L15": {
+          "hits": 5,
+          "n": 8,
+          "pct": 62.5
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 1,
+          "n": 4,
+          "pct": 25.0
+        },
+        "away": {
+          "hits": 2,
+          "n": 4,
+          "pct": 50.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 8
+      },
+      "market_adjusted_pct": 47.1,
+      "market_delta_pp": 4.6,
+      "market_signal": "STRONG_CONFIRMATION",
+      "market_reliability": "strong",
+      "market_data": {
+        "bet_id": 5,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 8,
+        "paired_books": 8,
+        "market_probability_pct": 55.6,
+        "bookmaker_spread_pp": 0.6,
+        "quotes": [
+          {
+            "bookmaker": "Bet365",
+            "bookmaker_id": 8,
+            "over_odd": 2.1,
+            "under_odd": 1.73,
+            "selected_odd": 1.73,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 45.17,
+            "devig_probability": 54.83
+          },
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 2.15,
+            "under_odd": 1.72,
+            "selected_odd": 1.72,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 44.44,
+            "devig_probability": 55.56
+          },
+          {
+            "bookmaker": "Betfair",
+            "bookmaker_id": 3,
+            "over_odd": 2.1,
+            "under_odd": 1.73,
+            "selected_odd": 1.73,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 45.17,
+            "devig_probability": 54.83
+          },
+          {
+            "bookmaker": "BetVictor",
+            "bookmaker_id": 36,
+            "over_odd": 2.01,
+            "under_odd": 1.69,
+            "selected_odd": 1.69,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 45.68,
+            "devig_probability": 54.32
+          },
+          {
+            "bookmaker": "Pinnacle",
+            "bookmaker_id": 4,
+            "over_odd": 2.19,
+            "under_odd": 1.74,
+            "selected_odd": 1.74,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 44.27,
+            "devig_probability": 55.73
+          },
+          {
+            "bookmaker": "SBO",
+            "bookmaker_id": 5,
+            "over_odd": 2.19,
+            "under_odd": 1.7,
+            "selected_odd": 1.7,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 43.7,
+            "devig_probability": 56.3
+          },
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 2.22,
+            "under_odd": 1.77,
+            "selected_odd": 1.77,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 44.36,
+            "devig_probability": 55.64
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 2.18,
+            "under_odd": 1.72,
+            "selected_odd": 1.72,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 44.1,
+            "devig_probability": 55.9
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek wyraźnie potwierdza kierunek wskazany przez historię i podnosi ocenę. Notowania wielu bukmacherów są spójne. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 42.5,
+      "reliability_adjusted_pct": 28.0,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Valerio Crezzini",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -14.5,
+      "final_assessment_pct": 32.6,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek potwierdza kierunek.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1553187,
+      "kickoff": "2026-10-12T18:00:00+02:00",
+      "competition": "Ekstraklasa",
+      "category": "domestic",
+      "home": "Radomiak Radom",
+      "away": "Motor Lublin",
+      "team_id": 4248,
+      "team": "Radomiak Radom",
+      "opponent": "Motor Lublin",
+      "team_side": "home",
+      "market": "corners",
+      "market_label": "rożne drużyny",
+      "market_scope": "team",
+      "direction": "over",
+      "bet_id": 57,
+      "settlement_period": "regulation_time",
+      "line": 4.5,
+      "selection": "Radomiak Radom: powyżej 4.5 — rożne drużyny",
+      "api_pure_pct": 52.5,
+      "confidence_api": 5.8,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 6,
+          "n": 10,
+          "pct": 60.0
+        },
+        "L15": {
+          "hits": 6,
+          "n": 13,
+          "pct": 46.15384615384615
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 3,
+          "n": 10,
+          "pct": 30.0
+        },
+        "L15": {
+          "hits": 5,
+          "n": 12,
+          "pct": 41.666666666666664
+        }
+      },
+      "venue": {
+        "hits": 4,
+        "n": 7,
+        "pct": 57.142857142857146
+      },
+      "match_venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 13,
+        "opponent_allowed_available": 12
+      },
+      "market_adjusted_pct": 52.9,
+      "market_delta_pp": 0.4,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "medium",
+      "market_data": {
+        "bet_id": 57,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 5,
+        "paired_books": 4,
+        "market_probability_pct": 54.1,
+        "bookmaker_spread_pp": 3.2,
+        "quotes": [
+          {
+            "bookmaker": "Bet365",
+            "bookmaker_id": 8,
+            "over_odd": 1.91,
+            "under_odd": 1.8,
+            "selected_odd": 1.91,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:36:14+00:00",
+            "devig_over_probability": 48.52,
+            "devig_probability": 48.52
+          },
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 1.68,
+            "under_odd": 2.01,
+            "selected_odd": 1.68,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:36:14+00:00",
+            "devig_over_probability": 54.47,
+            "devig_probability": 54.47
+          },
+          {
+            "bookmaker": "Pinnacle",
+            "bookmaker_id": 4,
+            "over_odd": 1.72,
+            "under_odd": 2.0,
+            "selected_odd": 1.72,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:36:14+00:00",
+            "devig_over_probability": 53.76,
+            "devig_probability": 53.76
+          },
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 1.6,
+            "under_odd": 2.16,
+            "selected_odd": 1.6,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:36:14+00:00",
+            "devig_over_probability": 57.45,
+            "devig_probability": 57.45
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.75,
+            "under_odd": null,
+            "selected_odd": 1.75,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:36:14+00:00"
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Konsensus rynku jest wystarczająco szeroki do umiarkowanej korekty. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 52.5,
+      "reliability_adjusted_pct": 32.1,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Tomasz Kwiatkowski",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -20.4,
+      "final_assessment_pct": 32.5,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
       "prematch_verified": true
     },
     {
@@ -93784,6 +95185,194 @@
       "final_assessment_pct": 29.3,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "team_goals",
+      "market_label": "gole w meczu",
+      "market_scope": "match",
+      "direction": "under",
+      "bet_id": 5,
+      "settlement_period": "regulation_time",
+      "line": 2.5,
+      "selection": "Cały mecz: poniżej 2.5 — gole w meczu",
+      "api_pure_pct": 53.6,
+      "confidence_api": 5.5,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 4,
+          "n": 8,
+          "pct": 50.0
+        },
+        "L15": {
+          "hits": 4,
+          "n": 8,
+          "pct": 50.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        },
+        "L10": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        },
+        "L15": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 2,
+          "n": 4,
+          "pct": 50.0
+        },
+        "away": {
+          "hits": 1,
+          "n": 2,
+          "pct": 50.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 48.1,
+      "market_delta_pp": -5.5,
+      "market_signal": "STRONG_WARNING",
+      "market_reliability": "strong",
+      "market_data": {
+        "bet_id": 5,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 7,
+        "paired_books": 7,
+        "market_probability_pct": 38.0,
+        "bookmaker_spread_pp": 0.8,
+        "quotes": [
+          {
+            "bookmaker": "Bet365",
+            "bookmaker_id": 8,
+            "over_odd": 1.53,
+            "under_odd": 2.5,
+            "selected_odd": 2.5,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 62.03,
+            "devig_probability": 37.97
+          },
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 1.5,
+            "under_odd": 2.36,
+            "selected_odd": 2.36,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 61.14,
+            "devig_probability": 38.86
+          },
+          {
+            "bookmaker": "Betfair",
+            "bookmaker_id": 3,
+            "over_odd": 1.5,
+            "under_odd": 2.55,
+            "selected_odd": 2.55,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 62.96,
+            "devig_probability": 37.04
+          },
+          {
+            "bookmaker": "BetVictor",
+            "bookmaker_id": 36,
+            "over_odd": 1.49,
+            "under_odd": 2.38,
+            "selected_odd": 2.38,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 61.5,
+            "devig_probability": 38.5
+          },
+          {
+            "bookmaker": "Pinnacle",
+            "bookmaker_id": 4,
+            "over_odd": 1.52,
+            "under_odd": 2.63,
+            "selected_odd": 2.63,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 63.37,
+            "devig_probability": 36.63
+          },
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 1.5,
+            "under_odd": 2.36,
+            "selected_odd": 2.36,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 61.14,
+            "devig_probability": 38.86
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.55,
+            "under_odd": 2.55,
+            "selected_odd": 2.55,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 62.2,
+            "devig_probability": 37.8
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek wyraźnie nie zgadza się z mocnym wynikiem historycznym, więc ocena zostaje istotnie obniżona. Notowania wielu bukmacherów są spójne. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 53.6,
+      "reliability_adjusted_pct": 34.7,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -18.9,
+      "final_assessment_pct": 29.2,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek jest ostrożniejszy i obniża ocenę.",
       "prematch_verified": true
     },
     {
@@ -100869,8 +102458,8 @@
         "own_available": 5,
         "opponent_allowed_available": 8
       },
-      "market_adjusted_pct": 44.0,
-      "market_delta_pp": -0.7,
+      "market_adjusted_pct": 44.2,
+      "market_delta_pp": -0.5,
       "market_signal": "NEUTRAL",
       "market_reliability": "weak",
       "market_data": {
@@ -100880,8 +102469,8 @@
         "direction": "over",
         "offered_books": 2,
         "paired_books": 2,
-        "market_probability_pct": 40.0,
-        "bookmaker_spread_pp": 9.5,
+        "market_probability_pct": 41.1,
+        "bookmaker_spread_pp": 8.3,
         "quotes": [
           {
             "bookmaker": "1xBet",
@@ -100897,9 +102486,9 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 3.05,
-            "under_odd": 1.34,
-            "selected_odd": 3.05,
+            "over_odd": 2.85,
+            "under_odd": 1.39,
+            "selected_odd": 2.85,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 30.52,
@@ -100923,9 +102512,316 @@
         "policy": "audit-first; only conservative negative guard before calibration"
       },
       "reliability_penalty_pp": -18.5,
-      "final_assessment_pct": 25.5,
+      "final_assessment_pct": 25.7,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1570407,
+      "kickoff": "2026-10-12T21:00:00+02:00",
+      "competition": "La Liga",
+      "category": "domestic",
+      "home": "Levante",
+      "away": "Sevilla",
+      "team_id": 536,
+      "team": "Sevilla",
+      "opponent": "Levante",
+      "team_side": "away",
+      "market": "offsides",
+      "market_label": "spalone drużyny",
+      "market_scope": "team",
+      "direction": "over",
+      "bet_id": 168,
+      "settlement_period": "regulation_time",
+      "line": 2.5,
+      "selection": "Sevilla: powyżej 2.5 — spalone drużyny",
+      "api_pure_pct": 39.7,
+      "confidence_api": 5.3,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 4,
+          "n": 10,
+          "pct": 40.0
+        },
+        "L15": {
+          "hits": 5,
+          "n": 11,
+          "pct": 45.45454545454545
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 3,
+          "n": 10,
+          "pct": 30.0
+        },
+        "L15": {
+          "hits": 3,
+          "n": 10,
+          "pct": 30.0
+        }
+      },
+      "venue": {
+        "hits": 2,
+        "n": 4,
+        "pct": 50.0
+      },
+      "match_venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 11,
+        "opponent_allowed_available": 10
+      },
+      "market_adjusted_pct": 39.0,
+      "market_delta_pp": -0.7,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 168,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 34.8,
+        "bookmaker_spread_pp": 3.1,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 2.4,
+            "under_odd": 1.46,
+            "selected_odd": 2.4,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:54:16+00:00",
+            "devig_over_probability": 37.82,
+            "devig_probability": 37.82
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 2.95,
+            "under_odd": 1.37,
+            "selected_odd": 2.95,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T00:54:16+00:00",
+            "devig_over_probability": 31.71,
+            "devig_probability": 31.71
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 39.7,
+      "reliability_adjusted_pct": 26.3,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Adrian Cordero Vega",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -13.4,
+      "final_assessment_pct": 25.6,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1584423,
+      "kickoff": "2026-10-12T19:00:00+02:00",
+      "competition": "Süper Lig",
+      "category": "domestic",
+      "home": "Eyüpspor",
+      "away": "Göztepe",
+      "team_id": 994,
+      "team": "Göztepe",
+      "opponent": "Eyüpspor",
+      "team_side": "away",
+      "market": "team_goals",
+      "market_label": "gole drużyny",
+      "market_scope": "team",
+      "direction": "under",
+      "bet_id": 17,
+      "settlement_period": "regulation_time",
+      "line": 1.5,
+      "selection": "Göztepe: poniżej 1.5 — gole drużyny",
+      "api_pure_pct": 32.5,
+      "confidence_api": 4.2,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 2,
+          "n": 8,
+          "pct": 25.0
+        },
+        "L15": {
+          "hits": 2,
+          "n": 8,
+          "pct": 25.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 2,
+          "n": 5,
+          "pct": 40.0
+        },
+        "L10": {
+          "hits": 4,
+          "n": 8,
+          "pct": 50.0
+        },
+        "L15": {
+          "hits": 4,
+          "n": 8,
+          "pct": 50.0
+        }
+      },
+      "venue": {
+        "hits": 1,
+        "n": 4,
+        "pct": 25.0
+      },
+      "match_venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 8
+      },
+      "market_adjusted_pct": 38.1,
+      "market_delta_pp": 5.6,
+      "market_signal": "STRONG_CONFIRMATION",
+      "market_reliability": "strong",
+      "market_data": {
+        "bet_id": 17,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 7,
+        "paired_books": 7,
+        "market_probability_pct": 48.5,
+        "bookmaker_spread_pp": 0.5,
+        "quotes": [
+          {
+            "bookmaker": "Bet365",
+            "bookmaker_id": 8,
+            "over_odd": 1.8,
+            "under_odd": 1.91,
+            "selected_odd": 1.91,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T01:01:16+00:00",
+            "devig_over_probability": 51.48,
+            "devig_probability": 48.52
+          },
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 1.78,
+            "under_odd": 1.94,
+            "selected_odd": 1.94,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T01:01:16+00:00",
+            "devig_over_probability": 52.15,
+            "devig_probability": 47.85
+          },
+          {
+            "bookmaker": "Betfair",
+            "bookmaker_id": 3,
+            "over_odd": 1.8,
+            "under_odd": 1.91,
+            "selected_odd": 1.91,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T01:01:16+00:00",
+            "devig_over_probability": 51.48,
+            "devig_probability": 48.52
+          },
+          {
+            "bookmaker": "BetVictor",
+            "bookmaker_id": 36,
+            "over_odd": 1.8,
+            "under_odd": 1.91,
+            "selected_odd": 1.91,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T01:01:16+00:00",
+            "devig_over_probability": 51.48,
+            "devig_probability": 48.52
+          },
+          {
+            "bookmaker": "Pinnacle",
+            "bookmaker_id": 4,
+            "over_odd": 1.81,
+            "under_odd": 2.04,
+            "selected_odd": 2.04,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T01:01:16+00:00",
+            "devig_over_probability": 52.99,
+            "devig_probability": 47.01
+          },
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 1.78,
+            "under_odd": 1.94,
+            "selected_odd": 1.94,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T01:01:16+00:00",
+            "devig_over_probability": 52.15,
+            "devig_probability": 47.85
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.82,
+            "under_odd": 1.93,
+            "selected_odd": 1.93,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T01:01:16+00:00",
+            "devig_over_probability": 51.47,
+            "devig_probability": 48.53
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek wyraźnie potwierdza kierunek wskazany przez historię i podnosi ocenę. Notowania wielu bukmacherów są spójne. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 32.5,
+      "reliability_adjusted_pct": 19.9,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "A. Karaoglan",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -12.6,
+      "final_assessment_pct": 25.5,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek potwierdza kierunek.",
       "prematch_verified": true
     },
     {
@@ -105878,6 +107774,139 @@
       },
       "reliability_penalty_pp": -15.5,
       "final_assessment_pct": 23.2,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone w meczu",
+      "market_scope": "match",
+      "direction": "over",
+      "bet_id": 164,
+      "settlement_period": "regulation_time",
+      "line": 4.5,
+      "selection": "Cały mecz: powyżej 4.5 — spalone w meczu",
+      "api_pure_pct": 38.3,
+      "confidence_api": 3.9,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        },
+        "L15": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        },
+        "L10": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        },
+        "L15": {
+          "hits": 3,
+          "n": 5,
+          "pct": 60.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 0,
+          "n": 4,
+          "pct": 0.0
+        },
+        "away": {
+          "hits": 2,
+          "n": 2,
+          "pct": 100.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 38.7,
+      "market_delta_pp": 0.4,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 164,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 40.9,
+        "bookmaker_spread_pp": 2.0,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 2.16,
+            "under_odd": 1.62,
+            "selected_odd": 2.16,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 42.86,
+            "devig_probability": 42.86
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 2.4,
+            "under_odd": 1.53,
+            "selected_odd": 2.4,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 38.93,
+            "devig_probability": 38.93
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 38.3,
+      "reliability_adjusted_pct": 22.7,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -15.6,
+      "final_assessment_pct": 23.1,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
       "prematch_verified": true
@@ -113671,9 +115700,9 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 1.88,
+            "over_odd": 1.87,
             "under_odd": 1.93,
-            "selected_odd": 1.88,
+            "selected_odd": 1.87,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 50.66,
@@ -127145,9 +129174,9 @@
         ]
       },
       "market_movement_pp": 0.0,
-      "market_comment": "Rynek umiarkowanie potwierdza sygnał historyczny, dlatego ocena rośnie. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
-      "competition_adjusted_pct": 24.1,
-      "reliability_adjusted_pct": 10.8,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Konsensus rynku jest wystarczająco szeroki do umiarkowanej korekty. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 23.6,
+      "reliability_adjusted_pct": 13.7,
       "context": {
         "adjustment_pp": 0.0,
         "selected_team_missing": 0,
@@ -127155,14 +129184,14 @@
         "opponent_missing": 0,
         "opponent_questionable": 0,
         "official_lineup_available": false,
-        "referee": "Paride Tremolada",
+        "referee": "Valerio Crezzini",
         "flags": [],
         "policy": "audit-first; only conservative negative guard before calibration"
       },
-      "reliability_penalty_pp": -13.3,
-      "final_assessment_pct": 13.1,
+      "reliability_penalty_pp": -9.9,
+      "final_assessment_pct": 13.2,
       "final_status": "BELOW_THRESHOLD",
-      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek potwierdza kierunek.",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
       "prematch_verified": true
     },
     {
@@ -128538,13 +130567,13 @@
         },
         "L10": {
           "hits": 2,
-          "n": 8,
-          "pct": 25.0
+          "n": 7,
+          "pct": 28.571428571428573
         },
         "L15": {
           "hits": 2,
-          "n": 8,
-          "pct": 25.0
+          "n": 7,
+          "pct": 28.571428571428573
         }
       },
       "venue": null,
@@ -128637,9 +130666,9 @@
       "scope": "liga krajowa",
       "own": {
         "L5": {
-          "hits": 0,
+          "hits": 1,
           "n": 5,
-          "pct": 0.0
+          "pct": 20.0
         },
         "L10": {
           "hits": 2,
@@ -129447,6 +131476,128 @@
       "final_assessment_pct": 12.3,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Próba jest wystarczająca, choć reliability lekko studzi surowy wynik historii. Rynek potwierdza kierunek.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 517,
+      "team": "Venezia",
+      "opponent": "Atalanta",
+      "team_side": "away",
+      "market": "offsides",
+      "market_label": "spalone drużyny",
+      "market_scope": "team",
+      "direction": "under",
+      "bet_id": 168,
+      "settlement_period": "regulation_time",
+      "line": 1.5,
+      "selection": "Venezia: poniżej 1.5 — spalone drużyny",
+      "api_pure_pct": 21.6,
+      "confidence_api": 3.7,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L15": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 2,
+          "n": 8,
+          "pct": 25.0
+        },
+        "L15": {
+          "hits": 2,
+          "n": 8,
+          "pct": 25.0
+        }
+      },
+      "venue": null,
+      "match_venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 5,
+        "opponent_allowed_available": 8
+      },
+      "market_adjusted_pct": 23.9,
+      "market_delta_pp": 2.3,
+      "market_signal": "CONFIRMATION",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 168,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 36.8,
+        "bookmaker_spread_pp": 5.6,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 1.31,
+            "under_odd": 2.9,
+            "selected_odd": 2.9,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 68.88,
+            "devig_probability": 31.12
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.62,
+            "under_odd": 2.2,
+            "selected_odd": 2.2,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 57.59,
+            "devig_probability": 42.41
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek umiarkowanie potwierdza sygnał historyczny, dlatego ocena rośnie. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 21.6,
+      "reliability_adjusted_pct": 9.9,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -11.7,
+      "final_assessment_pct": 12.2,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek potwierdza kierunek.",
       "prematch_verified": true
     },
     {
@@ -134129,7 +136280,7 @@
         "offered_books": 5,
         "paired_books": 5,
         "market_probability_pct": 40.2,
-        "bookmaker_spread_pp": 1.6,
+        "bookmaker_spread_pp": 1.5,
         "quotes": [
           {
             "bookmaker": "Marathonbet",
@@ -134179,7 +136330,7 @@
             "bookmaker": "Betano",
             "bookmaker_id": 32,
             "over_odd": 2.42,
-            "under_odd": 1.52,
+            "under_odd": 1.53,
             "selected_odd": 2.42,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
@@ -137783,6 +139934,132 @@
       "prematch_verified": true
     },
     {
+      "fixture_id": 1550146,
+      "kickoff": "2026-10-12T20:45:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Torino",
+      "away": "Udinese",
+      "team_id": 494,
+      "team": "Udinese",
+      "opponent": "Torino",
+      "team_side": "away",
+      "market": "corners",
+      "market_label": "rożne drużyny",
+      "market_scope": "team",
+      "direction": "over",
+      "bet_id": 58,
+      "settlement_period": "regulation_time",
+      "line": 5.5,
+      "selection": "Udinese: powyżej 5.5 — rożne drużyny",
+      "api_pure_pct": 16.1,
+      "confidence_api": 3.4,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        },
+        "L15": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 2,
+          "n": 8,
+          "pct": 25.0
+        },
+        "L15": {
+          "hits": 2,
+          "n": 8,
+          "pct": 25.0
+        }
+      },
+      "venue": {
+        "hits": 0,
+        "n": 4,
+        "pct": 0.0
+      },
+      "match_venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 8
+      },
+      "market_adjusted_pct": 18.0,
+      "market_delta_pp": 1.9,
+      "market_signal": "CONFIRMATION",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 58,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 28.5,
+        "bookmaker_spread_pp": 1.8,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 2.97,
+            "under_odd": 1.29,
+            "selected_odd": 2.97,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 30.28,
+            "devig_probability": 30.28
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 3.5,
+            "under_odd": 1.28,
+            "selected_odd": 3.5,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T03:39:19+00:00",
+            "devig_over_probability": 26.78,
+            "devig_probability": 26.78
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek umiarkowanie potwierdza sygnał historyczny, dlatego ocena rośnie. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 16.1,
+      "reliability_adjusted_pct": 7.3,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Valerio Crezzini",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -8.8,
+      "final_assessment_pct": 9.2,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek potwierdza kierunek.",
+      "prematch_verified": true
+    },
+    {
       "fixture_id": 1553187,
       "kickoff": "2026-10-12T18:00:00+02:00",
       "competition": "Ekstraklasa",
@@ -139726,15 +142003,15 @@
         "direction": "under",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 8.7,
+        "market_probability_pct": 8.5,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 1.03,
-            "under_odd": 10.75,
-            "selected_odd": 10.75,
+            "over_odd": 1.02,
+            "under_odd": 11.0,
+            "selected_odd": 11.0,
             "direction": "under",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 91.26,
@@ -139758,6 +142035,139 @@
         "policy": "audit-first; only conservative negative guard before calibration"
       },
       "reliability_penalty_pp": -9.7,
+      "final_assessment_pct": 8.2,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone w meczu",
+      "market_scope": "match",
+      "direction": "over",
+      "bet_id": 164,
+      "settlement_period": "regulation_time",
+      "line": 5.5,
+      "selection": "Cały mecz: powyżej 5.5 — spalone w meczu",
+      "api_pure_pct": 17.8,
+      "confidence_api": 3.4,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        },
+        "L15": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L15": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 0,
+          "n": 4,
+          "pct": 0.0
+        },
+        "away": {
+          "hits": 1,
+          "n": 2,
+          "pct": 50.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 19.2,
+      "market_delta_pp": 1.4,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 164,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 26.8,
+        "bookmaker_spread_pp": 1.8,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 3.2,
+            "under_odd": 1.28,
+            "selected_odd": 3.2,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 28.57,
+            "devig_probability": 28.57
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 3.75,
+            "under_odd": 1.25,
+            "selected_odd": 3.75,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 25.0,
+            "devig_probability": 25.0
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 17.8,
+      "reliability_adjusted_pct": 6.8,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -11.0,
       "final_assessment_pct": 8.2,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
@@ -141364,6 +143774,139 @@
         "policy": "audit-first; only conservative negative guard before calibration"
       },
       "reliability_penalty_pp": -11.0,
+      "final_assessment_pct": 7.7,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone w meczu",
+      "market_scope": "match",
+      "direction": "under",
+      "bet_id": 164,
+      "settlement_period": "regulation_time",
+      "line": 2.5,
+      "selection": "Cały mecz: poniżej 2.5 — spalone w meczu",
+      "api_pure_pct": 16.6,
+      "confidence_api": 3.4,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        },
+        "L15": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L15": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 1,
+          "n": 4,
+          "pct": 25.0
+        },
+        "away": {
+          "hits": 0,
+          "n": 2,
+          "pct": 0.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 18.0,
+      "market_delta_pp": 1.4,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 164,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 25.9,
+        "bookmaker_spread_pp": 0.0,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 1.22,
+            "under_odd": 3.5,
+            "selected_odd": 3.5,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 74.15,
+            "devig_probability": 25.85
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.26,
+            "under_odd": 3.6,
+            "selected_odd": 3.6,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 74.07,
+            "devig_probability": 25.93
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 16.6,
+      "reliability_adjusted_pct": 6.3,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -10.3,
       "final_assessment_pct": 7.7,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
@@ -143672,35 +146215,35 @@
       "home": "Atalanta",
       "away": "Venezia",
       "team_id": 499,
-      "team": "Cały mecz",
+      "team": "Atalanta",
       "opponent": "Venezia",
       "team_side": "home",
-      "market": "offsides",
-      "market_label": "spalone w meczu",
-      "market_scope": "match",
+      "market": "team_goals",
+      "market_label": "gole drużyny",
+      "market_scope": "team",
       "direction": "over",
-      "bet_id": 164,
+      "bet_id": 16,
       "settlement_period": "regulation_time",
-      "line": 6.5,
-      "selection": "Cały mecz: powyżej 6.5 — spalone w meczu",
-      "api_pure_pct": 17.8,
-      "confidence_api": 3.4,
+      "line": 3.5,
+      "selection": "Atalanta: powyżej 3.5 — gole drużyny",
+      "api_pure_pct": 7.0,
+      "confidence_api": 2.5,
       "scope": "liga krajowa",
       "own": {
         "L5": {
-          "hits": 1,
+          "hits": 0,
           "n": 5,
-          "pct": 20.0
+          "pct": 0.0
         },
         "L10": {
-          "hits": 1,
+          "hits": 0,
           "n": 8,
-          "pct": 12.5
+          "pct": 0.0
         },
         "L15": {
-          "hits": 1,
+          "hits": 0,
           "n": 8,
-          "pct": 12.5
+          "pct": 0.0
         }
       },
       "opponent_allowed": {
@@ -143720,44 +146263,81 @@
           "pct": 20.0
         }
       },
-      "venue": null,
-      "match_venue": {
-        "home": {
-          "hits": 0,
-          "n": 4,
-          "pct": 0.0
-        },
-        "away": {
-          "hits": 1,
-          "n": 2,
-          "pct": 50.0
-        }
+      "venue": {
+        "hits": 0,
+        "n": 4,
+        "pct": 0.0
       },
+      "match_venue": null,
       "europe_only": null,
       "samples": {
         "own_available": 8,
         "opponent_allowed_available": 5
       },
-      "market_adjusted_pct": 17.9,
-      "market_delta_pp": 0.1,
-      "market_signal": "NEUTRAL",
-      "market_reliability": "weak",
+      "market_adjusted_pct": 11.3,
+      "market_delta_pp": 4.3,
+      "market_signal": "STRONG_CONFIRMATION",
+      "market_reliability": "strong",
       "market_data": {
-        "bet_id": 164,
+        "bet_id": 16,
         "exact_line_available": true,
         "selected_outcome_available": true,
         "direction": "over",
-        "offered_books": 2,
-        "paired_books": 2,
-        "market_probability_pct": 18.2,
-        "bookmaker_spread_pp": 0.5,
+        "offered_books": 6,
+        "paired_books": 6,
+        "market_probability_pct": 19.2,
+        "bookmaker_spread_pp": 1.4,
         "quotes": [
+          {
+            "bookmaker": "Bet365",
+            "bookmaker_id": 8,
+            "over_odd": 5.0,
+            "under_odd": 1.17,
+            "selected_odd": 5.0,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 18.96,
+            "devig_probability": 18.96
+          },
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 4.35,
+            "under_odd": 1.17,
+            "selected_odd": 4.35,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 21.2,
+            "devig_probability": 21.2
+          },
+          {
+            "bookmaker": "Betfair",
+            "bookmaker_id": 3,
+            "over_odd": 5.5,
+            "under_odd": 1.11,
+            "selected_odd": 5.5,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 16.79,
+            "devig_probability": 16.79
+          },
+          {
+            "bookmaker": "BetVictor",
+            "bookmaker_id": 36,
+            "over_odd": 4.8,
+            "under_odd": 1.14,
+            "selected_odd": 4.8,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 19.19,
+            "devig_probability": 19.19
+          },
           {
             "bookmaker": "1xBet",
             "bookmaker_id": 11,
-            "over_odd": 5.1,
-            "under_odd": 1.1,
-            "selected_odd": 5.1,
+            "over_odd": 4.9,
+            "under_odd": 1.16,
+            "selected_odd": 4.9,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 17.74,
@@ -143766,9 +146346,9 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 5.0,
-            "under_odd": 1.15,
-            "selected_odd": 5.0,
+            "over_odd": 4.5,
+            "under_odd": 1.18,
+            "selected_odd": 4.5,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 18.7,
@@ -143777,9 +146357,9 @@
         ]
       },
       "market_movement_pp": 0.0,
-      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
-      "competition_adjusted_pct": 17.8,
-      "reliability_adjusted_pct": 6.8,
+      "market_comment": "Rynek wyraźnie potwierdza kierunek wskazany przez historię i podnosi ocenę. Notowania wielu bukmacherów są spójne. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 7.0,
+      "reliability_adjusted_pct": 2.8,
       "context": {
         "adjustment_pp": 0.0,
         "selected_team_missing": 0,
@@ -143791,10 +146371,10 @@
         "flags": [],
         "policy": "audit-first; only conservative negative guard before calibration"
       },
-      "reliability_penalty_pp": -11.0,
-      "final_assessment_pct": 6.9,
+      "reliability_penalty_pp": -4.2,
+      "final_assessment_pct": 7.1,
       "final_status": "BELOW_THRESHOLD",
-      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "final_comment": "Próba jest wystarczająca, choć reliability lekko studzi surowy wynik historii. Rynek potwierdza kierunek.",
       "prematch_verified": true
     },
     {
@@ -144662,6 +147242,139 @@
       },
       "reliability_penalty_pp": -11.0,
       "final_assessment_pct": 6.7,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone w meczu",
+      "market_scope": "match",
+      "direction": "over",
+      "bet_id": 164,
+      "settlement_period": "regulation_time",
+      "line": 6.5,
+      "selection": "Cały mecz: powyżej 6.5 — spalone w meczu",
+      "api_pure_pct": 17.8,
+      "confidence_api": 3.4,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        },
+        "L15": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L15": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 0,
+          "n": 4,
+          "pct": 0.0
+        },
+        "away": {
+          "hits": 1,
+          "n": 2,
+          "pct": 50.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 17.6,
+      "market_delta_pp": -0.2,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 164,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 16.7,
+        "bookmaker_spread_pp": 1.1,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 5.1,
+            "under_odd": 1.1,
+            "selected_odd": 5.1,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 17.74,
+            "devig_probability": 17.74
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 6.0,
+            "under_odd": 1.11,
+            "selected_odd": 6.0,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 15.61,
+            "devig_probability": 15.61
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 17.8,
+      "reliability_adjusted_pct": 6.8,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -11.0,
+      "final_assessment_pct": 6.6,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
       "prematch_verified": true
@@ -146804,6 +149517,132 @@
       },
       "reliability_penalty_pp": -7.9,
       "final_assessment_pct": 5.8,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
+      "team": "Atalanta",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone drużyny",
+      "market_scope": "team",
+      "direction": "over",
+      "bet_id": 167,
+      "settlement_period": "regulation_time",
+      "line": 3.5,
+      "selection": "Atalanta: powyżej 3.5 — spalone drużyny",
+      "api_pure_pct": 14.7,
+      "confidence_api": 3.1,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        },
+        "L15": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        },
+        "L15": {
+          "hits": 1,
+          "n": 5,
+          "pct": 20.0
+        }
+      },
+      "venue": {
+        "hits": 0,
+        "n": 4,
+        "pct": 0.0
+      },
+      "match_venue": null,
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 14.9,
+      "market_delta_pp": 0.2,
+      "market_signal": "NEUTRAL",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 167,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "over",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 15.8,
+        "bookmaker_spread_pp": 3.8,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 7.5,
+            "under_odd": 1.02,
+            "selected_odd": 7.5,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 11.97,
+            "devig_probability": 11.97
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 4.75,
+            "under_odd": 1.16,
+            "selected_odd": 4.75,
+            "direction": "over",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 19.63,
+            "devig_probability": 19.63
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest zasadniczo zgodny z historią i nie daje powodu do większej korekty. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 14.7,
+      "reliability_adjusted_pct": 5.5,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -9.2,
+      "final_assessment_pct": 5.7,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek nie daje silnego sygnału w żadną stronę.",
       "prematch_verified": true
@@ -152352,8 +155191,8 @@
         "own_available": 8,
         "opponent_allowed_available": 5
       },
-      "market_adjusted_pct": 8.3,
-      "market_delta_pp": 2.0,
+      "market_adjusted_pct": 8.4,
+      "market_delta_pp": 2.1,
       "market_signal": "CONFIRMATION",
       "market_reliability": "medium",
       "market_data": {
@@ -152402,9 +155241,9 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 6.4,
+            "over_odd": 6.3,
             "under_odd": 1.1,
-            "selected_odd": 6.4,
+            "selected_odd": 6.3,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 14.67,
@@ -152428,7 +155267,140 @@
         "policy": "audit-first; only conservative negative guard before calibration"
       },
       "reliability_penalty_pp": -4.1,
-      "final_assessment_pct": 4.2,
+      "final_assessment_pct": 4.3,
+      "final_status": "BELOW_THRESHOLD",
+      "final_comment": "Próba jest wystarczająca, choć reliability lekko studzi surowy wynik historii. Rynek potwierdza kierunek.",
+      "prematch_verified": true
+    },
+    {
+      "fixture_id": 1557420,
+      "kickoff": "2026-10-12T21:00:00+02:00",
+      "competition": "Premier League",
+      "category": "domestic",
+      "home": "Coventry",
+      "away": "Newcastle",
+      "team_id": 1346,
+      "team": "Cały mecz",
+      "opponent": "Newcastle",
+      "team_side": "home",
+      "market": "offsides",
+      "market_label": "spalone w meczu",
+      "market_scope": "match",
+      "direction": "under",
+      "bet_id": 164,
+      "settlement_period": "regulation_time",
+      "line": 1.5,
+      "selection": "Cały mecz: poniżej 1.5 — spalone w meczu",
+      "api_pure_pct": 5.8,
+      "confidence_api": 2.6,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 0,
+          "n": 5,
+          "pct": 0.0
+        },
+        "L10": {
+          "hits": 0,
+          "n": 5,
+          "pct": 0.0
+        },
+        "L15": {
+          "hits": 0,
+          "n": 5,
+          "pct": 0.0
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 0,
+          "n": 5,
+          "pct": 0.0
+        },
+        "L10": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        },
+        "L15": {
+          "hits": 1,
+          "n": 8,
+          "pct": 12.5
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 0,
+          "n": 2,
+          "pct": 0.0
+        },
+        "away": {
+          "hits": 1,
+          "n": 4,
+          "pct": 25.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 5,
+        "opponent_allowed_available": 8
+      },
+      "market_adjusted_pct": 7.4,
+      "market_delta_pp": 1.6,
+      "market_signal": "CONFIRMATION",
+      "market_reliability": "weak",
+      "market_data": {
+        "bet_id": 164,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 2,
+        "paired_books": 2,
+        "market_probability_pct": 16.6,
+        "bookmaker_spread_pp": 1.6,
+        "quotes": [
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 1.11,
+            "under_odd": 5.0,
+            "selected_odd": 5.0,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T00:42:17+00:00",
+            "devig_over_probability": 81.83,
+            "devig_probability": 18.17
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 1.1,
+            "under_odd": 6.2,
+            "selected_odd": 6.2,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T00:42:17+00:00",
+            "devig_over_probability": 84.93,
+            "devig_probability": 15.07
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek umiarkowanie potwierdza sygnał historyczny, dlatego ocena rośnie. Dostępnych jest tylko kilka pełnych notowań, dlatego korekta jest ograniczona. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 5.8,
+      "reliability_adjusted_pct": 2.7,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "John Brooks",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -3.1,
+      "final_assessment_pct": 4.3,
       "final_status": "BELOW_THRESHOLD",
       "final_comment": "Próba jest wystarczająca, choć reliability lekko studzi surowy wynik historii. Rynek potwierdza kierunek.",
       "prematch_verified": true
@@ -163884,15 +166856,15 @@
       "prematch_verified": true
     },
     {
-      "fixture_id": 1570407,
-      "kickoff": "2026-10-12T21:00:00+02:00",
-      "competition": "La Liga",
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
       "category": "domestic",
-      "home": "Levante",
-      "away": "Sevilla",
-      "team_id": 539,
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
       "team": "Cały mecz",
-      "opponent": "Sevilla",
+      "opponent": "Venezia",
       "team_side": "home",
       "market": "team_goals",
       "market_label": "gole w meczu",
@@ -168757,15 +171729,15 @@
         "direction": "over",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 20.3,
+        "market_probability_pct": 20.4,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 4.6,
+            "over_odd": 4.55,
             "under_odd": 1.17,
-            "selected_odd": 4.6,
+            "selected_odd": 4.55,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 20.28,
@@ -168987,15 +171959,15 @@
         "direction": "over",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 9.9,
+        "market_probability_pct": 10.1,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 9.5,
+            "over_odd": 9.25,
             "under_odd": 1.04,
-            "selected_odd": 9.5,
+            "selected_odd": 9.25,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 9.87,
@@ -169098,15 +172070,15 @@
         "direction": "under",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 19.3,
+        "market_probability_pct": 18.0,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 1.16,
-            "under_odd": 4.85,
-            "selected_odd": 4.85,
+            "over_odd": 1.14,
+            "under_odd": 5.2,
+            "selected_odd": 5.2,
             "direction": "under",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 80.7,
@@ -169209,8 +172181,8 @@
         "direction": "over",
         "offered_books": 2,
         "paired_books": 2,
-        "market_probability_pct": 5.8,
-        "bookmaker_spread_pp": 2.0,
+        "market_probability_pct": 5.9,
+        "bookmaker_spread_pp": 2.1,
         "quotes": [
           {
             "bookmaker": "Bet365",
@@ -169226,9 +172198,9 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 12.0,
+            "over_odd": 11.75,
             "under_odd": 1.02,
-            "selected_odd": 12.0,
+            "selected_odd": 11.75,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 7.83,
@@ -173577,13 +176549,13 @@
         "direction": "under",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 79.7,
+        "market_probability_pct": 79.5,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 4.6,
+            "over_odd": 4.55,
             "under_odd": 1.17,
             "selected_odd": 1.17,
             "direction": "under",
@@ -173815,13 +176787,13 @@
         "direction": "under",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 90.1,
+        "market_probability_pct": 89.9,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 9.5,
+            "over_odd": 9.25,
             "under_odd": 1.04,
             "selected_odd": 1.04,
             "direction": "under",
@@ -174709,15 +177681,15 @@
         "direction": "over",
         "offered_books": 1,
         "paired_books": 1,
-        "market_probability_pct": 80.7,
+        "market_probability_pct": 82.0,
         "bookmaker_spread_pp": 0.0,
         "quotes": [
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 1.16,
-            "under_odd": 4.85,
-            "selected_odd": 1.16,
+            "over_odd": 1.14,
+            "under_odd": 5.2,
+            "selected_odd": 1.14,
             "direction": "over",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 80.7,
@@ -176567,8 +179539,8 @@
         "direction": "under",
         "offered_books": 2,
         "paired_books": 2,
-        "market_probability_pct": 94.2,
-        "bookmaker_spread_pp": 2.0,
+        "market_probability_pct": 94.1,
+        "bookmaker_spread_pp": 2.1,
         "quotes": [
           {
             "bookmaker": "Bet365",
@@ -176584,7 +179556,7 @@
           {
             "bookmaker": "Betano",
             "bookmaker_id": 32,
-            "over_odd": 12.0,
+            "over_odd": 11.75,
             "under_odd": 1.02,
             "selected_odd": 1.02,
             "direction": "under",
@@ -178265,8 +181237,8 @@
         "own_available": 8,
         "opponent_allowed_available": 5
       },
-      "market_adjusted_pct": 98.2,
-      "market_delta_pp": -1.8,
+      "market_adjusted_pct": 98.3,
+      "market_delta_pp": -1.7,
       "market_signal": "WARNING",
       "market_reliability": "medium",
       "market_data": {
@@ -178341,7 +181313,7 @@
         "policy": "audit-first; only conservative negative guard before calibration"
       },
       "reliability_penalty_pp": -15.2,
-      "final_assessment_pct": 83.0,
+      "final_assessment_pct": 83.1,
       "final_status": "ACCEPT",
       "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek jest ostrożniejszy i obniża ocenę.",
       "sts_availability": {
@@ -190404,6 +193376,165 @@
       "home": "Atalanta",
       "away": "Venezia",
       "team_id": 499,
+      "team": "Cały mecz",
+      "opponent": "Venezia",
+      "team_side": "home",
+      "market": "corners",
+      "market_label": "rożne w meczu",
+      "market_scope": "match",
+      "direction": "under",
+      "bet_id": 45,
+      "settlement_period": "regulation_time",
+      "line": 12.5,
+      "selection": "Cały mecz: poniżej 12.5 — rożne w meczu",
+      "api_pure_pct": 93.7,
+      "confidence_api": 8.0,
+      "scope": "liga krajowa",
+      "own": {
+        "L5": {
+          "hits": 4,
+          "n": 5,
+          "pct": 80.0
+        },
+        "L10": {
+          "hits": 7,
+          "n": 8,
+          "pct": 87.5
+        },
+        "L15": {
+          "hits": 7,
+          "n": 8,
+          "pct": 87.5
+        }
+      },
+      "opponent_allowed": {
+        "L5": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L10": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "L15": {
+          "hits": 5,
+          "n": 5,
+          "pct": 100.0
+        }
+      },
+      "venue": null,
+      "match_venue": {
+        "home": {
+          "hits": 4,
+          "n": 4,
+          "pct": 100.0
+        },
+        "away": {
+          "hits": 2,
+          "n": 2,
+          "pct": 100.0
+        }
+      },
+      "europe_only": null,
+      "samples": {
+        "own_available": 8,
+        "opponent_allowed_available": 5
+      },
+      "market_adjusted_pct": 91.6,
+      "market_delta_pp": -2.1,
+      "market_signal": "WARNING",
+      "market_reliability": "medium",
+      "market_data": {
+        "bet_id": 45,
+        "exact_line_available": true,
+        "selected_outcome_available": true,
+        "direction": "under",
+        "offered_books": 4,
+        "paired_books": 4,
+        "market_probability_pct": 85.4,
+        "bookmaker_spread_pp": 2.3,
+        "quotes": [
+          {
+            "bookmaker": "Marathonbet",
+            "bookmaker_id": 2,
+            "over_odd": 6.35,
+            "under_odd": 1.06,
+            "selected_odd": 1.06,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 14.3,
+            "devig_probability": 85.7
+          },
+          {
+            "bookmaker": "Betfair",
+            "bookmaker_id": 3,
+            "over_odd": 7.0,
+            "under_odd": 1.07,
+            "selected_odd": 1.07,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 13.26,
+            "devig_probability": 86.74
+          },
+          {
+            "bookmaker": "1xBet",
+            "bookmaker_id": 11,
+            "over_odd": 4.57,
+            "under_odd": 1.09,
+            "selected_odd": 1.09,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 19.26,
+            "devig_probability": 80.74
+          },
+          {
+            "bookmaker": "Betano",
+            "bookmaker_id": 32,
+            "over_odd": 6.3,
+            "under_odd": 1.1,
+            "selected_odd": 1.1,
+            "direction": "under",
+            "provider_updated_at": "2026-10-12T04:31:18+00:00",
+            "devig_over_probability": 14.86,
+            "devig_probability": 85.14
+          }
+        ]
+      },
+      "market_movement_pp": 0.0,
+      "market_comment": "Rynek jest ostrożniejszy niż sama historia i lekko obniża ocenę. Konsensus rynku jest wystarczająco szeroki do umiarkowanej korekty. Od wcześniejszego odczytu nie ma istotnego ruchu rynku.",
+      "competition_adjusted_pct": 93.7,
+      "reliability_adjusted_pct": 77.0,
+      "context": {
+        "adjustment_pp": 0.0,
+        "selected_team_missing": 0,
+        "selected_team_questionable": 0,
+        "opponent_missing": 0,
+        "opponent_questionable": 0,
+        "official_lineup_available": false,
+        "referee": "Paride Tremolada",
+        "flags": [],
+        "policy": "audit-first; only conservative negative guard before calibration"
+      },
+      "reliability_penalty_pp": -16.7,
+      "final_assessment_pct": 74.9,
+      "final_status": "ACCEPT",
+      "final_comment": "Historia wygląda mocno, ale wielkość lub stabilność próby obniża pewność. Rynek jest ostrożniejszy i obniża ocenę.",
+      "sts_availability": {
+        "status": "not_evaluated",
+        "preference": 0,
+        "label": "Bez dopasowywania do STS i Superbet."
+      }
+    },
+    {
+      "fixture_id": 1550137,
+      "kickoff": "2026-10-12T18:30:00+02:00",
+      "competition": "Serie A",
+      "category": "domestic",
+      "home": "Atalanta",
+      "away": "Venezia",
+      "team_id": 499,
       "team": "Atalanta",
       "opponent": "Venezia",
       "team_side": "home",
@@ -199012,7 +202143,7 @@
         "offered_books": 5,
         "paired_books": 5,
         "market_probability_pct": 59.8,
-        "bookmaker_spread_pp": 1.6,
+        "bookmaker_spread_pp": 1.5,
         "quotes": [
           {
             "bookmaker": "Marathonbet",
@@ -199062,8 +202193,8 @@
             "bookmaker": "Betano",
             "bookmaker_id": 32,
             "over_odd": 2.42,
-            "under_odd": 1.52,
-            "selected_odd": 1.52,
+            "under_odd": 1.53,
+            "selected_odd": 1.53,
             "direction": "under",
             "provider_updated_at": "2026-10-12T00:31:20+00:00",
             "devig_over_probability": 38.58,
