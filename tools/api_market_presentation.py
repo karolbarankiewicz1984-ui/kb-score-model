@@ -12,7 +12,15 @@ def practical_shortlist(positions, limit=None, min_odd=1.20, max_per_match=3, mi
         if (float(item.get("final_assessment_pct") or 0) < min_score or not odds
                 or max(odds) < min_odd or counts.get(item["fixture_id"], 0) >= max_per_match):
             continue
-        # Same fixture, team, market, scope and direction with a different\n        # threshold is an overlapping bet, not an independent proposal.\n        family = (item.get("fixture_id"), item.get("team_id"),\n                  item.get("market"), item.get("market_scope", "team"),\n                  item.get("direction", "over"))\n        if family in seen_families:\n            continue\n        seen_families.add(family)\n        selected.append(item)
+        # Same fixture, team, market, scope and direction with a different
+        # threshold is an overlapping bet, not an independent proposal.
+        family = (item.get("fixture_id"), item.get("team_id"),
+                  item.get("market"), item.get("market_scope", "team"),
+                  item.get("direction", "over"))
+        if family in seen_families:
+            continue
+        seen_families.add(family)
+        selected.append(item)
         counts[item["fixture_id"]] = counts.get(item["fixture_id"], 0) + 1
         if limit is not None and len(selected) >= limit:
             break
@@ -40,7 +48,8 @@ def group_positions(positions):
 
 
 def markdown_cell(value):
-    return str(value or "").replace("|", "\\|").replace("\n", "<br>")
+    return str(value or "").replace("|", "\\|").replace("
+", "<br>")
 
 
 def grouped_markdown(payload, floor):
@@ -78,4 +87,5 @@ def grouped_markdown(payload, floor):
         lines.append("")
     if not positions:
         lines += ["Brak kwotowanych wariantów z oceną od ustalonego progu.", ""]
-    return "\n".join(lines)
+    return "
+".join(lines)
