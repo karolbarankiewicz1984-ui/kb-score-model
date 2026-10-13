@@ -46,6 +46,15 @@ jobs:
           DATE="${{ inputs.date }}"
           if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
           python -m tools.kb21_gate_audit "data/api_football/kb21_inputs/$DATE.json" --output "reports/kb21_gate/$DATE.json"
+      - name: Refresh independent fixture calendar
+        env:
+          FOOTBALL_DATA_ORG_KEY: ${{ secrets.FOOTBALL_DATA_ORG_KEY }}
+        run: |
+          DATE="${{ inputs.date }}"
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
+          if [ -n "$FOOTBALL_DATA_ORG_KEY" ]; then
+            python -m tools.kb21_football_data_org --date "$DATE" --target-competitions
+          fi
       - name: Compare independent fixture calendar (review only)
         run: |
           DATE="${{ inputs.date }}"
