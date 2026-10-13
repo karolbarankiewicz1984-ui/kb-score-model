@@ -57,6 +57,16 @@ jobs:
           else
             echo "Independent calendar not yet available; no verification granted"
           fi
+      - name: Publish KB21 diagnostic artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: kb21-input-audit
+          path: |
+            reports/kb21_diagnostic/*.json
+            reports/kb21_gate/*.json
+            reports/kb21_calendar/*.json
+          if-no-files-found: warn
+          retention-days: 30
       - name: Commit factual snapshot only
         run: |
           git config user.name "github-actions[bot]"
