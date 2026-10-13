@@ -46,11 +46,22 @@ jobs:
           DATE="${{ inputs.date }}"
           if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
           python -m tools.kb21_gate_audit "data/api_football/kb21_inputs/$DATE.json" --output "reports/kb21_gate/$DATE.json"
+      - name: Compare independent fixture calendar (review only)
+        run: |
+          DATE="${{ inputs.date }}"
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
+          INDEPENDENT="data/football_data_org/$DATE.json"
+          if [ -f "$INDEPENDENT" ]; then
+            mkdir -p reports/kb21_calendar
+            python -m tools.kb21_independent_calendar "data/api_football/kb21_inputs/$DATE.json" "$INDEPENDENT" --output "reports/kb21_calendar/$DATE.json"
+          else
+            echo "Independent calendar not yet available; no verification granted"
+          fi
       - name: Commit factual snapshot only
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/api_football/kb21_inputs reports/kb21_diagnostic reports/kb21_gate
+          git add data/api_football/kb21_inputs reports/kb21_diagnostic reports/kb21_gate reports/kb21_calendar
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "data: KB21 pre-match API candidate inputs"
           git push
