@@ -23,6 +23,8 @@ def normalized_name(value):
 def match_fixtures(api_data, independent_data, tolerance_minutes=5):
     if independent_data.get("provider","").strip().lower() in {"","api-football","api-sports"}:
         raise ValueError("Independent provider name required")
+    if api_data.get("date") != independent_data.get("date"):
+        raise ValueError("Calendar snapshot date differs from API candidate date")
     index={}
     if tolerance_minutes < 0:
         raise ValueError("Tolerance must be nonnegative")
