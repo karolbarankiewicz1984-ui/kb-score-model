@@ -1,7 +1,7 @@
 name: Experimental API engine pipeline
 on:
   schedule:
-    - cron: '30 9 * * *'
+    - cron: '30 9,10 * * *'
   workflow_dispatch:
     inputs:
       date:
@@ -15,7 +15,21 @@ on:
 permissions:
   contents: read
 jobs:
+  local-time-gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: \${{ steps.gate.outputs.run }}
+    steps:
+      - id: gate
+        run: |
+          if [ "\${{ github.event_name }}" != "schedule" ] || [ "$(TZ=Europe/Warsaw date +%H)" = "11" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
   collect-and-estimate:
+    needs: local-time-gate
+    if: needs.local-time-gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
