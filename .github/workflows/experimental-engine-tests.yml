@@ -1,0 +1,19 @@
+name: Experimental goal engine tests
+on:
+  push:
+    branches: [experimental/api-statistical-engine]
+    paths:
+      - 'tools/experimental_engine_*.py'
+      - 'tests/test_experimental_engine_*.py'
+      - '.github/workflows/experimental-engine-tests.yml'
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run isolated engine tests
+        run: python -m unittest discover -s tests -p 'test_experimental_engine_*.py' -v
