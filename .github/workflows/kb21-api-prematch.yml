@@ -7,7 +7,7 @@ on:
         required: false
         type: string
   schedule:
-    - cron: '20 8 * * *'
+    - cron: '45 8 * * *'
 permissions:
   contents: write
 concurrency:
@@ -39,7 +39,7 @@ jobs:
       - name: Build isolated API diagnostic
         run: |
           DATE="${{ inputs.date }}"
-          if [ -z "$DATE" ]; then DATE="$(date -u +%F)"; fi
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
           python -m tools.kb21_api_diagnostic "data/api_football/kb21_inputs/$DATE.json" --output "reports/kb21_diagnostic/$DATE.json"
       - name: Audit KB21 readiness blockers
         run: |
@@ -65,4 +65,5 @@ jobs:
           if [ -d reports/kb21_calendar ]; then git add reports/kb21_calendar; fi
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "data: KB21 pre-match API candidate inputs"
+          git pull --rebase
           git push
