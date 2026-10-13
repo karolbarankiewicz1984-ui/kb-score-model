@@ -1,0 +1,86 @@
+name: Experimental settlement and audit
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Prediction date YYYY-MM-DD; blank = yesterday Warsaw'
+        required: false
+        type: string
+  schedule:
+    - cron: '0 7,8 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: experimental-settlement
+  cancel-in-progress: false
+jobs:
+  local-time-gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - id: gate
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "$(TZ=Europe/Warsaw date +%H)" = "09" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+  audit:
+    needs: local-time-gate
+    if: needs.local-time-gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: experimental/api-statistical-engine
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Unit tests
+        run: python -m unittest discover -s tests -p 'test_experimental_engine_*.py' -v
+      - name: Resolve target date
+        env:
+          INPUT_DATE: ${{ inputs.date }}
+        run: |
+          DATE="$INPUT_DATE"
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date -d yesterday +%F)"; fi
+          echo "DATE=$DATE" >> "$GITHUB_ENV"
+      - name: Fetch final results
+        if: hashFiles('data/experimental_engine/history/*.json') != ''
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: |
+          if [ ! -f "data/experimental_engine/history/$DATE.json" ]; then
+            echo "No frozen prediction snapshot for $DATE; cannot settle"; exit 0
+          fi
+          python -m tools.experimental_engine_results --date "$DATE" --output "data/experimental_engine/results/$DATE.json"
+          python -m tools.experimental_engine_settle "data/experimental_engine/history/$DATE.json" "data/experimental_engine/results/$DATE.json" --output "data/experimental_engine/settlements/$DATE.json"
+      - name: Aggregate all settled history
+        run: |
+          python - <<'PY'
+          import glob,subprocess
+          paths=sorted(glob.glob('data/experimental_engine/settlements/*.json'))
+          if paths:
+              subprocess.run(['python','-m','tools.experimental_engine_audit',*paths,
+                              '--output','reports/experimental_engine/audit/overall.json'],check=True)
+          else:
+              print('No settled predictions yet')
+          PY
+      - name: Persist independent settlement and audit history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/experimental_engine/settlements reports/experimental_engine/audit 2>/dev/null || true
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data(experiment): settlement and calibration $DATE"
+          git pull --rebase
+          git push
+      - uses: actions/upload-artifact@v4
+        with:
+          name: experimental-settlement-${{ env.DATE }}
+          path: |
+            data/experimental_engine/settlements/*.json
+            reports/experimental_engine/audit/*.json
+          if-no-files-found: warn
