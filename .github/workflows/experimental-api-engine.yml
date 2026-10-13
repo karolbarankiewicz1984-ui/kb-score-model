@@ -1,5 +1,7 @@
 name: Experimental API engine pipeline
 on:
+  schedule:
+    - cron: '30 9 * * *'
   workflow_dispatch:
     inputs:
       date:
@@ -20,6 +22,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install PDF dependency
+        run: python -m pip install reportlab==4.4.4
       - name: Test isolated calculations
         run: python -m unittest discover -s tests -p 'test_experimental_engine_*.py' -v
       - name: Require API key
@@ -38,6 +42,9 @@ jobs:
       - name: Compute isolated experimental probabilities
         run: |
           python -m tools.experimental_engine_adapter "data/experimental_engine/source/$DATE.json" --output "reports/experimental_engine/$DATE.json"
+      - name: Render experimental diagnostic PDF
+        run: |
+          python -m tools.experimental_engine_pdf "reports/experimental_engine/$DATE.json" --output "reports/experimental_engine/$DATE.pdf"
       - name: Publish isolated artifacts (no KB register writes)
         uses: actions/upload-artifact@v4
         with:
@@ -45,5 +52,6 @@ jobs:
           path: |
             data/experimental_engine/source/*.json
             reports/experimental_engine/*.json
+            reports/experimental_engine/*.pdf
           retention-days: 30
           if-no-files-found: error
