@@ -1,0 +1,49 @@
+name: Experimental API engine pipeline
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'YYYY-MM-DD, blank means Warsaw today'
+        required: false
+        type: string
+  push:
+    branches: [experimental/api-statistical-engine]
+    paths:
+      - '.github/workflows/experimental-api-engine.yml'
+permissions:
+  contents: read
+jobs:
+  collect-and-estimate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test isolated calculations
+        run: python -m unittest discover -s tests -p 'test_experimental_engine_*.py' -v
+      - name: Require API key
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: test -n "$API_FOOTBALL_KEY"
+      - name: Collect factual pre-match inputs into experimental namespace
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          INPUT_DATE: ${{ inputs.date }}
+        run: |
+          DATE="$INPUT_DATE"
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
+          echo "DATE=$DATE" >> "$GITHUB_ENV"
+          python -m tools.kb21_api_prematch --date "$DATE" --out data/experimental_engine/source
+      - name: Compute isolated experimental probabilities
+        run: |
+          python -m tools.experimental_engine_adapter "data/experimental_engine/source/$DATE.json" --output "reports/experimental_engine/$DATE.json"
+      - name: Publish isolated artifacts (no KB register writes)
+        uses: actions/upload-artifact@v4
+        with:
+          name: experimental-api-engine-${{ env.DATE }}
+          path: |
+            data/experimental_engine/source/*.json
+            reports/experimental_engine/*.json
+          retention-days: 30
+          if-no-files-found: error
