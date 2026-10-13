@@ -1,9 +1,747 @@
 {
   "schema": "api-market-calibration-summary-v1",
-  "observations": 16158,
-  "distinct_fixtures": 117,
+  "observations": 17412,
+  "distinct_fixtures": 125,
   "correlation_note": "Different lines and markets of one fixture are correlated; checkpoints must consider distinct fixtures.",
   "groups": {
+    "version:api-market-v3.2-quoted-lines-2026-10-06": {
+      "n": 15704,
+      "hits": 7748,
+      "hit_rate_pct": 49.3,
+      "brier_api": 0.1652,
+      "brier_final": 0.1802,
+      "logloss_api": 0.5174,
+      "logloss_final": 0.541
+    },
+    "published:False": {
+      "n": 14374,
+      "hits": 5784,
+      "hit_rate_pct": 40.2,
+      "brier_api": 0.1838,
+      "brier_final": 0.1995,
+      "logloss_api": 0.5557,
+      "logloss_final": 0.5859
+    },
+    "market:corners": {
+      "n": 5791,
+      "hits": 2868,
+      "hit_rate_pct": 49.5,
+      "brier_api": 0.1519,
+      "brier_final": 0.1676,
+      "logloss_api": 0.4836,
+      "logloss_final": 0.5106
+    },
+    "scope:team": {
+      "n": 8912,
+      "hits": 4328,
+      "hit_rate_pct": 48.6,
+      "brier_api": 0.171,
+      "brier_final": 0.1856,
+      "logloss_api": 0.531,
+      "logloss_final": 0.5556
+    },
+    "direction:over": {
+      "n": 9716,
+      "hits": 4335,
+      "hit_rate_pct": 44.6,
+      "brier_api": 0.1662,
+      "brier_final": 0.1849,
+      "logloss_api": 0.5185,
+      "logloss_final": 0.5554
+    },
+    "outcome:corners:team:over": {
+      "n": 1787,
+      "hits": 817,
+      "hit_rate_pct": 45.7,
+      "brier_api": 0.1668,
+      "brier_final": 0.1884,
+      "logloss_api": 0.5146,
+      "logloss_final": 0.5652
+    },
+    "status:BELOW_THRESHOLD": {
+      "n": 14374,
+      "hits": 5784,
+      "hit_rate_pct": 40.2,
+      "brier_api": 0.1838,
+      "brier_final": 0.1995,
+      "logloss_api": 0.5557,
+      "logloss_final": 0.5859
+    },
+    "api_band:80-84": {
+      "n": 768,
+      "hits": 654,
+      "hit_rate_pct": 85.2,
+      "brier_api": 0.1265,
+      "brier_final": 0.1609,
+      "logloss_api": 0.4202,
+      "logloss_final": 0.5079
+    },
+    "final_band:65-69": {
+      "n": 705,
+      "hits": 581,
+      "hit_rate_pct": 82.4,
+      "brier_api": 0.148,
+      "brier_final": 0.1674,
+      "logloss_api": 0.4789,
+      "logloss_final": 0.522
+    },
+    "market_direction:FLAT": {
+      "n": 10787,
+      "hits": 5232,
+      "hit_rate_pct": 48.5,
+      "brier_api": 0.1605,
+      "brier_final": 0.1772,
+      "logloss_api": 0.5003,
+      "logloss_final": 0.5365
+    },
+    "direction:under": {
+      "n": 7696,
+      "hits": 4197,
+      "hit_rate_pct": 54.5,
+      "brier_api": 0.1677,
+      "brier_final": 0.1789,
+      "logloss_api": 0.5245,
+      "logloss_final": 0.5356
+    },
+    "outcome:corners:team:under": {
+      "n": 1384,
+      "hits": 741,
+      "hit_rate_pct": 53.5,
+      "brier_api": 0.1707,
+      "brier_final": 0.1785,
+      "logloss_api": 0.5252,
+      "logloss_final": 0.5305
+    },
+    "api_band:15-19": {
+      "n": 833,
+      "hits": 118,
+      "hit_rate_pct": 14.2,
+      "brier_api": 0.1224,
+      "brier_final": 0.1222,
+      "logloss_api": 0.4109,
+      "logloss_final": 0.4122
+    },
+    "final_band:5-9": {
+      "n": 1478,
+      "hits": 199,
+      "hit_rate_pct": 13.5,
+      "brier_api": 0.1194,
+      "brier_final": 0.1204,
+      "logloss_api": 0.4228,
+      "logloss_final": 0.42
+    },
+    "scope:match": {
+      "n": 8500,
+      "hits": 4204,
+      "hit_rate_pct": 49.5,
+      "brier_api": 0.1626,
+      "brier_final": 0.1788,
+      "logloss_api": 0.5109,
+      "logloss_final": 0.5373
+    },
+    "outcome:corners:match:over": {
+      "n": 1310,
+      "hits": 629,
+      "hit_rate_pct": 48.0,
+      "brier_api": 0.1319,
+      "brier_final": 0.1528,
+      "logloss_api": 0.4405,
+      "logloss_final": 0.482
+    },
+    "api_band:5-9": {
+      "n": 963,
+      "hits": 105,
+      "hit_rate_pct": 10.9,
+      "brier_api": 0.0982,
+      "brier_final": 0.1006,
+      "logloss_api": 0.3515,
+      "logloss_final": 0.3801
+    },
+    "market_direction:UP": {
+      "n": 3320,
+      "hits": 1382,
+      "hit_rate_pct": 41.6,
+      "brier_api": 0.1776,
+      "brier_final": 0.1985,
+      "logloss_api": 0.5557,
+      "logloss_final": 0.5836
+    },
+    "published:True": {
+      "n": 3038,
+      "hits": 2748,
+      "hit_rate_pct": 90.5,
+      "brier_api": 0.0871,
+      "brier_final": 0.101,
+      "logloss_api": 0.358,
+      "logloss_final": 0.3608
+    },
+    "outcome:corners:match:under": {
+      "n": 1310,
+      "hits": 681,
+      "hit_rate_pct": 52.0,
+      "brier_api": 0.1319,
+      "brier_final": 0.1428,
+      "logloss_api": 0.4405,
+      "logloss_final": 0.4437
+    },
+    "status:ACCEPT": {
+      "n": 2272,
+      "hits": 2020,
+      "hit_rate_pct": 88.9,
+      "brier_api": 0.0997,
+      "brier_final": 0.1171,
+      "logloss_api": 0.369,
+      "logloss_final": 0.4048
+    },
+    "api_band:90-94": {
+      "n": 889,
+      "hits": 797,
+      "hit_rate_pct": 89.7,
+      "brier_api": 0.0935,
+      "brier_final": 0.1058,
+      "logloss_api": 0.3379,
+      "logloss_final": 0.3761
+    },
+    "final_band:70-74": {
+      "n": 731,
+      "hits": 639,
+      "hit_rate_pct": 87.4,
+      "brier_api": 0.1127,
+      "brier_final": 0.1331,
+      "logloss_api": 0.3917,
+      "logloss_final": 0.4456
+    },
+    "market_direction:DOWN": {
+      "n": 3305,
+      "hits": 1918,
+      "hit_rate_pct": 58.0,
+      "brier_api": 0.177,
+      "brier_final": 0.1826,
+      "logloss_api": 0.5547,
+      "logloss_final": 0.5425
+    },
+    "final_band:0-4": {
+      "n": 2194,
+      "hits": 152,
+      "hit_rate_pct": 6.9,
+      "brier_api": 0.0651,
+      "brier_final": 0.066,
+      "logloss_api": 0.3061,
+      "logloss_final": 0.2778
+    },
+    "final_band:75-79": {
+      "n": 659,
+      "hits": 598,
+      "hit_rate_pct": 90.7,
+      "brier_api": 0.0861,
+      "brier_final": 0.102,
+      "logloss_api": 0.3323,
+      "logloss_final": 0.3703
+    },
+    "api_band:0-4": {
+      "n": 1296,
+      "hits": 72,
+      "hit_rate_pct": 5.6,
+      "brier_api": 0.0547,
+      "brier_final": 0.0532,
+      "logloss_api": 0.3327,
+      "logloss_final": 0.236
+    },
+    "status:STRONG": {
+      "n": 766,
+      "hits": 728,
+      "hit_rate_pct": 95.0,
+      "brier_api": 0.0495,
+      "brier_final": 0.0532,
+      "logloss_api": 0.3253,
+      "logloss_final": 0.2306
+    },
+    "api_band:100-104": {
+      "n": 759,
+      "hits": 716,
+      "hit_rate_pct": 94.3,
+      "brier_api": 0.0567,
+      "brier_final": 0.059,
+      "logloss_api": 0.3923,
+      "logloss_final": 0.2461
+    },
+    "final_band:80-84": {
+      "n": 588,
+      "hits": 554,
+      "hit_rate_pct": 94.2,
+      "brier_api": 0.0557,
+      "brier_final": 0.068,
+      "logloss_api": 0.2955,
+      "logloss_final": 0.2808
+    },
+    "api_band:50-54": {
+      "n": 848,
+      "hits": 453,
+      "hit_rate_pct": 53.4,
+      "brier_api": 0.2489,
+      "brier_final": 0.2738,
+      "logloss_api": 0.6909,
+      "logloss_final": 0.7426
+    },
+    "final_band:30-34": {
+      "n": 997,
+      "hits": 480,
+      "hit_rate_pct": 48.1,
+      "brier_api": 0.2504,
+      "brier_final": 0.273,
+      "logloss_api": 0.694,
+      "logloss_final": 0.7425
+    },
+    "api_band:45-49": {
+      "n": 826,
+      "hits": 395,
+      "hit_rate_pct": 47.8,
+      "brier_api": 0.2494,
+      "brier_final": 0.2701,
+      "logloss_api": 0.6919,
+      "logloss_final": 0.7371
+    },
+    "final_band:25-29": {
+      "n": 1092,
+      "hits": 451,
+      "hit_rate_pct": 41.3,
+      "brier_api": 0.2448,
+      "brier_final": 0.2623,
+      "logloss_api": 0.6828,
+      "logloss_final": 0.7242
+    },
+    "api_band:30-34": {
+      "n": 883,
+      "hits": 291,
+      "hit_rate_pct": 33.0,
+      "brier_api": 0.2204,
+      "brier_final": 0.2331,
+      "logloss_api": 0.6326,
+      "logloss_final": 0.6669
+    },
+    "final_band:20-24": {
+      "n": 1059,
+      "hits": 385,
+      "hit_rate_pct": 36.4,
+      "brier_api": 0.2337,
+      "brier_final": 0.2505,
+      "logloss_api": 0.6606,
+      "logloss_final": 0.7046
+    },
+    "api_band:65-69": {
+      "n": 848,
+      "hits": 568,
+      "hit_rate_pct": 67.0,
+      "brier_api": 0.221,
+      "brier_final": 0.2486,
+      "logloss_api": 0.6339,
+      "logloss_final": 0.6903
+    },
+    "final_band:40-44": {
+      "n": 902,
+      "hits": 558,
+      "hit_rate_pct": 61.9,
+      "brier_api": 0.2391,
+      "brier_final": 0.2735,
+      "logloss_api": 0.6712,
+      "logloss_final": 0.7406
+    },
+    "api_band:10-14": {
+      "n": 888,
+      "hits": 127,
+      "hit_rate_pct": 14.3,
+      "brier_api": 0.1226,
+      "brier_final": 0.1272,
+      "logloss_api": 0.4104,
+      "logloss_final": 0.4423
+    },
+    "final_band:15-19": {
+      "n": 1098,
+      "hits": 327,
+      "hit_rate_pct": 29.8,
+      "brier_api": 0.2139,
+      "brier_final": 0.2239,
+      "logloss_api": 0.6214,
+      "logloss_final": 0.6534
+    },
+    "api_band:85-89": {
+      "n": 833,
+      "hits": 717,
+      "hit_rate_pct": 86.1,
+      "brier_api": 0.1198,
+      "brier_final": 0.1392,
+      "logloss_api": 0.4032,
+      "logloss_final": 0.4577
+    },
+    "final_band:55-59": {
+      "n": 751,
+      "hits": 549,
+      "hit_rate_pct": 73.1,
+      "brier_api": 0.2001,
+      "brier_final": 0.2213,
+      "logloss_api": 0.5911,
+      "logloss_final": 0.6354
+    },
+    "final_band:10-14": {
+      "n": 1185,
+      "hits": 245,
+      "hit_rate_pct": 20.7,
+      "brier_api": 0.1668,
+      "brier_final": 0.1709,
+      "logloss_api": 0.5231,
+      "logloss_final": 0.5374
+    },
+    "final_band:50-54": {
+      "n": 758,
+      "hits": 531,
+      "hit_rate_pct": 70.1,
+      "brier_api": 0.2096,
+      "brier_final": 0.2406,
+      "logloss_api": 0.6098,
+      "logloss_final": 0.6743
+    },
+    "api_band:55-59": {
+      "n": 820,
+      "hits": 478,
+      "hit_rate_pct": 58.3,
+      "brier_api": 0.2435,
+      "brier_final": 0.2719,
+      "logloss_api": 0.6801,
+      "logloss_final": 0.7379
+    },
+    "final_band:35-39": {
+      "n": 978,
+      "hits": 525,
+      "hit_rate_pct": 53.7,
+      "brier_api": 0.2504,
+      "brier_final": 0.2746,
+      "logloss_api": 0.6941,
+      "logloss_final": 0.7439
+    },
+    "api_band:40-44": {
+      "n": 852,
+      "hits": 366,
+      "hit_rate_pct": 43.0,
+      "brier_api": 0.2455,
+      "brier_final": 0.2642,
+      "logloss_api": 0.6842,
+      "logloss_final": 0.7276
+    },
+    "api_band:35-39": {
+      "n": 835,
+      "hits": 311,
+      "hit_rate_pct": 37.2,
+      "brier_api": 0.2332,
+      "brier_final": 0.2491,
+      "logloss_api": 0.6592,
+      "logloss_final": 0.699
+    },
+    "api_band:60-64": {
+      "n": 805,
+      "hits": 510,
+      "hit_rate_pct": 63.4,
+      "brier_api": 0.2314,
+      "brier_final": 0.2605,
+      "logloss_api": 0.6554,
+      "logloss_final": 0.7144
+    },
+    "final_band:85-89": {
+      "n": 571,
+      "hits": 539,
+      "hit_rate_pct": 94.4,
+      "brier_api": 0.0557,
+      "brier_final": 0.0577,
+      "logloss_api": 0.3605,
+      "logloss_final": 0.2424
+    },
+    "api_band:20-24": {
+      "n": 834,
+      "hits": 192,
+      "hit_rate_pct": 23.0,
+      "brier_api": 0.1771,
+      "brier_final": 0.1856,
+      "logloss_api": 0.5393,
+      "logloss_final": 0.5714
+    },
+    "api_band:75-79": {
+      "n": 804,
+      "hits": 617,
+      "hit_rate_pct": 76.7,
+      "brier_api": 0.1783,
+      "brier_final": 0.2033,
+      "logloss_api": 0.5418,
+      "logloss_final": 0.5979
+    },
+    "final_band:45-49": {
+      "n": 831,
+      "hits": 530,
+      "hit_rate_pct": 63.8,
+      "brier_api": 0.2319,
+      "brier_final": 0.2575,
+      "logloss_api": 0.6569,
+      "logloss_final": 0.7081
+    },
+    "market:fouls": {
+      "n": 1326,
+      "hits": 667,
+      "hit_rate_pct": 50.3,
+      "brier_api": 0.214,
+      "brier_final": 0.2306,
+      "logloss_api": 0.6153,
+      "logloss_final": 0.6531
+    },
+    "outcome:fouls:team:over": {
+      "n": 539,
+      "hits": 260,
+      "hit_rate_pct": 48.2,
+      "brier_api": 0.2092,
+      "brier_final": 0.2196,
+      "logloss_api": 0.6029,
+      "logloss_final": 0.6306
+    },
+    "outcome:fouls:team:under": {
+      "n": 309,
+      "hits": 168,
+      "hit_rate_pct": 54.4,
+      "brier_api": 0.2463,
+      "brier_final": 0.2657,
+      "logloss_api": 0.6918,
+      "logloss_final": 0.7318
+    },
+    "api_band:25-29": {
+      "n": 794,
+      "hits": 228,
+      "hit_rate_pct": 28.7,
+      "brier_api": 0.2052,
+      "brier_final": 0.2155,
+      "logloss_api": 0.6008,
+      "logloss_final": 0.6331
+    },
+    "api_band:70-74": {
+      "n": 741,
+      "hits": 544,
+      "hit_rate_pct": 73.4,
+      "brier_api": 0.1954,
+      "brier_final": 0.2243,
+      "logloss_api": 0.5796,
+      "logloss_final": 0.6411
+    },
+    "outcome:fouls:match:over": {
+      "n": 239,
+      "hits": 108,
+      "hit_rate_pct": 45.2,
+      "brier_api": 0.1985,
+      "brier_final": 0.217,
+      "logloss_api": 0.5798,
+      "logloss_final": 0.621
+    },
+    "outcome:fouls:match:under": {
+      "n": 239,
+      "hits": 131,
+      "hit_rate_pct": 54.8,
+      "brier_api": 0.1985,
+      "brier_final": 0.2234,
+      "logloss_api": 0.5797,
+      "logloss_final": 0.6343
+    },
+    "market:offsides": {
+      "n": 1404,
+      "hits": 681,
+      "hit_rate_pct": 48.5,
+      "brier_api": 0.188,
+      "brier_final": 0.2039,
+      "logloss_api": 0.5861,
+      "logloss_final": 0.6125
+    },
+    "outcome:offsides:team:over": {
+      "n": 506,
+      "hits": 209,
+      "hit_rate_pct": 41.3,
+      "brier_api": 0.1797,
+      "brier_final": 0.1912,
+      "logloss_api": 0.5506,
+      "logloss_final": 0.5785
+    },
+    "outcome:offsides:team:under": {
+      "n": 330,
+      "hits": 188,
+      "hit_rate_pct": 57.0,
+      "brier_api": 0.1913,
+      "brier_final": 0.2168,
+      "logloss_api": 0.5822,
+      "logloss_final": 0.6403
+    },
+    "outcome:offsides:match:over": {
+      "n": 284,
+      "hits": 137,
+      "hit_rate_pct": 48.2,
+      "brier_api": 0.1934,
+      "brier_final": 0.209,
+      "logloss_api": 0.6199,
+      "logloss_final": 0.6387
+    },
+    "outcome:offsides:match:under": {
+      "n": 284,
+      "hits": 147,
+      "hit_rate_pct": 51.8,
+      "brier_api": 0.1934,
+      "brier_final": 0.2063,
+      "logloss_api": 0.6199,
+      "logloss_final": 0.6146
+    },
+    "final_band:60-64": {
+      "n": 769,
+      "hits": 624,
+      "hit_rate_pct": 81.1,
+      "brier_api": 0.1536,
+      "brier_final": 0.1874,
+      "logloss_api": 0.4854,
+      "logloss_final": 0.5655
+    },
+    "market:shots_on_goal": {
+      "n": 1750,
+      "hits": 861,
+      "hit_rate_pct": 49.2,
+      "brier_api": 0.1953,
+      "brier_final": 0.2107,
+      "logloss_api": 0.5958,
+      "logloss_final": 0.6235
+    },
+    "outcome:shots_on_goal:match:over": {
+      "n": 760,
+      "hits": 384,
+      "hit_rate_pct": 50.5,
+      "brier_api": 0.1939,
+      "brier_final": 0.2154,
+      "logloss_api": 0.5955,
+      "logloss_final": 0.6318
+    },
+    "outcome:shots_on_goal:match:under": {
+      "n": 760,
+      "hits": 376,
+      "hit_rate_pct": 49.5,
+      "brier_api": 0.1939,
+      "brier_final": 0.2004,
+      "logloss_api": 0.5956,
+      "logloss_final": 0.6023
+    },
+    "market:shots": {
+      "n": 1826,
+      "hits": 937,
+      "hit_rate_pct": 51.3,
+      "brier_api": 0.2048,
+      "brier_final": 0.229,
+      "logloss_api": 0.5965,
+      "logloss_final": 0.6536
+    },
+    "outcome:shots:match:over": {
+      "n": 808,
+      "hits": 422,
+      "hit_rate_pct": 52.2,
+      "brier_api": 0.2048,
+      "brier_final": 0.2288,
+      "logloss_api": 0.5966,
+      "logloss_final": 0.6583
+    },
+    "outcome:shots:match:under": {
+      "n": 808,
+      "hits": 386,
+      "hit_rate_pct": 47.8,
+      "brier_api": 0.2048,
+      "brier_final": 0.2236,
+      "logloss_api": 0.5966,
+      "logloss_final": 0.6347
+    },
+    "market:team_goals": {
+      "n": 4067,
+      "hits": 1927,
+      "hit_rate_pct": 47.4,
+      "brier_api": 0.1331,
+      "brier_final": 0.1436,
+      "logloss_api": 0.4424,
+      "logloss_final": 0.4468
+    },
+    "outcome:team_goals:team:over": {
+      "n": 1327,
+      "hits": 432,
+      "hit_rate_pct": 32.6,
+      "brier_api": 0.1402,
+      "brier_final": 0.1502,
+      "logloss_api": 0.4632,
+      "logloss_final": 0.4625
+    },
+    "outcome:team_goals:match:over": {
+      "n": 893,
+      "hits": 348,
+      "hit_rate_pct": 39.0,
+      "brier_api": 0.1156,
+      "brier_final": 0.1344,
+      "logloss_api": 0.3866,
+      "logloss_final": 0.4149
+    },
+    "outcome:team_goals:match:under": {
+      "n": 805,
+      "hits": 455,
+      "hit_rate_pct": 56.5,
+      "brier_api": 0.1282,
+      "brier_final": 0.1339,
+      "logloss_api": 0.4282,
+      "logloss_final": 0.4288
+    },
+    "outcome:team_goals:team:under": {
+      "n": 1042,
+      "hits": 692,
+      "hit_rate_pct": 66.4,
+      "brier_api": 0.1429,
+      "brier_final": 0.1504,
+      "logloss_api": 0.4745,
+      "logloss_final": 0.4681
+    },
+    "market:yellow": {
+      "n": 1038,
+      "hits": 514,
+      "hit_rate_pct": 49.5,
+      "brier_api": 0.1776,
+      "brier_final": 0.1921,
+      "logloss_api": 0.5699,
+      "logloss_final": 0.5906
+    },
+    "outcome:yellow:team:over": {
+      "n": 613,
+      "hits": 282,
+      "hit_rate_pct": 46.0,
+      "brier_api": 0.1779,
+      "brier_final": 0.195,
+      "logloss_api": 0.5761,
+      "logloss_final": 0.6093
+    },
+    "outcome:yellow:team:under": {
+      "n": 425,
+      "hits": 232,
+      "hit_rate_pct": 54.6,
+      "brier_api": 0.1771,
+      "brier_final": 0.188,
+      "logloss_api": 0.561,
+      "logloss_final": 0.5637
+    },
+    "api_band:95-99": {
+      "n": 293,
+      "hits": 273,
+      "hit_rate_pct": 93.2,
+      "brier_api": 0.0647,
+      "brier_final": 0.0744,
+      "logloss_api": 0.2651,
+      "logloss_final": 0.2943
+    },
+    "final_band:90-94": {
+      "n": 66,
+      "hits": 65,
+      "hit_rate_pct": 98.5,
+      "brier_api": 0.0152,
+      "brier_final": 0.0194,
+      "logloss_api": 0.1061,
+      "logloss_final": 0.1216
+    },
     "version:api-market-v3.1-2026-10-05": {
       "n": 1708,
       "hits": 784,
@@ -12,249 +750,6 @@
       "brier_final": 0.201,
       "logloss_api": 0.556,
       "logloss_final": 0.5987
-    },
-    "published:False": {
-      "n": 13347,
-      "hits": 5357,
-      "hit_rate_pct": 40.1,
-      "brier_api": 0.1827,
-      "brier_final": 0.1985,
-      "logloss_api": 0.552,
-      "logloss_final": 0.5827
-    },
-    "market:corners": {
-      "n": 5357,
-      "hits": 2652,
-      "hit_rate_pct": 49.5,
-      "brier_api": 0.151,
-      "brier_final": 0.1674,
-      "logloss_api": 0.4776,
-      "logloss_final": 0.5095
-    },
-    "scope:team": {
-      "n": 8314,
-      "hits": 4033,
-      "hit_rate_pct": 48.5,
-      "brier_api": 0.1697,
-      "brier_final": 0.1848,
-      "logloss_api": 0.5256,
-      "logloss_final": 0.553
-    },
-    "direction:over": {
-      "n": 9077,
-      "hits": 4030,
-      "hit_rate_pct": 44.4,
-      "brier_api": 0.165,
-      "brier_final": 0.1833,
-      "logloss_api": 0.5139,
-      "logloss_final": 0.5502
-    },
-    "outcome:corners:team:over": {
-      "n": 1666,
-      "hits": 762,
-      "hit_rate_pct": 45.7,
-      "brier_api": 0.1656,
-      "brier_final": 0.1874,
-      "logloss_api": 0.5051,
-      "logloss_final": 0.5616
-    },
-    "status:BELOW_THRESHOLD": {
-      "n": 13347,
-      "hits": 5357,
-      "hit_rate_pct": 40.1,
-      "brier_api": 0.1827,
-      "brier_final": 0.1985,
-      "logloss_api": 0.552,
-      "logloss_final": 0.5827
-    },
-    "api_band:55-59": {
-      "n": 769,
-      "hits": 447,
-      "hit_rate_pct": 58.1,
-      "brier_api": 0.2438,
-      "brier_final": 0.271,
-      "logloss_api": 0.6807,
-      "logloss_final": 0.7361
-    },
-    "final_band:50-54": {
-      "n": 707,
-      "hits": 496,
-      "hit_rate_pct": 70.2,
-      "brier_api": 0.2087,
-      "brier_final": 0.2406,
-      "logloss_api": 0.6078,
-      "logloss_final": 0.6743
-    },
-    "market_direction:UP": {
-      "n": 3056,
-      "hits": 1265,
-      "hit_rate_pct": 41.4,
-      "brier_api": 0.1762,
-      "brier_final": 0.1971,
-      "logloss_api": 0.5503,
-      "logloss_final": 0.58
-    },
-    "final_band:45-49": {
-      "n": 785,
-      "hits": 503,
-      "hit_rate_pct": 64.1,
-      "brier_api": 0.2307,
-      "brier_final": 0.2578,
-      "logloss_api": 0.6541,
-      "logloss_final": 0.7087
-    },
-    "market_direction:DOWN": {
-      "n": 3041,
-      "hits": 1771,
-      "hit_rate_pct": 58.2,
-      "brier_api": 0.1753,
-      "brier_final": 0.1818,
-      "logloss_api": 0.5484,
-      "logloss_final": 0.5401
-    },
-    "api_band:35-39": {
-      "n": 783,
-      "hits": 283,
-      "hit_rate_pct": 36.1,
-      "brier_api": 0.2303,
-      "brier_final": 0.2432,
-      "logloss_api": 0.6531,
-      "logloss_final": 0.6859
-    },
-    "final_band:25-29": {
-      "n": 1016,
-      "hits": 424,
-      "hit_rate_pct": 41.7,
-      "brier_api": 0.2451,
-      "brier_final": 0.2642,
-      "logloss_api": 0.6834,
-      "logloss_final": 0.7283
-    },
-    "api_band:20-24": {
-      "n": 777,
-      "hits": 179,
-      "hit_rate_pct": 23.0,
-      "brier_api": 0.1771,
-      "brier_final": 0.1859,
-      "logloss_api": 0.5392,
-      "logloss_final": 0.5726
-    },
-    "final_band:15-19": {
-      "n": 1018,
-      "hits": 299,
-      "hit_rate_pct": 29.4,
-      "brier_api": 0.212,
-      "brier_final": 0.2213,
-      "logloss_api": 0.617,
-      "logloss_final": 0.6474
-    },
-    "market_direction:FLAT": {
-      "n": 10061,
-      "hits": 4875,
-      "hit_rate_pct": 48.5,
-      "brier_api": 0.1592,
-      "brier_final": 0.1762,
-      "logloss_api": 0.4958,
-      "logloss_final": 0.5331
-    },
-    "final_band:10-14": {
-      "n": 1097,
-      "hits": 228,
-      "hit_rate_pct": 20.8,
-      "brier_api": 0.1672,
-      "brier_final": 0.1716,
-      "logloss_api": 0.52,
-      "logloss_final": 0.5392
-    },
-    "market:fouls": {
-      "n": 1206,
-      "hits": 607,
-      "hit_rate_pct": 50.3,
-      "brier_api": 0.2145,
-      "brier_final": 0.231,
-      "logloss_api": 0.617,
-      "logloss_final": 0.6539
-    },
-    "outcome:fouls:team:over": {
-      "n": 505,
-      "hits": 250,
-      "hit_rate_pct": 49.5,
-      "brier_api": 0.2079,
-      "brier_final": 0.2211,
-      "logloss_api": 0.6003,
-      "logloss_final": 0.6346
-    },
-    "api_band:50-54": {
-      "n": 780,
-      "hits": 414,
-      "hit_rate_pct": 53.1,
-      "brier_api": 0.2492,
-      "brier_final": 0.2731,
-      "logloss_api": 0.6915,
-      "logloss_final": 0.7411
-    },
-    "final_band:35-39": {
-      "n": 914,
-      "hits": 486,
-      "hit_rate_pct": 53.2,
-      "brier_api": 0.2509,
-      "brier_final": 0.2736,
-      "logloss_api": 0.6951,
-      "logloss_final": 0.7417
-    },
-    "api_band:15-19": {
-      "n": 765,
-      "hits": 105,
-      "hit_rate_pct": 13.7,
-      "brier_api": 0.1196,
-      "brier_final": 0.1183,
-      "logloss_api": 0.4044,
-      "logloss_final": 0.4003
-    },
-    "published:True": {
-      "n": 2811,
-      "hits": 2554,
-      "hit_rate_pct": 90.9,
-      "brier_api": 0.0836,
-      "brier_final": 0.0989,
-      "logloss_api": 0.3451,
-      "logloss_final": 0.3561
-    },
-    "status:ACCEPT": {
-      "n": 2096,
-      "hits": 1873,
-      "hit_rate_pct": 89.4,
-      "brier_api": 0.0959,
-      "brier_final": 0.115,
-      "logloss_api": 0.3557,
-      "logloss_final": 0.4003
-    },
-    "api_band:80-84": {
-      "n": 702,
-      "hits": 601,
-      "hit_rate_pct": 85.6,
-      "brier_api": 0.1235,
-      "brier_final": 0.1596,
-      "logloss_api": 0.4132,
-      "logloss_final": 0.5053
-    },
-    "final_band:70-74": {
-      "n": 679,
-      "hits": 598,
-      "hit_rate_pct": 88.1,
-      "brier_api": 0.1072,
-      "brier_final": 0.13,
-      "logloss_api": 0.3757,
-      "logloss_final": 0.4387
-    },
-    "api_band:60-64": {
-      "n": 752,
-      "hits": 485,
-      "hit_rate_pct": 64.5,
-      "brier_api": 0.2283,
-      "brier_final": 0.2621,
-      "logloss_api": 0.649,
-      "logloss_final": 0.7176
     },
     "market:goalkeeper_saves": {
       "n": 210,
@@ -274,123 +769,6 @@
       "logloss_api": 0.539,
       "logloss_final": 0.5742
     },
-    "api_band:75-79": {
-      "n": 745,
-      "hits": 572,
-      "hit_rate_pct": 76.8,
-      "brier_api": 0.1779,
-      "brier_final": 0.2034,
-      "logloss_api": 0.541,
-      "logloss_final": 0.598
-    },
-    "final_band:65-69": {
-      "n": 657,
-      "hits": 540,
-      "hit_rate_pct": 82.2,
-      "brier_api": 0.1493,
-      "brier_final": 0.168,
-      "logloss_api": 0.4819,
-      "logloss_final": 0.5232
-    },
-    "final_band:40-44": {
-      "n": 838,
-      "hits": 526,
-      "hit_rate_pct": 62.8,
-      "brier_api": 0.2364,
-      "brier_final": 0.2748,
-      "logloss_api": 0.6656,
-      "logloss_final": 0.7432
-    },
-    "api_band:45-49": {
-      "n": 763,
-      "hits": 369,
-      "hit_rate_pct": 48.4,
-      "brier_api": 0.2498,
-      "brier_final": 0.2724,
-      "logloss_api": 0.6928,
-      "logloss_final": 0.7419
-    },
-    "api_band:40-44": {
-      "n": 801,
-      "hits": 346,
-      "hit_rate_pct": 43.2,
-      "brier_api": 0.246,
-      "brier_final": 0.2657,
-      "logloss_api": 0.6851,
-      "logloss_final": 0.7312
-    },
-    "api_band:25-29": {
-      "n": 732,
-      "hits": 207,
-      "hit_rate_pct": 28.3,
-      "brier_api": 0.2033,
-      "brier_final": 0.2125,
-      "logloss_api": 0.5968,
-      "logloss_final": 0.6256
-    },
-    "market:offsides": {
-      "n": 1292,
-      "hits": 625,
-      "hit_rate_pct": 48.4,
-      "brier_api": 0.1798,
-      "brier_final": 0.1968,
-      "logloss_api": 0.5589,
-      "logloss_final": 0.5909
-    },
-    "outcome:offsides:team:over": {
-      "n": 475,
-      "hits": 195,
-      "hit_rate_pct": 41.1,
-      "brier_api": 0.175,
-      "brier_final": 0.1864,
-      "logloss_api": 0.5385,
-      "logloss_final": 0.5679
-    },
-    "api_band:65-69": {
-      "n": 795,
-      "hits": 530,
-      "hit_rate_pct": 66.7,
-      "brier_api": 0.2222,
-      "brier_final": 0.2489,
-      "logloss_api": 0.6364,
-      "logloss_final": 0.6909
-    },
-    "final_band:60-64": {
-      "n": 710,
-      "hits": 579,
-      "hit_rate_pct": 81.5,
-      "brier_api": 0.1513,
-      "brier_final": 0.1862,
-      "logloss_api": 0.4799,
-      "logloss_final": 0.563
-    },
-    "api_band:0-4": {
-      "n": 1206,
-      "hits": 64,
-      "hit_rate_pct": 5.3,
-      "brier_api": 0.0522,
-      "brier_final": 0.0509,
-      "logloss_api": 0.3168,
-      "logloss_final": 0.2278
-    },
-    "final_band:0-4": {
-      "n": 2024,
-      "hits": 132,
-      "hit_rate_pct": 6.5,
-      "brier_api": 0.0615,
-      "brier_final": 0.0623,
-      "logloss_api": 0.2919,
-      "logloss_final": 0.2639
-    },
-    "market:shots_on_goal": {
-      "n": 1634,
-      "hits": 803,
-      "hit_rate_pct": 49.1,
-      "brier_api": 0.194,
-      "brier_final": 0.2098,
-      "logloss_api": 0.5949,
-      "logloss_final": 0.6215
-    },
     "outcome:shots_on_goal:team:over": {
       "n": 230,
       "hits": 101,
@@ -400,15 +778,6 @@
       "logloss_api": 0.5971,
       "logloss_final": 0.6658
     },
-    "market:shots": {
-      "n": 1714,
-      "hits": 881,
-      "hit_rate_pct": 51.4,
-      "brier_api": 0.2033,
-      "brier_final": 0.2277,
-      "logloss_api": 0.5926,
-      "logloss_final": 0.6494
-    },
     "outcome:shots:team:over": {
       "n": 210,
       "hits": 129,
@@ -417,375 +786,6 @@
       "brier_final": 0.2508,
       "logloss_api": 0.5955,
       "logloss_final": 0.7078
-    },
-    "final_band:30-34": {
-      "n": 921,
-      "hits": 440,
-      "hit_rate_pct": 47.8,
-      "brier_api": 0.2502,
-      "brier_final": 0.2719,
-      "logloss_api": 0.6936,
-      "logloss_final": 0.7401
-    },
-    "final_band:55-59": {
-      "n": 686,
-      "hits": 500,
-      "hit_rate_pct": 72.9,
-      "brier_api": 0.2008,
-      "brier_final": 0.2218,
-      "logloss_api": 0.5924,
-      "logloss_final": 0.6363
-    },
-    "market:team_goals": {
-      "n": 3785,
-      "hits": 1791,
-      "hit_rate_pct": 47.3,
-      "brier_api": 0.1313,
-      "brier_final": 0.1419,
-      "logloss_api": 0.4367,
-      "logloss_final": 0.4417
-    },
-    "outcome:team_goals:team:over": {
-      "n": 1243,
-      "hits": 397,
-      "hit_rate_pct": 31.9,
-      "brier_api": 0.1382,
-      "brier_final": 0.1468,
-      "logloss_api": 0.4566,
-      "logloss_final": 0.4512
-    },
-    "api_band:70-74": {
-      "n": 679,
-      "hits": 503,
-      "hit_rate_pct": 74.1,
-      "brier_api": 0.1925,
-      "brier_final": 0.2237,
-      "logloss_api": 0.5734,
-      "logloss_final": 0.6399
-    },
-    "api_band:30-34": {
-      "n": 827,
-      "hits": 275,
-      "hit_rate_pct": 33.3,
-      "brier_api": 0.2214,
-      "brier_final": 0.2347,
-      "logloss_api": 0.6348,
-      "logloss_final": 0.6708
-    },
-    "market:yellow": {
-      "n": 960,
-      "hits": 475,
-      "hit_rate_pct": 49.5,
-      "brier_api": 0.1815,
-      "brier_final": 0.1953,
-      "logloss_api": 0.5829,
-      "logloss_final": 0.6002
-    },
-    "outcome:yellow:team:over": {
-      "n": 574,
-      "hits": 269,
-      "hit_rate_pct": 46.9,
-      "brier_api": 0.1813,
-      "brier_final": 0.1999,
-      "logloss_api": 0.5873,
-      "logloss_final": 0.6249
-    },
-    "final_band:5-9": {
-      "n": 1382,
-      "hits": 181,
-      "hit_rate_pct": 13.1,
-      "brier_api": 0.1169,
-      "brier_final": 0.1172,
-      "logloss_api": 0.417,
-      "logloss_final": 0.4103
-    },
-    "api_band:90-94": {
-      "n": 811,
-      "hits": 733,
-      "hit_rate_pct": 90.4,
-      "brier_api": 0.0871,
-      "brier_final": 0.1022,
-      "logloss_api": 0.3179,
-      "logloss_final": 0.3682
-    },
-    "api_band:10-14": {
-      "n": 836,
-      "hits": 118,
-      "hit_rate_pct": 14.1,
-      "brier_api": 0.1212,
-      "brier_final": 0.1254,
-      "logloss_api": 0.4067,
-      "logloss_final": 0.436
-    },
-    "final_band:75-79": {
-      "n": 595,
-      "hits": 545,
-      "hit_rate_pct": 91.6,
-      "brier_api": 0.0786,
-      "brier_final": 0.0974,
-      "logloss_api": 0.3045,
-      "logloss_final": 0.3601
-    },
-    "final_band:20-24": {
-      "n": 988,
-      "hits": 355,
-      "hit_rate_pct": 35.9,
-      "brier_api": 0.2321,
-      "brier_final": 0.2481,
-      "logloss_api": 0.6573,
-      "logloss_final": 0.6991
-    },
-    "api_band:85-89": {
-      "n": 779,
-      "hits": 672,
-      "hit_rate_pct": 86.3,
-      "brier_api": 0.1183,
-      "brier_final": 0.1376,
-      "logloss_api": 0.3993,
-      "logloss_final": 0.454
-    },
-    "status:STRONG": {
-      "n": 715,
-      "hits": 681,
-      "hit_rate_pct": 95.2,
-      "brier_api": 0.0475,
-      "brier_final": 0.0517,
-      "logloss_api": 0.3141,
-      "logloss_final": 0.2265
-    },
-    "api_band:95-99": {
-      "n": 268,
-      "hits": 250,
-      "hit_rate_pct": 93.3,
-      "brier_api": 0.0636,
-      "brier_final": 0.0735,
-      "logloss_api": 0.2616,
-      "logloss_final": 0.2917
-    },
-    "final_band:85-89": {
-      "n": 538,
-      "hits": 508,
-      "hit_rate_pct": 94.4,
-      "brier_api": 0.0555,
-      "brier_final": 0.0575,
-      "logloss_api": 0.3627,
-      "logloss_final": 0.2418
-    },
-    "api_band:5-9": {
-      "n": 883,
-      "hits": 91,
-      "hit_rate_pct": 10.3,
-      "brier_api": 0.0929,
-      "brier_final": 0.0951,
-      "logloss_api": 0.3351,
-      "logloss_final": 0.3607
-    },
-    "final_band:80-84": {
-      "n": 544,
-      "hits": 512,
-      "hit_rate_pct": 94.1,
-      "brier_api": 0.0563,
-      "brier_final": 0.0685,
-      "logloss_api": 0.2915,
-      "logloss_final": 0.2821
-    },
-    "version:api-market-v3.2-quoted-lines-2026-10-06": {
-      "n": 14450,
-      "hits": 7127,
-      "hit_rate_pct": 49.3,
-      "brier_api": 0.1635,
-      "brier_final": 0.1789,
-      "logloss_api": 0.5113,
-      "logloss_final": 0.5367
-    },
-    "api_band:100-104": {
-      "n": 705,
-      "hits": 667,
-      "hit_rate_pct": 94.6,
-      "brier_api": 0.0539,
-      "brier_final": 0.0572,
-      "logloss_api": 0.3733,
-      "logloss_final": 0.2416
-    },
-    "direction:under": {
-      "n": 7081,
-      "hits": 3881,
-      "hit_rate_pct": 54.8,
-      "brier_api": 0.166,
-      "brier_final": 0.1785,
-      "logloss_api": 0.5188,
-      "logloss_final": 0.5344
-    },
-    "outcome:corners:team:under": {
-      "n": 1275,
-      "hits": 682,
-      "hit_rate_pct": 53.5,
-      "brier_api": 0.1683,
-      "brier_final": 0.1775,
-      "logloss_api": 0.511,
-      "logloss_final": 0.5282
-    },
-    "scope:match": {
-      "n": 7844,
-      "hits": 3878,
-      "hit_rate_pct": 49.4,
-      "brier_api": 0.1609,
-      "brier_final": 0.1774,
-      "logloss_api": 0.5059,
-      "logloss_final": 0.533
-    },
-    "outcome:corners:match:over": {
-      "n": 1208,
-      "hits": 583,
-      "hit_rate_pct": 48.3,
-      "brier_api": 0.1318,
-      "brier_final": 0.1536,
-      "logloss_api": 0.4409,
-      "logloss_final": 0.4824
-    },
-    "outcome:corners:match:under": {
-      "n": 1208,
-      "hits": 625,
-      "hit_rate_pct": 51.7,
-      "brier_api": 0.1318,
-      "brier_final": 0.143,
-      "logloss_api": 0.441,
-      "logloss_final": 0.445
-    },
-    "outcome:fouls:team:under": {
-      "n": 275,
-      "hits": 144,
-      "hit_rate_pct": 52.4,
-      "brier_api": 0.2486,
-      "brier_final": 0.2639,
-      "logloss_api": 0.698,
-      "logloss_final": 0.7249
-    },
-    "outcome:fouls:match:over": {
-      "n": 213,
-      "hits": 107,
-      "hit_rate_pct": 50.2,
-      "brier_api": 0.2004,
-      "brier_final": 0.2317,
-      "logloss_api": 0.5845,
-      "logloss_final": 0.6555
-    },
-    "outcome:fouls:match:under": {
-      "n": 213,
-      "hits": 106,
-      "hit_rate_pct": 49.8,
-      "brier_api": 0.2004,
-      "brier_final": 0.2116,
-      "logloss_api": 0.5845,
-      "logloss_final": 0.606
-    },
-    "outcome:offsides:match:over": {
-      "n": 259,
-      "hits": 121,
-      "hit_rate_pct": 46.7,
-      "brier_api": 0.1812,
-      "brier_final": 0.194,
-      "logloss_api": 0.5735,
-      "logloss_final": 0.5922
-    },
-    "outcome:offsides:match:under": {
-      "n": 259,
-      "hits": 138,
-      "hit_rate_pct": 53.3,
-      "brier_api": 0.1812,
-      "brier_final": 0.2013,
-      "logloss_api": 0.5735,
-      "logloss_final": 0.5947
-    },
-    "outcome:offsides:team:under": {
-      "n": 299,
-      "hits": 171,
-      "hit_rate_pct": 57.2,
-      "brier_api": 0.185,
-      "brier_final": 0.2118,
-      "logloss_api": 0.5662,
-      "logloss_final": 0.623
-    },
-    "outcome:shots_on_goal:match:over": {
-      "n": 702,
-      "hits": 346,
-      "hit_rate_pct": 49.3,
-      "brier_api": 0.1923,
-      "brier_final": 0.2105,
-      "logloss_api": 0.5945,
-      "logloss_final": 0.6195
-    },
-    "outcome:shots_on_goal:match:under": {
-      "n": 702,
-      "hits": 356,
-      "hit_rate_pct": 50.7,
-      "brier_api": 0.1924,
-      "brier_final": 0.2027,
-      "logloss_api": 0.5945,
-      "logloss_final": 0.6089
-    },
-    "outcome:shots:match:over": {
-      "n": 752,
-      "hits": 380,
-      "hit_rate_pct": 50.5,
-      "brier_api": 0.203,
-      "brier_final": 0.2229,
-      "logloss_api": 0.5922,
-      "logloss_final": 0.6411
-    },
-    "outcome:shots:match:under": {
-      "n": 752,
-      "hits": 372,
-      "hit_rate_pct": 49.5,
-      "brier_api": 0.203,
-      "brier_final": 0.226,
-      "logloss_api": 0.5922,
-      "logloss_final": 0.6414
-    },
-    "outcome:team_goals:match:over": {
-      "n": 830,
-      "hits": 313,
-      "hit_rate_pct": 37.7,
-      "brier_api": 0.1141,
-      "brier_final": 0.1297,
-      "logloss_api": 0.3805,
-      "logloss_final": 0.4022
-    },
-    "outcome:team_goals:match:under": {
-      "n": 746,
-      "hits": 431,
-      "hit_rate_pct": 57.8,
-      "brier_api": 0.1269,
-      "brier_final": 0.1357,
-      "logloss_api": 0.4227,
-      "logloss_final": 0.4339
-    },
-    "outcome:team_goals:team:under": {
-      "n": 966,
-      "hits": 650,
-      "hit_rate_pct": 67.3,
-      "brier_api": 0.1404,
-      "brier_final": 0.1507,
-      "logloss_api": 0.4703,
-      "logloss_final": 0.4693
-    },
-    "outcome:yellow:team:under": {
-      "n": 386,
-      "hits": 206,
-      "hit_rate_pct": 53.4,
-      "brier_api": 0.1819,
-      "brier_final": 0.1884,
-      "logloss_api": 0.5763,
-      "logloss_final": 0.5635
-    },
-    "final_band:90-94": {
-      "n": 59,
-      "hits": 59,
-      "hit_rate_pct": 100.0,
-      "brier_api": 0.0,
-      "brier_final": 0.0071,
-      "logloss_api": 0.0015,
-      "logloss_final": 0.0868
     }
   },
   "policy": {
