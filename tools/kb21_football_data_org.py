@@ -74,6 +74,10 @@ def main():
         codes=[c["code"] for c in known if c.get("code") in TARGET_CODES and c.get("plan")=="TIER_ONE"]
         if not codes: raise SystemExit("No eligible TIER_ONE target competitions in coverage snapshot")
     result=coverage(token) if a.coverage_only else fetch(a.date,token,competition_codes=codes)
+    if not a.coverage_only and codes and not result["fixtures"]:
+        result=fetch(a.date,token)
+        result["fallback_reason"]="EMPTY_FILTERED_RESPONSE"
+        result["initial_requested_competitions"]=codes
     path=Path(a.out)/("coverage.json" if a.coverage_only else a.date+".json")
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
