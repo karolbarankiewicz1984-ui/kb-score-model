@@ -24,6 +24,8 @@ def match_fixtures(api_data, independent_data, tolerance_minutes=5):
     if independent_data.get("provider","").strip().lower() in {"","api-football","api-sports"}:
         raise ValueError("Independent provider name required")
     index={}
+    if tolerance_minutes < 0:
+        raise ValueError("Tolerance must be nonnegative")
     for row in independent_data.get("fixtures",[]):
         key=(normalized_name(row.get("home_team")), normalized_name(row.get("away_team")))
         if not all(key): continue
@@ -40,6 +42,7 @@ def match_fixtures(api_data, independent_data, tolerance_minutes=5):
                 found.append(item)
         matches.append({"fixture_id":row.get("fixture_id"),"event":row.get("event"),
                         "independent_match":len(found)==1,
+                        "fixture_verified_independent":False,
                         "independent_provider":independent_data["provider"],
                         "independent_match_id":found[0]["provider_match_id"] if len(found)==1 else None,
                         "source_url":found[0].get("source_url") if len(found)==1 else None,
