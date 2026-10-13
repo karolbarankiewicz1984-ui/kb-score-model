@@ -42,7 +42,7 @@ jobs:
           FOOTBALL_DATA_ORG_KEY: ${{ secrets.FOOTBALL_DATA_ORG_KEY }}
           REQUESTED_DATE: ${{ inputs.date }}
           DISCOVER_COVERAGE: ${{ inputs.discover_coverage }}
-          TARGET_COMPETITIONS: ${{ inputs.target_competitions }}
+          TARGET_COMPETITIONS: ${{ inputs.target_competitions || 'true' }}
         run: |
           if [ "$DISCOVER_COVERAGE" = "true" ]; then
             python -m tools.kb21_football_data_org --coverage-only
