@@ -57,6 +57,11 @@ jobs:
           else
             echo "Independent calendar not yet available; no verification granted"
           fi
+      - name: Write readable KB21 readiness summary
+        run: |
+          DATE="${{ inputs.date }}"
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
+          python -m tools.kb21_readiness_summary "reports/kb21_gate/$DATE.json" "reports/kb21_calendar/$DATE.json" "reports/kb21_readiness/$DATE.md"
       - name: Publish KB21 diagnostic artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -65,6 +70,7 @@ jobs:
             reports/kb21_diagnostic/*.json
             reports/kb21_gate/*.json
             reports/kb21_calendar/*.json
+            reports/kb21_readiness/*.md
           if-no-files-found: warn
           retention-days: 30
       - name: Commit factual snapshot only
@@ -73,6 +79,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/api_football/kb21_inputs reports/kb21_diagnostic reports/kb21_gate
           if [ -d reports/kb21_calendar ]; then git add reports/kb21_calendar; fi
+          if [ -d reports/kb21_readiness ]; then git add reports/kb21_readiness; fi
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "data: KB21 pre-match API candidate inputs"
           git pull --rebase
