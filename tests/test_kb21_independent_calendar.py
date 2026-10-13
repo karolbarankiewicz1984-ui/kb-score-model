@@ -10,6 +10,10 @@ class CalendarComparisonTests(unittest.TestCase):
         self.assertFalse(result["rows"][0]["official_verified"])
         self.assertFalse(result["rows"][0]["freeze_allowed"])
         self.assertEqual(result["kb_n_effect"],0)
+    def test_reject_stale_independent_snapshot(self):
+        with self.assertRaises(ValueError):
+            match_fixtures({"date":"2030-01-02","candidates":[]},
+                           {"date":"2030-01-01","provider":"independent","fixtures":[]})
     def test_reject_same_provider(self):
         with self.assertRaises(ValueError):
             match_fixtures({"candidates":[]},{"provider":"API-Football","fixtures":[]})
