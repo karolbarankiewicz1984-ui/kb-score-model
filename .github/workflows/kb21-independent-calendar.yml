@@ -1,7 +1,7 @@
 name: KB21 independent football-data.org snapshot
 on:
   schedule:
-    - cron: '35 8 * * *'
+    - cron: '10 8 * * *'
   workflow_dispatch:
     inputs:
       target_competitions:
@@ -42,7 +42,7 @@ jobs:
           FOOTBALL_DATA_ORG_KEY: ${{ secrets.FOOTBALL_DATA_ORG_KEY }}
           REQUESTED_DATE: ${{ inputs.date }}
           DISCOVER_COVERAGE: ${{ inputs.discover_coverage }}
-          TARGET_COMPETITIONS: ${{ inputs.target_competitions || 'true' }}
+          TARGET_COMPETITIONS: ${{ inputs.target_competitions }}
         run: |
           if [ "$DISCOVER_COVERAGE" = "true" ]; then
             python -m tools.kb21_football_data_org --coverage-only
@@ -50,7 +50,7 @@ jobs:
           fi
           DATE="$REQUESTED_DATE"
           if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
-          if [ "$TARGET_COMPETITIONS" = "true" ]; then
+          if [ "$TARGET_COMPETITIONS" != "false" ]; then
             python -m tools.kb21_football_data_org --date "$DATE" --target-competitions
           else
             python -m tools.kb21_football_data_org --date "$DATE"
