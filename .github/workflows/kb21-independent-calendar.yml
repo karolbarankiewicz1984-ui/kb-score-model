@@ -1,5 +1,7 @@
 name: KB21 independent football-data.org snapshot
 on:
+  schedule:
+    - cron: '35 8 * * *'
   workflow_dispatch:
     inputs:
       target_competitions:
