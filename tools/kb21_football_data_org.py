@@ -30,14 +30,19 @@ def fetch(date, token, opener=urllib.request.urlopen, competition_codes=None):
     if not isinstance(data.get("matches"),list):
         raise ValueError("football-data.org response lacks matches list")
     rows=[]
+    raw_count=len(data["matches"])
+    skipped_incomplete=0
+    skipped_local_date=0
     for m in data["matches"]:
         home=m.get("homeTeam") or {}
         away=m.get("awayTeam") or {}
         comp=m.get("competition") or {}
         if not home.get("id") or not away.get("id") or not m.get("utcDate"):
+            skipped_incomplete+=1
             continue
         kickoff=dt.datetime.fromisoformat(m["utcDate"].replace("Z","+00:00"))
         if kickoff.tzinfo is None or kickoff.astimezone(ZoneInfo("Europe/Warsaw")).date()!=target:
+            skipped_local_date+=1
             continue
         rows.append({"provider_match_id":m.get("id"),"home_team_id":home["id"],
                      "away_team_id":away["id"],"home_team":home.get("name"),
@@ -47,6 +52,11 @@ def fetch(date, token, opener=urllib.request.urlopen, competition_codes=None):
     return {"date":date,"provider":"football-data.org","provider_endpoint":BASE,
             "provider_ids_are_not_api_football_ids":True,"fixtures":rows,
             "requested_competitions":list(competition_codes or []),
+            "diagnostics":{"provider_matches_in_window":raw_count,
+                           "skipped_incomplete":skipped_incomplete,
+                           "skipped_other_warsaw_dates":skipped_local_date,
+                           "selected_local_date":len(rows),
+                           "request_window":filters},
             "status":"INDEPENDENT_SNAPSHOT_UNMATCHED","kb_n_effect":0,
             "dev_n_effect":0,"register_writes":False}
 
@@ -87,7 +97,9 @@ def main():
             codes=None  # No target overlap: try unfiltered endpoint, never approve calendar implicitly
     result=coverage(token) if a.coverage_only else fetch(a.date,token,competition_codes=codes)
     if not a.coverage_only and codes and not result["fixtures"]:
+        filtered_diagnostics=result.get("diagnostics",{})
         result=fetch(a.date,token)
+        result["filtered_diagnostics"]=filtered_diagnostics
         result["fallback_reason"]="EMPTY_FILTERED_RESPONSE"
         result["initial_requested_competitions"]=codes
     path=Path(a.out)/("coverage.json" if a.coverage_only else a.date+".json")
