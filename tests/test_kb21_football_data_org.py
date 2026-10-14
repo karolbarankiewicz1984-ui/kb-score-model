@@ -38,6 +38,8 @@ class IndependentAdapterTests(unittest.TestCase):
             return response
         result=fetch("2030-01-01","test-token",opener)
         self.assertEqual([x["provider_match_id"] for x in result["fixtures"]],[1,2])
+        self.assertEqual(result["diagnostics"]["provider_matches_in_window"],3)
+        self.assertEqual(result["diagnostics"]["skipped_other_warsaw_dates"],1)
     def test_subscription_coverage(self):
         def opener(request,timeout):
             self.assertTrue(request.full_url.endswith("/v4/competitions"))
