@@ -15,7 +15,8 @@ class IndependentAdapterTests(unittest.TestCase):
     def test_snapshot_preserves_distinct_ids_without_verifying(self):
         def opener(request,timeout):
             self.assertEqual(request.get_header("X-auth-token"),"test-token")
-            self.assertIn("dateFrom=2030-01-01",request.full_url)
+            self.assertIn("dateFrom=2029-12-31",request.full_url)
+            self.assertIn("dateTo=2030-01-03",request.full_url)
             response=FakeResponse()
             response.payload=io.BytesIO(json.dumps({"matches":[{
                 "id":17,"utcDate":"2030-01-01T12:00:00Z","status":"SCHEDULED",
@@ -27,6 +28,16 @@ class IndependentAdapterTests(unittest.TestCase):
         self.assertTrue(result["provider_ids_are_not_api_football_ids"])
         self.assertEqual(result["kb_n_effect"],0)
         self.assertEqual(result["status"],"INDEPENDENT_SNAPSHOT_UNMATCHED")
+    def test_warsaw_local_day_filter(self):
+        def opener(request,timeout):
+            response=FakeResponse()
+            response.payload=io.BytesIO(json.dumps({"matches":[
+                {"id":1,"utcDate":"2029-12-31T23:30:00Z","homeTeam":{"id":1,"name":"A"},"awayTeam":{"id":2,"name":"B"}},
+                {"id":2,"utcDate":"2030-01-01T22:30:00Z","homeTeam":{"id":3,"name":"C"},"awayTeam":{"id":4,"name":"D"}},
+                {"id":3,"utcDate":"2030-01-01T23:30:00Z","homeTeam":{"id":5,"name":"E"},"awayTeam":{"id":6,"name":"F"}}]}).encode())
+            return response
+        result=fetch("2030-01-01","test-token",opener)
+        self.assertEqual([x["provider_match_id"] for x in result["fixtures"]],[1,2])
     def test_subscription_coverage(self):
         def opener(request,timeout):
             self.assertTrue(request.full_url.endswith("/v4/competitions"))
