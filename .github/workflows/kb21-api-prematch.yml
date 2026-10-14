@@ -23,6 +23,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Test independent calendar adapter
+        run: python -m unittest tests.test_kb21_football_data_org -v
       - name: Verify API secret
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
