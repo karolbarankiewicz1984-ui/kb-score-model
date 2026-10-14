@@ -7,12 +7,17 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 BASE="https://api.football-data.org/v4/matches"
-TARGET_CODES=("PL","PD","BL1","SA","FL1","DED","PPL","CL","ELC","EC","WC")
+TARGET_CODES=("PL","PD","BL1","SA","FL1","DED","PPL","CL","EL","ELC","ECL","EC","WC")
 def fetch(date, token, opener=urllib.request.urlopen, competition_codes=None):
     dt.date.fromisoformat(date)
-    filters={"dateFrom":date,"dateTo":date}
+    # Request the UTC days bracketing the Warsaw-local date; then filter locally.
+    # A single UTC day misses late local fixtures and providers may treat dateTo as exclusive.
+    target=dt.date.fromisoformat(date)
+    filters={"dateFrom":(target-dt.timedelta(days=1)).isoformat(),
+             "dateTo":(target+dt.timedelta(days=2)).isoformat()}
     if competition_codes:
         filters["competitions"]=",".join(competition_codes)
     query=urllib.parse.urlencode(filters)
@@ -30,6 +35,9 @@ def fetch(date, token, opener=urllib.request.urlopen, competition_codes=None):
         away=m.get("awayTeam") or {}
         comp=m.get("competition") or {}
         if not home.get("id") or not away.get("id") or not m.get("utcDate"):
+            continue
+        kickoff=dt.datetime.fromisoformat(m["utcDate"].replace("Z","+00:00"))
+        if kickoff.tzinfo is None or kickoff.astimezone(ZoneInfo("Europe/Warsaw")).date()!=target:
             continue
         rows.append({"provider_match_id":m.get("id"),"home_team_id":home["id"],
                      "away_team_id":away["id"],"home_team":home.get("name"),
