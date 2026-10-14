@@ -51,7 +51,7 @@ class IndependentAdapterTests(unittest.TestCase):
             fetch("not-a-date","token")
     def test_missing_coverage_is_discovered_automatically(self):
         with tempfile.TemporaryDirectory() as tmp:
-            with patch("sys.argv",["kb21_football_data_org","--date","2030-01-01","--target-competitions","--out",tmp]), patch("tools.kb21_football_data_org.coverage",return_value={"competitions":[{"code":"PL","plan":"TIER_TWO"}]}), patch("tools.kb21_football_data_org.fetch",return_value={"fixtures":[],"date":"2030-01-01"}) as fetch_mock, patch.dict("os.environ",{"FOOTBALL_DATA_ORG_KEY":"test-token"}):
+            with patch("sys.argv",["kb21_football_data_org","--date","2030-01-01","--target-competitions","--out",tmp]), patch("tools.kb21_football_data_org.coverage",return_value={"competitions":[{"code":"PL","plan":"TIER_TWO"}]}), patch("tools.kb21_football_data_org.fetch",return_value={"fixtures":[{"provider_match_id":17}],"date":"2030-01-01"}) as fetch_mock, patch.dict("os.environ",{"FOOTBALL_DATA_ORG_KEY":"test-token"}):
                 main()
                 self.assertTrue((Path(tmp)/"coverage.json").exists())
                 self.assertEqual(fetch_mock.call_args.kwargs["competition_codes"],["PL"])
