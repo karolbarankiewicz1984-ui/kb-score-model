@@ -69,10 +69,14 @@ def main():
     codes=None
     if a.target_competitions and not a.coverage_only:
         coverage_path=Path(a.out)/"coverage.json"
-        if not coverage_path.exists(): raise SystemExit("Coverage snapshot missing; run --coverage-only first")
+        if not coverage_path.exists():
+            snapshot=coverage(token)
+            coverage_path.parent.mkdir(parents=True,exist_ok=True)
+            coverage_path.write_text(json.dumps(snapshot,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
         known=json.loads(coverage_path.read_text(encoding="utf-8")).get("competitions",[])
-        codes=[c["code"] for c in known if c.get("code") in TARGET_CODES and c.get("plan")=="TIER_ONE"]
-        if not codes: raise SystemExit("No eligible TIER_ONE target competitions in coverage snapshot")
+        codes=[c["code"] for c in known if c.get("code") in TARGET_CODES ]
+        if not codes:
+            codes=None  # No target overlap: try unfiltered endpoint, never approve calendar implicitly
     result=coverage(token) if a.coverage_only else fetch(a.date,token,competition_codes=codes)
     if not a.coverage_only and codes and not result["fixtures"]:
         result=fetch(a.date,token)
