@@ -3,14 +3,165 @@
   "provider": "football-data.org",
   "provider_endpoint": "https://api.football-data.org/v4/matches",
   "provider_ids_are_not_api_football_ids": true,
-  "fixtures": [],
-  "requested_competitions": [],
-  "status": "INDEPENDENT_SNAPSHOT_UNMATCHED",
-  "kb_n_effect": 0,
-  "dev_n_effect": 0,
-  "register_writes": false,
-  "fallback_reason": "EMPTY_FILTERED_RESPONSE",
-  "initial_requested_competitions": [
+  "fixtures": [
+    {
+      "provider_match_id": 575351,
+      "home_team_id": 675,
+      "away_team_id": 7397,
+      "home_team": "Feyenoord Rotterdam",
+      "away_team": "Como 1907",
+      "kickoff_utc": "2026-10-14T16:45:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 575350,
+      "home_team_id": 2016,
+      "away_team_id": 64,
+      "home_team": "LASK Linz",
+      "away_team": "Liverpool FC",
+      "kickoff_utc": "2026-10-14T16:45:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 561880,
+      "home_team_id": 69,
+      "away_team_id": 342,
+      "home_team": "Queens Park Rangers FC",
+      "away_team": "Derby County FC",
+      "kickoff_utc": "2026-10-14T18:45:00Z",
+      "competition_code": "ELC",
+      "competition": "Championship",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 561877,
+      "home_team_id": 325,
+      "away_team_id": 356,
+      "home_team": "Portsmouth FC",
+      "away_team": "Sheffield United FC",
+      "kickoff_utc": "2026-10-14T18:45:00Z",
+      "competition_code": "ELC",
+      "competition": "Championship",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 561879,
+      "home_team_id": 68,
+      "away_team_id": 340,
+      "home_team": "Norwich City FC",
+      "away_team": "Southampton FC",
+      "kickoff_utc": "2026-10-14T18:45:00Z",
+      "competition_code": "ELC",
+      "competition": "Championship",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 575357,
+      "home_team_id": 1887,
+      "away_team_id": 1899,
+      "home_team": "FK Shakhtar Donetsk",
+      "away_team": "PAE AEK",
+      "kickoff_utc": "2026-10-14T19:00:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 575353,
+      "home_team_id": 65,
+      "away_team_id": 524,
+      "home_team": "Manchester City FC",
+      "away_team": "Paris Saint-Germain FC",
+      "kickoff_utc": "2026-10-14T19:00:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 561878,
+      "home_team_id": 1126,
+      "away_team_id": 563,
+      "home_team": "Lincoln City FC",
+      "away_team": "West Ham United FC",
+      "kickoff_utc": "2026-10-14T19:00:00Z",
+      "competition_code": "ELC",
+      "competition": "Championship",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 575355,
+      "home_team_id": 58,
+      "away_team_id": 613,
+      "home_team": "Aston Villa FC",
+      "away_team": "Fenerbahçe SK",
+      "kickoff_utc": "2026-10-14T19:00:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 575352,
+      "home_team_id": 100,
+      "away_team_id": 86,
+      "home_team": "AS Roma",
+      "away_team": "Real Madrid CF",
+      "kickoff_utc": "2026-10-14T19:00:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 575358,
+      "home_team_id": 7509,
+      "away_team_id": 10,
+      "home_team": "ŠK Slovan Bratislava",
+      "away_team": "VfB Stuttgart",
+      "kickoff_utc": "2026-10-14T19:00:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 575354,
+      "home_team_id": 5721,
+      "away_team_id": 4,
+      "home_team": "FK Bodø/Glimt",
+      "away_team": "Borussia Dortmund",
+      "kickoff_utc": "2026-10-14T19:00:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 575356,
+      "home_team_id": 90,
+      "away_team_id": 503,
+      "home_team": "Real Betis Balompié",
+      "away_team": "FC Porto",
+      "kickoff_utc": "2026-10-14T19:00:00Z",
+      "competition_code": "CL",
+      "competition": "UEFA Champions League",
+      "status": "FINISHED",
+      "source_url": null
+    }
+  ],
+  "requested_competitions": [
     "ELC",
     "PL",
     "CL",
@@ -22,5 +173,20 @@
     "PPL",
     "PD",
     "WC"
-  ]
+  ],
+  "diagnostics": {
+    "provider_matches_in_window": 30,
+    "skipped_incomplete": 0,
+    "skipped_other_warsaw_dates": 17,
+    "selected_local_date": 13,
+    "request_window": {
+      "dateFrom": "2026-10-13",
+      "dateTo": "2026-10-16",
+      "competitions": "ELC,PL,CL,EC,FL1,BL1,SA,DED,PPL,PD,WC"
+    }
+  },
+  "status": "INDEPENDENT_SNAPSHOT_UNMATCHED",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "register_writes": false
 }
