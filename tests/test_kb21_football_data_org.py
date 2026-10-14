@@ -1,7 +1,10 @@
 import io
 import json
 import unittest
-from tools.kb21_football_data_org import fetch,coverage
+import tempfile
+from unittest.mock import patch
+from pathlib import Path
+from tools.kb21_football_data_org import fetch,coverage,main
 
 class FakeResponse:
     def __enter__(self): return self
@@ -46,4 +49,16 @@ class IndependentAdapterTests(unittest.TestCase):
     def test_reject_bad_date(self):
         with self.assertRaises(ValueError):
             fetch("not-a-date","token")
+    def test_missing_coverage_is_discovered_automatically(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch("sys.argv",["kb21_football_data_org","--date","2030-01-01","--target-competitions","--out",tmp]), patch("tools.kb21_football_data_org.coverage",return_value={"competitions":[{"code":"PL","plan":"TIER_TWO"}]}), patch("tools.kb21_football_data_org.fetch",return_value={"fixtures":[],"date":"2030-01-01"}) as fetch_mock, patch.dict("os.environ",{"FOOTBALL_DATA_ORG_KEY":"test-token"}):
+                main()
+                self.assertTrue((Path(tmp)/"coverage.json").exists())
+                self.assertEqual(fetch_mock.call_args.kwargs["competition_codes"],["PL"])
+    def test_no_target_overlap_uses_unfiltered_calendar(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp)/"coverage.json").write_text(json.dumps({"competitions":[{"code":"BSA","plan":"TIER_ONE"}]}))
+            with patch("sys.argv",["kb21_football_data_org","--date","2030-01-01","--target-competitions","--out",tmp]), patch("tools.kb21_football_data_org.fetch",return_value={"fixtures":[],"date":"2030-01-01"}) as fetch_mock, patch.dict("os.environ",{"FOOTBALL_DATA_ORG_KEY":"test-token"}):
+                main()
+                self.assertIsNone(fetch_mock.call_args.kwargs["competition_codes"])
 if __name__=="__main__":unittest.main()
