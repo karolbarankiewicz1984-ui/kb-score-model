@@ -3,12 +3,46 @@
   "provider": "football-data.org",
   "provider_endpoint": "https://api.football-data.org/v4/matches",
   "provider_ids_are_not_api_football_ids": true,
-  "fixtures": [],
+  "fixtures": [
+    {
+      "provider_match_id": 576422,
+      "home_team_id": 1765,
+      "away_team_id": 1769,
+      "home_team": "Fluminense FC",
+      "away_team": "SE Palmeiras",
+      "kickoff_utc": "2026-10-15T00:30:00Z",
+      "competition_code": "CLI",
+      "competition": "Copa Libertadores",
+      "status": "SCHEDULED",
+      "source_url": null
+    }
+  ],
   "requested_competitions": [],
+  "diagnostics": {
+    "provider_matches_in_window": 22,
+    "skipped_incomplete": 0,
+    "skipped_other_warsaw_dates": 21,
+    "selected_local_date": 1,
+    "request_window": {
+      "dateFrom": "2026-10-14",
+      "dateTo": "2026-10-17"
+    }
+  },
   "status": "INDEPENDENT_SNAPSHOT_UNMATCHED",
   "kb_n_effect": 0,
   "dev_n_effect": 0,
   "register_writes": false,
+  "filtered_diagnostics": {
+    "provider_matches_in_window": 19,
+    "skipped_incomplete": 0,
+    "skipped_other_warsaw_dates": 19,
+    "selected_local_date": 0,
+    "request_window": {
+      "dateFrom": "2026-10-14",
+      "dateTo": "2026-10-17",
+      "competitions": "ELC,PL,CL,EC,FL1,BL1,SA,DED,PPL,PD,WC"
+    }
+  },
   "fallback_reason": "EMPTY_FILTERED_RESPONSE",
   "initial_requested_competitions": [
     "ELC",
