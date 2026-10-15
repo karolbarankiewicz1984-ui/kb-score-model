@@ -1,0 +1,40 @@
+name: PitchAPI overlay presentation checks (read only)
+
+on:
+  push:
+    paths:
+      - '.github/workflows/pitchapi-presentation-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Unit-test PitchAPI prematch and history logic
+        run: python -m unittest tests.test_pitchapi_prematch_context tests.test_pitchapi_xg_lab -v
+      - name: Install PDF renderer
+        run: python -m pip install --disable-pip-version-check 'reportlab>=4,<5'
+      - name: Check API Market PDF works with and without optional PitchAPI data
+        run: |
+          python tools/render_api_market_pdf.py 2026-10-14 --source data/api_football/market_scan/2026-10-14.json --output /tmp/api-market-with-optional-xg.pdf
+          test -s /tmp/api-market-with-optional-xg.pdf
+      - name: Check guarded KB21 readiness companion
+        run: |
+          python -m tools.kb21_readiness_summary reports/kb21_gate/2026-10-15.json reports/kb21_calendar/2026-10-15.json /tmp/kb-readiness-safe.md
+          grep -q 'Diagnostic only' /tmp/kb-readiness-safe.md
+          grep -q 'Historical N changes: 0' /tmp/kb-readiness-safe.md
+      - name: Confirm no tracked model changes
+        run: |
+          if ! git diff --quiet -- model config; then
+            echo 'Unexpected model or config mutation'
+            exit 1
+          fi
+          echo 'Presentation safety checks passed'
