@@ -57,3 +57,28 @@ workflows are modified by this experiment branch.
 Retrospective comparisons of this small and correlated sample are
 **not** proof of future performance. Validate on subsequent frozen data before
 changing live filters.
+
+## Follow-up: fixture-equal diagnostics and market mix
+
+The v2 report retains the earlier position-weighted hit rate and ROI, and
+adds **fixture-equal hit rate and ROI**, giving each match one vote (its
+average over the selected positions). This prevents a match with 15 related
+corners lines dominating a match with a single suggested position. These
+figures are *descriptive only*: they do not make fixture outcomes
+statistically independent and cannot prove future profitability.
+
+New audit splits include competition, market/direction, market scope,
+odds ranges (1.20-1.39, 1.40-1.59, 1.60-1.99, 2.00+), and model version
+counts. Diagnostic flags call out missing settlement statistics, no
+confirmed STS/Superbet quotes, mixed model versions and fewer than 30
+unique matches. Any sub-group with fewer than 10 matches is explicitly
+labeled very-small-sample; 10-29 is labeled preliminary; 30+ still
+requires prospective validation.
+
+October 12, 2026 contained domestic-league matches while October 13
+and 14 were dominated by UEFA Champions League matches; comparing days
+without considering competition is potentially misleading.
+
+Retain identical production parameters (score >= 67, odds >= 1.20,
+unchanged market selection), and use new fields to **diagnose**, not to
+automatically retrain or change any market threshold.
