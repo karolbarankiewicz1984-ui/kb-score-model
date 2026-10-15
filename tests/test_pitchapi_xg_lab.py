@@ -60,6 +60,8 @@ class MatchTests(unittest.TestCase):
     def test_unicode_team_and_europe_aliases(self):
         self.assertEqual(norm("Bodø/Glimt"), "bodo glimt")
         self.assertEqual(norm("Fenerbahçe"), "fenerbahce")
+        self.assertEqual(norm("Lask Linz"), norm("LASK"))
+        self.assertEqual(norm("AEK Athens FC"), norm("AEK Athens"))
         self.assertEqual(competition("UEFA Europa Conference League"), competition("Conference League"))
 
 class ShotTests(unittest.TestCase):
