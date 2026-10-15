@@ -51,17 +51,19 @@ def markdown_cell(value):
     return str(value or "").replace("|", "\\|").replace("\n", "<br>")
 
 
-def grouped_markdown(payload, floor):
+def grouped_markdown(payload, floor, *, xg_snapshot=None):
     positions = payload.get("top_positions") or []
     groups = group_positions(positions)
     from api_market_policy import quote_text
+    from pitchapi_market_validation import review_position
     shortlist = practical_shortlist(positions)
     lines = [f"# API Market Scan - {payload['date']} - według meczów", "",
         f"Mecze: {len(groups)}. Typy: {len(positions)}. Próg oceny końcowej: {floor:g}/100. Bez limitu pozycji.",
         "Mecze według godziny rozpoczęcia w Polsce. Pod każdym meczem wszystkie jego typy w kolejności z rankingu API.",
         "API PURE to pokrycie historyczne; ocena końcowa uwzględnia próbę, rozgrywki, rynek i dostępny kontekst. Ocena /100 nie jest skalibrowanym prawdopodobieństwem.",
         "Bez dopasowywania do STS i Superbet. Kursy to wyłącznie notowania od dostawcy API.",
-        "Żółte kartki to odrębna statystyka; nie zastępują liczby/punktów kartek z uwzględnieniem czerwonych.", "",
+        "Żółte kartki to odrębna statystyka; nie zastępują liczby/punktów kartek z uwzględnieniem czerwonych.",
+        "PitchAPI dla rynków bramkowych: poglądowa analiza jakości poprzednich okazji. Nie zmienia typów, ocen /100 ani prawdopodobieństw.", "",
         f"Odczyt notowań: {payload.get('generated_at_utc') or payload.get('publication', {}).get('captured_at_utc')} (UTC).",
         f"Wersja prognozy: `{payload.get('publication', {}).get('id', '-')}`", ""]
     errors = (payload.get("market_overlay") or {}).get("odds_errors") or []
@@ -69,7 +71,9 @@ def grouped_markdown(payload, floor):
         lines += [f"Uwaga: pobranie notowań nie powiodło się dla {len(errors)} meczów; lista może być niepełna.", ""]
     lines += [f"## LISTA GŁÓWNA — {len(shortlist)} wariantów", "Kurs API od 1,20; ocena co najmniej 67/100; maksymalnie 3 propozycje na mecz; bez powtarzania tej samej statystyki, drużyny i kierunku dla różnych linii. Bez limitu łącznej liczby meczów. Filtr prezentacji, nie zmiana oceny ani rekomendacja obstawiania.", ""]
     for item in shortlist:
-        lines.append(f"- {item['home']} – {item['away']}: {item['selection']} | ocena {item['final_assessment_pct']:.1f}/100 | {quote_text(item)}")
+        review = review_position(item, xg_snapshot)
+        annotation = f" | {review['label']}" if review and review['status'] not in ('no_data', 'insufficient') else ""
+        lines.append(f"- {item['home']} – {item['away']}: {item['selection']} | ocena {item['final_assessment_pct']:.1f}/100 | {quote_text(item)}{annotation}")
     if not shortlist:
         lines.append("Brak pozycji spełniających dodatkowe warunki listy praktycznej.")
     lines += ["", "## PEŁNE ARCHIWUM — wszystkie zakwalifikowane warianty według meczów", ""]
@@ -80,8 +84,12 @@ def grouped_markdown(payload, floor):
             "| Typ | API PURE | Ocena /100 | Kursy i dostępność | Komentarz |",
             "| --- | ---: | ---: | --- | --- |"]
         for item in items:
+            review = review_position(item, xg_snapshot)
+            commentary = item.get('final_comment') or item.get('market_comment') or ""
+            if review and review['status'] not in ('no_data', 'insufficient'):
+                commentary = (commentary + " " + review['label']).strip()
             cells = [item['selection'], f"{item['api_pure_pct']:.1f}%", f"{item['final_assessment_pct']:.1f}",
-                quote_text(item), item.get('final_comment') or item.get('market_comment') or ""]
+                quote_text(item), commentary]
             lines.append("| " + " | ".join(markdown_cell(cell) for cell in cells) + " |")
         lines.append("")
     if not positions:
