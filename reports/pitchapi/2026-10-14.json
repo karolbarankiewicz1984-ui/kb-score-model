@@ -1,10 +1,10 @@
 {
   "api_football_fixtures": 9,
   "pitchapi_fixtures": 37,
-  "matched": 7,
-  "usable_for_historical_calibration": 7,
+  "matched": 9,
+  "usable_for_historical_calibration": 9,
   "score_mismatches": 0,
-  "unmatched_api_football": 2,
+  "unmatched_api_football": 0,
   "matched_rows": [
     {
       "api_fixture_id": 1635614,
@@ -132,6 +132,31 @@
       "issue": null
     },
     {
+      "api_fixture_id": 1635674,
+      "pitch_match_id": "m_14ZQnO",
+      "home": "Lask Linz",
+      "away": "Liverpool",
+      "league": "UEFA Champions League",
+      "confidence": 1.0,
+      "score_agrees": true,
+      "api_goals": {
+        "home": 3,
+        "away": 6
+      },
+      "pitch_goals": {
+        "home": 3,
+        "away": 6
+      },
+      "api_home_shots": 12,
+      "api_away_shots": 26,
+      "pitch_home_shots": 12,
+      "pitch_away_shots": 26,
+      "xg_home": 2.02,
+      "xg_away": 3.33,
+      "usable_for_historical_calibration": true,
+      "issue": null
+    },
+    {
       "api_fixture_id": 1635690,
       "pitch_match_id": "m_0nhvU6",
       "home": "Manchester City",
@@ -153,6 +178,31 @@
       "pitch_away_shots": 15,
       "xg_home": 2.55,
       "xg_away": 1.82,
+      "usable_for_historical_calibration": true,
+      "issue": null
+    },
+    {
+      "api_fixture_id": 1635725,
+      "pitch_match_id": "m_2PAfzG",
+      "home": "Shakhtar Donetsk",
+      "away": "AEK Athens FC",
+      "league": "UEFA Champions League",
+      "confidence": 1.0,
+      "score_agrees": true,
+      "api_goals": {
+        "home": 3,
+        "away": 1
+      },
+      "pitch_goals": {
+        "home": 3,
+        "away": 1
+      },
+      "api_home_shots": 12,
+      "api_away_shots": 13,
+      "pitch_home_shots": 12,
+      "pitch_away_shots": 13,
+      "xg_home": 1.36,
+      "xg_away": 1.1,
       "usable_for_historical_calibration": true,
       "issue": null
     },
@@ -182,26 +232,12 @@
       "issue": null
     }
   ],
-  "unresolved": [
-    {
-      "api_fixture_id": 1635674,
-      "reason": "no_high_confidence_match",
-      "home": "Lask Linz",
-      "away": "Liverpool"
-    },
-    {
-      "api_fixture_id": 1635725,
-      "reason": "no_high_confidence_match",
-      "home": "Shakhtar Donetsk",
-      "away": "AEK Athens FC"
-    }
-  ],
+  "unresolved": [],
   "unmatched_pitchapi_ids": [
     "m_2UrFs1",
     "m_3iIr91",
     "m_3Tig0Y",
     "m_0awGZ0",
-    "m_14ZQnO",
     "m_0WOWwG",
     "m_10JJAv",
     "m_1XXE3B",
@@ -214,7 +250,6 @@
     "m_3cEvSH",
     "m_3lnxJI",
     "m_1Ms8UF",
-    "m_2PAfzG",
     "m_10ZSq2",
     "m_26rFjt",
     "m_0gsWR9",
