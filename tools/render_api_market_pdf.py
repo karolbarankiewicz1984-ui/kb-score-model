@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 from api_market_policy import load_policy, quote_text, target_date
 from api_market_presentation import group_positions, kickoff_time, practical_shortlist
 from pitchapi_prematch_context import lookup_context
+from pitchapi_market_validation import review_position
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
@@ -115,7 +116,13 @@ def build_pdf(payload, output=None, *, regrouped=False):
     if not shortlist:
         story.append(Paragraph("Brak pozycji spełniających warunki dodatkowej listy.", subtitle))
     for item in shortlist:
-        story.append(Paragraph(f"<b>{safe(item['home'])} — {safe(item['away'])}</b>: {safe(item['selection'])} | ocena {float(item['final_assessment_pct']):.1f}/100 | {safe(quote_text(item))}", note_style))
+        signal = review_position(item, pitch_context)
+        comment = ""
+        if signal and signal["status"] not in ("no_data", "insufficient"):
+            tag = {"favors": "historia okazji sprzyja", "cautions": "UWAGA - historia okazji ostrzega",
+                   "mixed": "historia okazji niejednoznaczna"}[signal["status"]]
+            comment = f" | PitchAPI: {tag} (wskaznik {signal['opportunity_index']:.2f}; pogladowo)"
+        story.append(Paragraph(f"<b>{safe(item['home'])} — {safe(item['away'])}</b>: {safe(item['selection'])} | ocena {float(item['final_assessment_pct']):.1f}/100 | {safe(quote_text(item))}{safe(comment)}", note_style))
     story.append(Spacer(1, 4 * mm))
     story.append(Paragraph("<b>PEŁNE ARCHIWUM — WSZYSTKIE TYPY WEDŁUG MECZÓW</b>", subtitle))
     for match_index, items in enumerate(groups, 1):
@@ -149,6 +156,14 @@ def build_pdf(payload, output=None, *, regrouped=False):
             details = [Paragraph(f"<b>{match_index}.{type_index} {safe(item['selection'])}</b>", cell_style)]
             if comment:
                 details += [Spacer(1, 1.2 * mm), Paragraph(safe(comment), note_style)]
+            signal = review_position(item, pitch_context)
+            if signal and signal["status"] not in ("no_data", "insufficient"):
+                label = {"favors": "Historia sytuacji bramkowych sprzyja",
+                         "cautions": "OSTROZNIE: historia sytuacji bramkowych ostrzega",
+                         "mixed": "Historia sytuacji bramkowych niejednoznaczna"}[signal["status"]]
+                details += [Spacer(1, 1.2 * mm), Paragraph(
+                    f"PitchAPI: {label} | wskaznik okazji {signal['opportunity_index']:.2f} "
+                    "(sygnal pogladowy, bez zmiany oceny)", note_style)]
             quote = safe(quote_text(item).removeprefix("Kursy w API: ")).replace(". Źródła notowań: ", "<br/>")
             label = "Sprawdź dokładną linię i zasady rozliczenia." if item.get("market") not in {"team_goals", "corners"} else "Notowanie dostawcy API."
             rows.append([details,
