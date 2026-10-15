@@ -44,9 +44,9 @@ jobs:
         run: |
           test -n "$PITCHAPI_API_KEY" || { echo "Missing PITCHAPI_API_KEY"; exit 1; }
           if [ -n "$TARGET_DATE" ]; then
-            python -m tools.pitchapi_prematch_context --date "$TARGET_DATE"
+            python -m tools.pitchapi_prematch_context --date "$TARGET_DATE" --max-fixtures 80
           else
-            python -m tools.pitchapi_prematch_context
+            python -m tools.pitchapi_prematch_context --max-fixtures 80
           fi
       - name: Safe summary
         shell: bash
