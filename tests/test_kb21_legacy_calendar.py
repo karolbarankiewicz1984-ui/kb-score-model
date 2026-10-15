@@ -14,6 +14,13 @@ class CalendarGateTests(unittest.TestCase):
                 "coverage_reviewed": True, "fixtures": [{"official": a, "independent": b}]}
         self.assertEqual(check(data)["status"], "BLOCKED")
 
+    def test_other_day_is_blocked(self):
+        a = {"competition": "League", "home": "A", "away": "B", "kickoff": "2026-10-16T19:00:00+02:00"}
+        data = {"date": "2026-10-15", "official_source": {"url": "https://official.example", "retrieved_at": "now"},
+                "independent_source": {"url": "https://independent.example", "retrieved_at": "now"},
+                "coverage_reviewed": True, "fixtures": [{"official": a, "independent": a}]}
+        self.assertEqual(check(data)["status"], "BLOCKED")
+
     def test_matching_sources_only_require_review(self):
         a = {"competition": "League", "home": "A", "away": "B", "kickoff": "2026-10-15T19:00:00+02:00"}
         data = {"date": "2026-10-15", "official_source": {"url": "https://official.example", "retrieved_at": "now"},
