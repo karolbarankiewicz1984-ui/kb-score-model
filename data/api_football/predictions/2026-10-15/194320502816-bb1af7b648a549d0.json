@@ -1,0 +1,97 @@
+{
+  "schema": "api-market-scan-v3",
+  "date": "2026-10-15",
+  "fixtures_scanned": 0,
+  "history_matches_loaded": 2706,
+  "pure_candidates_before_dedupe": 0,
+  "candidate_source": "exact_quoted_half_line_outcomes",
+  "quoted_outcomes_found": 0,
+  "quoted_outcomes_without_history": 0,
+  "background_candidates": [],
+  "generated_at_utc": "2026-10-15T19:43:19.369716+00:00",
+  "top_positions": [],
+  "market_overlay": {
+    "method": "devigged multi-bookmaker consensus + own snapshot movement",
+    "max_adjustment_pp": 10.0,
+    "odds_requests": 0,
+    "odds_errors": [],
+    "snapshot": "data/api_football/market_snapshots/2026-10-15/194319.json"
+  },
+  "thresholds": {
+    "raw_coverage_threshold": null,
+    "raw_sample_gate": "nonempty numeric history on both sides",
+    "top_n": null
+  },
+  "rate_limit_remaining": "6931",
+  "isolation": "API_V3_ONLY_NO_KB_SCORE_CORE_WRITES",
+  "model_effect": "NONE_ON_KB_SCORE_CORE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "v3": {
+    "method": "API PURE + reliability guard + competition context + market overlay + conservative live context",
+    "reliability": "Wilson lower-bound guard; never raises API PURE",
+    "national_history": "cached last-20 national-team fixtures; competition weighted",
+    "national_competition_weights": {
+      "Friendlies": 0.55,
+      "UEFA Nations League": 0.85,
+      "World Cup": 1.0,
+      "World Cup - Qualification Europe": 0.95,
+      "Euro Championship": 1.0,
+      "Euro Championship - Qualification": 0.95
+    },
+    "international_club": "domestic and Europe histories kept separate then blended by Europe sample",
+    "context": "injuries/referee/near-kickoff official lineups; audit-first with max -1.5pp negative guard before calibration",
+    "publish_min_final_pct": 67,
+    "national_refresh": {
+      "teams": 0,
+      "new_statistics_calls": 0,
+      "cached_teams": 0,
+      "errors": []
+    },
+    "context_errors": [
+      {
+        "stage": "injuries",
+        "error": "{\"page\": \"The Page field do not exist.\"}"
+      }
+    ],
+    "publication_policy": {
+      "model_version": "api-market-v3.2-quoted-lines-2026-10-06",
+      "publish_min_final_pct": 67,
+      "quantity_limit": null,
+      "per_fixture_limit": null,
+      "raw_coverage_threshold": null,
+      "candidate_source": "exact_quoted_half_line_outcomes",
+      "sts_policy": "disabled_no_sts_or_superbet_availability_matching",
+      "calibration": {
+        "settle_all_candidates": true,
+        "automatic_weight_changes": false,
+        "kb_score_integration": false
+      },
+      "bookmaker_matching_enabled": false
+    }
+  },
+  "model_version": "api-market-v3.2-quoted-lines-2026-10-06",
+  "rate_limit_remaining_v3": "6930",
+  "publication": {
+    "model_version": "api-market-v3.2-quoted-lines-2026-10-06",
+    "captured_at_utc": "2026-10-15T19:43:20.502816+00:00",
+    "code_revision": "8ea5e3bc5ec896b847830dac6185f2f287a84f78",
+    "policy": {
+      "model_version": "api-market-v3.2-quoted-lines-2026-10-06",
+      "publish_min_final_pct": 67,
+      "quantity_limit": null,
+      "per_fixture_limit": null,
+      "raw_coverage_threshold": null,
+      "candidate_source": "exact_quoted_half_line_outcomes",
+      "sts_policy": "disabled_no_sts_or_superbet_availability_matching",
+      "calibration": {
+        "settle_all_candidates": true,
+        "automatic_weight_changes": false,
+        "kb_score_integration": false
+      },
+      "bookmaker_matching_enabled": false
+    },
+    "provenance": "live_pre_match",
+    "id": "194320502816-bb1af7b648a549d0"
+  }
+}
