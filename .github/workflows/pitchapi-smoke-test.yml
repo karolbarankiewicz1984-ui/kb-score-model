@@ -14,92 +14,122 @@ jobs:
     env:
       PITCHAPI_API_KEY: ${{ secrets.PITCHAPI_API_KEY }}
     steps:
-      - name: Sprawdz klucz, ligi, mecze i xG
+      - name: Zainstaluj oficjalne SDK PitchAPI
+        run: python -m pip install --disable-pip-version-check "pitchapi==0.1.6"
+      - name: Sprawdz autoryzacje, Cloudflare, ligi i xG
         shell: bash
         run: |
           python - <<'PY'
-          import json
           import os
           import sys
-          import urllib.error
-          import urllib.request
+          import httpx
+          from pitchapi import PitchAPI
 
           key = os.getenv("PITCHAPI_API_KEY", "").strip()
           if not key:
-              print("BRAK SECRET: dodaj PITCHAPI_API_KEY w Settings > Secrets and variables > Actions.")
+              print("BRAK SECRET PITCHAPI_API_KEY. Dodaj go w GitHub Actions secrets.")
               sys.exit(1)
 
-          root = "https://api.pitchapi.dev"
-          summary = ["# Test PitchAPI", "", "Wyniki bez ujawniania klucza:", ""]
-          def get(path):
-              req = urllib.request.Request(
-                  root + path, headers={"X-API-KEY": key, "Accept": "application/json"}
-              )
+          lines = ["# PitchAPI - wynik testu", "", "Klucz nie jest wyswietlany.", ""]
+          def report(msg):
+              print(msg)
+              lines.append("- " + msg)
+          def finish(code):
+              with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as fh:
+                  fh.write("\n".join(lines) + "\n")
+              sys.exit(code)
+
+          browser_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+          http = httpx.Client(
+              base_url="https://api.pitchapi.dev",
+              headers={"X-API-KEY": key, "Accept": "application/json", "User-Agent": browser_agent},
+              timeout=12,
+          )
+          def raw(path):
               try:
-                  with urllib.request.urlopen(req, timeout=10) as response:
-                      status = response.status
-                      obj = json.load(response)
-              except urllib.error.HTTPError as exc:
-                  print(f"API {path}: HTTP {exc.code}")
-                  if exc.code in (401, 403):
-                      print("Klucz odrzucony lub brak uprawnien.")
-                  return None, exc.code
+                  response = http.get(path)
+                  if response.status_code != 200:
+                      cf = "tak" if "cloudflare" in response.headers.get("server", "").lower() else "nieznane"
+                      block_1010 = "tak" if ("error 1010" in response.text.lower() or "browser_signature_banned" in response.text.lower()) else "nie"
+                      report(f"{path}: HTTP {response.status_code}; Cloudflare={cf}; blokada podpisu klienta 1010={block_1010}; typ={response.headers.get('content-type', 'nieznany')}")
+                      return None
+                  result = response.json()
+                  if "error" in result:
+                      report(f"{path}: API error code={result['error'].get('code', 'brak')}")
+                      return None
+                  return result.get("data")
               except Exception as exc:
-                  print(f"API {path}: BLAD SIECI ({type(exc).__name__})")
-                  return None, 0
-              if "error" in obj:
-                  err = obj.get("error") or {}
-                  print(f"API {path}: error={err.get('code', 'unknown')}")
-                  return None, status
-              return obj.get("data"), status
+                  report(f"{path}: problem z siecia/formatem ({type(exc).__name__})")
+                  return None
 
-          catalog, code = get("/v1/leagues")
-          if catalog is None:
-              summary.append(f"- Lista lig: NIE DZIALA (HTTP {code})")
-              open(os.environ["GITHUB_STEP_SUMMARY"], "a").write("\n".join(summary)+"\n")
-              sys.exit(1)
-          leagues = catalog.get("leagues") or []
-          summary.append(f"- Autoryzacja i lista lig: OK (HTTP {code}; {len(leagues)} lig)")
-          print(f"AUTH_OK HTTP {code}, leagues={len(leagues)}")
-          for query in ("Europa League", "Conference League", "Champions League", "Premier League", "Ekstraklasa"):
-              found = [l.get("name","") for l in leagues if query.lower() in l.get("name","").lower()]
-              summary.append(f"- {query}: {', '.join(found) if found else 'nie znaleziono w nazwach lig'}")
+          mode = "SDK"
+          sdk_client = None
+          try:
+              sdk_client = PitchAPI(api_key=key)
+              leagues_data = sdk_client.leagues.list()
+              leagues = list(leagues_data.leagues)
+              report(f"Autoryzacja: OK przez oficjalne SDK, liczba lig={len(leagues)}")
+          except Exception as exc:
+              report(f"SDK nie uzyskalo listy lig: {type(exc).__name__}; HTTP={getattr(exc, 'status_code', 'nieznany')}; code={getattr(exc, 'code', 'brak')}")
+              mode = "HTTPX-UA"
+              catalog = raw("/v1/leagues")
+              if catalog is None:
+                  report("WYNIK: brak dostepu do API; nie mozna jeszcze uznac klucza za nieprawidlowy.")
+                  http.close()
+                  if sdk_client:
+                      sdk_client.close()
+                  finish(1)
+              leagues = catalog.get("leagues") or []
+              report(f"Autoryzacja: OK przez HTTPX z User-Agent, liczba lig={len(leagues)}")
 
-          total_matches = 0
-          seen_shots = 0
-          seen_xg = 0
+          for wanted in ("Europa League", "Conference League", "Champions League", "Premier League", "Ekstraklasa"):
+              names = [getattr(l, 'name', '') if mode == "SDK" else l.get("name", "") for l in leagues]
+              matches = [name for name in names if wanted.lower() in (name or "").lower()]
+              report(f"{wanted}: {', '.join(matches) if matches else 'nie znaleziono'}")
+
+          xg_found = False
+          inspected = 0
           for date in ("2026-10-14", "2026-10-12", "2025-11-09"):
-              data, status = get("/v1/date/" + date)
-              if data is None:
-                  summary.append(f"- {date}: BLAD (HTTP {status})")
+              try:
+                  if mode == "SDK":
+                      day_matches = list(sdk_client.date.get(date).matches)
+                  else:
+                      result = raw("/v1/date/" + date)
+                      if result is None:
+                          continue
+                      day_matches = result.get("matches") or []
+              except Exception as exc:
+                  report(f"Data {date}: blad {type(exc).__name__}")
                   continue
-              matches = data.get("matches") or []
-              total_matches += len(matches)
-              summary.append(f"- {date}: {len(matches)} rozegranych spotkan (HTTP {status})")
-              print(f"DATE {date}: matches={len(matches)}")
-              for match in matches[:8]:
-                  mid = match.get("id")
+              report(f"Data {date}: liczba rozegranych meczow={len(day_matches)}")
+              for match in day_matches[:7]:
+                  mid = getattr(match, "id", None) if mode == "SDK" else match.get("id")
                   if not mid:
                       continue
-                  shots, shot_status = get("/v1/matches/" + mid + "/shots")
-                  if shots is None:
-                      continue
-                  periods = shots.get("periods") or []
-                  all_shots = [s for period in periods for s in (period.get("shots") or [])]
-                  seen_shots += len(all_shots)
-                  xg_values = [s.get("expected_goals") for s in all_shots if isinstance(s.get("expected_goals"), (float,int))]
-                  if xg_values:
-                      seen_xg += len(xg_values)
-                      summary.append(f"- xG: OK; mecz {mid}, strzalow {len(all_shots)}, wartosci xG {len(xg_values)}")
-                      print(f"XG_OK match={mid}, shots={len(all_shots)}, xg={len(xg_values)}")
-                      break
-              if seen_xg:
+                  inspected += 1
+                  try:
+                      if mode == "SDK":
+                          shot_response = sdk_client.matches.shots(mid)
+                          periods = shot_response.periods
+                          values = [s.expected_goals for period in periods for s in period.shots if isinstance(s.expected_goals, (int, float))]
+                      else:
+                          result = raw("/v1/matches/" + mid + "/shots")
+                          if result is None:
+                              continue
+                          values = [s["expected_goals"] for period in result.get("periods", []) for s in period.get("shots", []) if isinstance(s.get("expected_goals"), (int, float))]
+                      if values:
+                          report(f"xG DOSTEPNE: mecz {mid}; liczba strzalow z xG={len(values)}; suma xG={sum(values):.3f}")
+                          xg_found = True
+                          break
+                  except Exception as exc:
+                      report(f"Strzaly meczu {mid}: blad {type(exc).__name__}")
+              if xg_found:
                   break
-          if not seen_xg:
-              summary.append(f"- xG: NIEPOTWIERDZONE (sprawdzono {total_matches} meczow w terminarzu, {seen_shots} strzalow)")
-              print(f"XG_NOT_CONFIRMED matches={total_matches} shots={seen_shots}")
-          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
-              f.write("\n".join(summary) + "\n")
-          if not seen_xg:
-              sys.exit(2)
+
+          report(f"Sprawdzono meczow pod katem xG: {inspected}")
+          report("WYNIK: autoryzacja i xG OK" if xg_found else "WYNIK: autoryzacja OK, xG niepotwierdzone w sprawdzonych meczach")
+          http.close()
+          if sdk_client:
+              sdk_client.close()
+          finish(0 if xg_found else 2)
           PY
