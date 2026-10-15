@@ -62,6 +62,13 @@ class MatchTests(unittest.TestCase):
         self.assertEqual(norm("Fenerbahçe"), "fenerbahce")
         self.assertEqual(norm("Lask Linz"), norm("LASK"))
         self.assertEqual(norm("AEK Athens FC"), norm("AEK Athens"))
+        self.assertEqual(norm("Coventry City"), norm("Coventry"))
+        self.assertEqual(norm("Newcastle United"), norm("Newcastle"))
+        self.assertEqual(norm("Club Brugge KV"), norm("Club Brugge"))
+        self.assertEqual(norm("Sabah FA"), norm("Sabah FK"))
+        self.assertEqual(norm("Slavia Praha"), norm("Slavia Prague"))
+        self.assertEqual(competition("LaLiga"), competition("La Liga"))
+        self.assertEqual(competition("Liga Portugal"), competition("Primeira Liga"))
         self.assertEqual(competition("UEFA Europa Conference League"), competition("Conference League"))
 
 class ShotTests(unittest.TestCase):
