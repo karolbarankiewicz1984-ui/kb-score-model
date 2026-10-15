@@ -43,7 +43,7 @@ class SelectionLabTests(unittest.TestCase):
 
     def test_metrics_and_bands(self):
         rows=playable([row("A",odd=1.50),row("B",odd=1.40,hit=0)])
-        self.assertAlmostEqual(metrics(rows,True)["roi_pct"],-5.0)
+        self.assertAlmostEqual(metrics(rows,True)["roi_pct"],-25.0)
         self.assertEqual(band(69.9),"67-69.9")
         self.assertEqual(band(100.0),"90-100")
 
