@@ -61,6 +61,13 @@ jobs:
           else
             echo "Independent calendar unavailable; comparison remains blocked"
           fi
+      - name: Diagnose independent calendar competition coverage
+        run: |
+          DATE="${{ inputs.date }}"
+          if [ -z "$DATE" ]; then DATE="$(TZ=Europe/Warsaw date +%F)"; fi
+          if [ -f data/football_data_org/coverage.json ]; then
+            python -m tools.kb21_coverage_audit "data/api_football/kb21_inputs/$DATE.json" data/football_data_org/coverage.json --output "reports/kb21_coverage/$DATE.json"
+          fi
       - name: Compare independent fixture calendar (review only)
         run: |
           DATE="${{ inputs.date }}"
@@ -85,6 +92,7 @@ jobs:
             reports/kb21_diagnostic/*.json
             reports/kb21_gate/*.json
             reports/kb21_calendar/*.json
+            reports/kb21_coverage/*.json
             reports/kb21_readiness/*.md
           if-no-files-found: warn
           retention-days: 30
@@ -96,6 +104,7 @@ jobs:
           if [ -d data/football_data_org ]; then git add data/football_data_org; fi
           git add -u
           if [ -d reports/kb21_calendar ]; then git add reports/kb21_calendar; fi
+          if [ -d reports/kb21_coverage ]; then git add reports/kb21_coverage; fi
           if [ -d reports/kb21_readiness ]; then git add reports/kb21_readiness; fi
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "data: KB21 pre-match API candidate inputs"
