@@ -1,0 +1,105 @@
+name: PitchAPI - test polaczenia i xG
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-test:
+    name: PitchAPI smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PITCHAPI_API_KEY: ${{ secrets.PITCHAPI_API_KEY }}
+    steps:
+      - name: Sprawdz klucz, ligi, mecze i xG
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          import urllib.error
+          import urllib.request
+
+          key = os.getenv("PITCHAPI_API_KEY", "").strip()
+          if not key:
+              print("BRAK SECRET: dodaj PITCHAPI_API_KEY w Settings > Secrets and variables > Actions.")
+              sys.exit(1)
+
+          root = "https://api.pitchapi.dev"
+          summary = ["# Test PitchAPI", "", "Wyniki bez ujawniania klucza:", ""]
+          def get(path):
+              req = urllib.request.Request(
+                  root + path, headers={"X-API-KEY": key, "Accept": "application/json"}
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=25) as response:
+                      status = response.status
+                      obj = json.load(response)
+              except urllib.error.HTTPError as exc:
+                  print(f"API {path}: HTTP {exc.code}")
+                  if exc.code in (401, 403):
+                      print("Klucz odrzucony lub brak uprawnien.")
+                  return None, exc.code
+              except Exception as exc:
+                  print(f"API {path}: BLAD SIECI ({type(exc).__name__})")
+                  return None, 0
+              if "error" in obj:
+                  err = obj.get("error") or {}
+                  print(f"API {path}: error={err.get('code', 'unknown')}")
+                  return None, status
+              return obj.get("data"), status
+
+          catalog, code = get("/v1/leagues")
+          if catalog is None:
+              summary.append(f"- Lista lig: NIE DZIALA (HTTP {code})")
+              open(os.environ["GITHUB_STEP_SUMMARY"], "a").write("\n".join(summary)+"\n")
+              sys.exit(1)
+          leagues = catalog.get("leagues") or []
+          summary.append(f"- Autoryzacja i lista lig: OK (HTTP {code}; {len(leagues)} lig)")
+          print(f"AUTH_OK HTTP {code}, leagues={len(leagues)}")
+          for query in ("Europa League", "Conference League", "Champions League", "Premier League", "Ekstraklasa"):
+              found = [l.get("name","") for l in leagues if query.lower() in l.get("name","").lower()]
+              summary.append(f"- {query}: {', '.join(found) if found else 'nie znaleziono w nazwach lig'}")
+
+          total_matches = 0
+          seen_shots = 0
+          seen_xg = 0
+          for date in ("2026-10-14", "2026-10-12", "2025-11-09"):
+              data, status = get("/v1/date/" + date)
+              if data is None:
+                  summary.append(f"- {date}: BLAD (HTTP {status})")
+                  continue
+              matches = data.get("matches") or []
+              total_matches += len(matches)
+              summary.append(f"- {date}: {len(matches)} rozegranych spotkan (HTTP {status})")
+              print(f"DATE {date}: matches={len(matches)}")
+              for match in matches[:12]:
+                  mid = match.get("id")
+                  if not mid:
+                      continue
+                  shots, shot_status = get("/v1/matches/" + mid + "/shots")
+                  if shots is None:
+                      continue
+                  periods = shots.get("periods") or []
+                  all_shots = [s for period in periods for s in (period.get("shots") or [])]
+                  seen_shots += len(all_shots)
+                  xg_values = [s.get("expected_goals") for s in all_shots if isinstance(s.get("expected_goals"), (float,int))]
+                  if xg_values:
+                      seen_xg += len(xg_values)
+                      summary.append(f"- xG: OK; mecz {mid}, strzalow {len(all_shots)}, wartosci xG {len(xg_values)}")
+                      print(f"XG_OK match={mid}, shots={len(all_shots)}, xg={len(xg_values)}")
+                      break
+              if seen_xg:
+                  break
+          if not seen_xg:
+              summary.append(f"- xG: NIEPOTWIERDZONE (sprawdzono {total_matches} meczow w terminarzu, {seen_shots} strzalow)")
+              print(f"XG_NOT_CONFIRMED matches={total_matches} shots={seen_shots}")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write("\n".join(summary) + "\n")
+          if not seen_xg:
+              sys.exit(2)
+          PY
