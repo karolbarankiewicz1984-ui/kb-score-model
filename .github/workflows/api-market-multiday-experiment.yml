@@ -43,7 +43,7 @@ jobs:
       - name: Fetch read-only PitchAPI snapshots from main
         if: steps.warsaw.outputs.run_scan == 'true'
         run: |
-          git fetch --depth=1 origin main
+          git fetch --depth=1 origin main:refs/remotes/origin/main
           mkdir -p data/pitchapi/prematch
       - name: Test experimental date planner and market filters
         if: steps.warsaw.outputs.run_scan == 'true'
