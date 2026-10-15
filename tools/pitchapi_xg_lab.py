@@ -75,6 +75,7 @@ def norm(v):
     x = re.sub(r"[^a-z0-9]+", " ", x).strip()
     aliases = {"psg": "paris saint germain", "paris sg": "paris saint germain",
                "as roma": "roma", "fc porto": "porto",
+               "lask linz": "lask", "aek athens fc": "aek athens",
                "bayern munchen": "bayern munich", "man utd": "manchester united",
                "man city": "manchester city", "inter milan": "internazionale",
                "inter": "internazionale", "sporting cp": "sporting lisbon",
