@@ -10,6 +10,9 @@ on:
   push:
     paths:
       - '.github/workflows/pitchapi-xg-lab.yml'
+  schedule:
+    # Run after API-Football daily collector (04:17 UTC), collect previous Warsaw day.
+    - cron: '57 4 * * *'
 
 permissions:
   contents: write
