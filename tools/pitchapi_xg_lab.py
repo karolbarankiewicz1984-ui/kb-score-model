@@ -182,7 +182,16 @@ def main():
     from pitchapi import PitchAPI
     with PitchAPI() as client:
         fixture_list = list(client.date.get(day).matches)
-        fixture_list.sort(key=lambda m: (str(field(m, "time_utc", "")), str(field(m, "id", ""))))
+        priority_leagues = {
+            "uefa europa league", "uefa conference league", "uefa champions league",
+            "premier league", "la liga", "bundesliga", "serie a", "ligue 1",
+            "ekstraklasa", "primeira liga", "eredivisie", "jupiler pro league", "super lig"
+        }
+        # On busy days, don't fill the daily cap with minor early fixtures.
+        # All prioritization happens before collecting results, without looking at scores.
+        fixture_list.sort(key=lambda m: (
+            0 if competition(field(field(m, "league"), "name")) in priority_leagues else 1,
+            str(field(m, "time_utc", "")), str(field(m, "id", ""))))
         rows = [collect_match(m, client) for m in fixture_list[:args.max_matches]]
     complete = sum(p["xg_home"]["xg_complete"] and p["xg_away"]["xg_complete"] for p in rows)
     payload = {"schema": "pitchapi-postmatch-xg-v1", "date": day,
