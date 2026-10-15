@@ -1,5 +1,10 @@
 name: API Market selection lab (read-only)
 on:
+  pull_request:
+    paths:
+      - tools/api_market_selection_lab.py
+      - tests/test_api_market_selection_lab.py
+      - .github/workflows/api-market-selection-lab.yml
   workflow_dispatch:
     inputs:
       days:
