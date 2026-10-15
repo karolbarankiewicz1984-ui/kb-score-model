@@ -3,6 +3,9 @@
 from __future__ import annotations
 import argparse
 from pathlib import Path
+import json
+import re
+import unicodedata
 from xml.sax.saxutils import escape
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
@@ -13,6 +16,29 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer
 
 ROOT = Path(__file__).resolve().parents[1]
+
+def normalized_club(value):
+    value = str(value or "").casefold().replace("ł", "l").replace("ø", "o").replace("ß", "ss")
+    value = "".join(x for x in unicodedata.normalize("NFKD", value)
+                    if not unicodedata.combining(x))
+    return re.sub(r"[^a-z0-9]+", " ", value).strip()
+
+def historic_xg_context(match_heading, snapshot):
+    """Unique matchup only. Cannot alter selection or score."""
+    if not snapshot or snapshot.get("schema") != "pitchapi-prematch-context-v1":
+        return None
+    # The experiment report heading is: home – away (kickoff).
+    matchup = re.match(r"^(.+?)\s+[–-]\s+(.+?)\s+\(", match_heading)
+    if not matchup:
+        return None
+    home, away = normalized_club(matchup.group(1)), normalized_club(matchup.group(2))
+    candidates = [f for f in snapshot.get("fixtures", []) if
+                  normalized_club(f.get("home")) == home and
+                  normalized_club(f.get("away")) == away]
+    if len(candidates) != 1 or not candidates[0].get("both_sides_sufficient"):
+        return None
+    return candidates[0]
+
 def font_setup():
     base = Path("/usr/share/fonts/truetype/dejavu")
     pdfmetrics.registerFont(TTFont("Scan", str(base / "DejaVuSans.ttf")))
@@ -34,6 +60,17 @@ def build(day: str):
     }
     def p(value, kind="body"):
         return Paragraph(escape(str(value)), styles[kind])
+    # Independent PitchAPI context copied from protected main into this experiment
+    # workflow; optional, and never changes odds, selections or KB N.
+    pitch_path = ROOT / "data/pitchapi/prematch" / f"{day}.json"
+    pitch_context = None
+    if pitch_path.is_file():
+        try:
+            snapshot = json.loads(pitch_path.read_text(encoding="utf-8"))
+            if snapshot.get("target_date") == day:
+                pitch_context = snapshot
+        except (OSError, ValueError):
+            pitch_context = None
     lines = source.read_text(encoding="utf-8").splitlines()
     story = [p(f"API Market Scan — {day}", "title")]
     groups = 0
@@ -64,6 +101,15 @@ def build(day: str):
                 groups += 1
                 positions += len(data)
                 story.append(p(match, "match"))
+                xg = historic_xg_context(match, pitch_context)
+                if xg is not None:
+                    home, away = xg["home_recent"], xg["away_recent"]
+                    story.append(p(
+                        "PitchAPI, ostatnie mecze w rozgrywkach (tylko kontekst): "
+                        f"gospodarze xG {home['mean_xg_for']:.2f} / xGA {home['mean_xg_against']:.2f} "
+                        f"(n={home['complete_samples']}); "
+                        f"goście xG {away['mean_xg_for']:.2f} / xGA {away['mean_xg_against']:.2f} "
+                        f"(n={away['complete_samples']}). Oceny i typy bez zmian."))
                 rows = [[p(v, "head") for v in ("Typ", "Ocena /100", "Najlepszy kurs", "STS", "Superbet")]]
                 rows += [[p(v, "cell") for v in item] for item in data]
                 table = Table(rows, colWidths=[65*mm, 21*mm, 37*mm, 23*mm, 23*mm], repeatRows=1, hAlign="LEFT")
