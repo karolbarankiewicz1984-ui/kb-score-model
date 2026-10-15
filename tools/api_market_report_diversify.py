@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 from api_market_policy import load_policy, rank_positions, target_date
 from api_market_presentation import grouped_markdown
+from pitchapi_market_validation import load_snapshot
 from api_market_storage import archive_publication, atomic_write
 
 TARGET = target_date(sys.argv[1] if len(sys.argv) > 1 else None)
@@ -21,7 +22,8 @@ def main():
     payload = archive_publication(payload, TARGET, policy)
     positions = payload["top_positions"]
     atomic_write(Path("reports/api_market_scan") / f"{TARGET}.md",
-                 grouped_markdown(payload, policy['publish_min_final_pct']))
+                 grouped_markdown(payload, policy['publish_min_final_pct'],
+                                  xg_snapshot=load_snapshot(TARGET)))
     print(json.dumps({"date": TARGET, "background": len(candidates), "published": len(positions),
         "distinct_fixtures": len({x['fixture_id'] for x in positions}),
         "threshold": policy['publish_min_final_pct'], "prediction_id": payload['publication']['id'],
