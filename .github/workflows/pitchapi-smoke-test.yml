@@ -36,7 +36,7 @@ jobs:
                   root + path, headers={"X-API-KEY": key, "Accept": "application/json"}
               )
               try:
-                  with urllib.request.urlopen(req, timeout=25) as response:
+                  with urllib.request.urlopen(req, timeout=10) as response:
                       status = response.status
                       obj = json.load(response)
               except urllib.error.HTTPError as exc:
@@ -77,7 +77,7 @@ jobs:
               total_matches += len(matches)
               summary.append(f"- {date}: {len(matches)} rozegranych spotkan (HTTP {status})")
               print(f"DATE {date}: matches={len(matches)}")
-              for match in matches[:12]:
+              for match in matches[:8]:
                   mid = match.get("id")
                   if not mid:
                       continue
