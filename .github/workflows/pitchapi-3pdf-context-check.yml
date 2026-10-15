@@ -30,6 +30,9 @@ jobs:
         run: |
           mkdir -p experiment/data/pitchapi/prematch
           cp upstream/data/pitchapi/prematch/2026-10-16.json experiment/data/pitchapi/prematch/2026-10-16.json
+          for helper in pitchapi_xg_lab.py pitchapi_prematch_context.py pitchapi_market_validation.py; do
+            cp "upstream/tools/$helper" "experiment/tools/$helper"
+          done
           python - <<'PY'
           import json
           from pathlib import Path
@@ -46,6 +49,34 @@ jobs:
           | Testowy rynek (NIE PUBLIKOWAĆ) | 71.0 | 1.25 | niepotwierdzone | niepotwierdzone |
           """
           dest.write_text('\n'.join(line.strip() for line in text.splitlines()) + '\n',encoding='utf-8')
+          PY
+      - name: Validate new PitchAPI labels on experimental selection, without score changes
+        working-directory: experiment
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path('tools').resolve()))
+          from api_market_playable_shadow import report
+          p=json.loads(Path('data/pitchapi/prematch/2026-10-16.json').read_text(encoding='utf-8'))
+          fixture=next(x for x in p['fixtures'] if x['both_sides_sufficient'])
+          candidate={
+            'fixture_id':'diagnostic-only',
+            'home':fixture['home'], 'away':fixture['away'],
+            'competition':fixture['league'], 'kickoff':fixture['kickoff_utc'],
+            'market':'team_goals','market_scope':'team',
+            'team_side':'home','direction':'over','line':0.5,
+            'final_assessment_pct':71.0,'api_pure_pct':72.0,
+            'selection':'Testowy over (NIE PUBLIKOWAC)',
+            'market_data':{'quotes':[{'bookmaker':'test','over_odd':1.25}]}
+          }
+          text, metric = report({'date':'2026-10-16','background_candidates':[candidate]},
+                                {'min_quoted_odds':1.20,'preserve_min_final_score':67})
+          assert 'PitchAPI:' in text, 'No PitchAPI goal commentary in experimental report'
+          assert '71.0' in text and '1.25' in text
+          assert candidate['final_assessment_pct'] == 71.0
+          assert metric['published_count'] == 1
+          print('PASS: optional PitchAPI goal comment, scoring preserved')
           PY
       - name: Render via the real experimental PDF converter and verify xG appears
         working-directory: experiment
