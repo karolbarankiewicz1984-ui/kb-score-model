@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Unit-test PitchAPI prematch and history logic
-        run: python -m unittest tests.test_pitchapi_prematch_context tests.test_pitchapi_xg_lab -v
+        run: python -m unittest tests.test_pitchapi_prematch_context tests.test_pitchapi_xg_lab tests.test_pitchapi_market_validation -v
       - name: Install PDF renderer
         run: python -m pip install --disable-pip-version-check 'reportlab>=4,<5'
       - name: Check API Market PDF works with and without optional PitchAPI data
