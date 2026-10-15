@@ -20,4 +20,23 @@ if __name__ == "__main__":
     cal = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8")) if len(sys.argv)>3 and Path(sys.argv[2]).is_file() else None
     out = Path(sys.argv[-1])
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render(gate, cal), encoding="utf-8")
+    markdown = render(gate, cal)
+    # Read-only companion; NEVER use PitchAPI to bypass the KB21 readiness gate.
+    companion = Path("data/pitchapi/prematch") / f"{gate.get('date')}.json"
+    if companion.is_file():
+        try:
+            xg = json.loads(companion.read_text(encoding="utf-8"))
+            if (xg.get("schema") == "pitchapi-prematch-context-v1"
+                    and xg.get("target_date") == gate.get("date")):
+                markdown += (
+                    "\n## PitchAPI — context of previous matches only\n"
+                    f"- Upcoming fixtures in source: {xg.get('fixtures_collected', 0)}\n"
+                    f"- Both clubs with at least three prior matches: "
+                    f"{xg.get('fixtures_with_both_sides_sufficient', 0)}\n"
+                    "- See: reports/pitchapi/prematch/" + str(gate.get("date")) + ".md\n"
+                    "- Not calendar verification, not analyst 35/35/30, "
+                    "not expected goals for this fixture; readiness unchanged.\n"
+                )
+        except (OSError, ValueError):
+            pass
+    out.write_text(markdown, encoding="utf-8")
