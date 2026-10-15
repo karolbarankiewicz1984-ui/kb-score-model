@@ -6,6 +6,7 @@ on:
       - 'tools/kb21_legacy_report.py'
       - 'tests/test_kb21_legacy_report.py'
       - 'tools/kb21_legacy_calendar.py'
+      - 'tools/kb21_public_fixtures.py'
       - 'tests/test_kb21_legacy_calendar.py'
       - '.github/workflows/kb21-legacy-recovery.yml'
 permissions:
@@ -39,6 +40,15 @@ jobs:
           assert result['status'] == 'BLOCKED', 'Calendar gate unexpectedly allowed missing fixtures'
           print('Safety check OK: missing calendar remains BLOCKED')
           PY
+      - name: Probe public fixture source (diagnostic only)
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timedelta
+          from zoneinfo import ZoneInfo
+          import subprocess
+          d = (datetime.now(ZoneInfo('Europe/Warsaw')).date() + timedelta(days=1)).isoformat()
+          subprocess.run(['python', '-m', 'tools.kb21_public_fixtures', d, '--output', 'reports/kb21_legacy/public-source.json'], check=True)
+          PY
       - name: Generate safe no-data diagnostic
         run: |
           mkdir -p reports/kb21_legacy
@@ -57,4 +67,5 @@ jobs:
           path: |
             reports/kb21_legacy/diagnostic.md
             reports/kb21_legacy/calendar-gate.json
+            reports/kb21_legacy/public-source.json
           retention-days: 30
