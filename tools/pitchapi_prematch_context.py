@@ -12,7 +12,13 @@ import json
 import os
 from zoneinfo import ZoneInfo
 
-from tools.pitchapi_xg_lab import collect_match, competition, field, norm, write_json
+try:
+    from tools.pitchapi_xg_lab import collect_match, competition, field, norm, write_json
+except ModuleNotFoundError as exc:
+    if exc.name != "tools":
+        raise
+    # Also support legacy entrypoints executed as 'python tools/file.py'.
+    from pitchapi_xg_lab import collect_match, competition, field, norm, write_json
 
 PRIORITY = {
     "uefa champions league", "uefa europa league", "uefa conference league",
@@ -141,7 +147,7 @@ def render(payload):
     d = payload["target_date"]
     out = [f"# PitchAPI — przedmeczowy kontekst xG: {d}", "",
            "**DODATKOWE DANE DLA API MARKET I KB SCORE 2.1 — BEZ ZMIANY PUNKTACJI**", "",
-           f"Snapshot UTC: \`{payload['snapshot_utc']}\`",
+           f"Snapshot UTC: `{payload['snapshot_utc']}`",
            f"Mecze PitchAPI: {payload['fixtures_collected']} / {payload['available_upcoming']}; "
            f"obustronnie wystarczająca historia: {payload['fixtures_with_both_sides_sufficient']}.", "",
            "xG/xGA poniżej to średnie z maksymalnie **5 wcześniejszych meczów w tych samych rozgrywkach**. "
