@@ -10,6 +10,7 @@ from zoneinfo import ZoneInfo
 
 from api_market_policy import load_policy, quote_text, target_date
 from api_market_presentation import group_positions, kickoff_time, practical_shortlist
+from pitchapi_prematch_context import lookup_context
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
@@ -90,6 +91,24 @@ def build_pdf(payload, output=None, *, regrouped=False):
     if errors:
         story.append(Paragraph(f"Uwaga: nie udało się pobrać notowań dla {len(errors)} meczów. Lista może być niepełna.", subtitle))
 
+    # Read-only pre-match PitchAPI signal. File may be absent; neither scores nor
+    # recommended markets change. Never fetch live information from PDF renderer.
+    context_path = Path("data/pitchapi/prematch") / f"{target}.json"
+    pitch_context = None
+    if context_path.is_file():
+        try:
+            candidate_context = json.loads(context_path.read_text(encoding="utf-8"))
+            if (candidate_context.get("schema") == "pitchapi-prematch-context-v1"
+                    and candidate_context.get("target_date") == target):
+                pitch_context = candidate_context
+        except (ValueError, OSError):
+            pitch_context = None
+    if pitch_context:
+        story.append(Paragraph(
+            f"<b>PitchAPI (dodatkowy kontekst):</b> historyczne xG z meczów rozegranych przed analizą; "
+            f"{pitch_context.get('fixtures_with_both_sides_sufficient', 0)} spotkań z wystarczającą próbą obu drużyn. "
+            "To nie jest prognoza bramek ani automatyczna korekta oceny /100.", subtitle))
+
     shortlist = practical_shortlist(positions)
     story.append(Paragraph("<b>LISTA GŁÓWNA — PRAKTYCZNE WARIANTY</b>", subtitle))
     story.append(Paragraph("Kurs API od 1,20; ocena od 67/100; do 3 pozycji na mecz, bez powtarzania tej samej statystyki i kierunku przy innych liniach. Bez limitu liczby meczów. Filtr wyłącznie prezentacyjny; nie zmienia ocen ani pełnego rankingu.", subtitle))
@@ -101,8 +120,26 @@ def build_pdf(payload, output=None, *, regrouped=False):
     story.append(Paragraph("<b>PEŁNE ARCHIWUM — WSZYSTKIE TYPY WEDŁUG MECZÓW</b>", subtitle))
     for match_index, items in enumerate(groups, 1):
         first = items[0]
+        historic_xg = (lookup_context(pitch_context, first["home"], first["away"],
+                                       first.get("competition"), first.get("kickoff_utc"))
+                       if pitch_context else None)
+        xg_notice = ""
+        if historic_xg:
+            h, a = historic_xg["home_recent"], historic_xg["away_recent"]
+            if historic_xg["both_sides_sufficient"]:
+                xg_notice = (
+                    f"<br/><font size='8'>PitchAPI poprzednie mecze: "
+                    f"G xG {h['mean_xg_for']:.2f}/xGA {h['mean_xg_against']:.2f} "
+                    f"(n={h['complete_samples']}) | "
+                    f"W xG {a['mean_xg_for']:.2f}/xGA {a['mean_xg_against']:.2f} "
+                    f"(n={a['complete_samples']}) - tylko kontekst</font>")
+            else:
+                xg_notice = (
+                    f"<br/><font size='8'>PitchAPI: niewystarczajaca historia xG "
+                    f"(G {h['complete_samples']}, W {a['complete_samples']}) - bez oceny.</font>")
         header = (f"{match_index}. {safe(first['home'])} — {safe(first['away'])}<br/>"
-            f"<font size='8'>{kickoff_time(first)} Polska • {safe(first['competition'])} • typy: {len(items)}</font>")
+            f"<font size='8'>{kickoff_time(first)} Polska • {safe(first['competition'])} • typy: {len(items)}</font>"
+            f"{xg_notice}")
         rows = [[Paragraph(header, match_style), "", "", ""],
             [Paragraph(label, column_style) for label in ("Typ i komentarz", "API PURE", "Ocena /100", "Kursy w API / źródła")]]
         for type_index, item in enumerate(items, 1):
