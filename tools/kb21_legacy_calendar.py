@@ -45,6 +45,9 @@ def check(data):
         except (TypeError, ValueError):
             errors.append(f"Fixture {index}: kickoff must include timezone")
             continue
+        if date and kickoff.date().isoformat() != date:
+            errors.append(f"Fixture {index}: kickoff date outside requested date")
+            continue
         accepted.append({k: a[k] for k in keys})
     # Even exact fixture matching cannot prove the entire daily calendar is complete.
     # An analyst must explicitly sign off coverage after checking official schedules.
