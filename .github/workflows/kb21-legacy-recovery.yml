@@ -5,6 +5,8 @@ on:
     paths:
       - 'tools/kb21_legacy_report.py'
       - 'tests/test_kb21_legacy_report.py'
+      - 'tools/kb21_legacy_calendar.py'
+      - 'tests/test_kb21_legacy_calendar.py'
       - '.github/workflows/kb21-legacy-recovery.yml'
 permissions:
   contents: read
@@ -17,7 +19,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar -v
       - name: Generate safe no-data diagnostic
         run: |
           mkdir -p reports/kb21_legacy
