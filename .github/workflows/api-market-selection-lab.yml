@@ -1,0 +1,48 @@
+name: API Market selection lab (read-only)
+on:
+  pull_request:
+    paths:
+      - tools/api_market_selection_lab.py
+      - tests/test_api_market_selection_lab.py
+      - .github/workflows/api-market-selection-lab.yml
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Last settlement days to compare"
+        required: true
+        default: "7"
+        type: choice
+        options: ["3", "7", "14", "30"]
+  schedule:
+    # 08:00 UTC, after the existing overnight settlement workflow.
+    - cron: "0 8 * * *"
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run isolated unit tests
+        run: python -m unittest discover -s tests -p 'test_api_market_selection_lab.py' -v
+      - name: Audit frozen historical settlements only
+        env:
+          DAYS: ${{ inputs.days || '7' }}
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find data/api_football/calibration -maxdepth 1 -type f \
+            -name '20??-??-??.json' | sort | tail -n "$DAYS")
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "::error::No frozen settlement files found"
+            exit 1
+          fi
+          python tools/api_market_selection_lab.py "${files[@]}" \
+            --min-odd 1.20 --threshold 67 \
+            --output reports/api_market_scan/selection_lab
+      - name: Upload standalone audit (never push to main)
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-market-selection-audit
+          path: reports/api_market_scan/selection_lab/SELECTION_AUDIT.*
+          if-no-files-found: error
