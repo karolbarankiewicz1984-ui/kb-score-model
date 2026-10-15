@@ -76,6 +76,9 @@ def norm(v):
     aliases = {"psg": "paris saint germain", "paris sg": "paris saint germain",
                "as roma": "roma", "fc porto": "porto",
                "lask linz": "lask", "aek athens fc": "aek athens",
+               "coventry city": "coventry", "newcastle united": "newcastle",
+               "club brugge kv": "club brugge", "sabah fa": "sabah",
+               "sabah fk": "sabah", "slavia praha": "slavia prague",
                "bayern munchen": "bayern munich", "man utd": "manchester united",
                "man city": "manchester city", "inter milan": "internazionale",
                "inter": "internazionale", "sporting cp": "sporting lisbon",
@@ -88,6 +91,8 @@ def competition(name):
         "uefa champions league": ("champions league", "uefa champions league"),
         "uefa europa league": ("europa league", "uefa europa league"),
         "uefa conference league": ("conference league", "uefa conference league", "uefa europa conference league"),
+        "la liga": ("la liga", "laliga"),
+        "primeira liga": ("primeira liga", "liga portugal"),
     }
     for canonical, variants in groups.items():
         if x in variants:
