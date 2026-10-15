@@ -40,6 +40,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: experiment/api-market-2-playable-odds
+      - name: Fetch read-only PitchAPI snapshots from main
+        if: steps.warsaw.outputs.run_scan == 'true'
+        run: |
+          git fetch --depth=1 origin main
+          mkdir -p data/pitchapi/prematch
       - name: Test experimental date planner and market filters
         if: steps.warsaw.outputs.run_scan == 'true'
         run: |
@@ -63,6 +68,13 @@ jobs:
           if [ -n "$START_DATE" ]; then args+=(--start "$START_DATE"); fi
           python tools/api_market_multiday_dates.py "${args[@]}" > /tmp/api_scan_dates.txt
           while IFS= read -r target; do
+            # Snapshot from main is optional and read-only. We do not alter scores.
+            if git show "origin/main:data/pitchapi/prematch/$target.json" > "data/pitchapi/prematch/$target.json" 2>/dev/null; then
+              echo "PitchAPI context available for $target"
+            else
+              rm -f "data/pitchapi/prematch/$target.json"
+              echo "PitchAPI context absent for $target; report stays unchanged"
+            fi
             echo "::group::API Market Scan $target"
             if python tools/api_national_today_prefetch.py "$target" &&
                python tools/api_market_scan.py "$target" &&
