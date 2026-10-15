@@ -45,6 +45,13 @@ jobs:
         run: |
           git fetch --depth=1 origin main:refs/remotes/origin/main
           mkdir -p data/pitchapi/prematch
+      - name: Prepare read-only PitchAPI goal commentary
+        if: steps.warsaw.outputs.run_scan == 'true'
+        run: |
+          # Import ONLY standalone, scoring-free context helpers from main.
+          for helper in pitchapi_xg_lab.py pitchapi_prematch_context.py pitchapi_market_validation.py; do
+            git show "origin/main:tools/$helper" > "tools/$helper"
+          done
       - name: Test experimental date planner and market filters
         if: steps.warsaw.outputs.run_scan == 'true'
         run: |
