@@ -20,6 +20,25 @@ jobs:
           python-version: '3.11'
       - name: Run API-free recovery tests
         run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar -v
+      - name: Verify calendar gate on missing inputs
+        run: |
+          mkdir -p reports/kb21_legacy
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          from pathlib import Path
+          d = datetime.now(ZoneInfo('Europe/Warsaw')).date().isoformat()
+          Path('reports/kb21_legacy/calendar-input.json').write_text(json.dumps({'date': d, 'fixtures': []}), encoding='utf-8')
+          PY
+          python -m tools.kb21_legacy_calendar reports/kb21_legacy/calendar-input.json --output reports/kb21_legacy/calendar-gate.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result = json.loads(Path('reports/kb21_legacy/calendar-gate.json').read_text(encoding='utf-8'))
+          assert result['status'] == 'BLOCKED', 'Calendar gate unexpectedly allowed missing fixtures'
+          print('Safety check OK: missing calendar remains BLOCKED')
+          PY
       - name: Generate safe no-data diagnostic
         run: |
           mkdir -p reports/kb21_legacy
@@ -35,5 +54,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: kb21-legacy-api-free-diagnostic
-          path: reports/kb21_legacy/diagnostic.md
+          path: |
+            reports/kb21_legacy/diagnostic.md
+            reports/kb21_legacy/calendar-gate.json
           retention-days: 30
