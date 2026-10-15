@@ -1,10 +1,10 @@
 {
   "api_football_fixtures": 8,
   "pitchapi_fixtures": 52,
-  "matched": 5,
-  "usable_for_historical_calibration": 5,
+  "matched": 8,
+  "usable_for_historical_calibration": 8,
   "score_mismatches": 0,
-  "unmatched_api_football": 3,
+  "unmatched_api_football": 0,
   "matched_rows": [
     {
       "api_fixture_id": 1550137,
@@ -107,6 +107,81 @@
       "issue": null
     },
     {
+      "api_fixture_id": 1557420,
+      "pitch_match_id": "m_37OokP",
+      "home": "Coventry",
+      "away": "Newcastle",
+      "league": "Premier League",
+      "confidence": 1.0,
+      "score_agrees": true,
+      "api_goals": {
+        "home": 4,
+        "away": 1
+      },
+      "pitch_goals": {
+        "home": 4,
+        "away": 1
+      },
+      "api_home_shots": 9,
+      "api_away_shots": 19,
+      "pitch_home_shots": 9,
+      "pitch_away_shots": 19,
+      "xg_home": 1.42,
+      "xg_away": 1.86,
+      "usable_for_historical_calibration": true,
+      "issue": null
+    },
+    {
+      "api_fixture_id": 1570407,
+      "pitch_match_id": "m_2Nuzb0",
+      "home": "Levante",
+      "away": "Sevilla",
+      "league": "La Liga",
+      "confidence": 1.0,
+      "score_agrees": true,
+      "api_goals": {
+        "home": 3,
+        "away": 3
+      },
+      "pitch_goals": {
+        "home": 3,
+        "away": 3
+      },
+      "api_home_shots": 20,
+      "api_away_shots": 18,
+      "pitch_home_shots": 20,
+      "pitch_away_shots": 18,
+      "xg_home": 2.21,
+      "xg_away": 2.52,
+      "usable_for_historical_calibration": true,
+      "issue": null
+    },
+    {
+      "api_fixture_id": 1575514,
+      "pitch_match_id": "m_3jkrkt",
+      "home": "Famalicao",
+      "away": "Alverca",
+      "league": "Primeira Liga",
+      "confidence": 1.0,
+      "score_agrees": true,
+      "api_goals": {
+        "home": 1,
+        "away": 4
+      },
+      "pitch_goals": {
+        "home": 1,
+        "away": 4
+      },
+      "api_home_shots": 13,
+      "api_away_shots": 14,
+      "pitch_home_shots": 13,
+      "pitch_away_shots": 14,
+      "xg_home": 0.37,
+      "xg_away": 2.89,
+      "usable_for_historical_calibration": true,
+      "issue": null
+    },
+    {
       "api_fixture_id": 1584423,
       "pitch_match_id": "m_0v4NPK",
       "home": "Eyüpspor",
@@ -132,33 +207,13 @@
       "issue": null
     }
   ],
-  "unresolved": [
-    {
-      "api_fixture_id": 1557420,
-      "reason": "no_high_confidence_match",
-      "home": "Coventry",
-      "away": "Newcastle"
-    },
-    {
-      "api_fixture_id": 1570407,
-      "reason": "no_high_confidence_match",
-      "home": "Levante",
-      "away": "Sevilla"
-    },
-    {
-      "api_fixture_id": 1575514,
-      "reason": "no_high_confidence_match",
-      "home": "Famalicao",
-      "away": "Alverca"
-    }
-  ],
+  "unresolved": [],
   "unmatched_pitchapi_ids": [
     "m_2l8kWD",
     "m_33JGiW",
     "m_0ky8L6",
     "m_13BbO6",
     "m_3Sc5yF",
-    "m_37OokP",
     "m_3saSPO",
     "m_3gs4Ja",
     "m_1z4O1c",
@@ -188,11 +243,9 @@
     "m_4IjfLC",
     "m_0lg9Pu",
     "m_0sFgiJ",
-    "m_2Nuzb0",
     "m_3CXI62",
     "m_3k4755",
     "m_4UFswH",
-    "m_3jkrkt",
     "m_1LTGYL",
     "m_3hXpy9",
     "m_0p5OMv",
