@@ -53,6 +53,13 @@ def report(payload, cfg):
              f"Odrzucenia: {json.dumps(reasons, ensure_ascii=False)}.",
              "STS i Superbet: brak notowania oznacza niepotwierdzone, nie niedostępne.",
              "Ocena /100 nie jest skalibrowanym prawdopodobieństwem.", ""]
+    # PitchAPI review is optional. Only annotated historic evidence is added
+    # to the display; original score, ranking, odds and selections stay intact.
+    try:
+        from pitchapi_market_validation import load_snapshot, review_position
+        xg_snapshot = load_snapshot(str(payload.get('date')))
+    except ImportError:
+        xg_snapshot, review_position = None, None
     groups = {}
     for item in positions:
         groups.setdefault(str(item.get("fixture_id")), []).append(item)
@@ -64,6 +71,12 @@ def report(payload, cfg):
             best = item["best_quote"]
             fmt = lambda x: f"{x:.2f}" if x is not None else "niepotwierdzone"
             selection = str(item.get("selection", "")).replace("|", "\\|")
+            if review_position is not None:
+                review = review_position(item, xg_snapshot)
+                if review and review["status"] not in ("no_data", "insufficient"):
+                    tag = {"favors":"historia okazji sprzyja", "cautions":"OSTROZNIE: historia okazji ostrzega",
+                           "mixed":"historia okazji bez wyraźnego sygnału"}[review["status"]]
+                    selection += f" — PitchAPI: {tag} (poglądowo, ocena bez zmian)"
             lines.append(f"| {selection} | {item['final_assessment_pct']:.1f} | {best['odd']:.2f} ({best['bookmaker']}) | {fmt(item['sts_quote'])} | {fmt(item['superbet_quote'])} |")
         lines.append("")
     return "\n".join(lines), {"candidate_count":len(payload.get("background_candidates") or []),"published_count":len(positions),"rejections":reasons}
