@@ -1,0 +1,37 @@
+name: KB21 legacy recovery (no API)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/kb21_legacy_report.py'
+      - 'tests/test_kb21_legacy_report.py'
+      - '.github/workflows/kb21-legacy-recovery.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run API-free recovery tests
+        run: python -m unittest tests.test_kb21_legacy_report -v
+      - name: Generate safe no-data diagnostic
+        run: |
+          mkdir -p reports/kb21_legacy
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          from pathlib import Path
+          d = datetime.now(ZoneInfo('Europe/Warsaw')).date().isoformat()
+          Path('reports/kb21_legacy/input.json').write_text(json.dumps({'date': d, 'candidates': []}), encoding='utf-8')
+          PY
+          python -m tools.kb21_legacy_report reports/kb21_legacy/input.json --output reports/kb21_legacy/diagnostic.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kb21-legacy-api-free-diagnostic
+          path: reports/kb21_legacy/diagnostic.md
+          retention-days: 30
