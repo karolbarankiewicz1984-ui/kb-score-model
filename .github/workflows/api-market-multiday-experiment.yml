@@ -23,17 +23,31 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
-      - name: Check Warsaw schedule (DST-aware)
+      - name: Check Warsaw schedule (DST-aware and GitHub-delay-safe)
         id: warsaw
         env:
           EVENT_NAME: ${{ github.event_name }}
+          CRON_SLOT: ${{ github.event.schedule }}
+        shell: bash
         run: |
+          set -euo pipefail
           if [ "$EVENT_NAME" = 'schedule' ]; then
-            hour=$(TZ=Europe/Warsaw date +%H)
-            if [ "$hour" != '10' ]; then
+            # Use the scheduled UTC slot, NOT the actual execution hour: GitHub
+            # may delay scheduled jobs by an hour or more. Check DST at the
+            # nominal time to run exactly one of the two UTC slots per day.
+            case "$CRON_SLOT" in
+              '0 8 * * *') UTC_HOUR='08' ;;
+              '0 9 * * *') UTC_HOUR='09' ;;
+              *) echo "::error::Unexpected scheduler slot: $CRON_SLOT"; exit 1 ;;
+            esac
+            UTC_DATE=$(date -u +%F)
+            LOCAL_HOUR=$(TZ=Europe/Warsaw date -d "$UTC_DATE $UTC_HOUR:00 UTC" +%H)
+            if [ "$LOCAL_HOUR" != '10' ]; then
+              echo "::notice::Opposite DST slot skipped by design: $CRON_SLOT"
               echo 'run_scan=false' >> "$GITHUB_OUTPUT"
               exit 0
             fi
+            echo "::notice::Nominal 10:00 Warsaw slot accepted even when GitHub launches late."
           fi
           echo 'run_scan=true' >> "$GITHUB_OUTPUT"
       - name: Check out experimental scan code
@@ -75,6 +89,7 @@ jobs:
           args=(--days "${DAYS:-3}")
           if [ -n "$START_DATE" ]; then args+=(--start "$START_DATE"); fi
           python tools/api_market_multiday_dates.py "${args[@]}" > /tmp/api_scan_dates.txt
+          failed_days=0
           while IFS= read -r target; do
             # Snapshot from main is optional and read-only. We do not alter scores.
             if git show "origin/main:data/pitchapi/prematch/$target.json" > "data/pitchapi/prematch/$target.json" 2>/dev/null; then
@@ -94,10 +109,15 @@ jobs:
               printf '{"date":"%s","status":"ok"}\n' "$target" > "reports/api_market_scan/multiday_status/$target.json"
             else
               printf '{"date":"%s","status":"error","reason":"Scan failed; see logs"}\n' "$target" > "reports/api_market_scan/multiday_status/$target.json"
-              echo "::warning::Scan failed for $target"
+              echo "::error::Scan failed for $target; see logs and dated status JSON."
+              failed_days=$((failed_days + 1))
             fi
             echo "::endgroup::"
           done < /tmp/api_scan_dates.txt
+          if [ "$failed_days" -gt 0 ]; then
+            echo "::error::$failed_days of ${DAYS:-3} dates failed. Workflow marked failed; available reports are still uploaded."
+            exit 1
+          fi
       - name: Upload dated reports and statuses
         if: always() && steps.warsaw.outputs.run_scan == 'true'
         uses: actions/upload-artifact@v4
