@@ -15,6 +15,7 @@ jobs:
     env:
       API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
       PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: "${{ github.workspace }}:${{ github.workspace }}/tools"
     steps:
       - uses: actions/checkout@v4
       - name: Check API credential
@@ -31,6 +32,10 @@ jobs:
         run: python tools/api_market_report_diversify.py 2026-10-12
       - name: Install PDF renderer
         run: python -m pip install --disable-pip-version-check "reportlab>=4,<5"
+      - name: Check renderer imports in direct execution mode
+        run: |
+          python -c 'from tools.pitchapi_prematch_context import lookup_context; from tools.pitchapi_market_validation import review_position'
+          python tools/render_api_market_pdf.py --help > /dev/null
       - name: Render test PDF for 2026-10-12
         run: python tools/render_api_market_pdf.py 2026-10-12 --source data/api_football/market_scan/2026-10-12.json --output /tmp/API_MARKET_TEST_2026-10-12.pdf
       - name: Upload diagnostic outputs without modifying production data
