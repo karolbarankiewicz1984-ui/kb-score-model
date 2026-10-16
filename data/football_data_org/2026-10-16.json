@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-16",
+  "provider": "football-data.org",
+  "provider_endpoint": "https://api.football-data.org/v4/matches",
+  "provider_ids_are_not_api_football_ids": true,
+  "fixtures": [
+    {
+      "provider_match_id": 558872,
+      "home_team_id": 673,
+      "away_team_id": 670,
+      "home_team": "SC Heerenveen",
+      "away_team": "SBV Excelsior",
+      "kickoff_utc": "2026-10-16T18:00:00Z",
+      "competition_code": "DED",
+      "competition": "Eredivisie",
+      "status": "TIMED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 565828,
+      "home_team_id": 19,
+      "away_team_id": 1,
+      "home_team": "Eintracht Frankfurt",
+      "away_team": "1. FC Köln",
+      "kickoff_utc": "2026-10-16T18:30:00Z",
+      "competition_code": "BL1",
+      "competition": "Bundesliga",
+      "status": "TIMED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 559661,
+      "home_team_id": 535,
+      "away_team_id": 511,
+      "home_team": "Le Mans FC",
+      "away_team": "Toulouse FC",
+      "kickoff_utc": "2026-10-16T18:45:00Z",
+      "competition_code": "FL1",
+      "competition": "Ligue 1",
+      "status": "TIMED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 558573,
+      "home_team_id": 470,
+      "away_team_id": 471,
+      "home_team": "Frosinone Calcio",
+      "away_team": "US Sassuolo Calcio",
+      "kickoff_utc": "2026-10-16T18:45:00Z",
+      "competition_code": "SA",
+      "competition": "Serie A",
+      "status": "TIMED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 564716,
+      "home_team_id": 560,
+      "away_team_id": 88,
+      "home_team": "RC Deportivo La Coruña",
+      "away_team": "Levante UD",
+      "kickoff_utc": "2026-10-16T19:00:00Z",
+      "competition_code": "PD",
+      "competition": "Primera Division",
+      "status": "TIMED",
+      "source_url": null
+    },
+    {
+      "provider_match_id": 561883,
+      "home_team_id": 328,
+      "away_team_id": 76,
+      "home_team": "Burnley FC",
+      "away_team": "Wolverhampton Wanderers FC",
+      "kickoff_utc": "2026-10-16T19:00:00Z",
+      "competition_code": "ELC",
+      "competition": "Championship",
+      "status": "TIMED",
+      "source_url": null
+    }
+  ],
+  "requested_competitions": [
+    "ELC",
+    "PL",
+    "CL",
+    "EC",
+    "FL1",
+    "BL1",
+    "SA",
+    "DED",
+    "PPL",
+    "PD",
+    "WC"
+  ],
+  "diagnostics": {
+    "provider_matches_in_window": 41,
+    "skipped_incomplete": 0,
+    "skipped_other_warsaw_dates": 35,
+    "selected_local_date": 6,
+    "request_window": {
+      "dateFrom": "2026-10-15",
+      "dateTo": "2026-10-18",
+      "competitions": "ELC,PL,CL,EC,FL1,BL1,SA,DED,PPL,PD,WC"
+    }
+  },
+  "status": "INDEPENDENT_SNAPSHOT_UNMATCHED",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "register_writes": false
+}
