@@ -6,6 +6,7 @@ import math
 import sys
 from collections import Counter
 from pathlib import Path
+from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "config/api_market_playable_experiment.json"
@@ -45,6 +46,50 @@ def evaluate(payload, cfg):
     accepted.sort(key=lambda x: (-x["final_assessment_pct"], -float(x.get("api_pure_pct") or 0), str(x.get("fixture_id")), str(x.get("selection"))))
     return accepted, dict(reasons)
 
+def export_position(item, target_date):
+    """Machine-readable PREMATCH record for the independent MULTIMODEL bridge.
+
+    A quoted price from the API is not independently verified as a live quote
+    at STS or Superbet; no model scoring or production selections are changed.
+    """
+    best = item["best_quote"]
+    matching = [q for q in ((item.get("market_data") or {}).get("quotes") or [])
+                if str(q.get("bookmaker") or "").strip() == best["bookmaker"]
+                and q.get("selected_odd") == best["odd"]]
+    quoted = matching[0] if matching else {}
+    return {
+        "date": target_date,
+        "fixture_id": item.get("fixture_id"),
+        "home": item.get("home"),
+        "away": item.get("away"),
+        "kickoff": item.get("kickoff"),
+        "competition": item.get("competition"),
+        "market": item.get("market"),
+        "market_scope": item.get("market_scope"),
+        "team_side": item.get("team_side"),
+        "team_id": item.get("team_id"),
+        "bet_id": item.get("bet_id"),
+        "line": item.get("line"),
+        "direction": item.get("direction"),
+        "settlement_period": item.get("settlement_period", "regulation_time"),
+        "selection": item.get("selection"),
+        "api_pure_pct": item.get("api_pure_pct"),
+        "final_assessment_pct": item.get("final_assessment_pct"),
+        "final_status": item.get("final_status"),
+        "samples": item.get("samples"),
+        "best_quote": {
+            "bookmaker": best["bookmaker"],
+            "odd": best["odd"],
+            "provider_updated_at": quoted.get("provider_updated_at"),
+            "bookmaker_id": quoted.get("bookmaker_id"),
+        },
+        "sts_quote": item.get("sts_quote"),
+        "superbet_quote": item.get("superbet_quote"),
+        "quote_source": "API-Football archived prematch bookmaker quotes",
+        "verified_live_in_polish_bookmaker": False,
+    }
+
+
 def report(payload, cfg):
     positions, reasons = evaluate(payload, cfg)
     lines = [f"# API Market Scan — shadow playable — {payload.get('date', 'unknown')}", "",
@@ -79,7 +124,15 @@ def report(payload, cfg):
                     selection += f" — PitchAPI: {tag} (poglądowo, ocena bez zmian)"
             lines.append(f"| {selection} | {item['final_assessment_pct']:.1f} | {best['odd']:.2f} ({best['bookmaker']}) | {fmt(item['sts_quote'])} | {fmt(item['superbet_quote'])} |")
         lines.append("")
-    return "\n".join(lines), {"candidate_count":len(payload.get("background_candidates") or []),"published_count":len(positions),"rejections":reasons}
+    audit = {"candidate_count":len(payload.get("background_candidates") or []),
+             "published_count":len(positions),"rejections":reasons,
+             "schema":"api-market-playable-export-v2",
+             "date":payload.get("date"),
+             "generated_at_utc":datetime.now(timezone.utc).isoformat(),
+             "positions":[export_position(item, payload.get("date")) for item in positions],
+             "quote_verification":"API snapshot only; recheck exact market and live bookmaker quote before PLAY",
+             "model_score_is_probability":False}
+    return "\n".join(lines), audit
 
 def main():
     date = sys.argv[1] if len(sys.argv) > 1 else None
@@ -93,7 +146,7 @@ def main():
     dest.mkdir(parents=True, exist_ok=True)
     (dest / f"API_MARKET_SCAN_PLAYABLE_{date}.md").write_text(markdown, encoding="utf-8")
     (dest / f"API_MARKET_SCAN_PLAYABLE_{date}.json").write_text(json.dumps(audit, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
-    print(json.dumps(audit, ensure_ascii=False))
+    print(json.dumps({"date":audit["date"],"candidate_count":audit["candidate_count"],"published_count":audit["published_count"],"rejections":audit["rejections"],"position_export":"complete"}, ensure_ascii=False))
 
 if __name__ == "__main__":
     main()
