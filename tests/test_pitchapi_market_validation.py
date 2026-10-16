@@ -33,6 +33,21 @@ class PitchMarketTests(unittest.TestCase):
     def test_total_goals_review(self):
         r=review_position(bet(market_scope='match',line=2.5),snapshot())
         self.assertIsNotNone(r['opportunity_index'])
+    def test_production_utc_kickoff_field_is_reviewed(self):
+        # The published API Market renderer receives kickoff_utc, not kickoff.
+        position = bet()
+        position['kickoff_utc'] = position.pop('kickoff')
+        r = review_position(position, snapshot())
+        self.assertEqual(r['status'], 'favors')
+        self.assertEqual(r['opportunity_index'], 2.3)
+
+    def test_production_utc_kickoff_never_accepts_postmatch_snapshot(self):
+        position = bet()
+        position['kickoff_utc'] = position.pop('kickoff')
+        context = snapshot()
+        context['snapshot_utc'] = '2026-10-16T20:00:00Z'
+        self.assertEqual(review_position(position, context)['status'], 'no_data')
+
     def test_no_cards_corners_fouls_or_shots(self):
         for market in ('yellow','corners','fouls','shots','shots_on_goal'):
             self.assertIsNone(review_position(bet(market=market),snapshot()))

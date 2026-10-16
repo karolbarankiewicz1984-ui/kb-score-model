@@ -52,11 +52,14 @@ def review_position(position, snapshot, *, minimum=4, margin=0.75):
         return None  # Do NOT extrapolate to corners, fouls, cards or saves.
     if not snapshot or snapshot.get('schema') != 'pitchapi-prematch-context-v1':
         return {'status':'no_data', 'label':'PitchAPI: brak danych historycznych.'}
-    kickoff, captured = parse_utc(position.get('kickoff')), parse_utc(snapshot.get('snapshot_utc'))
+    # API Market production records use kickoff_utc. Older records used kickoff.
+    # Accept either without changing the original selection or its rating.
+    kickoff_value = position.get('kickoff_utc') or position.get('kickoff')
+    kickoff, captured = parse_utc(kickoff_value), parse_utc(snapshot.get('snapshot_utc'))
     if kickoff is None or captured is None or captured >= kickoff:
         return {'status':'no_data','label':'PitchAPI: brak danych sprzed rozpoczęcia meczu.'}
     match = lookup_context(snapshot, position.get('home'), position.get('away'),
-                           position.get('competition'), position.get('kickoff'))
+                           position.get('competition'), kickoff_value)
     if match is None:
         return {'status':'no_data','label':'PitchAPI: brak jednoznacznie dopasowanego meczu.'}
     home, away = match.get('home_recent') or {}, match.get('away_recent') or {}
