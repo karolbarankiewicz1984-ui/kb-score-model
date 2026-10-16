@@ -34,6 +34,35 @@ class PlayableShadowTests(unittest.TestCase):
     def test_invalid_prices(self):
         item = self.item([{"under_odd":float("nan")},{"under_odd":True},{"under_odd":1.3}])
         self.assertEqual(len(eligible_quotes(item)), 1)
+    def test_export_has_exact_market_and_quote_timestamp(self):
+        from api_market_playable_shadow import export_position
+        item=self.item([{"bookmaker":"Betano","under_odd":1.35,
+                         "selected_odd":1.35,
+                         "provider_updated_at":"2026-10-16T08:15:00+00:00",
+                         "bookmaker_id":32}])
+        item.update(best_quote={"bookmaker":"Betano","odd":1.35},
+                    market="corners",market_scope="team",team_side="home",
+                    bet_id=57,line=6.5,kickoff="2026-10-17T18:00:00+02:00")
+        exported=export_position(item,"2026-10-17")
+        self.assertEqual(exported["line"],6.5)
+        self.assertEqual(exported["market"],"corners")
+        self.assertEqual(exported["direction"],"under")
+        self.assertEqual(exported["best_quote"]["provider_updated_at"],"2026-10-16T08:15:00+00:00")
+        self.assertFalse(exported["verified_live_in_polish_bookmaker"])
+
+    def test_report_json_includes_full_positions_not_only_counts(self):
+        one=self.item([{"bookmaker":"Betano","under_odd":1.23,
+                        "selected_odd":1.23,
+                        "provider_updated_at":"2026-10-16T08:10:00+00:00"}])
+        one.update(market="fouls",market_scope="match",line=23.5,direction="under")
+        _, exported=report({"date":"2026-10-17","background_candidates":[one]},self.cfg)
+        self.assertEqual(exported["published_count"],1)
+        self.assertEqual(len(exported["positions"]),1)
+        self.assertEqual(exported["positions"][0]["selection"],"under 2.5")
+        self.assertEqual(exported["positions"][0]["best_quote"]["odd"],1.23)
+        self.assertEqual(exported["schema"],"api-market-playable-export-v2")
+        self.assertFalse(exported["model_score_is_probability"])
+
     def test_report(self):
         markdown, audit = report({"date":"2026-10-08","background_candidates":[self.item([{"bookmaker":"X","under_odd":1.21}])]},self.cfg)
         self.assertIn("niepotwierdzone", markdown)
