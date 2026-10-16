@@ -1,8 +1,9 @@
 name: API Market Scan multi-day experiment
 on:
   schedule:
-    # 11:30 Warsaw: 09:30 UTC in summer, 10:30 UTC in winter.
-    - cron: '30 9,10 * * *'
+    # Scan starts 10:00 Warsaw (08:00 UTC summer / 09:00 UTC winter).
+    # MULTIMODEL ChatGPT PDF delivery remains 11:30 Warsaw; 90-min headroom.
+    - cron: '0 8,9 * * *'
   workflow_dispatch:
     inputs:
       start_date:
@@ -29,7 +30,7 @@ jobs:
         run: |
           if [ "$EVENT_NAME" = 'schedule' ]; then
             hour=$(TZ=Europe/Warsaw date +%H)
-            if [ "$hour" != '11' ]; then
+            if [ "$hour" != '10' ]; then
               echo 'run_scan=false' >> "$GITHUB_OUTPUT"
               exit 0
             fi
