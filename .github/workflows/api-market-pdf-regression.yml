@@ -1,0 +1,51 @@
+name: API Market PDF regression (read-only)
+on:
+  pull_request:
+    paths:
+      - "tools/render_api_market_pdf.py"
+      - "tools/pitchapi_market_validation.py"
+      - "tools/pitchapi_prematch_context.py"
+      - "tests/test_pitchapi_market_validation.py"
+      - ".github/workflows/api-market-scan.yml"
+      - ".github/workflows/api-market-test-2026-10-12.yml"
+      - ".github/workflows/api-market-pdf-regression.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pdf-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: "${{ github.workspace }}:${{ github.workspace }}/tools"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF dependencies
+        run: python -m pip install --disable-pip-version-check 'reportlab>=4,<5'
+      - name: Validate PitchAPI cutoff and no-score mutation
+        run: python -m unittest tests.test_pitchapi_market_validation tests.test_pitchapi_prematch_context -v
+      - name: Regression for exact failure mode (direct module imports)
+        run: |
+          python -c 'from tools.pitchapi_prematch_context import lookup_context; from tools.pitchapi_market_validation import review_position; print("All imports OK")'
+          python tools/render_api_market_pdf.py --help > /dev/null
+      - name: Render actual frozen historical API Market report offline
+        run: |
+          test -s data/api_football/market_scan/2026-10-16.json
+          test -s data/pitchapi/prematch/2026-10-16.json
+          python tools/render_api_market_pdf.py 2026-10-16 \
+            --source data/api_football/market_scan/2026-10-16.json \
+            --output /tmp/API_MARKET_SMOKE_2026-10-16.pdf
+          python - <<'PY'
+          from pathlib import Path
+          path=Path('/tmp/API_MARKET_SMOKE_2026-10-16.pdf')
+          assert path.is_file() and path.stat().st_size > 1000, "PDF missing or empty"
+          assert path.read_bytes().startswith(b'%PDF-'), "File is not a valid PDF"
+          print("Verified PDF",path,"bytes",path.stat().st_size)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-market-pdf-regression
+          path: /tmp/API_MARKET_SMOKE_2026-10-16.pdf
+          if-no-files-found: ignore
