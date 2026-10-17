@@ -9,6 +9,7 @@ import datetime as dt
 import json
 import re
 from pathlib import Path
+from html.parser import HTMLParser
 from urllib.request import Request, urlopen
 
 from tools.kb21_official_press_fixtures import _lines
@@ -18,11 +19,43 @@ MAX_HTML = 3_000_000
 ROUND_MARK = re.compile(r"^Jupiler Pro League\s*[·•]\s*S(\d{1,2})$", re.I)
 
 
+class OrganizerBlockText(HTMLParser):
+    """Fallback when visible schedule text is in divs rather than paragraphs."""
+    BLOCK_TAGS = {"article", "section", "div", "p", "li", "h1", "h2", "h3", "h4", "br"}
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts = []
+        self.muted = []
+    def handle_starttag(self, tag, attrs):
+        if tag in {"script", "style", "noscript", "svg"}:
+            self.muted.append(tag)
+        elif tag in self.BLOCK_TAGS and not self.muted:
+            self.parts.append("\n")
+    def handle_endtag(self, tag):
+        if self.muted and self.muted[-1] == tag:
+            self.muted.pop()
+        elif tag in self.BLOCK_TAGS and not self.muted:
+            self.parts.append("\n")
+    def handle_data(self, value):
+        if not self.muted:
+            self.parts.append(value)
+
+
+def _block_lines(html):
+    parser = OrganizerBlockText()
+    parser.feed(html)
+    return [" ".join(line.split()) for line in "".join(parser.parts).splitlines()
+            if line.strip()]
+
+
 def parse(html):
     if not isinstance(html, str):
         raise ValueError("Expected organizer HTML")
     rows, errors = [], []
     lines = _lines(html)
+    if not any(ROUND_MARK.fullmatch(line) for line in lines):
+        # A lot of JPL cards use nested divs, not paragraph tags.
+        lines = _block_lines(html)
     if not any("Jupiler Pro League" in line for line in lines):
         return [], ["JPL_PAGE_HEADING_MISSING"]
     rounds = set()
@@ -64,6 +97,7 @@ def collect(days, opener=urlopen):
         raise ValueError("Expected 1-3 distinct Warsaw dates")
     days = sorted(dt.date.fromisoformat(day).isoformat() for day in days)
     rows, errors = [], []
+    fetch_diagnostics = {}
     try:
         req = Request(SOURCE, headers={
             "Accept": "text/html",
@@ -73,13 +107,22 @@ def collect(days, opener=urlopen):
             payload = response.read(MAX_HTML + 1)
         if len(payload) > MAX_HTML:
             raise ValueError("JPL HTML exceeds maximum size")
-        rows, errors = parse(payload.decode("utf-8"))
+        html = payload.decode("utf-8")
+        fetch_diagnostics = {
+            "html_bytes": len(payload),
+            "jpl_text_occurrences": len(re.findall(r"Jupiler Pro League", html, re.I)),
+            "selected_round_literal_occurrences": len(re.findall(r"Jupiler Pro League.{0,12}S[0-9]+", html, re.I)),
+            "paragraph_text_lines": len(_lines(html)),
+            "block_text_lines": len(_block_lines(html)),
+        }
+        rows, errors = parse(html)
     except Exception as exc:
         errors = [f"FETCH_OR_PARSE_FAILED: {type(exc).__name__}: {exc}"]
     return {
         "schema": "kb21-official-belgium-selected-round-v1",
         "league_id": "bel.1", "days": days, "official_url": SOURCE,
         "captured_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "fetch_diagnostics": fetch_diagnostics,
         "undated_fixtures": rows,
         # Empty by-day buckets mean DATE UNKNOWN, never verified zero.
         "by_day": {d: [] for d in days},
@@ -110,7 +153,9 @@ def main():
                     encoding="utf-8")
     print(f"Belgium JPL official selected rounds: {report['selected_rounds']}; "
           f"visible undated games: {len(report['undated_fixtures'])}; "
-          f"errors: {len(report['errors'])}; no dates approved; CALENDAR BLOCKED")
+          f"errors: {report['errors'][:3]}; "
+          f"structure: {report['fetch_diagnostics']}; "
+          "no dates approved; CALENDAR BLOCKED")
 
 
 if __name__ == "__main__":
