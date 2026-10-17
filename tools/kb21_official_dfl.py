@@ -67,18 +67,28 @@ def parse_table(html):
         if len(row) < 8:
             invalid_rows.append({"reason": "INCOMPLETE_CELLS", "row": row[:9]})
             continue
+        # Bundesliga Media website groups 'Day | Date' into ONE HTML cell.
+        # The separate-cell layout also occurs in exported fixture tables.
+        combined_day_and_date = (
+            len(row) == 8 and "|" in row[1]
+        )
+        date_text = row[1].rsplit("|", 1)[-1].strip() if combined_day_and_date else row[2]
+        utc_cell = row[3] if combined_day_and_date else row[4]
+        home = row[4] if combined_day_and_date else row[5]
+        away = row[5] if combined_day_and_date else row[6]
+        edition = row[6] if combined_day_and_date else row[7]
         try:
             matchday = int(row[0])
-            fixture_date = dt.datetime.strptime(row[2], "%d-%b-%Y").date()
-            time_utc = dt.time.fromisoformat(row[4])
+            fixture_date = dt.datetime.strptime(date_text, "%d-%b-%Y").date()
+            time_utc = dt.time.fromisoformat(utc_cell)
             kickoff = dt.datetime.combine(fixture_date, time_utc, dt.timezone.utc)
         except (ValueError, TypeError):
             invalid_rows.append({"reason": "INVALID_DATE_OR_UTC", "row": row[:9]})
             continue
-        if not 1 <= matchday <= 34 or not row[5] or not row[6]:
+        if not 1 <= matchday <= 34 or not home or not away:
             invalid_rows.append({"reason": "INVALID_MATCHDAY_OR_TEAMS", "row": row[:9]})
             continue
-        key = (row[5], row[6], kickoff)
+        key = (home, away, kickoff)
         if key in seen:
             invalid_rows.append({"reason": "DUPLICATE_FIXTURE", "row": row[:9]})
             continue
@@ -86,12 +96,12 @@ def parse_table(html):
         records.append({
             "league_id": "ger.1",
             "matchday": matchday,
-            "home": row[5], "away": row[6],
+            "home": home, "away": away,
             "kickoff_utc": kickoff.isoformat(),
             "kickoff_warsaw": kickoff.astimezone(WARSAW).isoformat(),
             "date_warsaw": kickoff.astimezone(WARSAW).date().isoformat(),
-            "official_utc_cell": row[4],
-            "media_edition_match_type": row[7],
+            "official_utc_cell": utc_cell,
+            "media_edition_match_type": edition,
             "organizer_source": SOURCE,
         })
     return {
