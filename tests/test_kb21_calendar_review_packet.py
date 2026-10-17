@@ -290,5 +290,40 @@ class CalendarReviewPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "missing competition/day"):
             build(q, g, d, early_revisions=bad)
 
+    def test_real_zero_day_worklist_is_displayed_but_never_approved(self):
+        q, g, d = data()
+        day, league = DAYS[0], "eng.1"
+        # English league has a game on this mock day, so use an empty
+        # competition slot with no candidates: no fabrication of fixtures.
+        league = "esp.1"
+        official_row = next(x for x in g["days"][day]["competitions"]
+                            if x["league_id"] == league)
+        official_row["errors"].append("ZERO_MATCHES_NOT_CONFIRMED_BY_ORGANIZER")
+        item = {
+            "day": day, "league_id": league, "status": "NO_COMPLETE_OFFICIAL_DAY_EVIDENCE",
+            "action": "Review the complete official Spanish schedule",
+            "machine_zero_candidate_needs_human_review": False,
+            "automated_source_capture_utc": None,
+            "human_reviewer": None, "confirmed_zero_matches": None,
+            "full_day_checked": False, "calendar_gate": "BLOCKED",
+        }
+        report = {"schema": "kb21-zero-day-evidence-worklist-v1",
+                  "days": DAYS, "calendar_gate": "BLOCKED",
+                  "safe_to_publish_play": False, "rows": [item]}
+        got = build(q, g, d, zero_evidence=report)
+        self.assertEqual(got["totals"]["zero_day_review_cells"], 1)
+        self.assertIn("NIEPOTWIERDZONY DZIEŃ BEZ SPOTKAŃ", render(got))
+        self.assertFalse(got["safe_to_publish_play"])
+        item["human_reviewer"] = "made up"
+        with self.assertRaisesRegex(ValueError, "cannot sign"):
+            build(q, g, d, zero_evidence=report)
+        item["human_reviewer"] = None
+        item["machine_zero_candidate_needs_human_review"] = True
+        with self.assertRaisesRegex(ValueError, "False full-season"):
+            build(q, g, d, zero_evidence=report)
+        report["rows"] = []
+        with self.assertRaisesRegex(ValueError, "each formal"):
+            build(q, g, d, zero_evidence=report)
+
 if __name__ == "__main__":
     unittest.main()

@@ -40,6 +40,8 @@ on:
       - 'tools/kb21_official_source_seed.py'
       - 'tools/kb21_draft_progress.py'
       - 'tests/test_kb21_draft_progress.py'
+      - 'tools/kb21_zero_day_evidence.py'
+      - 'tests/test_kb21_zero_day_evidence.py'
       - 'tools/kb21_partial_official_hints.py'
       - 'tests/test_kb21_partial_official_hints.py'
       - 'tools/kb21_fpl_compare.py'
@@ -123,7 +125,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_official_knvb_results tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_uefa_qualifiers_cycle tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_draft_progress tests.test_kb21_partial_official_hints tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_calendar_review_packet tests.test_kb21_official_match_triage tests.test_kb21_pregame_vault tests.test_kb21_early_snapshot_revisions tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_official_knvb_results tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_uefa_qualifiers_cycle tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_draft_progress tests.test_kb21_zero_day_evidence tests.test_kb21_partial_official_hints tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_calendar_review_packet tests.test_kb21_official_match_triage tests.test_kb21_pregame_vault tests.test_kb21_early_snapshot_revisions tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -580,6 +582,20 @@ jobs:
               if source_path.is_file():
                   partial_cmd += [flag, str(source_path)]
           subprocess.run(partial_cmd, check=True)
+          # The remaining zero-game blockers are exactly the empty organizer
+          # day/league cells: classify each using real independent candidates
+          # and the complete FPL season ONLY when a true pre-day capture.
+          # NEVER set confirmed_zero_matches or human review flags.
+          zero_cmd = [
+              'python', '-m', 'tools.kb21_zero_day_evidence',
+              'reports/kb21_legacy/crosschecked-queue.json',
+              'reports/kb21_legacy/official-inventory-all-sources-draft.json',
+              '--output-json', 'reports/kb21_legacy/zero-day-evidence-worklist.json',
+              '--output-md', 'reports/kb21_legacy/zero-day-evidence-worklist.md',
+          ]
+          if fpl_run.returncode == 0 and fpl_source.is_file():
+              zero_cmd += ['--fpl', str(fpl_source)]
+          subprocess.run(zero_cmd, check=True)
           # The 206 "remaining checks" repeatedly reported in the past were
           # from validating an EMPTY TEMPLATE despite official fixture facts
           # already being available in the UNSIGNED prepared draft.
@@ -647,6 +663,13 @@ jobs:
               '--comparisons-dir', 'reports/kb21_legacy',
               '--early-archive-compare', 'reports/kb21_legacy/early-official-vs-espn.json',
               '--early-archive-revisions', 'reports/kb21_legacy/early-official-revisions.json',
+              # A genuinely signed review (if supplied later) supersedes
+              # the unsigned source-draft zero backlog. Never demand that an
+              # old draft's blockers also appear in a newly signed inventory.
+              *(['--zero-evidence-worklist',
+                 'reports/kb21_legacy/zero-day-evidence-worklist.json']
+                if review_input.name == 'official-inventory-all-sources-draft.json'
+                else []),
               '--output-json', 'reports/kb21_legacy/calendar-review-packet.json',
               '--output-md', 'reports/kb21_legacy/calendar-review-packet.md',
           ], check=True)
@@ -727,6 +750,8 @@ jobs:
             reports/kb21_legacy/official-calendar-gate-audit.json
             reports/kb21_legacy/calendar-evidence-progress.json
             reports/kb21_legacy/calendar-evidence-progress.md
+            reports/kb21_legacy/zero-day-evidence-worklist.json
+            reports/kb21_legacy/zero-day-evidence-worklist.md
             reports/kb21_legacy/research-queue.json
             reports/kb21_legacy/review-shortlist.json
             reports/kb21_legacy/review-shortlist.md
