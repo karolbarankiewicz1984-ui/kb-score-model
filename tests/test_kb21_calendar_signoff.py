@@ -299,5 +299,33 @@ class CalendarSignoffTests(unittest.TestCase):
             validate(q, i)
 
 
+    def test_zero_game_day_retroactive_approval_rejected_even_in_legacy_file(self):
+        q, i = sample()
+        q["fixtures"] = []
+        i["days"]["2026-10-18"]["eng.1"]["fixtures"] = []
+        i["days"]["2026-10-18"]["eng.1"]["confirmed_zero_matches"] = True
+        # Valid signed zero-day review BEFORE day begins is allowed only
+        # as manual calendar evidence; never auto-PLAY.
+        valid = validate(q, i)
+        self.assertEqual(valid["calendar_gate"], "PASS_MANUAL")
+        self.assertFalse(valid["safe_to_publish_play"])
+        i["approval"]["approved_at"] = "2026-10-18T08:00:00+02:00"
+        late = validate(q, i)
+        self.assertEqual(late["calendar_gate"], "BLOCKED")
+        self.assertIn("FINAL_APPROVAL_AFTER_ZERO_DAY_START",
+                      " ".join(late["errors"]))
+
+    def test_zero_game_day_late_official_capture_blocks_even_with_early_approval(self):
+        q, i = sample()
+        q["fixtures"] = []
+        i["days"]["2026-10-18"]["eng.1"]["fixtures"] = []
+        i["days"]["2026-10-18"]["eng.1"]["confirmed_zero_matches"] = True
+        i["days"]["2026-10-18"]["bel.1"]["captured_at"] = (
+            "2026-10-18T08:00:00+02:00")
+        status = validate(q, i)
+        self.assertEqual(status["calendar_gate"], "BLOCKED")
+        self.assertIn("ZERO_DAY_ORGANIZER_CAPTURE_AFTER_DAY_START",
+                      " ".join(status["errors"]))
+
 if __name__ == "__main__":
     unittest.main()
