@@ -116,16 +116,57 @@ def collect(days, opener=urllib.request.urlopen, clock=None):
     }
 
 
+
+def render(report):
+    """Human-readable source availability, never a full-day fixture audit."""
+    lines = [
+        "# KB Score 2.1 — dostępność oficjalnych stron terminarzy",
+        "",
+        "**DIAGNOSTYKA / NO PLAY — Calendar Gate BLOCKED**",
+        "",
+        "Dni analizowane: " + ", ".join(report["days"]),
+        "HTTP 200 NIE oznacza potwierdzenia pełnej listy meczów.",
+        "Fragmentaryczny hash strony nie jest zatwierdzeniem przez organizatora.",
+        "",
+        "| Rozgrywki | Strona organizatora | HTTP | Stan | Czas sprawdzenia UTC |",
+        "|---|---|---:|---|---|",
+    ]
+    for row in report["sources"]:
+        url = row["organizer_url"]
+        lines.append(
+            f"| {row['league_id']} | [Oficjalny serwis]({url}) | "
+            f"{row['http_status'] if row['http_status'] is not None else 'BRAK'} | "
+            f"{row['status']} | {row['observed_at_utc'] or 'BRAK'} |"
+        )
+    lines.extend([
+        "",
+        "## Co dalej?",
+        "",
+        "Należy pobrać **konkretne listy meczów** dla dat z raportu, "
+        "zweryfikować pełny zakres rozgrywek, terminy zaległych spotkań, "
+        "rozbieżności i potwierdzone dni bez gier.",
+        "Dopiero podpisana kontrola może uzyskać PASS_MANUAL.",
+        "Ani sam odczyt HTTP, ani podobna liczba spotkań nie daje zgody na PLAY.",
+        "",
+    ])
+    return "\n".join(lines)
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("assessment_queue")
     p.add_argument("--output", required=True)
+    p.add_argument("--output-md")
     args = p.parse_args()
     queue = json.loads(Path(args.assessment_queue).read_text(encoding="utf-8"))
     report = collect(queue.get("days"))
     dest = Path(args.output)
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if args.output_md:
+        md = Path(args.output_md)
+        md.parent.mkdir(parents=True, exist_ok=True)
+        md.write_text(render(report), encoding="utf-8")
     print(f"KB21 official URL probes: {report['status_counts']}; no Calendar Gate approval")
 
 
