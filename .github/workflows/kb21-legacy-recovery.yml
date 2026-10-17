@@ -135,10 +135,10 @@ jobs:
                           '--snapshots-dir', 'data/football_data_org',
                           '--output-json', 'reports/kb21_legacy/calendar-coverage.json',
                           '--output-md', 'reports/kb21_legacy/calendar-coverage.md'], check=True)
+          import json
+          report = json.loads(Path('reports/kb21_legacy/crosschecked-queue.json').read_text(encoding='utf-8'))
           research = Path('data/kb21_official_research/2026-10-17_to_2026-10-19.json')
           if research.exists():
-              import json
-              report = json.loads(Path('reports/kb21_legacy/crosschecked-queue.json').read_text(encoding='utf-8'))
               official = json.loads(research.read_text(encoding='utf-8'))
               if set(official.get('date_scope', [])) == set(report.get('days', [])):
                   subprocess.run([
