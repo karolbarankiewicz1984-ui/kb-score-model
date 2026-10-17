@@ -23,7 +23,7 @@ ROLES = {
 }
 
 
-def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None):
+def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None, early_archive=None):
     if (not isinstance(queue, dict) or not isinstance(queue.get("days"), list)
             or not isinstance(queue.get("fixtures"), list)
             or not isinstance(gate, dict) or not isinstance(gate.get("days"), dict)
@@ -130,6 +130,34 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                or v.get("kickoff_evidence_validated_by_signoff") is not False
                for v in comparisons.values()):
             raise ValueError("Comparisons must remain diagnostic")
+    # The early organizer-vault comparison is a separate provenance claim,
+    # never a signature or a substitute for official full-day inspection.
+    early_by_key = {}
+    if early_archive is not None:
+        if (not isinstance(early_archive, dict)
+                or early_archive.get("schema")
+                != "kb21-earliest-kickoff-early-official-crosscheck-v1"
+                or early_archive.get("calendar_gate") != "BLOCKED"
+                or set(early_archive.get("days", [])) != set(days)
+                or not isinstance(early_archive.get("matches"), list)):
+            raise ValueError("Invalid early archive diagnostic report")
+        valid_ids = {(day, item["fixture_id"]) for (day, _), vals in fixtures.items()
+                     for item in vals}
+        for record in early_archive["matches"]:
+            if not isinstance(record, dict):
+                raise ValueError("Invalid early archive row")
+            key = record.get("day"), record.get("fixture_id")
+            if key not in valid_ids or key in early_by_key:
+                raise ValueError("Duplicate or unrecognized early archive fixture")
+            if (record.get("calendar_gate") != "BLOCKED"
+                    or record.get("prematch_clock_review_only") is not True):
+                raise ValueError("Early archive cannot approve a match")
+            if record.get("status") == "EARLY_SNAPSHOT_MATCHED_FOR_REVIEW":
+                earliest = _instant(day_windows[key[0]]["earliest_candidate_kickoff_utc"])
+                captured = _instant(record.get("capture_at_utc"))
+                if earliest is None or captured is None or captured >= earliest:
+                    raise ValueError("Early match claim missing valid pre-day capture")
+            early_by_key[key] = record
     rows, blockers = [], Counter()
     for day in days:
         for league in COMPETITIONS:
@@ -187,10 +215,13 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 priority = 2
             else:
                 priority = 3
-            if comparisons is not None:
-                for candidate in candidates:
-                    comparison = comparisons[(day, candidate["fixture_id"])]
-                    candidate["organizer_crosscheck"] = dict(comparison)
+            for candidate in candidates:
+                if comparisons is not None:
+                    candidate["organizer_crosscheck"] = dict(
+                        comparisons[(day, candidate["fixture_id"])])
+                if (day, candidate["fixture_id"]) in early_by_key:
+                    candidate["early_official_archive"] = dict(
+                        early_by_key[(day, candidate["fixture_id"])])
             rows.append({
                 "day": day, "league_id": league, "competition": COMPETITIONS[league],
                 "priority": priority, "organizer_url": url,
@@ -227,6 +258,10 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
             "partial_hint_league_days": sum(
                 x["partial_official_source_hints"] is not None for x in rows),
             "source_day_signoffs_from_packet": 0,
+            "early_official_archive_matches": sum(
+                item.get("early_official_archive", {}).get("status")
+                == "EARLY_SNAPSHOT_MATCHED_FOR_REVIEW"
+                for row in rows for item in row["fixtures"]),
             "formal_blocker_occurrences": sum(blockers.values()),
             "formal_blocker_types": dict(sorted(blockers.items())),
             "day_league_checks_after_first_kickoff": sum(
@@ -273,6 +308,8 @@ def render(packet):
         "Błędy formalne na poziomie rozgrywek: " + str(total["formal_blocker_occurrences"]),
         "Źródła ze wskazówkami bez zatwierdzonych godzin: " +
         str(total["partial_hint_league_days"]) + " kart rozgrywki/dzień",
+        "Wczesne archiwum: zgodne pary do kontroli (NIE zatwierdzone): " +
+        str(total["early_official_archive_matches"]),
         "Przekroczony początek pierwszego meczu (liga/dzień): " +
         str(total["day_league_checks_after_first_kickoff"]),
         "Dni z upływem pierwszego startu ESPN: " +
@@ -331,6 +368,15 @@ def render(packet):
                              + str(event["fixture"]) + " / " +
                              str(event["kickoff_source"]) +
                              " (niezatwierdzony czas organizatora)")
+                archive = event.get("early_official_archive")
+                if archive:
+                    lines.append("  - Archiwum oficjalne przed dniem meczu: " +
+                                 str(archive["status"]) + "; pobrano UTC: " +
+                                 str(archive.get("capture_at_utc") or "brak") +
+                                 "; godzina źródła: " +
+                                 str(archive.get("official_kickoff_from_early_capture")
+                                     or "brak") +
+                                 " — wyłącznie diagnostyka, NIE PLAY")
                 cross = event.get("organizer_crosscheck")
                 if cross:
                     lines.append("  - Porównanie organizatora: **" +
@@ -360,6 +406,7 @@ def main():
     p.add_argument("dashboard")
     p.add_argument("--partial-draft")
     p.add_argument("--comparisons-dir")
+    p.add_argument("--early-archive-compare")
     p.add_argument("--output-json", required=True)
     p.add_argument("--output-md", required=True)
     a = p.parse_args()
@@ -372,6 +419,8 @@ def main():
         comparisons=collect_match_comparisons(
             json.loads(Path(a.queue).read_text(encoding="utf-8")), a.comparisons_dir)
         if a.comparisons_dir else None,
+        early_archive=json.loads(Path(a.early_archive_compare).read_text(encoding="utf-8"))
+        if a.early_archive_compare else None,
     )
     for filename, value in (
         (a.output_json, json.dumps(obj, ensure_ascii=False, indent=2) + "\n"),

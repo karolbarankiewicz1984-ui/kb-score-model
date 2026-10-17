@@ -216,5 +216,31 @@ class CalendarReviewPacketTests(unittest.TestCase):
                          "DAY_KICKOFF_UNKNOWN_SIGNOFF_WINDOW_UNVERIFIABLE")
 
 
+    def test_early_official_archive_is_visible_without_signing_day(self):
+        q, g, d = data()
+        early = {
+            "schema": "kb21-earliest-kickoff-early-official-crosscheck-v1",
+            "days": DAYS, "calendar_gate": "BLOCKED",
+            "matches": [{
+                "day": DAYS[0], "fixture_id": "eng.1:111",
+                "status": "EARLY_SNAPSHOT_MATCHED_FOR_REVIEW",
+                "capture_at_utc": "2026-10-17T08:00:00+00:00",
+                "official_kickoff_from_early_capture": "2026-10-17T14:00:00+00:00",
+                "prematch_clock_review_only": True, "calendar_gate": "BLOCKED",
+            }],
+        }
+        r = build(q, g, d, early_archive=early)
+        self.assertEqual(r["totals"]["early_official_archive_matches"], 1)
+        self.assertIn("Archiwum oficjalne", render(r))
+        self.assertFalse(r["safe_to_publish_play"])
+        self.assertEqual(r["totals"]["source_day_signoffs_from_packet"], 0)
+        early["matches"][0]["capture_at_utc"] = "2026-10-17T15:00:00+00:00"
+        with self.assertRaisesRegex(ValueError, "pre-day"):
+            build(q, g, d, early_archive=early)
+        early["matches"][0]["capture_at_utc"] = "2026-10-17T08:00:00+00:00"
+        early["matches"][0]["prematch_clock_review_only"] = False
+        with self.assertRaisesRegex(ValueError, "cannot approve"):
+            build(q, g, d, early_archive=early)
+
 if __name__ == "__main__":
     unittest.main()
