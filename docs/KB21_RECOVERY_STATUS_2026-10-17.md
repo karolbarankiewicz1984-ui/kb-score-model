@@ -126,3 +126,46 @@
   automatycznie zatwierdzonych. Calendar Gate pozostaje BLOCKED.
 - Wobec rozegranych/rozpoczętych spotkań nie tworzyć
   retrospektywnego freeze ani P(model) i nie dopisywać ich do N.
+
+
+## Poprawa porównania dostawców — 109 testów
+
+- Komplet zapisanych przez nas danych 17.10: ESPN 28 meczów, z tego
+  24 w ligach występujących także w football-data.org, 4 tureckie
+  poza katalogiem drugiego dostawcy.
+- Poprzedni crosscheck w football-data.org potwierdzał tylko **5** spotkań,
+  głównie przez różne pisownie nazw drużyn.
+- `tools/kb21_fixture_crosscheck.py` używa teraz współdzielonej,
+  wyraźnej listy aliasów klubów z `kb21_official_research_compare.py`.
+  Dopasowanie pozostaje ścisłe w zakresie ligi i godziny.
+- Aktualnie **23** mecze crosscheck oznacza `MATCHED_FOR_REVIEW`,
+  a **jeden** (Betis–Barcelona) jako `START_TIME_CONFLICT`
+  z zachowanymi dowodami z drugiego źródła. Pozostałe cztery
+  mecze pochodzą z Süper Lig nieobjętej subskrypcją football-data.org.
+  Zgodność 23 nie zatwierdza oficjalnego Calendar Gate.
+- Zapisane snapshoty football-data.org istnieją tylko dla 17.10;
+  18 i 19.10 wciąż wymagają pobrania niezależnych danych w odpowiednich
+  przebiegach, niezależnie od posiadanych oficjalnych materiałów badawczych.
+- `tools/kb21_official_source_probe.py` odwiedza 14 oficjalnych stron
+  organizatorów, zachowując metadane HTTP, URL, czas odczytu, typ zawartości
+  i hash pierwszych 128 KiB (bez przechowywania strony).
+  Przebieg 17.10: **9** dostępnych stron z próbką nieprzekraczającą
+  limitu, **5** dłuższych, wszystkie odpowiedziały przez HTTP.
+  Nie jest to dowód, że listę meczów udało się pobrać, odczytać
+  ani że jest kompletna.
+- Raport `official-source-http-probes.md` i jego JSON są dodawane
+  do artefaktu dziennego. Wszystkie etykiety jednoznacznie
+  informują `BLOCKED / DIAGNOSTIC / NO PLAY`.
+- Weryfikacja najnowszego kodu:
+  https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/39029902011
+  — **109 testów, OK**. Żaden stary rejestr ani N nie został ruszony.
+
+### Najbliższe działania
+1. Zebrać rzeczywiste zestawienia dzienne z **oficjalnych** źródeł na
+   kolejne 3 dni (program nie może utożsamiać HTTP 200 z terminarzem).
+2. Zaktualizować listy przełożonych spotkań, zwłaszcza Portugalii.
+3. Zweryfikować ESPN/football-data.org dla każdego z trzech dni.
+4. Dla poszczególnych dni sporządzić niezależnie sprawdzone podpisane
+   inwentaryzacje. Bez takiej kontroli nie wydawać PASS_MANUAL.
+5. Dopiero po przejściu Calendar Gate wracać do oryginalnych ocen
+   STR/QUAL/MATCH i P(model) bez zastępczych formuł.
