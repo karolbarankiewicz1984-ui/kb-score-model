@@ -163,9 +163,15 @@ def compare(queue, research):
                 identity = (_team(league, record.get("home")),
                             _team(league, record.get("away")))
                 time = _instant(record.get("kickoff"))
-                if not all(identity) or time is None or time.strftime("%Y-%m-%d") == "":  # UTC aware required
+                if not all(identity) or time is None:
                     comparisons.append({"official_fixture": record,
                                         "status": "INVALID_OFFICIAL_RESEARCH_ENTRY",
+                                        "espn_fixture_id": None})
+                    continue
+                from zoneinfo import ZoneInfo
+                if time.astimezone(ZoneInfo("Europe/Warsaw")).date().isoformat() != day:
+                    comparisons.append({"official_fixture": record,
+                                        "status": "OFFICIAL_RESEARCH_DATE_MISMATCH",
                                         "espn_fixture_id": None})
                     continue
                 matches_teams = []
@@ -196,6 +202,8 @@ def compare(queue, research):
                      for f in espn if f.get("fixture_id") not in used]
             counts = Counter(record["status"] for record in comparisons)
             league_status = (
+                "BOTH_EMPTY_NOT_OFFICIALLY_CONFIRMED"
+                if not official and not espn else
                 "TWO_SOURCE_REVIEW_CANDIDATE" if (
                     len(comparisons) == len(espn)
                     and len(used) == len(comparisons)
