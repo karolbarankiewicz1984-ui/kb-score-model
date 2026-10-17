@@ -169,3 +169,49 @@
    inwentaryzacje. Bez takiej kontroli nie wydawać PASS_MANUAL.
 5. Dopiero po przejściu Calendar Gate wracać do oryginalnych ocen
    STR/QUAL/MATCH i P(model) bez zastępczych formuł.
+
+
+## Pierwsze automatyczne oficjalne terminarze — Premier League i Bundesliga
+
+- `tools/kb21_official_fpl.py`: dwie publiczne usługi JSON organizatora Premier
+  League (`fantasy.premierleague.com/api/bootstrap-static/` i `fixtures/`).
+  Faktyczny udany odczyt 17.10.2026 objął komplet **380 spotkań** sezonu
+  oraz 20 drużyn. 10 spotkań z 17–19.10 z oryginalnej kolejki ESPN
+  pasuje **10/10** po gospodarzach, gościach i czasie. Daty/godziny
+  przeliczane na `Europe/Warsaw`; błędne ID, brak godziny i godzina
+  `provisional_start_time` są raportowane, a nie ukrywane.
+- `tools/kb21_official_dfl.py`: publiczna tabela `products.bundesliga.com/fixtures`,
+  własność Bundesliga Media (DFL). HTML łączy dzień tygodnia i datę
+  w jednej kolumnie; parser obsługuje ten rzeczywisty układ i bierze
+  **wyłącznie kolumnę Kick-off (UTC)**, aby uniknąć pomyłek CET/CEST.
+  W rzeczywistym przebiegu znalazł 9 spotkań kolejki 6, 8 z nich w
+  dniach 17–19.10. `tools/kb21_dfl_compare.py`: **8/8**
+  zgodnych z ESPN po drużynach i godzinie.
+  UWAGA: oficjalna strona pokazuje aktualnie **jedną kolejkę**,
+  więc brak wiersza dla danego dnia nie dowodzi braku zaległego meczu.
+- Razem **18/18** meczów z 2 osobnych oficjalnych systemów
+  organizatorów w badanym trzydniowym oknie pokrywa się z ESPN.
+  Ten wynik nie oznacza zatwierdzenia wszystkich 14 rozgrywek.
+- `tools/kb21_official_source_seed.py` wzbogaca `official-inventory-direct-sources-draft.json`
+  aktualnymi oficjalnymi meczami Premier League / Bundesligi dla
+  bieżących trzech dni; nie nadpisuje istniejących ręcznych faktów.
+  Zapisuje jawnie sprzeczności i nie dopisuje daty **ręcznego** sprawdzenia,
+  nazwiska kontrolującego, flagi kompletności ani `approval`.
+  Dla 17–19.10 istniejące ręcznie zebrane dane były zgodne
+  (0 sprzeczności), a nowy proces potwierdził je niezależnie.
+- Przepływ GitHub Actions `.github/workflows/kb21-legacy-recovery.yml`
+  został nazwany `KB21 recovery (official fixture diagnostics)`,
+  ponieważ korzysta teraz z publicznych usług oficjalnych organizatorów
+  (nie jest już prawdą, że w ogóle nie pobiera API).
+- Ostatni sprawdzony kompletny przebieg:
+  https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/39030980810
+  **137/137 testów**, odczyty FPL i DFL + dwa porównania + 3-dniowy
+  audyt oraz zestaw roboczych kart do podpisanej kontroli.
+- **Calendar Gate = BLOCKED** nadal. Brak podpisanej oficjalnej kontroli
+  całych kart 14 kategorii na każdy z trzech dni; pozostałe
+  dwanaście kategorii nie mają jeszcze automatycznego oficjalnego
+  parsera. 18/18 to zgodność danych, nie finalna atestacja.
+- Następny praktyczny krok: analogiczny bezpośredni, programowy
+  odczyt z pozostałych lig, szczególnie La Liga, Serie A, Ligue 1,
+  następnie pełne sprawdzenie meczów przełożonych (Portugalia)
+  i akceptacja dni przed ich pierwszym rozpoczętym spotkaniem.
