@@ -19,6 +19,7 @@ on:
       - 'tools/kb21_queue_report.py'
       - 'tools/kb21_context_enrich.py'
       - 'tools/kb21_calendar_coverage.py'
+      - 'tools/kb21_review_shortlist.py'
       - 'tools/kb21_fixture_crosscheck.py'
       - 'tools/kb21_market_review.py'
       - 'tests/test_kb21_analyst_assessment.py'
@@ -26,6 +27,7 @@ on:
       - 'tests/test_kb21_queue_report.py'
       - 'tests/test_kb21_context_enrich.py'
       - 'tests/test_kb21_calendar_coverage.py'
+      - 'tests/test_kb21_review_shortlist.py'
       - 'tests/test_kb21_fixture_crosscheck.py'
       - 'tests/test_kb21_market_review.py'
       - 'tests/test_kb21_pipeline_integration.py'
@@ -46,7 +48,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -128,6 +130,11 @@ jobs:
           subprocess.run(['python', '-m', 'tools.kb21_queue_report',
                           'reports/kb21_legacy/research-queue.json',
                           '--outdir', 'reports/kb21_legacy/worksheets'], check=True)
+          subprocess.run(['python', '-m', 'tools.kb21_review_shortlist',
+                          'reports/kb21_legacy/research-queue.json',
+                          '--output-json', 'reports/kb21_legacy/review-shortlist.json',
+                          '--output-md', 'reports/kb21_legacy/review-shortlist.md',
+                          '--limit', '10'], check=True)
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -141,6 +148,8 @@ jobs:
             reports/kb21_legacy/calendar-coverage.json
             reports/kb21_legacy/calendar-coverage.md
             reports/kb21_legacy/research-queue.json
+            reports/kb21_legacy/review-shortlist.json
+            reports/kb21_legacy/review-shortlist.md
             reports/kb21_legacy/independent-source-*.json
             reports/kb21_legacy/worksheets/*.md
           retention-days: 30
