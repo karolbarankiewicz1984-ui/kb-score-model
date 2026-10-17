@@ -205,12 +205,14 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 or set(zero_evidence.get("days", [])) != set(days)
                 or not isinstance(zero_evidence.get("rows"), list)):
             raise ValueError("Invalid zero-day worklist")
+        seen_zero_keys = set()
         for item in zero_evidence["rows"]:
             if not isinstance(item, dict):
                 raise ValueError("Malformed zero-day worklist item")
             key = item.get("day"), item.get("league_id")
-            if key not in expected or key in zero_by_key:
+            if key not in expected or key in seen_zero_keys:
                 raise ValueError("Unrecognized/duplicate zero-day worklist entry")
+            seen_zero_keys.add(key)
             if (item.get("calendar_gate") != "BLOCKED"
                     or item.get("human_reviewer") is not None
                     or item.get("confirmed_zero_matches") is not None
@@ -223,7 +225,13 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                         or capture is None or capture >= deadline
                         or now >= deadline):
                     raise ValueError("False full-season pre-day evidence claim")
-            zero_by_key[key] = item
+            # Previous unsigned draft may still contain a zero blocker on
+            # a day now genuinely signed by a human. Retain full evidence
+            # checks above, but discard the stale unsigned blocker ONLY if
+            # the strict current gate explicitly validated that whole day.
+            # Keep blockers for other dates in the same rolling window.
+            if gate["days"][key[0]].get("calendar_gate") != "PASS_MANUAL":
+                zero_by_key[key] = item
         expected_zeros = {
             key for key, errs in official_errors.items()
             if "ZERO_MATCHES_NOT_CONFIRMED_BY_ORGANIZER" in errs
