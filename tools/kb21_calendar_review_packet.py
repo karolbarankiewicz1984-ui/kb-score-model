@@ -159,7 +159,7 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 if earliest is None or captured is None or captured >= earliest:
                     raise ValueError("Early match claim missing valid pre-day capture")
             early_by_key[key] = record
-    # The revision comparison is restricted to two organizer feeds, never
+    # Revision comparison covers selected organizer feeds, never
     # an attested full day. Protect against missing league/date cells, forged
     # signoffs, duplicate rows or claims of pre-kickoff captures after the
     # independent earliest start across every competition.
@@ -177,7 +177,7 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
             if not isinstance(event, dict):
                 raise ValueError("Invalid organizer revision row")
             key = event.get("day"), event.get("league_id")
-            if (key[0] not in days or key[1] not in ("eng.1", "ned.1")
+            if (key[0] not in days or key[1] not in ("eng.1", "ned.1", "ger.1")
                     or key in revision_by_key):
                 raise ValueError("Unrecognized or duplicate official revision date/league")
             if (event.get("calendar_gate") != "BLOCKED"
@@ -190,7 +190,7 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 raise ValueError("Prematch official revision source captured after first game")
             revision_by_key[key] = event
         if set(revision_by_key) != {(day, league)
-                                   for day in days for league in ("eng.1", "ned.1")}:
+                                   for day in days for league in ("eng.1", "ned.1", "ger.1")}:
             raise ValueError("Official revision audit missing competition/day rows")
     rows, blockers = [], Counter()
     for day in days:
