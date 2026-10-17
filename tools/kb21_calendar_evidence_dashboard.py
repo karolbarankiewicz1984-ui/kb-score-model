@@ -34,6 +34,10 @@ ADAPTERS = {
     "ned.1": ("official-knvb-vs-espn.json", "official-knvb-eredivisie.json", "VISIBLE_KNVB_PROGRAM"),
     "tur.1": ("official-tff-vs-espn.json", "official-tff-superlig.json", "ONE_VISIBLE_ROUND"),
     "por.1": ("official-portugal-vs-espn.json", "official-portugal-postponement.json", "ONE_CLUB_POSTPONEMENT"),
+    # UEFA dated league-phase news only: team/date, NEVER time-verified pairs.
+    "uefa.champions": ("official-uefa-champions-vs-espn.json", "official-uefa-champions.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
+    "uefa.europa": ("official-uefa-europa-vs-espn.json", "official-uefa-europa.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
+    "uefa.europa.conf": ("official-uefa-conference-vs-espn.json", "official-uefa-conference.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
 }
 
 def _read(folder, name):
@@ -95,6 +99,7 @@ def summarize(queue, gate, directory):
                              if event.get("date_warsaw") == day
                              and str(event.get("fixture_id", "")).startswith(league + ":"))
             matched = 0
+            date_team_only = 0
             source_errors = []
             organizer_visible = None
             source_scope = "NO_DIRECT_MACHINE_ADAPTER"
@@ -120,7 +125,24 @@ def summarize(queue, gate, directory):
                     if not isinstance(matched, int) or matched < 0 or matched > candidates:
                         raise ValueError(f"Impossible source coincidences {league}/{day}")
                     source_errors = list(facts.get("errors", []))
-                    if matched < candidates:
+                    if source_scope == "UEFA_ARTICLE_DATE_TEAMS_ONLY":
+                        date_team_only = comp_day.get("date_team_matched", 0)
+                        if (not isinstance(date_team_only, int)
+                                or date_team_only < 0 or date_team_only > candidates
+                                or matched != 0
+                                or facts.get("kickoff_timezone_verified") is not False):
+                            raise ValueError("Untrusted UEFA time-approval claim")
+                        if source_errors:
+                            state = "SOURCE_ISSUES_REQUIRING_REVIEW"
+                        elif candidates and date_team_only == candidates and organizer_visible == candidates:
+                            state = "DATE_TEAMS_ONLY_TIME_UNVERIFIED"
+                        elif candidates:
+                            state = "MISSING_OR_CONFLICTING_CANDIDATES"
+                        elif organizer_visible:
+                            state = "ORGANIZER_ONLY_FIXTURES"
+                        else:
+                            state = "NO_GAME_EVIDENCE_NOT_ZERO_CERTIFICATION"
+                    elif matched < candidates:
                         state = "MISSING_OR_CONFLICTING_CANDIDATES"
                     elif organizer_visible > matched:
                         state = "ORGANIZER_ONLY_FIXTURES"
@@ -135,7 +157,8 @@ def summarize(queue, gate, directory):
             if candidates and state in (
                     "MISSING_OR_CONFLICTING_CANDIDATES",
                     "ORGANIZER_ONLY_FIXTURES", "SOURCE_ISSUES_REQUIRING_REVIEW",
-                    "DIRECT_SOURCE_MISSING", "NO_DIRECT_ORGANIZER_ADAPTER"):
+                    "DIRECT_SOURCE_MISSING", "NO_DIRECT_ORGANIZER_ADAPTER",
+                    "DATE_TEAMS_ONLY_TIME_UNVERIFIED"):
                 next_action = "RESOLVE_OFFICIAL_SOURCE_OR_FIXTURE_CONFLICT"
                 review_priority = 1
             elif candidates:
@@ -150,6 +173,7 @@ def summarize(queue, gate, directory):
             output["rows"].append({
                 "day": day, "league_id": league, "competition": title,
                 "espn_candidates": candidates, "paired_for_review": matched,
+                "date_team_only_matches": date_team_only,
                 "organizer_rows_visible": organizer_visible,
                 "direct_evidence_scope": source_scope,
                 "evidence_status": state, "source_errors": source_errors[:10],
@@ -169,6 +193,7 @@ def summarize(queue, gate, directory):
         "days_count": len(days),
         "candidate_fixtures": len(queue["fixtures"]),
         "paired_for_review": paired_total,
+        "date_team_only_not_time_approved": sum(row["date_team_only_matches"] for row in output["rows"]),
         "unpaired_candidates": len(queue["fixtures"]) - paired_total,
         "outside_competition_scope": len(untracked),
         "outside_competition_scope_ids": sorted(set(untracked))[:20],
@@ -194,6 +219,8 @@ def render(report):
         f"{totals['paired_for_review']}; niedopasowane: {totals['unpaired_candidates']}",
         f"Poza 14 kategoriami rozgrywek: {totals['outside_competition_scope']} "
         f"(wliczone do niedopasowanych).",
+        f"UEFA - pary data/kluby BEZ potwierdzenia czasu: "
+        f"{totals['date_team_only_not_time_approved']} (NIE wliczane do zgodnych).",
         f"Bezpośrednie adaptery: {totals['direct_adapters']}/{totals['league_count']} lig; "
         f"nadal bez adaptera: {totals['without_direct_adapters']}",
         f"Braki formalnego audytu: {totals['manual_gate_errors']} powodów; "
@@ -219,6 +246,7 @@ def render(report):
         )
     for item in report["rows"]:
         if item["evidence_status"] in ("MISSING_OR_CONFLICTING_CANDIDATES",
+                                       "DATE_TEAMS_ONLY_TIME_UNVERIFIED",
                                        "ORGANIZER_ONLY_FIXTURES",
                                        "SOURCE_ISSUES_REQUIRING_REVIEW",
                                        "DIRECT_SOURCE_MISSING"):

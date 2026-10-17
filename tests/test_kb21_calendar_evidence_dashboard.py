@@ -116,7 +116,7 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         self.assertEqual(belgium["espn_candidates"], 0)
         self.assertEqual(belgium["evidence_status"], "NO_DIRECT_ORGANIZER_ADAPTER")
         self.assertFalse(belgium["full_day_signed"])
-        self.assertEqual(report["totals"]["without_direct_adapters"], 6)
+        self.assertEqual(report["totals"]["without_direct_adapters"], 3)
 
     def test_refuse_mismatched_or_approved_comparison(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -203,6 +203,37 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         self.assertIn("P1 Liga Portugal", markdown)
         self.assertIn("P3 Belgian Pro League", markdown)
         self.assertIn("źródło organizatora", markdown)
+        self.assertFalse(report["safe_to_publish_play"])
+
+
+    def test_uefa_official_article_pairs_only_date_and_teams(self):
+        with tempfile.TemporaryDirectory() as folder:
+            write(folder, "official-uefa-europa.json", {
+                "league_id": "uefa.europa", "calendar_gate": "BLOCKED",
+                "days": DAYS, "by_day": {
+                    DAYS[0]: [{"home": "Lech Poznań", "away": "Sunderland"}],
+                    DAYS[1]: [],
+                }, "errors": [], "kickoff_timezone_verified": False,
+            })
+            write(folder, "official-uefa-europa-vs-espn.json", {
+                "calendar_gate": "BLOCKED",
+                "days": {DAYS[0]: {"statuses": {}, "date_team_matched": 1},
+                         DAYS[1]: {"statuses": {}, "date_team_matched": 0}},
+            })
+            q = {"days": DAYS, "fixtures": [{
+                "date_warsaw": DAYS[0], "fixture_id": "uefa.europa:987",
+                "fixture": "Lech Poznań - Sunderland",
+            }]}
+            report = summarize(q, gate(), folder)
+        row = next(x for x in report["rows"]
+                   if x["league_id"] == "uefa.europa" and x["day"] == DAYS[0])
+        self.assertEqual(row["evidence_status"], "DATE_TEAMS_ONLY_TIME_UNVERIFIED")
+        self.assertEqual(row["date_team_only_matches"], 1)
+        self.assertEqual(row["paired_for_review"], 0)
+        self.assertEqual(row["review_priority"], 1)
+        self.assertEqual(report["totals"]["unpaired_candidates"], 1)
+        self.assertEqual(report["totals"]["date_team_only_not_time_approved"], 1)
+        self.assertEqual(report["totals"]["direct_adapters"], 11)
         self.assertFalse(report["safe_to_publish_play"])
 
 
