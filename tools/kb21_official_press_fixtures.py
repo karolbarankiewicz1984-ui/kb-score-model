@@ -23,6 +23,7 @@ SOURCES = {
     "fra.1": ("https://ligue1.com/fr/articles/l1_article_5797-", "Europe/Paris"),
 }
 MAX_BYTES = 2_000_000
+EXPECTED_ARTICLE_FIXTURES = {"ita.1": 10, "fra.1": 18}
 MONTHS = {
     "janvier": 1, "février": 2, "mars": 3, "avril": 4, "mai": 5,
     "juin": 6, "juillet": 7, "août": 8, "septembre": 9, "octobre": 10,
@@ -150,6 +151,11 @@ def collect(league, days, opener=urlopen):
         records = parse(league, payload.decode("utf-8"))
         if not records:
             errors.append("No parseable official match entries in dated announcement")
+        if len(records) != EXPECTED_ARTICLE_FIXTURES[league]:
+            errors.append(
+                f"Incomplete organizer article: expected {EXPECTED_ARTICLE_FIXTURES[league]} "
+                f"fixtures, parsed {len(records)}"
+            )
     except Exception as exc:
         errors.append(f"{type(exc).__name__}: {exc}")
     article_days = sorted({r["date_warsaw"] for r in records})
@@ -164,11 +170,14 @@ def collect(league, days, opener=urlopen):
         errors.append("Duplicate organizer fixture identity")
     outside = [d for d in days if not article_days
                or d < article_days[0] or d > article_days[-1]]
+    unlisted_days = [day for day in days if day not in article_days]
     return {
         "schema": "kb21-official-press-fixtures-v1", "league_id": league,
         "days": days, "official_url": url,
         "captured_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
         "article_fixture_dates": article_days, "days_outside_article_range": outside,
+        "days_without_article_fixture_evidence": unlisted_days,
+        "expected_article_fixture_count": EXPECTED_ARTICLE_FIXTURES[league],
         "parsed_article_fixture_count": len(records),
         "by_day": selected, "errors": errors,
         "status": ("OFFICIAL_DATED_ARTICLE_PARTIAL_FOR_REVIEW"
