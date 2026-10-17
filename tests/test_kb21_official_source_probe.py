@@ -4,7 +4,7 @@ import urllib.error
 from datetime import datetime, timezone
 
 from tools.kb21_official_source_probe import (
-    MAX_SAMPLE, OFFICIAL_PAGES, _related_host, collect, probe
+    MAX_SAMPLE, OFFICIAL_PAGES, _related_host, collect, probe, render
 )
 
 
@@ -83,6 +83,17 @@ class OrganizerProbeTests(unittest.TestCase):
         self.assertEqual(report["calendar_gate"], "BLOCKED")
         self.assertFalse(report["any_fixture_list_verified"])
         self.assertFalse(report["all_organizers_authenticated"])
+
+    def test_markdown_report_never_claims_organizer_approval(self):
+        def opener(req, timeout):
+            return FakeResponse(target=req.full_url)
+        report = collect(["2026-10-17"], opener=opener, clock=now)
+        md = render(report)
+        self.assertIn("14", str(len(report["sources"])))
+        self.assertIn("Calendar Gate BLOCKED", md)
+        self.assertIn("HTTP 200 NIE oznacza", md)
+        self.assertIn("Oficjalny serwis", md)
+        self.assertIn("NO PLAY", md)
 
     def test_invalid_scope_rejected(self):
         with self.assertRaises(ValueError):
