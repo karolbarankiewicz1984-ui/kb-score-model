@@ -23,7 +23,7 @@ SCORE_RE = re.compile(r"^(?:-|–|—|\d{1,2}\s*[-–:]\s*\d{1,2})$")
 
 
 def _result_date(tokens, start):
-    for count in (4, 3, 2):
+    for count in (4, 3, 2, 1):
         phrase = " ".join(tokens[start:start + count])
         match = DATE_RE.fullmatch(phrase)
         if match:
