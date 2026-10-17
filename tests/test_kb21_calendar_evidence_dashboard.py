@@ -143,5 +143,41 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
                 summarize(queue(), gate(), folder)
 
 
+    def test_outside_competition_scope_is_not_silently_counted_as_matched(self):
+        with tempfile.TemporaryDirectory() as folder:
+            fake_fpl(folder)
+            fake_portugal(folder)
+            extra = queue()
+            extra["fixtures"].append({
+                "date_warsaw": DAYS[0], "fixture_id": "other.tournament:99"
+            })
+            report = summarize(extra, gate(), folder)
+        totals = report["totals"]
+        self.assertEqual(totals["candidate_fixtures"], 4)
+        self.assertEqual(totals["paired_for_review"], 3)
+        self.assertEqual(totals["unpaired_candidates"], 1)
+        self.assertEqual(totals["outside_competition_scope"], 1)
+        self.assertEqual(totals["outside_competition_scope_ids"],
+                         ["other.tournament:99"])
+        self.assertIn("other.tournament:99", render(report))
+        self.assertFalse(report["safe_to_publish_play"])
+
+    def test_queue_date_outside_review_window_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            extra = queue()
+            extra["fixtures"].append({
+                "date_warsaw": "2026-10-20", "fixture_id": "eng.1:100"
+            })
+            with self.assertRaisesRegex(ValueError, "outside reviewed dates"):
+                summarize(extra, gate(), folder)
+
+    def test_invalid_fixture_id_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            extra = queue()
+            extra["fixtures"][0]["fixture_id"] = None
+            with self.assertRaisesRegex(ValueError, "fixture identifier"):
+                summarize(extra, gate(), folder)
+
+
 if __name__ == "__main__":
     unittest.main()
