@@ -70,5 +70,40 @@ class InventoryPrefillTests(unittest.TestCase):
             prefill(t, r)
 
 
+    def test_third_source_proposal_is_unsigned_and_not_an_accepted_decision(self):
+        template, research = make()
+        comparison = {"calendar_gate": "BLOCKED", "days": {
+            "2026-10-18": [{
+                "league_id": "eng.1",
+                "fixtures": [{
+                    "espn_fixture_id": "eng.1:999",
+                    "status": "START_TIME_CONFLICT",
+                    "official_fixture": {"home": "Club A", "away": "Club B",
+                                         "kickoff": "2026-10-18T15:00:00+02:00"},
+                    "third_source_review": {
+                        "status": "OFFICIAL_AND_API_TIME_AGREE_ESPN_DIFFERS",
+                        "api_fixture_id": 1570413,
+                        "official_kickoff": "2026-10-18T15:00:00+02:00",
+                        "source": "API-Football pre-match snapshot",
+                    }
+                }]
+            }]
+        }}
+        result = prefill(template, research, conflict_evidence=comparison)
+        slot = result["days"]["2026-10-18"]["eng.1"]
+        self.assertEqual(slot["suggested_time_discrepancies"][0]["fixture_id"], "eng.1:999")
+        self.assertEqual(slot["suggested_time_discrepancies"][0]["third_source_fixture_id"], 1570413)
+        self.assertIsNone(slot["suggested_time_discrepancies"][0]["reviewer"])
+        self.assertNotIn("time_discrepancies", slot)
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+        self.assertIsNone(result["approval"])
+
+    def test_third_source_wrong_date_rejected(self):
+        template, research = make()
+        third_source = {"calendar_gate": "BLOCKED", "days": {"2026-10-19": []}}
+        with self.assertRaises(ValueError):
+            prefill(template, research, third_source)
+
+
 if __name__ == "__main__":
     unittest.main()
