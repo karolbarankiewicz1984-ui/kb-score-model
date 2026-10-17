@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.kb21_queue_report import render_day, write_reports
+from tools.kb21_queue_report import render_day, write_reports, render_index
 
 
 class QueueReportTests(unittest.TestCase):
@@ -65,6 +65,19 @@ class QueueReportTests(unittest.TestCase):
         self.assertIn("BRAK ZWERYFIKOWANEJ OCENY", result)
         self.assertIn("NIE WYZNACZONO", result)
         self.assertNotIn("Decyzja: PLAY", result)
+
+
+    def test_three_day_index_counts_research_and_provider_matches(self):
+        queue = {"days": ["2026-10-17"], "fixtures": [{
+            "date_warsaw": "2026-10-17",
+            "pre_match_research": {"status": "PRIOR_GOAL_CONTEXT"},
+            "independent_crosscheck": {"status": "MATCHED_FOR_REVIEW"},
+        }]}
+        index = render_index(queue, ["2026-10-17"])
+        self.assertIn("1 kandydatów", index)
+        self.assertIn("1 z historią", index)
+        self.assertIn("1 zgodnych u obu dostawców", index)
+        self.assertIn("NO PLAY", index)
 
 
 if __name__ == "__main__":
