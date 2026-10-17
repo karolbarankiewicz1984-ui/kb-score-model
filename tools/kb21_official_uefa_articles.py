@@ -64,7 +64,7 @@ def parse(league, html):
     heading = ("League phase fixtures and results" if is_nations
                else "League phase fixtures by date")
     if (not any("2026/27" in x or "2026-27" in x for x in lines)
-            or not any(heading in x for x in lines)):
+            or not any(heading.casefold() in x.casefold() for x in lines)):
         return [], ["OFFICIAL_LEAGUE_PHASE_HEADING_NOT_FOUND"]
     rows, errors, seen = [], [], set()
     matchday, active_day = None, None
