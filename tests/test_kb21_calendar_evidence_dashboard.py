@@ -114,7 +114,7 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         belgium = next(x for x in report["rows"]
                        if x["day"] == DAYS[0] and x["league_id"] == "bel.1")
         self.assertEqual(belgium["espn_candidates"], 0)
-        self.assertEqual(belgium["evidence_status"], "NO_DIRECT_ORGANIZER_ADAPTER")
+        self.assertEqual(belgium["evidence_status"], "DIRECT_SOURCE_MISSING")
         self.assertFalse(belgium["full_day_signed"])
         self.assertEqual(report["totals"]["without_direct_adapters"], 1)
 
