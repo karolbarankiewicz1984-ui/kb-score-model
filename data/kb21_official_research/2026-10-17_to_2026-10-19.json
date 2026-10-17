@@ -10,7 +10,7 @@
   "calendar_gate": "BLOCKED",
   "coverage": "ALL_14_COMPETITIONS_HAVE_OFFICIAL_RESEARCH_ENTRIES__PORTUGAL_INCOMPLETE",
   "publication": "DIAGNOSTIC / NO PLAY",
-  "note": "Fixture details transcribed from real official organizer sources for investigation. NOT an authenticated programmatic fetch, not an independent signed full-day audit. Must compare to ESPN and independently re-check after schedule changes. No model score, P(model), PLAY or historical N. Three UEFA competition official schedules list no fixtures on Oct17-19, recorded as unsigned no-game research and never official signoff. Turkish Federation official times converted from UTC+3 to Europe/Warsaw UTC+2 on Oct17-19. UEFA Nations League official matchdays October 2026 are Oct1-6 and Nov12-17; 2026 World Cup European qualifiers concluded in March 2026. Both have no matches Oct17-19. Still unsigned. Eredivisie 17-18 Oct schedule from Dutch federation KNVB official competition program; eight fixtures incl relocated NEC-Fortuna. Full round from KNVB, unsigned.",
+  "note": "Fixture details transcribed from real official organizer sources for investigation. NOT an authenticated programmatic fetch, not an independent signed full-day audit. Must compare to ESPN and independently re-check after schedule changes. No model score, P(model), PLAY or historical N. Three UEFA competition official schedules list no fixtures on Oct17-19, recorded as unsigned no-game research and never official signoff. Turkish Federation official times converted from UTC+3 to Europe/Warsaw UTC+2 on Oct17-19. UEFA Nations League official matchdays October 2026 are Oct1-6 and Nov12-17; 2026 World Cup European qualifiers concluded in March 2026. Both have no matches Oct17-19. Still unsigned. Eredivisie 17-18 Oct schedule from Dutch federation KNVB official competition program; eight fixtures incl relocated NEC-Fortuna. Full round from KNVB, unsigned. Liga Portugal official portal Gil Vicente team shows 19h15 without timezone while official Gil Vicente notice states 20h15 local. Preserve difference transparently; further timezone review required. Official Taça de Portugal cup round Oct17-18 is separate from league.",
   "days": {
     "2026-10-17": {
       "eng.1": {
@@ -287,15 +287,19 @@
       },
       "por.1": {
         "competition": "Liga Portugal Betclic",
-        "official_source_url": "https://gilvicentefc.pt/",
+        "official_source_url": "https://www.ligaportugal.pt/team/162/gil-vicente-fc",
         "timezone": "Europe/Warsaw",
         "source_kind": "OFFICIAL_CLUB_MATCH_PAGE_PARTIAL",
         "full_round_source_found": false,
         "official_fixture_list_extracted": false,
         "source_reviewer_signed": false,
         "fixture_time_confirmed_manually": false,
-        "note": "Gil Vicente club official page confirms SC Braga vs Gil Vicente at 20:15 Portugal local time Oct19; this is NOT a complete league-wide inventory. No proof of empty dates Oct17/18.",
-        "fixtures": []
+        "note": "One verified club fixture Braga-Gil Vicente Oct19 20h15 Portugal local = 21h15 Warsaw. Portuguese Cup round Oct17-18; league full competition/day list NOT independently certified. Liga Portugal site shows 19h15 without timezone and club shows 20h15 local: do not treat as pre-approved consistency.",
+        "fixtures": [],
+        "supporting_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
+        "club_official_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
+        "league_official_display_warning": "Liga Portugal website renders kickoff 19h15, while both club and other Portugal-local sources say 20h15. 19h15 may be UTC rendering; needs independent explicit timezone confirmation before final signoff.",
+        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal"
       },
       "ned.1": {
         "competition": "Eredivisie",
@@ -586,15 +590,19 @@
       },
       "por.1": {
         "competition": "Liga Portugal Betclic",
-        "official_source_url": "https://gilvicentefc.pt/",
+        "official_source_url": "https://www.ligaportugal.pt/team/162/gil-vicente-fc",
         "timezone": "Europe/Warsaw",
         "source_kind": "OFFICIAL_CLUB_MATCH_PAGE_PARTIAL",
         "full_round_source_found": false,
         "official_fixture_list_extracted": false,
         "source_reviewer_signed": false,
         "fixture_time_confirmed_manually": false,
-        "note": "Gil Vicente club official page confirms SC Braga vs Gil Vicente at 20:15 Portugal local time Oct19; this is NOT a complete league-wide inventory. No proof of empty dates Oct17/18.",
-        "fixtures": []
+        "note": "One verified club fixture Braga-Gil Vicente Oct19 20h15 Portugal local = 21h15 Warsaw. Portuguese Cup round Oct17-18; league full competition/day list NOT independently certified. Liga Portugal site shows 19h15 without timezone and club shows 20h15 local: do not treat as pre-approved consistency.",
+        "fixtures": [],
+        "supporting_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
+        "club_official_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
+        "league_official_display_warning": "Liga Portugal website renders kickoff 19h15, while both club and other Portugal-local sources say 20h15. 19h15 may be UTC rendering; needs independent explicit timezone confirmation before final signoff.",
+        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal"
       },
       "ned.1": {
         "competition": "Eredivisie",
@@ -808,21 +816,25 @@
       },
       "por.1": {
         "competition": "Liga Portugal Betclic",
-        "official_source_url": "https://gilvicentefc.pt/",
+        "official_source_url": "https://www.ligaportugal.pt/team/162/gil-vicente-fc",
         "timezone": "Europe/Warsaw",
         "source_kind": "OFFICIAL_CLUB_MATCH_PAGE_PARTIAL",
         "full_round_source_found": false,
         "official_fixture_list_extracted": false,
         "source_reviewer_signed": false,
         "fixture_time_confirmed_manually": false,
-        "note": "Gil Vicente club official page confirms SC Braga vs Gil Vicente at 20:15 Portugal local time Oct19; this is NOT a complete league-wide inventory. No proof of empty dates Oct17/18.",
+        "note": "One verified club fixture Braga-Gil Vicente Oct19 20h15 Portugal local = 21h15 Warsaw. Portuguese Cup round Oct17-18; league full competition/day list NOT independently certified. Liga Portugal site shows 19h15 without timezone and club shows 20h15 local: do not treat as pre-approved consistency.",
         "fixtures": [
           {
             "home": "SC Braga",
             "away": "Gil Vicente",
             "kickoff": "2026-10-19T21:15:00+02:00"
           }
-        ]
+        ],
+        "supporting_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
+        "club_official_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
+        "league_official_display_warning": "Liga Portugal website renders kickoff 19h15, while both club and other Portugal-local sources say 20h15. 19h15 may be UTC rendering; needs independent explicit timezone confirmation before final signoff.",
+        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal"
       },
       "ned.1": {
         "competition": "Eredivisie",
