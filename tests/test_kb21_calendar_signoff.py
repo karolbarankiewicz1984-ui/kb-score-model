@@ -126,13 +126,15 @@ class CalendarSignoffTests(unittest.TestCase):
         i["approval"]["approved_at"] = "2026-10-18T19:00:00+02:00"
         result = validate(q, i)
         self.assertEqual(result["calendar_gate"], "BLOCKED")
-        self.assertIn("FINAL_APPROVAL_AFTER_FIRST_KICKOFF", result["errors"])
+        self.assertIn("FINAL_APPROVAL_AFTER_FIRST_KICKOFF",
+                      " ".join(result["errors"]))
 
     def test_signoff_cannot_predate_source_capture(self):
         q, i = sample()
         i["approval"]["approved_at"] = "2026-10-17T12:00:00+02:00"
         result = validate(q, i)
-        self.assertIn("FINAL_APPROVAL_PREDATES_OFFICIAL_SOURCE_CAPTURE", result["errors"])
+        self.assertIn("FINAL_APPROVAL_PREDATES_OFFICIAL_SOURCE_CAPTURE",
+                      " ".join(result["errors"]))
 
     def test_official_espn_kickoff_disagreement_needs_signed_actual_api_evidence(self):
         q, i = sample()
