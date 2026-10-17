@@ -15,6 +15,8 @@ on:
       - 'tools/kb21_public_fixtures.py'
       - 'tools/kb21_official_fpl.py'
       - 'tools/kb21_official_dfl.py'
+      - 'tools/kb21_official_laliga.py'
+      - 'tools/kb21_laliga_compare.py'
       - 'tools/kb21_dfl_compare.py'
       - 'tools/kb21_official_source_seed.py'
       - 'tools/kb21_fpl_compare.py'
@@ -53,6 +55,8 @@ on:
       - 'tests/test_kb21_public_fixtures.py'
       - 'tests/test_kb21_official_fpl.py'
       - 'tests/test_kb21_official_dfl.py'
+      - 'tests/test_kb21_official_laliga.py'
+      - 'tests/test_kb21_laliga_compare.py'
       - 'tests/test_kb21_dfl_compare.py'
       - 'tests/test_kb21_official_source_seed.py'
       - 'tests/test_kb21_fpl_compare.py'
@@ -72,7 +76,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -162,6 +166,23 @@ jobs:
           else:
               print('::warning::Official Premier League FPL JSON unavailable. '
                     'Full official fixture comparison is NOT completed; Calendar Gate stays BLOCKED')
+          # LaLiga official organizer matchday pages: partial sampled rounds only.
+          # NEVER infer signed calendar completeness from these checks.
+          laliga_path = Path('reports/kb21_legacy/official-laliga.json')
+          laliga_run = subprocess.run([
+              'python', '-m', 'tools.kb21_official_laliga',
+              '--days', *scope['days'], '--output', str(laliga_path)
+          ], check=False)
+          if laliga_run.returncode == 0 and laliga_path.is_file():
+              subprocess.run([
+                  'python', '-m', 'tools.kb21_laliga_compare',
+                  'reports/kb21_legacy/assessment-queue.json',
+                  str(laliga_path),
+                  '--output', 'reports/kb21_legacy/official-laliga-vs-espn.json',
+                  '--output-md', 'reports/kb21_legacy/official-laliga-vs-espn.md',
+              ], check=True)
+          else:
+              print('::warning::LaLiga official fixture table unavailable; no calendar approval')
           # Official DFL/Bundesliga Media page exposes a current matchday
           # HTML table with unambiguous UTC fixture kickoffs. It may NOT
           # cover all future dates or postponed fixtures. Fail closed.
@@ -324,6 +345,9 @@ jobs:
             reports/kb21_legacy/official-dfl-download-status.json
             reports/kb21_legacy/official-dfl-bundesliga.json
             reports/kb21_legacy/official-dfl-bundesliga.md
+            reports/kb21_legacy/official-laliga.json
+            reports/kb21_legacy/official-laliga-vs-espn.json
+            reports/kb21_legacy/official-laliga-vs-espn.md
             reports/kb21_legacy/official-dfl-vs-espn.json
             reports/kb21_legacy/official-dfl-vs-espn.md
             reports/kb21_legacy/official-fpl-premier-league.json
