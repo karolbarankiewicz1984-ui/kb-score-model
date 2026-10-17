@@ -28,7 +28,10 @@ on:
       - 'tools/kb21_uefa_article_compare.py'
       - 'tools/kb21_official_belgium.py'
       - 'tools/kb21_belgium_round_compare.py'
+      - 'tools/kb21_official_uefa_qualifiers_cycle.py'
+      - 'tools/kb21_uefa_qualifiers_cycle_compare.py'
       - 'tests/test_kb21_official_belgium.py'
+      - 'tests/test_kb21_official_uefa_qualifiers_cycle.py'
       - 'tests/test_kb21_official_uefa_articles.py'
       - 'tools/kb21_official_press_compare.py'
       - 'tools/kb21_dfl_compare.py'
@@ -105,7 +108,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_uefa_qualifiers_cycle tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -221,6 +224,26 @@ jobs:
               ], check=True)
           else:
               print('::warning::Belgium organizer current-round feed unavailable; no calendar approval')
+          # Official UEFA 2026 World Cup qualification edition ENDED March 31.
+          # Its dated historical article is edition context, NOT a current
+          # complete fixture calendar and never a verified zero-game day.
+          qualifiers_path = Path('reports/kb21_legacy/official-uefa-qualifiers-cycle.json')
+          qualifiers_run = subprocess.run([
+              'python', '-m', 'tools.kb21_official_uefa_qualifiers_cycle',
+              '--days', *scope['days'], '--output', str(qualifiers_path),
+          ], check=False)
+          if qualifiers_run.returncode == 0 and qualifiers_path.is_file():
+              subprocess.run([
+                  'python', '-m', 'tools.kb21_uefa_qualifiers_cycle_compare',
+                  'reports/kb21_legacy/assessment-queue.json',
+                  str(qualifiers_path),
+                  '--output', 'reports/kb21_legacy/official-uefa-qualifiers-cycle-vs-espn.json',
+              ], check=True)
+              qual = json.loads(qualifiers_path.read_text(encoding='utf-8'))
+              if qual['status'] != 'DOCUMENTED_HISTORICAL_CYCLE_ONLY':
+                  print('::warning::UEFA World Cup 2026 historical status unverified; no zero-day approval')
+          else:
+              print('::warning::UEFA WC 2026 edition-status source unavailable; no calendar approval')
           fpl_source = Path('reports/kb21_legacy/official-fpl-premier-league.json')
           fpl_command = [
               'python', '-m', 'tools.kb21_official_fpl',
