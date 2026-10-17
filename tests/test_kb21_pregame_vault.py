@@ -75,6 +75,32 @@ def dfl(captured="2026-10-18T04:00:00+00:00"):
     }
 
 
+def laliga(captured="2026-10-18T04:00:00+00:00"):
+    from tools.kb21_official_laliga import URL
+    url = URL.format(season="2026-27", round=9)
+    return {
+        "schema": "kb21-official-laliga-matchday-html-v1",
+        "league_id": "esp.1", "days": DAYS,
+        "captured_at_utc": captured, "calendar_gate": "BLOCKED",
+        "reviewer_signed": False, "full_calendar_verified": False,
+        "season": "2026-27", "rounds_scanned": [9],
+        "sources": [{"round": 9, "url": url, "status": "PARSED_MATCHDAY",
+                     "parsed_rows": 1}],
+        "errors": [],
+        "status": "OFFICIAL_PARTIAL_MATCHDAY_WINDOW_FOR_REVIEW",
+        "by_day": {
+            DAYS[0]: [{
+                "league_id": "esp.1", "round": 9,
+                "home": "Real Madrid", "away": "Sevilla FC",
+                "date_warsaw": DAYS[0],
+                "kickoff_utc": "2026-10-18T19:00:00+00:00",
+                "official_url": url,
+            }],
+            DAYS[1]: [], DAYS[2]: [],
+        },
+    }
+
+
 def write_snapshots(root, knvb_doc=None, fpl_doc=None):
     for name, obj in [("knvb", knvb_doc), ("fpl", fpl_doc)]:
         if obj:
@@ -264,6 +290,58 @@ class EarlyVaultTests(unittest.TestCase):
             })
             result = match_before_whole_day_start(q, [archive])
             self.assertEqual(result[(DAY, "ger.1:441")]["status"],
+                             "NO_ELIGIBLE_EARLY_OFFICIAL_CAPTURE")
+
+    def test_laliga_dated_round_corroborates_before_first_kickoff_no_signoff(self):
+        with tempfile.TemporaryDirectory() as temp:
+            doc = laliga()
+            file = Path(temp, "laliga-source.json")
+            file.write_text(json.dumps(doc), encoding="utf-8")
+            pack_dir = Path(temp, "archive")
+            package(DAYS, {"laliga": file}, pack_dir,
+                    dt.datetime(2026, 10, 18, 4, 5, tzinfo=dt.timezone.utc))
+            manifest, sources = verify(pack_dir)
+            self.assertEqual(sources["laliga"]["season"], "2026-27")
+            self.assertFalse(manifest["official_day_completeness_verified"])
+            q = queue()
+            q["fixtures"].append({
+                "date_warsaw": DAY, "fixture_id": "esp.1:77",
+                "fixture": "Real Madrid - Sevilla FC",
+                "kickoff": "2026-10-18T21:00:00+02:00",
+            })
+            result = match_before_whole_day_start(q, [pack_dir])
+            self.assertEqual(result[(DAY, "esp.1:77")]["status"],
+                             "EARLY_SNAPSHOT_MATCHED_FOR_REVIEW")
+            self.assertEqual(result[(DAY, "esp.1:77")]["calendar_gate"], "BLOCKED")
+
+    def test_laliga_empty_or_corrupt_matchday_does_not_claim_calendar_proof(self):
+        with tempfile.TemporaryDirectory() as temp:
+            file = Path(temp, "laliga-source.json")
+            bad = laliga()
+            bad["full_calendar_verified"] = True
+            file.write_text(json.dumps(bad), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "safety flags"):
+                package(DAYS, {"laliga": file}, Path(temp, "archive"))
+            bad = laliga()
+            bad["by_day"][DAY][0]["official_url"] = "https://invalid.example/9"
+            file.write_text(json.dumps(bad), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "parsed official round"):
+                package(DAYS, {"laliga": file}, Path(temp, "archive"))
+            no_source = laliga()
+            no_source["status"] = "NO_USABLE_OFFICIAL_MATCHES"
+            no_source["by_day"][DAY] = []
+            file.write_text(json.dumps(no_source), encoding="utf-8")
+            out = Path(temp, "archive")
+            package(DAYS, {"laliga": file}, out,
+                    dt.datetime(2026, 10, 18, 4, 5, tzinfo=dt.timezone.utc))
+            q = queue()
+            q["fixtures"].append({
+                "date_warsaw": DAY, "fixture_id": "esp.1:77",
+                "fixture": "Real Madrid - Sevilla FC",
+                "kickoff": "2026-10-18T21:00:00+02:00",
+            })
+            result = match_before_whole_day_start(q, [out])
+            self.assertEqual(result[(DAY, "esp.1:77")]["status"],
                              "NO_ELIGIBLE_EARLY_OFFICIAL_CAPTURE")
 
 if __name__ == "__main__":

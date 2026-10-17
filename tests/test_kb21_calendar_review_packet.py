@@ -256,7 +256,7 @@ class CalendarReviewPacketTests(unittest.TestCase):
                 "added_pairs": [], "removed_pairs": [],
                 "kickoff_changes": [], "calendar_gate": "BLOCKED",
                 "full_organizer_day_attested": False, "human_signed": False,
-            } for day in DAYS for league in ("eng.1", "ned.1", "ger.1")],
+            } for day in DAYS for league in ("eng.1", "ned.1", "ger.1", "esp.1")],
         }
         changed = revisions["rows"][0]
         changed.update({
