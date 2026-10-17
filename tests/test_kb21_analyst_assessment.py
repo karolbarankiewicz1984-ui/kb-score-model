@@ -77,5 +77,16 @@ class AnalystAssessmentTests(unittest.TestCase):
         self.assertEqual(result["status"], "REVIEW_REQUIRED")
 
 
+    def test_malformed_source_url_is_invalid_not_crash(self):
+        candidate = sample()
+        candidate["str_evidence"] = [{
+            "url": "https://[invalid-ipv6", "observed_at": "2026-10-17T09:00:00+02:00",
+            "note": "Malformed URL"
+        }]
+        result = validate(candidate)
+        self.assertEqual(result["status"], "INVALID")
+        self.assertIn("Invalid str_evidence[0] URL/note", result["errors"])
+
+
 if __name__ == "__main__":
     unittest.main()
