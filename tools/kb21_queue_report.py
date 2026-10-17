@@ -39,6 +39,9 @@ def render_day(queue, day):
         valid = result["status"] == "REVIEW_REQUIRED"
         score = result.get("sport_score") if valid else None
         p = result.get("p_model") if valid else None
+        score_label = ("{}/35 + {}/35 + {}/30 = {}/100".format(
+            form.get("str"), form.get("qual"), form.get("match"), score)
+            if score is not None else "BRAK ZWERYFIKOWANEJ OCENY")
         out.extend([
             f"## {number}. {fixture.get('fixture', 'Nieustalone spotkanie')}",
             f"- Liga: {fixture.get('competition', '?')} ({fixture.get('fixture_id', '?')})",
@@ -47,7 +50,7 @@ def render_day(queue, day):
             f"- Niezależne zestawienie: {fixture.get('independent_crosscheck', {}).get('status', 'NIE WYKONANO')}",
             f"- Identyfikator w drugim źródle: {fixture.get('independent_crosscheck', {}).get('provider_match_id') or 'BRAK'}",
             f"- Rynek: {form.get('market') or 'DO UZUPEŁNIENIA'}",
-            f"- STR / QUAL / MATCH: {f\"{form.get('str')}/35 + {form.get('qual')}/35 + {form.get('match')}/30 = {score}/100\" if score is not None else 'BRAK ZWERYFIKOWANEJ OCENY'}",
+            f"- STR / QUAL / MATCH: {score_label}",
             f"- P(model): {f'{p:.1%}' if p is not None else 'NIE WYZNACZONO'}",
             f"- Data freeze: {form.get('freeze_at') or 'BRAK'}",
             f"- Analiza: {result['status']}; liczba braków/błędów: {len(result['errors'])}",
