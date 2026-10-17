@@ -81,6 +81,32 @@ class PressTests(unittest.TestCase):
         self.assertTrue(report["errors"])
         self.assertEqual(report["calendar_gate"], "BLOCKED")
 
+    def test_incomplete_announcement_is_explicitly_flagged(self):
+        # A partially parsed HTML page can look convincing; it must not
+        # be accepted as the original organizer's full announcement.
+        fragment = ITALY.replace("<p>PARMA – TORINO 19/10 h. 20.45</p>", "")
+        result = collect("ita.1", ["2026-10-17"], opener=lambda req, timeout:
+                         Fake(fragment.encode("utf-8")))
+        self.assertEqual(result["parsed_article_fixture_count"], 9)
+        self.assertEqual(result["expected_article_fixture_count"], 10)
+        self.assertTrue(any("Incomplete organizer article" in e
+                            for e in result["errors"]))
+        self.assertEqual(result["status"], "UNVERIFIED_SOURCE_OR_PARSER_ERROR")
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+
+    def test_day_inside_french_article_window_without_fixtures_is_not_zero(self):
+        result = collect("fra.1", ["2026-10-18", "2026-10-19", "2026-10-23"],
+                         opener=lambda req, timeout: Fake(FRANCE.encode("utf-8")))
+        self.assertEqual(result["by_day"]["2026-10-19"], [])
+        self.assertIn("2026-10-19",
+                      result["days_without_article_fixture_evidence"])
+        self.assertNotIn("2026-10-19", result["days_outside_article_range"])
+        self.assertNotIn("2026-10-18",
+                         result["days_without_article_fixture_evidence"])
+        self.assertEqual(result["expected_article_fixture_count"], 18)
+        self.assertEqual(result["status"], "UNVERIFIED_SOURCE_OR_PARSER_ERROR")
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+
     def test_wrong_content_or_unknown_league_fails_closed(self):
         self.assertEqual(parse("ita.1", "<p>ROMA – GENOA 17/10 h. 20.45</p>"), [])
         self.assertEqual(parse("fra.1", "<p>Olympique Lyonnais – OGC Nice</p>"), [])
