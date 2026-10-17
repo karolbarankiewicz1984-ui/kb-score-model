@@ -1,10 +1,11 @@
 name: KB21 legacy recovery (no API)
 on:
   # Diagnostic only, before the original 11:30 Warsaw KB Score reporting target.
-  # Fixed UTC slot runs at 10:15 Warsaw in summer / 09:15 in winter.
-  # GitHub scheduled workflows may start late; NO operational PLAY is released.
+  # After the 08:45 UTC KB21 input collector: 11:00 Warsaw summer,
+  # 10:00 Warsaw winter. This is ONLY a diagnostic, not the 11:30 LIVE PDF.
+  # GitHub scheduled workflows may start late; no guarantee of exact runtime.
   schedule:
-    - cron: '15 8 * * *'
+    - cron: '0 9 * * *'
   workflow_dispatch:
   push:
     paths:
