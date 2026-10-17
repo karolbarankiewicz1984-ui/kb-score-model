@@ -8,9 +8,9 @@
   ],
   "status": "OFFICIAL_WEB_RESEARCH_UNSIGNED",
   "calendar_gate": "BLOCKED",
-  "coverage": "FIVE_CORE_LEAGUES_TURKEY_FIVE_UEFA_CATEGORIES_BELGIUM_LEAGUE_OFF_DAYS_AND_PARTIAL_PORTUGAL_CLUB_EVIDENCE",
+  "coverage": "ALL_14_COMPETITIONS_HAVE_OFFICIAL_RESEARCH_ENTRIES__PORTUGAL_INCOMPLETE",
   "publication": "DIAGNOSTIC / NO PLAY",
-  "note": "Fixture details transcribed from real official organizer sources for investigation. NOT an authenticated programmatic fetch, not an independent signed full-day audit. Must compare to ESPN and independently re-check after schedule changes. No model score, P(model), PLAY or historical N. Three UEFA competition official schedules list no fixtures on Oct17-19, recorded as unsigned no-game research and never official signoff. Turkish Federation official times converted from UTC+3 to Europe/Warsaw UTC+2 on Oct17-19. UEFA Nations League official matchdays October 2026 are Oct1-6 and Nov12-17; 2026 World Cup European qualifiers concluded in March 2026. Both have no matches Oct17-19. Still unsigned.",
+  "note": "Fixture details transcribed from real official organizer sources for investigation. NOT an authenticated programmatic fetch, not an independent signed full-day audit. Must compare to ESPN and independently re-check after schedule changes. No model score, P(model), PLAY or historical N. Three UEFA competition official schedules list no fixtures on Oct17-19, recorded as unsigned no-game research and never official signoff. Turkish Federation official times converted from UTC+3 to Europe/Warsaw UTC+2 on Oct17-19. UEFA Nations League official matchdays October 2026 are Oct1-6 and Nov12-17; 2026 World Cup European qualifiers concluded in March 2026. Both have no matches Oct17-19. Still unsigned. Eredivisie 17-18 Oct schedule from Dutch federation KNVB official competition program; eight fixtures incl relocated NEC-Fortuna. Full round from KNVB, unsigned.",
   "days": {
     "2026-10-17": {
       "eng.1": {
@@ -296,6 +296,34 @@
         "fixture_time_confirmed_manually": false,
         "note": "Gil Vicente club official page confirms SC Braga vs Gil Vicente at 20:15 Portugal local time Oct19; this is NOT a complete league-wide inventory. No proof of empty dates Oct17/18.",
         "fixtures": []
+      },
+      "ned.1": {
+        "competition": "Eredivisie",
+        "official_source_url": "https://www.knvb.nl/competities/eredivisie/programma",
+        "supporting_pdf_url": "https://www.knvb.nl/downloads/bestand/30062/definitiefcompetitieprogrammavriendenloterijeredivisie",
+        "timezone": "Europe/Amsterdam",
+        "source_kind": "OFFICIAL_ORGANIZER_PAGE_WEB_RESEARCH",
+        "full_round_source_found": true,
+        "official_fixture_list_extracted": true,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "fixtures": [
+          {
+            "home": "ADO Den Haag",
+            "away": "PSV",
+            "kickoff": "2026-10-17T16:30:00+02:00"
+          },
+          {
+            "home": "Telstar",
+            "away": "Feyenoord",
+            "kickoff": "2026-10-17T20:00:00+02:00"
+          },
+          {
+            "home": "Sparta Rotterdam",
+            "away": "Willem II",
+            "kickoff": "2026-10-17T21:00:00+02:00"
+          }
+        ]
       }
     },
     "2026-10-18": {
@@ -567,6 +595,44 @@
         "fixture_time_confirmed_manually": false,
         "note": "Gil Vicente club official page confirms SC Braga vs Gil Vicente at 20:15 Portugal local time Oct19; this is NOT a complete league-wide inventory. No proof of empty dates Oct17/18.",
         "fixtures": []
+      },
+      "ned.1": {
+        "competition": "Eredivisie",
+        "official_source_url": "https://www.knvb.nl/competities/eredivisie/programma",
+        "supporting_pdf_url": "https://www.knvb.nl/downloads/bestand/30062/definitiefcompetitieprogrammavriendenloterijeredivisie",
+        "timezone": "Europe/Amsterdam",
+        "source_kind": "OFFICIAL_ORGANIZER_PAGE_WEB_RESEARCH",
+        "full_round_source_found": true,
+        "official_fixture_list_extracted": true,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "fixtures": [
+          {
+            "home": "PEC Zwolle",
+            "away": "Go Ahead Eagles",
+            "kickoff": "2026-10-18T12:15:00+02:00"
+          },
+          {
+            "home": "SC Cambuur",
+            "away": "AZ",
+            "kickoff": "2026-10-18T14:30:00+02:00"
+          },
+          {
+            "home": "FC Groningen",
+            "away": "Ajax",
+            "kickoff": "2026-10-18T16:45:00+02:00"
+          },
+          {
+            "home": "N.E.C.",
+            "away": "Fortuna Sittard",
+            "kickoff": "2026-10-18T20:00:00+02:00"
+          },
+          {
+            "home": "FC Twente",
+            "away": "FC Utrecht",
+            "kickoff": "2026-10-18T20:00:00+02:00"
+          }
+        ]
       }
     },
     "2026-10-19": {
@@ -757,6 +823,18 @@
             "kickoff": "2026-10-19T21:15:00+02:00"
           }
         ]
+      },
+      "ned.1": {
+        "competition": "Eredivisie",
+        "official_source_url": "https://www.knvb.nl/competities/eredivisie/programma",
+        "supporting_pdf_url": "https://www.knvb.nl/downloads/bestand/30062/definitiefcompetitieprogrammavriendenloterijeredivisie",
+        "timezone": "Europe/Amsterdam",
+        "source_kind": "OFFICIAL_ORGANIZER_PAGE_WEB_RESEARCH",
+        "full_round_source_found": true,
+        "official_fixture_list_extracted": true,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "fixtures": []
       }
     }
   }
