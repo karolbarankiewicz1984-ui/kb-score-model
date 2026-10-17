@@ -704,7 +704,9 @@ jobs:
               # old draft's blockers also appear in a newly signed inventory.
               *(['--zero-evidence-worklist',
                  'reports/kb21_legacy/zero-day-evidence-worklist.json']
-                if review_input.name == 'official-inventory-all-sources-draft.json'
+                if not reviewed_path.is_file() and not json.loads(Path(
+                    'reports/kb21_legacy/human-review-persistent-status.json'
+                    ).read_text(encoding='utf-8'))['manual_days_reused']
                 else []),
               '--output-json', 'reports/kb21_legacy/calendar-review-packet.json',
               '--output-md', 'reports/kb21_legacy/calendar-review-packet.md',
