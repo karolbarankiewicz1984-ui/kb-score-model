@@ -44,6 +44,8 @@ on:
       - 'tools/kb21_context_enrich.py'
       - 'tools/kb21_calendar_coverage.py'
       - 'tools/kb21_calendar_evidence_dashboard.py'
+      - 'tools/kb21_calendar_review_packet.py'
+      - 'tests/test_kb21_calendar_review_packet.py'
       - 'tools/kb21_official_review.py'
       - 'tools/kb21_official_source_probe.py'
       - 'tools/kb21_official_research_compare.py'
@@ -108,7 +110,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_uefa_qualifiers_cycle tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_uefa_qualifiers_cycle tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_calendar_review_packet tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -540,6 +542,16 @@ jobs:
               '--output-json', 'reports/kb21_legacy/calendar-evidence-dashboard.json',
               '--output-md', 'reports/kb21_legacy/calendar-evidence-dashboard.md',
           ], check=True)
+          # Per-fixture organizer checklist: exact formal blockers and kickoff
+          # deadlines. Diagnostic only; do not auto-sign any day or publish PLAY.
+          subprocess.run([
+              'python', '-m', 'tools.kb21_calendar_review_packet',
+              'reports/kb21_legacy/assessment-queue.json',
+              'reports/kb21_legacy/official-calendar-gate-audit.json',
+              'reports/kb21_legacy/calendar-evidence-dashboard.json',
+              '--output-json', 'reports/kb21_legacy/calendar-review-packet.json',
+              '--output-md', 'reports/kb21_legacy/calendar-review-packet.md',
+          ], check=True)
           subprocess.run(['python', '-m', 'tools.kb21_context_enrich',
                           'reports/kb21_legacy/crosschecked-queue.json',
                           '--snapshots-dir', 'data/api_football/kb21_inputs',
@@ -594,6 +606,8 @@ jobs:
             reports/kb21_legacy/crosschecked-queue.json
             reports/kb21_legacy/calendar-evidence-dashboard.json
             reports/kb21_legacy/calendar-evidence-dashboard.md
+            reports/kb21_legacy/calendar-review-packet.json
+            reports/kb21_legacy/calendar-review-packet.md
             reports/kb21_legacy/calendar-coverage.json
             reports/kb21_legacy/calendar-coverage.md
             reports/kb21_legacy/official-source-compare.json
