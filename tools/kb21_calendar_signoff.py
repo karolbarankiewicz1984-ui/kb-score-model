@@ -78,11 +78,17 @@ def validate(queue, inventory, third_party_snapshots=None):
               "manual_source_attestation": False, "safe_to_publish_play": False}
     all_errors = []
     third_party_snapshots = third_party_snapshots or {}
-    capture_times = []
-    first_kickoffs = []
+    daily_approvals = inventory.get("daily_approvals") or {}
+    if not isinstance(daily_approvals, dict):
+        raise ValueError("daily_approvals must be a day-keyed object")
+    global_approval = inventory.get("approval")
+    approved_day_count = 0
+    pending_approval_count = 0
     for day in sorted(set(queue["days"])):
         official_day = inventory["days"].get(day)
         day_errors = []
+        capture_times = []
+        first_kickoffs = []
         rows = []
         league_sources = {x.get("league"): x for x in queue.get("source_status", {}).get(day, [])
                           if isinstance(x, dict)}
@@ -191,36 +197,54 @@ def validate(queue, inventory, third_party_snapshots=None):
             rows.append(row)
             for error in row["errors"]:
                 day_errors.append(f"{code}: {error}")
+        # A delayed/unresolved calendar on Saturday must never prevent
+        # correctly reviewed Sunday from being approved on its own.
+        approval = daily_approvals.get(day) or global_approval
+        signoff_ok = (
+            isinstance(approval, dict)
+            and isinstance(approval.get("reviewer"), str)
+            and bool(approval["reviewer"].strip())
+            and _instant(approval.get("approved_at")) is not None
+            and approval.get("attests_independent_official_review") is True
+        )
+        approved_time = _instant(approval.get("approved_at")) if isinstance(approval, dict) else None
+        if signoff_ok and approved_time is not None:
+            if capture_times and approved_time < max(capture_times):
+                day_errors.append("FINAL_APPROVAL_PREDATES_OFFICIAL_SOURCE_CAPTURE")
+            if first_kickoffs and approved_time >= min(first_kickoffs):
+                day_errors.append("FINAL_APPROVAL_AFTER_FIRST_KICKOFF")
+        ready = not day_errors
+        if not signoff_ok:
+            pending_approval_count += 1
+        if ready and signoff_ok:
+            status = "MANUALLY_APPROVED_CALENDAR"
+            approved_day_count += 1
+        elif ready:
+            status = "READY_FOR_MANUAL_APPROVAL"
+        else:
+            status = "BLOCKED"
         result["days"][day] = {
-            "status": "READY_FOR_MANUAL_APPROVAL" if not day_errors else "BLOCKED",
-            "all_organizers_reviewed": not day_errors,
+            "status": status,
+            "calendar_gate": "PASS_MANUAL" if status == "MANUALLY_APPROVED_CALENDAR" else "BLOCKED",
+            "all_organizers_reviewed": ready,
+            "approval_recorded": signoff_ok,
             "competitions": rows, "errors": day_errors,
         }
         all_errors += [f"{day}: {error}" for error in day_errors]
     if set(inventory["days"]) != set(queue["days"]):
         all_errors.append("INVENTORY_DAYS_DO_NOT_MATCH_REQUEST")
-    approval = inventory.get("approval")
-    signoff_ok = (
-        isinstance(approval, dict)
-        and isinstance(approval.get("reviewer"), str)
-        and bool(approval["reviewer"].strip())
-        and _instant(approval.get("approved_at")) is not None
-        and approval.get("attests_independent_official_review") is True
-    )
-    approved_time = _instant(approval.get("approved_at")) if isinstance(approval, dict) else None
-    if signoff_ok and approved_time is not None:
-        if capture_times and approved_time < max(capture_times):
-            all_errors.append("FINAL_APPROVAL_PREDATES_OFFICIAL_SOURCE_CAPTURE")
-        if first_kickoffs and approved_time >= min(first_kickoffs):
-            all_errors.append("FINAL_APPROVAL_AFTER_FIRST_KICKOFF")
     result["ready_for_approval"] = not all_errors
-    if not all_errors and signoff_ok:
+    result["approved_days"] = approved_day_count
+    result["pending_approval_days"] = pending_approval_count
+    if not all_errors and approved_day_count == len(queue["days"]) and queue["days"]:
         result["status"] = "MANUALLY_APPROVED_CALENDAR"
         result["calendar_gate"] = "PASS_MANUAL"
         result["manual_source_attestation"] = True
-    elif not all_errors:
+    elif not all_errors and approved_day_count < len(queue["days"]):
         result["status"] = "READY_FOR_MANUAL_APPROVAL"
-    elif not signoff_ok:
+    else:
+        result["status"] = "PARTIALLY_APPROVED_CALENDAR" if approved_day_count else "BLOCKED"
+    if pending_approval_count:
         result["approval_missing"] = True
     result["errors"] = all_errors
     result["note"] = (
@@ -254,6 +278,7 @@ def inventory_template(review):
     return {
         "schema": "kb21-human-calendar-inventory-v1",
         "days": days,
+        "daily_approvals": {day: None for day in days},
         "approval": None,
         "note": (
             "Template only. Enter real organizer fixture list and capture timestamp "
