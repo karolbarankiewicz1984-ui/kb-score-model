@@ -209,8 +209,11 @@ def main():
     if args.prepare_template:
         print(f"KB21 manual organizer inventory template: {len(result['days'])} days; no fixtures certified")
     else:
+        pending = sum(row["calendar_status"] == "BLOCKED"
+                      for day in result["days"].values() for row in day["competitions"])
         print(f"KB21 calendar validation: {result['calendar_gate']} — "
-              f"{len(result['errors'])} missing/disputed official checks; no auto-PLAY")
+              f"{pending} competition/day reviews pending, "
+              f"{len(result['errors'])} detailed missing-evidence reasons; no auto-PLAY")
 
 
 if __name__ == "__main__":
