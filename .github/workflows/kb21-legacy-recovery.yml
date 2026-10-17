@@ -16,6 +16,7 @@ on:
       - 'tools/kb21_official_fpl.py'
       - 'tools/kb21_official_dfl.py'
       - 'tools/kb21_dfl_compare.py'
+      - 'tools/kb21_official_source_seed.py'
       - 'tools/kb21_fpl_compare.py'
       - 'tools/kb21_fixture_digest.py'
       - 'tools/kb21_analyst_assessment.py'
@@ -53,6 +54,7 @@ on:
       - 'tests/test_kb21_official_fpl.py'
       - 'tests/test_kb21_official_dfl.py'
       - 'tests/test_kb21_dfl_compare.py'
+      - 'tests/test_kb21_official_source_seed.py'
       - 'tests/test_kb21_fpl_compare.py'
       - 'tests/test_kb21_legacy_calendar.py'
       - '.github/workflows/kb21-legacy-recovery.yml'
@@ -70,7 +72,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -253,6 +255,24 @@ jobs:
                   '--third-source-evidence', 'reports/kb21_legacy/third-source-conflicts.json',
                   '--output', 'reports/kb21_legacy/official-inventory-research-draft.json'
               ], check=True)
+          # Prepare the latest unsigned official research draft from direct
+          # organizer feeds for the current three dates. Manual research is
+          # kept unchanged and all contradictions are shown, never silently
+          # overwritten. It is NOT a signed Calendar Gate inventory.
+          original_draft = Path('reports/kb21_legacy/official-inventory-template.json')
+          researched_draft = Path('reports/kb21_legacy/official-inventory-research-draft.json')
+          if researched_draft.is_file():
+              original_draft = researched_draft
+          seed_cmd = [
+              'python', '-m', 'tools.kb21_official_source_seed',
+              str(original_draft),
+              '--output', 'reports/kb21_legacy/official-inventory-direct-sources-draft.json',
+          ]
+          if fpl_run.returncode == 0 and fpl_source.is_file():
+              seed_cmd += ['--fpl', str(fpl_source)]
+          if dfl_status == 'OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW' and dfl_file.is_file():
+              seed_cmd += ['--dfl', str(dfl_file)]
+          subprocess.run(seed_cmd, check=True)
           # A reviewed inventory may be supplied for the exact three Warsaw dates.
           # Never substitute unsigned or stale research for an approved inventory.
           from datetime import date
@@ -323,6 +343,7 @@ jobs:
             reports/kb21_legacy/official-review.md
             reports/kb21_legacy/official-inventory-template.json
             reports/kb21_legacy/official-inventory-research-draft.json
+            reports/kb21_legacy/official-inventory-direct-sources-draft.json
             reports/kb21_legacy/official-calendar-gate-audit.json
             reports/kb21_legacy/research-queue.json
             reports/kb21_legacy/review-shortlist.json
