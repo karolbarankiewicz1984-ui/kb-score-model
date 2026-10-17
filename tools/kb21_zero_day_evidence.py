@@ -7,7 +7,7 @@ No other partial organizer feed is treated as zero proof.
 """
 import argparse
 from collections import Counter
-from datetime import timezone
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 
@@ -40,7 +40,11 @@ def _full_fpl(snapshot, days):
     return all(isinstance(rows, list) for rows in snapshot["by_day"].values())
 
 
-def build(queue, draft, fpl=None):
+def build(queue, draft, fpl=None, now=None):
+    now = now or datetime.now(timezone.utc)
+    if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
+        raise ValueError("Zero evidence check needs timezone-aware current time")
+    now = now.astimezone(timezone.utc)
     if (not isinstance(queue, dict) or not isinstance(queue.get("days"), list)
             or not isinstance(queue.get("fixtures"), list)
             or not isinstance(draft, dict) or not isinstance(draft.get("days"), dict)
@@ -110,6 +114,9 @@ def build(queue, draft, fpl=None):
                 elif _instant(official_capture) >= deadline:
                     status = "FULL_SEASON_FPL_EMPTY_DAY_CAPTURE_TOO_LATE"
                     action = "Historical evidence only; do not sign retrospectively"
+                elif now >= deadline:
+                    status = "FULL_SEASON_FPL_EMPTY_DAY_HUMAN_SIGNOFF_DEADLINE_PASSED"
+                    action = "Snapshot was early but the human did NOT sign before first kickoff; no retrospective approval"
                 else:
                     status = "FULL_SEASON_FPL_ZERO_CANDIDATE_NEEDS_HUMAN_SIGNOFF"
                     action = ("Independently verify organizer 380-match catalogue and all updates "
