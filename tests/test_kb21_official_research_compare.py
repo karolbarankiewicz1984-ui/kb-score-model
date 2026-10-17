@@ -115,7 +115,7 @@ class OfficialResearchCompareTests(unittest.TestCase):
             "zero_fixtures_in_window_from_complete_uefa_round_schedule"] = True
         result = compare(q, research)
         row = result["days"]["2026-10-17"][0]
-        self.assertEqual(row["status"], "UEFA_OFFICIAL_ROUND_HAS_NO_GAMES_UNSIGNED")
+        self.assertEqual(row["status"], "OFFICIAL_ORGANIZER_SCHEDULE_NO_GAMES_UNSIGNED")
         self.assertEqual(result["calendar_gate"], "BLOCKED")
 
 
