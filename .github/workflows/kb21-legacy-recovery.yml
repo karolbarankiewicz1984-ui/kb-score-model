@@ -663,7 +663,13 @@ jobs:
               '--comparisons-dir', 'reports/kb21_legacy',
               '--early-archive-compare', 'reports/kb21_legacy/early-official-vs-espn.json',
               '--early-archive-revisions', 'reports/kb21_legacy/early-official-revisions.json',
-              '--zero-evidence-worklist', 'reports/kb21_legacy/zero-day-evidence-worklist.json',
+              # A genuinely signed review (if supplied later) supersedes
+              # the unsigned source-draft zero backlog. Never demand that an
+              # old draft's blockers also appear in a newly signed inventory.
+              *(['--zero-evidence-worklist',
+                 'reports/kb21_legacy/zero-day-evidence-worklist.json']
+                if review_input.name == 'official-inventory-all-sources-draft.json'
+                else []),
               '--output-json', 'reports/kb21_legacy/calendar-review-packet.json',
               '--output-md', 'reports/kb21_legacy/calendar-review-packet.md',
           ], check=True)
