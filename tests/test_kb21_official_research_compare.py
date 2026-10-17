@@ -147,5 +147,39 @@ class OfficialResearchCompareTests(unittest.TestCase):
         self.assertEqual(result["calendar_gate"], "BLOCKED")
 
 
+    def test_dutch_knvb_full_round_with_club_aliases(self):
+        q = {"days": ["2026-10-17"], "fixtures": [{
+            "fixture_id": "ned.1:100", "fixture": "ADO Den Haag - PSV Eindhoven",
+            "kickoff": "2026-10-17T14:30:00Z", "date_warsaw": "2026-10-17"
+        }, {
+            "fixture_id": "ned.1:101", "fixture": "Telstar - Feyenoord Rotterdam",
+            "kickoff": "2026-10-17T18:00:00Z", "date_warsaw": "2026-10-17"
+        }]}
+        official = source("2026-10-17", [
+            fixture("ADO Den Haag", "PSV", "2026-10-17T16:30:00+02:00"),
+            fixture("Telstar", "Feyenoord", "2026-10-17T20:00:00+02:00"),
+        ], league="ned.1")
+        result = compare(q, official)
+        row = result["days"]["2026-10-17"][0]
+        self.assertEqual(row["matched_count"], 2)
+        self.assertEqual(row["status"], "TWO_SOURCE_REVIEW_CANDIDATE")
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+
+    def test_portugal_braga_club_source_matches_but_cannot_certify_full_league(self):
+        q = {"days": ["2026-10-17"], "fixtures": [
+            candidate("Braga", "Gil Vicente", "2026-10-17T19:15:00Z", league="por.1")
+        ]}
+        research = source("2026-10-17", [fixture(
+            "SC Braga", "Gil Vicente", "2026-10-17T21:15:00+02:00"
+        )], league="por.1")
+        entry = research["days"]["2026-10-17"]["por.1"]
+        entry["full_round_source_found"] = False
+        entry["official_fixture_list_extracted"] = False
+        row = compare(q, research)["days"]["2026-10-17"][0]
+        self.assertEqual(row["matched_count"], 1)
+        self.assertEqual(row["status"], "PARTIAL_OFFICIAL_CLUB_MATCH_ONLY")
+
+
+
 if __name__ == "__main__":
     unittest.main()
