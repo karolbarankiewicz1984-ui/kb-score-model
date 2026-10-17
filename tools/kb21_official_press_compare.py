@@ -29,6 +29,7 @@ def compare(queue, organizer):
         "league_id": league, "days": {}, "organizer_source": organizer.get("official_url"),
         "organizer_fetch_errors": organizer.get("errors", []),
         "days_outside_article_range": organizer.get("days_outside_article_range", []),
+        "days_without_article_fixture_evidence": organizer.get("days_without_article_fixture_evidence", []),
         "calendar_gate": "BLOCKED", "publication": "DIAGNOSTIC / NO PLAY",
         "human_approved": False,
     }
@@ -123,6 +124,10 @@ def render(report):
                 f"- {day}: tylko organizator: {item['home']} – {item['away']} "
                 f"{item['kickoff_warsaw']}"
             )
+    if report["days_without_article_fixture_evidence"]:
+        rows.append("")
+        rows.append("Brak potwierdzenia spotkań w komunikacie dla dat (NIE potwierdzono 0 spotkań): "
+                    + ", ".join(report["days_without_article_fixture_evidence"]))
     if report["days_outside_article_range"]:
         rows.append("")
         rows.append(
