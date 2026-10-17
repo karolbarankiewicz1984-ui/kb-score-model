@@ -58,6 +58,23 @@ def queue():
     }
 
 
+def dfl(captured="2026-10-18T04:00:00+00:00"):
+    return {
+        "schema": "kb21-official-bundesliga-media-v1",
+        "league_id": "ger.1", "days": DAYS,
+        "captured_at_utc": captured, "calendar_gate": "BLOCKED",
+        "reviewer_signed": False, "full_day_coverage_verified": False,
+        "full_season_coverage_verified": False,
+        "status": "OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW",
+        "table_headers_detected": True, "page_invalid_row_count": 0,
+        "by_day": {
+            DAYS[0]: [{"home": "Bayern Munich", "away": "Bayer Leverkusen",
+                       "kickoff_utc": "2026-10-18T13:00:00+00:00"}],
+            DAYS[1]: [], DAYS[2]: [],
+        },
+    }
+
+
 def write_snapshots(root, knvb_doc=None, fpl_doc=None):
     for name, obj in [("knvb", knvb_doc), ("fpl", fpl_doc)]:
         if obj:
@@ -198,6 +215,56 @@ class EarlyVaultTests(unittest.TestCase):
             "https://example.blob.core.windows.net/signed-download")
         self.assertIsNone(redirected.get_header("Authorization"))
         self.assertEqual(req.get_header("Authorization"), "Bearer fake-private-token")
+
+    def test_dfl_early_catalogue_is_partial_but_provides_kickoff_candidate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            league_source = Path(tmp, "dfl-input.json")
+            league_source.write_text(json.dumps(dfl()))
+            source = write_snapshots(tmp, knvb(), fpl())
+            source["dfl"] = league_source
+            archive = Path(tmp, "vault")
+            manifest = package(DAYS, source, archive,
+                               dt.datetime(2026, 10, 18, 4, 5,
+                                           tzinfo=dt.timezone.utc))
+            self.assertEqual(set(manifest["sources"]), {"knvb", "fpl", "dfl"})
+            self.assertFalse(manifest["official_day_completeness_verified"])
+            _, snapshots = verify(archive)
+            self.assertEqual(snapshots["dfl"]["status"],
+                             "OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW")
+            q = queue()
+            q["fixtures"].append({
+                "date_warsaw": DAY, "fixture_id": "ger.1:441",
+                "fixture": "Bayern Munich - Bayer Leverkusen",
+                "kickoff": "2026-10-18T15:00:00+02:00",
+            })
+            r = match_before_whole_day_start(q, [archive])
+            self.assertEqual(r[(DAY, "ger.1:441")]["status"],
+                             "EARLY_SNAPSHOT_MATCHED_FOR_REVIEW")
+            self.assertEqual(r[(DAY, "ger.1:441")]["calendar_gate"], "BLOCKED")
+
+    def test_dfl_partial_or_malformed_source_never_opens_calendar(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            f = Path(tmp, "dfl-input.json")
+            unsafe = dfl()
+            unsafe["full_day_coverage_verified"] = True
+            f.write_text(json.dumps(unsafe))
+            with self.assertRaisesRegex(ValueError, "safety flags"):
+                package(DAYS, {"dfl": f}, Path(tmp, "archive"))
+            unsafe = dfl()
+            unsafe["status"] = "OFFICIAL_TABLE_UNUSABLE_OR_INCOMPLETE"
+            f.write_text(json.dumps(unsafe))
+            archive = Path(tmp, "archive")
+            package(DAYS, {"dfl": f}, archive,
+                    dt.datetime(2026, 10, 18, 4, 5, tzinfo=dt.timezone.utc))
+            q = queue()
+            q["fixtures"].append({
+                "date_warsaw": DAY, "fixture_id": "ger.1:441",
+                "fixture": "Bayern Munich - Bayer Leverkusen",
+                "kickoff": "2026-10-18T15:00:00+02:00",
+            })
+            result = match_before_whole_day_start(q, [archive])
+            self.assertEqual(result[(DAY, "ger.1:441")]["status"],
+                             "NO_ELIGIBLE_EARLY_OFFICIAL_CAPTURE")
 
 if __name__ == "__main__":
     unittest.main()
