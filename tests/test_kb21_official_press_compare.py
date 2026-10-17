@@ -59,6 +59,15 @@ class PressCrosscheckTests(unittest.TestCase):
         self.assertEqual(report["days"]["2026-10-17"]["statuses"]["ORGANIZER_ONLY"], 1)
         self.assertIn("2026-10-17", render(report))
 
+    def test_date_missing_inside_press_window_visible_in_report(self):
+        info = source("fra.1")
+        info["days_without_article_fixture_evidence"] = ["2026-10-17"]
+        report = compare(queue("fra.1"), info)
+        self.assertEqual(report["days_without_article_fixture_evidence"],
+                         ["2026-10-17"])
+        self.assertIn("NIE potwierdzono 0 spotkań", render(report))
+        self.assertEqual(report["calendar_gate"], "BLOCKED")
+
     def test_mismatched_source_scope_fails(self):
         s = source()
         s["days"] = ["2026-10-18"]
