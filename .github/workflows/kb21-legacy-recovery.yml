@@ -1,5 +1,10 @@
 name: KB21 legacy recovery (no API)
 on:
+  # Diagnostic only, before the original 11:30 Warsaw KB Score reporting target.
+  # Fixed UTC slot runs at 10:15 Warsaw in summer / 09:15 in winter.
+  # GitHub scheduled workflows may start late; NO operational PLAY is released.
+  schedule:
+    - cron: '15 8 * * *'
   workflow_dispatch:
   push:
     paths:
@@ -11,11 +16,15 @@ on:
       - 'tools/kb21_analyst_assessment.py'
       - 'tools/kb21_assessment_queue.py'
       - 'tools/kb21_queue_report.py'
+      - 'tools/kb21_context_enrich.py'
+      - 'tools/kb21_calendar_coverage.py'
       - 'tools/kb21_fixture_crosscheck.py'
       - 'tools/kb21_market_review.py'
       - 'tests/test_kb21_analyst_assessment.py'
       - 'tests/test_kb21_assessment_queue.py'
       - 'tests/test_kb21_queue_report.py'
+      - 'tests/test_kb21_context_enrich.py'
+      - 'tests/test_kb21_calendar_coverage.py'
       - 'tests/test_kb21_fixture_crosscheck.py'
       - 'tests/test_kb21_market_review.py'
       - 'tests/test_kb21_pipeline_integration.py'
@@ -24,6 +33,9 @@ on:
       - '.github/workflows/kb21-legacy-recovery.yml'
 permissions:
   contents: read
+concurrency:
+  group: kb21-analyst-diagnostic
+  cancel-in-progress: false
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -33,7 +45,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -52,6 +64,36 @@ jobs:
           result = json.loads(Path('reports/kb21_legacy/calendar-gate.json').read_text(encoding='utf-8'))
           assert result['status'] == 'BLOCKED', 'Calendar gate unexpectedly allowed missing fixtures'
           print('Safety check OK: missing calendar remains BLOCKED')
+          PY
+      - name: Refresh next three independent calendar snapshots when credential is available
+        # On push, only test with already tracked snapshots to avoid API quota waste.
+        if: github.event_name != 'push'
+        env:
+          FOOTBALL_DATA_ORG_KEY: ${{ secrets.FOOTBALL_DATA_ORG_KEY }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os, subprocess
+          from datetime import datetime, timedelta
+          from zoneinfo import ZoneInfo
+          from pathlib import Path
+          if not os.getenv("FOOTBALL_DATA_ORG_KEY"):
+              print("::notice::FOOTBALL_DATA_ORG_KEY unavailable; independently verified calendar remains BLOCKED")
+          else:
+              today = datetime.now(ZoneInfo("Europe/Warsaw")).date()
+              for offset in range(3):
+                  day = (today + timedelta(days=offset)).isoformat()
+                  proc = subprocess.run(
+                      ["python", "-m", "tools.kb21_football_data_org",
+                       "--date", day, "--target-competitions"],
+                      check=False
+                  )
+                  if proc.returncode:
+                      print(f"::warning::Independent calendar refresh failed for {day}; no calendar approval")
+                  else:
+                      target = Path("reports/kb21_legacy") / f"independent-source-{day}.json"
+                      target.parent.mkdir(parents=True, exist_ok=True)
+                      target.write_bytes((Path("data/football_data_org") / f"{day}.json").read_bytes())
           PY
       - name: Collect three-day fixture candidates (diagnostic only)
         run: |
@@ -73,8 +115,17 @@ jobs:
                           'reports/kb21_legacy/assessment-queue.json',
                           '--snapshots-dir', 'data/football_data_org',
                           '--output', 'reports/kb21_legacy/crosschecked-queue.json'], check=True)
-          subprocess.run(['python', '-m', 'tools.kb21_queue_report',
+          subprocess.run(['python', '-m', 'tools.kb21_calendar_coverage',
                           'reports/kb21_legacy/crosschecked-queue.json',
+                          '--snapshots-dir', 'data/football_data_org',
+                          '--output-json', 'reports/kb21_legacy/calendar-coverage.json',
+                          '--output-md', 'reports/kb21_legacy/calendar-coverage.md'], check=True)
+          subprocess.run(['python', '-m', 'tools.kb21_context_enrich',
+                          'reports/kb21_legacy/crosschecked-queue.json',
+                          '--snapshots-dir', 'data/api_football/kb21_inputs',
+                          '--output', 'reports/kb21_legacy/research-queue.json'], check=True)
+          subprocess.run(['python', '-m', 'tools.kb21_queue_report',
+                          'reports/kb21_legacy/research-queue.json',
                           '--outdir', 'reports/kb21_legacy/worksheets'], check=True)
           PY
       - uses: actions/upload-artifact@v4
@@ -86,5 +137,9 @@ jobs:
             reports/kb21_legacy/three-day-candidates.md
             reports/kb21_legacy/assessment-queue.json
             reports/kb21_legacy/crosschecked-queue.json
+            reports/kb21_legacy/calendar-coverage.json
+            reports/kb21_legacy/calendar-coverage.md
+            reports/kb21_legacy/research-queue.json
+            reports/kb21_legacy/independent-source-*.json
             reports/kb21_legacy/worksheets/*.md
           retention-days: 30
