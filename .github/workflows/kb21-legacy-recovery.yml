@@ -170,7 +170,8 @@ jobs:
                       target.write_bytes((Path("data/football_data_org") / f"{day}.json").read_bytes())
           PY
       - name: Recover actual early organizer captures from previous MAIN runs
-        if: github.event_name != 'push'
+        # Read only verified immutable artifacts from main, including on push.
+        # This also smoke-tests the cross-workflow download before scheduling.
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
