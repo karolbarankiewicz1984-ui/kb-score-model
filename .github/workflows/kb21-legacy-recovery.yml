@@ -16,6 +16,8 @@ on:
       - 'tools/kb21_official_fpl.py'
       - 'tools/kb21_official_dfl.py'
       - 'tools/kb21_official_tff.py'
+      - 'tools/kb21_official_portugal_postponed.py'
+      - 'tools/kb21_portugal_club_compare.py'
       - 'tools/kb21_tff_compare.py'
       - 'tools/kb21_official_knvb.py'
       - 'tools/kb21_knvb_compare.py'
@@ -62,6 +64,8 @@ on:
       - 'tests/test_kb21_official_fpl.py'
       - 'tests/test_kb21_official_dfl.py'
       - 'tests/test_kb21_official_tff.py'
+      - 'tests/test_kb21_official_portugal_postponed.py'
+      - 'tests/test_kb21_portugal_club_compare.py'
       - 'tests/test_kb21_tff_compare.py'
       - 'tests/test_kb21_tff_source_seed.py'
       - 'tests/test_kb21_official_knvb.py'
@@ -92,7 +96,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -271,6 +275,29 @@ jobs:
                   print('::warning::TFF selected matchweek incomplete/unavailable; no calendar approval')
           else:
               print('::warning::TFF official page unavailable; no calendar approval')
+          # Two direct official Portugal CLUB pages for the postponed match
+          # SC Braga - Gil Vicente. These pages are not a complete
+          # Liga Portugal organizer fixture calendar; never approve 0 dates.
+          portugal_path = Path('reports/kb21_legacy/official-portugal-postponement.json')
+          portugal_run = subprocess.run([
+              'python', '-m', 'tools.kb21_official_portugal_postponed',
+              '--days', *scope['days'], '--output', str(portugal_path)
+          ], check=False)
+          if portugal_run.returncode == 0 and portugal_path.is_file():
+              subprocess.run([
+                  'python', '-m', 'tools.kb21_portugal_club_compare',
+                  'reports/kb21_legacy/assessment-queue.json',
+                  str(portugal_path),
+                  '--output', 'reports/kb21_legacy/official-portugal-vs-espn.json',
+                  '--output-md', 'reports/kb21_legacy/official-portugal-vs-espn.md',
+              ], check=True)
+              portugal_data = json.loads(portugal_path.read_text(encoding='utf-8'))
+              if portugal_data.get('status') != 'CLUB_ARTICLE_PARTIAL_FOR_REVIEW':
+                  print('::warning::Portuguese club evidence not currently readable; no calendar approval')
+              elif portugal_data.get('source_errors'):
+                  print('::warning::Portugal postponed match has unresolved club source or timezone issues')
+          else:
+              print('::warning::Portugal postponed club evidence unavailable; no calendar approval')
           # Official DFL/Bundesliga Media page exposes a current matchday
           # HTML table with unambiguous UTC fixture kickoffs. It may NOT
           # cover all future dates or postponed fixtures. Fail closed.
@@ -450,6 +477,9 @@ jobs:
             reports/kb21_legacy/official-press-ligue1.json
             reports/kb21_legacy/official-press-ligue1-vs-espn.json
             reports/kb21_legacy/official-press-ligue1-vs-espn.md
+            reports/kb21_legacy/official-portugal-postponement.json
+            reports/kb21_legacy/official-portugal-vs-espn.json
+            reports/kb21_legacy/official-portugal-vs-espn.md
             reports/kb21_legacy/official-tff-superlig.json
             reports/kb21_legacy/official-tff-vs-espn.json
             reports/kb21_legacy/official-tff-vs-espn.md
