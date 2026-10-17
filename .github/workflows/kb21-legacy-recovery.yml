@@ -137,7 +137,9 @@ jobs:
                           '--output-md', 'reports/kb21_legacy/calendar-coverage.md'], check=True)
           import json
           report = json.loads(Path('reports/kb21_legacy/crosschecked-queue.json').read_text(encoding='utf-8'))
-          research = Path('data/kb21_official_research/2026-10-17_to_2026-10-19.json')
+          report_dates = sorted(report['days'])
+          research = (Path('data/kb21_official_research') /
+                      (report_dates[0] + '_to_' + report_dates[-1] + '.json'))
           if research.exists():
               official = json.loads(research.read_text(encoding='utf-8'))
               if set(official.get('date_scope', [])) == set(report.get('days', [])):
