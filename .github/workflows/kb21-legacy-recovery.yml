@@ -613,6 +613,7 @@ jobs:
               'reports/kb21_legacy/calendar-evidence-dashboard.json',
               '--partial-draft', 'reports/kb21_legacy/official-inventory-all-sources-draft.json',
               '--comparisons-dir', 'reports/kb21_legacy',
+              '--early-archive-compare', 'reports/kb21_legacy/early-official-vs-espn.json',
               '--output-json', 'reports/kb21_legacy/calendar-review-packet.json',
               '--output-md', 'reports/kb21_legacy/calendar-review-packet.md',
           ], check=True)
