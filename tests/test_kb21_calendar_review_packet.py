@@ -242,5 +242,53 @@ class CalendarReviewPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "cannot approve"):
             build(q, g, d, early_archive=early)
 
+    def test_early_organizer_revisions_remain_explicitly_unsigned(self):
+        q, g, d = data()
+        revisions = {
+            "schema": "kb21-early-official-revision-audit-v1",
+            "days": DAYS, "calendar_gate": "BLOCKED",
+            "safe_to_publish_play": False,
+            "rows": [{
+                "day": day, "league_id": league,
+                "status": "NO_EARLY_OFFICIAL_SNAPSHOT",
+                "eligible_snapshot_count": 0,
+                "last_capture_utc": None, "first_capture_utc": None,
+                "added_pairs": [], "removed_pairs": [],
+                "kickoff_changes": [], "calendar_gate": "BLOCKED",
+                "full_organizer_day_attested": False, "human_signed": False,
+            } for day in DAYS for league in ("eng.1", "ned.1")],
+        }
+        changed = revisions["rows"][0]
+        changed.update({
+            "status": "OFFICIAL_PREMATCH_SNAPSHOT_CHANGED_NEEDS_REVIEW",
+            "eligible_snapshot_count": 2,
+            "first_capture_utc": "2026-10-17T07:00:00Z",
+            "last_capture_utc": "2026-10-17T09:00:00Z",
+            "removed_pairs": [{"home": "Arsenal", "away": "Chelsea",
+                               "earliest_kickoff_utc": "2026-10-17T14:00:00Z"}],
+        })
+        r = build(q, g, d, early_revisions=revisions)
+        self.assertEqual(r["totals"]["early_organizer_day_revisions_to_review"], 1)
+        self.assertIn("WYMAGA SPRAWDZENIA ZMIAN", render(r))
+        self.assertFalse(r["safe_to_publish_play"])
+        self.assertEqual(r["totals"]["source_day_signoffs_from_packet"], 0)
+        changed["last_capture_utc"] = "2026-10-17T15:00:00Z"
+        with self.assertRaisesRegex(ValueError, "after first game"):
+            build(q, g, d, early_revisions=revisions)
+        changed["last_capture_utc"] = "2026-10-17T09:00:00Z"
+        changed["human_signed"] = True
+        with self.assertRaisesRegex(ValueError, "cannot grant approval"):
+            build(q, g, d, early_revisions=revisions)
+
+    def test_early_organizer_revisions_require_every_two_league_day_cell(self):
+        q, g, d = data()
+        bad = {
+            "schema": "kb21-early-official-revision-audit-v1",
+            "days": DAYS, "calendar_gate": "BLOCKED",
+            "safe_to_publish_play": False, "rows": [],
+        }
+        with self.assertRaisesRegex(ValueError, "missing competition/day"):
+            build(q, g, d, early_revisions=bad)
+
 if __name__ == "__main__":
     unittest.main()
