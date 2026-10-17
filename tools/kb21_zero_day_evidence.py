@@ -161,7 +161,15 @@ def render(report):
         "Premier League: kompletny katalog 380 gier i przedmeczowy dowód "
         "braku zaplanowanego spotkania: **" +
         str(t["full_season_fpl_zero_candidates"]) + "**.",
-        "", "| Data | Rozgrywki | Poziom dowodu | Kandydaci ESPN | Oficjalny terminarz |",
+        "", "## Najpilniejsze: brak dowodu pełnego terminarza", "",
+    ]
+    urgent = [row for row in report["rows"]
+              if row["status"] == "NO_COMPLETE_OFFICIAL_DAY_EVIDENCE"]
+    for item in urgent:
+        lines.append("- **" + item["day"] + " " + item["competition"] +
+                     "** — " + item["official_url_to_review"] +
+                     " — uzyskać pełny terminarz i potwierdzenie zerowej liczby gier.")
+    lines += ["", "| Data | Rozgrywki | Poziom dowodu | Kandydaci ESPN | Oficjalny terminarz |",
         "|---|---|---|---:|---|",
     ]
     for row in report["rows"]:
@@ -204,6 +212,10 @@ def main():
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
     print("KB21 zero-day evidence triage:", report["totals"], "NO PLAY")
+    print("KB21 urgent absent full-day sources:",
+          [(r["day"], r["league_id"], r["official_url_to_review"])
+           for r in report["rows"]
+           if r["status"] == "NO_COMPLETE_OFFICIAL_DAY_EVIDENCE"])
 
 
 if __name__ == "__main__":
