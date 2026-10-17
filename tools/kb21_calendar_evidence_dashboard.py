@@ -50,6 +50,18 @@ def summarize(queue, gate, directory):
     if (not isinstance(gate, dict) or gate.get("calendar_gate") not in
             {"BLOCKED", "PASS_MANUAL"} or set(gate.get("days", {})) != set(days)):
         raise ValueError("Calendar Gate scope mismatch or missing audit")
+    # Other tournaments and malformed fixture identifiers must never disappear
+    # silently from the 14-competition diagnostic denominator.
+    for event in queue["fixtures"]:
+        if not isinstance(event, dict) or event.get("date_warsaw") not in days:
+            raise ValueError("Fixture outside reviewed dates or invalid record")
+        if not isinstance(event.get("fixture_id"), str) or not event["fixture_id"]:
+            raise ValueError("Missing or invalid fixture identifier")
+    untracked = [
+        event["fixture_id"] for event in queue["fixtures"]
+        if not any(event["fixture_id"].startswith(league + ":")
+                   for league in COMPETITIONS)
+    ]
     folder = Path(directory)
     output = {"schema": "kb21-calendar-evidence-dashboard-v1",
               "days": days, "calendar_gate": gate["calendar_gate"],
@@ -131,13 +143,16 @@ def summarize(queue, gate, directory):
                 "calendar_gate": "BLOCKED" if gate["calendar_gate"] == "BLOCKED" else "REQUIRES_OTHER_GATES",
             })
     kinds = Counter(row["evidence_status"] for row in output["rows"])
+    paired_total = sum(row["paired_for_review"] for row in output["rows"])
     output["totals"] = {
         "league_day_cells": len(output["rows"]),
         "league_count": len(COMPETITIONS),
         "days_count": len(days),
         "candidate_fixtures": len(queue["fixtures"]),
-        "paired_for_review": sum(x["paired_for_review"] for x in output["rows"]),
-        "unpaired_candidates": sum(x["espn_candidates"] - x["paired_for_review"] for x in output["rows"]),
+        "paired_for_review": paired_total,
+        "unpaired_candidates": len(queue["fixtures"]) - paired_total,
+        "outside_competition_scope": len(untracked),
+        "outside_competition_scope_ids": sorted(set(untracked))[:20],
         "direct_adapters": len(ADAPTERS),
         "without_direct_adapters": len(COMPETITIONS) - len(ADAPTERS),
         "cells_by_status": dict(sorted(kinds.items())),
@@ -158,6 +173,8 @@ def render(report):
         f"Calendar Gate: **{report['calendar_gate']}**",
         f"Kandydaci: {totals['candidate_fixtures']}; zgodność par do weryfikacji: "
         f"{totals['paired_for_review']}; niedopasowane: {totals['unpaired_candidates']}",
+        f"Poza 14 kategoriami rozgrywek: {totals['outside_competition_scope']} "
+        f"(wliczone do niedopasowanych).",
         f"Bezpośrednie adaptery: {totals['direct_adapters']}/{totals['league_count']} lig; "
         f"nadal bez adaptera: {totals['without_direct_adapters']}",
         f"Braki formalnego audytu: {totals['manual_gate_errors']} powodów; "
@@ -175,6 +192,12 @@ def render(report):
             f"{item['direct_evidence_scope']} | {item['evidence_status']} |"
         )
     lines += ["", "### Ważne blokady", ""]
+    if totals["outside_competition_scope"]:
+        lines.append(
+            "- WYKRYTO MECZE POZA ZAKRESEM 14 ROZGRYWEK: "
+            + ", ".join(totals["outside_competition_scope_ids"])
+            + "; wymagają osobnego audytu i nie są potwierdzonymi meczami."
+        )
     for item in report["rows"]:
         if item["evidence_status"] in ("MISSING_OR_CONFLICTING_CANDIDATES",
                                        "ORGANIZER_ONLY_FIXTURES",
