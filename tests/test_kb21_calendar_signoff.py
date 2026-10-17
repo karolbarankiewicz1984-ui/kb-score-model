@@ -78,7 +78,7 @@ class CalendarSignoffTests(unittest.TestCase):
     def test_wrong_time_and_after_kickoff_capture_blocks(self):
         q, i = sample()
         i["days"]["2026-10-18"]["eng.1"]["fixtures"][0]["kickoff"] = "2026-10-18T20:00:00+02:00"
-        self.assertIn("MATCH_IDENTITY_OR_TIME_DISAGREEMENT",
+        self.assertIn("KICKOFF_CONFLICT_REQUIRES_PREMATCH_THIRD_SOURCE_AND_MANUAL_REVIEW",
                       " ".join(validate(q, i)["errors"]))
         q, i = sample()
         i["days"]["2026-10-18"]["eng.1"]["captured_at"] = "2026-10-18T19:00:00+02:00"
