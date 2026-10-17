@@ -258,3 +258,46 @@
   kalendarza wszystkich 14 kategorii dla bieżących trzech dni.
   **Calendar Gate BLOCKED; DIAGNOSTIC / NO PLAY**, brak
   automatycznego P(model), freeze, PDF LIVE i wpisów N.
+
+
+## Siódme źródło — KNVB + TFF, zweryfikowane w CI 17.10.2026
+
+- KNVB `https://www.knvb.nl/competities/eredivisie/programma`:
+  `tools/kb21_official_knvb.py` pobrał bezpośrednio widoczny
+  program Eredivisie, rozpoznał **8 spotkań w dniach 17–18.10**;
+  `tools/kb21_knvb_compare.py` dopasował **8/8** do ESPN.
+  Wyraźnie odróżnia dzień niepokazany w programie (19.10)
+  od podpisanego potwierdzenia, że meczów nie ma. Dodatkowe
+  daty widoczne na stronie nie stanowią gwarancji pokrycia
+  wszystkich meczów przełożonych.
+- TFF `https://www.tff.org/?pageID=198`:
+  `tools/kb21_official_tff.py` wydobywa tylko aktualnie
+  widoczną kolejkę Trendyol Süper Lig. Rozpoznał pełne
+  **9 spotkań jednej kolejki**, z czego **8 w dniach 17–19.10**.
+  `tools/kb21_tff_compare.py` uzyskał **8/8 zgodności**
+  z ESPN, z przeliczeniem Turkey/Europe/Istanbul na
+  Europe/Warsaw; nieczytelny/niekompletny zestaw 9 meczów
+  jest blokowany. Strona może pokazywać inną kolejkę
+  kolejnego dnia, więc nie jest pełnym kalendarzem sezonu.
+- Codzienny diagnostyczny workflow pobiera oba źródła,
+  publikuje surowe JSON i porównania Markdown, uzupełnia
+  niepodpisaną roboczą kartę weryfikacji i nigdy nie otwiera
+  Calendar Gate automatycznie.
+- Weryfikacja na rzeczywistych danych i regresji:
+  https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/39040175483
+  — **189/189 testów, sukces**, KNVB **8/8**, TFF **8/8**.
+- Łącznie siedem oficjalnych źródeł ligowych dało
+  **59 dopasowań na 60 meczów** obecnych w tych oficjalnych
+  źródłach w oknie 17–19.10 (pozostaje konflikt godziny
+  Real Betis – Barcelona po stronie ESPN). To NIE dowodzi
+  kompletności pozostałych rozgrywek ani dat.
+- W logu `organizer_live_seed_summary` liczba `0`
+  przy `fixtures_prefilled` oznacza *brak nowych wierszy do
+  dodania* przy już wypełnionej historycznej karcie roboczej;
+  nie jest dowodem pustego terminarza ani błędu pobierania.
+  Podpisy / zatwierdzenie: **0**, pełne 42 kontrole
+  rozgrywka–dzień nadal wymagane, Calendar Gate **BLOCKED**.
+- Następny priorytet: oficjalny terminarz Portugalii
+  (w tym mecze przełożone) oraz pełne harmonogramy UEFA
+  i potwierdzanie zera spotkań osobno dla każdej daty
+  i rozgrywek; potem terminowe podpisane sprawdzenie.
