@@ -2,7 +2,7 @@
 import copy
 import unittest
 
-from tools.kb21_calendar_signoff import validate
+from tools.kb21_calendar_signoff import validate, inventory_template
 from tools.kb21_calendar_coverage import SCOPE
 from tools.kb21_official_review import OFFICIAL_PAGES
 
@@ -79,7 +79,6 @@ class CalendarSignoffTests(unittest.TestCase):
         q, i = sample()
         i["days"]["2026-10-18"]["eng.1"]["fixtures"][0]["kickoff"] = "2026-10-18T20:00:00+02:00"
         self.assertIn("MATCH_IDENTITY_OR_TIME_DISAGREEMENT",
-                      validate(q, i)["days"]["2026-10-18"]["errors"][0] if False else
                       " ".join(validate(q, i)["errors"]))
         q, i = sample()
         i["days"]["2026-10-18"]["eng.1"]["captured_at"] = "2026-10-18T19:00:00+02:00"
@@ -90,6 +89,21 @@ class CalendarSignoffTests(unittest.TestCase):
         q["source_status"]["2026-10-18"][0]["status"] = "ERROR"
         i["days"]["2026-10-18"]["ita.1"]["reviewer"] = ""
         self.assertEqual(validate(q, i)["status"], "BLOCKED")
+
+    def test_template_keeps_every_competition_unapproved(self):
+        from tools.kb21_official_review import build as review_build
+        from tools.kb21_calendar_coverage import CORE, SCOPE
+        coverage = {"days": {"2026-10-18": {
+            "core_leagues": [{"league_id": key, "status": "ESPN_SOURCE_STATUS_UNKNOWN",
+                              "espn_candidates": 0, "independent_provider_candidates": None,
+                              "crossmatched": 0} for key in CORE],
+            "other_competitions": []
+        }}}
+        template = inventory_template(review_build(coverage))
+        self.assertEqual(len(template["days"]["2026-10-18"]), len(SCOPE))
+        self.assertIsNone(template["approval"])
+        self.assertIsNone(template["days"]["2026-10-18"]["eng.1"]["captured_at"])
+        self.assertFalse(template["days"]["2026-10-18"]["eng.1"]["full_day_checked"])
 
     def test_date_mismatch_fails(self):
         q, i = sample()
