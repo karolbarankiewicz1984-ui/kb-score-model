@@ -185,5 +185,53 @@ class CalendarSignoffTests(unittest.TestCase):
         self.assertIn("UNUSED_OR_DUPLICATE_KICKOFF_RESOLUTIONS", " ".join(result["errors"]))
 
 
+    def test_each_day_can_be_signed_separately_without_resurrecting_past_day(self):
+        q, i = sample()
+        first = "2026-10-18"
+        second = "2026-10-19"
+        # Monday has explicitly checked no-game days for all 14 leagues.
+        q["days"] = [first, second]
+        q["source_status"][second] = copy.deepcopy(q["source_status"][first])
+        i["days"][second] = copy.deepcopy(i["days"][first])
+        i["days"][second]["eng.1"]["fixtures"] = []
+        i["days"][second]["eng.1"]["confirmed_zero_matches"] = True
+        i["approval"] = None
+        i["daily_approvals"] = {
+            first: {"reviewer": "analyst", "approved_at": "2026-10-18T19:00:00+02:00",
+                    "attests_independent_official_review": True},
+            second: {"reviewer": "analyst", "approved_at": "2026-10-18T19:00:00+02:00",
+                     "attests_independent_official_review": True},
+        }
+        result = validate(q, i)
+        self.assertEqual(result["days"][first]["calendar_gate"], "BLOCKED")
+        self.assertIn("FINAL_APPROVAL_AFTER_FIRST_KICKOFF", result["days"][first]["errors"])
+        self.assertEqual(result["days"][second]["calendar_gate"], "PASS_MANUAL")
+        self.assertEqual(result["approved_days"], 1)
+        self.assertEqual(result["status"], "PARTIALLY_APPROVED_CALENDAR")
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+        self.assertFalse(result["safe_to_publish_play"])
+
+    def test_one_day_unsigned_does_not_block_other_day(self):
+        q, i = sample()
+        first = "2026-10-18"
+        second = "2026-10-19"
+        q["days"] = [first, second]
+        q["source_status"][second] = copy.deepcopy(q["source_status"][first])
+        i["days"][second] = copy.deepcopy(i["days"][first])
+        i["days"][second]["eng.1"]["fixtures"] = []
+        i["days"][second]["eng.1"]["confirmed_zero_matches"] = True
+        i["approval"] = None
+        i["daily_approvals"] = {
+            first: None,
+            second: {"reviewer": "analyst", "approved_at": "2026-10-18T09:00:00+02:00",
+                     "attests_independent_official_review": True},
+        }
+        result = validate(q, i)
+        self.assertEqual(result["days"][first]["status"], "READY_FOR_MANUAL_APPROVAL")
+        self.assertEqual(result["days"][second]["calendar_gate"], "PASS_MANUAL")
+        self.assertTrue(result["approval_missing"])
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+
+
 if __name__ == "__main__":
     unittest.main()
