@@ -36,6 +36,8 @@ on:
       - 'tools/kb21_official_press_compare.py'
       - 'tools/kb21_dfl_compare.py'
       - 'tools/kb21_official_source_seed.py'
+      - 'tools/kb21_partial_official_hints.py'
+      - 'tests/test_kb21_partial_official_hints.py'
       - 'tools/kb21_fpl_compare.py'
       - 'tools/kb21_fixture_digest.py'
       - 'tools/kb21_analyst_assessment.py'
@@ -110,7 +112,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_uefa_qualifiers_cycle tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_calendar_review_packet tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_uefa_qualifiers_cycle tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_partial_official_hints tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_calendar_review_packet tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -506,6 +508,30 @@ jobs:
               if league in press_files:
                   seed_cmd += [flag, press_files[league]]
           subprocess.run(seed_cmd, check=True)
+          # Attach six partial organizer snapshots as UNSIGNED hints. Do not
+          # add them to fixture rows, approve zero days, or replace gate input.
+          partial_cmd = [
+              'python', '-m', 'tools.kb21_partial_official_hints',
+              'reports/kb21_legacy/official-inventory-direct-sources-draft.json',
+              '--output', 'reports/kb21_legacy/official-inventory-all-sources-draft.json',
+          ]
+          for slug, flag in (
+              ('champions', '--uefa-champions'),
+              ('europa', '--uefa-europa'),
+              ('conference', '--uefa-conference'),
+              ('nations', '--uefa-nations'),
+          ):
+              source_path = Path(f'reports/kb21_legacy/official-uefa-{slug}.json')
+              if source_path.is_file():
+                  partial_cmd += [flag, str(source_path)]
+          for source_name, flag in (
+              ('official-belgium-selected-round.json', '--belgium'),
+              ('official-uefa-qualifiers-cycle.json', '--qualifiers'),
+          ):
+              source_path = Path('reports/kb21_legacy') / source_name
+              if source_path.is_file():
+                  partial_cmd += [flag, str(source_path)]
+          subprocess.run(partial_cmd, check=True)
           # A reviewed inventory may be supplied for the exact three Warsaw dates.
           # Never substitute unsigned or stale research for an approved inventory.
           from datetime import date
@@ -549,6 +575,7 @@ jobs:
               'reports/kb21_legacy/assessment-queue.json',
               'reports/kb21_legacy/official-calendar-gate-audit.json',
               'reports/kb21_legacy/calendar-evidence-dashboard.json',
+              '--partial-draft', 'reports/kb21_legacy/official-inventory-all-sources-draft.json',
               '--output-json', 'reports/kb21_legacy/calendar-review-packet.json',
               '--output-md', 'reports/kb21_legacy/calendar-review-packet.md',
           ], check=True)
@@ -621,6 +648,7 @@ jobs:
             reports/kb21_legacy/official-inventory-template.json
             reports/kb21_legacy/official-inventory-research-draft.json
             reports/kb21_legacy/official-inventory-direct-sources-draft.json
+            reports/kb21_legacy/official-inventory-all-sources-draft.json
             reports/kb21_legacy/official-calendar-gate-audit.json
             reports/kb21_legacy/research-queue.json
             reports/kb21_legacy/review-shortlist.json

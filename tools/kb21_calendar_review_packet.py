@@ -22,7 +22,7 @@ ROLES = {
 }
 
 
-def build(queue, gate, dashboard, now=None):
+def build(queue, gate, dashboard, now=None, partial_draft=None):
     if (not isinstance(queue, dict) or not isinstance(queue.get("days"), list)
             or not isinstance(queue.get("fixtures"), list)
             or not isinstance(gate, dict) or not isinstance(gate.get("days"), dict)
@@ -34,6 +34,15 @@ def build(queue, gate, dashboard, now=None):
             or set(dashboard.get("days", [])) != set(days)
             or gate.get("calendar_gate") != dashboard.get("calendar_gate")):
         raise ValueError("Review packet calendar scope mismatch")
+    if partial_draft is not None:
+        if (not isinstance(partial_draft, dict)
+                or not isinstance(partial_draft.get("days"), dict)
+                or set(partial_draft["days"]) != set(days)
+                or partial_draft.get("approval") is not None):
+            raise ValueError("Partial source draft must remain unsigned and date-scoped")
+        daily = partial_draft.get("daily_approvals") or {}
+        if not isinstance(daily, dict) or any(v is not None for v in daily.values()):
+            raise ValueError("Signed daily approval must never enter unsigned hints packet")
     now = now or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError("Current time must be timezone-aware")
@@ -101,6 +110,25 @@ def build(queue, gate, dashboard, now=None):
                 raise ValueError("Inconsistent source review/candidate counts")
             official = official_errors[key]
             blockers.update(official)
+            hints = None
+            if partial_draft is not None:
+                day_slots = partial_draft["days"][day]
+                if not isinstance(day_slots, dict) or league not in day_slots:
+                    raise ValueError("Partial source draft omitted competition/day")
+                review_slot = day_slots[league]
+                if not isinstance(review_slot, dict):
+                    raise ValueError("Invalid partial organizer slot")
+                if (review_slot.get("reviewer")
+                        or review_slot.get("captured_at")
+                        or review_slot.get("full_day_checked") is True
+                        or review_slot.get("confirmed_zero_matches") is True):
+                    raise ValueError("Partial evidence cannot replace already signed source")
+                hints = review_slot.get("partial_official_source_hints")
+                if hints is not None and (not isinstance(hints, dict)
+                                           or hints.get("organizer_full_day_attested") is not False
+                                           or hints.get("date_and_kickoff_authenticated") is not False
+                                           or not isinstance(hints.get("fixture_hints"), list)):
+                    raise ValueError("Unsafe partial-source hint evidence")
             times = [_instant(c.get("kickoff_source")) for c in candidates]
             known = [x for x in times if x is not None]
             first = min(known) if known else None
@@ -139,6 +167,7 @@ def build(queue, gate, dashboard, now=None):
                 "time_status": time_status,
                 "formal_errors": official,
                 "source_errors": source.get("source_errors", []),
+                "partial_official_source_hints": hints,
                 "full_day_approved_by_this_packet": False,
                 "reviewer": None, "manual_review_required": True,
                 "calendar_gate": "BLOCKED",
@@ -153,6 +182,8 @@ def build(queue, gate, dashboard, now=None):
             "adapters_configured": dashboard.get("totals", {}).get("direct_adapters"),
             "fixtures_to_review": len(queue["fixtures"]),
             "diagnostic_pairs_only": sum(x["paired_only_for_review"] for x in rows),
+            "partial_hint_league_days": sum(
+                x["partial_official_source_hints"] is not None for x in rows),
             "source_day_signoffs_from_packet": 0,
             "formal_blocker_occurrences": sum(blockers.values()),
             "formal_blocker_types": dict(sorted(blockers.items())),
@@ -182,6 +213,8 @@ def render(packet):
         "Kandydaci ESPN: " + str(total["fixtures_to_review"]) +
         "; porównania diagnostyczne: " + str(total["diagnostic_pairs_only"]),
         "Błędy formalne na poziomie rozgrywek: " + str(total["formal_blocker_occurrences"]),
+        "Źródła ze wskazówkami bez zatwierdzonych godzin: " +
+        str(total["partial_hint_league_days"]) + " kart rozgrywki/dzień",
         "Przekroczony początek pierwszego meczu (liga/dzień): " +
         str(total["day_league_checks_after_first_kickoff"]),
         "", "## Najczęstsze błędy formalne", "",
@@ -210,6 +243,18 @@ def render(packet):
                          row["source_role"] + "; pierwszy start ESPN: " +
                          str(row["first_candidate_kickoff_utc"] or "nieznany") +
                          "; " + row["time_status"])
+            partial = row["partial_official_source_hints"]
+            if partial is not None:
+                lines.append("POMOCNICZY DOWÓD ORGANIZATORA (niezatwierdzony): " +
+                             str(partial["kind"]) + " / " +
+                             str(partial.get("source_status")) +
+                             " / pobrano UTC " + str(partial.get("captured_at_utc")))
+                if partial["fixture_hints"]:
+                    for hint in partial["fixture_hints"]:
+                        lines.append("- WSKAZÓWKA (bez potwierdzonej daty/godziny): " +
+                                     json.dumps(hint, ensure_ascii=False))
+                else:
+                    lines.append("- Brak par w częściowym źródle NIE POTWIERDZA zera meczów.")
             for event in row["fixtures"]:
                 lines.append("- ESPN " + event["fixture_id"] + " "
                              + str(event["fixture"]) + " / " +
@@ -234,6 +279,7 @@ def main():
     p.add_argument("queue")
     p.add_argument("gate")
     p.add_argument("dashboard")
+    p.add_argument("--partial-draft")
     p.add_argument("--output-json", required=True)
     p.add_argument("--output-md", required=True)
     a = p.parse_args()
@@ -241,6 +287,8 @@ def main():
         json.loads(Path(a.queue).read_text(encoding="utf-8")),
         json.loads(Path(a.gate).read_text(encoding="utf-8")),
         json.loads(Path(a.dashboard).read_text(encoding="utf-8")),
+        partial_draft=json.loads(Path(a.partial_draft).read_text(encoding="utf-8"))
+        if a.partial_draft else None,
     )
     for filename, value in (
         (a.output_json, json.dumps(obj, ensure_ascii=False, indent=2) + "\n"),
