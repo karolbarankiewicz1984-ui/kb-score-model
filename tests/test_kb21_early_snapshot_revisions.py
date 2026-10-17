@@ -32,7 +32,7 @@ class EarlyOfficialRevisionTests(unittest.TestCase):
                           "2026-10-18T06:05:00Z")
             result = compare(queue(), [second, first])
         rows = {(r["day"], r["league_id"]): r for r in result["rows"]}
-        self.assertEqual(len(result["rows"]), 9)
+        self.assertEqual(len(result["rows"]), 12)
         self.assertEqual(result["summary"]["with_two_eligible_captures"], 2)
         self.assertEqual(result["summary"]["with_organizer_changes"], 2)
         self.assertEqual(len(rows[(DAY, "ned.1")]["removed_pairs"]), 1)
@@ -92,7 +92,7 @@ class EarlyOfficialRevisionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             first = pack(folder, "first", knvb(), fpl(), "2026-10-18T04:05:00Z")
             result = compare({"days": DAYS, "fixtures": []}, [first])
-        self.assertEqual(result["summary"]["without_safe_earliest_kickoff"], 9)
+        self.assertEqual(result["summary"]["without_safe_earliest_kickoff"], 12)
         self.assertFalse(result["safe_to_publish_play"])
 
     def test_duplicate_source_pair_fails_closed(self):
@@ -139,6 +139,38 @@ class EarlyOfficialRevisionTests(unittest.TestCase):
         self.assertEqual(len(match["added_pairs"]), 1)
         self.assertFalse(match["human_signed"])
         self.assertFalse(result["safe_to_publish_play"])
+
+    def test_laliga_official_round_time_revision_before_first_kickoff(self):
+        from tests.test_kb21_pregame_vault import laliga
+        with tempfile.TemporaryDirectory() as folder:
+            first_doc = laliga()
+            second_doc = laliga("2026-10-18T06:00:00+00:00")
+            second_doc["by_day"][DAY][0]["kickoff_utc"] = "2026-10-18T20:00:00Z"
+            snapshots = []
+            for idx, doc in enumerate((first_doc, second_doc)):
+                source_file = Path(folder, f"laliga-{idx}.json")
+                source_file.write_text(json.dumps(doc), encoding="utf-8")
+                dest = Path(folder, f"vault-{idx}")
+                package(DAYS, {"laliga": source_file}, dest,
+                        datetime.fromisoformat(
+                            ("2026-10-18T04:05:00Z" if idx == 0
+                             else "2026-10-18T06:05:00Z").replace("Z", "+00:00")))
+                snapshots.append(dest)
+            q = queue()
+            q["fixtures"].append({
+                "date_warsaw": DAY, "fixture_id": "esp.1:77",
+                "fixture": "Real Madrid - Sevilla FC",
+                "kickoff": "2026-10-18T21:00:00+02:00",
+            })
+            report = compare(q, snapshots)
+        row = next(x for x in report["rows"]
+                   if x["day"] == DAY and x["league_id"] == "esp.1")
+        self.assertEqual(row["status"],
+                         "OFFICIAL_PREMATCH_SNAPSHOT_CHANGED_NEEDS_REVIEW")
+        self.assertEqual(len(row["kickoff_changes"]), 1)
+        self.assertEqual(row["eligible_snapshot_count"], 2)
+        self.assertFalse(row["full_organizer_day_attested"])
+        self.assertFalse(report["safe_to_publish_play"])
 
 if __name__ == "__main__":
     unittest.main()
