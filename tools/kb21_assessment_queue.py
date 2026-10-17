@@ -11,12 +11,13 @@ from zoneinfo import ZoneInfo
 
 
 def build(paths):
-    matches, errors, days = {}, [], set()
+    matches, errors, days, source_status = {}, [], set(), {}
     for path in paths:
         source = json.loads(Path(path).read_text(encoding="utf-8"))
         errors.extend(source.get("errors", []))
         if source.get("date"):
             days.add(source["date"])
+            source_status[source["date"]] = source.get("sources", [])
         for f in source.get("fixtures", []):
             if not all(f.get(k) for k in ("league", "event_id", "home", "away", "kickoff")):
                 continue
@@ -27,6 +28,8 @@ def build(paths):
                 warsaw = kickoff.astimezone(ZoneInfo("Europe/Warsaw"))
             except (ValueError, TypeError):
                 continue
+            if days and warsaw.date().isoformat() not in days:
+                continue  # Never add a fourth unrequested Warsaw-local report day.
             key = (f["league"], f["event_id"])
             matches[key] = {
                 "fixture_id": f"{f['league']}:{f['event_id']}", "fixture": f"{f['home']} - {f['away']}",
@@ -48,9 +51,10 @@ def build(paths):
                     "confidence": None,
                 },
                 "publication": "DIAGNOSTIC / NO PLAY"}
-    days.update(f["date_warsaw"] for f in matches.values())
+    if not days:
+        days.update(f["date_warsaw"] for f in matches.values())
     return {"status": "REVIEW_REQUIRED", "calendar_gate": "BLOCKED",
-            "days": sorted(days),
+            "days": sorted(days), "source_status": source_status,
             "source_errors": errors, "fixtures": sorted(matches.values(), key=lambda f: f["kickoff"]),
             "note": "Unverified fixture candidates only. No inferred Sport Score, P(model), market selection, or historical writes."}
 
