@@ -22,6 +22,7 @@ on:
       - 'tools/kb21_official_review.py'
       - 'tools/kb21_official_research_compare.py'
       - 'tools/kb21_calendar_conflict_evidence.py'
+      - 'tools/kb21_official_inventory_prefill.py'
       - 'data/kb21_official_research/**'
       - 'tools/kb21_calendar_signoff.py'
       - 'tools/kb21_review_shortlist.py'
@@ -35,6 +36,7 @@ on:
       - 'tests/test_kb21_official_review.py'
       - 'tests/test_kb21_official_research_compare.py'
       - 'tests/test_kb21_calendar_conflict_evidence.py'
+      - 'tests/test_kb21_official_inventory_prefill.py'
       - 'tests/test_kb21_calendar_signoff.py'
       - 'tests/test_kb21_review_shortlist.py'
       - 'tests/test_kb21_fixture_crosscheck.py'
@@ -57,7 +59,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -161,6 +163,12 @@ jobs:
                           'reports/kb21_legacy/official-review.json',
                           '--prepare-template',
                           '--output', 'reports/kb21_legacy/official-inventory-template.json'], check=True)
+          if research.exists() and set(official.get('date_scope', [])) == set(report.get('days', [])):
+              subprocess.run([
+                  'python', '-m', 'tools.kb21_official_inventory_prefill',
+                  'reports/kb21_legacy/official-inventory-template.json', str(research),
+                  '--output', 'reports/kb21_legacy/official-inventory-research-draft.json'
+              ], check=True)
           subprocess.run(['python', '-m', 'tools.kb21_calendar_signoff',
                           'reports/kb21_legacy/crosschecked-queue.json',
                           'reports/kb21_legacy/official-inventory-template.json',
@@ -196,6 +204,7 @@ jobs:
             reports/kb21_legacy/official-review.json
             reports/kb21_legacy/official-review.md
             reports/kb21_legacy/official-inventory-template.json
+            reports/kb21_legacy/official-inventory-research-draft.json
             reports/kb21_legacy/official-calendar-gate-audit.json
             reports/kb21_legacy/research-queue.json
             reports/kb21_legacy/review-shortlist.json
