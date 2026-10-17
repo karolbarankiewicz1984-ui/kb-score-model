@@ -16,6 +16,7 @@ from tools.kb21_calendar_signoff import validate
 from tools.kb21_fixture_crosscheck import _instant
 from tools.kb21_official_review import OFFICIAL_PAGES
 from tools.kb21_official_gap_context import date_gap, PORTUGAL_SEASON_SCHEDULE
+from tools.kb21_portugal_season_gap import season_break
 
 SCHEMA = "kb21-zero-day-evidence-worklist-v1"
 
@@ -41,7 +42,7 @@ def _full_fpl(snapshot, days):
     return all(isinstance(rows, list) for rows in snapshot["by_day"].values())
 
 
-def build(queue, draft, fpl=None, now=None, ligue1=None, knvb=None):
+def build(queue, draft, fpl=None, now=None, ligue1=None, knvb=None, portugal=None):
     now = now or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError("Zero evidence check needs timezone-aware current time")
@@ -133,10 +134,20 @@ def build(queue, draft, fpl=None, now=None, ligue1=None, knvb=None):
                 action = ("Review the full live organizer day for postponements "
                           "or added league matches; adjacent published rounds "
                           "are helpful context, NOT a verified empty day")
+            # Portugal's dated official season grid explicitly brackets the
+            # 17/18 Oct league round break (J8 -> J9), but permits CPC changes.
+            # An already-observed 19 Oct postponed league fixture demonstrates
+            # exactly why a published round gap must NOT certify no games.
+            portugal_context = (season_break(day, portugal)
+                                if league == "por.1" else None)
+            if portugal_context is not None and not independent:
+                status = "PORTUGAL_ROUND_BREAK_CPC_CHANGES_UNCHECKED"
+                action = portugal_context["manual_action"]
             supplement = (PORTUGAL_SEASON_SCHEDULE
                           if league == "por.1" and day == "2026-10-18"
                           else None)
             rows.append({
+                "portugal_official_published_round_gap": portugal_context,
                 "adjacent_official_matchday_dates": gap,
                 "supplemental_organizer_calendar_for_manual_review": supplement,
                 "day": day, "league_id": league, "competition": SCOPE[league],
@@ -164,6 +175,9 @@ def build(queue, draft, fpl=None, now=None, ligue1=None, knvb=None):
                 "OFFICIAL_FPL_LISTS_GAMES_ESPN_LISTS_ZERO"],
             "adjacent_official_round_context_rows": sum(
                 row["adjacent_official_matchday_dates"] is not None for row in rows),
+            "portugal_published_round_break_context_rows": sum(
+                row["portugal_official_published_round_gap"] is not None
+                for row in rows),
             "never_human_signed": len(rows),
             "by_status": dict(sorted(counts.items())),
         },
@@ -186,6 +200,9 @@ def render(report):
         str(t["full_season_fpl_zero_candidates"]) + "**.",
         "Dni między opublikowanymi kolejkami organizatora (NIE dowód "
         "braku gier): **" + str(t["adjacent_official_round_context_rows"]) + "**.",
+        "Portugalia: daty z oficjalnego planu sezonu, wymagają sprawdzenia "
+        "przełożeń i poprawek CPC (NIE zero): **" +
+        str(t["portugal_published_round_break_context_rows"]) + "**.",
         "", "## Najpilniejsze: brak dowodu pełnego terminarza", "",
     ]
     urgent = [row for row in report["rows"]
@@ -217,6 +234,21 @@ def render(report):
                          "; przed pierwszym meczem całego dnia: " +
                          str(gap["snapshot_taken_before_first_whole_day_candidate"]) +
                          ". BRAK podpisu i BRAK dowodu zera spotkań.")
+        portugal_gap = row.get("portugal_official_published_round_gap")
+        if portugal_gap is not None:
+            lines.append("  - Liga Portugal Betclic, oficjalne ramy: J8 (" +
+                         portugal_gap["previous_scheduled_league_round"]
+                         ["scheduled_weekend_reference"] + "), 3. runda "
+                         "Pucharu (" +
+                         str(portugal_gap["cup_round_on_reference_day"] or "18 października") +
+                         "), J9 (" +
+                         portugal_gap["next_scheduled_league_round"]
+                         ["scheduled_weekend_reference"] +
+                         "); pełny terminarz i zmiany CPC NIE zweryfikowane.")
+            if portugal_gap["known_postponement_elsewhere_in_window"]:
+                lines.append("  - Potwierdzony w klubowym źródle przykład "
+                             "przełożonego spotkania ligowego 19 X: " +
+                             str(portugal_gap["known_postponement_elsewhere_in_window"]))
         if row.get("supplemental_organizer_calendar_for_manual_review"):
             lines.append("  - Oficjalny kalendarz portugalskich rozgrywek "
                          "(w tym runda pucharowa; NIE wyklucza przełożonych "
@@ -237,6 +269,7 @@ def main():
     p.add_argument("--fpl")
     p.add_argument("--ligue1")
     p.add_argument("--knvb")
+    p.add_argument("--portugal")
     p.add_argument("--output-json", required=True)
     p.add_argument("--output-md", required=True)
     a = p.parse_args()
@@ -247,7 +280,8 @@ def main():
     fpl = json.loads(Path(a.fpl).read_text(encoding="utf-8")) if a.fpl else None
     ligue1 = json.loads(Path(a.ligue1).read_text(encoding="utf-8")) if a.ligue1 else None
     knvb = json.loads(Path(a.knvb).read_text(encoding="utf-8")) if a.knvb else None
-    report = build(q, draft, fpl, ligue1=ligue1, knvb=knvb)
+    portugal = json.loads(Path(a.portugal).read_text(encoding="utf-8")) if a.portugal else None
+    report = build(q, draft, fpl, ligue1=ligue1, knvb=knvb, portugal=portugal)
     for name, body in (
         (a.output_json, json.dumps(report, indent=2, ensure_ascii=False) + "\n"),
         (a.output_md, render(report)),
