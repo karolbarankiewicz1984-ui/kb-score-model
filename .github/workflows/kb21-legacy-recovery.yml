@@ -11,10 +11,12 @@ on:
       - 'tools/kb21_analyst_assessment.py'
       - 'tools/kb21_assessment_queue.py'
       - 'tools/kb21_queue_report.py'
+      - 'tools/kb21_fixture_crosscheck.py'
       - 'tools/kb21_market_review.py'
       - 'tests/test_kb21_analyst_assessment.py'
       - 'tests/test_kb21_assessment_queue.py'
       - 'tests/test_kb21_queue_report.py'
+      - 'tests/test_kb21_fixture_crosscheck.py'
       - 'tests/test_kb21_market_review.py'
       - 'tests/test_kb21_pipeline_integration.py'
       - 'tests/test_kb21_public_fixtures.py'
@@ -31,7 +33,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -67,7 +69,13 @@ jobs:
               paths.append(output)
           subprocess.run(['python', '-m', 'tools.kb21_fixture_digest', *paths, '--output', 'reports/kb21_legacy/three-day-candidates.md'], check=True)
           subprocess.run(['python', '-m', 'tools.kb21_assessment_queue', *paths, '--output', 'reports/kb21_legacy/assessment-queue.json'], check=True)
-          subprocess.run(['python', '-m', 'tools.kb21_queue_report', 'reports/kb21_legacy/assessment-queue.json', '--outdir', 'reports/kb21_legacy/worksheets'], check=True)
+          subprocess.run(['python', '-m', 'tools.kb21_fixture_crosscheck',
+                          'reports/kb21_legacy/assessment-queue.json',
+                          '--snapshots-dir', 'data/football_data_org',
+                          '--output', 'reports/kb21_legacy/crosschecked-queue.json'], check=True)
+          subprocess.run(['python', '-m', 'tools.kb21_queue_report',
+                          'reports/kb21_legacy/crosschecked-queue.json',
+                          '--outdir', 'reports/kb21_legacy/worksheets'], check=True)
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -77,5 +85,6 @@ jobs:
             reports/kb21_legacy/public-source-*.json
             reports/kb21_legacy/three-day-candidates.md
             reports/kb21_legacy/assessment-queue.json
+            reports/kb21_legacy/crosschecked-queue.json
             reports/kb21_legacy/worksheets/*.md
           retention-days: 30
