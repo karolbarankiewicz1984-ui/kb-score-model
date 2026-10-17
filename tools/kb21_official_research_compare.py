@@ -86,7 +86,7 @@ LEAGUE_ALIASES = {
         ["erzurumspor fk", "erzurum bb", "erzurumspor"],
         ["eyupspor", "eyüpspor"],
         ["amed sportif faaliyetler", "amed sfk"],
-        ["tumos an konyaspor", "tumos an konyaspor", "tümosan konyaspor", "konyaspor"],
+        ["tumosan konyaspor", "tümosan konyaspor", "konyaspor"],
         ["genclerbirligi", "gençlerbirliği"],
         ["galatasaray", "galatasaray a s"],
         ["fenerbahce", "fenerbahçe", "fenerbahce a s"],
