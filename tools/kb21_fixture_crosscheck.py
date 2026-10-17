@@ -77,6 +77,7 @@ def crosscheck(queue, snapshots, tolerance_minutes=5):
         league = f.get("fixture_id", "").split(":")[0]
         code = ESPN_TO_FDO.get(league)
         matched = []
+        same_teams = []
         status = "NO_INDEPENDENT_SNAPSHOT"
         source = indexed.get(day)
         if day in invalid:
@@ -102,17 +103,28 @@ def crosscheck(queue, snapshots, tolerance_minutes=5):
                         continue
                     if (_team(league, other.get("home_team")) == home
                             and _team(league, other.get("away_team")) == away
-                            and abs((other_time - moment).total_seconds()) <= tolerance_minutes * 60
                             and other.get("provider_match_id") is not None):
-                        matched.append(other)
+                        same_teams.append(other)
+                        if abs((other_time - moment).total_seconds()) <= tolerance_minutes * 60:
+                            matched.append(other)
                 status = ("MATCHED_FOR_REVIEW" if len(matched) == 1
-                          else "AMBIGUOUS_MATCH" if matched else "NO_NAME_TIME_MATCH")
+                          else "AMBIGUOUS_MATCH" if matched else
+                          "START_TIME_CONFLICT" if len(same_teams) == 1 else
+                          "AMBIGUOUS_TEAM_MATCH" if len(same_teams) > 1 else
+                          "NO_NAME_TIME_MATCH")
         match = matched[0] if status == "MATCHED_FOR_REVIEW" else None
+        conflict = same_teams[0] if status == "START_TIME_CONFLICT" else None
         if match is not None:
             used_provider_ids[(day, str(match["provider_match_id"]))] += 1
         row["independent_crosscheck"] = {
             "status": status, "provider": "football-data.org" if source else None,
             "provider_match_id": match["provider_match_id"] if match else None,
+            "time_discrepancy": {
+                "provider_match_id": conflict["provider_match_id"],
+                "provider_kickoff_utc": conflict["kickoff_utc"],
+                "espn_kickoff": row.get("kickoff"),
+                "requires_review": True,
+            } if conflict else None,
             "competition_code": code, "official_verified": False,
             "calendar_gate": "BLOCKED", "freeze_allowed": False,
         }
