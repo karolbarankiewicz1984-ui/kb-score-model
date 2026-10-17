@@ -38,7 +38,9 @@ class HonestEvidenceProgressTests(unittest.TestCase):
         self.assertEqual(report["human_approval_days"], 0)
         self.assertEqual(report["gate"], "BLOCKED")
         self.assertFalse(report["safe_to_publish_play"])
-        self.assertEqual(report["net_reduction_in_formal_errors"], 2)
+        self.assertEqual(report["net_reduction_in_formal_errors"], 3)
+        self.assertEqual(report["actual_blockers_resolved_vs_template"][
+            "ZERO_MATCHES_NOT_CONFIRMED_BY_ORGANIZER"], 1)
         self.assertEqual(report["actual_blockers_resolved_vs_template"][
             "OFFICIAL_VS_INDEPENDENT_FIXTURE_COUNT_DIFFERENCE"], 1)
         self.assertEqual(report["actual_blockers_resolved_vs_template"][
