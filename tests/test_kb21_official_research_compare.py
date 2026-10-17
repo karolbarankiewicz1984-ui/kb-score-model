@@ -8,7 +8,10 @@ def source(day, fixtures, league="esp.1"):
     return {"schema": "kb21-official-research-v1", "status": "OFFICIAL_WEB_RESEARCH_UNSIGNED",
             "days": {day: {league: {"competition": "La Liga",
                                    "official_source_url": "https://www.laliga.com/laliga-easports/resultados/2026-27/jornada-9",
-                                   "source_reviewer_signed": False, "fixtures": fixtures}}}}
+                                   "source_reviewer_signed": False,
+                                   "full_round_source_found": True,
+                                   "official_fixture_list_extracted": True,
+                                   "fixtures": fixtures}}}}
 
 
 def fixture(home, away, kick):
@@ -118,6 +121,30 @@ class OfficialResearchCompareTests(unittest.TestCase):
         self.assertEqual(row["status"], "OFFICIAL_ORGANIZER_SCHEDULE_NO_GAMES_UNSIGNED")
         self.assertEqual(result["calendar_gate"], "BLOCKED")
 
+
+
+    def test_official_club_source_is_not_full_league_completeness(self):
+        q = {"days": ["2026-10-17"], "fixtures": [
+            candidate("Braga", "Gil Vicente", "2026-10-17T19:15:00Z", league="por.1")
+        ]}
+        research = source("2026-10-17", [fixture(
+            "SC Braga", "Gil Vicente", "2026-10-17T21:15:00+02:00"
+        )], league="por.1")
+        entry = research["days"]["2026-10-17"]["por.1"]
+        entry["full_round_source_found"] = False
+        entry["official_fixture_list_extracted"] = False
+        row = compare(q, research)["days"]["2026-10-17"][0]
+        self.assertEqual(row["status"], "PARTIAL_OFFICIAL_SOURCE_NOT_FULL_DAY")
+
+    def test_belgian_league_offweekend_source_not_signoff(self):
+        q = {"days": ["2026-10-17"], "fixtures": []}
+        research = source("2026-10-17", [], league="bel.1")
+        research["days"]["2026-10-17"]["bel.1"][
+            "confirmed_zero_matches_from_official_schedule"] = True
+        result = compare(q, research)
+        row = result["days"]["2026-10-17"][0]
+        self.assertEqual(row["status"], "OFFICIAL_ORGANIZER_SCHEDULE_NO_GAMES_UNSIGNED")
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
 
 
 if __name__ == "__main__":
