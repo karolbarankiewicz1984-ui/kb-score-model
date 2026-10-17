@@ -215,3 +215,46 @@
   odczyt z pozostałych lig, szczególnie La Liga, Serie A, Ligue 1,
   następnie pełne sprawdzenie meczów przełożonych (Portugalia)
   i akceptacja dni przed ich pierwszym rozpoczętym spotkaniem.
+
+
+## Integracja La Liga, Serie A i Ligue 1 — 17.10.2026 (NOWE, DO WERYFIKACJI W ACTIONS)
+
+- La Liga: `tools/kb21_official_laliga.py` odczytuje ścisłe
+  kolumny FECHA / HORARIO / PARTIDO z oficjalnych stron kolejki
+  `https://www.laliga.com/laliga-easports/resultados/2026-27/jornada-9`
+  i okolicznych kolejek. `tools/kb21_laliga_compare.py` porównuje
+  gospodarz–gość i godzinę z ESPN. Strony są dynamiczne, więc
+  rzeczywistą skuteczność parsera i kompletność wierszy trzeba
+  najpierw potwierdzić w artefakcie CI; HTTP 200 nie wystarcza.
+- Serie A: `tools/kb21_official_press_fixtures.py` pobiera
+  **bezpośredni komunikat organizatora** Lega Serie A z obsadami
+  sędziowskimi na 7. kolejkę (16–19.10.2026), z konkretną listą
+  10 spotkań, gospodarzy, gości, dat i godzin:
+  https://en.legaseriea.it/serie-a/news/the-referees-for-the-7th-round-x8311
+  Zakres artykułu jest HISTORYCZNY/KONKRETNY, nie stanowi
+  uniwersalnego codziennego feedu. Od kolejnych terminów wymagany
+  jest nowszy oficjalny komunikat.
+- Ligue 1: ten sam moduł pobiera komunikat LFP dotyczący
+  telewizyjnych harmonogramów 7. i 8. kolejki, m.in. 16–18.10
+  i 23–25.10.2026:
+  https://ligue1.com/fr/articles/l1_article_5797-
+  Parser zachowuje mecze rozgrywane jednocześnie, przelicza
+  godziny z Europe/Paris na Europe/Warsaw i oznacza nieobjęte
+  zakresem artykułu daty zamiast udawać potwierdzony brak meczu.
+- W obu ligach `tools/kb21_official_press_compare.py`
+  pokazuje `MATCHED_FOR_REVIEW`, `KICKOFF_CONFLICT`,
+  `MISSING_IN_ORGANIZER_ARTICLE`, `ORGANIZER_ONLY`,
+  konflikt powtórzonej tożsamości i źródłowe błędy.
+- `tools/kb21_official_source_seed.py` przyjmuje `--laliga`,
+  `--serie-a`, `--ligue1`; uzupełnia **wyłącznie niepodpisaną**
+  kartę kontroli, zachowuje ręczne dane, wypisuje sprzeczności,
+  nigdy nie zatwierdza pustego dnia ani Calendar Gate.
+- Workflow `.github/workflows/kb21-legacy-recovery.yml`
+  został zaktualizowany o testy, pobranie dwóch komunikatów,
+  porównanie godzin i publikację JSON/Markdown w artefakcie.
+  **Nie należy podawać liczby faktycznie odczytanych meczów ani
+  sukcesu tego nowego przebiegu do czasu sprawdzenia logów CI.**
+- Nadal nie mamy pełnego, automatycznego i zatwierdzonego
+  kalendarza wszystkich 14 kategorii dla bieżących trzech dni.
+  **Calendar Gate BLOCKED; DIAGNOSTIC / NO PLAY**, brak
+  automatycznego P(model), freeze, PDF LIVE i wpisów N.
