@@ -36,6 +36,18 @@ class BelgiumRoundTests(unittest.TestCase):
         self.assertIsNone(rows[0]["kickoff_warsaw"])
         self.assertFalse(rows[0]["kickoff_timezone_verified"])
 
+    def test_nested_div_fixture_cards_are_extracted(self):
+        html = """<html><h1>Jupiler Pro League Kalender</h1>
+<div><div>Jupiler Pro League·S9</div>
+<div>KV Kortrijk</div><div>KV Mechelen</div></div>
+<div><div>Jupiler Pro League·S9</div>
+<div>Royal Antwerp FC</div><div>Sporting Charleroi</div></div></html>"""
+        rows, errors = parse(html)
+        self.assertEqual(errors, [])
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0]["home"], "KV Kortrijk")
+        self.assertIsNone(rows[1]["kickoff_warsaw"])
+
     def test_empty_or_changed_site_does_not_prove_zero(self):
         rows, errors = parse("<html><h1>Jupiler Pro League</h1></html>")
         self.assertEqual(rows, [])
