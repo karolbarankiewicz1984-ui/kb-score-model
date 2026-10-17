@@ -40,6 +40,7 @@ ADAPTERS = {
     "uefa.europa.conf": ("official-uefa-conference-vs-espn.json", "official-uefa-conference.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
     "uefa.nations": ("official-uefa-nations-vs-espn.json", "official-uefa-nations.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
     "bel.1": ("official-belgium-vs-espn.json", "official-belgium-selected-round.json", "BELGIAN_SELECTED_ROUND_UNDATED"),
+    "fifa.worldq.uefa": ("official-uefa-qualifiers-cycle-vs-espn.json", "official-uefa-qualifiers-cycle.json", "HISTORICAL_2026_WC_CYCLE_CONTEXT"),
 }
 
 def _read(folder, name):
@@ -103,6 +104,7 @@ def summarize(queue, gate, directory):
             matched = 0
             date_team_only = 0
             undated_organizer_round = 0
+            historical_cycle_candidate_warnings = 0
             source_errors = []
             organizer_visible = None
             source_scope = "NO_DIRECT_MACHINE_ADAPTER"
@@ -128,7 +130,24 @@ def summarize(queue, gate, directory):
                     if not isinstance(matched, int) or matched < 0 or matched > candidates:
                         raise ValueError(f"Impossible source coincidences {league}/{day}")
                     source_errors = list(facts.get("errors", []))
-                    if source_scope == "BELGIAN_SELECTED_ROUND_UNDATED":
+                    if source_scope == "HISTORICAL_2026_WC_CYCLE_CONTEXT":
+                        flagged = comp_day.get("historical_cycle_outside_window_candidates")
+                        if (not isinstance(flagged, list)
+                                or len(flagged) > candidates
+                                or matched != 0
+                                or facts.get("confirmed_zero_matches") is not False
+                                or facts.get("date_verified") is not False
+                                or facts.get("full_calendar_verified") is not False
+                                or comp_day.get("no_games_certified") is not False):
+                            raise ValueError("Historical qualifying cycle must not attest a day")
+                        historical_cycle_candidate_warnings = len(flagged)
+                        if source_errors:
+                            state = "SOURCE_ISSUES_REQUIRING_REVIEW"
+                        elif candidates:
+                            state = "QUALIFIERS_EDITION_OR_CALENDAR_REVIEW"
+                        else:
+                            state = "HISTORICAL_2026_CYCLE_ONLY_NO_ZERO_PROOF"
+                    elif source_scope == "BELGIAN_SELECTED_ROUND_UNDATED":
                         undated = facts.get("undated_fixtures", [])
                         if (not isinstance(undated, list)
                                 or facts.get("date_verified") is not False
@@ -175,7 +194,8 @@ def summarize(queue, gate, directory):
                     "ORGANIZER_ONLY_FIXTURES", "SOURCE_ISSUES_REQUIRING_REVIEW",
                     "DIRECT_SOURCE_MISSING", "NO_DIRECT_ORGANIZER_ADAPTER",
                     "DATE_TEAMS_ONLY_TIME_UNVERIFIED",
-                    "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW"):
+                    "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW",
+                    "QUALIFIERS_EDITION_OR_CALENDAR_REVIEW"):
                 next_action = "RESOLVE_OFFICIAL_SOURCE_OR_FIXTURE_CONFLICT"
                 review_priority = 1
             elif candidates:
@@ -192,6 +212,7 @@ def summarize(queue, gate, directory):
                 "espn_candidates": candidates, "paired_for_review": matched,
                 "date_team_only_matches": date_team_only,
                 "undated_organizer_round_rows": undated_organizer_round,
+                "historical_2026_cycle_candidates_flagged": historical_cycle_candidate_warnings,
                 "organizer_rows_visible": organizer_visible,
                 "direct_evidence_scope": source_scope,
                 "evidence_status": state, "source_errors": source_errors[:10],
@@ -214,6 +235,8 @@ def summarize(queue, gate, directory):
         "date_team_only_not_time_approved": sum(row["date_team_only_matches"] for row in output["rows"]),
         "undated_organizer_round_rows": max(
             (row["undated_organizer_round_rows"] for row in output["rows"]), default=0),
+        "historical_2026_cycle_candidates_flagged": sum(
+            row["historical_2026_cycle_candidates_flagged"] for row in output["rows"]),
         "unpaired_candidates": len(queue["fixtures"]) - paired_total,
         "outside_competition_scope": len(untracked),
         "outside_competition_scope_ids": sorted(set(untracked))[:20],
@@ -243,6 +266,9 @@ def render(report):
         f"{totals['date_team_only_not_time_approved']} (NIE wliczane do zgodnych).",
         f"Belgia - pozycje widocznej kolejki BEZ daty: "
         f"{totals['undated_organizer_round_rows']} (NIE wliczane do zgodnych).",
+        f"Eliminacje UEFA MŚ 2026: kandydaci po ostatnim barażu 31.03.2026 "
+        f"wymagający sprawdzenia edycji: {totals['historical_2026_cycle_candidates_flagged']}; "
+        "brak meczów NIE jest oficjalnie potwierdzony.",
         f"Bezpośrednie adaptery: {totals['direct_adapters']}/{totals['league_count']} lig; "
         f"nadal bez adaptera: {totals['without_direct_adapters']}",
         f"Braki formalnego audytu: {totals['manual_gate_errors']} powodów; "
@@ -270,6 +296,7 @@ def render(report):
         if item["evidence_status"] in ("MISSING_OR_CONFLICTING_CANDIDATES",
                                        "DATE_TEAMS_ONLY_TIME_UNVERIFIED",
                                        "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW",
+                                       "QUALIFIERS_EDITION_OR_CALENDAR_REVIEW",
                                        "ORGANIZER_ONLY_FIXTURES",
                                        "SOURCE_ISSUES_REQUIRING_REVIEW",
                                        "DIRECT_SOURCE_MISSING"):
