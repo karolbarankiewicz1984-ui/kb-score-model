@@ -11,9 +11,11 @@ from zoneinfo import ZoneInfo
 
 
 def build(paths):
-    matches, errors, days, source_status = {}, [], set(), {}
-    for path in paths:
-        source = json.loads(Path(path).read_text(encoding="utf-8"))
+    # Resolve all requested Warsaw dates BEFORE filtering any cross-midnight event.
+    loaded = [json.loads(Path(path).read_text(encoding="utf-8")) for path in paths]
+    days = {source["date"] for source in loaded if source.get("date")}
+    matches, errors, source_status = {}, [], {}
+    for source in loaded:
         errors.extend(source.get("errors", []))
         if source.get("date"):
             days.add(source["date"])
