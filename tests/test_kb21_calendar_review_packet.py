@@ -130,5 +130,42 @@ class CalendarReviewPacketTests(unittest.TestCase):
         self.assertIn("OFFICIAL_VS_INDEPENDENT_FIXTURE_COUNT_DIFFERENCE", render(r))
 
 
+    def test_unsigned_partial_evidence_is_shown_but_never_signed(self):
+        q, g, d = data()
+        from tools.kb21_official_review import OFFICIAL_PAGES
+        review = {
+            "days": {day: {league: {
+                "reviewer": None, "captured_at": None,
+                "full_day_checked": False, "confirmed_zero_matches": None,
+                "fixtures": [], "organizer_url": url,
+            } for league, url in OFFICIAL_PAGES.items()} for day in DAYS},
+            "approval": None, "daily_approvals": {day: None for day in DAYS},
+        }
+        review["days"][DAYS[0]]["uefa.nations"]["partial_official_source_hints"] = {
+            "kind": "DATE_CLUB_ONLY_UNVERIFIED_KICKOFF",
+            "source_status": "OFFICIAL_LEAGUE_PHASE_ARTICLE_PARTIAL_FOR_REVIEW",
+            "captured_at_utc": "2026-10-17T09:00:00Z",
+            "organizer_full_day_attested": False,
+            "date_and_kickoff_authenticated": False,
+            "fixture_hints": [{"home": "Poland", "away": "Sweden",
+                               "date_printed": DAYS[0], "clock_verified": False}],
+        }
+        result = build(q, g, d, partial_draft=review)
+        self.assertEqual(result["totals"]["partial_hint_league_days"], 1)
+        self.assertIn("Poland", render(result))
+        self.assertIn("POMOCNICZY DOWÓD ORGANIZATORA", render(result))
+        self.assertFalse(result["safe_to_publish_play"])
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+
+    def test_partially_signed_or_wrong_date_hints_refused(self):
+        q, g, d = data()
+        bad = {"days": {day: {} for day in DAYS}, "approval": None}
+        with self.assertRaisesRegex(ValueError, "omitted competition"):
+            build(q, g, d, partial_draft=bad)
+        signed = {"days": {day: {} for day in DAYS},
+                  "approval": {"reviewer": "fake"}}
+        with self.assertRaisesRegex(ValueError, "unsigned"):
+            build(q, g, d, partial_draft=signed)
+
 if __name__ == "__main__":
     unittest.main()
