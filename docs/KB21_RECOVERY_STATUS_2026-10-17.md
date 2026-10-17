@@ -57,3 +57,29 @@
 - KB Score 2.1 = pierwotna analityczna metodologia i oddzielne N.
 - API Market = odrębny silnik analityczny, nie przejmuje P(model) KB21.
 - PitchAPI = pomocniczy dostawca danych, nie trzeci automat typujący.
+
+
+## Kalendarz: ukończona ścieżka audytu, ale jeszcze BEZ zatwierdzenia
+- tools/kb21_official_review.py: katalog oficjalnych stron organizatorów
+  dla wszystkich 14 rozgrywek (5 kluczowych + 9 dodatkowych) i raport
+  42 kontroli dla 3 dni; strony są punktami wejścia, NIE dowodem odczytu.
+- reports/kb21_legacy/official-review.md: osobne zestawienia na każdą
+  ligę i dzień; pola niezgodności dostawców są jawne.
+- tools/kb21_calendar_signoff.py --prepare-template: tworzy dokument
+  official-inventory-template.json do zapisu faktycznie sprawdzonych
+  pełnych terminarzy poszczególnych organizatorów, wraz z czasem odczytu,
+  osobą kontrolującą i potwierdzeniem dnia bez spotkań, jeśli dotyczy.
+- Następnie validator wymaga 1:1 zgodności pełnej oficjalnej karty
+  z niezależnie pozyskanymi kandydatami ESPN, właściwych dat/godzin,
+  braku duplikatów, poprawnego zakresu oraz jawnego osobistego zatwierdzenia.
+- Wyłącznie po dostarczeniu REALNYCH dowodów i ręcznym zatwierdzeniu
+  może pojawić się PASS_MANUAL. To nie jest automatycznie
+  uwierzytelniona treść strony internetowej, lecz odnotowana
+  odpowiedzialność analityka za audyt źródła.
+- Calendar Gate PASS_MANUAL NIE zatwierdza PLAY; nadal potrzebne są
+  oryginalne oceny STR/QUAL/MATCH, pre-price P(model) i kontrole rynku.
+- Istniejące zestawienia uruchamiane w GitHub nie zawierają
+  zatwierdzonej oficjalnej inwentaryzacji, więc nadal mają status BLOCKED.
+- Oficjalne URL: Premier League, LaLiga, Lega Serie A, Bundesliga,
+  Ligue 1, Liga Portugal, Eredivisie, Pro League (Belgia), TFF,
+  UEFA Champions, Europa, Conference, Nations i European Qualifiers.
