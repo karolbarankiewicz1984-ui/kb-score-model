@@ -100,6 +100,10 @@ def parse_table(html):
             "html_chars": len(html),
             "literal_tr_count": html.lower().count("<tr"),
             "literal_table_count": html.lower().count("<table"),
+            "table_row_shapes": [
+                {"columns": len(row), "example": row[:9]}
+                for row in parser.rows[:4]
+            ],
             "html_contains_team_name": "Hamburger SV" in html,
             "html_contains_fixture_heading": "Matchday" in html,
             "html_contains_next_js_data": "__NEXT_DATA__" in html or "__next_f" in html,
