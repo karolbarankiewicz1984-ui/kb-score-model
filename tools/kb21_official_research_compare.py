@@ -67,7 +67,7 @@ LEAGUE_ALIASES = {
     "ger.1": [
         ["union berlin", "1 fc union berlin"],
         ["borussia dortmund", "dortmund"],
-        ["hamburger sv", "hamburg"],
+        ["hamburger sv", "hamburg sv", "hamburg"],
         ["vfb stuttgart", "stuttgart"],
         ["sv werder bremen", "werder bremen"],
         ["sc paderborn 07", "sc paderborn", "paderborn"],
