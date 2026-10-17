@@ -9,6 +9,7 @@ import argparse
 import json
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 
 def check(data):
@@ -45,7 +46,7 @@ def check(data):
         except (TypeError, ValueError):
             errors.append(f"Fixture {index}: kickoff must include timezone")
             continue
-        if date and kickoff.date().isoformat() != date:
+        if date and kickoff.astimezone(ZoneInfo("Europe/Warsaw")).date().isoformat() != date:
             errors.append(f"Fixture {index}: kickoff date outside requested date")
             continue
         accepted.append({k: a[k] for k in keys})
