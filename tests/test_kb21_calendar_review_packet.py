@@ -325,5 +325,41 @@ class CalendarReviewPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "each formal"):
             build(q, g, d, zero_evidence=report)
 
+    def test_signed_date_discards_only_its_old_zero_worklist_tasks(self):
+        q, g, d = data()
+        record = next(x for x in g["days"][DAYS[1]]["competitions"]
+                      if x["league_id"] == "esp.1")
+        record["errors"].append("ZERO_MATCHES_NOT_CONFIRMED_BY_ORGANIZER")
+        # Day 0 was actually validated as PASS_MANUAL. Its old unsigned
+        # zero-source row must not erase the still pending day 1 review.
+        g["days"][DAYS[0]]["calendar_gate"] = "PASS_MANUAL"
+        items = [{
+            "day": day, "league_id": "esp.1",
+            "status": "NO_COMPLETE_OFFICIAL_DAY_EVIDENCE",
+            "action": "Review complete organizer schedule",
+            "machine_zero_candidate_needs_human_review": False,
+            "automated_source_capture_utc": None,
+            "human_reviewer": None, "confirmed_zero_matches": None,
+            "full_day_checked": False, "calendar_gate": "BLOCKED",
+        } for day in DAYS]
+        worklist = {
+            "schema": "kb21-zero-day-evidence-worklist-v1",
+            "days": DAYS, "calendar_gate": "BLOCKED",
+            "safe_to_publish_play": False, "rows": items,
+        }
+        packet = build(q, g, d, zero_evidence=worklist)
+        self.assertEqual(packet["totals"]["zero_day_review_cells"], 1)
+        self.assertFalse(packet["safe_to_publish_play"])
+        first = next(x for x in packet["rows"]
+                     if x["day"] == DAYS[0] and x["league_id"] == "esp.1")
+        second = next(x for x in packet["rows"]
+                      if x["day"] == DAYS[1] and x["league_id"] == "esp.1")
+        self.assertIsNone(first["zero_day_proof_worklist"])
+        self.assertEqual(second["zero_day_proof_worklist"]["status"],
+                         "NO_COMPLETE_OFFICIAL_DAY_EVIDENCE")
+        g["days"][DAYS[0]]["calendar_gate"] = "BLOCKED"
+        with self.assertRaisesRegex(ValueError, "each formal zero blocker"):
+            build(q, g, d, zero_evidence=worklist)
+
 if __name__ == "__main__":
     unittest.main()
