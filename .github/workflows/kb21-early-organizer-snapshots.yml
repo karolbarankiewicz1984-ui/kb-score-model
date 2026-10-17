@@ -14,6 +14,7 @@ on:
       - 'tools/kb21_early_snapshot_revisions.py'
       - 'tests/test_kb21_early_snapshot_revisions.py'
       - 'tools/kb21_official_dfl.py'
+      - 'tools/kb21_official_laliga.py'
       - '.github/workflows/kb21-early-organizer-snapshots.yml'
 permissions:
   contents: read
@@ -50,6 +51,7 @@ jobs:
                   '--output-md', str(output / 'fpl-for-review.md')]),
               ('dfl', 'tools.kb21_official_dfl', [
                   '--output-md', str(output / 'dfl-for-review.md')]),
+              ('laliga', 'tools.kb21_official_laliga', []),
           ):
               dest = output / (name + '-raw.json')
               proc = subprocess.run([
