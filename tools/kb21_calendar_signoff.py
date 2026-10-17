@@ -261,6 +261,19 @@ def validate(queue, inventory, third_party_snapshots=None):
                 day_errors.append("FINAL_APPROVAL_PREDATES_OFFICIAL_SOURCE_CAPTURE")
             if first_kickoffs and approved_time >= min(first_kickoffs):
                 day_errors.append("FINAL_APPROVAL_AFTER_FIRST_KICKOFF")
+        if not first_kickoffs:
+            # No independent or official kickoff exists to define a day
+            # deadline. For an all-zero day, all organizer captures and
+            # any actual human attestation MUST predate the START of that
+            # Warsaw calendar day, never "confirmed" the morning after.
+            # Applies to legacy three-day reviews as well as new per-day
+            # persistent files; calendar_gate must remain fail closed.
+            local_day_start = datetime.fromisoformat(day).replace(
+                tzinfo=ZoneInfo("Europe/Warsaw"))
+            if any(stamp >= local_day_start for stamp in capture_times):
+                day_errors.append("ZERO_DAY_ORGANIZER_CAPTURE_AFTER_DAY_START")
+            if approved_time is not None and approved_time >= local_day_start:
+                day_errors.append("FINAL_APPROVAL_AFTER_ZERO_DAY_START")
         ready = not day_errors
         if not signoff_ok:
             pending_approval_count += 1
