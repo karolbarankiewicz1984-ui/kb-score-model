@@ -15,6 +15,7 @@ from tools.kb21_calendar_coverage import SCOPE
 from tools.kb21_calendar_signoff import validate
 from tools.kb21_fixture_crosscheck import _instant
 from tools.kb21_official_review import OFFICIAL_PAGES
+from tools.kb21_official_gap_context import date_gap, PORTUGAL_SEASON_SCHEDULE
 
 SCHEMA = "kb21-zero-day-evidence-worklist-v1"
 
@@ -40,7 +41,7 @@ def _full_fpl(snapshot, days):
     return all(isinstance(rows, list) for rows in snapshot["by_day"].values())
 
 
-def build(queue, draft, fpl=None, now=None):
+def build(queue, draft, fpl=None, now=None, ligue1=None, knvb=None):
     now = now or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError("Zero evidence check needs timezone-aware current time")
@@ -124,7 +125,20 @@ def build(queue, draft, fpl=None, now=None):
             elif slot.get("organizer_source_catalogue_kind") or slot.get("partial_official_source_hints"):
                 status = "PARTIAL_OR_UNDATED_SOURCE_CANNOT_CERTIFY_ZERO"
                 action = "Verify full date-specific official schedule; selected rounds/articles are insufficient"
+            gap = date_gap(league, day, (
+                ligue1 if league == "fra.1"
+                else knvb if league == "ned.1" else None), deadline)
+            if gap is not None and not independent:
+                status = "ADJACENT_OFFICIAL_MATCHDAYS_ONLY_NOT_ZERO_PROOF"
+                action = ("Review the full live organizer day for postponements "
+                          "or added league matches; adjacent published rounds "
+                          "are helpful context, NOT a verified empty day")
+            supplement = (PORTUGAL_SEASON_SCHEDULE
+                          if league == "por.1" and day == "2026-10-18"
+                          else None)
             rows.append({
+                "adjacent_official_matchday_dates": gap,
+                "supplemental_organizer_calendar_for_manual_review": supplement,
                 "day": day, "league_id": league, "competition": SCOPE[league],
                 "status": status, "action": action,
                 "independent_candidates": len(independent),
@@ -148,6 +162,8 @@ def build(queue, draft, fpl=None, now=None):
                 "FULL_SEASON_FPL_ZERO_CANDIDATE_NEEDS_HUMAN_SIGNOFF"],
             "suspicious_independent_zero_cases": counts[
                 "OFFICIAL_FPL_LISTS_GAMES_ESPN_LISTS_ZERO"],
+            "adjacent_official_round_context_rows": sum(
+                row["adjacent_official_matchday_dates"] is not None for row in rows),
             "never_human_signed": len(rows),
             "by_status": dict(sorted(counts.items())),
         },
@@ -168,6 +184,8 @@ def render(report):
         "Premier League: kompletny katalog 380 gier i przedmeczowy dowód "
         "braku zaplanowanego spotkania: **" +
         str(t["full_season_fpl_zero_candidates"]) + "**.",
+        "Dni między opublikowanymi kolejkami organizatora (NIE dowód "
+        "braku gier): **" + str(t["adjacent_official_round_context_rows"]) + "**.",
         "", "## Najpilniejsze: brak dowodu pełnego terminarza", "",
     ]
     urgent = [row for row in report["rows"]
@@ -189,6 +207,21 @@ def render(report):
                      str(row["earliest_candidate_start_entire_day_utc"] or "nieznany") +
                      "; odczyt źródła UTC: " +
                      str(row["automated_source_capture_utc"] or "brak"))
+        gap = row.get("adjacent_official_matchday_dates")
+        if gap is not None:
+            lines.append("  - Sąsiednie oficjalne terminy: " +
+                         gap["previous_visible_date"] + " -> " +
+                         gap["next_visible_date"] +
+                         "; pobrano UTC " + gap["captured_at_utc"] +
+                         "; źródło: " + gap["official_url"] +
+                         "; przed pierwszym meczem całego dnia: " +
+                         str(gap["snapshot_taken_before_first_whole_day_candidate"]) +
+                         ". BRAK podpisu i BRAK dowodu zera spotkań.")
+        if row.get("supplemental_organizer_calendar_for_manual_review"):
+            lines.append("  - Oficjalny kalendarz portugalskich rozgrywek "
+                         "(w tym runda pucharowa; NIE wyklucza przełożonych "
+                         "meczów ligowych): " +
+                         row["supplemental_organizer_calendar_for_manual_review"])
     lines.append("")
     lines.append("WAŻNE: Do faktycznego zatwierdzenia recenzent musi "
                  "niezależnie sprawdzić kompletny dzienny terminarz przed pierwszym "
@@ -202,6 +235,8 @@ def main():
     p.add_argument("queue")
     p.add_argument("draft")
     p.add_argument("--fpl")
+    p.add_argument("--ligue1")
+    p.add_argument("--knvb")
     p.add_argument("--output-json", required=True)
     p.add_argument("--output-md", required=True)
     a = p.parse_args()
@@ -210,7 +245,9 @@ def main():
         for filename in (a.queue, a.draft)
     ]
     fpl = json.loads(Path(a.fpl).read_text(encoding="utf-8")) if a.fpl else None
-    report = build(q, draft, fpl)
+    ligue1 = json.loads(Path(a.ligue1).read_text(encoding="utf-8")) if a.ligue1 else None
+    knvb = json.loads(Path(a.knvb).read_text(encoding="utf-8")) if a.knvb else None
+    report = build(q, draft, fpl, ligue1=ligue1, knvb=knvb)
     for name, body in (
         (a.output_json, json.dumps(report, indent=2, ensure_ascii=False) + "\n"),
         (a.output_md, render(report)),
