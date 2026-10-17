@@ -3,7 +3,13 @@ on:
   schedule:
     # Scan starts 10:00 Warsaw (08:00 UTC summer / 09:00 UTC winter).
     # MULTIMODEL ChatGPT PDF delivery remains 11:30 Warsaw; 90-min headroom.
-    - cron: '0 8,9 * * *'
+    # Separate entries so github.event.schedule equals one unambiguous slot.
+    - cron: '0 8 * * *'
+    - cron: '0 9 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/api-market-multiday-experiment.yml'
   workflow_dispatch:
     inputs:
       start_date:
