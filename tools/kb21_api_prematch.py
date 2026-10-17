@@ -107,7 +107,7 @@ def main():
             "home_expected_goals":None,"away_expected_goals":None,
             "selection":"home",
             "sources":["API-Football fixtures","API-Football historical fixtures"],
-            "readiness":"NOT_READY: independently verify calendar, normalized 35/35/30 and expected goals",
+            "readiness":"NOT_READY: independently verify full official calendar, complete analyst STR/QUAL/MATCH (35/35/30), and independently justified pre-price P(model); expected goals/xG optional",
             "freeze_allowed":False
         })
     path=Path(args.out)/f"{args.date}.json"
