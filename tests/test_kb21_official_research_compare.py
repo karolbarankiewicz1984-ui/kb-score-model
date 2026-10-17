@@ -49,6 +49,7 @@ class OfficialResearchCompareTests(unittest.TestCase):
         )])
         row = compare(q, official)["days"]["2026-10-17"][0]
         self.assertEqual(row["fixtures"][0]["status"], "START_TIME_CONFLICT")
+        self.assertEqual(row["fixtures"][0]["espn_fixture_id"], "esp.1:123")
         self.assertEqual(row["matched_count"], 0)
         self.assertEqual(len(row["unmatched_espn"]), 1)
 
