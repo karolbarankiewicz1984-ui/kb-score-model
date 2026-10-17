@@ -167,6 +167,7 @@ jobs:
               subprocess.run([
                   'python', '-m', 'tools.kb21_official_inventory_prefill',
                   'reports/kb21_legacy/official-inventory-template.json', str(research),
+                  '--third-source-evidence', 'reports/kb21_legacy/third-source-conflicts.json',
                   '--output', 'reports/kb21_legacy/official-inventory-research-draft.json'
               ], check=True)
           subprocess.run(['python', '-m', 'tools.kb21_calendar_signoff',
