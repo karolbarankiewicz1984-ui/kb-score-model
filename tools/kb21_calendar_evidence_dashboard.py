@@ -9,6 +9,8 @@ from collections import Counter
 import json
 from pathlib import Path
 
+from tools.kb21_official_review import OFFICIAL_PAGES
+
 COMPETITIONS = {
     "eng.1": "Premier League", "esp.1": "La Liga",
     "ita.1": "Serie A", "ger.1": "Bundesliga",
@@ -128,6 +130,20 @@ def summarize(queue, gate, directory):
                         state = "NO_GAME_EVIDENCE_NOT_ZERO_CERTIFICATION"
                     else:
                         state = "PAIRED_FIXTURES_FOR_REVIEW"
+            # A clear human-review queue must not mistake matching pairs,
+            # missing source adapters or both-provider zeros for signoff.
+            if candidates and state in (
+                    "MISSING_OR_CONFLICTING_CANDIDATES",
+                    "ORGANIZER_ONLY_FIXTURES", "SOURCE_ISSUES_REQUIRING_REVIEW",
+                    "DIRECT_SOURCE_MISSING", "NO_DIRECT_ORGANIZER_ADAPTER"):
+                next_action = "RESOLVE_OFFICIAL_SOURCE_OR_FIXTURE_CONFLICT"
+                review_priority = 1
+            elif candidates:
+                next_action = "VERIFY_FULL_ORGANIZER_DAY_AND_SIGN"
+                review_priority = 2
+            else:
+                next_action = "VERIFY_OFFICIAL_ZERO_OR_MISSING_FIXTURES"
+                review_priority = 3
             day_audit = gate["days"][day]
             if not isinstance(day_audit, dict):
                 raise ValueError("Invalid calendar day audit")
@@ -140,6 +156,9 @@ def summarize(queue, gate, directory):
                 "adapter_source": adapter_source,
                 "adapter_comparison": adapter_comparison,
                 "full_day_signed": official_day_reviewed,
+                "organizer_review_url": OFFICIAL_PAGES.get(league),
+                "next_action": next_action,
+                "review_priority": review_priority,
                 "calendar_gate": "BLOCKED" if gate["calendar_gate"] == "BLOCKED" else "REQUIRES_OTHER_GATES",
             })
     kinds = Counter(row["evidence_status"] for row in output["rows"])
@@ -205,6 +224,25 @@ def render(report):
                                        "DIRECT_SOURCE_MISSING"):
             lines.append(f"- {item['day']} {item['league_id']}: {item['evidence_status']}"
                          + (f"; błędy: {item['source_errors'][:2]}" if item["source_errors"] else ""))
+    lines += ["", "### Praktyczna kolejka kontroli oficjalnego terminarza", "",
+              "Kolejność: (1) błędy i brakujące dowody przy meczach, "
+              "(2) pełna inwentaryzacja rozgrywek z meczami, "
+              "(3) potwierdzenie dni bez spotkań. "
+              "Wszystkie pozycje wymagają ręcznej weryfikacji, także 0 meczów.", ""]
+    for day in report["days"]:
+        lines.append(f"#### {day}")
+        for item in sorted((row for row in report["rows"] if row["day"] == day),
+                           key=lambda r: (r["review_priority"], -r["espn_candidates"],
+                                          r["league_id"])):
+            url = item["organizer_review_url"]
+            source = f"[źródło organizatora]({url})" if url else "BRAK OFICJALNEGO ADRESU"
+            lines.append(
+                f"- P{item['review_priority']} {item['competition']} "
+                f"(ESPN {item['espn_candidates']}, porównane {item['paired_for_review']}): "
+                f"{item['next_action']}; {source}; "
+                f"stan źródła: {item['evidence_status']}"
+            )
+        lines.append("")
     lines += ["",
               "Zgodność źródeł nie dowodzi pełnego terminarza. "
               "Dni bez widocznych spotkań są NIEPOTWIERDZONE, a nie zatwierdzone jako puste.",
