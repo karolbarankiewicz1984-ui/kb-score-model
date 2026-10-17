@@ -185,5 +185,19 @@ class EarlyVaultTests(unittest.TestCase):
             self.assertEqual(verify(restored[0])[1]["knvb"]["days"], DAYS)
 
 
+    def test_cross_host_redirect_never_leaks_bearer_token(self):
+        from urllib.request import Request
+        from tools.kb21_pregame_vault import NoCrossHostAuthRedirect
+        handler = NoCrossHostAuthRedirect()
+        req = Request(
+            "https://api.github.com/repos/user/repo/actions/artifacts/11/zip",
+            headers={"Authorization": "Bearer fake-private-token",
+                     "Accept": "application/vnd.github+json"})
+        redirected = handler.redirect_request(
+            req, None, 302, "Found", {},
+            "https://example.blob.core.windows.net/signed-download")
+        self.assertIsNone(redirected.get_header("Authorization"))
+        self.assertEqual(req.get_header("Authorization"), "Bearer fake-private-token")
+
 if __name__ == "__main__":
     unittest.main()

@@ -14,7 +14,8 @@ import json
 import os
 from pathlib import Path
 import re
-from urllib.request import Request, urlopen
+from urllib.request import Request, urlopen, build_opener, HTTPRedirectHandler
+from urllib.parse import urlsplit
 import zipfile
 
 from tools.kb21_fixture_crosscheck import _instant
@@ -27,6 +28,18 @@ KIND = {
 SCHEMA = "kb21-early-official-snapshot-v1"
 ARTIFACT_PREFIX = "kb21-early-organizer-"
 MAX_BYTES = 5_000_000
+
+
+class NoCrossHostAuthRedirect(HTTPRedirectHandler):
+    """Keep GitHub token on api.github.com; never forward it to ZIP storage."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        redirected = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if redirected is not None and (
+            urlsplit(req.full_url).hostname != urlsplit(newurl).hostname
+        ):
+            redirected.remove_header("Authorization")
+            redirected.remove_header("authorization")
+        return redirected
 
 
 def _digest(data):
@@ -239,8 +252,16 @@ def restore(repo, directory, token, opener=urlopen, now=None):
     header = {"Authorization": "Bearer " + token,
               "Accept": "application/vnd.github+json",
               "User-Agent": "KB21EarlyOrganizerVault/1.0"}
+    # The artifact ZIP endpoint returns a 302 to signed object storage.
+    # urllib normally copies Authorization across that redirect, which breaks
+    # storage signature validation and leaks the API token to another host.
+    # Limit bearer credentials to api.github.com; follow only HTTPS redirects.
+    def strict_opener(req, timeout):
+        if opener is not urlopen:
+            return opener(req, timeout=timeout)
+        return build_opener(NoCrossHostAuthRedirect()).open(req, timeout=timeout)
     def get(url, limit=MAX_BYTES):
-        with opener(Request(url, headers=header), timeout=25) as response:
+        with strict_opener(Request(url, headers=header), timeout=25) as response:
             blob = response.read(limit + 1)
         if len(blob) > limit:
             raise ValueError("GitHub response exceeds safety cap")
