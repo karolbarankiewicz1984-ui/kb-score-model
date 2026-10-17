@@ -301,3 +301,40 @@
   (w tym mecze przełożone) oraz pełne harmonogramy UEFA
   i potwierdzanie zera spotkań osobno dla każdej daty
   i rozgrywek; potem terminowe podpisane sprawdzenie.
+
+
+## Portugalia — sprawdzona integracja zaległego meczu, bez podpisu Calendar Gate
+
+- Stan rzeczywisty GitHub Actions:
+  https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/39042058973
+  — **200/200 testów**, nowy publiczny odczyt Gil Vicente i porównanie z ESPN
+  zakończone powodzeniem. Raport `official-portugal-vs-espn.json`
+  pokazał **1/1** zgodny mecz w terminie 17–19.10: SC Braga – Gil Vicente
+  19.10 o **21:15 Europe/Warsaw** (= 20:15 Europe/Lisbon).
+- `tools/kb21_official_portugal_postponed.py` czyta jednoznaczny,
+  datowany komunikat klubu:
+  https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/
+  Nie przypisuje artykułowi klubowemu statusu kompletnego terminarza ligi.
+  Pola `unconfirmed_zero_dates` wyraźnie przypominają, że brak pozostałych
+  spotkań 17/18 października nie jest formalnym potwierdzeniem ich zera.
+- `tools/kb21_portugal_club_compare.py` porównuje z ESPN wyłącznie
+  gospodarzy, gości i prawdziwe momenty UTC. Zachowuje źródła, błędy,
+  niepewną strefę czasową drugiej strony i konflikt, gdyby godzina
+  nie pasowała. Bez automatycznych PLAY, P(model), freeze czy wpisów do N.
+- Jednoczesny odczyt witryny gospodarzy SC Braga z GitHub Actions NIE
+  wyodrębnił godziny meczu ze strony dynamicznej
+  (`BRAGA_DISPLAY_UNAVAILABLE`). Publiczna strona klubu widziana
+  podczas badania pokazuje osobno „19:15”, ale bez jednoznacznej
+  deklaracji jej strefy czasowej. Nie interpretować tego automatycznie
+  jako 19:15 czasu portugalskiego; równie dobrze może to być UTC.
+  Potrzebne potwierdzenie sposobu wyświetlania.
+- Kluczowe ograniczenie: **Portugal to nadal wyłącznie jeden zaległy
+  mecz potwierdzony klubowym źródłem**, a nie pełna lista ligowych
+  spotkań przełożonych. Nie stanowi formalnego dowodu organizatora
+  o pełnym kalendarzu. Calendar Gate pozostał **BLOCKED**:
+  42 przeglądy liga/dzień bez podpisu i 206 szczegółowych braków
+  dowodowych według ostatniego validatora.
+- Potwierdzono już zgodność 60 z 61 kandydatów w 8 grupach lig
+  z dostępnymi oficjalnymi terminarzami lub — w przypadku
+  Portugalii — źródłem klubowym. To suma diagnostyczna, NIE
+  formalne zatwierdzenie wszystkich 14 grup ani trafność typów.
