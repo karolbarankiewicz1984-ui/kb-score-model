@@ -157,19 +157,60 @@ def validate(queue, inventory):
     return result
 
 
+def inventory_template(review):
+    """Empty auditable source inventory; organizer URLs are NOT themselves approval."""
+    if not isinstance(review, dict) or not isinstance(review.get("days"), dict):
+        raise ValueError("Expected official calendar review with days dictionary")
+    days = {}
+    for day, data in review["days"].items():
+        if not isinstance(data, dict) or not isinstance(data.get("rows"), list):
+            raise ValueError("Official review day requires rows")
+        days[day] = {
+            row["league_id"]: {
+                "organizer_url": row["organizer_entry_url"],
+                "captured_at": None,
+                "reviewer": None,
+                "full_day_checked": False,
+                "confirmed_zero_matches": None,
+                "fixtures": [],
+            }
+            for row in data["rows"]
+        }
+    return {
+        "schema": "kb21-human-calendar-inventory-v1",
+        "days": days,
+        "approval": None,
+        "note": (
+            "Template only. Enter real organizer fixture list and capture timestamp "
+            "for EACH competition/day; explicitly confirm zero fixtures when applicable. "
+            "Only independent human attestation can approve the gate.")
+    }
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("queue")
-    p.add_argument("official_inventory")
+    p.add_argument("official_inventory", nargs="?")
+    p.add_argument("--prepare-template", action="store_true")
     p.add_argument("--output", required=True)
     args = p.parse_args()
-    result = validate(json.loads(Path(args.queue).read_text(encoding="utf-8")),
-                      json.loads(Path(args.official_inventory).read_text(encoding="utf-8")))
+    source = json.loads(Path(args.queue).read_text(encoding="utf-8"))
+    if args.prepare_template:
+        if args.official_inventory is not None:
+            p.error("--prepare-template accepts only the official-review source")
+        result = inventory_template(source)
+    else:
+        if args.official_inventory is None:
+            p.error("Provide the signed official inventory or use --prepare-template")
+        result = validate(source, json.loads(Path(args.official_inventory).read_text(encoding="utf-8")))
     dest = Path(args.output)
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"KB21 calendar validation: {result['calendar_gate']} — "
-          f"{len(result['errors'])} missing/disputed official checks; no auto-PLAY")
+    if args.prepare_template:
+        print(f"KB21 manual organizer inventory template: {len(result['days'])} days; no fixtures certified")
+    else:
+        print(f"KB21 calendar validation: {result['calendar_gate']} — "
+              f"{len(result['errors'])} missing/disputed official checks; no auto-PLAY")
 
 
 if __name__ == "__main__":
