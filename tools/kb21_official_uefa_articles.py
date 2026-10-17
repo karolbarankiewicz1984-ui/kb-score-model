@@ -27,6 +27,10 @@ SOURCES = {
         "https://www.uefa.com/uefaconferenceleague/news/"
         "02a8-2174cb200f25-b94693ddff4e-1000--202627-conference-league-all-the-league-phase-fixtures/"
     ),
+    "uefa.nations": (
+        "https://www.uefa.com/uefanationsleague/news/"
+        "02a2-1fea18abbcbc-456e846509e7-1000--2026-27-uefa-nations-league-all-the-league-phase-fixtures/"
+    ),
 }
 MONTHS = {
     "January": 1, "February": 2, "March": 3, "April": 4, "May": 5,
@@ -39,6 +43,14 @@ DATE_RE = re.compile(
 )
 FIXTURE_RE = re.compile(r"^(.{2,85}?)\s+vs\s+(.{2,85}?)(?:\s+\((\d{1,2}:\d{2})\))?$")
 MATCHDAY_RE = re.compile(r"^Matchday\s+(\d{1,2})$", re.IGNORECASE)
+NATIONS_DATE_RE = re.compile(
+    r"^(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)"
+    r"\s+(\d{1,2})\s+(" + "|".join(MONTHS) + r")$"
+)
+NATIONS_FIXTURE_RE = re.compile(
+    r"^([ABCD][1-4])\s+(.{2,85}?)\s+vs\s+(.{2,85}?)"
+    r"(?:\s+\((\d{1,2}:\d{2})\))?$"
+)
 MAX_BYTES = 3_000_000
 
 
@@ -48,8 +60,11 @@ def parse(league, html):
     if not isinstance(html, str):
         raise ValueError("Expected HTML")
     lines = _lines(html)
+    is_nations = league == "uefa.nations"
+    heading = ("League phase fixtures and results" if is_nations
+               else "League phase fixtures by date")
     if (not any("2026/27" in x or "2026-27" in x for x in lines)
-            or not any("League phase fixtures by date" in x for x in lines)):
+            or not any(heading.casefold() in x.casefold() for x in lines)):
         return [], ["OFFICIAL_LEAGUE_PHASE_HEADING_NOT_FOUND"]
     rows, errors, seen = [], [], set()
     matchday, active_day = None, None
@@ -63,19 +78,28 @@ def parse(league, html):
             continue
         if "Selected for you" in line or line.startswith("©"):
             break
-        date = DATE_RE.fullmatch(line)
+        date = (NATIONS_DATE_RE.fullmatch(line) if is_nations
+                else DATE_RE.fullmatch(line))
         if date:
-            day, month, year = date.groups()
             try:
+                if is_nations:
+                    day, month = date.groups()
+                    year = 2026  # source is explicitly 2026/27, league phase ends Nov 2026
+                else:
+                    day, month, year = date.groups()
                 active_day = dt.date(int(year), MONTHS[month], int(day)).isoformat()
             except ValueError:
                 errors.append("INVALID_OFFICIAL_DATE")
                 active_day = None
             continue
-        fixture = FIXTURE_RE.fullmatch(line)
+        fixture = (NATIONS_FIXTURE_RE.fullmatch(line) if is_nations
+                   else FIXTURE_RE.fullmatch(line))
         if not active_day or not fixture:
             continue
-        home, away, printed_time = fixture.groups()
+        if is_nations:
+            _group, home, away, printed_time = fixture.groups()
+        else:
+            home, away, printed_time = fixture.groups()
         home, away = home.strip(), away.strip()
         if home.casefold() == away.casefold():
             errors.append("DUPLICATE_HOME_AWAY")
@@ -88,9 +112,12 @@ def parse(league, html):
         rows.append({
             "league_id": league, "date_printed": active_day,
             "home": home, "away": away, "matchday": matchday,
-            "printed_kickoff": printed_time or "21:00 (UEFA default)",
+            "printed_kickoff": printed_time or (
+                "20:45 (UEFA default)" if is_nations else "21:00 (UEFA default)"
+            ),
             "kickoff_timezone_verified": False,
-            "source_kind": "UEFA_DATED_LEAGUE_PHASE_ARTICLE_PARTIAL",
+            "source_kind": ("UEFA_NATIONS_DATED_LEAGUE_PHASE_ARTICLE_PARTIAL"
+                            if is_nations else "UEFA_DATED_LEAGUE_PHASE_ARTICLE_PARTIAL"),
         })
     if not rows:
         errors.append("NO_FUTURE_VS_FIXTURES_EXTRACTED")

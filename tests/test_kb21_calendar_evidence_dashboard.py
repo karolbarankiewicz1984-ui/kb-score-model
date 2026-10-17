@@ -114,9 +114,9 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         belgium = next(x for x in report["rows"]
                        if x["day"] == DAYS[0] and x["league_id"] == "bel.1")
         self.assertEqual(belgium["espn_candidates"], 0)
-        self.assertEqual(belgium["evidence_status"], "NO_DIRECT_ORGANIZER_ADAPTER")
+        self.assertEqual(belgium["evidence_status"], "DIRECT_SOURCE_MISSING")
         self.assertFalse(belgium["full_day_signed"])
-        self.assertEqual(report["totals"]["without_direct_adapters"], 3)
+        self.assertEqual(report["totals"]["without_direct_adapters"], 1)
 
     def test_refuse_mismatched_or_approved_comparison(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -233,7 +233,37 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         self.assertEqual(row["review_priority"], 1)
         self.assertEqual(report["totals"]["unpaired_candidates"], 1)
         self.assertEqual(report["totals"]["date_team_only_not_time_approved"], 1)
-        self.assertEqual(report["totals"]["direct_adapters"], 11)
+        self.assertEqual(report["totals"]["direct_adapters"], 13)
+        self.assertFalse(report["safe_to_publish_play"])
+
+
+    def test_belgium_selected_round_not_dated_not_valid_for_gate(self):
+        with tempfile.TemporaryDirectory() as folder:
+            write(folder, "official-belgium-selected-round.json", {
+                "league_id": "bel.1", "calendar_gate": "BLOCKED", "days": DAYS,
+                "date_verified": False, "kickoff_timezone_verified": False,
+                "errors": [], "undated_fixtures": [
+                    {"home": "KV Kortrijk", "away": "KV Mechelen",
+                     "date_warsaw": None, "kickoff_warsaw": None}],
+                "by_day": {day: [] for day in DAYS},
+            })
+            write(folder, "official-belgium-vs-espn.json", {
+                "calendar_gate": "BLOCKED",
+                "days": {day: {"statuses": {}} for day in DAYS},
+            })
+            data = {"days": DAYS, "fixtures": [{
+                "date_warsaw": DAYS[0], "fixture_id": "bel.1:111"
+            }]}
+            report = summarize(data, gate(), folder)
+        row = next(x for x in report["rows"]
+                   if x["day"] == DAYS[0] and x["league_id"] == "bel.1")
+        self.assertEqual(row["evidence_status"],
+                         "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW")
+        self.assertEqual(row["paired_for_review"], 0)
+        self.assertEqual(row["undated_organizer_round_rows"], 1)
+        self.assertEqual(row["review_priority"], 1)
+        self.assertEqual(report["totals"]["unpaired_candidates"], 1)
+        self.assertEqual(report["totals"]["undated_organizer_round_rows"], 1)
         self.assertFalse(report["safe_to_publish_play"])
 
 

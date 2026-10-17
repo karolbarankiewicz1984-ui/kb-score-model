@@ -26,6 +26,9 @@ on:
       - 'tools/kb21_official_press_fixtures.py'
       - 'tools/kb21_official_uefa_articles.py'
       - 'tools/kb21_uefa_article_compare.py'
+      - 'tools/kb21_official_belgium.py'
+      - 'tools/kb21_belgium_round_compare.py'
+      - 'tests/test_kb21_official_belgium.py'
       - 'tests/test_kb21_official_uefa_articles.py'
       - 'tools/kb21_official_press_compare.py'
       - 'tools/kb21_dfl_compare.py'
@@ -102,7 +105,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_official_portugal_postponed tests.test_kb21_portugal_club_compare tests.test_kb21_portugal_postponed_seed tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_uefa_articles tests.test_kb21_official_belgium tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_calendar_evidence_dashboard tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -173,13 +176,14 @@ jobs:
           # fixture completeness; keep the usual diagnostic pipeline alive.
           import json
           scope = json.loads(Path('reports/kb21_legacy/assessment-queue.json').read_text(encoding='utf-8'))
-          # THREE UEFA league-phase organizer articles: date/team evidence
+          # FOUR UEFA league-phase organizer articles: date/team evidence
           # ONLY; CET/CEST clock is NOT confirmed. Missing days NEVER certify
           # zero fixtures, and none of these files can sign Calendar Gate.
           for league, slug in (
               ('uefa.champions', 'champions'),
               ('uefa.europa', 'europa'),
               ('uefa.europa.conf', 'conference'),
+              ('uefa.nations', 'nations'),
           ):
               uefa_path = Path('reports/kb21_legacy') / f'official-uefa-{slug}.json'
               uefa_run = subprocess.run([
@@ -200,6 +204,23 @@ jobs:
                       print(f'::warning::{league}: UEFA article source unavailable/unparseable; no 0-match claim')
               else:
                   print(f'::warning::{league}: UEFA article adapter unavailable; Calendar Gate BLOCKED')
+          # Belgium organizer visible current round: team pairs but no verified
+          # date, kickoff, or season. Never assign games to any requested day
+          # and never classify empty per-day bins as verified zero fixtures.
+          belgium_path = Path('reports/kb21_legacy/official-belgium-selected-round.json')
+          belgium_run = subprocess.run([
+              'python', '-m', 'tools.kb21_official_belgium',
+              '--days', *scope['days'], '--output', str(belgium_path),
+          ], check=False)
+          if belgium_run.returncode == 0 and belgium_path.is_file():
+              subprocess.run([
+                  'python', '-m', 'tools.kb21_belgium_round_compare',
+                  'reports/kb21_legacy/assessment-queue.json',
+                  str(belgium_path),
+                  '--output', 'reports/kb21_legacy/official-belgium-vs-espn.json',
+              ], check=True)
+          else:
+              print('::warning::Belgium organizer current-round feed unavailable; no calendar approval')
           fpl_source = Path('reports/kb21_legacy/official-fpl-premier-league.json')
           fpl_command = [
               'python', '-m', 'tools.kb21_official_fpl',
@@ -522,6 +543,7 @@ jobs:
             reports/kb21_legacy/official-dfl-bundesliga.json
             reports/kb21_legacy/official-dfl-bundesliga.md
             reports/kb21_legacy/official-uefa-*.json
+            reports/kb21_legacy/official-belgium-*.json
             reports/kb21_legacy/official-press-serie-a.json
             reports/kb21_legacy/official-press-serie-a-vs-espn.json
             reports/kb21_legacy/official-press-serie-a-vs-espn.md

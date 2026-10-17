@@ -53,11 +53,36 @@ class OfficialUefaArticleTests(unittest.TestCase):
         self.assertFalse(rows[0]["kickoff_timezone_verified"])
         self.assertEqual(rows[1]["printed_kickoff"], "21:00 (UEFA default)")
 
-    def test_all_three_league_phase_articles_supported(self):
-        for league in SOURCES:
+    def test_all_three_club_league_phase_articles_supported(self):
+        for league in ("uefa.champions", "uefa.europa", "uefa.europa.conf"):
             rows, issues = parse(league, HTML)
             self.assertEqual(len(rows), 3)
             self.assertEqual(issues, [])
+
+    def test_uefa_nations_scoped_article_future_fixtures_no_scores_or_kickoff_approval(self):
+        nations_html = """<html><main>
+<h1>2026/27 UEFA Nations League: All the league phase fixtures and results</h1>
+<h2>Matchday 4</h2><p>Monday 5 October</p>
+<p>A1 Italy 2-0 Belgium</p>
+<h2>Matchday 5</h2><p>Thursday 12 November</p>
+<p>A1 Türkiye vs Belgium (18:00)</p><p>C2 Armenia vs Cyprus (18:00)</p>
+<p>A1 Italy vs France</p>
+<h2>Matchday 6</h2><p>Monday 16 November</p>
+<p>B4 Poland vs Sweden</p>
+</main></html>"""
+        rows, errors = parse("uefa.nations", nations_html)
+        self.assertEqual(errors, [])
+        self.assertEqual(len(rows), 4)
+        self.assertEqual(rows[0]["date_printed"], "2026-11-12")
+        self.assertEqual(rows[0]["printed_kickoff"], "18:00")
+        self.assertEqual(rows[2]["printed_kickoff"], "20:45 (UEFA default)")
+        self.assertEqual(rows[3]["home"], "Poland")
+        self.assertFalse(all(row["kickoff_timezone_verified"] for row in rows))
+
+    def test_uefa_nations_invalid_page_cannot_certify_zero(self):
+        rows, errors = parse("uefa.nations", "<html><h1>Nations League</h1></html>")
+        self.assertEqual(rows, [])
+        self.assertIn("OFFICIAL_LEAGUE_PHASE_HEADING_NOT_FOUND", errors)
 
     def test_unrecognized_article_does_not_certify_empty_dates(self):
         rows, issues = parse(LEAGUE, "<p>Site changed</p>")
