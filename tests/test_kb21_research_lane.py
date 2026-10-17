@@ -18,9 +18,11 @@ THIRD = "2026-10-19"
 def examples():
     q, gate, dashboard = data()
     # Date-three can legitimately have NO candidates and still yield one PDF.
-    q["days"].append(THIRD)
+    # The existing test helper shares DAYS between queue and dashboard.
+    # Copy instead of mutating that global list (or appending the day twice).
+    q["days"] = list(q["days"]) + [THIRD]
     gate["days"][THIRD] = copy.deepcopy(gate["days"]["2026-10-18"])
-    dashboard["days"].append(THIRD)
+    dashboard["days"] = list(dashboard["days"]) + [THIRD]
     for row in dashboard["rows"][:14]:
         extra = copy.deepcopy(row)
         extra["day"] = THIRD
