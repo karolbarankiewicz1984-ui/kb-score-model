@@ -108,7 +108,10 @@ class CalendarSignoffTests(unittest.TestCase):
     def test_date_mismatch_fails(self):
         q, i = sample()
         i["days"]["2026-10-19"] = copy.deepcopy(i["days"]["2026-10-18"])
-        self.assertEqual(validate(q, i)["status"], "BLOCKED")
+        result = validate(q, i)
+        self.assertEqual(result["status"], "BLOCKED")
+        self.assertEqual(result["days"]["2026-10-18"]["calendar_gate"], "BLOCKED")
+        self.assertIn("INVENTORY_DAYS_DO_NOT_MATCH_REQUEST", result["errors"])
 
 
     def test_official_club_alias_does_not_falsely_block(self):
@@ -266,6 +269,9 @@ class CalendarSignoffTests(unittest.TestCase):
         self.assertEqual(result["calendar_gate"], "BLOCKED")
         self.assertIn("CANDIDATE_OUTSIDE_REQUESTED_CALENDAR_DATES",
                       result["errors"])
+        self.assertEqual(result["days"]["2026-10-18"]["calendar_gate"], "BLOCKED")
+        self.assertIn("GLOBAL_CALENDAR_INPUT_INTEGRITY_FAILURE",
+                      result["days"]["2026-10-18"]["errors"])
 
     def test_bad_candidate_record_blocks_not_crashes_or_approves(self):
         q, i = sample()
@@ -273,6 +279,7 @@ class CalendarSignoffTests(unittest.TestCase):
         result = validate(q, i)
         self.assertEqual(result["calendar_gate"], "BLOCKED")
         self.assertIn("INVALID_CANDIDATE_RECORD", result["errors"])
+        self.assertEqual(result["days"]["2026-10-18"]["calendar_gate"], "BLOCKED")
 
     def test_malformed_fixture_identifier_blocks_signed_inventory(self):
         q, i = sample()
