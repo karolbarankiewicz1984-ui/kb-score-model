@@ -27,8 +27,11 @@ def _time(value):
 def _https_url(value):
     if not isinstance(value, str):
         return False
-    parts = urlsplit(value)
-    return parts.scheme == "https" and bool(parts.hostname)
+    try:
+        parts = urlsplit(value)
+        return parts.scheme == "https" and bool(parts.hostname)
+    except ValueError:
+        return False
 
 
 def _number(value, low, high):
