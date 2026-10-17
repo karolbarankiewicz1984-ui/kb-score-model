@@ -42,6 +42,18 @@ def render_day(queue, day):
         score_label = ("{}/35 + {}/35 + {}/30 = {}/100".format(
             form.get("str"), form.get("qual"), form.get("match"), score)
             if score is not None else "BRAK ZWERYFIKOWANEJ OCENY")
+        research = fixture.get("pre_match_research") or {}
+        context = research.get("context") or {}
+        history = []
+        for side, name in (("home", "Gospodarze"), ("away", "Goście")):
+            stats = context.get(side)
+            if stats:
+                history.append(
+                    f"{name}: {stats['previous_completed_matches']} wcześniejszych meczów, "
+                    f"gole strzelone {stats['goals_for_per_match']:.2f}/mecz, "
+                    f"stracone {stats['goals_against_per_match']:.2f}/mecz"
+                )
+        history_line = "; ".join(history) if history else "BRAK SPRAWDZONYCH DANYCH HISTORYCZNYCH"
         out.extend([
             f"## {number}. {fixture.get('fixture', 'Nieustalone spotkanie')}",
             f"- Liga: {fixture.get('competition', '?')} ({fixture.get('fixture_id', '?')})",
@@ -49,6 +61,8 @@ def render_day(queue, day):
             f"- Mecz i rozgrywki potwierdzone oficjalnie: NIE",
             f"- Niezależne zestawienie: {fixture.get('independent_crosscheck', {}).get('status', 'NIE WYKONANO')}",
             f"- Identyfikator w drugim źródle: {fixture.get('independent_crosscheck', {}).get('provider_match_id') or 'BRAK'}",
+            f"- Statystyki historyczne (gole, NIE xG): {history_line}",
+            f"- Źródło historii: {context.get('source_file') or 'BRAK'}, stan: {research.get('status', 'NIE POBRANO')}",
             f"- Rynek: {form.get('market') or 'DO UZUPEŁNIENIA'}",
             f"- STR / QUAL / MATCH: {score_label}",
             f"- P(model): {f'{p:.1%}' if p is not None else 'NIE WYZNACZONO'}",
