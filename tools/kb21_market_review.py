@@ -17,10 +17,15 @@ def review(assessment, quote):
     if not isinstance(quote, dict):
         errors.append("Missing market quote")
         quote = {}
-    if assessment and quote.get("market") != assessment.get("market"):
-        errors.append("Quoted market differs from frozen pre-price market")
-    if assessment and quote.get("fixture_id") != assessment.get("fixture_id"):
+    if not isinstance(assessment, dict):
+        errors.append("Missing pre-market assessment")
+        assessment = {}
+    if not assessment.get("fixture_id") or not quote.get("fixture_id"):
+        errors.append("Assessment and quote must have explicit fixture_id")
+    elif quote["fixture_id"] != assessment["fixture_id"]:
         errors.append("Quoted fixture_id differs from frozen event")
+    if not assessment.get("market") or quote.get("market") != assessment.get("market"):
+        errors.append("Quoted market differs from frozen pre-price market")
     price = quote.get("odds")
     if isinstance(price, bool) or not isinstance(price, (int, float)) or (
         not math.isfinite(price) or price <= 1
