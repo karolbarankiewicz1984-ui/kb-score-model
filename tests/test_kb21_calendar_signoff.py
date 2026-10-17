@@ -235,5 +235,62 @@ class CalendarSignoffTests(unittest.TestCase):
         self.assertEqual(result["calendar_gate"], "BLOCKED")
 
 
+    def test_unknown_competition_cannot_ride_along_with_perfect_manual_signoff(self):
+        q, i = sample()
+        q["fixtures"].append({
+            "date_warsaw": "2026-10-18", "fixture_id": "fifa.clubwc:777",
+            "fixture": "New Club - Rival Club", "kickoff": "2026-10-18T20:00:00+02:00"
+        })
+        result = validate(q, i)
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+        self.assertEqual(result["days"]["2026-10-18"]["status"], "BLOCKED")
+        self.assertIn("UNREVIEWED_COMPETITION_OUTSIDE_SCOPE: fifa.clubwc",
+                      result["days"]["2026-10-18"]["errors"])
+        self.assertFalse(result["safe_to_publish_play"])
+
+    def test_duplicate_candidate_id_blocks_signed_calendar(self):
+        q, i = sample()
+        q["fixtures"].append(copy.deepcopy(q["fixtures"][0]))
+        result = validate(q, i)
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+        self.assertIn("DUPLICATE_INDEPENDENT_FIXTURE_ID: eng.1:111",
+                      result["days"]["2026-10-18"]["errors"])
+
+    def test_unrequested_day_blocks_global_gate_even_with_signed_inventory(self):
+        q, i = sample()
+        q["fixtures"].append({
+            "date_warsaw": "2026-10-19", "fixture_id": "eng.1:222",
+            "fixture": "A - B", "kickoff": "2026-10-19T18:00:00+02:00"
+        })
+        result = validate(q, i)
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+        self.assertIn("CANDIDATE_OUTSIDE_REQUESTED_CALENDAR_DATES",
+                      result["errors"])
+
+    def test_bad_candidate_record_blocks_not_crashes_or_approves(self):
+        q, i = sample()
+        q["fixtures"].append(None)
+        result = validate(q, i)
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+        self.assertIn("INVALID_CANDIDATE_RECORD", result["errors"])
+
+    def test_malformed_fixture_identifier_blocks_signed_inventory(self):
+        q, i = sample()
+        q["fixtures"].append({
+            "date_warsaw": "2026-10-18", "fixture_id": "eng.1:",
+            "fixture": "A - B", "kickoff": "2026-10-18T20:00:00+02:00"
+        })
+        result = validate(q, i)
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+        self.assertIn("INVALID_CANDIDATE_FIXTURE_ID",
+                      result["days"]["2026-10-18"]["errors"])
+
+    def test_refuse_duplicate_requested_day(self):
+        q, i = sample()
+        q["days"].append("2026-10-18")
+        with self.assertRaisesRegex(ValueError, "distinct Warsaw"):
+            validate(q, i)
+
+
 if __name__ == "__main__":
     unittest.main()

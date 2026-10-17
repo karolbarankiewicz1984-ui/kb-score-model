@@ -179,5 +179,32 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
                 summarize(extra, gate(), folder)
 
 
+    def test_review_plan_prioritizes_source_errors_and_never_approves_zero(self):
+        with tempfile.TemporaryDirectory() as folder:
+            fake_fpl(folder)
+            fake_portugal(folder)
+            report = summarize(queue(), gate(), folder)
+        rows = {(r["day"], r["league_id"]): r for r in report["rows"]}
+        portugal = rows[(DAYS[0], "por.1")]
+        premier = rows[(DAYS[0], "eng.1")]
+        belgium = rows[(DAYS[0], "bel.1")]
+        self.assertEqual(portugal["review_priority"], 1)
+        self.assertEqual(portugal["next_action"],
+                         "RESOLVE_OFFICIAL_SOURCE_OR_FIXTURE_CONFLICT")
+        self.assertEqual(premier["review_priority"], 2)
+        self.assertEqual(premier["next_action"],
+                         "VERIFY_FULL_ORGANIZER_DAY_AND_SIGN")
+        self.assertEqual(belgium["review_priority"], 3)
+        self.assertEqual(belgium["next_action"],
+                         "VERIFY_OFFICIAL_ZERO_OR_MISSING_FIXTURES")
+        self.assertTrue(premier["organizer_review_url"].startswith("https://"))
+        markdown = render(report)
+        self.assertIn("Praktyczna kolejka kontroli", markdown)
+        self.assertIn("P1 Liga Portugal", markdown)
+        self.assertIn("P3 Belgian Pro League", markdown)
+        self.assertIn("źródło organizatora", markdown)
+        self.assertFalse(report["safe_to_publish_play"])
+
+
 if __name__ == "__main__":
     unittest.main()

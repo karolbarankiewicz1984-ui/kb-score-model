@@ -73,10 +73,47 @@ def validate(queue, inventory, third_party_snapshots=None):
         raise ValueError("Expected KB21 queue with days and fixtures")
     if not isinstance(inventory, dict) or not isinstance(inventory.get("days"), dict):
         raise ValueError("Expected manually reviewed calendar inventory with days")
+    requested = queue["days"]
+    if (not 1 <= len(requested) <= 3 or len(set(requested)) != len(requested)
+            or any(not isinstance(d, str) for d in requested)):
+        raise ValueError("Expected 1-3 distinct Warsaw calendar days")
+    for day in requested:
+        try:
+            if datetime.fromisoformat(day).date().isoformat() != day:
+                raise ValueError("Non-canonical date")
+        except ValueError:
+            raise ValueError("Invalid Warsaw calendar day")
     result = {"status": "BLOCKED", "calendar_gate": "BLOCKED",
               "publication": "DIAGNOSTIC / NO PLAY", "days": {},
               "manual_source_attestation": False, "safe_to_publish_play": False}
     all_errors = []
+    # The dashboard already reports candidate fixtures outside the 14-league
+    # scope. Enforce the SAME condition at the actual signoff boundary: a
+    # pristine, manually signed inventory cannot silently ignore extra games.
+    day_fixture_issues = {day: [] for day in requested}
+    seen_ids = set()
+    for fixture in queue["fixtures"]:
+        if not isinstance(fixture, dict):
+            all_errors.append("INVALID_CANDIDATE_RECORD")
+            continue
+        date = fixture.get("date_warsaw")
+        fid = fixture.get("fixture_id")
+        if date not in day_fixture_issues:
+            all_errors.append("CANDIDATE_OUTSIDE_REQUESTED_CALENDAR_DATES")
+            continue
+        if not isinstance(fid, str) or ":" not in fid or not fid.split(":", 1)[1]:
+            day_fixture_issues[date].append("INVALID_CANDIDATE_FIXTURE_ID")
+            continue
+        league = fid.split(":", 1)[0]
+        if league not in SCOPE:
+            day_fixture_issues[date].append(
+                "UNREVIEWED_COMPETITION_OUTSIDE_SCOPE: " + league
+            )
+        if fid in seen_ids:
+            day_fixture_issues[date].append(
+                "DUPLICATE_INDEPENDENT_FIXTURE_ID: " + fid
+            )
+        seen_ids.add(fid)
     third_party_snapshots = third_party_snapshots or {}
     daily_approvals = inventory.get("daily_approvals") or {}
     if not isinstance(daily_approvals, dict):
@@ -86,7 +123,7 @@ def validate(queue, inventory, third_party_snapshots=None):
     pending_approval_count = 0
     for day in sorted(set(queue["days"])):
         official_day = inventory["days"].get(day)
-        day_errors = []
+        day_errors = list(day_fixture_issues[day])
         capture_times = []
         first_kickoffs = []
         rows = []
@@ -96,7 +133,10 @@ def validate(queue, inventory, third_party_snapshots=None):
             entry = official_day.get(code) if isinstance(official_day, dict) else None
             errors = []
             expected = [f for f in queue["fixtures"]
-                        if f.get("date_warsaw") == day and f.get("fixture_id", "").split(":")[0] == code]
+                        if isinstance(f, dict)
+                        and f.get("date_warsaw") == day
+                        and isinstance(f.get("fixture_id"), str)
+                        and f["fixture_id"].split(":", 1)[0] == code]
             if not isinstance(entry, dict):
                 errors.append("MISSING_ORGANIZER_INVENTORY")
                 entry = {}
