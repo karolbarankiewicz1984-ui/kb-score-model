@@ -25,6 +25,7 @@ KIND = {
     "knvb": ("ned.1", "kb21-official-knvb-eredivisie-v1"),
     "fpl": ("eng.1", "kb21-official-premier-league-fpl-v1"),
     "dfl": ("ger.1", "kb21-official-bundesliga-media-v1"),
+    "laliga": ("esp.1", "kb21-official-laliga-matchday-html-v1"),
 }
 SCHEMA = "kb21-early-official-snapshot-v1"
 ARTIFACT_PREFIX = "kb21-early-organizer-"
@@ -70,6 +71,48 @@ def _read_snapshot(blob, name, days):
             or not all(isinstance(doc["by_day"][day], list) for day in days)
             or _instant(doc.get("captured_at_utc")) is None):
         raise ValueError("Organizer snapshot scope or safety flags invalid")
+    if name == "laliga":
+        # LaLiga scans only a LIMITED window of matchdays. A valid snapshot
+        # can corroborate a listed match but cannot certify missing games.
+        from tools.kb21_official_laliga import URL
+        sources = doc.get("sources")
+        rounds = doc.get("rounds_scanned")
+        if (doc.get("status") not in (
+                "OFFICIAL_PARTIAL_MATCHDAY_WINDOW_FOR_REVIEW",
+                "NO_USABLE_OFFICIAL_MATCHES")
+                or not isinstance(rounds, list)
+                or not isinstance(sources, list)
+                or len(rounds) != len(sources)
+                or not isinstance(doc.get("errors"), list)
+                or not isinstance(doc.get("season"), str)):
+            raise ValueError("Invalid LaLiga partial-round evidence metadata")
+        declared = {}
+        for entry in sources:
+            if (not isinstance(entry, dict)
+                    or not isinstance(entry.get("round"), int)
+                    or isinstance(entry.get("round"), bool)
+                    or entry["round"] in declared
+                    or entry["round"] not in rounds
+                    or entry.get("url") != URL.format(
+                        season=doc["season"], round=entry["round"])
+                    or entry.get("status") not in (
+                        "PARSED_MATCHDAY", "UNREADABLE_OR_EMPTY_MATCHDAY",
+                        "FETCH_ERROR")):
+                raise ValueError("LaLiga scan references a wrong matchday")
+            declared[entry["round"]] = entry["status"]
+        if set(declared) != set(rounds):
+            raise ValueError("Incomplete LaLiga scan metadata")
+        for day in days:
+            for fixture in doc["by_day"][day]:
+                if (not isinstance(fixture, dict)
+                        or fixture.get("league_id") != "esp.1"
+                        or fixture.get("date_warsaw") != day
+                        or not isinstance(fixture.get("round"), int)
+                        or declared.get(fixture["round"]) != "PARSED_MATCHDAY"
+                        or fixture.get("official_url") != URL.format(
+                            season=doc["season"], round=fixture["round"])
+                        or _instant(fixture.get("kickoff_utc")) is None):
+                    raise ValueError("LaLiga match claim lacks a parsed official round")
     return doc
 
 
@@ -208,7 +251,10 @@ def match_before_whole_day_start(queue, vaults):
                     name == "dfl" and (
                     doc.get("status") != "OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW"
                     or doc.get("table_headers_detected") is not True
-                    or doc.get("page_invalid_row_count") != 0)): 
+                    or doc.get("page_invalid_row_count") != 0)) or (
+                    name == "laliga" and (
+                    doc.get("status") != "OFFICIAL_PARTIAL_MATCHDAY_WINDOW_FOR_REVIEW"
+                    or doc.get("errors"))):
                     continue
                 eligible.append((captured, doc))
             if not eligible:
@@ -328,6 +374,7 @@ def main():
     archive.add_argument("--knvb")
     archive.add_argument("--fpl")
     archive.add_argument("--dfl")
+    archive.add_argument("--laliga")
     archive.add_argument("--outdir", required=True)
     download = sub.add_parser("restore")
     download.add_argument("--repo", required=True)
@@ -340,7 +387,7 @@ def main():
     if a.cmd == "package":
         snap = {name: value for name, value in
                 (("knvb", a.knvb), ("fpl", a.fpl),
-                 ("dfl", a.dfl)) if value}
+                 ("dfl", a.dfl), ("laliga", a.laliga)) if value}
         out = package(a.days, snap, a.outdir)
         print("Early organizer snapshot captured, NOT pre-match certified:",
               {k: v["visible_scoped_rows"] for k, v in out["sources"].items()})
