@@ -83,3 +83,46 @@
 - Oficjalne URL: Premier League, LaLiga, Lega Serie A, Bundesliga,
   Ligue 1, Liga Portugal, Eredivisie, Pro League (Belgia), TFF,
   UEFA Champions, Europa, Conference, Nations i European Qualifiers.
+
+
+## Oficjalne terminarze — rzeczywisty audyt 17–19 października 2026
+- Data badania: 2026-10-17. Szczegółowe źródła i dane:
+  `data/kb21_official_research/2026-10-17_to_2026-10-19.json`.
+- Po raz pierwszy zestawiono kompletny trzydniowy zbiór 61 kandydatów ESPN
+  ze źródłami organizatorów dla wszystkich 14 kategorii konkursowych.
+- 60/61 dopasowano po rozgrywkach, gospodarzach/gościach i godzinach.
+  Jedna różnica: Real Betis–FC Barcelona 2026-10-17: La Liga 18:30
+  Europe/Warsaw, ESPN 18:00 Europe/Warsaw.
+- Zapisany przed meczem snapshot API-Football dla tego spotkania
+  `data/api_football/kb21_inputs/2026-10-17.json` potwierdza 18:30;
+  `tools/kb21_calendar_conflict_evidence.py` zachowuje konflikt
+  i dokumentuje zgodność oficjalnego terminarza z trzecim źródłem.
+  NIE usuwa ani nie nadpisuje oryginalnego odczytu ESPN.
+- Źródła pięciu CORE lig: Premier League, La Liga, Serie A, Bundesliga,
+  Ligue 1. Dalsze: oficjalny KNVB dla 8 spotkań Eredivisie, TFF dla
+  8 spotkań Süper Lig, UEFA dla pięciu rozgrywek (bez gier w oknie),
+  Pro League Belgia (weekend pucharowy, brak ligowych gier),
+  Portugal: tylko klubowy + ligowy dowód Braga–Gil Vicente 19.10
+  i termin 3. rundy Taça de Portugal 17–18.10.
+- Uwaga Portugalia: pełny dzienny katalog ligi NIE został osobno
+  zweryfikowany. Oficjalny klub Gil Vicente podaje 20:15 czasu
+  lokalnego (21:15 Polska). Portal ligi prezentuje 19:15 bez
+  jawnej strefy czasowej; należy wyjaśnić sposób prezentowania czasu
+  przed zatwierdzeniem pełnego terminu.
+- Kompletne zestawienia KNVB/Ligue 1/Bundesliga nie zawierają
+  spotkań ligowych w poniedziałek 19.10, ale to wciąż badanie
+  z URL, nie formalny podpisany odczyt.
+- Aktualny kod `tools/kb21_official_research_compare.py` czyta
+  WYŁĄCZNIE to historyczne okno 17–19.10; workflow w kolejnych
+  dniach świadomie pomija przestarzałe źródła zamiast pozorować
+  aktualną weryfikację. Nowe trzy dni wymagają nowego zestawienia.
+- `tools/kb21_official_inventory_prefill.py` przygotowuje
+  61 kart meczów do **ręcznego** sprawdzenia, ALE nie wpisuje
+  recenzenta, daty oficjalnego odczytu ani flagi kompletności.
+  `tools/kb21_calendar_signoff.py` nie dopuści sztucznego PASS
+  bez tych danych.
+- Przebieg GitHub #39028120135: 90 testów OK, 1 konflikt rozpoznany
+  i potwierdzony trzecim źródłem, 61 rekordów prefill, 0
+  automatycznie zatwierdzonych. Calendar Gate pozostaje BLOCKED.
+- Wobec rozegranych/rozpoczętych spotkań nie tworzyć
+  retrospektywnego freeze ani P(model) i nie dopisywać ich do N.
