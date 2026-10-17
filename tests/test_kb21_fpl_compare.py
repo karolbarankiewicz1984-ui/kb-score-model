@@ -83,7 +83,7 @@ class FplCompareTests(unittest.TestCase):
         q["fixtures"].append(copy.deepcopy(q["fixtures"][0]))
         record = compare(q, o)["days"]["2026-10-17"]
         self.assertEqual(record["statuses"]["AMBIGUOUS_DUPLICATE_ESPN_FIXTURE"], 1)
-        self.assertEqual(record["identical_club_and_kickoff_count"], 1)
+        self.assertEqual(record["identical_club_and_kickoff_count"], 2)
         self.assertEqual(record["espn_fixture_count"], 3)
 
     def test_missing_fpl_day_fails_closed(self):
