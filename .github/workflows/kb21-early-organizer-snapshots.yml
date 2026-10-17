@@ -1,0 +1,78 @@
+name: KB21 early organizer snapshots (unsigned)
+on:
+  # UTC: roughly 06:00/09:00 Warsaw in summer, 05:00/08:00 in winter.
+  # GitHub scheduled runs can be delayed; a capture is NOT called prematch
+  # until its actual timestamp is compared with all independent day kickoffs.
+  schedule:
+    - cron: '0 4 * * *'
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/kb21_pregame_vault.py'
+      - 'tests/test_kb21_pregame_vault.py'
+      - '.github/workflows/kb21-early-organizer-snapshots.yml'
+permissions:
+  contents: read
+concurrency:
+  group: kb21-early-snapshot-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test archival integrity and strict first-kickoff gating
+        run: python -m unittest tests.test_kb21_pregame_vault -v
+      - name: Capture source timestamps and hash-checked files (NEVER automatic approval)
+        shell: bash
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timedelta
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          import subprocess
+          now = datetime.now(ZoneInfo('Europe/Warsaw'))
+          dates = [(now.date() + timedelta(days=n)).isoformat() for n in range(3)]
+          output = Path('reports/kb21_early')
+          output.mkdir(parents=True, exist_ok=True)
+          sources = {}
+          for name, module, extra in (
+              ('knvb', 'tools.kb21_official_knvb', []),
+              ('fpl', 'tools.kb21_official_fpl', [
+                  '--output-md', str(output / 'fpl-for-review.md')]),
+          ):
+              dest = output / (name + '-raw.json')
+              proc = subprocess.run([
+                  'python', '-m', module, '--days', *dates,
+                  '--output', str(dest), *extra], check=False)
+              if proc.returncode == 0 and dest.is_file():
+                  sources[name] = str(dest)
+              else:
+                  print(f'::warning::{name} official source not captured; NO calendar approval')
+          command = [
+              'python', '-m', 'tools.kb21_pregame_vault', 'package',
+              '--days', *dates, '--outdir', str(output / 'snapshot')]
+          for name, path in sources.items():
+              command += ['--' + name, path]
+          if not sources:
+              raise RuntimeError('Both official sources failed; no truthful archive to upload')
+          subprocess.run(command, check=True)
+          from tools.kb21_pregame_vault import verify
+          manifest, contents = verify(output / 'snapshot')
+          assert manifest['calendar_gate'] == 'BLOCKED'
+          assert manifest['human_approval'] is None
+          print(f'::notice::Saved unsigned early organizer sources {list(contents)}; '
+                'actual capture time recorded, NOT necessarily before kickoff.')
+          PY
+      - name: Store independently dated read-only evidence (30 days)
+        uses: actions/upload-artifact@v4
+        with:
+          name: kb21-early-organizer-${{ github.run_id }}
+          path: reports/kb21_early/snapshot/
+          retention-days: 30
+          if-no-files-found: error
