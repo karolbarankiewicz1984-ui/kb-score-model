@@ -24,7 +24,7 @@ ROLES = {
 
 
 def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None,
-          early_archive=None, early_revisions=None):
+          early_archive=None, early_revisions=None, zero_evidence=None):
     if (not isinstance(queue, dict) or not isinstance(queue.get("days"), list)
             or not isinstance(queue.get("fixtures"), list)
             or not isinstance(gate, dict) or not isinstance(gate.get("days"), dict)
@@ -192,6 +192,43 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
         if set(revision_by_key) != {(day, league)
                                    for day in days for league in ("eng.1", "ned.1", "ger.1", "esp.1")}:
             raise ValueError("Official revision audit missing competition/day rows")
+    # Exact zero-day worklist from the SAME unsigned inventory/signoff
+    # validator. Never interpret a complete FPL 380-match catalogue as
+    # a manual confirmation of a blank organizer day.
+    zero_by_key = {}
+    if zero_evidence is not None:
+        from tools.kb21_zero_day_evidence import SCHEMA as ZERO_SCHEMA
+        if (not isinstance(zero_evidence, dict)
+                or zero_evidence.get("schema") != ZERO_SCHEMA
+                or zero_evidence.get("calendar_gate") != "BLOCKED"
+                or zero_evidence.get("safe_to_publish_play") is not False
+                or set(zero_evidence.get("days", [])) != set(days)
+                or not isinstance(zero_evidence.get("rows"), list)):
+            raise ValueError("Invalid zero-day worklist")
+        for item in zero_evidence["rows"]:
+            if not isinstance(item, dict):
+                raise ValueError("Malformed zero-day worklist item")
+            key = item.get("day"), item.get("league_id")
+            if key not in expected or key in zero_by_key:
+                raise ValueError("Unrecognized/duplicate zero-day worklist entry")
+            if (item.get("calendar_gate") != "BLOCKED"
+                    or item.get("human_reviewer") is not None
+                    or item.get("confirmed_zero_matches") is not None
+                    or item.get("full_day_checked") is not False):
+                raise ValueError("Zero-day worklist cannot sign a day")
+            if item.get("machine_zero_candidate_needs_human_review"):
+                deadline = _instant(day_windows[key[0]]["earliest_candidate_kickoff_utc"])
+                capture = _instant(item.get("automated_source_capture_utc"))
+                if (key[1] != "eng.1" or deadline is None
+                        or capture is None or capture >= deadline):
+                    raise ValueError("False full-season pre-day evidence claim")
+            zero_by_key[key] = item
+        expected_zeros = {
+            key for key, errs in official_errors.items()
+            if "ZERO_MATCHES_NOT_CONFIRMED_BY_ORGANIZER" in errs
+        }
+        if set(zero_by_key) != expected_zeros:
+            raise ValueError("Zero-day worklist must cover each formal zero blocker")
     rows, blockers = [], Counter()
     for day in days:
         for league in COMPETITIONS:
@@ -275,6 +312,7 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 "source_errors": source.get("source_errors", []),
                 "partial_official_source_hints": hints,
                 "early_organizer_revision": revision_by_key.get(key),
+                "zero_day_proof_worklist": zero_by_key.get(key),
                 "full_day_approved_by_this_packet": False,
                 "reviewer": None, "manual_review_required": True,
                 "calendar_gate": "BLOCKED",
@@ -293,6 +331,10 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
             "partial_hint_league_days": sum(
                 x["partial_official_source_hints"] is not None for x in rows),
             "source_day_signoffs_from_packet": 0,
+            "zero_day_review_cells": len(zero_by_key),
+            "zero_day_full_season_fpl_precheck_only": sum(
+                item["machine_zero_candidate_needs_human_review"]
+                for item in zero_by_key.values()),
             "early_official_archive_matches": sum(
                 item.get("early_official_archive", {}).get("status")
                 == "EARLY_SNAPSHOT_MATCHED_FOR_REVIEW"
@@ -345,6 +387,9 @@ def render(packet):
         "Kandydaci ESPN: " + str(total["fixtures_to_review"]) +
         "; porównania diagnostyczne: " + str(total["diagnostic_pairs_only"]),
         "Błędy formalne na poziomie rozgrywek: " + str(total["formal_blocker_occurrences"]),
+        "Brakujące kontrole dnia bez spotkań: " + str(total["zero_day_review_cells"]) +
+        "; z pełnym katalogiem FPL do ręcznego przeglądu: " +
+        str(total["zero_day_full_season_fpl_precheck_only"]),
         "Źródła ze wskazówkami bez zatwierdzonych godzin: " +
         str(total["partial_hint_league_days"]) + " kart rozgrywki/dzień",
         "Wczesne archiwum: zgodne pary do kontroli (NIE zatwierdzone): " +
@@ -392,6 +437,14 @@ def render(packet):
                          row["source_role"] + "; pierwszy start ESPN: " +
                          str(row["first_candidate_kickoff_utc"] or "nieznany") +
                          "; " + row["time_status"])
+            zero = row.get("zero_day_proof_worklist")
+            if zero is not None:
+                lines.append("NIEPOTWIERDZONY DZIEŃ BEZ SPOTKAŃ: " +
+                             str(zero["status"]) +
+                             "; zadanie: " + str(zero["action"]) +
+                             "; czas oficjalnego odczytu UTC: " +
+                             str(zero.get("automated_source_capture_utc") or "brak") +
+                             ". Nie jest to podpis, zero cert ani PLAY.")
             partial = row["partial_official_source_hints"]
             if partial is not None:
                 lines.append("POMOCNICZY DOWÓD ORGANIZATORA (niezatwierdzony): " +
@@ -464,6 +517,7 @@ def main():
     p.add_argument("--comparisons-dir")
     p.add_argument("--early-archive-compare")
     p.add_argument("--early-archive-revisions")
+    p.add_argument("--zero-evidence-worklist")
     p.add_argument("--output-json", required=True)
     p.add_argument("--output-md", required=True)
     a = p.parse_args()
@@ -480,6 +534,8 @@ def main():
         if a.early_archive_compare else None,
         early_revisions=json.loads(Path(a.early_archive_revisions).read_text(encoding="utf-8"))
         if a.early_archive_revisions else None,
+        zero_evidence=json.loads(Path(a.zero_evidence_worklist).read_text(encoding="utf-8"))
+        if a.zero_evidence_worklist else None,
     )
     for filename, value in (
         (a.output_json, json.dumps(obj, ensure_ascii=False, indent=2) + "\n"),
