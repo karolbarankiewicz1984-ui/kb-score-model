@@ -28,8 +28,8 @@ class OfficialReviewTests(unittest.TestCase):
         self.assertIn("https://www.premierleague.com/", premier["organizer_entry_url"])
         belgium = next(x for x in result["days"]["2026-10-17"]["rows"]
                        if x["league_id"] == "bel.1")
-        self.assertIsNone(belgium["organizer_entry_url"])
-        self.assertEqual(belgium["review_priority"], "SOURCE_URL_MISSING")
+        self.assertIn("proleague.be", belgium["organizer_entry_url"])
+        self.assertEqual(belgium["review_priority"], "PROVIDER_MISMATCH_OR_COVERAGE_GAP")
         self.assertIn("Calendar Gate BLOCKED", render(result))
         self.assertNotIn("Calendar Gate PASS", render(result))
 
@@ -40,7 +40,7 @@ class OfficialReviewTests(unittest.TestCase):
             build({"days": {"2026-10-17": None}})
 
     def test_known_official_pages_use_https(self):
-        self.assertEqual(set(SCOPE) - set(OFFICIAL_PAGES), {"bel.1"})
+        self.assertEqual(set(SCOPE) - set(OFFICIAL_PAGES), set())
         self.assertTrue(all(x.startswith("https://") for x in OFFICIAL_PAGES.values()))
 
 
