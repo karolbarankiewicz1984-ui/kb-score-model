@@ -33,9 +33,18 @@ def build(paths):
                 "calendar_source": "ESPN / unverified", "official_calendar": None,
                 "independent_calendar": f.get("source", "ESPN third-party"),
                 "calendar_gate": "BLOCKED", "markets": [],
-                "assessment": {"str": None, "qual": None, "match": None, "sport_score": None,
-                               "p_model": None, "p_model_method": None, "confidence": None,
-                               "evidence": [], "analyst": None, "freeze_at": None},
+                "assessment": {
+                    # Directly compatible with kb21_analyst_assessment.validate.
+                    # Blank fields are deliberate and MUST be filled pre-match by an analyst.
+                    "fixture": f"{f['home']} - {f['away']}",
+                    "fixture_id": f"{f['league']}:{f['event_id']}",
+                    "kickoff": warsaw.isoformat(),
+                    "market": None, "freeze_at": None, "analyst": None,
+                    "reasoning": None, "str": None, "qual": None, "match": None,
+                    "str_evidence": [], "qual_evidence": [], "match_evidence": [],
+                    "sport_score": None, "p_model": None, "p_model_method": None,
+                    "confidence": None,
+                },
                 "publication": "DIAGNOSTIC / NO PLAY"}
     return {"status": "REVIEW_REQUIRED", "calendar_gate": "BLOCKED",
             "source_errors": errors, "fixtures": sorted(matches.values(), key=lambda f: f["kickoff"]),
