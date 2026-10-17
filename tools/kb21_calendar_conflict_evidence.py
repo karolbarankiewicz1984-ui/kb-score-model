@@ -44,7 +44,7 @@ def annotate(comparison, snapshots):
                       and isinstance(snap.get("candidates"), list))
         for row in rows:
             r = dict(row)
-            disputes = []
+            enriched_fixtures = []
             for fixture in row.get("fixtures", []):
                 f = dict(fixture)
                 f["third_source_review"] = None
@@ -82,15 +82,9 @@ def annotate(comparison, snapshots):
                         "requires_manual_resolution": True,
                         "calendar_gate": "BLOCKED",
                     }
-                    disputes.append(f["third_source_review"])
-                updated_fixture = f
-                # do not replace original fixture status or raw evidence
-                disputes_entry = updated_fixture
-                disputes.append(None) if False else None
-                if "fixtures_new" not in r:
-                    r["fixtures_new"] = []
-                r["fixtures_new"].append(disputes_entry)
-            r["fixtures"] = r.pop("fixtures_new", [])
+                # Keep original match evidence and classification unchanged.
+                enriched_fixtures.append(f)
+            r["fixtures"] = enriched_fixtures
             r["third_source_corrob_count"] = sum(
                 f.get("third_source_review", {}).get("status") == "OFFICIAL_AND_API_TIME_AGREE_ESPN_DIFFERS"
                 for f in r["fixtures"] if f.get("third_source_review")
@@ -149,8 +143,8 @@ def main():
     b = Path(args.output_md)
     b.parent.mkdir(parents=True, exist_ok=True)
     b.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"KB21 third-source disputes: {investigated if False else result['third_source_summary']['disputes']} "
-          f"checked, {corroborated if False else result['third_source_summary']['corroborated_with_pre_match_api']} corroborated; BLOCKED")
+    print(f"KB21 third-source disputes: {result['third_source_summary']['disputes']} "
+          f"checked, {result['third_source_summary']['corroborated_with_pre_match_api']} corroborated; BLOCKED")
 
 
 if __name__ == "__main__":
