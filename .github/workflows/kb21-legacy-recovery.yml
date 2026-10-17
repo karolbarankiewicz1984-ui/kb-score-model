@@ -130,7 +130,8 @@ jobs:
           subprocess.run(['python', '-m', 'tools.kb21_assessment_queue', *paths, '--output', 'reports/kb21_legacy/assessment-queue.json'], check=True)
           subprocess.run(['python', '-m', 'tools.kb21_official_source_probe',
                           'reports/kb21_legacy/assessment-queue.json',
-                          '--output', 'reports/kb21_legacy/official-source-http-probes.json'], check=True)
+                          '--output', 'reports/kb21_legacy/official-source-http-probes.json',
+                          '--output-md', 'reports/kb21_legacy/official-source-http-probes.md'], check=True)
           subprocess.run(['python', '-m', 'tools.kb21_fixture_crosscheck',
                           'reports/kb21_legacy/assessment-queue.json',
                           '--snapshots-dir', 'data/football_data_org',
@@ -233,6 +234,7 @@ jobs:
             reports/kb21_legacy/third-source-conflicts.json
             reports/kb21_legacy/third-source-conflicts.md
             reports/kb21_legacy/official-source-http-probes.json
+            reports/kb21_legacy/official-source-http-probes.md
             reports/kb21_legacy/official-review.json
             reports/kb21_legacy/official-review.md
             reports/kb21_legacy/official-inventory-template.json
