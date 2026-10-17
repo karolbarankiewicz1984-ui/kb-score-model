@@ -41,5 +41,31 @@ class QueueReportTests(unittest.TestCase):
             render_day({"fixtures": None}, "2026-10-17")
 
 
+    def test_factual_goal_history_displayed_without_scores(self):
+        queue = {"days": ["2026-10-17"], "fixtures": [{
+            "date_warsaw": "2026-10-17", "fixture": "A - B",
+            "competition": "Premier League", "fixture_id": "eng.1:10",
+            "kickoff": "2026-10-17T18:00:00+02:00",
+            "assessment": {"market": None, "str": None, "qual": None,
+                           "match": None, "p_model": None},
+            "pre_match_research": {
+                "status": "PRIOR_GOAL_CONTEXT",
+                "context": {
+                    "source_file": "data/api_football/kb21_inputs/2026-10-17.json",
+                    "home": {"previous_completed_matches": 5,
+                             "goals_for_per_match": 1.4,
+                             "goals_against_per_match": 1.2},
+                    "away": None
+                }
+            }
+        }]}
+        result = render_day(queue, "2026-10-17")
+        self.assertIn("gole, NIE xG", result)
+        self.assertIn("1.40/mecz", result)
+        self.assertIn("BRAK ZWERYFIKOWANEJ OCENY", result)
+        self.assertIn("NIE WYZNACZONO", result)
+        self.assertNotIn("Decyzja: PLAY", result)
+
+
 if __name__ == "__main__":
     unittest.main()
