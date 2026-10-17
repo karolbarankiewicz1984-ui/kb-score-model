@@ -114,6 +114,12 @@ def validate(queue, inventory, third_party_snapshots=None):
                 "DUPLICATE_INDEPENDENT_FIXTURE_ID: " + fid
             )
         seen_ids.add(fid)
+    # A corrupt global queue or inventory scope must not expose seemingly
+    # approved individual days while the overall three-day gate is blocked.
+    requested_dates_match = set(inventory["days"]) == set(requested)
+    if not requested_dates_match:
+        all_errors.append("INVENTORY_DAYS_DO_NOT_MATCH_REQUEST")
+    global_input_errors = tuple(all_errors)
     third_party_snapshots = third_party_snapshots or {}
     daily_approvals = inventory.get("daily_approvals") or {}
     if not isinstance(daily_approvals, dict):
@@ -124,6 +130,8 @@ def validate(queue, inventory, third_party_snapshots=None):
     for day in sorted(set(queue["days"])):
         official_day = inventory["days"].get(day)
         day_errors = list(day_fixture_issues[day])
+        if global_input_errors:
+            day_errors.append("GLOBAL_CALENDAR_INPUT_INTEGRITY_FAILURE")
         capture_times = []
         first_kickoffs = []
         rows = []
@@ -271,9 +279,6 @@ def validate(queue, inventory, third_party_snapshots=None):
             "competitions": rows, "errors": day_errors,
         }
         all_errors += [f"{day}: {error}" for error in day_errors]
-    requested_dates_match = set(inventory["days"]) == set(queue["days"])
-    if not requested_dates_match:
-        all_errors.append("INVENTORY_DAYS_DO_NOT_MATCH_REQUEST")
     result["ready_for_approval"] = not all_errors
     result["approved_days"] = approved_day_count
     result["pending_approval_days"] = pending_approval_count
