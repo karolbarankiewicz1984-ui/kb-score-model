@@ -10,7 +10,7 @@
   "calendar_gate": "BLOCKED",
   "coverage": "ALL_14_COMPETITIONS_HAVE_OFFICIAL_RESEARCH_ENTRIES__PORTUGAL_INCOMPLETE",
   "publication": "DIAGNOSTIC / NO PLAY",
-  "note": "Fixture details transcribed from real official organizer sources for investigation. NOT an authenticated programmatic fetch, not an independent signed full-day audit. Must compare to ESPN and independently re-check after schedule changes. No model score, P(model), PLAY or historical N. Three UEFA competition official schedules list no fixtures on Oct17-19, recorded as unsigned no-game research and never official signoff. Turkish Federation official times converted from UTC+3 to Europe/Warsaw UTC+2 on Oct17-19. UEFA Nations League official matchdays October 2026 are Oct1-6 and Nov12-17; 2026 World Cup European qualifiers concluded in March 2026. Both have no matches Oct17-19. Still unsigned. Eredivisie 17-18 Oct schedule from Dutch federation KNVB official competition program; eight fixtures incl relocated NEC-Fortuna. Full round from KNVB, unsigned. Liga Portugal official portal Gil Vicente team shows 19h15 without timezone while official Gil Vicente notice states 20h15 local. Preserve difference transparently; further timezone review required. Official Taça de Portugal cup round Oct17-18 is separate from league.",
+  "note": "Fixture details transcribed from real official organizer sources for investigation. NOT an authenticated programmatic fetch, not an independent signed full-day audit. Must compare to ESPN and independently re-check after schedule changes. No model score, P(model), PLAY or historical N. Three UEFA competition official schedules list no fixtures on Oct17-19, recorded as unsigned no-game research and never official signoff. Turkish Federation official times converted from UTC+3 to Europe/Warsaw UTC+2 on Oct17-19. UEFA Nations League official matchdays October 2026 are Oct1-6 and Nov12-17; 2026 World Cup European qualifiers concluded in March 2026. Both have no matches Oct17-19. Still unsigned. Eredivisie 17-18 Oct schedule from Dutch federation KNVB official competition program; eight fixtures incl relocated NEC-Fortuna. Full round from KNVB, unsigned. Liga Portugal official portal Gil Vicente team shows 19h15 without timezone while official Gil Vicente notice states 20h15 local. Preserve difference transparently; further timezone review required. Official Taça de Portugal cup round Oct17-18 is separate from league. Liga Portugal official circular 357 (season calendar PDF) independently confirms Taça de Portugal third round on 17-18 October. A J2 postponed match is shown in official Liga Portugal Gil Vicente page on 19 October. This is NOT a verified full inventory of rescheduled fixtures.",
   "days": {
     "2026-10-17": {
       "eng.1": {
@@ -299,7 +299,11 @@
         "supporting_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
         "club_official_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
         "league_official_display_warning": "Liga Portugal website renders kickoff 19h15, while both club and other Portugal-local sources say 20h15. 19h15 may be UTC rendering; needs independent explicit timezone confirmation before final signoff.",
-        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal"
+        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal",
+        "organizer_season_calendar_pdf_url": "https://www.ligaportugal.pt/backoffice/assets/Comunicado_Oficial_n_357_Calendarios_das_Competicoes_Profissionais_2026_27_3b82c06381.pdf",
+        "official_matchday_schedule_context": "Official competition circular 357 shows Oct 17-18 as Taça de Portugal round 3, not a regular Liga Portugal matchday; a postponed J2 Braga–Gil Vicente is listed by Liga Portugal on Oct 19.",
+        "postponed_fixtures_require_separate_check": true,
+        "official_organizer_team_schedule_url": "https://www.ligaportugal.pt/team/162/gil-vicente-fc"
       },
       "ned.1": {
         "competition": "Eredivisie",
@@ -602,7 +606,11 @@
         "supporting_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
         "club_official_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
         "league_official_display_warning": "Liga Portugal website renders kickoff 19h15, while both club and other Portugal-local sources say 20h15. 19h15 may be UTC rendering; needs independent explicit timezone confirmation before final signoff.",
-        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal"
+        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal",
+        "organizer_season_calendar_pdf_url": "https://www.ligaportugal.pt/backoffice/assets/Comunicado_Oficial_n_357_Calendarios_das_Competicoes_Profissionais_2026_27_3b82c06381.pdf",
+        "official_matchday_schedule_context": "Official competition circular 357 shows Oct 17-18 as Taça de Portugal round 3, not a regular Liga Portugal matchday; a postponed J2 Braga–Gil Vicente is listed by Liga Portugal on Oct 19.",
+        "postponed_fixtures_require_separate_check": true,
+        "official_organizer_team_schedule_url": "https://www.ligaportugal.pt/team/162/gil-vicente-fc"
       },
       "ned.1": {
         "competition": "Eredivisie",
@@ -838,7 +846,11 @@
         "supporting_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
         "club_official_source_url": "https://gilvicentefc.pt/data-e-hora-do-jogo-em-atraso-com-o-sc-braga/",
         "league_official_display_warning": "Liga Portugal website renders kickoff 19h15, while both club and other Portugal-local sources say 20h15. 19h15 may be UTC rendering; needs independent explicit timezone confirmation before final signoff.",
-        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal"
+        "off_weekend_cup_source_url": "https://www.ligaportugal.pt/noticias/28742/sorteio-da-3.a-eliminatoria-da-taca-de-portugal",
+        "organizer_season_calendar_pdf_url": "https://www.ligaportugal.pt/backoffice/assets/Comunicado_Oficial_n_357_Calendarios_das_Competicoes_Profissionais_2026_27_3b82c06381.pdf",
+        "official_matchday_schedule_context": "Official competition circular 357 shows Oct 17-18 as Taça de Portugal round 3, not a regular Liga Portugal matchday; a postponed J2 Braga–Gil Vicente is listed by Liga Portugal on Oct 19.",
+        "postponed_fixtures_require_separate_check": true,
+        "official_organizer_team_schedule_url": "https://www.ligaportugal.pt/team/162/gil-vicente-fc"
       },
       "ned.1": {
         "competition": "Eredivisie",
