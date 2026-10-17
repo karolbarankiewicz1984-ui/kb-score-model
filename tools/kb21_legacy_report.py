@@ -16,10 +16,12 @@ def render(payload):
         raise ValueError("Missing date")
     official = payload.get("official_calendar")
     independent = payload.get("independent_calendar")
-    verified = payload.get("calendar_verified") is True and bool(official) and bool(independent)
+    # A self-declared flag is never proof of independent calendar verification.
+    # The strict calendar tool only returns BLOCKED or REVIEW_REQUIRED.
+    verified = False
     out = [f"# KB Score 2.1 — analyst recovery — {date}", "",
            "**Mode:** MANUAL / REVIEW; not a restored automatic LIVE engine.",
-           f"**Calendar Gate:** {'PASS (declared; independently review sources)' if verified else 'BLOCKED'}",
+           f"**Calendar Gate:** {'PASS' if verified else 'BLOCKED / REVIEW REQUIRED — no independent source verification'}",
            f"**Official calendar:** {official or 'MISSING'}",
            f"**Independent calendar:** {independent or 'MISSING'}", ""]
     candidates = payload.get("candidates", [])
