@@ -1,5 +1,6 @@
 """A complete FPL catalogue helps manual zero-day review, NEVER authorizes it."""
 import copy
+from datetime import datetime, timezone
 import unittest
 
 from tests.test_kb21_calendar_signoff import sample
@@ -63,6 +64,16 @@ class ZeroDayEvidenceTests(unittest.TestCase):
         eng = next(x for x in r["rows"] if x["league_id"] == "eng.1")
         self.assertEqual(eng["status"],
                          "FULL_SEASON_FPL_EMPTY_DAY_CAPTURE_TOO_LATE")
+
+    def test_snapshot_early_but_now_after_first_game_cannot_seek_retro_signoff(self):
+        q, draft = materials()
+        later = datetime(2026, 10, 18, 17, tzinfo=timezone.utc)
+        report = build(q, draft, fpl(), now=later)
+        row = next(x for x in report["rows"] if x["league_id"] == "eng.1")
+        self.assertEqual(row["status"],
+                         "FULL_SEASON_FPL_EMPTY_DAY_HUMAN_SIGNOFF_DEADLINE_PASSED")
+        self.assertEqual(report["totals"]["full_season_fpl_zero_candidates"], 0)
+        self.assertFalse(report["safe_to_publish_play"])
 
     def test_incomplete_fpl_catalogue_is_not_zero_day_proof(self):
         q, draft = materials()
