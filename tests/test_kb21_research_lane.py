@@ -27,6 +27,7 @@ def examples():
         extra = copy.deepcopy(row)
         extra["day"] = THIRD
         extra["espn_candidates"] = 0
+        extra["paired_for_review"] = 0
         dashboard["rows"].append(extra)
     packet = review_packet(q, gate, dashboard, now=NOW)
     return q, packet
