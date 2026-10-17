@@ -116,7 +116,7 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         self.assertEqual(belgium["espn_candidates"], 0)
         self.assertEqual(belgium["evidence_status"], "DIRECT_SOURCE_MISSING")
         self.assertFalse(belgium["full_day_signed"])
-        self.assertEqual(report["totals"]["without_direct_adapters"], 1)
+        self.assertEqual(report["totals"]["without_direct_adapters"], 0)
 
     def test_refuse_mismatched_or_approved_comparison(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -233,7 +233,7 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         self.assertEqual(row["review_priority"], 1)
         self.assertEqual(report["totals"]["unpaired_candidates"], 1)
         self.assertEqual(report["totals"]["date_team_only_not_time_approved"], 1)
-        self.assertEqual(report["totals"]["direct_adapters"], 13)
+        self.assertEqual(report["totals"]["direct_adapters"], 14)
         self.assertFalse(report["safe_to_publish_play"])
 
 
@@ -265,6 +265,44 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         self.assertEqual(report["totals"]["unpaired_candidates"], 1)
         self.assertEqual(report["totals"]["undated_organizer_round_rows"], 1)
         self.assertFalse(report["safe_to_publish_play"])
+
+
+    def test_qualifiers_historical_cycle_not_a_dated_calendar(self):
+        from tools.kb21_official_uefa_qualifiers_cycle import EDITION, SOURCE
+        with tempfile.TemporaryDirectory() as folder:
+            write(folder, "official-uefa-qualifiers-cycle.json", {
+                "league_id": "fifa.worldq.uefa", "edition": EDITION,
+                "official_url": SOURCE, "calendar_gate": "BLOCKED",
+                "days": DAYS, "by_day": {day: [] for day in DAYS},
+                "date_verified": False, "full_calendar_verified": False,
+                "confirmed_zero_matches": False,
+                "errors": [], "documented_last_playoff_day": "2026-03-31",
+            })
+            write(folder, "official-uefa-qualifiers-cycle-vs-espn.json", {
+                "calendar_gate": "BLOCKED",
+                "days": {DAYS[0]: {
+                    "statuses": {}, "historical_cycle_outside_window_candidates": [
+                        "fifa.worldq.uefa:42"
+                    ], "no_games_certified": False,
+                }, DAYS[1]: {
+                    "statuses": {}, "historical_cycle_outside_window_candidates": [],
+                    "no_games_certified": False,
+                }},
+            })
+            q = {"days": DAYS, "fixtures": [{
+                "date_warsaw": DAYS[0], "fixture_id": "fifa.worldq.uefa:42",
+            }]}
+            report = summarize(q, gate(), folder)
+        row = next(x for x in report["rows"]
+                   if x["league_id"] == "fifa.worldq.uefa"
+                   and x["day"] == DAYS[0])
+        self.assertEqual(row["evidence_status"], "QUALIFIERS_EDITION_OR_CALENDAR_REVIEW")
+        self.assertEqual(row["paired_for_review"], 0)
+        self.assertEqual(row["review_priority"], 1)
+        self.assertEqual(report["totals"]["historical_2026_cycle_candidates_flagged"], 1)
+        self.assertEqual(report["totals"]["unpaired_candidates"], 1)
+        self.assertFalse(report["safe_to_publish_play"])
+        self.assertIn("NIE jest oficjalnie potwierdzony", render(report))
 
 
 if __name__ == "__main__":
