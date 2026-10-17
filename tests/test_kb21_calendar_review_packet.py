@@ -167,5 +167,54 @@ class CalendarReviewPacketTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unsigned"):
             build(q, g, d, partial_draft=signed)
 
+    def test_day_wide_kickoff_closes_other_league_and_empty_slots(self):
+        q, g, d = data()
+        # EPL kicks off at 14:00 UTC. LaLiga's first event is later,
+        # but the signoff validator requires whole-day approval before EPL.
+        q["fixtures"].append({
+            "date_warsaw": DAYS[0], "fixture_id": "esp.1:301",
+            "fixture": "Real Betis - Barcelona",
+            "kickoff": "2026-10-17T19:00:00+02:00",
+        })
+        target = next(x for x in d["rows"]
+                      if x["day"] == DAYS[0] and x["league_id"] == "esp.1")
+        target["espn_candidates"] = 1
+        report = build(q, g, d, datetime(2026, 10, 17, 15, tzinfo=timezone.utc))
+        by_league = {x["league_id"]: x for x in report["rows"] if x["day"] == DAYS[0]}
+        self.assertEqual(by_league["esp.1"]["time_status"],
+                         "FUTURE_FIRST_KICKOFF_MANUAL_REVIEW_REQUIRED")
+        self.assertEqual(by_league["esp.1"]["day_wide_review_deadline"]["prematch_signoff_status"],
+                         "DAY_FIRST_KICKOFF_ALREADY_PASSED")
+        self.assertEqual(by_league["uefa.champions"]["day_wide_review_deadline"]["prematch_signoff_status"],
+                         "DAY_FIRST_KICKOFF_ALREADY_PASSED")
+        self.assertEqual(report["totals"]["whole_days_after_first_candidate_kickoff"], 1)
+        self.assertIn("TERMIN DLA CAŁEGO DNIA", render(report))
+
+    def test_comparator_result_kept_as_observation_not_signoff(self):
+        q, g, d = data()
+        comparisons = {
+            (item["date_warsaw"], item["fixture_id"]): {
+                "organizer_comparator_status": "KICKOFF_CONFLICT",
+                "official_kickoff_claim": "2026-10-17T16:30:00+02:00",
+                "comparison_file": "official-fpl-vs-espn.json",
+                "kickoff_evidence_validated_by_signoff": False,
+            } for item in q["fixtures"]
+        }
+        result = build(q, g, d, comparisons=comparisons)
+        self.assertEqual(result["totals"]["candidate_comparisons_with_source_conflicts"], 2)
+        self.assertIn("KICKOFF_CONFLICT", render(result))
+        self.assertFalse(result["safe_to_publish_play"])
+        comparisons[(DAYS[0], "eng.1:111")]["kickoff_evidence_validated_by_signoff"] = True
+        with self.assertRaisesRegex(ValueError, "must remain diagnostic"):
+            build(q, g, d, comparisons=comparisons)
+
+    def test_unknown_day_kickoff_fails_open_window_claim(self):
+        q, g, d = data()
+        q["fixtures"][0]["kickoff"] = None
+        r = build(q, g, d, datetime(2026, 10, 17, 10, tzinfo=timezone.utc))
+        self.assertEqual(r["day_review_deadlines"][DAYS[0]]["prematch_signoff_status"],
+                         "DAY_KICKOFF_UNKNOWN_SIGNOFF_WINDOW_UNVERIFIABLE")
+
+
 if __name__ == "__main__":
     unittest.main()

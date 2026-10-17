@@ -12,6 +12,7 @@ from urllib.parse import urlsplit
 
 from tools.kb21_calendar_evidence_dashboard import COMPETITIONS
 from tools.kb21_fixture_crosscheck import _instant
+from tools.kb21_official_match_triage import collect as collect_match_comparisons
 
 ROLES = {
     "FULL_SEASON_FPL": "FULL_SEASON_SNAPSHOT_NOT_ATTESTATION",
@@ -22,7 +23,7 @@ ROLES = {
 }
 
 
-def build(queue, gate, dashboard, now=None, partial_draft=None):
+def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None):
     if (not isinstance(queue, dict) or not isinstance(queue.get("days"), list)
             or not isinstance(queue.get("fixtures"), list)
             or not isinstance(gate, dict) or not isinstance(gate.get("days"), dict)
@@ -94,6 +95,41 @@ def build(queue, gate, dashboard, now=None, partial_draft=None):
             "kickoff_utc": kickoff.astimezone(timezone.utc).isoformat() if kickoff else None,
             "organizer_confirmed": False,
         })
+    # The actual signoff validator requires whole-day approval BEFORE the
+    # earliest independent fixture across ALL fourteen competitions, not
+    # before each league's own first kickoff.
+    day_windows = {}
+    for day in days:
+        all_candidates = [c for (fixture_day, _), group in fixtures.items()
+                          if fixture_day == day for c in group]
+        all_starts = [_instant(c["kickoff_source"]) for c in all_candidates]
+        known = [x for x in all_starts if x is not None]
+        earliest = min(known) if known else None
+        if earliest is not None and earliest <= now:
+            status = "DAY_FIRST_KICKOFF_ALREADY_PASSED"
+        elif len(known) != len(all_starts):
+            status = "DAY_KICKOFF_UNKNOWN_SIGNOFF_WINDOW_UNVERIFIABLE"
+        elif earliest is not None:
+            status = "DAY_FIRST_KICKOFF_FUTURE_MANUAL_REVIEW_REQUIRED"
+        else:
+            status = "NO_CANDIDATES_NO_ZERO_GAME_PROOF"
+        day_windows[day] = {
+            "earliest_candidate_kickoff_utc":
+                earliest.astimezone(timezone.utc).isoformat() if earliest else None,
+            "prematch_signoff_status": status,
+            "independent_candidate_count": len(all_candidates),
+        }
+    if comparisons is not None:
+        if not isinstance(comparisons, dict):
+            raise ValueError("Invalid per-fixture organizer comparison map")
+        actual = {(day, c["fixture_id"])
+                  for (day, _), group in fixtures.items() for c in group}
+        if set(comparisons) != actual:
+            raise ValueError("Organizer match comparisons must cover every fixture")
+        if any(not isinstance(v, dict)
+               or v.get("kickoff_evidence_validated_by_signoff") is not False
+               for v in comparisons.values()):
+            raise ValueError("Comparisons must remain diagnostic")
     rows, blockers = [], Counter()
     for day in days:
         for league in COMPETITIONS:
@@ -151,6 +187,10 @@ def build(queue, gate, dashboard, now=None, partial_draft=None):
                 priority = 2
             else:
                 priority = 3
+            if comparisons is not None:
+                for candidate in candidates:
+                    comparison = comparisons[(day, candidate["fixture_id"])]
+                    candidate["organizer_crosscheck"] = dict(comparison)
             rows.append({
                 "day": day, "league_id": league, "competition": COMPETITIONS[league],
                 "priority": priority, "organizer_url": url,
@@ -165,6 +205,7 @@ def build(queue, gate, dashboard, now=None, partial_draft=None):
                 "first_candidate_kickoff_utc": first.astimezone(timezone.utc).isoformat()
                 if first else None,
                 "time_status": time_status,
+                "day_wide_review_deadline": day_windows[day],
                 "formal_errors": official,
                 "source_errors": source.get("source_errors", []),
                 "partial_official_source_hints": hints,
@@ -177,6 +218,7 @@ def build(queue, gate, dashboard, now=None, partial_draft=None):
     return {
         "schema": "kb21-calendar-review-packet-v1",
         "days": days, "generated_at_utc": now.isoformat(), "rows": rows,
+        "day_review_deadlines": day_windows,
         "totals": {
             "league_day_reviews": len(rows),
             "adapters_configured": dashboard.get("totals", {}).get("direct_adapters"),
@@ -190,6 +232,16 @@ def build(queue, gate, dashboard, now=None, partial_draft=None):
             "day_league_checks_after_first_kickoff": sum(
                 x["time_status"] == "FIRST_KICKOFF_PASSED_NO_RETROACTIVE_APPROVAL"
                 for x in rows),
+            "whole_days_after_first_candidate_kickoff": sum(
+                w["prematch_signoff_status"] == "DAY_FIRST_KICKOFF_ALREADY_PASSED"
+                for w in day_windows.values()),
+            "candidate_comparisons_with_source_conflicts": sum(
+                1 for row in rows for c in row["fixtures"]
+                if c.get("organizer_crosscheck", {}).get("organizer_comparator_status")
+                not in (None, "MATCHED_FOR_REVIEW",
+                        "COMPARATOR_NOT_AVAILABLE", "NO_COMPARATOR_RECORD",
+                        "DATE_TEAMS_ONLY_KICKOFF_UNVERIFIED")
+            ),
         },
         "publication": "DIAGNOSTIC / NO PLAY",
         "safe_to_publish_play": False,
@@ -217,6 +269,10 @@ def render(packet):
         str(total["partial_hint_league_days"]) + " kart rozgrywki/dzień",
         "Przekroczony początek pierwszego meczu (liga/dzień): " +
         str(total["day_league_checks_after_first_kickoff"]),
+        "Dni z upływem pierwszego startu ESPN: " +
+        str(total["whole_days_after_first_candidate_kickoff"]),
+        "Szczegółowe różnice od organizatorów (bez automatycznego rozstrzygnięcia): " +
+        str(total["candidate_comparisons_with_source_conflicts"]),
         "", "## Najczęstsze błędy formalne", "",
     ]
     for code, count in sorted(total["formal_blocker_types"].items(),
@@ -227,6 +283,13 @@ def render(packet):
                   "| P | Liga | ESPN | Porównane | Zakres dowodu | Okno czasowe |",
                   "|---|---|---:|---:|---|---|"]
         daily = [row for row in packet["rows"] if row["day"] == day]
+        deadline = packet["day_review_deadlines"][day]
+        lines.append("**TERMIN DLA CAŁEGO DNIA (WSZYSTKIE LIGI):** " +
+                     deadline["prematch_signoff_status"] +
+                     "; najwcześniejszy kandydat ESPN UTC: " +
+                     str(deadline["earliest_candidate_kickoff_utc"] or "nieznany") +
+                     ". Pary z oficjalnych źródeł nie zastępują pełnej kontroli.")
+        lines.append("")
         for row in daily:
             lines.append("| P" + str(row["priority"]) + " | " + row["competition"]
                          + " | " + str(row["independent_candidates"])
@@ -260,6 +323,14 @@ def render(packet):
                              + str(event["fixture"]) + " / " +
                              str(event["kickoff_source"]) +
                              " (niezatwierdzony czas organizatora)")
+                cross = event.get("organizer_crosscheck")
+                if cross:
+                    lines.append("  - Porównanie organizatora: **" +
+                                 str(cross["organizer_comparator_status"]) +
+                                 "**; godzina w źródle: " +
+                                 str(cross.get("official_kickoff_claim") or "brak") +
+                                 "; plik: " + str(cross.get("comparison_file")) +
+                                 " — WYMAGA POTWIERDZENIA, NIE PLAY")
             for error in row["formal_errors"]:
                 lines.append("- BLOKADA: " + error)
             for error in row["source_errors"][:4]:
@@ -280,6 +351,7 @@ def main():
     p.add_argument("gate")
     p.add_argument("dashboard")
     p.add_argument("--partial-draft")
+    p.add_argument("--comparisons-dir")
     p.add_argument("--output-json", required=True)
     p.add_argument("--output-md", required=True)
     a = p.parse_args()
@@ -289,6 +361,9 @@ def main():
         json.loads(Path(a.dashboard).read_text(encoding="utf-8")),
         partial_draft=json.loads(Path(a.partial_draft).read_text(encoding="utf-8"))
         if a.partial_draft else None,
+        comparisons=collect_match_comparisons(
+            json.loads(Path(a.queue).read_text(encoding="utf-8")), a.comparisons_dir)
+        if a.comparisons_dir else None,
     )
     for filename, value in (
         (a.output_json, json.dumps(obj, ensure_ascii=False, indent=2) + "\n"),
