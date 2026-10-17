@@ -15,6 +15,8 @@ class LegacyReportTests(unittest.TestCase):
                          "candidates": [{"fixture": "A - B", "str": 30, "qual": 28, "match": 22}]})
         self.assertIn("unavailable / not mandatory", report)
         self.assertIn("DIAGNOSTIC / NO PLAY", report)
+        self.assertIn("BLOCKED / REVIEW REQUIRED", report)
+        self.assertNotIn("**Calendar Gate:** PASS", report)
         self.assertNotIn("**Publication status:** PLAY", report)
 
     def test_rejects_invalid_candidates(self):
