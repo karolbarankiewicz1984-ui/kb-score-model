@@ -231,7 +231,8 @@ def validate(queue, inventory, third_party_snapshots=None):
             "competitions": rows, "errors": day_errors,
         }
         all_errors += [f"{day}: {error}" for error in day_errors]
-    if set(inventory["days"]) != set(queue["days"]):
+    requested_dates_match = set(inventory["days"]) == set(queue["days"])
+    if not requested_dates_match:
         all_errors.append("INVENTORY_DAYS_DO_NOT_MATCH_REQUEST")
     result["ready_for_approval"] = not all_errors
     result["approved_days"] = approved_day_count
@@ -243,7 +244,8 @@ def validate(queue, inventory, third_party_snapshots=None):
     elif not all_errors and approved_day_count < len(queue["days"]):
         result["status"] = "READY_FOR_MANUAL_APPROVAL"
     else:
-        result["status"] = "PARTIALLY_APPROVED_CALENDAR" if approved_day_count else "BLOCKED"
+        result["status"] = ("PARTIALLY_APPROVED_CALENDAR"
+                            if approved_day_count and requested_dates_match else "BLOCKED")
     if pending_approval_count:
         result["approval_missing"] = True
     result["errors"] = all_errors
