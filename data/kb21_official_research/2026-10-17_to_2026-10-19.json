@@ -8,7 +8,7 @@
   ],
   "status": "OFFICIAL_WEB_RESEARCH_UNSIGNED",
   "calendar_gate": "BLOCKED",
-  "coverage": "FIVE_CORE_LEAGUES_TURKEY_AND_FIVE_UEFA_COMPETITION_CATEGORIES",
+  "coverage": "FIVE_CORE_LEAGUES_TURKEY_FIVE_UEFA_CATEGORIES_BELGIUM_LEAGUE_OFF_DAYS_AND_PARTIAL_PORTUGAL_CLUB_EVIDENCE",
   "publication": "DIAGNOSTIC / NO PLAY",
   "note": "Fixture details transcribed from real official organizer sources for investigation. NOT an authenticated programmatic fetch, not an independent signed full-day audit. Must compare to ESPN and independently re-check after schedule changes. No model score, P(model), PLAY or historical N. Three UEFA competition official schedules list no fixtures on Oct17-19, recorded as unsigned no-game research and never official signoff. Turkish Federation official times converted from UTC+3 to Europe/Warsaw UTC+2 on Oct17-19. UEFA Nations League official matchdays October 2026 are Oct1-6 and Nov12-17; 2026 World Cup European qualifiers concluded in March 2026. Both have no matches Oct17-19. Still unsigned.",
   "days": {
@@ -270,6 +270,32 @@
         "fixture_time_confirmed_manually": false,
         "zero_fixtures_in_window_from_complete_uefa_round_schedule": true,
         "fixtures": []
+      },
+      "bel.1": {
+        "competition": "Jupiler Pro League",
+        "official_source_url": "https://www.proleague.be/jpl-kalender",
+        "supporting_source_url": "https://www.proleague.be/nieuws/croky-cup-krijgt-prominente-plaats-in-kalender-van-2026-2027",
+        "timezone": "Europe/Warsaw",
+        "source_kind": "OFFICIAL_ORGANIZER_PAGE_WEB_RESEARCH",
+        "full_round_source_found": true,
+        "official_fixture_list_extracted": true,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "confirmed_zero_matches_from_official_schedule": true,
+        "note": "Pro League's cup Round of 32 is Oct16-18. The next JPL matchweek 9 begins Oct23-25, according to organizer match pages; zero league fixtures Oct17-19 is unsigned research only.",
+        "fixtures": []
+      },
+      "por.1": {
+        "competition": "Liga Portugal Betclic",
+        "official_source_url": "https://gilvicentefc.pt/",
+        "timezone": "Europe/Warsaw",
+        "source_kind": "OFFICIAL_CLUB_MATCH_PAGE_PARTIAL",
+        "full_round_source_found": false,
+        "official_fixture_list_extracted": false,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "note": "Gil Vicente club official page confirms SC Braga vs Gil Vicente at 20:15 Portugal local time Oct19; this is NOT a complete league-wide inventory. No proof of empty dates Oct17/18.",
+        "fixtures": []
       }
     },
     "2026-10-18": {
@@ -515,6 +541,32 @@
         "fixture_time_confirmed_manually": false,
         "zero_fixtures_in_window_from_complete_uefa_round_schedule": true,
         "fixtures": []
+      },
+      "bel.1": {
+        "competition": "Jupiler Pro League",
+        "official_source_url": "https://www.proleague.be/jpl-kalender",
+        "supporting_source_url": "https://www.proleague.be/nieuws/croky-cup-krijgt-prominente-plaats-in-kalender-van-2026-2027",
+        "timezone": "Europe/Warsaw",
+        "source_kind": "OFFICIAL_ORGANIZER_PAGE_WEB_RESEARCH",
+        "full_round_source_found": true,
+        "official_fixture_list_extracted": true,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "confirmed_zero_matches_from_official_schedule": true,
+        "note": "Pro League's cup Round of 32 is Oct16-18. The next JPL matchweek 9 begins Oct23-25, according to organizer match pages; zero league fixtures Oct17-19 is unsigned research only.",
+        "fixtures": []
+      },
+      "por.1": {
+        "competition": "Liga Portugal Betclic",
+        "official_source_url": "https://gilvicentefc.pt/",
+        "timezone": "Europe/Warsaw",
+        "source_kind": "OFFICIAL_CLUB_MATCH_PAGE_PARTIAL",
+        "full_round_source_found": false,
+        "official_fixture_list_extracted": false,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "note": "Gil Vicente club official page confirms SC Braga vs Gil Vicente at 20:15 Portugal local time Oct19; this is NOT a complete league-wide inventory. No proof of empty dates Oct17/18.",
+        "fixtures": []
       }
     },
     "2026-10-19": {
@@ -673,6 +725,38 @@
         "fixture_time_confirmed_manually": false,
         "zero_fixtures_in_window_from_complete_uefa_round_schedule": true,
         "fixtures": []
+      },
+      "bel.1": {
+        "competition": "Jupiler Pro League",
+        "official_source_url": "https://www.proleague.be/jpl-kalender",
+        "supporting_source_url": "https://www.proleague.be/nieuws/croky-cup-krijgt-prominente-plaats-in-kalender-van-2026-2027",
+        "timezone": "Europe/Warsaw",
+        "source_kind": "OFFICIAL_ORGANIZER_PAGE_WEB_RESEARCH",
+        "full_round_source_found": true,
+        "official_fixture_list_extracted": true,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "confirmed_zero_matches_from_official_schedule": true,
+        "note": "Pro League's cup Round of 32 is Oct16-18. The next JPL matchweek 9 begins Oct23-25, according to organizer match pages; zero league fixtures Oct17-19 is unsigned research only.",
+        "fixtures": []
+      },
+      "por.1": {
+        "competition": "Liga Portugal Betclic",
+        "official_source_url": "https://gilvicentefc.pt/",
+        "timezone": "Europe/Warsaw",
+        "source_kind": "OFFICIAL_CLUB_MATCH_PAGE_PARTIAL",
+        "full_round_source_found": false,
+        "official_fixture_list_extracted": false,
+        "source_reviewer_signed": false,
+        "fixture_time_confirmed_manually": false,
+        "note": "Gil Vicente club official page confirms SC Braga vs Gil Vicente at 20:15 Portugal local time Oct19; this is NOT a complete league-wide inventory. No proof of empty dates Oct17/18.",
+        "fixtures": [
+          {
+            "home": "SC Braga",
+            "away": "Gil Vicente",
+            "kickoff": "2026-10-19T21:15:00+02:00"
+          }
+        ]
       }
     }
   }
