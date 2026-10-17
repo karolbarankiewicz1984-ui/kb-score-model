@@ -220,7 +220,8 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 deadline = _instant(day_windows[key[0]]["earliest_candidate_kickoff_utc"])
                 capture = _instant(item.get("automated_source_capture_utc"))
                 if (key[1] != "eng.1" or deadline is None
-                        or capture is None or capture >= deadline):
+                        or capture is None or capture >= deadline
+                        or now >= deadline):
                     raise ValueError("False full-season pre-day evidence claim")
             zero_by_key[key] = item
         expected_zeros = {
