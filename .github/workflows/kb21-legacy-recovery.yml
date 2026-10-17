@@ -15,6 +15,8 @@ on:
       - 'tools/kb21_public_fixtures.py'
       - 'tools/kb21_official_fpl.py'
       - 'tools/kb21_official_dfl.py'
+      - 'tools/kb21_official_tff.py'
+      - 'tools/kb21_tff_compare.py'
       - 'tools/kb21_official_knvb.py'
       - 'tools/kb21_knvb_compare.py'
       - 'tools/kb21_official_laliga.py'
@@ -59,6 +61,9 @@ on:
       - 'tests/test_kb21_public_fixtures.py'
       - 'tests/test_kb21_official_fpl.py'
       - 'tests/test_kb21_official_dfl.py'
+      - 'tests/test_kb21_official_tff.py'
+      - 'tests/test_kb21_tff_compare.py'
+      - 'tests/test_kb21_tff_source_seed.py'
       - 'tests/test_kb21_official_knvb.py'
       - 'tests/test_kb21_knvb_compare.py'
       - 'tests/test_kb21_knvb_source_seed.py'
@@ -87,7 +92,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_official_laliga tests.test_kb21_laliga_compare tests.test_kb21_laliga_source_seed tests.test_kb21_official_knvb tests.test_kb21_knvb_compare tests.test_kb21_knvb_source_seed tests.test_kb21_official_tff tests.test_kb21_tff_compare tests.test_kb21_tff_source_seed tests.test_kb21_official_press_fixtures tests.test_kb21_official_press_compare tests.test_kb21_official_press_seed tests.test_kb21_official_source_seed tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -243,6 +248,29 @@ jobs:
                   print('::warning::KNVB fixture page unreadable; no calendar confirmation')
           else:
               print('::warning::KNVB official fixture fetch failed; no calendar confirmation')
+          # The official TFF page exposes a selected current Turkish Super Lig
+          # matchweek, not the complete season. Missing dates cannot certify no games.
+          tff_path = Path('reports/kb21_legacy/official-tff-superlig.json')
+          tff_run = subprocess.run([
+              'python', '-m', 'tools.kb21_official_tff',
+              '--days', *scope['days'], '--output', str(tff_path)
+          ], check=False)
+          tff_ready = False
+          if tff_run.returncode == 0 and tff_path.is_file():
+              subprocess.run([
+                  'python', '-m', 'tools.kb21_tff_compare',
+                  'reports/kb21_legacy/assessment-queue.json',
+                  str(tff_path),
+                  '--output', 'reports/kb21_legacy/official-tff-vs-espn.json',
+                  '--output-md', 'reports/kb21_legacy/official-tff-vs-espn.md',
+              ], check=True)
+              tff_data = json.loads(tff_path.read_text(encoding='utf-8'))
+              tff_ready = (tff_data.get('status') ==
+                           'OFFICIAL_TFF_MATCHWEEK_PARTIAL_FOR_REVIEW')
+              if not tff_ready:
+                  print('::warning::TFF selected matchweek incomplete/unavailable; no calendar approval')
+          else:
+              print('::warning::TFF official page unavailable; no calendar approval')
           # Official DFL/Bundesliga Media page exposes a current matchday
           # HTML table with unambiguous UTC fixture kickoffs. It may NOT
           # cover all future dates or postponed fixtures. Fail closed.
@@ -359,6 +387,8 @@ jobs:
                   seed_cmd += ['--laliga', str(laliga_path)]
           if knvb_ready:
               seed_cmd += ['--knvb', str(knvb_path)]
+          if tff_ready:
+              seed_cmd += ['--tff', str(tff_path)]
           for league, flag in (('ita.1', '--serie-a'), ('fra.1', '--ligue1')):
               if league in press_files:
                   seed_cmd += [flag, press_files[league]]
@@ -420,6 +450,9 @@ jobs:
             reports/kb21_legacy/official-press-ligue1.json
             reports/kb21_legacy/official-press-ligue1-vs-espn.json
             reports/kb21_legacy/official-press-ligue1-vs-espn.md
+            reports/kb21_legacy/official-tff-superlig.json
+            reports/kb21_legacy/official-tff-vs-espn.json
+            reports/kb21_legacy/official-tff-vs-espn.md
             reports/kb21_legacy/official-knvb-eredivisie.json
             reports/kb21_legacy/official-knvb-vs-espn.json
             reports/kb21_legacy/official-knvb-vs-espn.md
