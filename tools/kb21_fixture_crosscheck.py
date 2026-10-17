@@ -43,6 +43,10 @@ def _instant(value):
 
 
 def crosscheck(queue, snapshots, tolerance_minutes=5):
+    # Lazy import avoids a module-level cycle: official_research_compare reuses
+    # our timestamp/normalization helpers. The shared alias table is explicit
+    # and competition-scoped: never guess that similarly named teams coincide.
+    from tools.kb21_official_research_compare import _team
     if not isinstance(queue, dict) or not isinstance(queue.get("fixtures"), list):
         raise ValueError("Expected queue JSON with a fixtures list")
     if not 0 <= tolerance_minutes <= 30:
@@ -89,15 +93,15 @@ def crosscheck(queue, snapshots, tolerance_minutes=5):
             if len(parts) != 2 or moment is None:
                 status = "INVALID_ESPN_FIXTURE"
             else:
-                home, away = [_canonical(x) for x in parts]
+                home, away = [_team(league, x) for x in parts]
                 for other in source["fixtures"]:
                     if not isinstance(other, dict) or other.get("competition_code") != code:
                         continue
                     other_time = _instant(other.get("kickoff_utc"))
                     if other_time is None or not home or not away:
                         continue
-                    if (_canonical(other.get("home_team")) == home
-                            and _canonical(other.get("away_team")) == away
+                    if (_team(league, other.get("home_team")) == home
+                            and _team(league, other.get("away_team")) == away
                             and abs((other_time - moment).total_seconds()) <= tolerance_minutes * 60
                             and other.get("provider_match_id") is not None):
                         matched.append(other)
