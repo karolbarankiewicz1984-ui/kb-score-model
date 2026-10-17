@@ -52,10 +52,12 @@ def parse(html):
     if not isinstance(html, str):
         raise ValueError("Expected organizer HTML")
     rows, errors = [], []
-    lines = _lines(html)
-    if not any(ROUND_MARK.fullmatch(line) for line in lines):
-        # A lot of JPL cards use nested divs, not paragraph tags.
-        lines = _block_lines(html)
+    paragraph_lines = _lines(html)
+    block_lines = _block_lines(html)
+    # Labels in <div> can have newlines while adjacent club names get
+    # concatenated by the paragraph-only extractor. Prefer the richer DOM
+    # breakdown even if a round marker was visible in the shorter reading.
+    lines = block_lines if len(block_lines) > len(paragraph_lines) else paragraph_lines
     if not any("Jupiler Pro League" in line for line in lines):
         return [], ["JPL_PAGE_HEADING_MISSING"]
     rounds = set()
