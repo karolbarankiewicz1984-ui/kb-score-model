@@ -96,6 +96,8 @@ def convert(bootstrap, fixtures, days, captured_at=None):
         h, a = record.get("team_h"), record.get("team_a")
         if h not in teams or a not in teams or h == a:
             raise ValueError("Official FPL fixture has unknown/identical teams")
+        if record.get("provisional_start_time") is True:
+            invalid.append(ident)  # provisional times cannot certify a full kickoff catalogue
         moment = _moment(record.get("kickoff_time"))
         if moment is None:
             missing_time.append(ident)
