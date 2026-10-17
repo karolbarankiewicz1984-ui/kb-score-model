@@ -116,7 +116,7 @@ class EarlyVaultTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             # The independent EPL match is at 14:00 UTC, but KNVB starts 10:15;
             # 11:00 UTC is too late for certification of the entire day.
-            src = write_snapshots(tmp, fpl("2026-10-18T11:00:00Z"))
+            src = write_snapshots(tmp, fpl_doc=fpl("2026-10-18T11:00:00Z"))
             path = Path(tmp, "snapshot")
             package(DAYS, src, path, dt.datetime(2026, 10, 18, 11, 2,
                                                 tzinfo=dt.timezone.utc))
