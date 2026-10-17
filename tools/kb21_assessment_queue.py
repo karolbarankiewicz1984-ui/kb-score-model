@@ -11,10 +11,12 @@ from zoneinfo import ZoneInfo
 
 
 def build(paths):
-    matches, errors = {}, []
+    matches, errors, days = {}, [], set()
     for path in paths:
         source = json.loads(Path(path).read_text(encoding="utf-8"))
         errors.extend(source.get("errors", []))
+        if source.get("date"):
+            days.add(source["date"])
         for f in source.get("fixtures", []):
             if not all(f.get(k) for k in ("league", "event_id", "home", "away", "kickoff")):
                 continue
@@ -46,7 +48,9 @@ def build(paths):
                     "confidence": None,
                 },
                 "publication": "DIAGNOSTIC / NO PLAY"}
+    days.update(f["date_warsaw"] for f in matches.values())
     return {"status": "REVIEW_REQUIRED", "calendar_gate": "BLOCKED",
+            "days": sorted(days),
             "source_errors": errors, "fixtures": sorted(matches.values(), key=lambda f: f["kickoff"]),
             "note": "Unverified fixture candidates only. No inferred Sport Score, P(model), market selection, or historical writes."}
 
