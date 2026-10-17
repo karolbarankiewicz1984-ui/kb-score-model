@@ -23,7 +23,8 @@ ROLES = {
 }
 
 
-def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None, early_archive=None):
+def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None,
+          early_archive=None, early_revisions=None):
     if (not isinstance(queue, dict) or not isinstance(queue.get("days"), list)
             or not isinstance(queue.get("fixtures"), list)
             or not isinstance(gate, dict) or not isinstance(gate.get("days"), dict)
@@ -158,6 +159,39 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 if earliest is None or captured is None or captured >= earliest:
                     raise ValueError("Early match claim missing valid pre-day capture")
             early_by_key[key] = record
+    # The revision comparison is restricted to two organizer feeds, never
+    # an attested full day. Protect against missing league/date cells, forged
+    # signoffs, duplicate rows or claims of pre-kickoff captures after the
+    # independent earliest start across every competition.
+    revision_by_key = {}
+    if early_revisions is not None:
+        from tools.kb21_early_snapshot_revisions import SCHEMA as REVISION_SCHEMA
+        if (not isinstance(early_revisions, dict)
+                or early_revisions.get("schema") != REVISION_SCHEMA
+                or early_revisions.get("calendar_gate") != "BLOCKED"
+                or early_revisions.get("safe_to_publish_play") is not False
+                or set(early_revisions.get("days", [])) != set(days)
+                or not isinstance(early_revisions.get("rows"), list)):
+            raise ValueError("Invalid/approved organizer revision report")
+        for event in early_revisions["rows"]:
+            if not isinstance(event, dict):
+                raise ValueError("Invalid organizer revision row")
+            key = event.get("day"), event.get("league_id")
+            if (key[0] not in days or key[1] not in ("eng.1", "ned.1")
+                    or key in revision_by_key):
+                raise ValueError("Unrecognized or duplicate official revision date/league")
+            if (event.get("calendar_gate") != "BLOCKED"
+                    or event.get("full_organizer_day_attested") is not False
+                    or event.get("human_signed") is not False):
+                raise ValueError("Official revision report cannot grant approval")
+            deadline = _instant(day_windows[key[0]]["earliest_candidate_kickoff_utc"])
+            captured = _instant(event.get("last_capture_utc"))
+            if captured is not None and (deadline is None or captured >= deadline):
+                raise ValueError("Prematch official revision source captured after first game")
+            revision_by_key[key] = event
+        if set(revision_by_key) != {(day, league)
+                                   for day in days for league in ("eng.1", "ned.1")}:
+            raise ValueError("Official revision audit missing competition/day rows")
     rows, blockers = [], Counter()
     for day in days:
         for league in COMPETITIONS:
@@ -240,6 +274,7 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 "formal_errors": official,
                 "source_errors": source.get("source_errors", []),
                 "partial_official_source_hints": hints,
+                "early_organizer_revision": revision_by_key.get(key),
                 "full_day_approved_by_this_packet": False,
                 "reviewer": None, "manual_review_required": True,
                 "calendar_gate": "BLOCKED",
@@ -262,6 +297,10 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
                 item.get("early_official_archive", {}).get("status")
                 == "EARLY_SNAPSHOT_MATCHED_FOR_REVIEW"
                 for row in rows for item in row["fixtures"]),
+            "early_organizer_day_revisions_to_review": sum(
+                row.get("early_organizer_revision", {}).get("status")
+                == "OFFICIAL_PREMATCH_SNAPSHOT_CHANGED_NEEDS_REVIEW"
+                for row in rows if row.get("early_organizer_revision") is not None),
             "formal_blocker_occurrences": sum(blockers.values()),
             "formal_blocker_types": dict(sorted(blockers.items())),
             "day_league_checks_after_first_kickoff": sum(
@@ -310,6 +349,8 @@ def render(packet):
         str(total["partial_hint_league_days"]) + " kart rozgrywki/dzień",
         "Wczesne archiwum: zgodne pary do kontroli (NIE zatwierdzone): " +
         str(total["early_official_archive_matches"]),
+        "Zmiany oficjalnych terminarzy między porannymi odczytami: " +
+        str(total["early_organizer_day_revisions_to_review"]),
         "Przekroczony początek pierwszego meczu (liga/dzień): " +
         str(total["day_league_checks_after_first_kickoff"]),
         "Dni z upływem pierwszego startu ESPN: " +
@@ -385,6 +426,21 @@ def render(packet):
                                  str(cross.get("official_kickoff_claim") or "brak") +
                                  "; plik: " + str(cross.get("comparison_file")) +
                                  " — WYMAGA POTWIERDZENIA, NIE PLAY")
+            revision = row.get("early_organizer_revision")
+            if revision is not None:
+                lines.append("- ARCHIWALNE PORÓWNANIE DWÓCH ODCZYTÓW: " +
+                             str(revision["status"]) +
+                             "; dostępnych bezpiecznych odczytów: " +
+                             str(revision["eligible_snapshot_count"]) +
+                             "; pierwszy: " + str(revision.get("first_capture_utc")) +
+                             "; ostatni: " + str(revision.get("last_capture_utc")))
+                if revision["status"] == "OFFICIAL_PREMATCH_SNAPSHOT_CHANGED_NEEDS_REVIEW":
+                    lines.append("  - WYMAGA SPRAWDZENIA ZMIAN: " +
+                                 json.dumps({
+                                     "added": revision["added_pairs"],
+                                     "removed": revision["removed_pairs"],
+                                     "changed_kickoff": revision["kickoff_changes"],
+                                 }, ensure_ascii=False))
             for error in row["formal_errors"]:
                 lines.append("- BLOKADA: " + error)
             for error in row["source_errors"][:4]:
@@ -407,6 +463,7 @@ def main():
     p.add_argument("--partial-draft")
     p.add_argument("--comparisons-dir")
     p.add_argument("--early-archive-compare")
+    p.add_argument("--early-archive-revisions")
     p.add_argument("--output-json", required=True)
     p.add_argument("--output-md", required=True)
     a = p.parse_args()
@@ -421,6 +478,8 @@ def main():
         if a.comparisons_dir else None,
         early_archive=json.loads(Path(a.early_archive_compare).read_text(encoding="utf-8"))
         if a.early_archive_compare else None,
+        early_revisions=json.loads(Path(a.early_archive_revisions).read_text(encoding="utf-8"))
+        if a.early_archive_revisions else None,
     )
     for filename, value in (
         (a.output_json, json.dumps(obj, ensure_ascii=False, indent=2) + "\n"),
