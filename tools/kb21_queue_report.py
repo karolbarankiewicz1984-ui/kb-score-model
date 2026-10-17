@@ -84,8 +84,15 @@ def render_index(queue, days):
     out = ["# KB Score 2.1 — kolejka do oceny", "",
            "**WYŁĄCZNIE DIAGNOSTYKA / NO PLAY. Calendar Gate BLOCKED.**", ""]
     for day in days:
-        count = sum(f.get("date_warsaw") == day for f in queue.get("fixtures", []))
-        out.append(f"- {day}: {count} kandydatów; KB21_ANALYST_QUEUE_{day}.md")
+        matches = [f for f in queue.get("fixtures", []) if f.get("date_warsaw") == day]
+        count = len(matches)
+        history = sum(f.get("pre_match_research", {}).get("status") == "PRIOR_GOAL_CONTEXT"
+                      for f in matches)
+        crosschecked = sum(f.get("independent_crosscheck", {}).get("status") == "MATCHED_FOR_REVIEW"
+                           for f in matches)
+        out.append(f"- {day}: {count} kandydatów, {history} z historią poprzednich meczów, "
+                   f"{crosschecked} zgodnych u obu dostawców; "
+                   f"KB21_ANALYST_QUEUE_{day}.md")
     out += ["", "Każdy dokument jest szablonem do przedmeczowej oceny, nie typem bukmacherskim.", ""]
     return "\n".join(out)
 
