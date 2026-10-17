@@ -96,6 +96,14 @@ def parse_table(html):
         })
     return {
         "headers_found": headers_found,
+        "structure_diagnostics": {
+            "html_chars": len(html),
+            "literal_tr_count": html.lower().count("<tr"),
+            "literal_table_count": html.lower().count("<table"),
+            "html_contains_team_name": "Hamburger SV" in html,
+            "html_contains_fixture_heading": "Matchday" in html,
+            "html_contains_next_js_data": "__NEXT_DATA__" in html or "__next_f" in html,
+        },
         "extracted_match_count": len(records),
         "invalid_rows": invalid_rows[:25],
         "fixtures": records,
@@ -125,6 +133,7 @@ def convert(html, days, captured_at=None):
         "days": target,
         "league_id": "ger.1",
         "table_headers_detected": parsed["headers_found"],
+        "structure_diagnostics": parsed["structure_diagnostics"],
         "page_fixture_rows": parsed["extracted_match_count"],
         "page_invalid_row_count": len(parsed["invalid_rows"]),
         "invalid_row_examples": parsed["invalid_rows"],
@@ -197,7 +206,8 @@ def main():
         path.write_text(content, encoding="utf-8")
     print(f"Official DFL page: {result['page_fixture_rows']} rows, "
           f"{sum(len(x) for x in result['by_day'].values())} within requested scope, "
-          f"status={result['status']}; CALENDAR BLOCKED")
+          f"status={result['status']}; structure={result['structure_diagnostics']}; "
+          f"CALENDAR BLOCKED")
 
 
 if __name__ == "__main__":
