@@ -24,6 +24,7 @@ on:
       - 'tools/kb21_calendar_conflict_evidence.py'
       - 'tools/kb21_official_inventory_prefill.py'
       - 'data/kb21_official_research/**'
+      - 'data/kb21_calendar_reviews/**'
       - 'tools/kb21_calendar_signoff.py'
       - 'tools/kb21_review_shortlist.py'
       - 'tools/kb21_fixture_crosscheck.py'
@@ -170,10 +171,32 @@ jobs:
                   '--third-source-evidence', 'reports/kb21_legacy/third-source-conflicts.json',
                   '--output', 'reports/kb21_legacy/official-inventory-research-draft.json'
               ], check=True)
+          # A reviewed inventory may be supplied for the exact three Warsaw dates.
+          # Never substitute unsigned or stale research for an approved inventory.
+          from datetime import date
+          review_dates = sorted(report['days'])
+          reviewed_path = (Path('data/kb21_calendar_reviews') /
+                           (review_dates[0] + '_to_' + review_dates[-1] + '.json'))
+          review_input = Path('reports/kb21_legacy/official-inventory-template.json')
+          if reviewed_path.is_file():
+              supplied = json.loads(reviewed_path.read_text(encoding='utf-8'))
+              if set(supplied.get('days', {})) != set(review_dates):
+                  raise RuntimeError('Reviewed calendar dates do not match requested dates; refusing stale signoff')
+              review_input = reviewed_path
+              print(f'::notice::Loaded human-reviewed calendar inventory {reviewed_path}; validating independently')
+          else:
+              print('::notice::No signed official calendar inventory for current three dates; gate remains BLOCKED')
           subprocess.run(['python', '-m', 'tools.kb21_calendar_signoff',
                           'reports/kb21_legacy/crosschecked-queue.json',
-                          'reports/kb21_legacy/official-inventory-template.json',
+                          str(review_input),
+                          '--api-snapshots-dir', 'data/api_football/kb21_inputs',
                           '--output', 'reports/kb21_legacy/official-calendar-gate-audit.json'], check=True)
+          gate = json.loads(Path('reports/kb21_legacy/official-calendar-gate-audit.json').read_text(encoding='utf-8'))
+          for day, row in sorted(gate['days'].items()):
+              print(f"KB21 calendar {day}: {row['calendar_gate']} ({row['status']}); "
+                    f"unresolved checks {len(row['errors'])}")
+          if gate['calendar_gate'] == 'PASS_MANUAL':
+              print('::notice::Official calendar manually reviewed for all dates; LIVE scoring still requires separate gates')
           subprocess.run(['python', '-m', 'tools.kb21_context_enrich',
                           'reports/kb21_legacy/crosschecked-queue.json',
                           '--snapshots-dir', 'data/api_football/kb21_inputs',
