@@ -46,6 +46,29 @@ class OfficialDflTests(unittest.TestCase):
         self.assertEqual(data["calendar_gate"], "BLOCKED")
         self.assertIn("NO PLAY", render(data))
 
+    def test_actual_2026_bundesliga_media_combined_day_date_html(self):
+        header = ("<tr><th>Matchday</th><th>Day | Date</th>"
+                  "<th>Kick-off (CET)</th><th>Kick-off (UTC)</th>"
+                  "<th>Home Team</th><th>Away Team</th>"
+                  "<th>Match Type</th><th>Features</th></tr>")
+        rows = ("<tr><td>6</td><td>Sat | 17-Oct-2026</td><td>15:30</td>"
+                "<td>13:30</td><td>1. FC Union Berlin</td>"
+                "<td>Borussia Dortmund</td><td>Gold</td><td>Fixture Info</td></tr>"
+                "<tr><td>6</td><td>Sun | 18-Oct-2026</td><td>17:30</td>"
+                "<td>15:30</td><td>Borussia Mönchengladbach</td>"
+                "<td>TSG Hoffenheim</td><td>Gold</td><td>Fixture Info</td></tr>")
+        data = convert("<table>" + header + rows + "</table>",
+                       ["2026-10-17", "2026-10-18", "2026-10-19"])
+        self.assertEqual(data["page_fixture_rows"], 2)
+        self.assertEqual(data["status"], "OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW")
+        self.assertEqual(data["by_day"]["2026-10-17"][0]["home"], "1. FC Union Berlin")
+        self.assertEqual(data["by_day"]["2026-10-17"][0]["kickoff_warsaw"],
+                         "2026-10-17T15:30:00+02:00")
+        self.assertEqual(data["by_day"]["2026-10-18"][0]["away"], "TSG Hoffenheim")
+        self.assertEqual(data["by_day"]["2026-10-19"], [])
+        self.assertFalse(data["full_day_coverage_verified"])
+        self.assertEqual(data["calendar_gate"], "BLOCKED")
+
     def test_suspect_invalid_fixture_row_blocks_interpretation(self):
         broken = "<table>" + HEADER + tr(
             "Sat", "invalid-date", "15:30", "13:30", "A", "B") + "</table>"
