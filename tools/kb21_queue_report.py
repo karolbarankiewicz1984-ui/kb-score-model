@@ -26,6 +26,11 @@ def render_day(queue, day):
         f"**Mecze z listy pomocniczej:** {len(selected)} | **Błędy pobierania źródeł (łącznie):** {len(errors)}",
         "",
     ]
+    status = queue.get("crosscheck_summary", {}).get(day, {})
+    if status:
+        out.append(f"**Niezależny terminarz dostępny:** {'TAK' if status.get('snapshot_loaded') else 'NIE'}")
+        out.append(f"**Porównane pozycje (do przeglądu, NIE weryfikacja oficjalna):** {status.get('statuses', {}).get('MATCHED_FOR_REVIEW', 0)}")
+        out.append("")
     if not selected:
         out.extend(["Nie znaleziono kandydatów na tę datę. Nie dowodzi to braku meczów.", ""])
     for number, fixture in enumerate(selected, 1):
@@ -39,8 +44,10 @@ def render_day(queue, day):
             f"- Liga: {fixture.get('competition', '?')} ({fixture.get('fixture_id', '?')})",
             f"- Start (Warszawa): {fixture.get('kickoff', '?')}",
             f"- Mecz i rozgrywki potwierdzone oficjalnie: NIE",
+            f"- Niezależne zestawienie: {fixture.get('independent_crosscheck', {}).get('status', 'NIE WYKONANO')}",
+            f"- Identyfikator w drugim źródle: {fixture.get('independent_crosscheck', {}).get('provider_match_id') or 'BRAK'}",
             f"- Rynek: {form.get('market') or 'DO UZUPEŁNIENIA'}",
-            f"- STR / QUAL / MATCH: {score if score is not None else 'BRAK ZWERYFIKOWANEJ OCENY'}",
+            f"- STR / QUAL / MATCH: {f\"{form.get('str')}/35 + {form.get('qual')}/35 + {form.get('match')}/30 = {score}/100\" if score is not None else 'BRAK ZWERYFIKOWANEJ OCENY'}",
             f"- P(model): {f'{p:.1%}' if p is not None else 'NIE WYZNACZONO'}",
             f"- Data freeze: {form.get('freeze_at') or 'BRAK'}",
             f"- Analiza: {result['status']}; liczba braków/błędów: {len(result['errors'])}",
