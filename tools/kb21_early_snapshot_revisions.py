@@ -1,4 +1,4 @@
-"""Compare TWO real, pre-first-kickoff snapshots of KNVB/FPL schedules.
+"""Compare TWO real, pre-first-kickoff snapshots of KNVB/FPL/DFL schedules.
 
 A single archival capture is evidence of one source state, not stability.
 Two genuinely earlier captures can reveal a removed, added or rescheduled
@@ -104,6 +104,11 @@ def compare(queue, vaults):
                     continue
                 if (kind == "knvb" and doc.get("status")
                         != "OFFICIAL_KNVB_PAGE_PARTIAL_FOR_REVIEW"):
+                    continue
+                if (kind == "dfl" and (
+                        doc.get("status") != "OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW"
+                        or doc.get("table_headers_detected") is not True
+                        or doc.get("page_invalid_row_count") != 0)):
                     continue
                 eligible.append((capture, archive_name, doc))
             eligible.sort(key=lambda item: (item[0], item[1]))

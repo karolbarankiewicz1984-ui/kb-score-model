@@ -11,6 +11,9 @@ on:
     paths:
       - 'tools/kb21_pregame_vault.py'
       - 'tests/test_kb21_pregame_vault.py'
+      - 'tools/kb21_early_snapshot_revisions.py'
+      - 'tests/test_kb21_early_snapshot_revisions.py'
+      - 'tools/kb21_official_dfl.py'
       - '.github/workflows/kb21-early-organizer-snapshots.yml'
 permissions:
   contents: read
@@ -45,6 +48,8 @@ jobs:
               ('knvb', 'tools.kb21_official_knvb', []),
               ('fpl', 'tools.kb21_official_fpl', [
                   '--output-md', str(output / 'fpl-for-review.md')]),
+              ('dfl', 'tools.kb21_official_dfl', [
+                  '--output-md', str(output / 'dfl-for-review.md')]),
           ):
               dest = output / (name + '-raw.json')
               proc = subprocess.run([
@@ -60,7 +65,7 @@ jobs:
           for name, path in sources.items():
               command += ['--' + name, path]
           if not sources:
-              raise RuntimeError('Both official sources failed; no truthful archive to upload')
+              raise RuntimeError('All official sources failed; no truthful archive to upload')
           subprocess.run(command, check=True)
           from tools.kb21_pregame_vault import verify
           manifest, contents = verify(output / 'snapshot')

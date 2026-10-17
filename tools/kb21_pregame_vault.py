@@ -24,6 +24,7 @@ from tools.kb21_official_research_compare import _team
 KIND = {
     "knvb": ("ned.1", "kb21-official-knvb-eredivisie-v1"),
     "fpl": ("eng.1", "kb21-official-premier-league-fpl-v1"),
+    "dfl": ("ger.1", "kb21-official-bundesliga-media-v1"),
 }
 SCHEMA = "kb21-early-official-snapshot-v1"
 ARTIFACT_PREFIX = "kb21-early-organizer-"
@@ -54,11 +55,15 @@ def _read_snapshot(blob, name, days):
     except (TypeError, json.JSONDecodeError) as exc:
         raise ValueError("Invalid organizer JSON") from exc
     league, schema = KIND[name]
+    incomplete_flag = ("full_day_coverage_verified" if name == "dfl"
+                       else "full_calendar_verified")
     if (not isinstance(doc, dict)
             or doc.get("schema") != schema or doc.get("league_id") != league
             or doc.get("calendar_gate") != "BLOCKED"
             or doc.get("reviewer_signed") is not False
-            or doc.get("full_calendar_verified") is not False
+            or doc.get(incomplete_flag) is not False
+            or (name == "dfl" and
+                doc.get("full_season_coverage_verified") is not False)
             or set(doc.get("days", [])) != set(days)
             or not isinstance(doc.get("by_day"), dict)
             or set(doc["by_day"]) != set(days)
@@ -199,7 +204,11 @@ def match_before_whole_day_start(queue, vaults):
                 if doc.get("errors") or (name == "fpl" and
                     doc.get("season_full_380_catalogue") is not True) or (
                     name == "knvb" and doc.get("status")
-                    != "OFFICIAL_KNVB_PAGE_PARTIAL_FOR_REVIEW"):
+                    != "OFFICIAL_KNVB_PAGE_PARTIAL_FOR_REVIEW") or (
+                    name == "dfl" and (
+                    doc.get("status") != "OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW"
+                    or doc.get("table_headers_detected") is not True
+                    or doc.get("page_invalid_row_count") != 0)): 
                     continue
                 eligible.append((captured, doc))
             if not eligible:
@@ -293,8 +302,9 @@ def restore(repo, directory, token, opener=urlopen, now=None):
             with zipfile.ZipFile(io.BytesIO(blob)) as z:
                 listed = set(z.namelist())
                 if ("manifest.json" not in listed
-                        or len(listed) > 4
-                        or not listed <= {"manifest.json", "knvb.json", "fpl.json"}):
+                        or len(listed) > len(KIND) + 1
+                        or not listed <= {"manifest.json"} | {
+                            name + ".json" for name in KIND}):
                     raise ValueError("Unexpected ZIP contents")
                 path = Path(directory) / str(ident)
                 path.mkdir(parents=True, exist_ok=True)
@@ -317,6 +327,7 @@ def main():
     archive.add_argument("--days", nargs="+", required=True)
     archive.add_argument("--knvb")
     archive.add_argument("--fpl")
+    archive.add_argument("--dfl")
     archive.add_argument("--outdir", required=True)
     download = sub.add_parser("restore")
     download.add_argument("--repo", required=True)
@@ -328,7 +339,8 @@ def main():
     a = p.parse_args()
     if a.cmd == "package":
         snap = {name: value for name, value in
-                (("knvb", a.knvb), ("fpl", a.fpl)) if value}
+                (("knvb", a.knvb), ("fpl", a.fpl),
+                 ("dfl", a.dfl)) if value}
         out = package(a.days, snap, a.outdir)
         print("Early organizer snapshot captured, NOT pre-match certified:",
               {k: v["visible_scoped_rows"] for k, v in out["sources"].items()})

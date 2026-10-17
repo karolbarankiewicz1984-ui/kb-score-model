@@ -1,5 +1,6 @@
 """Only TWO real before-whole-day snapshots can support a revision comparison."""
 import copy
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 import tempfile
@@ -31,7 +32,7 @@ class EarlyOfficialRevisionTests(unittest.TestCase):
                           "2026-10-18T06:05:00Z")
             result = compare(queue(), [second, first])
         rows = {(r["day"], r["league_id"]): r for r in result["rows"]}
-        self.assertEqual(len(result["rows"]), 6)
+        self.assertEqual(len(result["rows"]), 9)
         self.assertEqual(result["summary"]["with_two_eligible_captures"], 2)
         self.assertEqual(result["summary"]["with_organizer_changes"], 2)
         self.assertEqual(len(rows[(DAY, "ned.1")]["removed_pairs"]), 1)
@@ -91,7 +92,7 @@ class EarlyOfficialRevisionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             first = pack(folder, "first", knvb(), fpl(), "2026-10-18T04:05:00Z")
             result = compare({"days": DAYS, "fixtures": []}, [first])
-        self.assertEqual(result["summary"]["without_safe_earliest_kickoff"], 6)
+        self.assertEqual(result["summary"]["without_safe_earliest_kickoff"], 9)
         self.assertFalse(result["safe_to_publish_play"])
 
     def test_duplicate_source_pair_fails_closed(self):
@@ -102,6 +103,42 @@ class EarlyOfficialRevisionTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Duplicate/ambiguous"):
                 compare(queue(), [first])
 
+
+    def test_dfl_added_pregame_fixture_is_review_only(self):
+        from tests.test_kb21_pregame_vault import dfl
+        with tempfile.TemporaryDirectory() as folder:
+            first = pack(folder, "first", knvb(), fpl(), "2026-10-18T04:05:00Z")
+            second = pack(folder, "second",
+                          knvb("2026-10-18T06:00:00Z"),
+                          fpl("2026-10-18T06:00:00Z"),
+                          "2026-10-18T06:05:00Z")
+            for label, when, item in (
+                ("first", "2026-10-18T04:00:00Z", dfl()),
+                ("second", "2026-10-18T06:00:00Z", dfl("2026-10-18T06:00:00Z"))):
+                doc = json.loads(Path(folder, label, "manifest.json").read_text())
+                from tools.kb21_pregame_vault import package
+                source_file = Path(folder, label + "_source", "dfl-input.json")
+                source_file.write_text(json.dumps(item))
+                paths = {name: Path(folder, label + "_source", name + "-input.json")
+                         for name in ("knvb", "fpl")}
+                paths["dfl"] = source_file
+                if label == "second":
+                    item["by_day"][DAY].append({
+                        "home": "Bayern Munich", "away": "Borussia Dortmund",
+                        "kickoff_utc": "2026-10-18T13:00:00Z"})
+                    source_file.write_text(json.dumps(item))
+                package(DAYS, paths, Path(folder, label),
+                        datetime.fromisoformat(
+                            ("2026-10-18T04:05:00Z" if label == "first"
+                             else "2026-10-18T06:05:00Z").replace("Z", "+00:00")))
+            result = compare(queue(), [first, second])
+        match = next(row for row in result["rows"]
+                     if row["day"] == DAY and row["league_id"] == "ger.1")
+        self.assertEqual(match["status"],
+                         "OFFICIAL_PREMATCH_SNAPSHOT_CHANGED_NEEDS_REVIEW")
+        self.assertEqual(len(match["added_pairs"]), 1)
+        self.assertFalse(match["human_signed"])
+        self.assertFalse(result["safe_to_publish_play"])
 
 if __name__ == "__main__":
     unittest.main()
