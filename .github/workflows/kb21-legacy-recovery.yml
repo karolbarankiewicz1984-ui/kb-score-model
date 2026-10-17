@@ -9,6 +9,7 @@ on:
       - 'tools/kb21_public_fixtures.py'
       - 'tools/kb21_fixture_digest.py'
       - 'tools/kb21_analyst_assessment.py'
+      - 'tools/kb21_assessment_queue.py'
       - 'tests/test_kb21_analyst_assessment.py'
       - 'tests/test_kb21_public_fixtures.py'
       - 'tests/test_kb21_legacy_calendar.py'
@@ -59,6 +60,7 @@ jobs:
               subprocess.run(['python', '-m', 'tools.kb21_public_fixtures', day, '--output', output], check=True)
               paths.append(output)
           subprocess.run(['python', '-m', 'tools.kb21_fixture_digest', *paths, '--output', 'reports/kb21_legacy/three-day-candidates.md'], check=True)
+          subprocess.run(['python', '-m', 'tools.kb21_assessment_queue', *paths, '--output', 'reports/kb21_legacy/assessment-queue.json'], check=True)
           PY
       - name: Generate safe no-data diagnostic
         run: |
@@ -80,4 +82,5 @@ jobs:
             reports/kb21_legacy/calendar-gate.json
             reports/kb21_legacy/public-source-*.json
             reports/kb21_legacy/three-day-candidates.md
+            reports/kb21_legacy/assessment-queue.json
           retention-days: 30
