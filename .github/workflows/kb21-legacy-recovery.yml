@@ -1,4 +1,4 @@
-name: KB21 legacy recovery (no API)
+name: KB21 recovery (official fixture diagnostics)
 on:
   # Diagnostic only, before the original 11:30 Warsaw KB Score reporting target.
   # After the 08:45 UTC KB21 input collector: 11:00 Warsaw summer,
@@ -13,6 +13,8 @@ on:
       - 'tests/test_kb21_legacy_report.py'
       - 'tools/kb21_legacy_calendar.py'
       - 'tools/kb21_public_fixtures.py'
+      - 'tools/kb21_official_fpl.py'
+      - 'tools/kb21_fpl_compare.py'
       - 'tools/kb21_fixture_digest.py'
       - 'tools/kb21_analyst_assessment.py'
       - 'tools/kb21_assessment_queue.py'
@@ -46,6 +48,8 @@ on:
       - 'tests/test_kb21_market_review.py'
       - 'tests/test_kb21_pipeline_integration.py'
       - 'tests/test_kb21_public_fixtures.py'
+      - 'tests/test_kb21_official_fpl.py'
+      - 'tests/test_kb21_fpl_compare.py'
       - 'tests/test_kb21_legacy_calendar.py'
       - '.github/workflows/kb21-legacy-recovery.yml'
 permissions:
@@ -62,7 +66,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -128,6 +132,40 @@ jobs:
               paths.append(output)
           subprocess.run(['python', '-m', 'tools.kb21_fixture_digest', *paths, '--output', 'reports/kb21_legacy/three-day-candidates.md'], check=True)
           subprocess.run(['python', '-m', 'tools.kb21_assessment_queue', *paths, '--output', 'reports/kb21_legacy/assessment-queue.json'], check=True)
+          # Two public official Premier League JSON feeds; separate from KB Score
+          # scoring and registered history. On an HTTP outage do not invent
+          # fixture completeness; keep the usual diagnostic pipeline alive.
+          import json
+          scope = json.loads(Path('reports/kb21_legacy/assessment-queue.json').read_text(encoding='utf-8'))
+          fpl_source = Path('reports/kb21_legacy/official-fpl-premier-league.json')
+          fpl_command = [
+              'python', '-m', 'tools.kb21_official_fpl',
+              '--days', *scope['days'],
+              '--output', str(fpl_source),
+              '--output-md', 'reports/kb21_legacy/official-fpl-premier-league.md',
+          ]
+          fpl_run = subprocess.run(fpl_command, check=False)
+          if fpl_run.returncode == 0:
+              subprocess.run([
+                  'python', '-m', 'tools.kb21_fpl_compare',
+                  'reports/kb21_legacy/assessment-queue.json',
+                  str(fpl_source),
+                  '--output', 'reports/kb21_legacy/official-fpl-vs-espn.json',
+                  '--output-md', 'reports/kb21_legacy/official-fpl-vs-espn.md',
+              ], check=True)
+          else:
+              print('::warning::Official Premier League FPL JSON unavailable. '
+                    'Full official fixture comparison is NOT completed; Calendar Gate stays BLOCKED')
+          Path('reports/kb21_legacy/official-fpl-download-status.json').write_text(
+              json.dumps({
+                  'source': 'https://fantasy.premierleague.com/api/fixtures/',
+                  'status': 'FETCHED_FOR_UNVERIFIED_COMPARISON'
+                            if fpl_run.returncode == 0 else 'FETCH_FAILED',
+                  'calendar_gate': 'BLOCKED',
+                  'live_betting_approved': False,
+                  'report_days': scope['days'],
+              }, ensure_ascii=False, indent=2) + '\\n',
+              encoding='utf-8')
           subprocess.run(['python', '-m', 'tools.kb21_official_source_probe',
                           'reports/kb21_legacy/assessment-queue.json',
                           '--output', 'reports/kb21_legacy/official-source-http-probes.json',
@@ -226,6 +264,11 @@ jobs:
             reports/kb21_legacy/public-source-*.json
             reports/kb21_legacy/three-day-candidates.md
             reports/kb21_legacy/assessment-queue.json
+            reports/kb21_legacy/official-fpl-download-status.json
+            reports/kb21_legacy/official-fpl-premier-league.json
+            reports/kb21_legacy/official-fpl-premier-league.md
+            reports/kb21_legacy/official-fpl-vs-espn.json
+            reports/kb21_legacy/official-fpl-vs-espn.md
             reports/kb21_legacy/crosschecked-queue.json
             reports/kb21_legacy/calendar-coverage.json
             reports/kb21_legacy/calendar-coverage.md
