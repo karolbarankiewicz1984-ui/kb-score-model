@@ -19,6 +19,8 @@ INPUTS = {
     "eng.1": ("kb21-official-premier-league-fpl-v1", "season_full_380_catalogue"),
     "ger.1": ("kb21-official-bundesliga-media-v1", None),
     "esp.1": ("kb21-official-laliga-matchday-html-v1", None),
+    "ita.1": ("kb21-official-press-fixtures-v1", None),
+    "fra.1": ("kb21-official-press-fixtures-v1", None),
 }
 
 
@@ -66,7 +68,8 @@ def seed(draft, official_sources):
         complete_enough = (source.get(full_catalogue_flag) is True
                            if full_catalogue_flag else
                            source.get("status") in ("OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW",
-                                                           "OFFICIAL_PARTIAL_MATCHDAY_WINDOW_FOR_REVIEW"))
+                                                           "OFFICIAL_PARTIAL_MATCHDAY_WINDOW_FOR_REVIEW",
+                                                           "OFFICIAL_DATED_ARTICLE_PARTIAL_FOR_REVIEW"))
         if not complete_enough:
             continue
         count = 0
@@ -76,7 +79,7 @@ def seed(draft, official_sources):
             if not isinstance(rows, list):
                 raise ValueError("Missing day in organizer source")
             # Partial LaLiga round windows cannot certify a day with zero games.
-            if league == "esp.1" and not rows:
+            if league in {"esp.1", "ita.1", "fra.1"} and not rows:
                 continue
             review_row = result["days"][day].get(league)
             if not isinstance(review_row, dict):
@@ -132,10 +135,14 @@ def seed(draft, official_sources):
             review_row["organizer_source_catalogue_kind"] = (
                 "FULL_SEASON_380_FPL" if league == "eng.1" else
                 "PARTIAL_LALIGA_ROUND_WINDOW" if league == "esp.1" else
+                "DATED_ORGANIZER_ARTICLE_PARTIAL" if league in {"ita.1", "fra.1"} else
                 "ONLY_VISIBLE_DFL_MATCHDAY")
             review_row["organizer_source_fixtures_count_for_day"] = len(rows)
-            if league == "esp.1":
+            if league in {"esp.1", "ita.1", "fra.1"}:
                 review_row["organizer_source_fetch_issues"] = len(source.get("errors", []))
+            if league in {"ita.1", "fra.1"}:
+                review_row["organizer_article_date_range"] = source.get("article_fixture_dates", [])
+                review_row["organizer_source_not_full_day"] = True
             review_row["full_day_checked"] = False
             review_row["captured_at"] = None
             review_row["reviewer"] = None
@@ -165,11 +172,14 @@ def main():
     p.add_argument("--fpl")
     p.add_argument("--dfl")
     p.add_argument("--laliga")
+    p.add_argument("--serie-a")
+    p.add_argument("--ligue1")
     p.add_argument("--output", required=True)
     args = p.parse_args()
     sources = {}
     for league, filename in (("eng.1", args.fpl), ("ger.1", args.dfl),
-                             ("esp.1", args.laliga)):
+                             ("esp.1", args.laliga),
+                             ("ita.1", args.serie_a), ("fra.1", args.ligue1)):
         if filename:
             sources[league] = json.loads(Path(filename).read_text(encoding="utf-8"))
     original = json.loads(Path(args.draft).read_text(encoding="utf-8"))
