@@ -1,0 +1,134 @@
+"""Tests for unsigned 14-competition, day-by-day human review packet."""
+import copy
+from datetime import datetime, timezone
+import unittest
+
+from tools.kb21_calendar_review_packet import build, render
+from tools.kb21_calendar_evidence_dashboard import COMPETITIONS
+
+DAYS = ["2026-10-17", "2026-10-18"]
+
+
+def data():
+    fixtures = [
+        {"date_warsaw": DAYS[0], "fixture_id": "eng.1:111",
+         "fixture": "Arsenal - Chelsea", "kickoff": "2026-10-17T16:00:00+02:00"},
+        {"date_warsaw": DAYS[1], "fixture_id": "bel.1:222",
+         "fixture": "Gent - Antwerp", "kickoff": "2026-10-18T18:00:00+02:00"},
+    ]
+    queue = {"days": DAYS, "fixtures": fixtures}
+    gate = {"days": {
+        day: {"competitions": [{
+            "league_id": code, "errors": [
+                "MISSING_INDEPENDENT_REVIEWER", "OFFICIAL_DAY_NOT_VERIFIED_COMPLETE"
+            ],
+        } for code in COMPETITIONS], "calendar_gate": "BLOCKED", "errors": []}
+        for day in DAYS}, "calendar_gate": "BLOCKED"}
+    rows = []
+    for day in DAYS:
+        for code in COMPETITIONS:
+            count = sum(f["date_warsaw"] == day and
+                        f["fixture_id"].startswith(code + ":") for f in fixtures)
+            rows.append({
+                "day": day, "league_id": code, "espn_candidates": count,
+                "paired_for_review": count if code == "eng.1" else 0,
+                "direct_evidence_scope": "FULL_SEASON_FPL" if code == "eng.1"
+                else "BELGIAN_SELECTED_ROUND_UNDATED" if code == "bel.1"
+                else "UEFA_ARTICLE_DATE_TEAMS_ONLY",
+                "evidence_status": "PAIRED_FIXTURES_FOR_REVIEW"
+                if code == "eng.1" else "DIRECT_SOURCE_MISSING",
+                "source_errors": [], "organizer_review_url": "https://example.org/league",
+                "adapter_source": "official-league.json",
+                "adapter_comparison": "official-vs-espn.json",
+            })
+    dashboard = {"days": DAYS, "rows": rows, "calendar_gate": "BLOCKED",
+                 "totals": {"direct_adapters": 14}}
+    return queue, gate, dashboard
+
+
+class CalendarReviewPacketTests(unittest.TestCase):
+    def test_42_to_28_rows_counts_and_safety(self):
+        q, g, d = data()
+        r = build(q, g, d, datetime(2026, 10, 17, 12, tzinfo=timezone.utc))
+        self.assertEqual(r["totals"]["league_day_reviews"], 28)
+        self.assertEqual(r["totals"]["formal_blocker_occurrences"], 56)
+        self.assertEqual(r["totals"]["diagnostic_pairs_only"], 1)
+        self.assertFalse(r["safe_to_publish_play"])
+        self.assertEqual(r["calendar_gate"], "BLOCKED")
+        self.assertTrue(all(row["manual_review_required"] for row in r["rows"]))
+        self.assertTrue(all(row["reviewer"] is None for row in r["rows"]))
+        self.assertIn("NIE PLAY", render(r))
+
+    def test_first_kickoff_past_is_not_retroactively_approvable(self):
+        q, g, d = data()
+        r = build(q, g, d, datetime(2026, 10, 17, 15, tzinfo=timezone.utc))
+        row = next(row for row in r["rows"]
+                   if row["day"] == DAYS[0] and row["league_id"] == "eng.1")
+        self.assertEqual(row["time_status"],
+                         "FIRST_KICKOFF_PASSED_NO_RETROACTIVE_APPROVAL")
+        self.assertEqual(r["totals"]["day_league_checks_after_first_kickoff"], 1)
+        self.assertEqual(row["source_role"], "FULL_SEASON_SNAPSHOT_NOT_ATTESTATION")
+        self.assertFalse(row["full_day_approved_by_this_packet"])
+
+    def test_future_first_kickoff_still_needs_manual_review(self):
+        q, g, d = data()
+        r = build(q, g, d, datetime(2026, 10, 17, 11, tzinfo=timezone.utc))
+        row = next(row for row in r["rows"]
+                   if row["day"] == DAYS[1] and row["league_id"] == "bel.1")
+        self.assertEqual(row["time_status"],
+                         "FUTURE_FIRST_KICKOFF_MANUAL_REVIEW_REQUIRED")
+        self.assertEqual(row["source_role"], "UNDATED_ROUND_ONLY")
+        self.assertEqual(row["priority"], 1)
+        self.assertFalse(row["fixtures"][0]["organizer_confirmed"])
+
+    def test_empty_candidates_not_official_zero(self):
+        q, g, d = data()
+        r = build(q, g, d, datetime(2026, 10, 17, 11, tzinfo=timezone.utc))
+        row = next(row for row in r["rows"]
+                   if row["day"] == DAYS[0] and row["league_id"] == "uefa.champions")
+        self.assertEqual(row["time_status"], "ZERO_CANDIDATES_NOT_CONFIRMED_ZERO_DAY")
+        self.assertEqual(row["priority"], 3)
+        self.assertIn("Brak kandydatów", render(r))
+
+    def test_reject_skipped_competition_or_duplicate_day_row(self):
+        q, g, d = data()
+        d["rows"] = d["rows"][:-1]
+        with self.assertRaisesRegex(ValueError, "fourteen"):
+            build(q, g, d)
+        q, g, d = data()
+        d["rows"].append(copy.deepcopy(d["rows"][0]))
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            build(q, g, d)
+
+    def test_reject_mismatched_candidate_count_or_extra_game(self):
+        q, g, d = data()
+        d["rows"][0]["espn_candidates"] = 9
+        with self.assertRaisesRegex(ValueError, "Inconsistent"):
+            build(q, g, d)
+        q, g, d = data()
+        q["fixtures"].append({"date_warsaw": DAYS[0], "fixture_id": "unknown.1:4"})
+        with self.assertRaisesRegex(ValueError, "outside official"):
+            build(q, g, d)
+
+    def test_reject_bad_clock_and_untrusted_link(self):
+        q, g, d = data()
+        with self.assertRaisesRegex(ValueError, "timezone"):
+            build(q, g, d, datetime(2026, 10, 17, 15))
+        d["rows"][0]["organizer_review_url"] = "http://example.org/untrusted"
+        with self.assertRaisesRegex(ValueError, "Invalid organizer"):
+            build(q, g, d)
+
+    def test_formal_blockers_are_exactly_validator_blocks(self):
+        q, g, d = data()
+        g["days"][DAYS[1]]["competitions"][0]["errors"].append(
+            "OFFICIAL_VS_INDEPENDENT_FIXTURE_COUNT_DIFFERENCE"
+        )
+        r = build(q, g, d)
+        self.assertEqual(r["totals"]["formal_blocker_occurrences"], 57)
+        self.assertEqual(r["totals"]["formal_blocker_types"][
+            "OFFICIAL_VS_INDEPENDENT_FIXTURE_COUNT_DIFFERENCE"], 1)
+        self.assertIn("OFFICIAL_VS_INDEPENDENT_FIXTURE_COUNT_DIFFERENCE", render(r))
+
+
+if __name__ == "__main__":
+    unittest.main()
