@@ -202,7 +202,11 @@ def compare(queue, research):
                      for f in espn if f.get("fixture_id") not in used]
             counts = Counter(record["status"] for record in comparisons)
             league_status = (
-                "BOTH_EMPTY_NOT_OFFICIALLY_CONFIRMED"
+                "UEFA_OFFICIAL_ROUND_HAS_NO_GAMES_UNSIGNED"
+                if (not official and not espn
+                    and source.get("zero_fixtures_in_window_from_complete_uefa_round_schedule") is True
+                    and league in {"uefa.champions", "uefa.europa", "uefa.europa.conf"})
+                else "BOTH_EMPTY_NOT_OFFICIALLY_CONFIRMED"
                 if not official and not espn else
                 "TWO_SOURCE_REVIEW_CANDIDATE" if (
                     len(comparisons) == len(espn)
