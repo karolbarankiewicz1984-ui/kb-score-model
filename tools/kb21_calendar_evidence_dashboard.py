@@ -219,7 +219,7 @@ def summarize(queue, gate, directory):
                     "DATE_TEAMS_ONLY_TIME_UNVERIFIED",
                     "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW",
                     "QUALIFIERS_EDITION_OR_CALENDAR_REVIEW",
-                    "POST_START_RESULTS_ONLY_NEEDS_PREMATCH_PROOF")
+                    "POST_START_RESULTS_ONLY_NEEDS_PREMATCH_PROOF"):
                 next_action = "RESOLVE_OFFICIAL_SOURCE_OR_FIXTURE_CONFLICT"
                 review_priority = 1
             elif candidates:
