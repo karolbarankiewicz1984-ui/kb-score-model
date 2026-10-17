@@ -55,5 +55,45 @@ class CompareKNVBTests(unittest.TestCase):
             compare(queue(), wrong)
 
 
+    def test_result_page_after_kickoff_explains_schedule_disappearance_but_not_time(self):
+        from copy import deepcopy
+        from datetime import datetime, timezone
+        o = official()
+        o["by_day"]["2026-10-17"] = []
+        r = {
+            "schema": "kb21-knvb-results-date-pair-v1",
+            "league_id": "ned.1",
+            "official_url": "https://www.knvb.nl/competities/eredivisie/uitslagen",
+            "days": ["2026-10-17", "2026-10-18"],
+            "captured_at_utc": "2026-10-17T15:00:00+00:00",
+            "errors": [], "status": "KNVB_RESULTS_DATE_PAIRS_PARTIAL",
+            "calendar_gate": "BLOCKED", "prematch_calendar_verified": False,
+            "official_kickoff_verified": False, "full_day_verified": False,
+            "reviewer_signed": False, "confirmed_zero_matches": False,
+            "by_day": {"2026-10-17": [{
+                "league_id": "ned.1", "date_printed": "2026-10-17",
+                "home": "ADO Den Haag", "away": "PSV",
+                "kickoff_utc": None, "kickoff_time_verified": False,
+                "match_result_verified": False
+            }], "2026-10-18": []},
+        }
+        result = compare(queue(), o, results=r)
+        day = result["days"]["2026-10-17"]
+        self.assertEqual(day["post_start_result_date_pairs"], 1)
+        self.assertEqual(day["matched"], 0)
+        self.assertEqual(day["statuses"]["KNVB_RESULTS_DATE_PAIR_POST_START_NO_KICKOFF"], 1)
+        self.assertIsNone(day["comparisons"][0]["knvb_kickoff"])
+        self.assertFalse(day["comparisons"][0]["kickoff_verified_from_results"])
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+        r["captured_at_utc"] = "2026-10-17T11:30:00+00:00"
+        before = compare(queue(), o, results=r)
+        self.assertEqual(before["days"]["2026-10-17"]["post_start_result_date_pairs"], 0)
+        self.assertEqual(before["days"]["2026-10-17"]["comparisons"][0]["status"],
+                         "NOT_ON_KNVB_VISIBLE_PROGRAM")
+        r["captured_at_utc"] = "2026-10-17T15:00:00+00:00"
+        r["by_day"]["2026-10-17"][0]["kickoff_time_verified"] = True
+        with self.assertRaisesRegex(ValueError, "Unsafe KNVB results-row"):
+            compare(queue(), o, results=r)
+
 if __name__ == "__main__":
     unittest.main()
