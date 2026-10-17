@@ -14,6 +14,8 @@ on:
       - 'tools/kb21_legacy_calendar.py'
       - 'tools/kb21_public_fixtures.py'
       - 'tools/kb21_official_fpl.py'
+      - 'tools/kb21_official_dfl.py'
+      - 'tools/kb21_dfl_compare.py'
       - 'tools/kb21_fpl_compare.py'
       - 'tools/kb21_fixture_digest.py'
       - 'tools/kb21_analyst_assessment.py'
@@ -49,6 +51,8 @@ on:
       - 'tests/test_kb21_pipeline_integration.py'
       - 'tests/test_kb21_public_fixtures.py'
       - 'tests/test_kb21_official_fpl.py'
+      - 'tests/test_kb21_official_dfl.py'
+      - 'tests/test_kb21_dfl_compare.py'
       - 'tests/test_kb21_fpl_compare.py'
       - 'tests/test_kb21_legacy_calendar.py'
       - '.github/workflows/kb21-legacy-recovery.yml'
@@ -66,7 +70,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_official_fpl tests.test_kb21_fpl_compare tests.test_kb21_official_dfl tests.test_kb21_dfl_compare tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_fixture_crosscheck tests.test_kb21_context_enrich tests.test_kb21_calendar_coverage tests.test_kb21_official_review tests.test_kb21_official_source_probe tests.test_kb21_calendar_signoff tests.test_kb21_official_research_compare tests.test_kb21_calendar_conflict_evidence tests.test_kb21_official_inventory_prefill tests.test_kb21_review_shortlist tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
@@ -156,6 +160,38 @@ jobs:
           else:
               print('::warning::Official Premier League FPL JSON unavailable. '
                     'Full official fixture comparison is NOT completed; Calendar Gate stays BLOCKED')
+          # Official DFL/Bundesliga Media page exposes a current matchday
+          # HTML table with unambiguous UTC fixture kickoffs. It may NOT
+          # cover all future dates or postponed fixtures. Fail closed.
+          dfl_file = Path('reports/kb21_legacy/official-dfl-bundesliga.json')
+          dfl_run = subprocess.run([
+              'python', '-m', 'tools.kb21_official_dfl',
+              '--days', *scope['days'],
+              '--output', str(dfl_file),
+              '--output-md', 'reports/kb21_legacy/official-dfl-bundesliga.md'
+          ], check=False)
+          dfl_status = 'FETCH_FAILED'
+          if dfl_run.returncode == 0:
+              dfl = json.loads(dfl_file.read_text(encoding='utf-8'))
+              dfl_status = dfl['status']
+              if dfl_status == 'OFFICIAL_PAGE_PARTIAL_MATCHDAY_FOR_REVIEW':
+                  subprocess.run([
+                      'python', '-m', 'tools.kb21_dfl_compare',
+                      'reports/kb21_legacy/assessment-queue.json', str(dfl_file),
+                      '--output', 'reports/kb21_legacy/official-dfl-vs-espn.json',
+                      '--output-md', 'reports/kb21_legacy/official-dfl-vs-espn.md',
+                  ], check=True)
+              else:
+                  print('::warning::Official Bundesliga HTML did not expose a usable matchday table')
+          else:
+              print('::warning::Official Bundesliga Media page unavailable; no DFL comparison')
+          Path('reports/kb21_legacy/official-dfl-download-status.json').write_text(
+              json.dumps({
+                  'source': 'https://products.bundesliga.com/fixtures',
+                  'status': dfl_status, 'calendar_gate': 'BLOCKED',
+                  'live_betting_approved': False, 'report_days': scope['days']
+              }, ensure_ascii=False, indent=2) + '\\n',
+              encoding='utf-8')
           Path('reports/kb21_legacy/official-fpl-download-status.json').write_text(
               json.dumps({
                   'source': 'https://fantasy.premierleague.com/api/fixtures/',
@@ -265,6 +301,11 @@ jobs:
             reports/kb21_legacy/three-day-candidates.md
             reports/kb21_legacy/assessment-queue.json
             reports/kb21_legacy/official-fpl-download-status.json
+            reports/kb21_legacy/official-dfl-download-status.json
+            reports/kb21_legacy/official-dfl-bundesliga.json
+            reports/kb21_legacy/official-dfl-bundesliga.md
+            reports/kb21_legacy/official-dfl-vs-espn.json
+            reports/kb21_legacy/official-dfl-vs-espn.md
             reports/kb21_legacy/official-fpl-premier-league.json
             reports/kb21_legacy/official-fpl-premier-league.md
             reports/kb21_legacy/official-fpl-vs-espn.json
