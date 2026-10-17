@@ -219,18 +219,24 @@ def compare(queue, research):
                       "kickoff": f.get("kickoff")}
                      for f in espn if f.get("fixture_id") not in used]
             counts = Counter(record["status"] for record in comparisons)
-            league_status = (
-                "OFFICIAL_ORGANIZER_SCHEDULE_NO_GAMES_UNSIGNED"
-                if (not official and not espn
-                    and source.get("zero_fixtures_in_window_from_complete_uefa_round_schedule") is True
-                    and league in {"uefa.champions", "uefa.europa", "uefa.europa.conf", "uefa.nations", "fifa.worldq.uefa"})
-                else "BOTH_EMPTY_NOT_OFFICIALLY_CONFIRMED"
-                if not official and not espn else
-                "TWO_SOURCE_REVIEW_CANDIDATE" if (
-                    len(comparisons) == len(espn)
-                    and len(used) == len(comparisons)
-                    and not extra
-                ) else "IDENTITY_OR_COVERAGE_REVIEW_REQUIRED")
+            complete_round = (source.get("full_round_source_found") is True
+                              and source.get("official_fixture_list_extracted") is True)
+            fully_matched = (len(comparisons) == len(espn)
+                             and len(used) == len(comparisons) and not extra)
+            if not complete_round:
+                league_status = ("PARTIAL_OFFICIAL_CLUB_MATCH_ONLY" if fully_matched and official
+                                 else "PARTIAL_OFFICIAL_SOURCE_NOT_FULL_DAY")
+            elif not official and not espn and (
+                    (source.get("zero_fixtures_in_window_from_complete_uefa_round_schedule") is True
+                     and league in {"uefa.champions", "uefa.europa", "uefa.europa.conf",
+                                    "uefa.nations", "fifa.worldq.uefa"})
+                    or source.get("confirmed_zero_matches_from_official_schedule") is True):
+                league_status = "OFFICIAL_ORGANIZER_SCHEDULE_NO_GAMES_UNSIGNED"
+            elif not official and not espn:
+                league_status = "BOTH_EMPTY_NOT_OFFICIALLY_CONFIRMED"
+            else:
+                league_status = ("TWO_SOURCE_REVIEW_CANDIDATE" if fully_matched
+                                 else "IDENTITY_OR_COVERAGE_REVIEW_REQUIRED")
             rows.append({
                 "league_id": league,
                 "competition": source.get("competition"),
