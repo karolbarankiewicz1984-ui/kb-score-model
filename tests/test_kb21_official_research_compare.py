@@ -96,5 +96,29 @@ class OfficialResearchCompareTests(unittest.TestCase):
         self.assertEqual(row["fixtures"][0]["status"], "OFFICIAL_RESEARCH_DATE_MISMATCH")
 
 
+    def test_turkish_official_names_match_espn_with_warsaw_utc_offset(self):
+        q = {"days": ["2026-10-17"], "fixtures": [{
+            "fixture_id": "tur.1:12", "fixture": "Erzurum BB - Eyupspor",
+            "kickoff": "2026-10-17T10:30:00Z", "date_warsaw": "2026-10-17"
+        }]}
+        research = source("2026-10-17", [fixture(
+            "Erzurumspor FK", "Eyüpspor", "2026-10-17T12:30:00+02:00"
+        )], league="tur.1")
+        row = compare(q, research)["days"]["2026-10-17"][0]
+        self.assertEqual(row["status"], "TWO_SOURCE_REVIEW_CANDIDATE")
+        self.assertEqual(row["matched_count"], 1)
+
+    def test_explicit_uefa_no_game_round_is_not_signed_gate(self):
+        q = {"days": ["2026-10-17"], "fixtures": []}
+        research = source("2026-10-17", [], league="uefa.champions")
+        research["days"]["2026-10-17"]["uefa.champions"][
+            "zero_fixtures_in_window_from_complete_uefa_round_schedule"] = True
+        result = compare(q, research)
+        row = result["days"]["2026-10-17"][0]
+        self.assertEqual(row["status"], "UEFA_OFFICIAL_ROUND_HAS_NO_GAMES_UNSIGNED")
+        self.assertEqual(result["calendar_gate"], "BLOCKED")
+
+
+
 if __name__ == "__main__":
     unittest.main()
