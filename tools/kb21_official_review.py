@@ -22,6 +22,7 @@ OFFICIAL_PAGES = {
     "fra.1": "https://ligue1.com/en/calendar/ligue1",
     "por.1": "https://www.ligaportugal.pt/competition/911/liga-portugal-betclic/round/20262027",
     "ned.1": "https://eredivisie.com/competition/fixtures/",
+    "bel.1": "https://www.proleague.be/jpl-kalender",
     "tur.1": "https://www.tff.org/?pageID=198",
     "uefa.champions": "https://www.uefa.com/uefachampionsleague/fixtures-results/",
     "uefa.europa": "https://www.uefa.com/uefaeuropaleague/news/02a8-2174cafa5bb6-82bbc20c9b92-1000--2026-27-europa-league-all-the-league-phase-fixtures/",
