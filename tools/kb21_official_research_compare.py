@@ -231,10 +231,14 @@ def compare(queue, research):
                         used.add(target)
                         status, matched_id = "SAME_FIXTURE_IN_TWO_SOURCES", target
                 else:
-                    matched_id = None
                     status = ("AMBIGUOUS_ESPN_IDENTITY" if len(matches_time) > 1 else
                               "START_TIME_CONFLICT" if matches_teams else
                               "MISSING_FROM_ESPN")
+                    # Preserve the conflicting ESPN fixture ID for a MANUAL
+                    # resolution, without counting it as an exact fixture match.
+                    matched_id = (matches_teams[0].get("fixture_id")
+                                  if status == "START_TIME_CONFLICT"
+                                  and len(matches_teams) == 1 else None)
                 comparisons.append({"official_fixture": record,
                                     "status": status, "espn_fixture_id": matched_id})
             extra = [{"fixture_id": f.get("fixture_id"), "fixture": f.get("fixture"),
