@@ -134,7 +134,8 @@ class OfficialResearchCompareTests(unittest.TestCase):
         entry["full_round_source_found"] = False
         entry["official_fixture_list_extracted"] = False
         row = compare(q, research)["days"]["2026-10-17"][0]
-        self.assertEqual(row["status"], "PARTIAL_OFFICIAL_SOURCE_NOT_FULL_DAY")
+        self.assertEqual(row["status"], "PARTIAL_OFFICIAL_CLUB_MATCH_ONLY")
+        self.assertEqual(row["matched_count"], 1)
 
     def test_belgian_league_offweekend_source_not_signoff(self):
         q = {"days": ["2026-10-17"], "fixtures": []}
