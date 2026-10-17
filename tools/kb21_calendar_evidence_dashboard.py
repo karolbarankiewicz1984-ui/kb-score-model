@@ -103,6 +103,7 @@ def summarize(queue, gate, directory):
                              and str(event.get("fixture_id", "")).startswith(league + ":"))
             matched = 0
             date_team_only = 0
+            knvb_post_start_date_team_only = 0
             undated_organizer_round = 0
             historical_cycle_candidate_warnings = 0
             source_errors = []
@@ -177,6 +178,28 @@ def summarize(queue, gate, directory):
                             state = "ORGANIZER_ONLY_FIXTURES"
                         else:
                             state = "NO_GAME_EVIDENCE_NOT_ZERO_CERTIFICATION"
+                    elif source_scope == "VISIBLE_KNVB_PROGRAM":
+                        knvb_post_start_date_team_only = comp_day.get(
+                            "post_start_result_date_pairs", 0)
+                        if (not isinstance(knvb_post_start_date_team_only, int)
+                                or isinstance(knvb_post_start_date_team_only, bool)
+                                or knvb_post_start_date_team_only < 0
+                                or knvb_post_start_date_team_only > candidates - matched):
+                            raise ValueError("Invalid KNVB post-start results page claims")
+                        if source_errors:
+                            state = "SOURCE_ISSUES_REQUIRING_REVIEW"
+                        elif knvb_post_start_date_team_only and (
+                                matched + knvb_post_start_date_team_only == candidates
+                                and organizer_visible == matched):
+                            state = "POST_START_RESULTS_ONLY_NEEDS_PREMATCH_PROOF"
+                        elif matched < candidates:
+                            state = "MISSING_OR_CONFLICTING_CANDIDATES"
+                        elif organizer_visible > matched:
+                            state = "ORGANIZER_ONLY_FIXTURES"
+                        elif candidates == 0:
+                            state = "NO_GAME_EVIDENCE_NOT_ZERO_CERTIFICATION"
+                        else:
+                            state = "PAIRED_FIXTURES_FOR_REVIEW"
                     elif matched < candidates:
                         state = "MISSING_OR_CONFLICTING_CANDIDATES"
                     elif organizer_visible > matched:
@@ -195,7 +218,8 @@ def summarize(queue, gate, directory):
                     "DIRECT_SOURCE_MISSING", "NO_DIRECT_ORGANIZER_ADAPTER",
                     "DATE_TEAMS_ONLY_TIME_UNVERIFIED",
                     "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW",
-                    "QUALIFIERS_EDITION_OR_CALENDAR_REVIEW"):
+                    "QUALIFIERS_EDITION_OR_CALENDAR_REVIEW",
+                    "POST_START_RESULTS_ONLY_NEEDS_PREMATCH_PROOF"):
                 next_action = "RESOLVE_OFFICIAL_SOURCE_OR_FIXTURE_CONFLICT"
                 review_priority = 1
             elif candidates:
@@ -211,6 +235,7 @@ def summarize(queue, gate, directory):
                 "day": day, "league_id": league, "competition": title,
                 "espn_candidates": candidates, "paired_for_review": matched,
                 "date_team_only_matches": date_team_only,
+                "knvb_post_start_date_team_only": knvb_post_start_date_team_only,
                 "undated_organizer_round_rows": undated_organizer_round,
                 "historical_2026_cycle_candidates_flagged": historical_cycle_candidate_warnings,
                 "organizer_rows_visible": organizer_visible,
@@ -233,6 +258,8 @@ def summarize(queue, gate, directory):
         "candidate_fixtures": len(queue["fixtures"]),
         "paired_for_review": paired_total,
         "date_team_only_not_time_approved": sum(row["date_team_only_matches"] for row in output["rows"]),
+        "knvb_post_start_result_page_pairs_not_time_approved": sum(
+            row["knvb_post_start_date_team_only"] for row in output["rows"]),
         "undated_organizer_round_rows": max(
             (row["undated_organizer_round_rows"] for row in output["rows"]), default=0),
         "historical_2026_cycle_candidates_flagged": sum(
@@ -264,6 +291,9 @@ def render(report):
         f"(wliczone do niedopasowanych).",
         f"UEFA - pary data/kluby BEZ potwierdzenia czasu: "
         f"{totals['date_team_only_not_time_approved']} (NIE wliczane do zgodnych).",
+        f"KNVB: pary tylko z podstrony wyników po rozpoczęciu, bez "
+        f"potwierdzonej godziny przedmeczowej: "
+        f"{totals['knvb_post_start_result_page_pairs_not_time_approved']}.",
         f"Belgia - pozycje widocznej kolejki BEZ daty: "
         f"{totals['undated_organizer_round_rows']} (NIE wliczane do zgodnych).",
         f"Eliminacje UEFA MŚ 2026: kandydaci po ostatnim barażu 31.03.2026 "
@@ -296,6 +326,7 @@ def render(report):
         if item["evidence_status"] in ("MISSING_OR_CONFLICTING_CANDIDATES",
                                        "DATE_TEAMS_ONLY_TIME_UNVERIFIED",
                                        "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW",
+                                       "POST_START_RESULTS_ONLY_NEEDS_PREMATCH_PROOF",
                                        "QUALIFIERS_EDITION_OR_CALENDAR_REVIEW",
                                        "ORGANIZER_ONLY_FIXTURES",
                                        "SOURCE_ISSUES_REQUIRING_REVIEW",

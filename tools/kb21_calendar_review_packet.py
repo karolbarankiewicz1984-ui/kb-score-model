@@ -235,12 +235,18 @@ def build(queue, gate, dashboard, now=None, partial_draft=None, comparisons=None
             "whole_days_after_first_candidate_kickoff": sum(
                 w["prematch_signoff_status"] == "DAY_FIRST_KICKOFF_ALREADY_PASSED"
                 for w in day_windows.values()),
+            "knvb_post_start_result_date_pairs": sum(
+                1 for row in rows for c in row["fixtures"]
+                if c.get("organizer_crosscheck", {}).get("organizer_comparator_status")
+                == "KNVB_RESULTS_DATE_PAIR_POST_START_NO_KICKOFF"
+            ),
             "candidate_comparisons_with_source_conflicts": sum(
                 1 for row in rows for c in row["fixtures"]
                 if c.get("organizer_crosscheck", {}).get("organizer_comparator_status")
                 not in (None, "MATCHED_FOR_REVIEW",
                         "COMPARATOR_NOT_AVAILABLE", "NO_COMPARATOR_RECORD",
-                        "DATE_TEAMS_ONLY_KICKOFF_UNVERIFIED")
+                        "DATE_TEAMS_ONLY_KICKOFF_UNVERIFIED",
+                        "KNVB_RESULTS_DATE_PAIR_POST_START_NO_KICKOFF")
             ),
         },
         "publication": "DIAGNOSTIC / NO PLAY",
@@ -273,6 +279,8 @@ def render(packet):
         str(total["whole_days_after_first_candidate_kickoff"]),
         "Szczegółowe różnice od organizatorów (bez automatycznego rozstrzygnięcia): " +
         str(total["candidate_comparisons_with_source_conflicts"]),
+        "KNVB: mecze z podstrony wyników już po starcie (bez potwierdzenia "
+        "przedmeczowej godziny): " + str(total["knvb_post_start_result_date_pairs"]),
         "", "## Najczęstsze błędy formalne", "",
     ]
     for code, count in sorted(total["formal_blocker_types"].items(),

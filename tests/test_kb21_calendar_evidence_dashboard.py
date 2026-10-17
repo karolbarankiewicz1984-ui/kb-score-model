@@ -305,5 +305,43 @@ class CalendarEvidenceDashboardTests(unittest.TestCase):
         self.assertIn("NIE jest oficjalnie potwierdzony", render(report))
 
 
+    def test_post_kickoff_knvb_results_page_is_not_approved_schedule(self):
+        with tempfile.TemporaryDirectory() as folder:
+            q = {"days": DAYS, "fixtures": [{
+                "date_warsaw": DAYS[0], "fixture_id": "ned.1:401875582",
+                "fixture": "ADO Den Haag - PSV",
+            }]}
+            write(folder, "official-knvb-eredivisie.json", {
+                "schema": "kb21-official-knvb-eredivisie-v1",
+                "league_id": "ned.1", "calendar_gate": "BLOCKED",
+                "days": DAYS, "by_day": {day: [] for day in DAYS},
+                "errors": [],
+            })
+            write(folder, "official-knvb-vs-espn.json", {
+                "calendar_gate": "BLOCKED",
+                "days": {
+                    DAYS[0]: {
+                        "statuses": {"KNVB_RESULTS_DATE_PAIR_POST_START_NO_KICKOFF": 1},
+                        "post_start_result_date_pairs": 1,
+                    },
+                    DAYS[1]: {
+                        "statuses": {}, "post_start_result_date_pairs": 0,
+                    },
+                },
+            })
+            result = summarize(q, gate(), folder)
+        row = next(x for x in result["rows"]
+                   if x["day"] == DAYS[0] and x["league_id"] == "ned.1")
+        self.assertEqual(row["evidence_status"],
+                         "POST_START_RESULTS_ONLY_NEEDS_PREMATCH_PROOF")
+        self.assertEqual(row["knvb_post_start_date_team_only"], 1)
+        self.assertEqual(row["paired_for_review"], 0)
+        self.assertFalse(row["full_day_signed"])
+        self.assertEqual(row["review_priority"], 1)
+        self.assertEqual(result["totals"]["knvb_post_start_result_page_pairs_not_time_approved"], 1)
+        self.assertEqual(result["totals"]["unpaired_candidates"], 1)
+        self.assertFalse(result["safe_to_publish_play"])
+
+
 if __name__ == "__main__":
     unittest.main()
