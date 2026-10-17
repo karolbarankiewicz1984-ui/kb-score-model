@@ -17,27 +17,58 @@ No missing league or unreviewed empty schedule is silently accepted.
 """
 import argparse
 import json
-from collections import Counter
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from tools.kb21_fixture_crosscheck import _canonical, _instant
+from tools.kb21_fixture_crosscheck import _instant
+from tools.kb21_official_research_compare import _team
+from tools.kb21_calendar_conflict_evidence import _api_match
 from tools.kb21_official_review import OFFICIAL_PAGES
 from tools.kb21_calendar_coverage import SCOPE
 
 
-def _identity(match):
+def _identity(match, league):
     if not isinstance(match, dict):
         return None
-    home, away = _canonical(match.get("home")), _canonical(match.get("away"))
+    home, away = _team(league, match.get("home")), _team(league, match.get("away"))
     kickoff = _instant(match.get("kickoff"))
     if not home or not away or kickoff is None:
         return None
     return home, away, kickoff
 
 
-def validate(queue, inventory):
+def _recorded_third_source(league, day, official_key, candidate, resolution, snapshot):
+    """A reviewer's explicit mismatch decision must agree with an actual prematch snapshot."""
+    if not isinstance(resolution, dict) or not isinstance(snapshot, dict):
+        return False
+    if (resolution.get("fixture_id") != candidate.get("fixture_id")
+            or not isinstance(resolution.get("reviewer"), str)
+            or not resolution["reviewer"].strip()
+            or not isinstance(resolution.get("reason"), str)
+            or len(resolution["reason"].strip()) < 15):
+        return False
+    if (snapshot.get("source") != "API-Football" or snapshot.get("date") != day
+            or not isinstance(snapshot.get("candidates"), list)):
+        return False
+    approved = [r for r in snapshot["candidates"]
+                if isinstance(r, dict)
+                and str(r.get("fixture_id")) == str(resolution.get("third_source_fixture_id"))
+                and _api_match(league, {
+                    "home": candidate.get("fixture", "").split(" - ", 1)[0],
+                    "away": candidate.get("fixture", "").split(" - ", 1)[1]
+                    if " - " in candidate.get("fixture", "") else "",
+                    "kickoff": official_key[2].isoformat()}, r)]
+    if len(approved) != 1:
+        return False
+    observed = _instant(approved[0].get("snapshot_utc") or snapshot.get("snapshot_utc"))
+    independent = _instant(candidate.get("kickoff"))
+    if observed is None or independent is None:
+        return False
+    return observed < min(official_key[2], independent)
+
+
+def validate(queue, inventory, third_party_snapshots=None):
     if not isinstance(queue, dict) or not isinstance(queue.get("days"), list) or not isinstance(queue.get("fixtures"), list):
         raise ValueError("Expected KB21 queue with days and fixtures")
     if not isinstance(inventory, dict) or not isinstance(inventory.get("days"), dict):
@@ -46,6 +77,9 @@ def validate(queue, inventory):
               "publication": "DIAGNOSTIC / NO PLAY", "days": {},
               "manual_source_attestation": False, "safe_to_publish_play": False}
     all_errors = []
+    third_party_snapshots = third_party_snapshots or {}
+    capture_times = []
+    first_kickoffs = []
     for day in sorted(set(queue["days"])):
         official_day = inventory["days"].get(day)
         day_errors = []
@@ -66,6 +100,8 @@ def validate(queue, inventory):
             captured = _instant(entry.get("captured_at"))
             if captured is None:
                 errors.append("MISSING_TIMESTAMPED_ORGANIZER_CAPTURE")
+            else:
+                capture_times.append(captured)
             try:
                 target_date = datetime.fromisoformat(day).date()
             except ValueError:
@@ -90,27 +126,60 @@ def validate(queue, inventory):
             if len(reported) != len(expected):
                 errors.append("OFFICIAL_VS_INDEPENDENT_FIXTURE_COUNT_DIFFERENCE")
 
-            official_keys = [_identity(f) for f in reported]
-            espn_keys = [_identity({"home": f.get("fixture", "").split(" - ", 1)[0],
-                                    "away": f.get("fixture", "").split(" - ", 1)[1]
-                                    if " - " in f.get("fixture", "") else "",
-                                    "kickoff": f.get("kickoff")}) for f in expected]
+            official_keys = [_identity(f, code) for f in reported]
+            espn_keys = [_identity({
+                "home": f.get("fixture", "").split(" - ", 1)[0],
+                "away": f.get("fixture", "").split(" - ", 1)[1]
+                if " - " in f.get("fixture", "") else "",
+                "kickoff": f.get("kickoff"),
+            }, code) for f in expected]
+            for key in official_keys + espn_keys:
+                if key is not None:
+                    first_kickoffs.append(key[2])
             if any(x is None for x in official_keys + espn_keys):
                 errors.append("INVALID_MATCH_IDENTITY_OR_TIMEZONE")
             else:
                 if len(set(official_keys)) != len(official_keys):
                     errors.append("DUPLICATE_OFFICIAL_FIXTURE")
-                remaining = list(espn_keys)
+                remaining = list(zip(expected, espn_keys))
+                resolutions = entry.get("time_discrepancies") or []
+                if not isinstance(resolutions, list):
+                    errors.append("INVALID_TIME_DISCREPANCY_DECISIONS")
+                    resolutions = []
+                used_resolutions = set()
                 for key in official_keys:
-                    matches = [i for i, candidate in enumerate(remaining)
-                               if (candidate[0:2] == key[0:2]
-                                   and abs((candidate[2] - key[2]).total_seconds()) <= 300)]
-                    if len(matches) != 1:
+                    exact = [i for i, (_, candidate) in enumerate(remaining)
+                             if candidate[0:2] == key[0:2]
+                             and abs((candidate[2] - key[2]).total_seconds()) <= 300]
+                    if len(exact) == 1:
+                        remaining.pop(exact[0])
+                        continue
+                    if len(exact) > 1:
+                        errors.append("AMBIGUOUS_INDEPENDENT_MATCHES")
+                        continue
+                    same_teams = [i for i, (_, candidate) in enumerate(remaining)
+                                  if candidate[0:2] == key[0:2]]
+                    if len(same_teams) != 1:
                         errors.append("MATCH_IDENTITY_OR_TIME_DISAGREEMENT")
-                        break
-                    remaining.pop(matches[0])
+                        continue
+                    index = same_teams[0]
+                    candidate = remaining[index][0]
+                    matching_resolutions = [i for i, decision in enumerate(resolutions)
+                                            if isinstance(decision, dict)
+                                            and decision.get("fixture_id") == candidate.get("fixture_id")]
+                    if (len(matching_resolutions) != 1
+                            or not _recorded_third_source(
+                                code, day, key, candidate,
+                                resolutions[matching_resolutions[0]] if matching_resolutions else None,
+                                third_party_snapshots.get(day))):
+                        errors.append("KICKOFF_CONFLICT_REQUIRES_PREMATCH_THIRD_SOURCE_AND_MANUAL_REVIEW")
+                    else:
+                        used_resolutions.add(matching_resolutions[0])
+                        remaining.pop(index)
                 if remaining:
                     errors.append("INDEPENDENT_MATCHES_UNEXPLAINED")
+                if len(used_resolutions) != len(resolutions):
+                    errors.append("UNUSED_OR_DUPLICATE_KICKOFF_RESOLUTIONS")
             if captured is not None and official_keys and all(x is not None for x in official_keys):
                 if captured >= min(x[2] for x in official_keys):
                     errors.append("OFFICIAL_CAPTURE_NOT_PREMATCH")
@@ -138,6 +207,12 @@ def validate(queue, inventory):
         and _instant(approval.get("approved_at")) is not None
         and approval.get("attests_independent_official_review") is True
     )
+    approved_time = _instant(approval.get("approved_at")) if isinstance(approval, dict) else None
+    if signoff_ok and approved_time is not None:
+        if capture_times and approved_time < max(capture_times):
+            all_errors.append("FINAL_APPROVAL_PREDATES_OFFICIAL_SOURCE_CAPTURE")
+        if first_kickoffs and approved_time >= min(first_kickoffs):
+            all_errors.append("FINAL_APPROVAL_AFTER_FIRST_KICKOFF")
     result["ready_for_approval"] = not all_errors
     if not all_errors and signoff_ok:
         result["status"] = "MANUALLY_APPROVED_CALENDAR"
@@ -193,6 +268,8 @@ def main():
     p.add_argument("official_inventory", nargs="?")
     p.add_argument("--prepare-template", action="store_true")
     p.add_argument("--output", required=True)
+    p.add_argument("--api-snapshots-dir", default=None,
+                   help="Optional stored API-Football snapshots for signed time-conflict resolution")
     args = p.parse_args()
     source = json.loads(Path(args.queue).read_text(encoding="utf-8"))
     if args.prepare_template:
@@ -202,7 +279,15 @@ def main():
     else:
         if args.official_inventory is None:
             p.error("Provide the signed official inventory or use --prepare-template")
-        result = validate(source, json.loads(Path(args.official_inventory).read_text(encoding="utf-8")))
+        snapshots = {}
+        if args.api_snapshots_dir:
+            for day in source.get("days", []):
+                path = Path(args.api_snapshots_dir) / (day + ".json")
+                if path.is_file():
+                    snapshots[day] = json.loads(path.read_text(encoding="utf-8"))
+        result = validate(source,
+                          json.loads(Path(args.official_inventory).read_text(encoding="utf-8")),
+                          third_party_snapshots=snapshots)
     dest = Path(args.output)
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
