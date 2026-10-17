@@ -16,6 +16,7 @@ on:
       - 'tests/test_kb21_assessment_queue.py'
       - 'tests/test_kb21_queue_report.py'
       - 'tests/test_kb21_market_review.py'
+      - 'tests/test_kb21_pipeline_integration.py'
       - 'tests/test_kb21_public_fixtures.py'
       - 'tests/test_kb21_legacy_calendar.py'
       - '.github/workflows/kb21-legacy-recovery.yml'
@@ -30,7 +31,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run API-free recovery tests
-        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_market_review -v
+        run: python -m unittest tests.test_kb21_legacy_report tests.test_kb21_legacy_calendar tests.test_kb21_public_fixtures tests.test_kb21_analyst_assessment tests.test_kb21_assessment_queue tests.test_kb21_queue_report tests.test_kb21_market_review tests.test_kb21_pipeline_integration -v
       - name: Verify calendar gate on missing inputs
         run: |
           mkdir -p reports/kb21_legacy
