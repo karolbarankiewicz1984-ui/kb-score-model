@@ -38,6 +38,8 @@ ADAPTERS = {
     "uefa.champions": ("official-uefa-champions-vs-espn.json", "official-uefa-champions.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
     "uefa.europa": ("official-uefa-europa-vs-espn.json", "official-uefa-europa.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
     "uefa.europa.conf": ("official-uefa-conference-vs-espn.json", "official-uefa-conference.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
+    "uefa.nations": ("official-uefa-nations-vs-espn.json", "official-uefa-nations.json", "UEFA_ARTICLE_DATE_TEAMS_ONLY"),
+    "bel.1": ("official-belgium-vs-espn.json", "official-belgium-selected-round.json", "BELGIAN_SELECTED_ROUND_UNDATED"),
 }
 
 def _read(folder, name):
@@ -100,6 +102,7 @@ def summarize(queue, gate, directory):
                              and str(event.get("fixture_id", "")).startswith(league + ":"))
             matched = 0
             date_team_only = 0
+            undated_organizer_round = 0
             source_errors = []
             organizer_visible = None
             source_scope = "NO_DIRECT_MACHINE_ADAPTER"
@@ -125,7 +128,20 @@ def summarize(queue, gate, directory):
                     if not isinstance(matched, int) or matched < 0 or matched > candidates:
                         raise ValueError(f"Impossible source coincidences {league}/{day}")
                     source_errors = list(facts.get("errors", []))
-                    if source_scope == "UEFA_ARTICLE_DATE_TEAMS_ONLY":
+                    if source_scope == "BELGIAN_SELECTED_ROUND_UNDATED":
+                        undated = facts.get("undated_fixtures", [])
+                        if (not isinstance(undated, list)
+                                or facts.get("date_verified") is not False
+                                or facts.get("kickoff_timezone_verified") is not False
+                                or matched != 0
+                                or any(facts_day)):
+                            raise ValueError("Belgium round cannot claim dated calendar matches")
+                        undated_organizer_round = len(undated)
+                        if source_errors or not undated_organizer_round:
+                            state = "SOURCE_ISSUES_REQUIRING_REVIEW"
+                        else:
+                            state = "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW"
+                    elif source_scope == "UEFA_ARTICLE_DATE_TEAMS_ONLY":
                         date_team_only = comp_day.get("date_team_matched", 0)
                         if (not isinstance(date_team_only, int)
                                 or date_team_only < 0 or date_team_only > candidates
@@ -158,7 +174,8 @@ def summarize(queue, gate, directory):
                     "MISSING_OR_CONFLICTING_CANDIDATES",
                     "ORGANIZER_ONLY_FIXTURES", "SOURCE_ISSUES_REQUIRING_REVIEW",
                     "DIRECT_SOURCE_MISSING", "NO_DIRECT_ORGANIZER_ADAPTER",
-                    "DATE_TEAMS_ONLY_TIME_UNVERIFIED"):
+                    "DATE_TEAMS_ONLY_TIME_UNVERIFIED",
+                    "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW"):
                 next_action = "RESOLVE_OFFICIAL_SOURCE_OR_FIXTURE_CONFLICT"
                 review_priority = 1
             elif candidates:
@@ -174,6 +191,7 @@ def summarize(queue, gate, directory):
                 "day": day, "league_id": league, "competition": title,
                 "espn_candidates": candidates, "paired_for_review": matched,
                 "date_team_only_matches": date_team_only,
+                "undated_organizer_round_rows": undated_organizer_round,
                 "organizer_rows_visible": organizer_visible,
                 "direct_evidence_scope": source_scope,
                 "evidence_status": state, "source_errors": source_errors[:10],
@@ -194,6 +212,8 @@ def summarize(queue, gate, directory):
         "candidate_fixtures": len(queue["fixtures"]),
         "paired_for_review": paired_total,
         "date_team_only_not_time_approved": sum(row["date_team_only_matches"] for row in output["rows"]),
+        "undated_organizer_round_rows": max(
+            (row["undated_organizer_round_rows"] for row in output["rows"]), default=0),
         "unpaired_candidates": len(queue["fixtures"]) - paired_total,
         "outside_competition_scope": len(untracked),
         "outside_competition_scope_ids": sorted(set(untracked))[:20],
@@ -221,6 +241,8 @@ def render(report):
         f"(wliczone do niedopasowanych).",
         f"UEFA - pary data/kluby BEZ potwierdzenia czasu: "
         f"{totals['date_team_only_not_time_approved']} (NIE wliczane do zgodnych).",
+        f"Belgia - pozycje widocznej kolejki BEZ daty: "
+        f"{totals['undated_organizer_round_rows']} (NIE wliczane do zgodnych).",
         f"Bezpośrednie adaptery: {totals['direct_adapters']}/{totals['league_count']} lig; "
         f"nadal bez adaptera: {totals['without_direct_adapters']}",
         f"Braki formalnego audytu: {totals['manual_gate_errors']} powodów; "
@@ -247,6 +269,7 @@ def render(report):
     for item in report["rows"]:
         if item["evidence_status"] in ("MISSING_OR_CONFLICTING_CANDIDATES",
                                        "DATE_TEAMS_ONLY_TIME_UNVERIFIED",
+                                       "UNDATED_OFFICIAL_ROUND_REQUIRES_REVIEW",
                                        "ORGANIZER_ONLY_FIXTURES",
                                        "SOURCE_ISSUES_REQUIRING_REVIEW",
                                        "DIRECT_SOURCE_MISSING"):
