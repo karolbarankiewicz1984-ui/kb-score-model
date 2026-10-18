@@ -8,7 +8,7 @@ from pathlib import Path
 
 from tools.kb21_single_source_calendar import build as calendar, DAY_SCHEMA
 from tests.test_kb21_single_source_calendar import fake, NOW, TODAY, TOMORROW, fixture, wrapper, MockClient
-from tools.kb21_single_source_form import shortlist, build_source_pack, _history, render_pdf
+from tools.kb21_single_source_form import shortlist, build_source_pack, _history, render_pdf, shadow_snapshot, render_day
 
 def base_calendar():
     source = calendar(now=NOW, client=fake(), key="testing")
@@ -110,6 +110,45 @@ class RealFormTests(unittest.TestCase):
                 self.assertIsNone(match["selection"])
                 self.assertIsNone(match["odds"])
                 self.assertFalse(match["freeze_allowed"])
+
+    def test_forward_only_shadow_snapshots_remain_isolated_from_core(self):
+        m, docs = base_calendar()
+        run = build_source_pack(m, docs, TeamsClient(), "key", now=NOW)
+        for day in run["days"]:
+            snap = shadow_snapshot(run, day)
+            self.assertEqual(snap["forecast_count"], 1)
+            self.assertEqual(snap["provider"], "API-Football")
+            self.assertTrue(snap["isolated_from_original_kb21"])
+            self.assertEqual(snap["kb21_n_effect"], 0)
+            self.assertFalse(snap["register_writes"])
+            self.assertIn("SYGNAŁ EKSPERYMENTALNY", render_day(day))
+            record = snap["predictions"][0]
+            self.assertIsNone(record["original_kb21_p_model"])
+            self.assertIsNone(record["selection"])
+            self.assertIsNone(record["match_result"])
+            self.assertFalse(record["calibrated"])
+            self.assertFalse(record["safe_to_publish_play"])
+
+    def test_shadow_snapshots_reject_late_and_mixed_market_inputs(self):
+        from copy import deepcopy
+        m, docs = base_calendar()
+        run = build_source_pack(m, docs, TeamsClient(), "key", now=NOW)
+        altered = deepcopy(run)
+        altered["generated_at_utc"] = "2026-10-20T11:00:00+00:00"
+        with self.assertRaisesRegex(ValueError, "retrospectively"):
+            shadow_snapshot(altered, altered["days"][0])
+        altered = deepcopy(run)
+        altered["days"][0]["matches"][0]["odds"] = 1.25
+        with self.assertRaisesRegex(ValueError, "market claims"):
+            shadow_snapshot(altered, altered["days"][0])
+        altered = deepcopy(run)
+        altered["days"][0]["matches"][0]["experimental_goal_model"]["p_model"] = .91
+        with self.assertRaisesRegex(ValueError, "original KB21"):
+            shadow_snapshot(altered, altered["days"][0])
+        altered = deepcopy(run)
+        altered["days"][0]["matches"][0]["experimental_goal_model"]["diagnostic_probabilities"]["draw"] = 1.2
+        with self.assertRaisesRegex(ValueError, "Invalid market-independent"):
+            shadow_snapshot(altered, altered["days"][0])
 
     def test_missing_team_history_has_no_experimental_probability(self):
         m, docs = base_calendar()
