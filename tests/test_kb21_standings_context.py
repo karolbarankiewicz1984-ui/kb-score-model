@@ -116,7 +116,7 @@ class StandingsTests(unittest.TestCase):
         context=doc["days_output"][0]["matches"][0]["recent_opponent_context"]["home"]
         self.assertEqual(context["qualified_last_five"],5)
         self.assertEqual(context["mean_current_opponent_ppg"],0.875)
-        self.assertIn("NOT point-in-time",context["warning"])
+        self.assertIn("NOT their rating at historical fixture kickoff",context["warning"])
 
     def test_non_domestic_competitions_do_not_query_table(self):
         m,cs,fm,fs=inputs()
