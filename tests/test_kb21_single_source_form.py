@@ -80,6 +80,55 @@ class RealFormTests(unittest.TestCase):
             self.assertEqual(row["form_metric"],
                              "ACTUAL_COMPLETED_MATCH_GOALS_NOT_XG")
 
+    def test_shadow_probabilities_reuse_existing_diagnostic_not_kb21_pmodel(self):
+        from tools.kb21_api_diagnostic import diagnose
+        m, docs = base_calendar()
+        result = build_source_pack(m, docs, TeamsClient(), "key", now=NOW)
+        self.assertEqual(result["shadow_goal_forecasts_prepared"], 2)
+        self.assertEqual(result["scoring_fields_filled_automatically"], 0)
+        self.assertFalse(result["safe_to_publish_play"])
+        for day in result["days"]:
+            for match in day["matches"]:
+                rates = {
+                    side: match["history"][side]["last_completed_games"]
+                    for side in ("home", "away")
+                }
+                expected = diagnose({"api_goal_rates": rates})
+                shadow = match["experimental_goal_model"]
+                self.assertEqual(shadow["diagnostic_probabilities"],
+                                 expected["diagnostic_probabilities"])
+                self.assertEqual(shadow["goal_rate_estimates"],
+                                 expected["goal_rate_estimates"])
+                self.assertEqual(shadow["status"], "EXPLORATORY_API_ONLY")
+                self.assertIsNone(shadow["p_model"])
+                self.assertIsNone(shadow["original_kb21_p_model"])
+                self.assertFalse(shadow["model_is_historically_validated"])
+                self.assertEqual(shadow["role"],
+                                 "SHADOW_CALIBRATION_ONLY_NOT_KB21_P_MODEL")
+                self.assertIsNone(match["analyst_assessment"]["P_model_pre_odds"])
+                self.assertIsNone(match["analyst_assessment"]["sport_score_0_100"])
+                self.assertIsNone(match["selection"])
+                self.assertIsNone(match["odds"])
+                self.assertFalse(match["freeze_allowed"])
+
+    def test_missing_team_history_has_no_experimental_probability(self):
+        m, docs = base_calendar()
+        class SparseTeamsClient(TeamsClient):
+            def get(self, base, key, endpoint, **params):
+                if params.get("team") == 2:
+                    return {"errors": [], "results": 0, "response": []}, {}
+                return super().get(base, key, endpoint, **params)
+        result = build_source_pack(m, docs, SparseTeamsClient(), "key", now=NOW)
+        self.assertEqual(result["shadow_goal_forecasts_prepared"], 0)
+        for day in result["days"]:
+            record = day["matches"][0]
+            self.assertFalse(record["both_sides_have_factual_goal_rates"])
+            self.assertEqual(record["experimental_goal_model"]["status"],
+                             "INSUFFICIENT_HISTORY")
+            self.assertIsNone(record["experimental_goal_model"]["p_model"])
+            self.assertNotIn("diagnostic_probabilities",
+                             record["experimental_goal_model"])
+
     def test_stale_or_modified_fixture_can_not_gain_history(self):
         m, docs = base_calendar()
         docs[TODAY]["candidates"][0]["home"] = "Other FC"
@@ -140,6 +189,8 @@ class RealFormTests(unittest.TestCase):
                 self.assertTrue(pdf.read_bytes().startswith(b"%PDF-"))
                 self.assertGreater(pdf.stat().st_size, 1800)
                 for x in entry["matches"]:
+                    self.assertEqual(x["experimental_goal_model"]["status"],
+                                     "EXPLORATORY_API_ONLY")
                     self.assertIsNone(x["analyst_assessment"]["P_model_pre_odds"])
                     self.assertIsNone(x["analyst_assessment"]["sport_score_0_100"])
 
