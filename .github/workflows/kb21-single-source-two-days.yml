@@ -14,6 +14,8 @@ on:
       - 'tools/kb21_form_evidence.py'
       - 'tools/kb21_standings_context.py'
       - 'tools/kb21_pitchapi_prematch_bridge.py'
+      - 'tools/kb21_xg_pair_shadow.py'
+      - 'tests/test_kb21_xg_pair_shadow.py'
       - 'tests/test_kb21_pitchapi_prematch_bridge.py'
       - 'tests/test_kb21_standings_context.py'
       - 'tests/test_kb21_form_evidence.py'
@@ -232,6 +234,36 @@ jobs:
                          r["safe_to_publish_play"] is False
                          for r in rows["records"])
           print("PASS: read-only captured historical PitchAPI xG, no new fixtures/P(model)/PLAY")
+          PY
+      - name: Freeze xG model vs original goals-shadow on identical pre-kickoff fixtures
+        run: |
+          python -m unittest tests.test_kb21_xg_pair_shadow -v
+          python -m tools.kb21_xg_pair_shadow \
+            --source-dir reports/kb21_single_source \
+            --output-dir reports/kb21_single_source
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("reports/kb21_single_source")
+          m=json.loads((p/"SINGLE_SOURCE_MANIFEST.json").read_text())
+          xgm=json.loads((p/"KB21_PREODDS_XG_MANIFEST.json").read_text())
+          pairs=0
+          for day in m["dates"]:
+              a=json.loads((p/("KB21_XG_V_GOALS_SHADOW_"+day+".json")).read_text())
+              assert a["schema"]=="kb21-paired-xg-vs-goals-shadow-v1"
+              assert a["register_writes"] is False and a["kb21_n_effect"]==0
+              assert a["safe_to_publish_play"] is False
+              assert a["original_kb21_p_model"] is None
+              assert a["calibrated"] is False
+              assert a["paired_count"]<=xgm["matches_with_verified_prematch_xg"]
+              assert all(
+                  x["original_kb21_p_model"] is None
+                  and x["selection"] is None and x["odds"] is None
+                  and x["match_result"] is None
+                  and x["safe_to_publish_play"] is False
+                  for x in a["pairs"])
+              pairs+=a["paired_count"]
+          print("Verified",pairs,"genuine paired PREMATCH frozen xG and goals forecasts, no PLAY")
           PY
       - uses: actions/upload-artifact@v4
         if: always()
