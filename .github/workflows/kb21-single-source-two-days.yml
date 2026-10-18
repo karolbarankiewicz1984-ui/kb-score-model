@@ -12,6 +12,8 @@ on:
       - 'tests/test_kb21_single_source_calendar.py'
       - 'tools/kb21_single_source_form.py'
       - 'tools/kb21_form_evidence.py'
+      - 'tools/kb21_standings_context.py'
+      - 'tests/test_kb21_standings_context.py'
       - 'tests/test_kb21_form_evidence.py'
       - 'tools/kb21_single_source_worklist.py'
       - 'tests/test_kb21_single_source_worklist.py'
@@ -160,6 +162,41 @@ jobs:
                          row['safe_to_publish_play'] is False
                          for row in form['records'])
           print('PASS: every single-source candidate is visible for analyst review, NO PLAY')
+          PY
+      - name: Add bounded current-season league and opponent-strength context
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: |
+          python -m unittest tests.test_kb21_standings_context -v
+          python -m tools.kb21_standings_context \
+            --calendar-dir reports/kb21_single_source \
+            --output-dir reports/kb21_single_source \
+            --max-calls 16 \
+            --reserve-daily 25
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("reports/kb21_single_source")
+          manifest=json.loads((p/"SINGLE_SOURCE_MANIFEST.json").read_text())
+          tables=json.loads((p/"KB21_STANDINGS_CONTEXT_MANIFEST.json").read_text())
+          assert tables["dates"]==manifest["dates"]
+          assert tables["candidate_matches"]==manifest["total_research_candidates"]
+          assert tables["standings_calls"]<=16
+          assert tables["automatic_str_qual_match_count"]==0
+          assert tables["automatic_p_model_count"]==0
+          assert tables["safe_to_publish_play"] is False
+          assert tables["register_writes"] is False and tables["kb21_n_effect"]==0
+          for day in manifest["dates"]:
+              d=json.loads((p/("KB21_STANDINGS_CONTEXT_"+day+".json")).read_text())
+              calendar=json.loads((p/("KB21_API_CALENDAR_"+day+".json")).read_text())
+              assert {x["fixture_id"] for x in d["matches"]} == {
+                  x["fixture_id"] for x in calendar["candidates"]}
+              assert all(x["original_p_model"] is None and
+                         x["str_35"] is None and x["qual_35"] is None and
+                         x["match_30"] is None and
+                         x["safe_to_publish_play"] is False
+                         for x in d["matches"])
+          print("PASS: same provider, all candidates retained; standings only; no invented Elo, xG or PLAY")
           PY
       - uses: actions/upload-artifact@v4
         if: always()
