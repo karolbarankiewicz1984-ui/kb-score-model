@@ -9,6 +9,8 @@ on:
       - 'tools/kb21_shadow_audit.py'
       - 'tools/kb21_xg_pair_shadow.py'
       - 'tools/kb21_xg_pair_audit.py'
+      - 'tools/kb21_comparison_pdf.py'
+      - 'tests/test_kb21_comparison_pdf.py'
       - 'tests/test_kb21_xg_pair_audit.py'
       - 'tools/kb21_shadow_archive.py'
       - 'tests/test_kb21_shadow_archive.py'
@@ -29,6 +31,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install Unicode PDF renderer
+        run: python -m pip install 'reportlab>=4,<5'
       - name: Verify forward-only settlement tests
         run: python -m unittest tests.test_kb21_shadow_audit tests.test_kb21_shadow_archive -v
       - name: Retrieve genuine GitHub pregame artifacts for yesterday only
@@ -113,6 +117,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+          from tools.kb21_comparison_pdf import audit_pdf
           folder=Path("reports/kb21_shadow_audit/output")
           files=list(folder.glob("KB21_XG_V_GOALS_AUDIT_*.json"))
           assert len(files)==1
@@ -122,7 +127,10 @@ jobs:
           assert report["safe_to_publish_play"] is False
           assert report["distinct_settled_FT_matches"]<=report["paired_pregame_forecasts"]
           assert (folder/("KB21_XG_V_GOALS_AUDIT_"+report["date"]+".md")).is_file()
-          print("Verified paired fair FT comparison on saved earlier snapshots, zero core writes")
+          pdf=folder/("KB21_XG_V_GOALS_AUDIT_"+report["date"]+".pdf")
+          audit_pdf(report,pdf)
+          assert pdf.stat().st_size>3000 and pdf.read_bytes().startswith(b"%PDF-")
+          print("Verified paired fair FT comparison plus compact PDF, zero core writes")
           PY
       - name: Preserve non-empty genuine audits in append-only GitHub history
         if: github.ref == 'refs/heads/main'
