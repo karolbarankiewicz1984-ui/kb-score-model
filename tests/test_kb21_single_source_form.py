@@ -2,6 +2,7 @@
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import unittest
+import json
 
 from tools.kb21_single_source_calendar import build as calendar, DAY_SCHEMA
 from tests.test_kb21_single_source_calendar import fake, NOW, TODAY, TOMORROW, fixture, wrapper, MockClient
@@ -11,7 +12,7 @@ def base_calendar():
     source = calendar(now=NOW, client=fake(), key="testing")
     return {
         k: v for k, v in source.items() if k != "days"
-    }, {row["date"]: row for row in source["days"]}
+    }, {row["date"]: json.loads(json.dumps(row)) for row in source["days"]}
 
 
 def match_record(ident, team, days_ago=2):
