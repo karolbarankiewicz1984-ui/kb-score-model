@@ -50,7 +50,7 @@ class MockClient:
         self.calls.append((base, key, endpoint, params))
         if endpoint != "fixtures":
             raise AssertionError("Unexpected second source / endpoint")
-        k = params["date"], params["page"]
+        k = params["date"], params.get("page", 1)
         if k not in self.responses:
             raise AssertionError("Missing mock page " + str(k))
         return deepcopy(self.responses[k]), {}
@@ -58,12 +58,10 @@ class MockClient:
 
 def fake():
     return MockClient({
-        (TODAY, 1): wrapper(TODAY, 1, 2, [
+        (TODAY, 1): wrapper(TODAY, 1, 1, [
             fixture(11),
             fixture(12, kickoff="01:00"),        # already started
             fixture(13, status="PST"),           # postponed
-        ]),
-        (TODAY, 2): wrapper(TODAY, 2, 2, [
             fixture(14, league="Second Division"), # out-of-scope
         ]),
         (TOMORROW, 1): wrapper(TOMORROW, 1, 1, [
@@ -91,7 +89,8 @@ class SingleSourceCalendarTests(unittest.TestCase):
         client = fake()
         report = build(now=NOW, client=client, key="not-real")
         self.assertEqual(report["dates"], [TODAY, TOMORROW])
-        self.assertEqual(len(client.calls), 3)
+        self.assertEqual(len(client.calls), 2)
+        self.assertTrue(all("page" not in r[3] for r in client.calls))
         self.assertEqual({r[2] for r in client.calls}, {"fixtures"})
         self.assertEqual({r[3]["timezone"] for r in client.calls},
                          {"Europe/Warsaw"})
@@ -145,13 +144,9 @@ class SingleSourceCalendarTests(unittest.TestCase):
             (TODAY, 1): wrapper(TODAY, 1, 2, [fixture(11)]),
             (TODAY, 2): wrapper(TODAY, 2, 3, [fixture(12)]),
         })
-        with self.assertRaisesRegex(ValueError, "pagination changed"):
+        with self.assertRaisesRegex(ValueError, "unexpectedly paginated"):
             collect_for_day(TODAY, source, "key", NOW)
-        source = MockClient({
-            (TODAY, 1): wrapper(TODAY, 1, 2, [fixture(11)]),
-        })
-        with self.assertRaisesRegex(AssertionError, "Missing mock page"):
-            collect_for_day(TODAY, source, "key", NOW)
+        self.assertEqual(len(source.calls), 1)
 
     def test_bad_timezone_wrong_day_or_duplicate_fixtures_fail(self):
         p = wrapper(TODAY, 1, 1, [])
@@ -195,7 +190,7 @@ class SingleSourceCalendarTests(unittest.TestCase):
                 md = (Path(folder) / (
                     "KB21_API_CALENDAR_" + day + ".md")).read_text(encoding="utf-8")
                 self.assertIn("API-Football", md)
-                self.assertIn("NO", md) if False else None
+                self.assertIn("API-Football", md)
 
 
 if __name__ == "__main__":
