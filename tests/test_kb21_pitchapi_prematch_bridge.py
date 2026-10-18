@@ -85,7 +85,7 @@ class PitchBridgeTests(unittest.TestCase):
         x=build(m,c,{TODAY:pitch_doc(TODAY)},now=now)
         self.assertEqual(x["matches_with_verified_prematch_xg"],0)
         self.assertEqual(x["days"][0]["records"][0]["status"],
-                         "INVALID_PREMATCH_SNAPSHOT")  # snapshot too old
+                         "NOT_VERIFIABLY_PREMATCH_AT_BRIDGE")
 
     def test_snapshot_captured_after_kickoff_never_works(self):
         m,c=base_calendar()
