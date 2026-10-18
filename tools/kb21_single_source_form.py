@@ -211,6 +211,9 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
         "days": output,
         "api_team_history_calls": call_count,
         "historical_form_sampled": sum(len(x["matches"]) for x in output),
+        "fixtures_with_two_valid_goal_histories": sum(
+            bool(match["both_sides_have_factual_goal_rates"])
+            for block in output for match in block["matches"]),
         "scoring_fields_filled_automatically": 0,
         "kb21_original_method_modified": False,
         "kb21_n_written": False, "register_writes": False,
@@ -375,7 +378,9 @@ def main():
         json.dumps({k: v for k, v in result.items() if k != "days"},
                    ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("KB21 factual form pack:", result["historical_form_sampled"],
-          "real games; API history calls:", result["api_team_history_calls"],
+          "future games; both teams have valid recent goals:",
+          result["fixtures_with_two_valid_goal_histories"],
+          "; API history calls:", result["api_team_history_calls"],
           "automated sport ratings:", result["scoring_fields_filled_automatically"],
           "PLAY: NO")
 
