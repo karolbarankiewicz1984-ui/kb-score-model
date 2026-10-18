@@ -22,6 +22,7 @@ from pathlib import Path
 from tools.api_market_http import ApiClient
 from tools.kb21_api_prematch import historic_goal_rates
 from tools.kb21_api_diagnostic import diagnose as experimental_diagnose
+from tools.kb21_form_evidence import evidence as team_evidence, side_note
 from tools.kb21_single_source_calendar import BASE, WARSAW, DAY_SCHEMA, SCHEMA, _iso_datetime
 
 OUT_SCHEMA = "kb21-single-provider-team-form-v1"
@@ -181,6 +182,7 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
                     team_data[side] = {
                         "status": "MISSING_API_TEAM_ID",
                         "last_completed_games": None,
+                        "sport_evidence": None,
                     }
                     continue
                 if team_id not in history:
@@ -191,10 +193,17 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
                         team_data[side] = {
                             "status": fetch_stop,
                             "last_completed_games": None,
+                            "sport_evidence": None,
                         }
                         continue
                     payload, headers = client.get(BASE, key, "fixtures", team=team_id, last=12)
-                    history[team_id] = _history(payload, team_id, kickoff, now)
+                    verified_rates = _history(payload, team_id, kickoff, now)
+                    verified_evidence = team_evidence(
+                        payload["response"], team_id, min(kickoff, now))
+                    history[team_id] = {
+                        "rates": verified_rates,
+                        "evidence": verified_evidence,
+                    }
                     call_count += 1
                     remaining_raw = headers.get("x-ratelimit-requests-remaining") if isinstance(headers, dict) else None
                     if remaining_raw is not None:
@@ -207,10 +216,11 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
                         quota_remaining = remaining
                         if remaining <= quota_reserve:
                             fetch_stop = "DAILY_API_QUOTA_RESERVE_REACHED"
-                rates = history[team_id]
+                rates = history[team_id]["rates"]
                 team_data[side] = {
                     "status": "HISTORY_5_TO_10" if rates else "LESS_THAN_5_COMPLETED_GAMES",
                     "last_completed_games": rates,
+                    "sport_evidence": history[team_id]["evidence"],
                 }
             ready = all(team_data[side]["last_completed_games"] is not None
                         for side in ("home", "away"))
@@ -282,6 +292,11 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
         "fixtures_with_two_valid_goal_histories": sum(
             bool(match["both_sides_have_factual_goal_rates"])
             for block in output for match in block["matches"]),
+        "fixtures_with_two_preprice_sport_evidence_packs": sum(
+            all(match["history"][side]["sport_evidence"] is not None
+                for side in ("home", "away"))
+            for block in output for match in block["matches"]),
+        "automatic_sport_evidence_not_ratings": True,
         "scoring_fields_filled_automatically": 0,
         "shadow_goal_forecasts_prepared": sum(
             row["experimental_goal_model"]["status"] == "EXPLORATORY_API_ONLY"
@@ -289,8 +304,8 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
         "kb21_original_method_modified": False,
         "kb21_n_written": False, "register_writes": False,
         "safe_to_publish_play": False,
-        "note": ("Evidence for a small actual match shortlist from a single "
-                 "API provider, not automatic STR/QUAL/MATCH or the original "
+        "note": ("Factual finished-match evidence and venue splits from the same "
+                 "API request, not automatic STR/QUAL/MATCH or the original "
                  "pre-price P(model). Pre-odds independent sports assessment "
                  "is still required; form goal average is not xG."),
     }
@@ -328,6 +343,9 @@ def render_day(day):
                     "(faktyczne GOLE, to NIE xG).")
             else:
                 lines.append(f"- {desc}: {h['status']} — brak wymaganej próby.")
+            if h.get("sport_evidence") is not None:
+                lines.append("- WYNIKI FT / PODZIAŁ DOM-WYJAZD (bez xG): "
+                             + side_note(h["sport_evidence"], side) + ".")
         shadow = item["experimental_goal_model"]
         if shadow["status"] == "EXPLORATORY_API_ONLY":
             p = shadow["diagnostic_probabilities"]
@@ -421,6 +439,10 @@ def render_pdf(day, dest):
             else:
                 value = name + ": brak wystarczających ukończonych gier."
             group.append(Paragraph(escape(value), text))
+            if match["history"][side].get("sport_evidence") is not None:
+                detail = side_note(
+                    match["history"][side]["sport_evidence"], side)
+                group.append(Paragraph(escape("Dowody FT (nie xG): " + detail), text))
         group += [
             Paragraph(
                 ("CIEŃ niewalidowany z goli: "
