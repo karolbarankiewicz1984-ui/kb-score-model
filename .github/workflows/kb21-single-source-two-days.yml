@@ -11,6 +11,8 @@ on:
       - 'tools/kb21_single_source_calendar.py'
       - 'tests/test_kb21_single_source_calendar.py'
       - 'tools/kb21_single_source_form.py'
+      - 'tools/kb21_form_evidence.py'
+      - 'tests/test_kb21_form_evidence.py'
       - 'tools/kb21_single_source_worklist.py'
       - 'tests/test_kb21_single_source_worklist.py'
       - 'tests/test_kb21_single_source_form.py'
@@ -33,7 +35,7 @@ jobs:
       - name: Install compact PDF dependency
         run: python -m pip install 'reportlab>=4,<5'
       - name: Verify two-day provider validation offline
-        run: python -m unittest tests.test_kb21_single_source_calendar tests.test_kb21_single_source_form tests.test_kb21_budgeted_history tests.test_kb21_api_diagnostic -v
+        run: python -m unittest tests.test_kb21_single_source_calendar tests.test_kb21_single_source_form tests.test_kb21_budgeted_history tests.test_kb21_form_evidence tests.test_kb21_api_diagnostic -v
       - name: Fetch EXACTLY today and tomorrow in Europe/Warsaw
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
@@ -98,6 +100,8 @@ jobs:
           assert doc['historical_form_sampled'] <= 60
           assert doc['team_history_queries_skipped'] >= 0
           assert doc['shadow_goal_forecasts_prepared'] <= doc['fixtures_with_two_valid_goal_histories']
+          assert doc['fixtures_with_two_preprice_sport_evidence_packs'] <= doc['historical_form_sampled']
+          assert doc['automatic_sport_evidence_not_ratings'] is True
           for day in doc['dates']:
               form = json.loads((root / ('KB21_FORM_' + day + '.json')).read_text(encoding='utf-8'))
               pdf = root / ('KB21_FORM_' + day + '.pdf')
@@ -120,6 +124,10 @@ jobs:
                       p = prediction['probabilities_1x2_over25']
                       assert abs(p['home']+p['draw']+p['away']-1) < .0002
               for match in form['matches']:
+                  assert all(match['history'][side].get('sport_evidence') is None or
+                             (match['history'][side]['sport_evidence']['original_p_model'] is None and
+                              match['history'][side]['sport_evidence']['safe_to_publish_play'] is False)
+                             for side in ('home','away'))
                   assert match['analyst_assessment']['P_model_pre_odds'] is None
                   assert match['analyst_assessment']['sport_score_0_100'] is None
                   assert match['safe_to_publish_play'] is False
