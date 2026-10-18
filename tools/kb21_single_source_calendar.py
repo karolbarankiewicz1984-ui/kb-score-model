@@ -161,29 +161,25 @@ def collect_for_day(target, client, key, now):
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError("Capture clock must be timezone-aware")
     now = now.astimezone(timezone.utc)
+    # API-Football /fixtures?date= does NOT accept the generic page
+    # parameter (it returns error 'The Page field do not exist.').
+    # The date query is returned as one response. Validate paging metadata
+    # to fail closed if the provider ever starts requiring another page.
+    payload, headers = client.get(
+        BASE, key, "fixtures", date=target, timezone="Europe/Warsaw")
+    rows, total_pages = _page(payload, target, 1)
+    if total_pages != 1:
+        raise ValueError(f"{target}: unexpectedly paginated date endpoint; no silent partial calendar")
     events, seen = [], set()
-    total_pages = None
-    for page in range(1, MAX_PAGES + 1):
-        payload, headers = client.get(
-            BASE, key, "fixtures", date=target, timezone="Europe/Warsaw", page=page)
-        rows, total = _page(payload, target, page)
-        if total_pages is None:
-            total_pages = total
-        elif total != total_pages:
-            raise ValueError(f"{target}: pagination changed mid-capture")
-        for item in rows:
-            event = _event(item, target, now)
-            ident = event["fixture_id"]
-            if ident in seen:
-                raise ValueError(f"{target}: duplicate ID {ident} across pages")
-            seen.add(ident)
-            events.append(event)
-        if len(events) > MAX_EVENTS_PER_DAY:
-            raise ValueError(f"{target}: too many records")
-        if page == total:
-            break
-    else:
-        raise ValueError(f"{target}: pagination exceeded limit")
+    for item in rows:
+        event = _event(item, target, now)
+        ident = event["fixture_id"]
+        if ident in seen:
+            raise ValueError(f"{target}: duplicate ID {ident} in provider day")
+        seen.add(ident)
+        events.append(event)
+    if len(events) > MAX_EVENTS_PER_DAY:
+        raise ValueError(f"{target}: too many records")
     events.sort(key=lambda r: (r["kickoff_utc"], r["fixture_id"]))
     candidates = [row for row in events if row["eligible_for_prematch_research"]]
     return {
@@ -200,7 +196,7 @@ def collect_for_day(target, client, key, now):
         "not_in_provider_means_out_of_scope": True,
         "api_error": None,
         "fixture_selection_rule": "ONLY_PROVIDER_PRESENT_SCHEDULED_NS_AND_FUTURE",
-        "source_validation": "DATE_TIMEZONE_PAGINATION_ID_AND_STATUS_CHECKED",
+        "source_validation": "DATE_TIMEZONE_SINGLE_PAGE_ID_AND_STATUS_CHECKED",
         "manual_organizer_reviews_required_for_source_gate": 0,
         "calendar_gate_legacy": "UNCHANGED_NOT_EVALUATED",
         "safe_to_publish_play": False,
