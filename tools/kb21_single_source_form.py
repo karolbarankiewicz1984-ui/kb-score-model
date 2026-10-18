@@ -406,6 +406,78 @@ def render_pdf(day, dest):
         raise ValueError("PDF rendering failed")
 
 
+def shadow_snapshot(run, day):
+    """Immutable-like pregame artifact for LATER independent outcome audit.
+
+    This pure transformation performs NO odds lookup, bets, market scoring,
+    or KB21 historical N mutations. Future settlement reads snapshots,
+    never reruns predictions after knowing the result.
+    """
+    if (not isinstance(run, dict) or run.get("schema") != OUT_SCHEMA
+            or run.get("source") != "API-Football"
+            or run.get("safe_to_publish_play") is not False
+            or not isinstance(day, dict) or day.get("day") not in run.get("dates", [])):
+        raise ValueError("Shadow snapshot requires a real API-only research pack")
+    generated = _iso_datetime(run.get("generated_at_utc"))
+    if generated is None:
+        raise ValueError("Missing valid run creation timestamp")
+    predictions, seen = [], set()
+    for match in day["matches"]:
+        ident = match.get("fixture_id")
+        kickoff = _iso_datetime(match.get("kickoff_utc"))
+        if (not isinstance(ident, int) or isinstance(ident, bool)
+                or ident in seen or kickoff is None or kickoff <= generated):
+            raise ValueError("Do not retrospectively create duplicate/late predictions")
+        seen.add(ident)
+        shadow = match.get("experimental_goal_model") or {}
+        if shadow.get("p_model") is not None or shadow.get("original_kb21_p_model") is not None:
+            raise ValueError("Shadow cannot become original KB21 probability")
+        if (match.get("analyst_assessment", {}).get("P_model_pre_odds") is not None
+                or match.get("odds") is not None or match.get("ev") is not None
+                or match.get("safe_to_publish_play") is not False):
+            raise ValueError("Shadow snapshots cannot contain market claims")
+        state = shadow.get("status")
+        probabilities = shadow.get("diagnostic_probabilities")
+        if state != "EXPLORATORY_API_ONLY":
+            probabilities = None
+        elif (not isinstance(probabilities, dict)
+              or set(probabilities) != {"home", "draw", "away", "over_2_5"}
+              or any(not isinstance(p, (int, float)) or isinstance(p, bool)
+                     or not math.isfinite(p) or not 0 <= p <= 1
+                     for p in probabilities.values())
+              or abs(sum(probabilities[x] for x in ("home", "draw", "away")) - 1) > 0.0002):
+            raise ValueError("Invalid market-independent shadow forecast")
+        predictions.append({
+            "fixture_id": ident, "event": match["event"],
+            "league": match["league"], "kickoff_utc": match["kickoff_utc"],
+            "forecast_run_started_utc": run["generated_at_utc"],
+            "model_id": "kb21-api-last10-goals-shadow-v1",
+            "forecast_status": state,
+            "probabilities_1x2_over25": probabilities,
+            "historical_goal_sample_size": {
+                side: ((match["history"][side].get("last_completed_games") or {})
+                       .get("sample_size"))
+                for side in ("home", "away")},
+            "calibrated": False, "original_kb21_p_model": None,
+            "selection": None, "odds": None, "ev": None,
+            "match_result": None,
+            "register_writes": False, "safe_to_publish_play": False,
+        })
+    return {
+        "schema": "kb21-api-shadow-forecast-snapshot-v1",
+        "date": day["day"],
+        "created_from_source_run_utc": run["generated_at_utc"],
+        "provider": "API-Football", "model": "last10_goals_shadow_only",
+        "isolated_from_original_kb21": True,
+        "no_postmatch_prediction_regeneration": True,
+        "predictions": predictions,
+        "forecast_count": sum(x["probabilities_1x2_over25"] is not None
+                              for x in predictions),
+        "kb21_n_effect": 0, "register_writes": False,
+        "publication": "RESEARCH_ONLY_NOT_PLAY",
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--calendar-dir", required=True)
@@ -431,6 +503,9 @@ def main():
             json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         (out / (name + ".md")).write_text(render_day(item), encoding="utf-8")
         render_pdf(item, out / (name + ".pdf"))
+        (out / ("KB21_SHADOW_" + item["day"] + ".json")).write_text(
+            json.dumps(shadow_snapshot(result, item),
+                       ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (out / "KB21_FORM_MANIFEST.json").write_text(
         json.dumps({k: v for k, v in result.items() if k != "days"},
                    ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
