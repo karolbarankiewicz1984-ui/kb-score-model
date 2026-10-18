@@ -27,6 +27,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install compact PDF dependency
+        run: python -m pip install 'reportlab>=4,<5'
       - name: Verify two-day provider validation offline
         run: python -m unittest tests.test_kb21_single_source_calendar tests.test_kb21_single_source_form tests.test_kb21_api_diagnostic -v
       - name: Fetch EXACTLY today and tomorrow in Europe/Warsaw
@@ -85,6 +87,8 @@ jobs:
           assert doc['api_team_history_calls'] <= 20
           for day in doc['dates']:
               form = json.loads((root / ('KB21_FORM_' + day + '.json')).read_text(encoding='utf-8'))
+              pdf = root / ('KB21_FORM_' + day + '.pdf')
+              assert pdf.stat().st_size > 1500 and pdf.read_bytes().startswith(b'%PDF-')
               assert len(form['matches']) <= 5
               for match in form['matches']:
                   assert match['analyst_assessment']['P_model_pre_odds'] is None
