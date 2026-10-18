@@ -14,6 +14,7 @@ on:
       - 'tools/kb21_single_source_worklist.py'
       - 'tests/test_kb21_single_source_worklist.py'
       - 'tests/test_kb21_single_source_form.py'
+      - 'tests/test_kb21_budgeted_history.py'
       - '.github/workflows/kb21-single-source-two-days.yml'
 permissions:
   contents: read
@@ -32,7 +33,7 @@ jobs:
       - name: Install compact PDF dependency
         run: python -m pip install 'reportlab>=4,<5'
       - name: Verify two-day provider validation offline
-        run: python -m unittest tests.test_kb21_single_source_calendar tests.test_kb21_single_source_form tests.test_kb21_api_diagnostic -v
+        run: python -m unittest tests.test_kb21_single_source_calendar tests.test_kb21_single_source_form tests.test_kb21_budgeted_history tests.test_kb21_api_diagnostic -v
       - name: Fetch EXACTLY today and tomorrow in Europe/Warsaw
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
@@ -73,11 +74,16 @@ jobs:
           print('PASS: TWO Warsaw dates, sole API-Football source, KB21 inputs '
                 'valid, no second calendar and NO PLAY')
           PY
-      - name: Add bounded ACTUAL team-form evidence for up to 5 games per day
+      - name: Gather real team histories for up to 10 games/day (40 calls max)
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
         run: |
-          python -m tools.kb21_single_source_form             --calendar-dir reports/kb21_single_source             --output-dir reports/kb21_single_source             --max-per-day 5
+          python -m tools.kb21_single_source_form \
+            --calendar-dir reports/kb21_single_source \
+            --output-dir reports/kb21_single_source \
+            --max-per-day 10 \
+            --max-history-calls 40 \
+            --reserve-daily-requests 25
           python - <<'PY'
           import json
           from pathlib import Path
@@ -86,13 +92,17 @@ jobs:
           assert len(doc['dates']) == 2
           assert doc['scoring_fields_filled_automatically'] == 0
           assert doc['safe_to_publish_play'] is False
-          assert doc['api_team_history_calls'] <= 20
+          assert 0 <= doc['api_team_history_calls'] <= 40
+          assert doc['api_history_query_budget'] == 40
+          assert doc['api_daily_quota_reserve'] == 25
+          assert doc['historical_form_sampled'] <= 20
+          assert doc['team_history_queries_skipped'] >= 0
           assert doc['shadow_goal_forecasts_prepared'] <= doc['fixtures_with_two_valid_goal_histories']
           for day in doc['dates']:
               form = json.loads((root / ('KB21_FORM_' + day + '.json')).read_text(encoding='utf-8'))
               pdf = root / ('KB21_FORM_' + day + '.pdf')
               assert pdf.stat().st_size > 1500 and pdf.read_bytes().startswith(b'%PDF-')
-              assert len(form['matches']) <= 5
+              assert len(form['matches']) <= 10
               shadow = json.loads((root / ('KB21_SHADOW_' + day + '.json'))
                                   .read_text(encoding='utf-8'))
               assert shadow['schema'] == 'kb21-api-shadow-forecast-snapshot-v1'
@@ -114,7 +124,7 @@ jobs:
                   assert match['analyst_assessment']['sport_score_0_100'] is None
                   assert match['safe_to_publish_play'] is False
           print('Verified factual goal history and strictly separate pregame '
-                'shadow 1X2/over forecasts for <=5 games/day; original '
+                'shadow 1X2/over forecasts for <=10 games/day; original '
                 'KB21 STR/QUAL/MATCH/P(model) remain unset; no PLAY')
           PY
       - name: Build ALL-fixtures analyst worksheets, never auto-PLAY
