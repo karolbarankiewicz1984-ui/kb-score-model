@@ -3,9 +3,8 @@ on:
   # UTC: roughly 06:00/09:00 Warsaw in summer, 05:00/08:00 in winter.
   # GitHub scheduled runs can be delayed; a capture is NOT called prematch
   # until its actual timestamp is compared with all independent day kickoffs.
-  schedule:
-    - cron: '0 4 * * *'
-    - cron: '0 7 * * *'
+  # Archived organizer snapshots may still be inspected by hand.
+  # No scheduled 3-day cross-provider calendar checks in single-source mode.
   workflow_dispatch:
   push:
     paths:

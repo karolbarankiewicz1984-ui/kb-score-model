@@ -1,7 +1,7 @@
 name: KB21 independent football-data.org snapshot
 on:
-  schedule:
-    - cron: '10 8 * * *'
+  # Old second calendar provider disabled for automatic KB21 scans.
+  # Optional manual historical diagnostic only.
   workflow_dispatch:
     inputs:
       target_competitions:

@@ -4,8 +4,10 @@ on:
   # After the 08:45 UTC KB21 input collector: 11:00 Warsaw summer,
   # 10:00 Warsaw winter. This is ONLY a diagnostic, not the 11:30 LIVE PDF.
   # GitHub scheduled workflows may start late; no guarantee of exact runtime.
-  schedule:
-    - cron: '0 9 * * *'
+  # Archived 14-league source checks: manual diagnostic ONLY.
+  # Daily calendar now belongs solely to kb21-single-source-two-days.yml.
+  # Old 149 evidence blockers remain in archived reports, not erased.
+  # schedule: disabled by explicit single-provider policy
   workflow_dispatch:
   push:
     paths:

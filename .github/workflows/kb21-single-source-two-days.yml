@@ -1,0 +1,76 @@
+name: KB21 SINGLE SOURCE API-Football today+tomorrow
+on:
+  # ONE active daily KB21 calendar. Runs at 08:00 UTC (09:00/10:00 Warsaw).
+  # GitHub may start late; actual capture UTC is recorded, and past games
+  # are excluded. Existing API Market's separate scoring is not modified.
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/kb21_single_source_calendar.py'
+      - 'tests/test_kb21_single_source_calendar.py'
+      - '.github/workflows/kb21-single-source-two-days.yml'
+permissions:
+  contents: read
+concurrency:
+  group: kb21-single-source-two-days
+  cancel-in-progress: false
+jobs:
+  calendar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify two-day provider validation offline
+        run: python -m unittest tests.test_kb21_single_source_calendar tests.test_kb21_api_diagnostic -v
+      - name: Fetch EXACTLY today and tomorrow in Europe/Warsaw
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: |
+          test -n "$API_FOOTBALL_KEY" || {
+            echo "::error::Missing API_FOOTBALL_KEY; provider calendar cannot be verified"
+            exit 1
+          }
+          python -m tools.kb21_single_source_calendar \
+            --output-dir reports/kb21_single_source
+      - name: Audit read-only research inputs from ONLY that calendar
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+          from tools.kb21_single_source_calendar import SCHEMA, DAY_SCHEMA
+          root = Path('reports/kb21_single_source')
+          m = json.loads((root / 'SINGLE_SOURCE_MANIFEST.json').read_text(encoding='utf-8'))
+          assert m['schema'] == SCHEMA and len(m['dates']) == 2
+          assert m['single_source_gate'] == 'PASS_SOURCE'
+          assert m['provider_count'] == 1
+          assert m['safe_to_publish_play'] is False
+          for day in m['dates']:
+              snapshot = json.loads((root / ('KB21_API_CALENDAR_'+day+'.json')).read_text(encoding='utf-8'))
+              inputs = json.loads((root / ('KB21_INPUT_'+day+'.json')).read_text(encoding='utf-8'))
+              assert snapshot['schema'] == DAY_SCHEMA and snapshot['date'] == day
+              assert snapshot['single_source_gate'] == 'PASS_SOURCE'
+              assert inputs['single_source_gate'] == 'PASS_SOURCE'
+              assert inputs['pre_match_fixtures'] == len(inputs['candidates'])
+              assert inputs['register_writes'] is False
+              assert all(row['p_model'] is None and row['kb21_sport_score'] is None
+                         for row in inputs['candidates'])
+              subprocess.run([
+                  'python', '-m', 'tools.kb21_api_diagnostic',
+                  str(root / ('KB21_INPUT_'+day+'.json')),
+                  '--output', str(root / ('KB21_RESEARCH_'+day+'.json'))], check=True)
+          print('PASS: TWO Warsaw dates, sole API-Football source, KB21 inputs '
+                'valid, no second calendar and NO PLAY')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kb21-api-football-two-days
+          path: reports/kb21_single_source/
+          retention-days: 30
+          if-no-files-found: error
