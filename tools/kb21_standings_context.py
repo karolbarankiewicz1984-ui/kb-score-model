@@ -314,15 +314,37 @@ def build(calendar_manifest, calendars, form_manifest, forms, client, key,
 
 
 def render_day(day):
-    lines=["# KB21 / kontekst siły w bieżącej lidze / "+day["date"],"",
-           "**FAKTY Z TABELI, NIE ELO / xG / P(model) / TYP.**","",
-           "| Mecz | Tabela | Dom (poz.; pkt/mecz) | Wyjazd (poz.; pkt/mecz) |",
+    lines=["# KB21 / siła ligowa i rywale / "+day["date"],"",
+           "**FAKTY PRZEDMECZOWE, NIE ELO / xG / P(model) / TYP.**","",
+           "| Mecz | Status tabeli | Gospodarze: poz.; PPG | Goście: poz.; PPG |",
            "|---|---|---|---|"]
     for m in day["matches"]:
         h,a=m["home"],m["away"]
         desc=lambda x: f"{x['rank']}; {x['points_per_game']:.2f}" if x else "—"
         lines.append(f"| {m['fixture']} | {m['status']} | {desc(h)} | {desc(a)} |")
-    lines += ["", "Pozycje w bieżącym sezonie nie są ELO. "
+    lines += ["", "## Kontekst boiska i wcześniejszych rywali (tam, gdzie jest źródło)", ""]
+    for m in day["matches"]:
+        if m["status"] != "CURRENT_SEASON_TABLE_CONTEXT":
+            continue
+        home,away=m["home"],m["away"]
+        own_home=(home.get("home") or {}).get("points_per_game")
+        own_away=(away.get("away") or {}).get("points_per_game")
+        ctx=m.get("recent_opponent_context") or {}
+        opp_h=(ctx.get("home") or {}).get("mean_current_opponent_ppg")
+        opp_a=(ctx.get("away") or {}).get("mean_current_opponent_ppg")
+        fmt=lambda value: f"{value:.2f}" if value is not None else "brak próby"
+        lines.extend([
+            f"### {m['fixture']}",
+            f"- Bieżąca tabela: gospodarze #{home['rank']} ({home['points_per_game']:.2f} pkt/mecz); "
+            f"goście #{away['rank']} ({away['points_per_game']:.2f} pkt/mecz)",
+            f"- Gospodarze w lidze u siebie: {fmt(own_home)} pkt/mecz; "
+            f"goście w lidze na wyjeździe: {fmt(own_away)} pkt/mecz",
+            f"- Przeciwnicy z ostatnich pięciu FT: obecne punkty/mecz "
+            f"rywali gospodarzy {fmt(opp_h)}, rywali gości {fmt(opp_a)} "
+            "(WYŁĄCZNIE zgodne ID tej samej ligi i sezonu, reszta pominięta).",
+            "",
+        ])
+    lines += ["Pozycje w bieżącym sezonie nie są ELO. "
               "Ocena dawnych rywali to ich OBECNY pkt/mecz, nie historyczna "
               "siła z dnia wcześniejszego spotkania. "
               "Puste pola nie są zerem; oceny KB Score pozostają nieustalone.", ""]
