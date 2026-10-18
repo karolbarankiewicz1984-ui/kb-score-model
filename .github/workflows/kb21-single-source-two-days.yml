@@ -10,6 +10,8 @@ on:
     paths:
       - 'tools/kb21_single_source_calendar.py'
       - 'tests/test_kb21_single_source_calendar.py'
+      - 'tools/kb21_single_source_form.py'
+      - 'tests/test_kb21_single_source_form.py'
       - '.github/workflows/kb21-single-source-two-days.yml'
 permissions:
   contents: read
@@ -25,8 +27,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install compact PDF dependency
+        run: python -m pip install 'reportlab>=4,<5'
       - name: Verify two-day provider validation offline
-        run: python -m unittest tests.test_kb21_single_source_calendar tests.test_kb21_api_diagnostic -v
+        run: python -m unittest tests.test_kb21_single_source_calendar tests.test_kb21_single_source_form tests.test_kb21_api_diagnostic -v
       - name: Fetch EXACTLY today and tomorrow in Europe/Warsaw
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
@@ -66,6 +70,32 @@ jobs:
                   '--output', str(root / ('KB21_RESEARCH_'+day+'.json'))], check=True)
           print('PASS: TWO Warsaw dates, sole API-Football source, KB21 inputs '
                 'valid, no second calendar and NO PLAY')
+          PY
+      - name: Add bounded ACTUAL team-form evidence for up to 5 games per day
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: |
+          python -m tools.kb21_single_source_form             --calendar-dir reports/kb21_single_source             --output-dir reports/kb21_single_source             --max-per-day 5
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('reports/kb21_single_source')
+          doc = json.loads((root / 'KB21_FORM_MANIFEST.json').read_text(encoding='utf-8'))
+          assert len(doc['dates']) == 2
+          assert doc['scoring_fields_filled_automatically'] == 0
+          assert doc['safe_to_publish_play'] is False
+          assert doc['api_team_history_calls'] <= 20
+          for day in doc['dates']:
+              form = json.loads((root / ('KB21_FORM_' + day + '.json')).read_text(encoding='utf-8'))
+              pdf = root / ('KB21_FORM_' + day + '.pdf')
+              assert pdf.stat().st_size > 1500 and pdf.read_bytes().startswith(b'%PDF-')
+              assert len(form['matches']) <= 5
+              for match in form['matches']:
+                  assert match['analyst_assessment']['P_model_pre_odds'] is None
+                  assert match['analyst_assessment']['sport_score_0_100'] is None
+                  assert match['safe_to_publish_play'] is False
+          print('Verified real last12 historical goals for <=5 future games per day; '
+                'original KB21 ratings and P(model) remain unset')
           PY
       - uses: actions/upload-artifact@v4
         if: always()

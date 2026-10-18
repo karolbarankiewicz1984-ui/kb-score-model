@@ -6,6 +6,8 @@ on:
       - 'tools/kb21_api_prematch.py'
       - 'tools/kb21_single_source_calendar.py'
       - 'tests/test_kb21_single_source_calendar.py'
+      - 'tools/kb21_single_source_form.py'
+      - 'tests/test_kb21_single_source_form.py'
       - '.github/workflows/kb21-single-source-two-days.yml'
       - 'tools/kb21_api_diagnostic.py'
       - 'tools/kb21_gate_audit.py'
@@ -30,5 +32,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install PDF renderer for complete regression suite
+        run: python -m pip install 'reportlab>=4,<5'
       - name: Unit tests
         run: python -m unittest discover -s tests -p 'test_kb21*.py' -v
