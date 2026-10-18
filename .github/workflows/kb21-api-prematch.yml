@@ -6,8 +6,8 @@ on:
         description: 'YYYY-MM-DD (blank = today)'
         required: false
         type: string
-  schedule:
-    - cron: '45 8 * * *'
+  # Legacy single-date collector: manual only.
+  # The primary two-date fixture feed now lives in the new workflow.
 permissions:
   contents: write
 concurrency:
