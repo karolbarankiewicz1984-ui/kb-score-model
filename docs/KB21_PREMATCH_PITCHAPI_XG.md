@@ -26,6 +26,9 @@ Każdy zweryfikowany xG wymaga wszystkich warunków:
 3. Zgodność **jeden do jednego**. Kilka meczów PitchAPI pasujących
    do jednej pozycji, lub ten sam rekord PitchAPI pasujący do
    kilku pozycji API-Football, powoduje brak xG.
+   Data endpointu PitchAPI bywa liczona w UTC, więc pojedynczy
+   rekord z innego dnia **w Europe/Warsaw** jest pomijany, a nie
+   powoduje odrzucenia wszystkich poprawnych rekordów migawki.
 4. Rzeczywisty moment przechwycenia PitchAPI i utworzenia
    KB21 musi być **przed rozpoczęciem** meczu. Migawka nie
    może być z przyszłości ani starsza niż 3 dni w chwili
