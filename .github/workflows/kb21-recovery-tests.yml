@@ -32,5 +32,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install PDF renderer for complete regression suite
+        run: python -m pip install 'reportlab>=4,<5'
       - name: Unit tests
         run: python -m unittest discover -s tests -p 'test_kb21*.py' -v
