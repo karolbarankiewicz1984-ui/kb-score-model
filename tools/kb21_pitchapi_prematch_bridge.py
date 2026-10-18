@@ -96,13 +96,14 @@ def _snapshot(doc, day, now):
         return None, None, "INVALID_PREMATCH_SNAPSHOT"
     valid = []
     seen = set()
+    other_local_day = 0
     for match in doc["fixtures"]:
         if not isinstance(match, dict):
             return None, None, "INVALID_PREMATCH_SNAPSHOT"
         mid = match.get("pitch_match_id")
         kickoff = _iso_datetime(match.get("kickoff_utc"))
         if (not isinstance(mid, str) or not mid.strip() or mid in seen
-                or kickoff is None or kickoff.astimezone(WARSAW).date().isoformat() != day
+                or kickoff is None
                 or not isinstance(match.get("home"), str)
                 or not isinstance(match.get("away"), str)
                 or not isinstance(match.get("league"), str)
@@ -110,8 +111,16 @@ def _snapshot(doc, day, now):
                 or not competition(match["league"])):
             return None, None, "INVALID_PREMATCH_SNAPSHOT"
         seen.add(mid)
+        # PitchAPI's date boundary may differ from Europe/Warsaw. E.g.
+        # 22:30 UTC on October 18 is already October 19 in Poland. This
+        # valid out-of-day record cannot poison all same-day xG observations.
+        if kickoff.astimezone(WARSAW).date().isoformat() != day:
+            other_local_day += 1
+            continue
         valid.append(match)
-    return valid, stamped, "VALID_PREMATCH_ARCHIVE"
+    reason = ("VALID_PREMATCH_ARCHIVE" if not other_local_day else
+              f"VALID_PREMATCH_ARCHIVE_IGNORED_{other_local_day}_OTHER_WARSAW_DAY")
+    return valid, stamped, reason
 
 
 def _canonical(manifest, calendars):
