@@ -99,8 +99,15 @@ def evidence(rows, team_id, asof_utc):
             continue
         side = "home" if home == team_id else "away"
         gf, ga = (hg, ag) if side == "home" else (ag, hg)
+        opponent_id = away if side == "home" else home
+        competition = match.get("league") or {}
+        league_id = competition.get("id")
+        season = competition.get("season")
         played.append({
             "fixture_id": ident, "kickoff_utc": kickoff.isoformat(),
+            "opponent_team_id": opponent_id,
+            "history_league_id": league_id if type(league_id) is int and league_id > 0 else None,
+            "history_season": season if type(season) is int and season > 2000 else None,
             "venue": side, "goals_for": gf, "goals_against": ga,
             "result": "W" if gf > ga else "D" if gf == ga else "L",
             "metric": "ACTUAL_REGULATION_GOALS_NOT_XG",
