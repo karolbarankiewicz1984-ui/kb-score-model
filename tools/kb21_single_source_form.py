@@ -262,6 +262,90 @@ def render_day(day):
     return "\n".join(lines) + "\n"
 
 
+def render_pdf(day, dest):
+    """Compact factual pre-match briefing, never a betting recommendation."""
+    from xml.sax.saxutils import escape
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.styles import ParagraphStyle
+    from reportlab.platypus import (
+        SimpleDocTemplate, Paragraph, Spacer, KeepTogether,
+    )
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+    for candidate in (
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf",
+    ):
+        if Path(candidate).is_file():
+            if "KB21Form" not in pdfmetrics.getRegisteredFontNames():
+                pdfmetrics.registerFont(TTFont("KB21Form", candidate))
+            font = "KB21Form"
+            break
+    else:
+        font = "Helvetica"
+
+    title = ParagraphStyle("FormTitle", fontName=font, fontSize=14, leading=19,
+                           textColor=colors.HexColor("#20384F"),
+                           spaceAfter=9)
+    heading = ParagraphStyle("FormMatch", fontName=font, fontSize=9.4,
+                             leading=13, textColor=colors.HexColor("#20384F"),
+                             spaceBefore=7, spaceAfter=4)
+    text = ParagraphStyle("FormText", fontName=font, fontSize=8.1,
+                          leading=11.7, spaceAfter=3)
+    warn = ParagraphStyle("FormWarning", fontName=font, fontSize=8.1,
+                          leading=11.7, textColor=colors.HexColor("#943B28"),
+                          spaceAfter=7)
+    story = [
+        Paragraph("KB Score 2.1 / Rzeczywista forma / " + day["day"], title),
+        Paragraph("DANE BADAWCZE, NIE TYPY. Jedno źródło terminarza "
+                  "i historii: API-Football. Originalne P(model) i "
+                  "STR/QUAL/MATCH pozostają NIEOCENIONE.", warn),
+        Paragraph("Kandydaci API: " + str(day["source_calendar_candidates"]) +
+                  "; jeszcze nierozpoczęte: " +
+                  str(day["still_prematch_candidates"]) +
+                  "; opisane z historią (max 5): " +
+                  str(day["shortlisted_for_real_team_history"]) + ".", text),
+        Spacer(1, 5),
+    ]
+    if not day["matches"]:
+        story.append(Paragraph(
+            "Brak przyszłych meczów w tej części badania. To nie jest "
+            "certyfikat kompletności terminarza poza API.", text))
+    for index, match in enumerate(day["matches"], 1):
+        when = _iso_datetime(match["kickoff_utc"])
+        label = when.astimezone(WARSAW).strftime("%H:%M")
+        group = [
+            Paragraph(escape(str(index) + ". " + match["event"] +
+                             " / " + match["league"] + " / " + label +
+                             " czasu polskiego"), heading),
+        ]
+        for side, name in (("home", "Gospodarze"), ("away", "Goście")):
+            hist = match["history"][side]["last_completed_games"]
+            if hist:
+                value = (f"{name}: {hist['sample_size']} ostatnich ukończonych "
+                         f"spotkań, gole strzelone {hist['goals_for_per_match']:.2f}, "
+                         f"stracone {hist['goals_against_per_match']:.2f}/mecz. "
+                         "To rzeczywiste GOLE, nie xG.")
+            else:
+                value = name + ": brak wystarczających ukończonych gier."
+            group.append(Paragraph(escape(value), text))
+        group += [
+            Paragraph("Ocena analityka: STR —/35; QUAL —/35; MATCH —/30; "
+                      "P(model) przed kursem: —.", text),
+            Paragraph("Nie nadano Sport Score, kursu ani PLAY; "
+                      "wymagana niezależna ocena.", warn),
+        ]
+        story.append(KeepTogether(group))
+    doc = SimpleDocTemplate(str(dest), pagesize=A4, leftMargin=37,
+                            rightMargin=37, topMargin=33, bottomMargin=33)
+    doc.build(story)
+    dest = Path(dest)
+    if (not dest.is_file() or dest.stat().st_size < 1500
+            or not dest.read_bytes().startswith(b"%PDF-")):
+        raise ValueError("PDF rendering failed")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--calendar-dir", required=True)
@@ -286,6 +370,7 @@ def main():
         (out / (name + ".json")).write_text(
             json.dumps(item, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         (out / (name + ".md")).write_text(render_day(item), encoding="utf-8")
+        render_pdf(item, out / (name + ".pdf"))
     (out / "KB21_FORM_MANIFEST.json").write_text(
         json.dumps({k: v for k, v in result.items() if k != "days"},
                    ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
