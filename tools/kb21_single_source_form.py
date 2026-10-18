@@ -6,7 +6,8 @@ This module never converts historical goals to STR/QUAL/MATCH or P(model):
 the original analyst-led method requires a documented independent judgment.
 The old Poisson implementation in kb21_engine.py is explicitly experimental.
 
-Limit API requests to 5 matches per date (20 distinct team calls at most).
+Default to 5 matches per date; active workflow can explicitly choose 10.
+Never exceed the configured global call cap or the provider's quota reserve.
 No odds API and no external schedule or inferred missing matches.
 """
 from __future__ import annotations
@@ -24,7 +25,10 @@ from tools.kb21_api_diagnostic import diagnose as experimental_diagnose
 from tools.kb21_single_source_calendar import BASE, WARSAW, DAY_SCHEMA, SCHEMA, _iso_datetime
 
 OUT_SCHEMA = "kb21-single-provider-team-form-v1"
-MAX_PER_DAY = 5
+MAX_PER_DAY = 12
+DEFAULT_PER_DAY = 5
+DEFAULT_HISTORY_CALLS = 40
+DEFAULT_QUOTA_RESERVE = 25
 PRIMARY = {
     ("England", "Premier League"), ("Spain", "La Liga"),
     ("Italy", "Serie A"), ("Germany", "Bundesliga"),
@@ -54,7 +58,7 @@ def _clock(now=None):
     return now.astimezone(timezone.utc)
 
 
-def shortlist(manifest, day_docs, now=None, max_per_day=MAX_PER_DAY):
+def shortlist(manifest, day_docs, now=None, max_per_day=DEFAULT_PER_DAY):
     now = _clock(now)
     if (not isinstance(manifest, dict) or manifest.get("schema") != SCHEMA
             or manifest.get("single_source_gate") != "PASS_SOURCE"
@@ -147,13 +151,24 @@ def _history(response, team_id, kickoff, captured):
 
 
 def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
-                      max_per_day=MAX_PER_DAY):
+                      max_per_day=DEFAULT_PER_DAY,
+                      max_history_calls=DEFAULT_HISTORY_CALLS,
+                      quota_reserve=DEFAULT_QUOTA_RESERVE):
     now = _clock(now)
     if not key:
         raise ValueError("API_FOOTBALL_KEY required for factual team history")
+    if (not isinstance(max_history_calls, int) or isinstance(max_history_calls, bool)
+            or not 1 <= max_history_calls <= 80):
+        raise ValueError("max_history_calls must be an integer between 1 and 80")
+    if (not isinstance(quota_reserve, int) or isinstance(quota_reserve, bool)
+            or not 0 <= quota_reserve <= 1000):
+        raise ValueError("quota_reserve must be an integer between 0 and 1000")
     selected = shortlist(calendar_manifest, day_docs, now, max_per_day)
     history = {}
     call_count = 0
+    quota_remaining = None
+    fetch_stop = None
+    skipped_team_lookups = 0
     output = []
     for block in selected:
         records = []
@@ -169,9 +184,29 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
                     }
                     continue
                 if team_id not in history:
+                    if fetch_stop is None and call_count >= max_history_calls:
+                        fetch_stop = "HISTORY_CALL_BUDGET_REACHED"
+                    if fetch_stop:
+                        skipped_team_lookups += 1
+                        team_data[side] = {
+                            "status": fetch_stop,
+                            "last_completed_games": None,
+                        }
+                        continue
                     payload, headers = client.get(BASE, key, "fixtures", team=team_id, last=12)
                     history[team_id] = _history(payload, team_id, kickoff, now)
                     call_count += 1
+                    remaining_raw = headers.get("x-ratelimit-requests-remaining") if isinstance(headers, dict) else None
+                    if remaining_raw is not None:
+                        try:
+                            remaining = int(remaining_raw)
+                        except (TypeError, ValueError, OverflowError):
+                            raise ValueError("Unusable API daily request remaining header")
+                        if remaining < 0:
+                            raise ValueError("API remaining request count cannot be negative")
+                        quota_remaining = remaining
+                        if remaining <= quota_reserve:
+                            fetch_stop = "DAILY_API_QUOTA_RESERVE_REACHED"
                 rates = history[team_id]
                 team_data[side] = {
                     "status": "HISTORY_5_TO_10" if rates else "LESS_THAN_5_COMPLETED_GAMES",
@@ -238,6 +273,11 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
         "dates": calendar_manifest["dates"],
         "days": output,
         "api_team_history_calls": call_count,
+        "api_history_query_budget": max_history_calls,
+        "api_daily_quota_reserve": quota_reserve,
+        "api_daily_remaining_last_seen": quota_remaining,
+        "history_fetch_stop_reason": fetch_stop,
+        "team_history_queries_skipped": skipped_team_lookups,
         "historical_form_sampled": sum(len(x["matches"]) for x in output),
         "fixtures_with_two_valid_goal_histories": sum(
             bool(match["both_sides_have_factual_goal_rates"])
@@ -482,7 +522,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--calendar-dir", required=True)
     parser.add_argument("--output-dir", required=True)
-    parser.add_argument("--max-per-day", type=int, default=MAX_PER_DAY)
+    parser.add_argument("--max-per-day", type=int, default=DEFAULT_PER_DAY)
+    parser.add_argument("--max-history-calls", type=int, default=DEFAULT_HISTORY_CALLS)
+    parser.add_argument("--reserve-daily-requests", type=int, default=DEFAULT_QUOTA_RESERVE)
     args = parser.parse_args()
     key = os.getenv("API_FOOTBALL_KEY")
     if not key:
@@ -494,7 +536,9 @@ def main():
         for day in manifest["dates"]
     }
     result = build_source_pack(manifest, docs, ApiClient(), key,
-                               max_per_day=args.max_per_day)
+                               max_per_day=args.max_per_day,
+                               max_history_calls=args.max_history_calls,
+                               quota_reserve=args.reserve_daily_requests)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
     for item in result["days"]:
@@ -515,6 +559,10 @@ def main():
           "; both teams have valid recent goals:",
           result["fixtures_with_two_valid_goal_histories"],
           "; API history calls:", result["api_team_history_calls"],
+          "/", result["api_history_query_budget"],
+          "; quota remaining:", result["api_daily_remaining_last_seen"],
+          "; stopped:", result["history_fetch_stop_reason"],
+          "; unavailable lookups:", result["team_history_queries_skipped"],
           "automated sport ratings:", result["scoring_fields_filled_automatically"],
           "PLAY: NO")
 
