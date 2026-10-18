@@ -26,6 +26,8 @@ on:
       - "tools/api_national_today_prefetch.py"
       - "tools/api_market_report_diversify.py"
       - "tools/render_api_market_pdf.py"
+      - "tools/api_market_practical_pdf.py"
+      - "tests/test_api_market_practical_pdf.py"
 
 env:
   PYTHONDONTWRITEBYTECODE: "1"
@@ -141,6 +143,26 @@ jobs:
           else
             python tools/render_api_market_pdf.py
           fi
+
+      - name: Generate short practical selections PDF (same frozen API quotes)
+        if: steps.slot.outputs.render_pdf == 'yes'
+        shell: bash
+        run: |
+          python -B -m unittest tests.test_api_market_practical_pdf -v
+          if [ -n "${{ inputs.date }}" ]; then
+            python tools/api_market_practical_pdf.py "${{ inputs.date }}"
+          else
+            python tools/api_market_practical_pdf.py
+          fi
+          python - <<'PY'
+          import glob,json
+          from pathlib import Path
+          p=sorted(glob.glob("reports/api_market_scan/API_MARKET_PRAKTYCZNE_TYPY_*.pdf"))
+          assert p
+          f=Path(p[-1])
+          assert f.stat().st_size>2000 and f.read_bytes().startswith(b"%PDF-")
+          print("PASS: practical market PDF available:",f)
+          PY
 
       - name: Commit scan output, data cache and PDF
         if: steps.slot.outputs.run_scan == 'yes'

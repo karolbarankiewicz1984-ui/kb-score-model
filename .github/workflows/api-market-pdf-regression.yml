@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - "tools/render_api_market_pdf.py"
+      - "tools/api_market_practical_pdf.py"
+      - "tests/test_api_market_practical_pdf.py"
       - "tools/pitchapi_market_validation.py"
       - "tools/pitchapi_prematch_context.py"
       - "tests/test_pitchapi_market_validation.py"
@@ -25,6 +27,13 @@ jobs:
         run: python -m pip install --disable-pip-version-check 'reportlab>=4,<5'
       - name: Validate PitchAPI cutoff and no-score mutation
         run: python -m unittest tests.test_pitchapi_market_validation tests.test_pitchapi_prematch_context -v
+      - name: Check new practical shortlist PDF without network
+        run: |
+          python -B -m unittest tests.test_api_market_practical_pdf -v
+          python tools/api_market_practical_pdf.py 2026-10-16 \
+            --source data/api_football/market_scan/2026-10-16.json \
+            --output /tmp/API_MARKET_PRAKTYCZNE_2026-10-16.pdf
+          test -s /tmp/API_MARKET_PRAKTYCZNE_2026-10-16.pdf
       - name: Regression for exact failure mode (direct module imports)
         run: |
           python -c 'from tools.pitchapi_prematch_context import lookup_context; from tools.pitchapi_market_validation import review_position; print("All imports OK")'
