@@ -65,6 +65,34 @@ class BudgetedHistoryTests(unittest.TestCase):
                        for side in match["history"].values()]
         self.assertIn("HISTORY_CALL_BUDGET_REACHED", unavailable)
 
+    def test_full_37_candidate_calendar_within_live_call_budget(self):
+        manifest, days = base_calendar()
+        for day_index, extra in enumerate((6, 29)):
+            day = manifest["dates"][day_index]
+            original = days[day]["candidates"][0]
+            for index in range(extra):
+                match = deepcopy(original)
+                match["fixture_id"] = 500000 + 100*day_index + index
+                match["home"] = "Home " + str(day_index) + ":" + str(index)
+                match["away"] = "Away " + str(day_index) + ":" + str(index)
+                match["home_team_id"] = 100000 + 200*day_index + index*2
+                match["away_team_id"] = 100000 + 200*day_index + index*2+1
+                days[day]["provider_events"].append(match)
+                days[day]["candidates"].append(match)
+            days[day]["provider_total_events"] = len(days[day]["provider_events"])
+            days[day]["pre_match_fixtures"] = len(days[day]["candidates"])
+        client = TeamsClient()
+        report = build_source_pack(manifest, days, client, "secret", now=NOW,
+                                   max_per_day=30, max_history_calls=80,
+                                   quota_reserve=25)
+        self.assertEqual(report["historical_form_sampled"], 37)
+        self.assertEqual([len(d["matches"]) for d in report["days"]], [7, 30])
+        self.assertEqual(report["fixtures_with_two_valid_goal_histories"], 37)
+        self.assertEqual(report["shadow_goal_forecasts_prepared"], 37)
+        self.assertLessEqual(report["api_team_history_calls"], 80)
+        self.assertEqual(report["api_team_history_calls"], len(client.calls))
+        self.assertFalse(report["safe_to_publish_play"])
+
     def test_daily_provider_quota_reserve_prevents_followup_requests(self):
         manifest, days = many_games()
         class LowQuotaClient(TeamsClient):
@@ -108,7 +136,7 @@ class BudgetedHistoryTests(unittest.TestCase):
         self.assertEqual([len(x["games"]) for x in selected], [5, 5])
         selected = shortlist(manifest, days, now=NOW, max_per_day=10)
         self.assertEqual([len(x["games"]) for x in selected], [10, 10])
-        for limit in (0, 13, True, 100):
+        for limit in (0, 31, True, 100):
             with self.subTest(limit=limit):
                 with self.assertRaises(ValueError):
                     shortlist(manifest, days, now=NOW, max_per_day=limit)
