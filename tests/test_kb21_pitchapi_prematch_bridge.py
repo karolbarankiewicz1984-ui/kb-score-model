@@ -163,6 +163,23 @@ class PitchBridgeTests(unittest.TestCase):
         self.assertEqual(r["days"][0]["records"][0]["status"],
                          "AMBIGUOUS_PITCHAPI_FIXTURE_MATCH")
 
+    def test_foreign_warsaw_day_entry_is_excluded_not_poisoning_archive(self):
+        # PitchAPI target date can include a 22:30 UTC kickoff; Warsaw is
+        # already the next calendar day. Keep verified same-day records.
+        m,c=base_calendar()
+        snap=pitch_doc(TODAY)
+        extra=deepcopy(snap["fixtures"][0])
+        extra["pitch_match_id"]="m_foreign"
+        extra["kickoff_utc"]=TODAY+"T22:30:00Z"
+        snap["fixtures"].append(extra)
+        snap["fixtures_collected"]=2
+        result=build(m,c,{TODAY:snap},now=NOW)
+        self.assertEqual(result["matches_with_verified_prematch_xg"],1)
+        self.assertIn("IGNORED_1_OTHER_WARSAW_DAY",
+                      result["days"][0]["source_status"])
+        self.assertEqual(result["days"][0]["records"][0]["status"],
+                         "VERIFIED_PREMATCH_HISTORICAL_XG")
+
     def test_pitch_snapshot_duplicate_id_invalidates_whole_source(self):
         m,c=base_calendar()
         snap=pitch_doc(TODAY)
