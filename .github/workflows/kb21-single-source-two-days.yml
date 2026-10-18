@@ -11,6 +11,8 @@ on:
       - 'tools/kb21_single_source_calendar.py'
       - 'tests/test_kb21_single_source_calendar.py'
       - 'tools/kb21_single_source_form.py'
+      - 'tools/kb21_single_source_worklist.py'
+      - 'tests/test_kb21_single_source_worklist.py'
       - 'tests/test_kb21_single_source_form.py'
       - '.github/workflows/kb21-single-source-two-days.yml'
 permissions:
@@ -114,6 +116,32 @@ jobs:
           print('Verified factual goal history and strictly separate pregame '
                 'shadow 1X2/over forecasts for <=5 games/day; original '
                 'KB21 STR/QUAL/MATCH/P(model) remain unset; no PLAY')
+          PY
+      - name: Build ALL-fixtures analyst worksheets, never auto-PLAY
+        run: |
+          python -m unittest tests.test_kb21_single_source_worklist -v
+          python -m tools.kb21_single_source_worklist \
+            --calendar-dir reports/kb21_single_source \
+            --output-dir reports/kb21_single_source
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('reports/kb21_single_source')
+          m = json.loads((root / 'SINGLE_SOURCE_MANIFEST.json').read_text(encoding='utf-8'))
+          x = json.loads((root / 'KB21_ANALYST_WORKLIST_MANIFEST.json').read_text(encoding='utf-8'))
+          assert x['dates'] == m['dates']
+          assert x['total_candidates'] == m['total_research_candidates']
+          assert x['automatic_p_model_count'] == x['automatic_play_count'] == 0
+          assert x['register_writes'] is False and x['kb21_n_effect'] == 0
+          for day in x['dates']:
+              form = json.loads((root / ('KB21_ANALYST_WORKLIST_'+day+'.json')).read_text(encoding='utf-8'))
+              assert len(form['records']) == form['calendar_candidates']
+              assert (root / ('KB21_ANALYST_WORKLIST_'+day+'.md')).is_file()
+              assert all(row['original_kb21_p_model'] is None and
+                         row['assessment_template']['freeze_at'] is None and
+                         row['safe_to_publish_play'] is False
+                         for row in form['records'])
+          print('PASS: every single-source candidate is visible for analyst review, NO PLAY')
           PY
       - uses: actions/upload-artifact@v4
         if: always()
