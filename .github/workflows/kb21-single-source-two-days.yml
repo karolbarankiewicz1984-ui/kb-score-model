@@ -15,6 +15,8 @@ on:
       - 'tools/kb21_standings_context.py'
       - 'tools/kb21_pitchapi_prematch_bridge.py'
       - 'tools/kb21_xg_pair_shadow.py'
+      - 'tools/kb21_pdf_reports.py'
+      - 'tests/test_kb21_pdf_reports.py'
       - 'tests/test_kb21_xg_pair_shadow.py'
       - 'tests/test_kb21_pitchapi_prematch_bridge.py'
       - 'tests/test_kb21_standings_context.py'
@@ -264,6 +266,23 @@ jobs:
                   for x in a["pairs"])
               pairs+=a["paired_count"]
           print("Verified",pairs,"genuine paired PREMATCH frozen xG and goals forecasts, no PLAY")
+          PY
+      - name: Render small readable Polish PDFs for today's and tomorrow's A/B research
+        run: |
+          python -m unittest tests.test_kb21_pdf_reports -v
+          python -m tools.kb21_pdf_reports forecast \
+            --source-dir reports/kb21_single_source \
+            --output-dir reports/kb21_single_source
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          folder=Path("reports/kb21_single_source")
+          d=json.loads((folder/"SINGLE_SOURCE_MANIFEST.json").read_text())
+          for day in d["dates"]:
+              file=folder/("KB21_XG_V_GOALS_SHADOW_"+day+".pdf")
+              assert file.read_bytes().startswith(b"%PDF-")
+              assert file.stat().st_size>1500
+          print("PASS: exactly two date-scoped compact forecast PDFs, no changes to predictions or N")
           PY
       - uses: actions/upload-artifact@v4
         if: always()
