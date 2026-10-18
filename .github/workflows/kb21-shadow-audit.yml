@@ -8,6 +8,8 @@ on:
     paths:
       - 'tools/kb21_shadow_audit.py'
       - 'tools/kb21_xg_pair_shadow.py'
+      - 'tools/kb21_pdf_reports.py'
+      - 'tests/test_kb21_pdf_reports.py'
       - 'tools/kb21_xg_pair_audit.py'
       - 'tests/test_kb21_xg_pair_audit.py'
       - 'tools/kb21_shadow_archive.py'
@@ -29,6 +31,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install compact PDF renderer
+        run: python -m pip install 'reportlab>=4,<5'
       - name: Verify forward-only settlement tests
         run: python -m unittest tests.test_kb21_shadow_audit tests.test_kb21_shadow_archive -v
       - name: Retrieve genuine GitHub pregame artifacts for yesterday only
@@ -123,6 +127,22 @@ jobs:
           assert report["distinct_settled_FT_matches"]<=report["paired_pregame_forecasts"]
           assert (folder/("KB21_XG_V_GOALS_AUDIT_"+report["date"]+".md")).is_file()
           print("Verified paired fair FT comparison on saved earlier snapshots, zero core writes")
+          PY
+      - name: Render separate compact PDF of yesterday's paired xG-vs-goals audit
+        if: github.ref == 'refs/heads/main'
+        run: |
+          python -m unittest tests.test_kb21_pdf_reports -v
+          python -m tools.kb21_pdf_reports audit \
+            --source-dir reports/kb21_shadow_audit/output \
+            --output-dir reports/kb21_shadow_audit/output
+          python - <<'PY'
+          from pathlib import Path
+          directory=Path("reports/kb21_shadow_audit/output")
+          files=list(directory.glob("KB21_XG_V_GOALS_AUDIT_*.pdf"))
+          assert len(files)==1
+          assert files[0].read_bytes().startswith(b"%PDF-")
+          assert files[0].stat().st_size>1500
+          print("PASS: yesterday's audit PDF safely rendered with original paired FT results")
           PY
       - name: Preserve non-empty genuine audits in append-only GitHub history
         if: github.ref == 'refs/heads/main'

@@ -74,3 +74,28 @@ Oryginalne STR/35, QUAL/35, MATCH/30, historyczne P(model), rejestr KB,
 licznik N, API Market i PitchAPI **bez modyfikacji**.
 
 Testy: `python -m unittest tests.test_kb21_xg_pair_shadow tests.test_kb21_xg_pair_audit -v`.
+
+
+## Czytelne pliki PDF (automatycznie)
+
+Dzienny workflow KB21 tworzy w istniejącym artefakcie
+`kb21-api-football-two-days` dwa dodatkowe dokumenty:
+
+- `KB21_XG_V_GOALS_SHADOW_YYYY-MM-DD.pdf` (dziś),
+- `KB21_XG_V_GOALS_SHADOW_YYYY-MM-DD.pdf` (jutro).
+
+Raport pokazuje dla każdego potwierdzonego przedmeczowego sparowania
+oba zestawy 1 / X / 2 oraz over 2,5. Wszystkie prognozy są
+eksperymentalne; żadna nie jest ofertą ani zaleceniem zakładu.
+Pliki mają układ A4 poziomy, niedużą czytelną czcionkę i automatyczny
+podział dłuższych zestawień na kolejne strony.
+
+Oddzielny audyt dnia wczorajszego zapisuje PDF
+`KB21_XG_V_GOALS_AUDIT_YYYY-MM-DD.pdf` obok JSON i Markdown w
+artefakcie `kb21-shadow-outcome-audit`. W dokumencie znajdują się
+wyłącznie zweryfikowane wyniki FT lub ich jawny brak, porównanie
+błędu Brier i łączna liczba rozliczonych unikalnych spotkań.
+
+Generator jest wyłącznie prezentacyjny: `tools/kb21_pdf_reports.py`.
+Nie używa API, nie nadpisuje wcześniejszych prognoz, nie dopisuje
+kursów, oryginalnego P(model), scoringu ani liczników N.
