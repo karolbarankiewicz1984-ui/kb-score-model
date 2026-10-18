@@ -178,7 +178,7 @@ class PitchBridgeTests(unittest.TestCase):
         wrong[TODAY]["candidates"][0]["home"]="NotArsenal"
         with self.assertRaisesRegex(ValueError,"Noncanonical"):
             build(m,wrong,{TODAY:pitch_doc(TODAY)},now=NOW)
-        with self.assertRaisesRegex(ValueError,"two canonical"):
+        with self.assertRaisesRegex(ValueError,"Only canonical"):
             build({**m,"provider_count":2},c,{},now=NOW)
 
     def test_tainted_non_numeric_xg_refused(self):
