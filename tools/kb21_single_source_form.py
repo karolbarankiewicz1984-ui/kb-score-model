@@ -6,7 +6,7 @@ This module never converts historical goals to STR/QUAL/MATCH or P(model):
 the original analyst-led method requires a documented independent judgment.
 The old Poisson implementation in kb21_engine.py is explicitly experimental.
 
-Default to 5 matches per date; active workflow can explicitly choose 10.
+Default to 5 matches per date; active workflow can explicitly choose up to 30.
 Never exceed the configured global call cap or the provider's quota reserve.
 No odds API and no external schedule or inferred missing matches.
 """
@@ -25,9 +25,9 @@ from tools.kb21_api_diagnostic import diagnose as experimental_diagnose
 from tools.kb21_single_source_calendar import BASE, WARSAW, DAY_SCHEMA, SCHEMA, _iso_datetime
 
 OUT_SCHEMA = "kb21-single-provider-team-form-v1"
-MAX_PER_DAY = 12
+MAX_PER_DAY = 30
 DEFAULT_PER_DAY = 5
-DEFAULT_HISTORY_CALLS = 40
+DEFAULT_HISTORY_CALLS = 80
 DEFAULT_QUOTA_RESERVE = 25
 PRIMARY = {
     ("England", "Premier League"), ("Spain", "La Liga"),
