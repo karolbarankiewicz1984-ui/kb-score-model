@@ -395,7 +395,7 @@ def render_pdf(day, dest):
         Paragraph("Kandydaci API: " + str(day["source_calendar_candidates"]) +
                   "; jeszcze nierozpoczęte: " +
                   str(day["still_prematch_candidates"]) +
-                  "; opisane z historią (max 5): " +
+                  "; wybrane do badania historii: " +
                   str(day["shortlisted_for_real_team_history"]) + ".", text),
         Spacer(1, 5),
     ]
