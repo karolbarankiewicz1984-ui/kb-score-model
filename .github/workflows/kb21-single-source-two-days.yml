@@ -85,17 +85,35 @@ jobs:
           assert doc['scoring_fields_filled_automatically'] == 0
           assert doc['safe_to_publish_play'] is False
           assert doc['api_team_history_calls'] <= 20
+          assert doc['shadow_goal_forecasts_prepared'] <= doc['fixtures_with_two_valid_goal_histories']
           for day in doc['dates']:
               form = json.loads((root / ('KB21_FORM_' + day + '.json')).read_text(encoding='utf-8'))
               pdf = root / ('KB21_FORM_' + day + '.pdf')
               assert pdf.stat().st_size > 1500 and pdf.read_bytes().startswith(b'%PDF-')
               assert len(form['matches']) <= 5
+              shadow = json.loads((root / ('KB21_SHADOW_' + day + '.json'))
+                                  .read_text(encoding='utf-8'))
+              assert shadow['schema'] == 'kb21-api-shadow-forecast-snapshot-v1'
+              assert shadow['provider'] == 'API-Football'
+              assert shadow['register_writes'] is False
+              assert shadow['kb21_n_effect'] == 0
+              assert len(shadow['predictions']) == len(form['matches'])
+              for prediction in shadow['predictions']:
+                  assert prediction['original_kb21_p_model'] is None
+                  assert prediction['selection'] is None
+                  assert prediction['odds'] is None
+                  assert prediction['match_result'] is None
+                  assert prediction['safe_to_publish_play'] is False
+                  if prediction['probabilities_1x2_over25']:
+                      p = prediction['probabilities_1x2_over25']
+                      assert abs(p['home']+p['draw']+p['away']-1) < .0002
               for match in form['matches']:
                   assert match['analyst_assessment']['P_model_pre_odds'] is None
                   assert match['analyst_assessment']['sport_score_0_100'] is None
                   assert match['safe_to_publish_play'] is False
-          print('Verified real last12 historical goals for <=5 future games per day; '
-                'original KB21 ratings and P(model) remain unset')
+          print('Verified factual goal history and strictly separate pregame '
+                'shadow 1X2/over forecasts for <=5 games/day; original '
+                'KB21 STR/QUAL/MATCH/P(model) remain unset; no PLAY')
           PY
       - uses: actions/upload-artifact@v4
         if: always()

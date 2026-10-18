@@ -63,3 +63,22 @@ do PLAY, nie tworzy rekomendacji i nie wpisuje nic do historii N.
 API Market i PitchAPI to niezależne silniki. Również korzystają z
 API-Football, ale ich wyników nie kopiujemy do oryginalnego KB21
 i nie zmieniamy ich dotychczasowej metodologii.
+
+## Dodatkowo: eksperymentalne prawdopodobieństwa z prawdziwych goli
+
+Raporty KB21_FORM_YYYY-MM-DD.pdf zawierają teraz pomocnicze wartości
+1/X/2 i over 2,5 dla maksymalnie pięciu meczów na dzień. Oblicza je
+ISTNIEJĄCY tools.kb21_api_diagnostic.diagnose; NIE są to odbudowane
+historyczne P(model), Sport Score ani rekomendacje.
+
+- Podstawa: średnie zdobytych i straconych goli z ostatnich 5–10
+  zakończonych gier obu drużyn; model Poissona z tych średnich.
+- Model nie ma rzeczywistych xG, ELO, korekt siły ligi, absencji i
+  kalibracji empirycznej. Wyniki to hipotezy do audytu, nie value.
+- Brak wystarczającej próby = INSUFFICIENT_HISTORY, brak procentów.
+- Oddzielne prognozy KB21_SHADOW_YYYY-MM-DD.json zawierają ID, start
+  meczu, moment uruchomienia oraz szacunki przed wynikiem. Dzięki temu
+  można później uczciwie porównać predykcje z rozstrzygnięciem bez
+  odtwarzania ich po poznaniu rezultatu.
+- experimental_goal_model.p_model i analyst_assessment.P_model_pre_odds
+  zawsze pozostają null; brak kursów, PLAY oraz zapisów do historii N.
