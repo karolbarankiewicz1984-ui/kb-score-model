@@ -437,7 +437,7 @@ def main():
     print("KB21 factual form pack:", result["historical_form_sampled"],
           "future games; independent SHADOW forecasts:",
           result["shadow_goal_forecasts_prepared"],
-          "; both teams have valid recent goals:"
+          "; both teams have valid recent goals:",
           result["fixtures_with_two_valid_goal_histories"],
           "; API history calls:", result["api_team_history_calls"],
           "automated sport ratings:", result["scoring_fields_filled_automatically"],
