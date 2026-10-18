@@ -67,7 +67,7 @@ i nie zmieniamy ich dotychczasowej metodologii.
 ## Dodatkowo: eksperymentalne prawdopodobieństwa z prawdziwych goli
 
 Raporty KB21_FORM_YYYY-MM-DD.pdf zawierają teraz pomocnicze wartości
-1/X/2 i over 2,5 dla maksymalnie dziesięciu meczów na dzień (od 18.10.2026; wcześniej pięciu). Oblicza je
+1/X/2 i over 2,5 dla maksymalnie trzydziestu meczów na dzień (od 18.10.2026; wcześniej pięciu). Oblicza je
 ISTNIEJĄCY tools.kb21_api_diagnostic.diagnose; NIE są to odbudowane
 historyczne P(model), Sport Score ani rekomendacje.
 
