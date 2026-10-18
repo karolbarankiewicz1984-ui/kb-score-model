@@ -5,11 +5,10 @@ ALL other in-scope future candidates instead of silently dropping them.
 It cannot create STR/QUAL/MATCH, original P(model), freeze, odds or PLAY.
 """
 import argparse
-from datetime import datetime
 import json
 from pathlib import Path
 
-from tools.kb21_single_source_calendar import DAY_SCHEMA, SCHEMA, _iso_datetime
+from tools.kb21_single_source_calendar import DAY_SCHEMA, SCHEMA, WARSAW, _iso_datetime
 
 SCHEMA_OUT = "kb21-single-source-analyst-worklist-v1"
 FORM_SCHEMA = "kb21-single-provider-team-form-v1"
