@@ -13,6 +13,8 @@ on:
       - 'tools/kb21_single_source_form.py'
       - 'tools/kb21_form_evidence.py'
       - 'tools/kb21_standings_context.py'
+      - 'tools/kb21_pitchapi_prematch_bridge.py'
+      - 'tests/test_kb21_pitchapi_prematch_bridge.py'
       - 'tests/test_kb21_standings_context.py'
       - 'tests/test_kb21_form_evidence.py'
       - 'tools/kb21_single_source_worklist.py'
@@ -197,6 +199,39 @@ jobs:
                          x["safe_to_publish_play"] is False
                          for x in d["matches"])
           print("PASS: same provider, all candidates retained; standings only; no invented Elo, xG or PLAY")
+          PY
+      - name: Join ONLY archived genuine pre-match PitchAPI xG to canonical fixtures (no API)
+        run: |
+          python -m unittest tests.test_kb21_pitchapi_prematch_bridge -v
+          python -m tools.kb21_pitchapi_prematch_bridge \
+            --calendar-dir reports/kb21_single_source \
+            --pitch-dir data/pitchapi/prematch \
+            --output-dir reports/kb21_single_source
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          folder=Path("reports/kb21_single_source")
+          manifest=json.loads((folder/"SINGLE_SOURCE_MANIFEST.json").read_text())
+          x=json.loads((folder/"KB21_PREODDS_XG_MANIFEST.json").read_text())
+          assert x["dates"]==manifest["dates"]
+          assert x["calendar_candidates"]==manifest["total_research_candidates"]
+          assert x["external_api_calls"]==0
+          assert x["automatic_p_model_count"]==0
+          assert x["automatic_str_qual_match_count"]==0
+          assert x["register_writes"] is False
+          assert x["original_kb21_n_effect"]==0
+          assert x["safe_to_publish_play"] is False
+          for day in x["dates"]:
+              rows=json.loads((folder/("KB21_PREODDS_XG_"+day+".json")).read_text())
+              cal=json.loads((folder/("KB21_API_CALENDAR_"+day+".json")).read_text())
+              assert {m["fixture_id"] for m in rows["records"]}=={
+                  m["fixture_id"] for m in cal["candidates"]}
+              assert all(r["original_kb21_p_model"] is None and
+                         r["str_35"] is None and r["qual_35"] is None and
+                         r["match_30"] is None and r["odds"] is None and
+                         r["safe_to_publish_play"] is False
+                         for r in rows["records"])
+          print("PASS: read-only captured historical PitchAPI xG, no new fixtures/P(model)/PLAY")
           PY
       - uses: actions/upload-artifact@v4
         if: always()
