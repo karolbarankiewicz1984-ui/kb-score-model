@@ -15,6 +15,8 @@ on:
       - 'tools/kb21_standings_context.py'
       - 'tools/kb21_pitchapi_prematch_bridge.py'
       - 'tools/kb21_xg_pair_shadow.py'
+      - 'tools/kb21_comparison_pdf.py'
+      - 'tests/test_kb21_comparison_pdf.py'
       - 'tests/test_kb21_xg_pair_shadow.py'
       - 'tests/test_kb21_pitchapi_prematch_bridge.py'
       - 'tests/test_kb21_standings_context.py'
@@ -244,6 +246,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+          from tools.kb21_comparison_pdf import paired_pdf
           p=Path("reports/kb21_single_source")
           m=json.loads((p/"SINGLE_SOURCE_MANIFEST.json").read_text())
           xgm=json.loads((p/"KB21_PREODDS_XG_MANIFEST.json").read_text())
@@ -256,6 +259,10 @@ jobs:
               assert a["original_kb21_p_model"] is None
               assert a["calibrated"] is False
               assert a["paired_count"]<=xgm["matches_with_verified_prematch_xg"]
+              pdf=p/("KB21_XG_V_GOALS_SHADOW_"+day+".pdf")
+              paired_pdf(a,pdf)
+              assert pdf.read_bytes().startswith(b"%PDF-")
+              assert pdf.stat().st_size>3000
               assert all(
                   x["original_kb21_p_model"] is None
                   and x["selection"] is None and x["odds"] is None
