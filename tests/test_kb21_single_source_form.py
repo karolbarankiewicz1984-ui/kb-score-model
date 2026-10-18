@@ -3,10 +3,12 @@ from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import unittest
 import json
+import tempfile
+from pathlib import Path
 
 from tools.kb21_single_source_calendar import build as calendar, DAY_SCHEMA
 from tests.test_kb21_single_source_calendar import fake, NOW, TODAY, TOMORROW, fixture, wrapper, MockClient
-from tools.kb21_single_source_form import shortlist, build_source_pack, _history
+from tools.kb21_single_source_form import shortlist, build_source_pack, _history, render_pdf
 
 def base_calendar():
     source = calendar(now=NOW, client=fake(), key="testing")
@@ -126,6 +128,20 @@ class RealFormTests(unittest.TestCase):
         docs[TODAY]["pre_match_fixtures"] += 1
         with self.assertRaisesRegex(ValueError, "not identical"):
             shortlist(m, docs, now=NOW)
+
+    def test_compact_actual_data_pdf_contains_no_automated_betting_score(self):
+        m, docs = base_calendar()
+        form = build_source_pack(m, docs, TeamsClient(), "key", now=NOW)
+        with tempfile.TemporaryDirectory() as folder:
+            for entry in form["days"]:
+                pdf = Path(folder) / ("KB21_FORM_" + entry["day"] + ".pdf")
+                render_pdf(entry, pdf)
+                self.assertTrue(pdf.exists())
+                self.assertTrue(pdf.read_bytes().startswith(b"%PDF-"))
+                self.assertGreater(pdf.stat().st_size, 1800)
+                for x in entry["matches"]:
+                    self.assertIsNone(x["analyst_assessment"]["P_model_pre_odds"])
+                    self.assertIsNone(x["analyst_assessment"]["sport_score_0_100"])
 
     def test_cap_is_strict_and_deterministic(self):
         m, docs = base_calendar()
