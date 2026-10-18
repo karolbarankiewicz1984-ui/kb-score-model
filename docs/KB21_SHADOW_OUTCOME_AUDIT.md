@@ -56,3 +56,28 @@ Wiarygodną skuteczność oceniamy po większej liczbie **różnych,
 rozstrzygniętych spotkań**, z rozdzieleniem lig i rynków.
 
 Uruchomienie testów: `python -m unittest tests.test_kb21_shadow_audit -v`.
+
+## Stałe, oddzielne archiwum na GitHubie
+
+Po wygenerowaniu i zweryfikowaniu raportu workflow wykonuje dodatkową,
+**tworzącą nowy plik** operację GitHub Contents API w katalogu
+`data/kb21_shadow_audits/YYYY-MM-DD/<run_id>-attempt<N>.json`.
+
+- Raport bez ani jednej prawdziwej zamrożonej prognozy NIE jest zapisany.
+  Pliki JSON/Markdown w artefaktach pozostają dostępne do diagnostyki zera.
+- Każde uruchomienie/audyt jest odrębnym wpisem. Ten sam run+attempt jest
+  idempotentny: identyczna zawartość to bezpieczne pominięcie, różna
+  zawartość oznacza błąd. Starsze pliki nie są nadpisywane.
+- Zapisy są ograniczone przez kod do osobnego katalogu eksperymentu;
+  używają tylko konta akcji GitHub z uprawnieniem do zawartości repo.
+  Dzienny proces **nie** aktualizuje Google Sheets, CORE, KB N, DEV N,
+  kalkulatora kursów ani wyniku oryginalnego modelu.
+- Historia jest dostępna w repozytorium także po wygaśnięciu
+  30-dniowych załączników Actions. Surowe poprzednie prognozy muszą
+  nadal pochodzić z wcześniejszego artefaktu, a nie zostać odtworzone
+  po meczu.
+- Nie rozliczamy na siłę meczów bez statusu FT i pełnego wyniku.
+  Potencjalne ponowne audyty zapisują osobną wersję uruchomienia,
+  bez przerabiania starej wersji historii.
+
+Test: `python -m unittest tests.test_kb21_shadow_archive -v`.
