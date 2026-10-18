@@ -9,8 +9,12 @@ pobranym kalendarzu API-Football z danego dnia. Są dwa dni Europe/Warsaw:
 **dziś i jutro**. Nie dodaje meczów z innych terminarzy.
 
 Do tej pory szczegółowy raport `KB21_FORM_` obejmował najwyżej 5 spotkań
-na dzień, bo każde potrzebuje osobnych zapytań o rzeczywiste wcześniejsze
-wyniki obu drużyn. Ten limit **nie jest** limitem kolejki meczów.
+na dzień (od 18.10.2026 rozszerzony do maksymalnie 30 spotkań dziennie,
+przy limicie 80 zapytań o historię drużyn na dwie daty i rezerwie
+25 zapytań dziennych według nagłówków dostawcy), bo każde potrzebuje osobnych zapytań o rzeczywiste wcześniejsze
+wyniki obu drużyn. Ten limit **nie jest** limitem kolejki meczów. Jeśli kończy się budżet
+API, niewykonane odczyty są jawnie oznaczane jako brak historii,
+a nie jako brak wcześniejszych spotkań.
 Pełna lista w `WORKLIST` jest niezależna od liczby danych o formie.
 
 ## Dane i granice
