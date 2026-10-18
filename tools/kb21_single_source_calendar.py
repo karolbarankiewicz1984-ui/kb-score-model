@@ -270,6 +270,45 @@ def render_day(day):
     return "\n".join(lines)
 
 
+def analyst_inputs(day):
+    """Adapter to existing read-only KB21 API diagnostic, never analyst scoring.
+
+    All fixture IDs, dates and team names are taken directly from the SAME
+    validated provider response. No fresh query, ESPN fixture or synthetic
+    historical rate is ever inserted.
+    """
+    return {
+        "schema": "kb21-single-source-analyst-input-v1",
+        "date": day["date"], "snapshot_utc": day["snapshot_utc"],
+        "source": "API-Football", "calendar_provider": "API-Football",
+        "single_source_gate": day["single_source_gate"],
+        "calendar_gate": "SINGLE_SOURCE_VALIDATED_INPUT_ONLY",
+        "provider_total_events": day["provider_total_events"],
+        "pre_match_fixtures": day["pre_match_fixtures"],
+        "candidates": [{
+            "event": x["home"] + " – " + x["away"],
+            "fixture_id": x["fixture_id"],
+            "home_team_id": x["home_team_id"],
+            "away_team_id": x["away_team_id"],
+            "home_team": x["home"], "away_team": x["away"],
+            "league_id": x["league_id"], "league_country": x["country"],
+            "league": x["league"], "league_season": x["season"],
+            "kickoff_utc": x["kickoff_utc"], "snapshot_utc": day["snapshot_utc"],
+            "fixture_status": x["status"],
+            "api_goal_rates": {}, "structural_0_100": None,
+            "quality_0_100": None, "matchup_0_100": None,
+            "home_expected_goals": None, "away_expected_goals": None,
+            "p_model": None, "kb21_sport_score": None,
+            "sources": ["API-Football fixtures, two-day single source"],
+            "readiness": "CALENDAR_SOURCE_OK_ANALYST_SPORT_MODEL_INCOMPLETE",
+            "freeze_allowed": False,
+        } for x in day["candidates"]],
+        "kb_n_effect": 0, "dev_n_effect": 0,
+        "model_effect": "NONE", "register_writes": False,
+        "safe_to_publish_play": False,
+    }
+
+
 def write_report(result, dest):
     if result.get("schema") != SCHEMA or len(result.get("days", [])) != 2:
         raise ValueError("Refuse incorrect source report")
@@ -280,6 +319,9 @@ def write_report(result, dest):
         (root / (base + ".json")).write_text(
             json.dumps(day, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         (root / (base + ".md")).write_text(render_day(day), encoding="utf-8")
+        (root / ("KB21_INPUT_" + day["date"] + ".json")).write_text(
+            json.dumps(analyst_inputs(day), ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8")
     (root / "SINGLE_SOURCE_MANIFEST.json").write_text(
         json.dumps({key: value for key, value in result.items() if key != "days"},
                    ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
