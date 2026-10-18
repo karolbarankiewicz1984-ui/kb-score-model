@@ -112,7 +112,7 @@ class EvidenceTests(unittest.TestCase):
         self.assertIsNone(report["last_10_ft"])
 
     def test_recent_ft_only_and_sample_boundary(self):
-        rows = [game(i, i+1, 1, 0) for i in range(12)]
+        rows = [game(i+1, i+1, 1, 0) for i in range(12)]
         report = evidence(rows, 10, NOW)
         self.assertEqual(report["source_rows"], 12)
         self.assertEqual(report["ft_rows_used"], 10)
