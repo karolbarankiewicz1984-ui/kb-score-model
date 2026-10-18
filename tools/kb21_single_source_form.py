@@ -20,6 +20,7 @@ from pathlib import Path
 
 from tools.api_market_http import ApiClient
 from tools.kb21_api_prematch import historic_goal_rates
+from tools.kb21_api_diagnostic import diagnose as experimental_diagnose
 from tools.kb21_single_source_calendar import BASE, WARSAW, DAY_SCHEMA, SCHEMA, _iso_datetime
 
 OUT_SCHEMA = "kb21-single-provider-team-form-v1"
@@ -178,6 +179,25 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
                 }
             ready = all(team_data[side]["last_completed_games"] is not None
                         for side in ("home", "away"))
+            # Reuse the pre-existing exploratory model verbatim. It blends
+            # actual last-10 goals, NOT xG, and has never been calibrated
+            # against the historical KB Score 2.1 methodology. Do not
+            # promote it to analyst P(model), a market selection, or PLAY.
+            shadow = experimental_diagnose({
+                "api_goal_rates": {
+                    side: team_data[side]["last_completed_games"]
+                    for side in ("home", "away")
+                }})
+            if shadow["p_model"] is not None:
+                raise ValueError("Experimental model must never fill KB21 P(model)")
+            if shadow["status"] == "EXPLORATORY_API_ONLY":
+                probs = shadow["diagnostic_probabilities"]
+                if (set(probs) != {"home", "draw", "away", "over_2_5"}
+                        or not all(isinstance(v, (int, float)) and
+                                   math.isfinite(v) and 0 <= v <= 1
+                                   for v in probs.values())
+                        or abs(sum(probs[k] for k in ("home", "draw", "away")) - 1) > 0.0002):
+                    raise ValueError("Invalid exploratory probability calculations")
             records.append({
                 "fixture_id": item["fixture_id"], "event": item["home"] + " – " + item["away"],
                 "date_warsaw": block["day"],
@@ -188,6 +208,14 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
                 "history": team_data,
                 "both_sides_have_factual_goal_rates": ready,
                 "form_metric": "ACTUAL_COMPLETED_MATCH_GOALS_NOT_XG",
+                "experimental_goal_model": {
+                    **shadow,
+                    "role": "SHADOW_CALIBRATION_ONLY_NOT_KB21_P_MODEL",
+                    "original_kb21_p_model": None,
+                    "forecast_generated_before_market_prices": True,
+                    "model_is_historically_validated": False,
+                    "prediction_not_betting_recommendation": True,
+                },
                 "research_priority": "LEAGUE_CONTEXT_NOT_PREDICTION",
                 "analyst_assessment": {
                     "STR_0_35": None, "QUAL_0_35": None,
@@ -215,6 +243,9 @@ def build_source_pack(calendar_manifest, day_docs, client, key, now=None,
             bool(match["both_sides_have_factual_goal_rates"])
             for block in output for match in block["matches"]),
         "scoring_fields_filled_automatically": 0,
+        "shadow_goal_forecasts_prepared": sum(
+            row["experimental_goal_model"]["status"] == "EXPLORATORY_API_ONLY"
+            for block in output for row in block["matches"]),
         "kb21_original_method_modified": False,
         "kb21_n_written": False, "register_writes": False,
         "safe_to_publish_play": False,
@@ -233,6 +264,9 @@ def render_day(day):
         f"nadal nierozpoczęte: {day['still_prematch_candidates']}; "
         f"z historią: {day['shortlisted_for_real_team_history']}.",
         "Kolejność = priorytet rozgrywek, nie prognoza wyniku.",
+        "WARTOŚCI PROCENTOWE PONIŻEJ to niewalidowany model cienia "
+        "z faktycznych goli (nie xG). NIE jest to historyczne P(model), "
+        "Sport Score, value ani typy do gry.",
         "",
     ]
     if not day["matches"]:
@@ -254,12 +288,26 @@ def render_day(day):
                     "(faktyczne GOLE, to NIE xG).")
             else:
                 lines.append(f"- {desc}: {h['status']} — brak wymaganej próby.")
+        shadow = item["experimental_goal_model"]
+        if shadow["status"] == "EXPLORATORY_API_ONLY":
+            p = shadow["diagnostic_probabilities"]
+            lines.append(
+                f"- SYGNAŁ EKSPERYMENTALNY (nie KB21): "
+                f"1 {100*p['home']:.1f}%, X {100*p['draw']:.1f}%, "
+                f"2 {100*p['away']:.1f}%, "
+                f"over 2,5 {100*p['over_2_5']:.1f}%. "
+                "Brak kalibracji, siły ligi, kontuzji i kursów.")
+        else:
+            lines.append("- SYGNAŁ EKSPERYMENTALNY: " +
+                         str(shadow["status"]) + "; brak prognozy.")
         lines += [
             "- **STR —/35; QUAL —/35; MATCH —/30; "
             "P(model) przed kursem: —**.",
             "- Brak kursów oraz jakiegokolwiek automatycznego PLAY.",
             "",
         ]
+    lines.append("Te niekalibrowane szacunki z 10 gier mogą służyć WYŁĄCZNIE "
+                 "do osobnego audytu predykcji po meczu; nie otwierają PLAY.")
     lines.append("API Market/PitchAPI zachowują osobne oceny. "
                  "Nie kopiujemy ich do oryginalnego P(model).")
     return "\n".join(lines) + "\n"
@@ -334,7 +382,16 @@ def render_pdf(day, dest):
                 value = name + ": brak wystarczających ukończonych gier."
             group.append(Paragraph(escape(value), text))
         group += [
-            Paragraph("Ocena analityka: STR —/35; QUAL —/35; MATCH —/30; "
+            Paragraph(
+                ("CIEŃ niewalidowany z goli: "
+                 f"1 {100*match['experimental_goal_model']['diagnostic_probabilities']['home']:.1f}% "
+                 f"X {100*match['experimental_goal_model']['diagnostic_probabilities']['draw']:.1f}% "
+                 f"2 {100*match['experimental_goal_model']['diagnostic_probabilities']['away']:.1f}% "
+                 f"over 2,5 {100*match['experimental_goal_model']['diagnostic_probabilities']['over_2_5']:.1f}%.")
+                if match["experimental_goal_model"]["status"] == "EXPLORATORY_API_ONLY"
+                else "CIEŃ: brak historii pozwalającej na obliczenia.",
+                text),
+            Paragraph("Ocena oryginalna: STR —/35; QUAL —/35; MATCH —/30; "
                       "P(model) przed kursem: —.", text),
             Paragraph("Nie nadano Sport Score, kursu ani PLAY; "
                       "wymagana niezależna ocena.", warn),
@@ -378,7 +435,9 @@ def main():
         json.dumps({k: v for k, v in result.items() if k != "days"},
                    ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("KB21 factual form pack:", result["historical_form_sampled"],
-          "future games; both teams have valid recent goals:",
+          "future games; independent SHADOW forecasts:",
+          result["shadow_goal_forecasts_prepared"],
+          "; both teams have valid recent goals:"
           result["fixtures_with_two_valid_goal_histories"],
           "; API history calls:", result["api_team_history_calls"],
           "automated sport ratings:", result["scoring_fields_filled_automatically"],
