@@ -1,0 +1,52 @@
+name: MULTIMODEL immutable API scan archive
+on:
+  workflow_run:
+    workflows: ["API Market Scan multi-day experiment"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Completed API scan workflow run ID"
+        required: true
+        type: string
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: multimodel-archive
+  cancel-in-progress: false
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Archive original scan artifact without modifying source data
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          TRIGGER_RUN_ID: ${{ github.event.workflow_run.id }}
+          INPUT_RUN_ID: ${{ inputs.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          run_id="${INPUT_RUN_ID:-${TRIGGER_RUN_ID:-}}"
+          [[ "$run_id" =~ ^[0-9]+$ ]] || { echo "::error::Invalid run ID"; exit 1; }
+          status=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" --jq '.status')
+          [[ "$status" == completed ]] || { echo "::error::Run not completed"; exit 1; }
+          destination="archive/multimodel/api_market/runs/$run_id"
+          if [ -d "$destination" ]; then
+            echo "Run already archived; immutable snapshot preserved."
+            exit 0
+          fi
+          mkdir -p "$destination"
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name api-market-multiday-experiment --dir "$destination"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" --jq '{id,created_at,run_started_at,updated_at,status,conclusion,head_sha,head_branch,event,html_url}' > "$destination/run_metadata.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$destination"
+          git diff --cached --quiet && exit 0
+          git commit -m "archive: immutable API scan run $run_id"
+          git push origin HEAD:main
