@@ -1,0 +1,190 @@
+{
+  "archives_considered_predictions": 64,
+  "audited_at_utc": "2026-10-20T07:34:24.319768+00:00",
+  "date": "2026-10-19",
+  "distinct_settled_matches": 7,
+  "mean_brier_over_2_5": 0.346835,
+  "mean_multiclass_brier_1x2": 0.636762,
+  "model": "kb21-api-last10-goals-shadow-v1",
+  "note": "Strict pre-match shadow ONLY; one independent fixture counts once. Two markets on the same fixture are correlated. No betting claims.",
+  "old_kb21_n_effect": 0,
+  "publication": "RESEARCH_ONLY_NOT_PLAY",
+  "register_writes": false,
+  "results": [
+    {
+      "archive_run": "39096579281",
+      "brier_1x2": 0.744635,
+      "brier_over_2_5": 0.243661,
+      "event": "Monza – Cagliari",
+      "final_score": [
+        4,
+        0
+      ],
+      "fixture_id": 1550153,
+      "freeze_utc": "2026-10-18T04:17:45.716907+00:00",
+      "kickoff_utc": "2026-10-19T16:30:00+00:00",
+      "probabilities": {
+        "away": 0.44147,
+        "draw": 0.25482,
+        "home": 0.30372,
+        "over_2_5": 0.50638
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "cf77594ed3e9112faabe340d40ac23d848282dd3ecb3f911e05b9873679b5aa9",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "39096579281",
+      "brier_1x2": 0.562466,
+      "brier_over_2_5": 0.371563,
+      "event": "Wisla Plock – Radomiak Radom",
+      "final_score": [
+        1,
+        0
+      ],
+      "fixture_id": 1553198,
+      "freeze_utc": "2026-10-18T04:17:45.716907+00:00",
+      "kickoff_utc": "2026-10-19T17:00:00+00:00",
+      "probabilities": {
+        "away": 0.3711,
+        "draw": 0.23628,
+        "home": 0.39261,
+        "over_2_5": 0.60956
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "cf77594ed3e9112faabe340d40ac23d848282dd3ecb3f911e05b9873679b5aa9",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "39113508239",
+      "brier_1x2": 0.707249,
+      "brier_over_2_5": 0.435943,
+      "event": "Trabzonspor – Beşiktaş",
+      "final_score": [
+        2,
+        0
+      ],
+      "fixture_id": 1584438,
+      "freeze_utc": "2026-10-18T08:58:45.515590+00:00",
+      "kickoff_utc": "2026-10-19T17:00:00+00:00",
+      "probabilities": {
+        "away": 0.45018,
+        "draw": 0.22394,
+        "home": 0.32588,
+        "over_2_5": 0.66026
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "a8276d7fca1a6dd443e42704a547e48c649aa7baf0d5a85179f31e379e9825ab",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "39096579281",
+      "brier_1x2": 0.464339,
+      "brier_over_2_5": 0.404687,
+      "event": "Parma – Torino",
+      "final_score": [
+        0,
+        3
+      ],
+      "fixture_id": 1550154,
+      "freeze_utc": "2026-10-18T04:17:45.716907+00:00",
+      "kickoff_utc": "2026-10-19T18:45:00+00:00",
+      "probabilities": {
+        "away": 0.44377,
+        "draw": 0.28933,
+        "home": 0.2669,
+        "over_2_5": 0.36385
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "cf77594ed3e9112faabe340d40ac23d848282dd3ecb3f911e05b9873679b5aa9",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "39096579281",
+      "brier_1x2": 0.565272,
+      "brier_over_2_5": 0.16981,
+      "event": "Tottenham – Coventry",
+      "final_score": [
+        3,
+        1
+      ],
+      "fixture_id": 1557436,
+      "freeze_utc": "2026-10-18T04:17:45.716907+00:00",
+      "kickoff_utc": "2026-10-19T19:00:00+00:00",
+      "probabilities": {
+        "away": 0.36876,
+        "draw": 0.24064,
+        "home": 0.39059,
+        "over_2_5": 0.58792
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "cf77594ed3e9112faabe340d40ac23d848282dd3ecb3f911e05b9873679b5aa9",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "39096579281",
+      "brier_1x2": 0.864671,
+      "brier_over_2_5": 0.30696,
+      "event": "Getafe – Rayo Vallecano",
+      "final_score": [
+        1,
+        1
+      ],
+      "fixture_id": 1570417,
+      "freeze_utc": "2026-10-18T04:17:45.716907+00:00",
+      "kickoff_utc": "2026-10-19T19:00:00+00:00",
+      "probabilities": {
+        "away": 0.31092,
+        "draw": 0.24468,
+        "home": 0.4444,
+        "over_2_5": 0.55404
+      },
+      "realized_1x2": "draw",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "cf77594ed3e9112faabe340d40ac23d848282dd3ecb3f911e05b9873679b5aa9",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "39113508239",
+      "brier_1x2": 0.548703,
+      "brier_over_2_5": 0.495222,
+      "event": "SC Braga – GIL Vicente",
+      "final_score": [
+        1,
+        2
+      ],
+      "fixture_id": 1575458,
+      "freeze_utc": "2026-10-18T08:58:45.515590+00:00",
+      "kickoff_utc": "2026-10-19T19:15:00+00:00",
+      "probabilities": {
+        "away": 0.39539,
+        "draw": 0.31597,
+        "home": 0.28864,
+        "over_2_5": 0.29628
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "a8276d7fca1a6dd443e42704a547e48c649aa7baf0d5a85179f31e379e9825ab",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    }
+  ],
+  "safe_to_publish_play": false,
+  "schema": "kb21-shadow-forward-settlement-v1",
+  "source": "API-Football result fixtures (same provider IDs)",
+  "top_1x2_accuracy": 0.5714,
+  "top_1x2_correct": 4,
+  "unique_pregame_predictions": 7,
+  "unresolved_matches": 0
+}
