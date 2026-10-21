@@ -112,6 +112,7 @@ def grouped_markdown(payload, floor, *, xg_snapshot=None):
     from api_market_policy import quote_text
     from pitchapi_market_validation import review_position
     shortlist = practical_shortlist(positions)
+    fouls_watch = fouls_under_watchlist(payload)
     lines = [f"# API Market Scan - {payload['date']} - według meczów", "",
         f"Mecze: {len(groups)}. Typy: {len(positions)}. Próg oceny końcowej: {floor:g}/100. Bez limitu pozycji.",
         "Mecze według godziny rozpoczęcia w Polsce. Pod każdym meczem wszystkie jego typy w kolejności z rankingu API.",
@@ -131,6 +132,22 @@ def grouped_markdown(payload, floor, *, xg_snapshot=None):
         lines.append(f"- {item['home']} – {item['away']}: {item['selection']} | ocena {item['final_assessment_pct']:.1f}/100 | {quote_text(item)}{annotation}")
     if not shortlist:
         lines.append("Brak pozycji spełniających dodatkowe warunki listy praktycznej.")
+    lines += ["", "## 🔎 OSOBNA SEKCJA: FAULE UNDER | KURS 1,50–2,00",
+        "Niezależna lista obserwacyjna, poza głównym TOP. Obejmuje także kandydatury poniżej progu 67/100, jeżeli znajdują się w danych źródłowych. NIE oznacza KB PLAY, wartości dodatniej ani potwierdzonej oferty STS/Superbet.",
+        f"Rynki: faule PONIŻEJ wybranej linii, dokładny zapisany kurs 1,50–2,00. Rodzin po usunięciu nakładających się linii: {fouls_watch['total']}; pokazano: {len(fouls_watch['rows'])}.", ""]
+    for found in fouls_watch["rows"]:
+        item, quote = found["item"], found["quote"]
+        status = "POZA PROGIEM (TEST)" if found["score"] < floor else "OBSERWUJ (API)"
+        when = str(quote.get("provider_updated_at") or "czas nieznany")
+        lines.append(
+            f"- {kickoff_time(item)} {item['home']} – {item['away']}: **{item['selection']}** "
+            f"| **{float(quote['selected_odd']):.2f}** ({quote.get('bookmaker') or 'dostawca nieznany'}; notowanie {when}) "
+            f"| ocena {found['score']:.1f}/100 | **{status}**"
+        )
+    if not fouls_watch["rows"]:
+        lines.append("BRAK: w zapisanym skanie nie ma pasujących, dokładnie kwotowanych linii fauli UNDER.")
+    lines += ["", "Uwaga: różne linie z jednego meczu są powiązane. Kurs to zapis API, nie aktualna oferta bukmachera.", ""]
+
     lines += ["", "## PEŁNE ARCHIWUM — wszystkie zakwalifikowane warianty według meczów", ""]
     for index, items in enumerate(groups, 1):
         first = items[0]
