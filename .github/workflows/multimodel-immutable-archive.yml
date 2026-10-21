@@ -36,6 +36,18 @@ jobs:
           [[ "$run_id" =~ ^[0-9]+$ ]] || { echo "::error::Invalid run ID"; exit 1; }
           status=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" --jq '.status')
           [[ "$status" == completed ]] || { echo "::error::Run not completed"; exit 1; }
+          # The two DST-aware cron slots produce one real scan and one intentionally
+          # skipped run daily. A successful skipped run has no artifact by design.
+          artifacts=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts" --jq '[.artifacts[] | select(.name == "api-market-multiday-experiment" and (.expired == false))] | length')
+          if [ "$artifacts" -eq 0 ]; then
+            scan_step=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/jobs?per_page=100" --jq '[.jobs[].steps[]? | select(.name == "Independent scan per date") | .conclusion] | first // "missing"')
+            if [ "$scan_step" = skipped ]; then
+              echo "::notice::DST opposite slot: source scan was deliberately skipped, nothing to archive."
+              exit 0
+            fi
+            echo "::error::A scan was expected but artifact api-market-multiday-experiment is missing."
+            exit 1
+          fi
           destination="archive/multimodel/api_market/runs/$run_id"
           if [ -d "$destination" ]; then
             echo "Run already archived; immutable snapshot preserved."
