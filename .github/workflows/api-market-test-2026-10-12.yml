@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check API credential
         run: test -n "$API_FOOTBALL_KEY"
+      - name: Install PDF dependency before PDF unit tests
+        run: python -m pip install --disable-pip-version-check "reportlab>=4,<5"
       - name: Regression tests
         run: python -B -m unittest discover -s tests -p "test_api_market*.py"
       - name: Prefetch national teams for 2026-10-12
@@ -30,8 +32,6 @@ jobs:
         run: python tools/api_market_v3_enrich.py 2026-10-12
       - name: Rank test positions for 2026-10-12
         run: python tools/api_market_report_diversify.py 2026-10-12
-      - name: Install PDF renderer
-        run: python -m pip install --disable-pip-version-check "reportlab>=4,<5"
       - name: Check renderer imports in direct execution mode
         run: |
           python -c 'from tools.pitchapi_prematch_context import lookup_context; from tools.pitchapi_market_validation import review_position'
