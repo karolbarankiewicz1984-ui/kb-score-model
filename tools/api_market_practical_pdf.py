@@ -181,7 +181,7 @@ def render_pdf(report, path):
                 label(x["fixture"]+"\n"+x["kickoff_warsaw"],small),
                 label(x["selection"],small),
                 label(f"{x['score']:.1f}/100",small),
-                label(f"{x['api_best_odd']:.2f} | {x['api_best_odd_provider']}",small),
+                label(f"{x['api_best_odd']:.2f} | {x['api_best_odd_provider']}" + (" | "+x["status"] if x.get("status") else ""),small),
             ])
         t=Table(rows,colWidths=widths,repeatRows=1,splitByRow=1,hAlign="LEFT")
         t.setStyle(TableStyle([
