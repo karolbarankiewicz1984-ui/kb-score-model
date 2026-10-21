@@ -14,7 +14,7 @@ from xml.sax.saxutils import escape
 from zoneinfo import ZoneInfo
 
 from api_market_policy import selection_quotes, target_date
-from api_market_presentation import practical_shortlist
+from api_market_presentation import practical_shortlist, fouls_under_watchlist
 
 WARSAW=ZoneInfo("Europe/Warsaw")
 SCORE_FLOOR=67.0
@@ -90,10 +90,33 @@ def pick_research_positions(payload, now=None):
         }
         groups[cat].append(item)
         used.add(fid)
+    # Additional observation lane, independent of the one-per-match shortlist.
+    # Unlike the official score-gated section it can show sub-67 experiments.
+    fouls_under=[]
+    watch=fouls_under_watchlist(payload,limit=10)
+    for found in watch["rows"]:
+        p,quote=found["item"],found["quote"]
+        kickoff=_dt(p.get("kickoff") or p.get("kickoff_utc"))
+        if kickoff is None or kickoff<=now or kickoff.astimezone(WARSAW).date().isoformat()!=day:
+            continue
+        fouls_under.append({
+            "fixture_id":p.get("fixture_id"),
+            "fixture":p["home"]+" – "+p["away"],
+            "kickoff_warsaw":kickoff.astimezone(WARSAW).strftime("%H:%M"),
+            "selection":p["selection"],
+            "score":found["score"],
+            "api_best_odd":float(quote["selected_odd"]),
+            "api_best_odd_provider":str(quote.get("bookmaker") or "nieznany"),
+            "category":"fouls_under_observational",
+            "status":"TEST - poniżej progu 67" if found["score"]<SCORE_FLOOR else "OBSERWUJ - API",
+            "quote_capture_utc":str(quote.get("provider_updated_at") or stamp.isoformat()),
+            "verification":"OFFER_NOT_VERIFIED_AT_POLISH_BOOKMAKER",
+        })
     return {
         "date":day,"schema":"api-market-practical-card-v1",
         "quote_capture_utc":stamp.isoformat(),
         "generated_utc":now.isoformat(),
+        "fouls_under":fouls_under,
         "goal_markets":groups["goals"],
         "other_markets":groups["other"],
         "total":len(groups["goals"])+len(groups["other"]),
@@ -174,6 +197,12 @@ def render_pdf(report, path):
         story.append(t)
     table_group("Rynki bramkowe",report["goal_markets"])
     table_group("Pozostałe rynki: kartki, rożne, faule i inne",report["other_markets"])
+    story.append(Spacer(1,2*mm))
+    story.append(label("FAULE UNDER | KURSY 1,50–2,00 | ODRĘBNA SEKCJA",heading))
+    story.append(label(
+        "Lista obserwacyjna, niezależna od głównego TOP. Może zawierać oceny poniżej 67/100; "
+        "kursy to historyczne zapisy API. Brak wyliczonego value i brak potwierdzenia STS/Superbet.",sub))
+    table_group("FAULE UNDER — do sprawdzenia",report.get("fouls_under") or [])
     story += [
         Spacer(1,4*mm),
         label("WAŻNE: notowanie z API nie oznacza dostępności danego zakładu "
