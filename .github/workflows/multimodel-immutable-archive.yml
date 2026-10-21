@@ -40,7 +40,7 @@ jobs:
           # skipped run daily. A successful skipped run has no artifact by design.
           artifacts=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts" --jq '[.artifacts[] | select(.name == "api-market-multiday-experiment" and (.expired == false))] | length')
           if [ "$artifacts" -eq 0 ]; then
-            scan_step=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/jobs?per_page=100" --jq '[.jobs[].steps[]? | select(.name == "Independent scan per date") | .conclusion] | first // "missing"')
+            scan_step=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/jobs?per_page=100" --jq '[.jobs[].steps[]? | select(.name == "Independent scan per date") | .conclusion] | .[0] // "missing"')
             if [ "$scan_step" = skipped ]; then
               echo "::notice::DST opposite slot: source scan was deliberately skipped, nothing to archive."
               exit 0
