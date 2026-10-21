@@ -51,6 +51,61 @@ def markdown_cell(value):
     return str(value or "").replace("|", "\\|").replace("\n", "<br>")
 
 
+
+def fouls_under_watchlist(payload, *, min_odd=1.50, max_odd=2.00, limit=12):
+    """Read-only, independent fouls UNDER band; keep the original ranking intact.
+
+    The background contains rejected scores too. All such rows are marked
+    observational in the report rather than quietly promoted to official picks.
+    The best quote must belong to the requested range and be dated before kickoff.
+    """
+    import math
+    from api_market_policy import selection_quotes
+
+    ranked = payload.get("background_candidates") or payload.get("top_positions") or []
+    selected = {}
+    report_date = payload.get("date")
+    for item in ranked:
+        if item.get("market") != "fouls" or item.get("direction") != "under":
+            continue
+        try:
+            score = float(item.get("final_assessment_pct"))
+            kickoff = datetime.fromisoformat(str(item["kickoff"]).replace("Z", "+00:00"))
+            if (not math.isfinite(score) or kickoff.tzinfo is None
+                    or kickoff.astimezone(ZoneInfo("Europe/Warsaw")).date().isoformat() != report_date):
+                continue
+        except (ValueError, TypeError, KeyError):
+            continue
+        eligible = []
+        for quote in selection_quotes(item):
+            odd = quote["selected_odd"]
+            if not min_odd <= odd <= max_odd:
+                continue
+            timestamp = quote.get("provider_updated_at")
+            if timestamp:
+                try:
+                    stamp = datetime.fromisoformat(str(timestamp).replace("Z", "+00:00"))
+                    if stamp.tzinfo is None or stamp > kickoff:
+                        continue
+                except ValueError:
+                    continue
+            eligible.append(quote)
+        if not eligible:
+            continue
+        offered = max(eligible, key=lambda q: q["selected_odd"])
+        family = (item.get("fixture_id"), item.get("market_scope", "team"),
+                  item.get("team_id") if item.get("market_scope", "team") == "team" else None)
+        candidate = {"item": item, "quote": offered, "score": score}
+        previous = selected.get(family)
+        if previous is None or (score, offered["selected_odd"]) > (previous["score"], previous["quote"]["selected_odd"]):
+            selected[family] = candidate
+
+    rows = sorted(selected.values(), key=lambda r: (
+        -r["score"], -r["quote"]["selected_odd"],
+        str(r["item"].get("fixture_id", "")),
+    ))
+    return {"total": len(rows), "rows": rows[:limit]}
+
 def grouped_markdown(payload, floor, *, xg_snapshot=None):
     positions = payload.get("top_positions") or []
     groups = group_positions(positions)
