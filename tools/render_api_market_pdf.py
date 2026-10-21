@@ -9,7 +9,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from api_market_policy import load_policy, quote_text, target_date
-from api_market_presentation import group_positions, kickoff_time, practical_shortlist
+from api_market_presentation import group_positions, kickoff_time, practical_shortlist, fouls_under_watchlist
 from pitchapi_prematch_context import lookup_context
 from pitchapi_market_validation import review_position
 from reportlab.lib import colors
@@ -123,6 +123,58 @@ def build_pdf(payload, output=None, *, regrouped=False):
                    "mixed": "historia okazji niejednoznaczna"}[signal["status"]]
             comment = f" | PitchAPI: {tag} (wskaznik {signal['opportunity_index']:.2f}; pogladowo)"
         story.append(Paragraph(f"<b>{safe(item['home'])} — {safe(item['away'])}</b>: {safe(item['selection'])} | ocena {float(item['final_assessment_pct']):.1f}/100 | {safe(quote_text(item))}{safe(comment)}", note_style))
+    # Separate observational view. It may include candidates that failed the
+    # existing 67/100 publication threshold; original TOP remains unchanged.
+    watch = fouls_under_watchlist(payload)
+    story.append(Spacer(1, 3 * mm))
+    story.append(Paragraph(
+        "<b>OSOBNA SEKCJA | FAULE UNDER | KURS API 1,50-2,00</b>",
+        ParagraphStyle("FoulsBand", parent=subtitle, fontName=bold, fontSize=10,
+                       leading=13, textColor=colors.HexColor("#8B3611"),
+                       spaceBefore=2 * mm, spaceAfter=2 * mm)))
+    story.append(Paragraph(
+        f"<b>OBSERWACJA, NIE GOTOWY TYP.</b> Osobno od głównego TOP; zawiera również "
+        f"niżej ocenione propozycje z surowego skanu. {watch['total']} odrębnych rodzin "
+        f"fauli UNDER, pokazano {len(watch['rows'])}. "
+        "Zapisane kursy i dokładne linie nie są potwierdzone na żywo w STS/Superbet. "
+        "Ocena modelu /100 nie jest prawdopodobieństwem.", subtitle))
+    if watch["rows"]:
+        watch_rows = [[Paragraph(x, column_style) for x in
+                      ("Mecz i godzina", "Linia / typ", "Ocena", "Kurs / źródło / status")]]
+        for found in watch["rows"]:
+            item, quote = found["item"], found["quote"]
+            verdict = "TEST - poniżej progu 67" if found["score"] < floor else "OBSERWUJ - API"
+            qstamp = str(quote.get("provider_updated_at") or "niepodany")
+            watch_rows.append([
+                Paragraph(f"<b>{safe(item['home'])} - {safe(item['away'])}</b><br/>{kickoff_time(item)} PL", cell_style),
+                Paragraph(safe(item["selection"]), cell_style),
+                Paragraph(f"{found['score']:.1f}/100", cell_style),
+                Paragraph(f"<b>{float(quote['selected_odd']):.2f}</b> | "
+                          f"{safe(quote.get('bookmaker') or 'nieznany')}<br/>"
+                          f"{safe(verdict)}<br/>notow.: {safe(qstamp)}", note_style),
+            ])
+        t = LongTable(watch_rows, colWidths=[54 * mm, 61 * mm, 19 * mm, 48 * mm],
+                      hAlign="LEFT", repeatRows=1, splitByRow=1)
+        t.setStyle(TableStyle([
+            ("BACKGROUND", (0,0),(-1,0), colors.HexColor("#FCE8D5")),
+            ("ROWBACKGROUNDS", (0,1),(-1,-1),
+             [colors.white, colors.HexColor("#FFFAF5")]),
+            ("LINEBELOW", (0,0),(-1,-1), 0.3, colors.HexColor("#E4C9AD")),
+            ("VALIGN", (0,0),(-1,-1), "TOP"),
+            ("LEFTPADDING", (0,0),(-1,-1), 5),
+            ("RIGHTPADDING", (0,0),(-1,-1), 5),
+            ("TOPPADDING", (0,0),(-1,-1), 5),
+            ("BOTTOMPADDING", (0,0),(-1,-1), 5),
+        ]))
+        story.append(t)
+    else:
+        story.append(Paragraph(
+            "BRAK: nie ma zapisanych przedmeczowych fauli UNDER z kursem 1,50-2,00 "
+            "spełniających warunki tej obserwacyjnej sekcji.", subtitle))
+    story.append(Paragraph(
+        "Nie traktuj kilku powiązanych statystyk z tego samego meczu jako niezależnych okazji. "
+        "Jeśli notowanie albo linia nie są obecnie dostępne, pomiń.", note_style))
+
     story.append(Spacer(1, 4 * mm))
     story.append(Paragraph("<b>PEŁNE ARCHIWUM — WSZYSTKIE TYPY WEDŁUG MECZÓW</b>", subtitle))
     for match_index, items in enumerate(groups, 1):
