@@ -82,13 +82,14 @@ def fouls_under_watchlist(payload, *, min_odd=1.50, max_odd=2.00, limit=12):
             if not min_odd <= odd <= max_odd:
                 continue
             timestamp = quote.get("provider_updated_at")
-            if timestamp:
-                try:
-                    stamp = datetime.fromisoformat(str(timestamp).replace("Z", "+00:00"))
-                    if stamp.tzinfo is None or stamp > kickoff:
-                        continue
-                except ValueError:
+            if not timestamp:
+                continue
+            try:
+                stamp = datetime.fromisoformat(str(timestamp).replace("Z", "+00:00"))
+                if stamp.tzinfo is None or stamp > kickoff:
                     continue
+            except ValueError:
+                continue
             eligible.append(quote)
         if not eligible:
             continue
