@@ -62,6 +62,7 @@ def parse_revision_content(content):
         raise ValueError("snapshot text missing")
     rows = csv.reader(StringIO(content, newline=""))
     headings = None
+    found_register_header = False
     items = []
     for row in rows:
         if row and row[0].startswith("\f"):
@@ -70,6 +71,7 @@ def parse_revision_content(content):
             if not all(name in row for name in FIELDS):
                 raise ValueError("Rejestr lacks required original fields")
             headings = row
+            found_register_header = True
             continue
         if headings is None or not row or not row[0].strip():
             continue
@@ -84,11 +86,8 @@ def parse_revision_content(content):
         # Preserve only the source fields needed to reproduce a model audit;
         # the sheet remains the canonical source for full free-text notes.
         items.append({k: data.get(k, "") for k in FIELDS})
-    if headings is None and not items:
-        # There may be another sheet after "Rejestr"; this checks that an
-        # actual register header was found, not a text file of invented rows.
-        if not any("Rejestr" in line for line in content.splitlines()[:50]):
-            raise ValueError("no valid Google Sheet Rejestr rows found")
+    if not found_register_header:
+        raise ValueError("no valid Google Sheet Rejestr header found")
     return items
 
 
