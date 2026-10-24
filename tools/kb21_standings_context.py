@@ -15,7 +15,7 @@ import os
 from pathlib import Path
 
 from tools.api_market_http import ApiClient
-from tools.kb21_api_prematch import DOMESTIC
+from tools.kb21_league_scope import is_domestic_competition
 from tools.kb21_single_source_calendar import BASE, DAY_SCHEMA, SCHEMA as CALENDAR_SCHEMA, _iso_datetime
 from tools.kb21_single_source_form import OUT_SCHEMA as FORM_SCHEMA
 
@@ -206,7 +206,7 @@ def build(calendar_manifest, calendars, form_manifest, forms, client, key,
     for _, fixture, _ in fixtures:
         key_pair = fixture.get("country"), fixture.get("league")
         lid, season = fixture.get("league_id"), fixture.get("season")
-        if (key_pair in DOMESTIC and _positive(lid) and type(season) is int
+        if (is_domestic_competition(lid, *key_pair) and _positive(lid) and type(season) is int
                 and 2000 <= season <= 2100):
             needed[(lid,season)] = key_pair
     fetched, requests, status, remain = {}, 0, {}, None
@@ -260,7 +260,7 @@ def build(calendar_manifest, calendars, form_manifest, forms, client, key,
                 "odds": None, "decision": None, "safe_to_publish_play": False,
             }
             pair=(fixture.get("league_id"), fixture.get("season"))
-            if (fixture.get("country"), fixture.get("league")) not in DOMESTIC:
+            if not is_domestic_competition(fixture.get("league_id"), fixture.get("country"), fixture.get("league")):
                 entry["status"]="NOT_A_DOMESTIC_TABLE_MATCH"
             elif kickoff is None or kickoff <= now:
                 entry["status"]="NO_LATE_SNAPSHOT_AFTER_KICKOFF"
