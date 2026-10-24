@@ -1,0 +1,81 @@
+name: KB21 calendar health alerts (read-only)
+on:
+  workflow_run:
+    workflows:
+      - KB21 SINGLE SOURCE API-Football today+tomorrow
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+jobs:
+  calendar-health:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Offline unit tests
+        run: python -m unittest tests.test_kb21_calendar_health -v
+      - name: Choose canonical calendar run and download its artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          TRIGGER_ID: ${{ github.event.workflow_run.id }}
+          TRIGGER_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "workflow_run" ]; then
+            if [ "$TRIGGER_CONCLUSION" != "success" ]; then
+              echo "::error::The main KB21 calendar workflow failed: $@TRIGGER_ID}"
+              printf '## KB21 calendar alert\n\nMain calendar collection failed (run %s).\n' "$TRIGGER_ID" >> "$GITHUB_STEP_SUMMARY"
+              exit 1
+            fi
+            RUN_ID="$TRIGGER_ID"
+          else
+            RUN_ID="$(gh run list --workflow kb21-single-source-two-days.yml --branch main --limit 12 --json databaseId,conclusion --jq '[.[] | select(.conclusion=="success")][0].databaseId')"
+          fi
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            echo "::error::No successful KB21 calendar run found"
+            exit 1
+          fi
+          echo "SOURCE_RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
+          mkdir -p reports/kb21_single_source
+          gh run download "$RUN_ID" -n kb21-api-football-two-days -D reports/kb21_single_source
+          test -f reports/kb21_single_source/SINGLE_SOURCE_MANIFEST.json || {
+            echo "::error::Missing source manifest in KB21 artifact"
+            exit 1
+          }
+      - name: Optional previous snapshot of the same Warsaw day
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          LIST="$(gh run list --workflow kb21-single-source-two-days.yml --branch main --limit 15 --json databaseId,conclusion)"
+          PREV="$(printf '%s' "$LIST" | python -c 'import json,os,sys; a=json.load(sys.stdin); x=str(os.getenv("SOURCE_RUN_ID","")); print(next((v["databaseId"] for v in a if v["conclusion"] == "success" and str(v["databaseId"]) != x), ""))')"
+          if [ -n "$PREV" ]; then
+            mkdir -p reports/kb21_previous
+            if ! gh run download "$PREV" -n kb21-api-football-two-days -D reports/kb21_previous; then
+              echo "::warning::Previous KB21 artifact not available; historical comparison omitted"
+            fi
+          fi
+      - name: Audit source, league IDs, capture time and unexpected fixture drops
+        run: |
+          python -m tools.kb21_calendar_health \
+            --source-dir reports/kb21_single_source \
+            --previous-dir reports/kb21_previous \
+            --output-dir reports/kb21_health \
+            --summary-file "$GITHUB_STEP_SUMMARY"
+      - name: Publish health report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kb21-calendar-health
+          path: reports/kb21_health/
+          if-no-files-found: warn
+          retention-days: 30
