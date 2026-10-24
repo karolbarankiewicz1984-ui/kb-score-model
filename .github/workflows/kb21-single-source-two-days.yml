@@ -22,6 +22,8 @@ on:
       - 'tests/test_kb21_standings_context.py'
       - 'tests/test_kb21_form_evidence.py'
       - 'tools/kb21_single_source_worklist.py'
+      - 'tools/kb21_premarket_intake.py'
+      - 'tests/test_kb21_premarket_intake.py'
       - 'tests/test_kb21_single_source_worklist.py'
       - 'tests/test_kb21_single_source_form.py'
       - 'tests/test_kb21_budgeted_history.py'
@@ -168,6 +170,34 @@ jobs:
                          row['safe_to_publish_play'] is False
                          for row in form['records'])
           print('PASS: every single-source candidate is visible for analyst review, NO PLAY')
+          PY
+      - name: Validate prospective analyst intake contract (no auto P model)
+        run: |
+          python -m unittest tests.test_kb21_premarket_intake tests.test_kb21_analyst_assessment -v
+          python -m tools.kb21_premarket_intake \
+            --worklist-dir reports/kb21_single_source \
+            --output-dir reports/kb21_single_source
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('reports/kb21_single_source')
+          m = json.loads((root / 'SINGLE_SOURCE_MANIFEST.json').read_text(encoding='utf-8'))
+          i = json.loads((root / 'KB21_PREMARKET_REVIEW_MANIFEST.json').read_text(encoding='utf-8'))
+          assert i['dates'] == m['dates']
+          assert i['total_fixtures'] == m['total_research_candidates']
+          assert i['submitted_assessments'] == 0
+          assert i['format_validated_pending_review'] == i['automatic_p_model_count'] == 0
+          assert i['kb21_n_effect'] == i['automatic_play_count'] == 0
+          assert i['register_writes'] is False
+          assert i['safe_to_publish_play'] is False
+          assert i['original_p_model_formula_recovered'] is False
+          assert len(i['worklist_sha256']) == 64
+          for date in i['dates']:
+              d = json.loads((root / ('KB21_PREMARKET_REVIEW_' + date + '.json')).read_text(encoding='utf-8'))
+              assert d['submitted'] == d['valid_format_pending_human_review'] == 0
+              assert d['awaiting_submission'] == d['total_fixtures']
+              assert (root / ('KB21_PREMARKET_REVIEW_' + date + '.md')).is_file()
+          print('PASS: PREMARKET intake retains all matches with no invented 35/35/30 or P(model)')
           PY
       - name: Add bounded current-season league and opponent-strength context
         env:
