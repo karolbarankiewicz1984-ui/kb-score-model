@@ -5,9 +5,12 @@ on:
       - 'tools/kb21_calendar_health.py'
       - 'tools/kb21_league_scope.py'
       - 'tools/kb21_api_prematch.py'
+      - 'tools/kb21_standings_context.py'
       - 'tools/kb21_single_source_calendar.py'
       - 'tests/test_kb21_calendar_health.py'
       - 'tests/test_kb21_league_scope.py'
+      - 'tests/test_kb21_standings_context.py'
+      - 'tests/test_kb21_zero_day_evidence.py'
       - 'tests/test_kb21_single_source_calendar.py'
       - '.github/workflows/kb21-calendar-health*.yml'
   workflow_dispatch:
@@ -24,4 +27,4 @@ jobs:
       - name: Compile health code
         run: python -m compileall -q tools/kb21_calendar_health.py tools/kb21_league_scope.py tools/kb21_api_prematch.py tests/test_kb21_calendar_health.py tests/test_kb21_league_scope.py tests/test_kb21_single_source_calendar.py
       - name: Exercise guard without API tokens
-        run: python -m unittest tests.test_kb21_calendar_health tests.test_kb21_league_scope tests.test_kb21_single_source_calendar -v
+        run: python -m unittest tests.test_kb21_calendar_health tests.test_kb21_league_scope tests.test_kb21_single_source_calendar tests.test_kb21_standings_context tests.test_kb21_zero_day_evidence -v
