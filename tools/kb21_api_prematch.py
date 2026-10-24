@@ -14,20 +14,10 @@ from zoneinfo import ZoneInfo
 from tools.api_market_http import ApiClient
 
 BASE="https://v3.football.api-sports.io"
-DOMESTIC={
- ("England","Premier League"),("Spain","La Liga"),("Italy","Serie A"),
- ("Germany","Bundesliga"),("France","Ligue 1"),("Portugal","Primeira Liga"),
- ("Netherlands","Eredivisie"),("Belgium","Jupiler Pro League"),
- ("Turkey","Süper Lig"),("Poland","Ekstraklasa")
-}
-INTERNATIONAL={
- "UEFA Champions League","UEFA Europa League","UEFA Europa Conference League",
- "UEFA Conference League","UEFA Nations League","World Cup",
- "World Cup - Qualification Europe","Euro Championship","UEFA European Championship"
-}
-def in_scope(fixture):
-    league=fixture.get("league",{})
-    return (league.get("country"),league.get("name")) in DOMESTIC or league.get("name") in INTERNATIONAL
+from tools.kb21_league_scope import in_scope, DOMESTIC_NAMES, INTERNATIONAL_NAMES
+# Legacy public constants are still imported by standings/context modules.
+DOMESTIC = DOMESTIC_NAMES
+INTERNATIONAL = INTERNATIONAL_NAMES
 
 def parse_utc(value):
     return dt.datetime.fromisoformat(value.replace("Z","+00:00"))

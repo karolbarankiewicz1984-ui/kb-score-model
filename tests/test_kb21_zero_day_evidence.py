@@ -43,7 +43,9 @@ class ZeroDayEvidenceTests(unittest.TestCase):
     def test_valid_full_380_source_only_prioritizes_human_review(self):
         q, draft = materials()
         original = copy.deepcopy(draft)
-        r = build(q, draft, fpl())
+        # Freeze the clock before the first scheduled event. Without this,
+        # the 2026 example begins failing once real time passes that date.
+        r = build(q, draft, fpl(), now=datetime(2026, 10, 17, 12, tzinfo=timezone.utc))
         self.assertEqual(draft, original)
         self.assertEqual(r["totals"]["zero_game_review_cells"], 14)
         self.assertEqual(r["totals"]["full_season_fpl_zero_candidates"], 1)
