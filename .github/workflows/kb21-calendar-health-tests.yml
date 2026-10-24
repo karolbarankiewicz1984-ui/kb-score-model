@@ -1,0 +1,22 @@
+name: KB21 calendar health unit tests
+on:
+  pull_request:
+    paths:
+      - 'tools/kb21_calendar_health.py'
+      - 'tests/test_kb21_calendar_health.py'
+      - '.github/workflows/kb21-calendar-health*.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile health code
+        run: python -m compileall -q tools/kb21_calendar_health.py tests/test_kb21_calendar_health.py
+      - name: Exercise guard without API tokens
+        run: python -m unittest tests.test_kb21_calendar_health -v
