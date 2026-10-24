@@ -1,0 +1,30 @@
+name: KB21 original Google LIVE restore tests
+
+on:
+  pull_request:
+    paths:
+      - 'tools/kb21_google_original_restore.py'
+      - 'tests/test_kb21_google_original_restore.py'
+      - '.github/workflows/kb21-google-original-restore-tests.yml'
+  push:
+    paths:
+      - 'tools/kb21_google_original_restore.py'
+      - 'tests/test_kb21_google_original_restore.py'
+      - '.github/workflows/kb21-google-original-restore-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  original-archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile original-only historical restore
+        run: python -m compileall -q tools/kb21_google_original_restore.py tests/test_kb21_google_original_restore.py
+      - name: Test provenance, block totals, and freeze safety without credentials
+        run: python -m unittest tests.test_kb21_google_original_restore -v
