@@ -32,6 +32,13 @@ INTERNATIONAL_NAMES = {
 }
 
 
+def is_domestic_competition(lid, country, name):
+    """Accept domestic fixtures from known IDs even if display names change."""
+    if type(lid) is int and lid in DOMESTIC_IDS:
+        return country == DOMESTIC_IDS[lid]
+    return isinstance(country, str) and isinstance(name, str) and (country, name) in DOMESTIC_NAMES
+
+
 def scope_method(fixture):
     """Reason for accepting/excluding the provider's competition.
 
