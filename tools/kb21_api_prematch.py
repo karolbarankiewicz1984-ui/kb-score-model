@@ -26,8 +26,8 @@ INTERNATIONAL={
  "World Cup - Qualification Europe","Euro Championship","UEFA European Championship"
 }
 def in_scope(fixture):
-    league=fixture.get("league",{})
-    return (league.get("country"),league.get("name")) in DOMESTIC or league.get("name") in INTERNATIONAL
+    from tools.kb21_league_scope import in_scope as by_id
+    return by_id(fixture)
 
 def parse_utc(value):
     return dt.datetime.fromisoformat(value.replace("Z","+00:00"))
