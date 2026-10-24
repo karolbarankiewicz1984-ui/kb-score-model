@@ -1,0 +1,29 @@
+name: API Market closing snapshot publish tests
+on:
+  pull_request:
+    paths:
+      - tools/api_market_closing_publish.py
+      - tests/test_api_market_closing_publish.py
+      - .github/workflows/api-market-closing.yml
+      - .github/workflows/api-market-closing-tests.yml
+  push:
+    paths:
+      - tools/api_market_closing_publish.py
+      - tests/test_api_market_closing_publish.py
+      - .github/workflows/api-market-closing.yml
+      - .github/workflows/api-market-closing-tests.yml
+permissions:
+  contents: read
+jobs:
+  publish-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify syntax
+        run: python -m compileall -q tools/api_market_closing_publish.py tests/test_api_market_closing_publish.py
+      - name: Verify bounded git race behavior without network access
+        run: python -m unittest tests.test_api_market_closing_publish -v
