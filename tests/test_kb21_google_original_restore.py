@@ -1,5 +1,7 @@
 """Regression cases for Google-first KB21 forensic restoration, without API tokens."""
 import unittest
+import json
+from pathlib import Path
 
 from tools.kb21_google_original_restore import rebuild, parse_revision_content
 
@@ -109,6 +111,40 @@ class RecoverGoogleOriginalTests(unittest.TestCase):
         a[3]="2026-08-15"
         a[2]="2026-08-14"
         self.assertEqual(parse_revision_content(capture(a)), [])
+
+    def test_real_recovered_google_archive_invariants(self):
+        path = (Path(__file__).resolve().parents[1] / "data" /
+                "kb21_google_restore" / "original_live_recovered_2026-10-24.json")
+        archived = json.loads(path.read_text(encoding="utf-8"))
+        self.assertTrue(archived["original_unchanged"])
+        self.assertTrue(archived["n_unchanged"])
+        self.assertEqual(archived["rows"], len(archived["records"]))
+        self.assertEqual(archived["rows"], 179)
+        self.assertEqual(archived["blocks"]["match"], 137)
+        self.assertEqual(archived["blocks"]["error"], 0)
+        self.assertEqual(archived["ev_anomalies"], [])
+        self.assertGreater(len(archived["revisions"]), 0)
+        self.assertEqual(
+            set(x["archived_label"] for x in archived["records"]),
+            {"KB PLAY", "KB LEARN", "KB CONTROL"})
+        ids = [r["sheet_id"] for r in archived["records"]]
+        self.assertEqual(len(ids), len(set(ids)))
+        allowed = {"BEFORE_EVENT_DATE", "ON_EVENT_DATE_TIME_UNVERIFIED",
+                   "AFTER_EVENT_DATE"}
+        for row in archived["records"]:
+            self.assertIn(row["time_class"], allowed)
+            self.assertFalse(row["new_N"])
+            self.assertFalse(row["new_PLAY"])
+            self.assertFalse(row["kickoff_verified"])
+            self.assertFalse(row["preprice_freeze_verified"])
+            self.assertGreater(row["p_model_original"], 0)
+            self.assertLess(row["p_model_original"], 1)
+            self.assertLessEqual(row["sport_score_original"], 100)
+            if row["components_status"] == "match":
+                self.assertEqual(sum(row["components_original"]),
+                                 row["sport_score_original"])
+            self.assertAlmostEqual(row["ev_original"], row["ev_check"],
+                                   delta=.0101)
 
     def test_boolean_flags_fail_closed(self):
         r=rebuild([revision(60,"2026-08-22T12:00:00Z",item())])
