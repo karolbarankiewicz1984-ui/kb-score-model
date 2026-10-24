@@ -41,17 +41,8 @@ jobs:
           else
             python tools/api_market_closing.py
           fi
-      - name: Commit closing snapshot
+      - name: Commit closing snapshot with safe bounded Git retries
         shell: bash
         run: |
           python tools/api_market_integrity.py
-          if [ -z "$(git status --porcelain -- data/api_football/closing_snapshots)" ]; then
-            echo "No closing snapshot to commit."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/api_football/closing_snapshots
-          git commit -m "data: closing market snapshot"
-          git pull --rebase origin main
-          git push origin main
+          python -m tools.api_market_closing_publish
