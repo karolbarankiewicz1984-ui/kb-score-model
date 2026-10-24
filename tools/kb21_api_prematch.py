@@ -14,7 +14,10 @@ from zoneinfo import ZoneInfo
 from tools.api_market_http import ApiClient
 
 BASE="https://v3.football.api-sports.io"
-from tools.kb21_league_scope import in_scope
+from tools.kb21_league_scope import in_scope, DOMESTIC_NAMES, INTERNATIONAL_NAMES
+# Legacy public constants are still imported by standings/context modules.
+DOMESTIC = DOMESTIC_NAMES
+INTERNATIONAL = INTERNATIONAL_NAMES
 
 def parse_utc(value):
     return dt.datetime.fromisoformat(value.replace("Z","+00:00"))
