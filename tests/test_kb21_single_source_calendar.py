@@ -15,13 +15,13 @@ TODAY, TOMORROW = "2026-10-18", "2026-10-19"
 
 
 def fixture(ident, day=TODAY, kickoff="14:00", status="NS", league="Premier League",
-            country="England"):
+            country="England", league_id=39):
     return {
         "fixture": {
             "id": ident, "date": day + "T" + kickoff + ":00+02:00",
             "status": {"short": status, "long": status},
         },
-        "league": {"id": 39, "name": league, "country": country,
+        "league": {"id": league_id, "name": league, "country": country,
                    "season": 2026, "round": "Regular Season - 8"},
         "teams": {
             "home": {"id": 1, "name": "Arsenal"},
@@ -62,7 +62,7 @@ def fake():
             fixture(11),
             fixture(12, kickoff="01:00"),        # already started
             fixture(13, status="PST"),           # postponed
-            fixture(14, league="Second Division"), # out-of-scope
+            fixture(14, league="Second Division", league_id=999), # out-of-scope
         ]),
         (TOMORROW, 1): wrapper(TOMORROW, 1, 1, [
             fixture(15, day=TOMORROW),
