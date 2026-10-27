@@ -1,0 +1,166 @@
+{
+  "archives_considered_predictions": 12,
+  "audited_at_utc": "2026-10-27T07:39:30.462519+00:00",
+  "date": "2026-10-26",
+  "distinct_settled_matches": 6,
+  "mean_brier_over_2_5": 0.2958,
+  "mean_multiclass_brier_1x2": 0.471217,
+  "model": "kb21-api-last10-goals-shadow-v1",
+  "note": "Strict pre-match shadow ONLY; one independent fixture counts once. Two markets on the same fixture are correlated. No betting claims.",
+  "old_kb21_n_effect": 0,
+  "publication": "RESEARCH_ONLY_NOT_PLAY",
+  "register_writes": false,
+  "results": [
+    {
+      "archive_run": "40176640707",
+      "brier_1x2": 0.370763,
+      "brier_over_2_5": 0.423176,
+      "event": "Beşiktaş – Başakşehir",
+      "final_score": [
+        2,
+        0
+      ],
+      "fixture_id": 1584440,
+      "freeze_utc": "2026-10-25T08:27:04.333357+00:00",
+      "kickoff_utc": "2026-10-26T16:00:00+00:00",
+      "probabilities": {
+        "away": 0.27625,
+        "draw": 0.21985,
+        "home": 0.5039,
+        "over_2_5": 0.65052
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "086fa2d52c9e3029b0ec2b8aa025f3914d583cde21071fb0fc032312303a067b",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "40176640707",
+      "brier_1x2": 0.389985,
+      "brier_over_2_5": 0.220383,
+      "event": "Rizespor – Trabzonspor",
+      "final_score": [
+        3,
+        4
+      ],
+      "fixture_id": 1584446,
+      "freeze_utc": "2026-10-25T08:27:04.333357+00:00",
+      "kickoff_utc": "2026-10-26T16:00:00+00:00",
+      "probabilities": {
+        "away": 0.49026,
+        "draw": 0.24395,
+        "home": 0.26578,
+        "over_2_5": 0.53055
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "086fa2d52c9e3029b0ec2b8aa025f3914d583cde21071fb0fc032312303a067b",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "40176640707",
+      "brier_1x2": 0.829557,
+      "brier_over_2_5": 0.08147,
+      "event": "Galatasaray – Fenerbahçe",
+      "final_score": [
+        2,
+        1
+      ],
+      "fixture_id": 1584442,
+      "freeze_utc": "2026-10-25T08:27:04.333357+00:00",
+      "kickoff_utc": "2026-10-26T18:30:00+00:00",
+      "probabilities": {
+        "away": 0.5149,
+        "draw": 0.20724,
+        "home": 0.27786,
+        "over_2_5": 0.71457
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "086fa2d52c9e3029b0ec2b8aa025f3914d583cde21071fb0fc032312303a067b",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "40176640707",
+      "brier_1x2": 0.388701,
+      "brier_over_2_5": 0.17909,
+      "event": "Santa Clara – Benfica",
+      "final_score": [
+        1,
+        2
+      ],
+      "fixture_id": 1575524,
+      "freeze_utc": "2026-10-25T08:27:04.333357+00:00",
+      "kickoff_utc": "2026-10-26T18:45:00+00:00",
+      "probabilities": {
+        "away": 0.49144,
+        "draw": 0.2349,
+        "home": 0.27366,
+        "over_2_5": 0.57681
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "086fa2d52c9e3029b0ec2b8aa025f3914d583cde21071fb0fc032312303a067b",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "40176640707",
+      "brier_1x2": 0.387451,
+      "brier_over_2_5": 0.486158,
+      "event": "Paris Saint Germain – Lyon",
+      "final_score": [
+        2,
+        0
+      ],
+      "fixture_id": 1552800,
+      "freeze_utc": "2026-10-25T08:27:04.333357+00:00",
+      "kickoff_utc": "2026-10-26T19:30:00+00:00",
+      "probabilities": {
+        "away": 0.29315,
+        "draw": 0.21297,
+        "home": 0.49388,
+        "over_2_5": 0.69725
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "086fa2d52c9e3029b0ec2b8aa025f3914d583cde21071fb0fc032312303a067b",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "40176640707",
+      "brier_1x2": 0.460847,
+      "brier_over_2_5": 0.384524,
+      "event": "Sevilla – Osasuna",
+      "final_score": [
+        2,
+        0
+      ],
+      "fixture_id": 1570431,
+      "freeze_utc": "2026-10-25T08:27:04.333357+00:00",
+      "kickoff_utc": "2026-10-26T20:00:00+00:00",
+      "probabilities": {
+        "away": 0.32034,
+        "draw": 0.23157,
+        "home": 0.44809,
+        "over_2_5": 0.6201
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "086fa2d52c9e3029b0ec2b8aa025f3914d583cde21071fb0fc032312303a067b",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    }
+  ],
+  "safe_to_publish_play": false,
+  "schema": "kb21-shadow-forward-settlement-v1",
+  "source": "API-Football result fixtures (same provider IDs)",
+  "top_1x2_accuracy": 0.8333,
+  "top_1x2_correct": 5,
+  "unique_pregame_predictions": 6,
+  "unresolved_matches": 0
+}
