@@ -1,0 +1,94 @@
+{
+  "archives_considered_predictions": 6,
+  "audited_at_utc": "2026-10-28T13:48:30.511195+00:00",
+  "date": "2026-10-27",
+  "distinct_settled_matches": 3,
+  "mean_brier_over_2_5": 0.198668,
+  "mean_multiclass_brier_1x2": 0.338031,
+  "model": "kb21-api-last10-goals-shadow-v1",
+  "note": "Strict pre-match shadow ONLY; one independent fixture counts once. Two markets on the same fixture are correlated. No betting claims.",
+  "old_kb21_n_effect": 0,
+  "publication": "RESEARCH_ONLY_NOT_PLAY",
+  "register_writes": false,
+  "results": [
+    {
+      "archive_run": "40294170418",
+      "brier_1x2": 0.321458,
+      "brier_over_2_5": 0.160929,
+      "event": "Sassuolo – Lazio",
+      "final_score": [
+        2,
+        6
+      ],
+      "fixture_id": 1550174,
+      "freeze_utc": "2026-10-26T08:43:08.751640+00:00",
+      "kickoff_utc": "2026-10-27T17:30:00+00:00",
+      "probabilities": {
+        "away": 0.53716,
+        "draw": 0.22346,
+        "home": 0.23938,
+        "over_2_5": 0.59884
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "15632d3cc662f24d6446e4ae24d6ca5994098da41424b59d704a94c807a2a6be",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "40294170418",
+      "brier_1x2": 0.303935,
+      "brier_over_2_5": 0.255985,
+      "event": "AS Roma – Cagliari",
+      "final_score": [
+        4,
+        2
+      ],
+      "fixture_id": 1550168,
+      "freeze_utc": "2026-10-26T08:43:08.751640+00:00",
+      "kickoff_utc": "2026-10-27T19:45:00+00:00",
+      "probabilities": {
+        "away": 0.20982,
+        "draw": 0.23998,
+        "home": 0.5502,
+        "over_2_5": 0.49405
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "15632d3cc662f24d6446e4ae24d6ca5994098da41424b59d704a94c807a2a6be",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "40294170418",
+      "brier_1x2": 0.388701,
+      "brier_over_2_5": 0.17909,
+      "event": "Torino – Como",
+      "final_score": [
+        1,
+        3
+      ],
+      "fixture_id": 1550175,
+      "freeze_utc": "2026-10-26T08:43:08.751640+00:00",
+      "kickoff_utc": "2026-10-27T19:45:00+00:00",
+      "probabilities": {
+        "away": 0.49144,
+        "draw": 0.2349,
+        "home": 0.27366,
+        "over_2_5": 0.57681
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "15632d3cc662f24d6446e4ae24d6ca5994098da41424b59d704a94c807a2a6be",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    }
+  ],
+  "safe_to_publish_play": false,
+  "schema": "kb21-shadow-forward-settlement-v1",
+  "source": "API-Football result fixtures (same provider IDs)",
+  "top_1x2_accuracy": 1.0,
+  "top_1x2_correct": 3,
+  "unique_pregame_predictions": 3,
+  "unresolved_matches": 0
+}
