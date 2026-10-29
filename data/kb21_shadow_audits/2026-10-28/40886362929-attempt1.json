@@ -1,0 +1,142 @@
+{
+  "archives_considered_predictions": 10,
+  "audited_at_utc": "2026-10-29T13:55:22.028429+00:00",
+  "date": "2026-10-28",
+  "distinct_settled_matches": 5,
+  "mean_brier_over_2_5": 0.265659,
+  "mean_multiclass_brier_1x2": 0.706818,
+  "model": "kb21-api-last10-goals-shadow-v1",
+  "note": "Strict pre-match shadow ONLY; one independent fixture counts once. Two markets on the same fixture are correlated. No betting claims.",
+  "old_kb21_n_effect": 0,
+  "publication": "RESEARCH_ONLY_NOT_PLAY",
+  "register_writes": false,
+  "results": [
+    {
+      "archive_run": "40474938471",
+      "brier_1x2": 0.930868,
+      "brier_over_2_5": 0.255985,
+      "event": "AC Milan – Bologna",
+      "final_score": [
+        2,
+        4
+      ],
+      "fixture_id": 1550167,
+      "freeze_utc": "2026-10-27T08:39:03.662044+00:00",
+      "kickoff_utc": "2026-10-28T17:30:00+00:00",
+      "probabilities": {
+        "away": 0.22908,
+        "draw": 0.2451,
+        "home": 0.52581,
+        "over_2_5": 0.49405
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "4bad5492054c3a4bcd7eeca4980d5d752f05f3a94b749b55cc3e849a279fedcc",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "40474938471",
+      "brier_1x2": 0.839274,
+      "brier_over_2_5": 0.281483,
+      "event": "Parma – Udinese",
+      "final_score": [
+        0,
+        0
+      ],
+      "fixture_id": 1550173,
+      "freeze_utc": "2026-10-27T08:39:03.662044+00:00",
+      "kickoff_utc": "2026-10-28T17:30:00+00:00",
+      "probabilities": {
+        "away": 0.39644,
+        "draw": 0.25245,
+        "home": 0.35111,
+        "over_2_5": 0.53055
+      },
+      "realized_1x2": "draw",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "4bad5492054c3a4bcd7eeca4980d5d752f05f3a94b749b55cc3e849a279fedcc",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "40474938471",
+      "brier_1x2": 0.229059,
+      "brier_over_2_5": 0.473757,
+      "event": "Venezia – Inter",
+      "final_score": [
+        0,
+        2
+      ],
+      "fixture_id": 1550176,
+      "freeze_utc": "2026-10-27T08:39:03.662044+00:00",
+      "kickoff_utc": "2026-10-28T17:30:00+00:00",
+      "probabilities": {
+        "away": 0.60923,
+        "draw": 0.19346,
+        "home": 0.19731,
+        "over_2_5": 0.6883
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "4bad5492054c3a4bcd7eeca4980d5d752f05f3a94b749b55cc3e849a279fedcc",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "40474938471",
+      "brier_1x2": 0.941058,
+      "brier_over_2_5": 0.219914,
+      "event": "Genoa – Juventus",
+      "final_score": [
+        2,
+        0
+      ],
+      "fixture_id": 1550171,
+      "freeze_utc": "2026-10-27T08:39:03.662044+00:00",
+      "kickoff_utc": "2026-10-28T19:45:00+00:00",
+      "probabilities": {
+        "away": 0.52569,
+        "draw": 0.25025,
+        "home": 0.22406,
+        "over_2_5": 0.46895
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "4bad5492054c3a4bcd7eeca4980d5d752f05f3a94b749b55cc3e849a279fedcc",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "40474938471",
+      "brier_1x2": 0.593832,
+      "brier_over_2_5": 0.097157,
+      "event": "Monza – Napoli",
+      "final_score": [
+        1,
+        4
+      ],
+      "fixture_id": 1550172,
+      "freeze_utc": "2026-10-27T08:39:03.662044+00:00",
+      "kickoff_utc": "2026-10-28T19:45:00+00:00",
+      "probabilities": {
+        "away": 0.37932,
+        "draw": 0.22099,
+        "home": 0.39969,
+        "over_2_5": 0.6883
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "4bad5492054c3a4bcd7eeca4980d5d752f05f3a94b749b55cc3e849a279fedcc",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    }
+  ],
+  "safe_to_publish_play": false,
+  "schema": "kb21-shadow-forward-settlement-v1",
+  "source": "API-Football result fixtures (same provider IDs)",
+  "top_1x2_accuracy": 0.2,
+  "top_1x2_correct": 1,
+  "unique_pregame_predictions": 5,
+  "unresolved_matches": 0
+}
