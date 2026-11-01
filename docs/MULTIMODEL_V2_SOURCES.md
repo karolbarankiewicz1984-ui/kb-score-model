@@ -121,5 +121,6 @@ git diff --check
 
 Testy używają wyłącznie danych testowych, bez sieci, kluczy i zapisu obserwacji.
 Nie potwierdzają dostępności bieżących prognoz KB/Konsensusu, oferty STS/Superbet
-ani przyczyny awarii runu 41213715025. Zadania 4–6 i produkcyjna integracja
-pozostają poza tym zakresem.
+ani przyczyny awarii runu 41213715025. Dodatkowy kontrakt zadań 4–5 opisuje
+[MULTIMODEL_V2_AUDIT_PDF.md](MULTIMODEL_V2_AUDIT_PDF.md). Zadanie 6 i produkcyjna
+integracja pozostają otwarte.
