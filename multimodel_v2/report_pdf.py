@@ -24,6 +24,7 @@ from reportlab.platypus import (
 )
 
 from .audit import COHORTS, build_audits
+from .adapters import source_summary
 from .fouls_under import fouls_under_watchlist
 from .source_manifest import WARSAW, build_source_manifest, instant, local_day, number
 
@@ -56,6 +57,25 @@ REASONS = {
     "kickoff_reached": "mecz już się rozpoczął — brak nowej prognozy",
     "odds_outside_band": "brak kursu w przedziale 1.50–2.00",
     "not_90_minutes": "okres rynku nie obejmuje 90 minut",
+    "fixture_id_missing": "brak identyfikatora fixture",
+    "kickoff_missing": "brak dokładnego kickoffu z offsetem",
+    "exact_market_identity_missing": "brak jednoznacznej tożsamości dokładnego rynku",
+    "prematch_freeze_timestamp_missing": "brak potwierdzonego czasu freeze przed kickoffem",
+    "bookmaker_missing": "brak potwierdzonego bukmachera",
+    "quote_timestamp_missing": "brak czasu notowania z offsetem",
+    "full_background_not_archived": "brak pełnego tła kandydatur w artefakcie",
+    "original_publication_id_missing": "brak oryginalnego ID publikacji freeze",
+    "independent_quote_identity_missing": "brak niezależnego potwierdzenia dokładnego rynku kursu",
+    "no_independently_verified_quote": "brak niezależnie zweryfikowanego kursu",
+    "no_source_rows_for_date": "brak wpisów źródłowych dla daty raportu",
+    "source_date_and_analysis_time_not_verified_event_kickoff": "data i godzina analizy nie potwierdzają kickoffu ani freeze",
+    "frozen_top_period_missing": "freeze TOP nie zapisuje okresu rozliczenia rynku",
+    "run_binding_missing": "brak metadanych runu dla tego konkretnego freeze",
+    "source_not_verified_available_at_cutoff": "nie potwierdzono dostępności źródła przed czasem oceny",
+    "insufficient_historical_context": "niepełna próbka kontekstu historycznego",
+    "pitchapi_capture_or_date_invalid": "czas lub lokalna data kontekstu PitchAPI wymagają weryfikacji",
+    "invalid_number": "brak poprawnych wartości wymaganych pól źródłowych",
+    "missing_pitchapi_history": "brak kompletnych datowanych próbek historii PitchAPI",
 }
 
 
@@ -64,7 +84,7 @@ def report_dates(start_date):
     return [(start + timedelta(days=i)).isoformat() for i in range(3)]
 
 
-def build_daily_report(day, runs, snapshots, settlements, *, as_of):
+def build_daily_report(day, runs, snapshots, settlements, *, as_of, source_bundles=None):
     if not isinstance(snapshots, list):
         raise ValueError("source_lists_required")
     day_snapshots = [s for s in snapshots if not isinstance(s, dict) or s.get("date") == day]
@@ -82,8 +102,9 @@ def build_daily_report(day, runs, snapshots, settlements, *, as_of):
                 upcoming.append(dict(record, quote=quote, status="OBSERWUJ / analiza pomocnicza (nie freeze)"))
         except ValueError:
             continue
+    inventory = [source_summary(b, day, as_of=as_of) for b in source_bundles] if source_bundles is not None else []
     return {"date": day, "as_of": manifest["as_of"], "manifest": manifest,
-            "watchlist": watchlist, "audits": audits, "upcoming_api": upcoming}
+            "watchlist": watchlist, "audits": audits, "upcoming_api": upcoming, "source_inventory": inventory}
 
 
 def _fonts(font_dir):
@@ -192,9 +213,19 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
     add(f"API Market: {api_status}.\nOryginalny TOP: " +
         ("potwierdzony freeze" if report["audits"]["cohorts"]["original_top"]["status"] == "complete"
          else "BRAK kompletnego oryginalnego freeze / TOP"), "small")
-    add("KB Score: brak aktualnej prognozy (brak eksportu źródłowego).\n"
-        "Konsensus: brak aktualnej prognozy (brak eksportu źródłowego).\n"
-        "PitchAPI: brak zweryfikowanego kontekstu w wejściu tego raportu.", "small")
+    labels = {"kb21": "KB Score", "consensus": "Konsensus", "pitchapi": "PitchAPI"}
+    coverage_lines = []
+    for system, label in labels.items():
+        sources = [s for s in report.get("source_inventory", []) if s["system"] == system]
+        if any(s["complete_for_date"] for s in sources):
+            coverage_lines.append(f"{label}: potwierdzony źródłowy freeze dla tej daty.")
+        elif system == "pitchapi":
+            coverage_lines.append(f"{label}: brak zweryfikowanego kontekstu dla tej daty.")
+        elif sources:
+            coverage_lines.append(f"{label}: brak aktualnej prognozy dla tej daty (rejestr historyczny odczytano).")
+        else:
+            coverage_lines.append(f"{label}: brak aktualnej prognozy (brak eksportu źródłowego).")
+    add("\n".join(coverage_lines), "small")
     add("Ocena API /100 nie jest P(HIT). Powiązane rynki jednego meczu są skorelowane. "
         "Status obserwacyjny nie jest KB PLAY ani potwierdzeniem dostępności STS/Superbet.", "small")
 
@@ -228,6 +259,21 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
     for reason in sorted(reasons):
         description = REASONS.get(reason, "niespójne lub niepełne dowody źródłowe — szczegóły w audycie")
         add(f"Brak / odrzucenie: {description}", "small")
+    if report.get("source_inventory"):
+        add("Odczyt rzeczywistych źródeł", "section")
+        grouped = defaultdict(list)
+        for source in report["source_inventory"]:
+            grouped[source["system"]].append(source)
+        for system, sources in grouped.items():
+            label = {"kb21": "KB Score 2.1", "consensus": "Konsensus", "pitchapi": "PitchAPI",
+                     "api_market": "API Market"}[system]
+            latest = max((s["latest_date"] for s in sources if s["latest_date"]), default="nieustalona")
+            with_rows = sum(s["rows_for_date"] > 0 for s in sources)
+            add(f"{label}: odczytano {len(sources)} plików/eksportów; ostatnia data {latest}. "
+                f"Źródła z wpisami dla tej daty: {with_rows}. To pokrycie odczytu, nie licznik N.", "small")
+            descriptions = {REASONS.get(code, "niepełne dowody źródłowe — szczegóły w raporcie porównania")
+                            for source in sources for code in source["blockers"]}
+            add("Braki: " + "; ".join(sorted(descriptions)) + ".", "small")
 
     top = report["audits"]["cohorts"]["original_top"]
     active_top = [(rank, row) for rank, row in enumerate(top["rows"], 1)
@@ -341,7 +387,7 @@ def validate_pdf_bundle(directory, start_date):
     return [validate_pdf(directory / f"MULTIMODEL_{day}.pdf", day) for day in days]
 
 
-def generate_three_pdfs(start_date, runs, snapshots, settlements, *, as_of, output_dir, font_dir=FONT_DIR):
+def generate_three_pdfs(start_date, runs, snapshots, settlements, *, as_of, output_dir, font_dir=FONT_DIR, source_bundles=None):
     """Stage/validate all PDFs before publishing paths; never overwrite files."""
     days = report_dates(start_date)
     instant(as_of)
@@ -358,7 +404,7 @@ def generate_three_pdfs(start_date, runs, snapshots, settlements, *, as_of, outp
         staging = Path(temporary) / "pdfs"
         staging.mkdir()
         for day in days:
-            report = build_daily_report(day, runs, snapshots, settlements, as_of=as_of)
+            report = build_daily_report(day, runs, snapshots, settlements, as_of=as_of, source_bundles=source_bundles)
             _render_pdf(report, staging / f"MULTIMODEL_{day}.pdf", font_dir=font_dir)
         validate_pdf_bundle(staging, start_date)
         os.rename(staging, output)
@@ -376,7 +422,7 @@ def main(argv=None):
     if args.evidence:
         evidence = json.loads(args.evidence.read_text(encoding="utf-8"))
     paths = generate_three_pdfs(args.start, evidence["runs"], evidence["snapshots"], evidence["settlements"],
-                                as_of=args.as_of, output_dir=args.output)
+                                as_of=args.as_of, output_dir=args.output, source_bundles=evidence.get("source_bundles"))
     print(json.dumps(validate_pdf_bundle(paths[0].parent, args.start), ensure_ascii=False, indent=2))
 
 

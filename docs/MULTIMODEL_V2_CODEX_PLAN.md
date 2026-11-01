@@ -40,6 +40,10 @@ Nie zmieniać modeli, parametrów, progów, oficjalnego TOP, historycznych freez
 2026-11-01 | M2-010 | Testy zadań 4–5 i izolowane CI | `tests/test_multimodel_v2_audit.py`, `tests/test_multimodel_v2_pdf.py`, odseparowane zależności i nowy workflow wyłącznie testowy; dwa parsery, wielostronicowość, błędne PDF, awaria drugiego pliku, DST i niezmienność wejść | 44 nowe testy; dotychczasowe workflow bez zmian | TESTED.
 2026-11-01 | M2-011 | Kontrakt i kontrola plików wynikowych | `docs/MULTIMODEL_V2_AUDIT_PDF.md`, aktualizacja odnośnika źródeł; wizualna kontrola wyrenderowanych stron z danymi testowymi i brakami źródeł | egzemplarze bez przekazanych zweryfikowanych źródeł jawnie pokazują braki, nie fikcyjne prognozy | DOCUMENTED.
 2026-11-01 | M2-012 | Poprawka zgodności z aktualnym PyMuPDF w CI | run 41304083060: PyMuPDF 1.28.2 wypisywało deprecjację aliasu `fitz` na stdout i naruszało kontrakt JSON CLI; użyto kanonicznego `pymupdf`, minimalna wersja 1.24.4 | istniejący test CLI zachowany, bez osłabiania walidacji i bez zmian produkcji | FIXED.
+2026-11-01 | M2-013 | Etap 6: rzeczywiste adaptery read-only | `adapters.py`: natywne API Market/PitchAPI i oryginalne odpowiedzi Google Sheets; źródła odczytane, hashe capture, zachowanie oryginalnych pól; bez wymyślania ID, quote identity, freeze i kickoff | odczyt historyczny działa; świeże źródła 1–3 XI niekompletne | IMPLEMENTED / SOURCE_BLOCKED.
+2026-11-01 | M2-014 | Test 1:1 tych samych freeze | `shadow.py`: oddzielnie eksporty 7 i 22 pozycji oraz pełny freeze 222/ TOP 51; zero różnic fixture/market/quote/status/score/TOP i zero niespójności freeze–eksport; pełny shadow czterech modeli zablokowany | brak połączenia różnych runów i brak zmiany oryginalnego TOP | PARTIAL.
+2026-11-01 | M2-015 | Weryfikacja trzech rzeczywistych raportów | PDF dla 1/2/3 XI technicznie poprawne (po 3 strony A5), lecz pokazują aktualne braki i daty odczytanych źródeł; brak pełnego runu API/KB/Konsensusu/PitchAPI dla tych dat | brak fikcyjnych prognoz i wyników; nie uznano plików za kompletne raporty | SOURCE_BLOCKED.
+2026-11-01 | M2-016 | Raport różnic i regresja etapu 6 | `MULTIMODEL_V2_STAGE6_REPORT_2026-11-01.md` oraz JSON; 35 nowych testów, 141 MULTIMODEL, pełna regresja 749; dwie kontrole parserem PDF | bez zmian modeli/progów/archiwów/N i bez kosztownych skanów API | TESTED.
 
 ## Raport regresji — zadania 1–3 (2026-11-01)
 
@@ -62,3 +66,12 @@ Nie zmieniać modeli, parametrów, progów, oficjalnego TOP, historycznych freez
 - Dokładnie trzy datowane pliki dla 2026-11-01/02/03; brak przekazanych zweryfikowanych źródeł jest jawny. Testowe prognozy i wyniki nie trafiają do plików użytkowych ani repozytoryjnych archiwów.
 - `git diff --check` — OK. Dotychczasowe modele, progi, freeze, dane, raporty, archiwa, checkpointy i workflow bez zmian; jedyny nowy workflow jest testowy, bez harmonogramu, sekretów i uprawnień zapisu.
 - Istniejący draft PR #55 pozostaje ścieżką przeglądu. Zadanie 6, integracja rzeczywistych eksportów i produkcyjne wdrożenie pozostają otwarte; bez merge do main. M2-003 nadal BLOCKED.
+
+## Raport regresji — etap 6 (2026-11-01)
+
+- Baza: `294112ebc1279c1eb8d1737daf4e1a3fbf827c83`, aktywna i czysta gałąź `codex/multimodel-v2`; odczyt origin/main nie zmienił main ani gałęzi roboczej.
+- Dane rzeczywiste: eksporty runu `40906734194` (7/22 pozycji, zadeklarowane tła 222/934), osobny oryginalny freeze 222/TOP 51, odczyty Google KB 204 wiersze i Konsensus 214, dwa snapshoty PitchAPI 33/78 rekordów. Liczby odczytu nie są nowymi N.
+- Wynik porównania pól 1:1: 0 różnic dla każdego z trzech odrębnych wejść. Pełny shadow i kompletne raporty 1–3 XI: **SOURCE_BLOCKED**, nie PASS; szczegółowe powody i różnice audytów w [raporcie etapu 6](MULTIMODEL_V2_STAGE6_REPORT_2026-11-01.md).
+- Testy adapterów/shadow: 35/35 OK; MULTIMODEL v2: 141/141 OK; pełna regresja: 749/749 OK. Python 3.12.14, standardowa biblioteka w adapterach; bez wywołań źródłowych modeli/API.
+- Trzy PDF A5 po 3 strony zweryfikowano dwoma parserami, osadzenie DejaVu Sans, >=7 pt, paginację, polskie znaki, FAULE UNDER na pierwszej stronie i brak aktywnych linków. Pliki z brakami nie zastępują kompletnych raportów prognoz.
+- Wszystkie źródłowe modele, konfiguracja, progi, freeze, dane, raporty, archiwa, workflow i liczniki N bez zmian. Odczyty Google nie wykonywały żadnych zapisów. Nowych skanów API i merge: 0. M2-002 i M2-003 pozostają otwarte/zablokowane.

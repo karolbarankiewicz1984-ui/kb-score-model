@@ -124,3 +124,7 @@ Nie potwierdzają dostępności bieżących prognoz KB/Konsensusu, oferty STS/Su
 ani przyczyny awarii runu 41213715025. Dodatkowy kontrakt zadań 4–5 opisuje
 [MULTIMODEL_V2_AUDIT_PDF.md](MULTIMODEL_V2_AUDIT_PDF.md). Zadanie 6 i produkcyjna
 integracja pozostają otwarte.
+
+Etap 6 dodaje adaptery natywnych źródeł i raport zgodności. Odczyt działa,
+lecz pełny shadow pozostaje zablokowany przez rzeczywiste braki danych;
+patrz [raport etapu 6](MULTIMODEL_V2_STAGE6_REPORT_2026-11-01.md).
