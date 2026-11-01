@@ -39,6 +39,7 @@ Nie zmieniać modeli, parametrów, progów, oficjalnego TOP, historycznych freez
 2026-11-01 | M2-009 | Zadanie 5: trzy osobne PDF A5 | `multimodel_v2/report_pdf.py`: D/D+1/D+2 Warsaw, DejaVu Sans >=7 pt (brama >=6 pt), FAULE UNDER na pierwszej stronie, paginacja, jawne braki, walidacja parserem wszystkich stron; publikacja dopiero całego poprawnego zestawu | bez nadpisywania archiwów i bez fałszywych ścieżek/linków | IMPLEMENTED.
 2026-11-01 | M2-010 | Testy zadań 4–5 i izolowane CI | `tests/test_multimodel_v2_audit.py`, `tests/test_multimodel_v2_pdf.py`, odseparowane zależności i nowy workflow wyłącznie testowy; dwa parsery, wielostronicowość, błędne PDF, awaria drugiego pliku, DST i niezmienność wejść | 44 nowe testy; dotychczasowe workflow bez zmian | TESTED.
 2026-11-01 | M2-011 | Kontrakt i kontrola plików wynikowych | `docs/MULTIMODEL_V2_AUDIT_PDF.md`, aktualizacja odnośnika źródeł; wizualna kontrola wyrenderowanych stron z danymi testowymi i brakami źródeł | egzemplarze bez przekazanych zweryfikowanych źródeł jawnie pokazują braki, nie fikcyjne prognozy | DOCUMENTED.
+2026-11-01 | M2-012 | Poprawka zgodności z aktualnym PyMuPDF w CI | run 41304083060: PyMuPDF 1.28.2 wypisywało deprecjację aliasu `fitz` na stdout i naruszało kontrakt JSON CLI; użyto kanonicznego `pymupdf`, minimalna wersja 1.24.4 | istniejący test CLI zachowany, bez osłabiania walidacji i bez zmian produkcji | FIXED.
 
 ## Raport regresji — zadania 1–3 (2026-11-01)
 
@@ -57,6 +58,7 @@ Nie zmieniać modeli, parametrów, progów, oficjalnego TOP, historycznych freez
 - `python -B -m unittest discover -s tests -p 'test_multimodel_v2*.py'` — 106/106 OK.
 - `python -B -m unittest discover -s tests` — 714/714 OK, Python 3.12.14.
 - Kontrola PDF: PyMuPDF 1.26.6 i niezależny pypdf 6.10.0; ReportLab 4.4.9, osadzone DejaVu Sans, A5, minimalny faktyczny rozmiar 7 pt, polskie znaki, wszystkie strony z numeracją X/Y, brak aktywnych linków i tekstu poza stroną. Zweryfikowano również wzrokowo wyrenderowane strony.
+- Po poprawce M2-012 pełna regresja ponownie 714/714 OK także w osobnym świeżym venv z aktualnymi zależnościami jak w CI: ReportLab 4.5.1, PyMuPDF 1.28.2, pypdf 6.21.4. Istniejący test CLI nadal wymaga czystego JSON na stdout. Nowy workflow testuje SHA gałęzi źródłowej, bez syntetycznego merge.
 - Dokładnie trzy datowane pliki dla 2026-11-01/02/03; brak przekazanych zweryfikowanych źródeł jest jawny. Testowe prognozy i wyniki nie trafiają do plików użytkowych ani repozytoryjnych archiwów.
 - `git diff --check` — OK. Dotychczasowe modele, progi, freeze, dane, raporty, archiwa, checkpointy i workflow bez zmian; jedyny nowy workflow jest testowy, bez harmonogramu, sekretów i uprawnień zapisu.
 - Istniejący draft PR #55 pozostaje ścieżką przeglądu. Zadanie 6, integracja rzeczywistych eksportów i produkcyjne wdrożenie pozostają otwarte; bez merge do main. M2-003 nadal BLOCKED.

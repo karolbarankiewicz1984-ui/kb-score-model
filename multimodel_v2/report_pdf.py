@@ -10,7 +10,7 @@ import os
 from pathlib import Path
 import tempfile
 
-import fitz
+import pymupdf as fitz
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A5

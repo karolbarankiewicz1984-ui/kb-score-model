@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-import fitz
+import pymupdf as fitz
 from pypdf import PdfReader
 from reportlab.lib.pagesizes import A4, A5
 from reportlab.pdfgen import canvas

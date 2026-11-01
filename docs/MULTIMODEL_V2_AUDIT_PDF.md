@@ -133,5 +133,6 @@ git diff --check
 
 Osobny workflow `multimodel-v2-checks.yml` uruchamia wyłącznie testy, bez
 sekretów, skanów, harmonogramów, zapisów danych i uprawnień zapisu. Istniejące
-workflow produkcyjne pozostają bez zmian. Zadanie 6 (shadow 1:1), podłączenie
+workflow produkcyjne pozostają bez zmian. Checkout testów wskazuje SHA gałęzi
+źródłowej PR, bez syntetycznego merge z main. Zadanie 6 (shadow 1:1), podłączenie
 rzeczywistych eksportów i każda decyzja produkcyjna pozostają otwarte.
