@@ -31,3 +31,17 @@ Nie zmieniać modeli, parametrów, progów, oficjalnego TOP, historycznych freez
 2026-11-01 | M2-001 | Start równoległej gałęzi Codex | plan i audyt read-only | brak zmian produkcyjnych | OPEN.
 2026-11-01 | M2-002 | Ryzyko: multi-day default 2 vs 3 dni raportu | test planner i pokrycia dat | OPEN.
 2026-11-01 | M2-003 | Nieudokumentowana przyczyna failure run 41213715025 (log 404) | ponowna diagnoza po odzyskaniu logów | BLOCKED.
+2026-11-01 | M2-004 | Zadanie 1: read-only manifest źródeł | `multimodel_v2/source_manifest.py`: ukończony run, datowany status, SHA, artefakt, snapshot, kickoff i exact market; jawna blokada braków i lookahead | izolowane; brak zmian produkcyjnych | IMPLEMENTED.
+2026-11-01 | M2-005 | Zadanie 2: testy pochodzenia i regresji | `tests/test_multimodel_v2_provenance.py`: daty, ceny, exact line, snapshot, duplikaty, reruny, DST Warsaw, niezmienność wejść; M2-002 potwierdzone testem braku trzeciej daty, bez zmiany workflow | wyniki w raporcie regresji poniżej | IMPLEMENTED.
+2026-11-01 | M2-006 | Zadanie 3: niezależny filtr FAULE UNDER | `multimodel_v2/fouls_under.py`: kurs 1.50–2.00, 90 min, jawne statusy poniżej/od 67, brak kandydatur przy brakach, bez obserwacji po kickoff | bez zmian TOP/N/modeli/progów/archiwów | IMPLEMENTED.
+2026-11-01 | M2-007 | Kontrakt wejściowy i ograniczenia | `docs/MULTIMODEL_V2_SOURCES.md`: normalizacja oryginalnych dowodów, brak odtwarzania brakujących danych, rozróżnienie SHA runu od checkout | bez kolektora, PDF i wdrożenia; zadania 4–6 pozostają otwarte | DOCUMENTED.
+
+## Raport regresji — zadania 1–3 (2026-11-01)
+
+- Baza przed zmianami: `f5ce926dcee70dacdf030531998d0404bf2a2f76`, gałąź `codex/multimodel-v2`, katalog roboczy czysty.
+- Testy bazowe: `python -B -m unittest discover -s tests` — 608/608 OK; w tym 59/59 testów API Market.
+- Testy zadań 1–3: `python -B -m unittest discover -s tests -p 'test_multimodel_v2_provenance.py'` — 62/62 OK (offline, w tym DST, granice czasu/ceny/oceny i niezmienność wejść).
+- Pełna regresja po zmianach: `python -B -m unittest discover -s tests` — 670/670 OK, Python 3.12.14.
+- `git diff --check` — OK. Porównanie z bazą: zero zmian w `model/`, `config/`, `tools/`, `.github/`, `data/`, `reports/`, `archive/` oraz obowiązujących dokumentach modelu, progów i checkpointów. Zmieniono wyłącznie nowy pakiet, jego testy, kontrakt źródeł i ten rejestr.
+- Przegląd: istniejący [draft PR #55](https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/55), nadal bez merge i bez wdrożenia do produkcji.
+- Brak uruchomienia skanu, zapisów obserwacji i rekonstrukcji prognoz. Status M2-003 pozostaje BLOCKED; nie ustalono przyczyny awarii bez logów.
