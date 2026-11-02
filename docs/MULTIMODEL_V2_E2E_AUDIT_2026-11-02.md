@@ -16,6 +16,7 @@ P0: **brak potwierdzonych P0 w sprawdzonym materiale**. Braki wejść nie pozwal
 | P1-003 | P1, potwierdzone | Brak świeżych formalnych prognoz KB/Konsensusu i strukturalnego fixture/kickoff/exact market/freeze/quote | Odczyt historii działa; potrzebne autentyczne nowe publikacje, nie przeniesienie starych rekordów | SOURCE_BLOCKED |
 | P1-004 | P1, potwierdzone | Eksport 28/20 nie zawiera pełnych 1473/999 kandydatur ani upstream rankingu 340/213. Brak niezależnej quote identity i publication.id w audit_input | Adapter weryfikuje bajty i zachowuje znane pola. Odzyskać oryginalne brakujące wejścia tego samego runu; bez łączenia snapshotów lub tworzenia ID z hasha | SOURCE_BLOCKED |
 | P1-005 | P1, potwierdzone | Dostępne 1391 rozliczeń dotyczy innej publikacji produkcyjnej; brak rozliczeń powiązanych z badanym freeze | Nie przeniesiono gotowych obserwacji ani miar. TOP/API/FAULE UNDER pozostają odrębne, ROI niedostępne | SOURCE_BLOCKED |
+| P1-006 | P1, potwierdzone | Snapshot PitchAPI 21:10Z jest późniejszy od pierwotnego freeze API 15:54Z. Dopasowanie tożsamości 2/9 nie oznacza dostępności w chwili freeze | Dodano cutoff do matchera i replay. W oryginalnym freeze dostępne 0/9; późniejszy kontekst może służyć późniejszemu wydaniu | FIXED w izolowanym replay; bez wdrożenia |
 | P2-001 | P2, potwierdzone | PitchAPI na 2 XI: 61 rekordów, 58 z datą Warsaw 2 XI, 3 z datą Warsaw 3 XI. Dopasowanie tylko 2/9 fixture API | Trzy rekordy wykluczono z pokrycia 2 XI, bez automatycznej zmiany daty/aliasów | EXCLUDED / niepełne pokrycie |
 | P2-002 | P2, potwierdzone | ZIP ma dwa PDF po 2 strony 190×270 mm, nie trzy A5. Brak dowodu odbioru pełnych raportów | Trzy nowe A5 z jawnymi brakami i hashami dostępności sprawdzone. Nie udają pełnych prognoz ani potwierdzenia odbiorcy | Częściowo poprawione; pełne dostarczenie BLOCKED |
 | RISK-001 | P1, podejrzenie | Filtr historii API porównuje próbkę z kickoffem, nie czasem publikacji; brak dat/ID użytych próbek w artefakcie | Wymagane oryginalne wejścia. Nie zmieniono algorytmu i nie uznano ryzyka za zaobserwowany wyciek | UNCONFIRMED |
@@ -53,6 +54,8 @@ Ponownie odczytano oryginalne arkusze. KB Rejestr A1:AP1000: 496 niepustych wier
 
 PitchAPI 2 XI: snapshot z 1 XI 21:10:31.906535Z, 58/61 rekordów spełnia datę Warsaw i kontrolę zapisanej historii sprzed snapshotu. Trzy kickoffy 2 XI 23:00/23:30 UTC są już 3 XI Warsaw. Dokładna zgodność drużyn, ligi i UTC kickoffu daje **2/9** fixture API 2 XI. Brak snapshotów 3/4 XI w odczytanym drzewie main; stare pliki w ZIP nie są nowymi snapshotami tego runu.
 
+Te 2/9 są dopasowaniem do kontekstu dostępnego obecnie. W chwili pierwotnego freeze API o 15:54Z późniejszy snapshot PitchAPI z 21:10Z nie istniał: **0/9** dopasowań przy wspólnym cutoffie. Matcher przyjmuje jawne as_of, replay podaje oryginalny freeze, a raport E2E rozdziela oba wyniki. Nie przepisano późniejszego kontekstu do dawnego wejścia. Bieżący PDF jawnie używa późniejszego czasu raportu.
+
 Nie zapisano nic do arkuszy i nie kopiowano prywatnych uwag/autorów do repo. Odzysk rewizji pozostaje osobno udokumentowany w [audytach blokad](MULTIMODEL_V2_BLOCKER_AUDIT_2026-11-01.md).
 
 ## 4. TOP, exact market, kursy, freeze i N
@@ -85,7 +88,7 @@ check_delivery potwierdza istnienie trzech plików i SHA-256: **FILES_VERIFIED_A
 
 - Nowe izolowane moduły: digest/odczyt ZIP i E2E, dowód historycznej publikacji Git, rzeczywiste rewizje arkuszy, klasyfikacja odzysku/DST. Żaden nie pobiera płatnych danych.
 - Poprawki v2: typ git_publication w manifestach/audycie, jawne częściowe dane w PDF, osobne selekcje i szablony KB, kontrola brakujących dat/plików i dostępności PDF bez fikcyjnego odbiorcy.
-- **56 nowych testów; MULTIMODEL v2 197/197; pełna regresja 805/805**, Python 3.12.14. Pełna regresja na bieżących zależnościach PDF jak w CI; testy lokalne offline.
+- **57 nowych testów; MULTIMODEL v2 198/198; pełna regresja 806/806**, Python 3.12.14. Pełna regresja na bieżących zależnościach PDF jak w CI; testy lokalne offline.
 - git diff --check i kontrola zakresu — OK. Modele, algorytmy, wagi, progi, dane, archiwa, historyczne prognozy, narzędzia produkcyjne, workflow i N bez zmian. Płatne skany uruchomione przez audyt: 0; merge/wdrożenie: 0.
 - Odtwarzanie: `python -B -m multimodel_v2.artifact_audit --help`. CLI przyjmuje ZIP, odpowiedzi run/artifacts, capture Google, datę startu/as_of i nowy katalog PDF. Wypisuje JSON, nie pobiera źródeł i nie nadpisuje wyników. Hashe każdego członka ZIP i PDF, pokrycie oraz 1:1 są w raporcie dowodowym.
 - Istniejący draft PR #55 pozostaje ścieżką przeglądu. Pełny shadow i dostarczenie kompletnych raportów nadal SOURCE_BLOCKED; rekomendacja DO_NOT_DEPLOY.
@@ -99,7 +102,8 @@ check_delivery potwierdza istnienie trzech plików i SHA-256: **FILES_VERIFIED_A
 2026-11-02 | E2E-005 | Rozdzielone kohorty, obce gotowe rozliczenia odrzucone; trzy kontrolne A5 i hashe dostępności, bez potwierdzenia odbiorcy | TESTED / DELIVERY_INCOMPLETE.
 2026-11-02 | E2E-006 | 28/20 i zero różnic/niezgodności freeze; bez pełnego replay matematyki bez wejść | PARTIAL_1_TO_1 / SOURCE_BLOCKED.
 2026-11-02 | E2E-007 | Podejrzenie cutoff historii wydzielone od rzeczywistych 0 naruszeń czasu 48 pozycji; algorytm bez zmian | UNCONFIRMED.
-2026-11-02 | E2E-008 | 805/805, v2 197/197, 56 nowych testów; zero zmian chronionych plików i zero płatnych skanów/merge | TESTED / DO_NOT_DEPLOY.
+2026-11-02 | E2E-008 | 806/806, v2 198/198, 57 nowych testów; zero zmian chronionych plików i zero płatnych skanów/merge | TESTED / DO_NOT_DEPLOY.
+2026-11-02 | E2E-009 | Kontekst PitchAPI po oryginalnym freeze API: matcher/replay kontroluje wspólny cutoff, 2/9 tożsamości i 0/9 wejść dostępnych wtedy; negatywny test czasowy | FIXED IN ISOLATION / bez wdrożenia.
 
 ## Lista zmienionych plików w tym audycie
 

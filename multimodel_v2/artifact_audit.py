@@ -218,11 +218,14 @@ def run_e2e(api_zip, api_run, api_artifacts, pitch_zip, pitch_run, pitch_artifac
     pitch = inspect_pitch_artifact(read_zip(pitch_zip, pitch_run, pitch_artifacts, "pitchapi-prematch-context"))
     sheets = [adapt_sheet(load_json(kb_capture), "kb21"), adapt_sheet(load_json(consensus_capture), "consensus")]
     bundles = api["bundles"] + pitch["bundles"] + sheets
-    matches = {}
+    matches, matches_at_freeze = {}, {}
     for bundle in api["bundles"]:
         for row in bundle["rows"]:
             match = match_pitchapi(row, pitch["bundles"])
             matches[f"{row['date']}:{row['fixture_id']}"] = match["native_fixture_id"] if match else None
+            cutoff = bundle["freeze"].get("captured_at_utc")
+            original_match = match_pitchapi(row, pitch["bundles"], as_of=cutoff) if cutoff else None
+            matches_at_freeze[f"{row['date']}:{row['fixture_id']}"] = original_match["native_fixture_id"] if original_match else None
     report = {"schema": "multimodel-v2-e2e-artifact-audit-v1", "as_of": as_of,
               "api": {k: api[k] for k in ("manifest", "days", "comparisons")},
               "pitchapi": {k: pitch[k] for k in ("manifest", "days")},
@@ -234,6 +237,8 @@ def run_e2e(api_zip, api_run, api_artifacts, pitch_zip, pitch_run, pitch_artifac
               "coverage_current_report": coverage(start_date, api["days"], pitch["bundles"]),
               "coverage_api_run_report": coverage(api["days"][0]["date"], api["days"], pitch["bundles"]),
               "pitchapi_exact_matches": matches,
+              "pitchapi_matches_at_original_api_freeze": matches_at_freeze,
+              "pitchapi_current_matches_are_not_original_freeze_inputs": True,
               "readiness": three_day_readiness(start_date, bundles, api["evidence"], as_of=as_of),
               "full_parallel_1_to_1_complete": False, "models_modified": False,
               "register_writes": False, "n_effect": 0, "paid_api_scans_started": 0}

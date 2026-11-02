@@ -239,7 +239,8 @@ def run_shadow(archive_root, run_file, artifacts_file, kb_file, consensus_file, 
     pitch_matches = {}
     for api in archive["bundles"]:
         for row in api["rows"]:
-            match = match_pitchapi(row, pitch)
+            cutoff = api["freeze"].get("captured_at_utc")
+            match = match_pitchapi(row, pitch, as_of=cutoff) if cutoff else None
             pitch_matches[f"{row['date']}:{row['fixture_id']}"] = match["native_fixture_id"] if match else None
     readiness = three_day_readiness(start_date, bundles, archive["evidence"], as_of=as_of)
     report = {"schema": "multimodel-v2-real-shadow-v1", "as_of": as_of,

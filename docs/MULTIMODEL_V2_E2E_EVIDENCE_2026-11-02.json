@@ -2853,6 +2853,13 @@
       "kind": "UNCONFIRMED",
       "problem": "API history filter uses kickoff rather than publication timestamp; saved sample dates missing for this run, so full lookahead audit cannot be proved",
       "status": "REQUIRES_ORIGINAL_INPUTS_NO_LEAK_CONFIRMED"
+    },
+    {
+      "id": "P1-006",
+      "priority": "P1",
+      "kind": "CONFIRMED",
+      "problem": "PitchAPI snapshot 21:10Z is later than original API freeze 15:54Z; 2/9 identity matches become 0/9 matches at that freeze",
+      "status": "FIXED_IN_ISOLATED_REPLAY_CUTOFF_GUARD"
     }
   ],
   "pdf_independent_validation": [
@@ -2888,9 +2895,9 @@
     }
   ],
   "test_results": {
-    "new_tests": 56,
-    "multimodel_v2_tests": 197,
-    "full_suite_tests": 805,
+    "new_tests": 57,
+    "multimodel_v2_tests": 198,
+    "full_suite_tests": 806,
     "status": "PASS_CODE_TESTS_ONLY",
     "source_shadow_status": "SOURCE_BLOCKED"
   },
@@ -2916,5 +2923,30 @@
     "multimodel_v2/source_manifest.py",
     "tests/test_multimodel_v2_artifact_audit.py",
     "tests/test_multimodel_v2_source_blockers.py"
-  ]
+  ],
+  "pitchapi_matches_at_original_api_freeze": {
+    "2026-11-01:1575530": null,
+    "2026-11-01:1552804": null,
+    "2026-11-01:1552805": null,
+    "2026-11-01:1584453": null,
+    "2026-11-01:1552807": null,
+    "2026-11-01:1575527": null,
+    "2026-11-01:1570433": null,
+    "2026-11-01:1575534": null,
+    "2026-11-01:1550182": null,
+    "2026-11-01:1558667": null,
+    "2026-11-01:1557453": null,
+    "2026-11-01:1550184": null,
+    "2026-11-01:1575205": null,
+    "2026-11-02:1550185": null,
+    "2026-11-02:1575529": null,
+    "2026-11-02:1552803": null,
+    "2026-11-02:1553214": null,
+    "2026-11-02:1550178": null,
+    "2026-11-02:1553213": null,
+    "2026-11-02:1553217": null,
+    "2026-11-02:1584452": null,
+    "2026-11-02:1575533": null
+  },
+  "pitchapi_current_matches_are_not_original_freeze_inputs": true
 }

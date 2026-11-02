@@ -373,8 +373,12 @@ def adapt_pitchapi(capture):
     return _finish(bundle)
 
 
-def match_pitchapi(api_row, pitch_bundles):
-    """Exact names, competition and instant; no fuzzy aliases/6-hour window."""
+def match_pitchapi(api_row, pitch_bundles, *, as_of=None):
+    """Exact identities; optional cutoff binds context to an original freeze.
+
+    A later prematch context may be a current association but cannot become an
+    input to a replay at an earlier API freeze.
+    """
     def name(value):
         return unicodedata.normalize("NFC", value).strip().casefold() if isinstance(value, str) else None
     def key(row):
@@ -384,7 +388,9 @@ def match_pitchapi(api_row, pitch_bundles):
         return (*names, instant(row.get("kickoff")))
     try:
         target = key(api_row)
+        cutoff = instant(as_of) if as_of is not None else None
         matches = [row for bundle in pitch_bundles for row in bundle["rows"]
+                   if (cutoff is None or instant(bundle.get("snapshot_at")) <= cutoff)
                    if row["verified_prematch"] and key(row) == target]
     except ValueError:
         return None

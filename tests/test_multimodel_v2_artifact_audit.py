@@ -9,7 +9,7 @@ import unittest
 import warnings
 import zipfile
 
-from multimodel_v2.adapters import adapt_pitchapi, adapt_sheet, load_json, read_api_run
+from multimodel_v2.adapters import adapt_pitchapi, adapt_sheet, load_json, match_pitchapi, read_api_run
 from multimodel_v2.artifact_audit import check_delivery, coverage, inspect_api_artifact, inspect_pitch_artifact, read_artifact
 from multimodel_v2.report_pdf import generate_three_pdfs
 from tests.test_multimodel_v2_adapters import ARCHIVE, PITCH, metadata_captures, sheet_capture
@@ -139,6 +139,14 @@ class ArtifactAuditTests(unittest.TestCase):
         self.assertEqual(r["recorded_selection_rows"],1)
         self.assertEqual(r["non_selection_rows"],1)
         self.assertEqual(r["rows"][1]["original"]["ID"],118)
+
+    def test_pitch_context_after_original_cutoff_cannot_enter_frozen_replay(self):
+        run,artifacts=metadata_captures()
+        api=read_api_run(ARCHIVE,run_capture=run,artifacts_capture=artifacts)
+        pitch=adapt_pitchapi(load_json(PITCH))
+        row=next(r for r in api["bundles"][0]["rows"] if match_pitchapi(r,[pitch]))
+        self.assertIsNone(match_pitchapi(row,[pitch],as_of="2026-10-28T20:00:00Z"))
+        self.assertIsNotNone(match_pitchapi(row,[pitch],as_of=run["payload"]["updated_at"]))
 
 
 class DeliveryAuditTests(unittest.TestCase):
