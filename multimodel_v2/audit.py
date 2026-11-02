@@ -22,9 +22,14 @@ def freeze_reference(snapshot):
     pub = snapshot.get("publication")
     if not isinstance(pub, dict) or pub.get("provenance") != "live_pre_match":
         raise ValueError("missing_original_freeze")
-    return {"id": identifier(pub.get("id")), "run_id": identifier(snapshot.get("run_id")),
-            "head_sha": snapshot["head_sha"], "artifact_name": snapshot["artifact_name"],
-            "captured_at_utc": _utc(pub.get("captured_at_utc"))}
+    result = {"id": identifier(pub.get("id")), "run_id": identifier(snapshot.get("run_id")),
+              "head_sha": snapshot["head_sha"],
+              "captured_at_utc": _utc(pub.get("captured_at_utc"))}
+    if snapshot.get("source_kind") == "git_publication":
+        result.update(source_kind="git_publication", source_ref=identifier(snapshot.get("source_ref")))
+    else:
+        result["artifact_name"] = snapshot["artifact_name"]
+    return result
 
 
 def _original_snapshot(day, runs, snapshots, cutoff):
@@ -43,7 +48,7 @@ def _original_snapshot(day, runs, snapshots, cutoff):
             if not (instant(snapshot["generated_at_utc"]) <= instant(freeze["captured_at_utc"])
                     <= instant(run["updated_at"]) <= instant(cutoff)):
                 raise ValueError("freeze_outside_run")
-            order = (instant(freeze["captured_at_utc"]), freeze["run_id"], freeze["artifact_name"])
+            order = (instant(freeze["captured_at_utc"]), freeze["run_id"], freeze.get("source_ref", freeze.get("artifact_name")))
             eligible.append((order, snapshot, manifest, freeze))
         except ValueError as exc:
             errors.append({"reason": str(exc), "run_id": snapshot.get("run_id")})
@@ -84,7 +89,9 @@ def _freeze_key(freeze):
     if not isinstance(freeze, dict):
         raise ValueError("missing_freeze_reference")
     return (identifier(freeze.get("id")), identifier(freeze.get("run_id")),
-            identifier(freeze.get("head_sha")), identifier(freeze.get("artifact_name")),
+            identifier(freeze.get("head_sha")),
+            ("git_publication", identifier(freeze.get("source_ref"))) if freeze.get("source_kind") == "git_publication"
+            else ("github_artifact", identifier(freeze.get("artifact_name"))),
             instant(freeze.get("captured_at_utc")))
 
 

@@ -102,6 +102,18 @@ def _verified_run(run, target, cutoff):
         raise ValueError("run_outside_cutoff")
     if started.astimezone(WARSAW).date() > target:
         raise ValueError("run_after_report_date")
+    if run.get("source_kind") == "git_publication":
+        from .git_publication import validate_receipt
+        receipts = run.get("git_publications")
+        if not isinstance(receipts, list) or not receipts or any(not isinstance(r, dict) for r in receipts):
+            raise ValueError("missing_git_publications")
+        refs = [validate_receipt(r, run) for r in receipts]
+        if len(refs) != len(set(refs)):
+            raise ValueError("ambiguous_git_publications")
+        live = {r["source_ref"] for r in receipts if r["date"] == target.isoformat()}
+        if not live:
+            raise ValueError("date_not_covered")
+        return started, completed, live
     artifacts = run.get("artifacts")
     if not isinstance(artifacts, list) or any(not isinstance(a, dict) for a in artifacts):
         raise ValueError("missing_artifacts")
@@ -151,8 +163,8 @@ def _quote(quote, key, snapshot_at, kickoff):
 def build_source_manifest(report_date, runs, snapshots, *, as_of):
     """Return dated coverage, verified rows and explicit rejection reasons.
 
-    A completed run alone never establishes coverage: the same run must contain
-    an OK status for this date and an available artifact holding a dated snapshot.
+    A completed run alone never establishes coverage: require a dated artifact
+    or an independently linked native Git publication from the same run.
     Historical frozen rows may be audited; the watchlist separately refuses to
     issue observations at/after kickoff. Inputs are never modified.
     """
@@ -199,7 +211,14 @@ def build_source_manifest(report_date, runs, snapshots, *, as_of):
             run, started, completed, artifacts = usable[rid]
             if snapshot.get("head_sha") != run["head_sha"]:
                 raise ValueError("snapshot_sha_mismatch")
-            if (not isinstance(snapshot.get("artifact_name"), str)
+            git_source = run.get("source_kind") == "git_publication"
+            if git_source:
+                from .git_publication import validate_receipt
+                if snapshot.get("source_kind") != "git_publication" or snapshot.get("source_ref") not in artifacts:
+                    raise ValueError("snapshot_git_publication_unavailable")
+                receipt = next(r for r in run["git_publications"] if r["source_ref"] == snapshot["source_ref"])
+                validate_receipt(receipt, run, payload=snapshot)
+            elif (not isinstance(snapshot.get("artifact_name"), str)
                     or snapshot["artifact_name"] not in artifacts):
                 raise ValueError("snapshot_artifact_unavailable")
             captured = instant(snapshot.get("generated_at_utc"))
@@ -213,9 +232,11 @@ def build_source_manifest(report_date, runs, snapshots, *, as_of):
             continue
 
         source = {"run_id": rid, "conclusion": run["conclusion"],
-                  "head_sha": run["head_sha"], "artifact_names": sorted(artifacts),
-                  "snapshot_artifact": snapshot["artifact_name"],
+                  "head_sha": run["head_sha"], "artifact_names": [] if git_source else sorted(artifacts),
+                  "snapshot_artifact": None if git_source else snapshot["artifact_name"],
                   "snapshot_at": _utc(captured), "date": report_date}
+        if git_source:
+            source.update(source_kind="git_publication", source_ref=snapshot["source_ref"])
         if source not in result["sources"]:
             result["sources"].append(source)
 
@@ -275,7 +296,7 @@ def build_source_manifest(report_date, runs, snapshots, *, as_of):
                           "final_assessment_pct": score,
                           "quotes": valid_quotes, "source": deepcopy(source)}
                 # Earliest authenticated freeze wins; reruns do not inflate N.
-                order = (captured, rid, snapshot["artifact_name"])
+                order = (captured, rid, snapshot.get("source_ref") if git_source else snapshot["artifact_name"])
                 if key in chosen and order == chosen[key][0] and record != chosen[key][1]:
                     # Conflicting copies of the same freeze cannot be resolved
                     # by input order. Keep the ambiguity until the final pass.
@@ -290,7 +311,7 @@ def build_source_manifest(report_date, runs, snapshots, *, as_of):
         result["status"] = "covered"
     else:
         reject("no_verified_snapshot_for_date")
-    result["sources"].sort(key=lambda s: (s["snapshot_at"], s["run_id"], s["snapshot_artifact"]))
+    result["sources"].sort(key=lambda s: (s["snapshot_at"], s["run_id"], s.get("source_ref", s["snapshot_artifact"])))
     for key, (_, record) in sorted(chosen.items(), key=lambda pair: str(pair[0])):
         if len(all_fixture_facts[key[0]]) > 1:
             reject("conflicting_fixture", fixture_id=key[0])

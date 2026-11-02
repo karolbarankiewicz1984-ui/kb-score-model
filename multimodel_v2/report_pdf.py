@@ -210,9 +210,18 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
     add("Pokrycie źródeł", "section")
     api_status = ("zweryfikowany run i snapshot" if report["manifest"]["status"] == "covered"
                   else "BRAK zweryfikowanego runu / snapshotu dla tej daty")
+    api_exports = [s for s in report.get("source_inventory", [])
+                   if s["system"] == "api_market" and s["rows_for_date"] and s["available_as_of"]]
+    if report["manifest"]["status"] != "covered" and api_exports:
+        count = max(s["rows_for_date"] for s in api_exports)
+        api_status = f"odczytano eksport ({count} pozycji); brak kompletnego snapshotu do audytu"
     add(f"API Market: {api_status}.\nOryginalny TOP: " +
         ("potwierdzony freeze" if report["audits"]["cohorts"]["original_top"]["status"] == "complete"
          else "BRAK kompletnego oryginalnego freeze / TOP"), "small")
+    overlays = [s for s in report.get("source_inventory", [])
+                if s["system"] == "api_market_overlay" and s["rows_for_date"] and s["available_as_of"]]
+    if overlays:
+        add("API Market: odczytano surową nakładkę rynkową. Nie zawiera pełnego rankingu ani zamrożonych kursów.", "small")
     labels = {"kb21": "KB Score", "consensus": "Konsensus", "pitchapi": "PitchAPI"}
     coverage_lines = []
     for system, label in labels.items():
@@ -220,7 +229,9 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
         if any(s["complete_for_date"] for s in sources):
             coverage_lines.append(f"{label}: potwierdzony źródłowy freeze dla tej daty.")
         elif system == "pitchapi":
-            coverage_lines.append(f"{label}: brak zweryfikowanego kontekstu dla tej daty.")
+            verified = max((s["verified_rows_for_date"] for s in sources), default=0)
+            coverage_lines.append(f"{label}: {verified} rekordów kontekstu; pokrycie niepełne." if verified else
+                                  f"{label}: brak zweryfikowanego kontekstu dla tej daty.")
         elif sources:
             coverage_lines.append(f"{label}: brak aktualnej prognozy dla tej daty (rejestr historyczny odczytano).")
         else:
@@ -252,8 +263,10 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
     if not report["manifest"]["sources"]:
         add("BRAK ŹRÓDEŁ API dla tej daty. Nie wykorzystano dawnych rejestrów jako świeżej prognozy.", "small")
     for source in report["manifest"]["sources"]:
+        locator = ("Publikacja Git: " + source["source_ref"] if source.get("source_kind") == "git_publication"
+                   else "Artefakt: " + str(source["snapshot_artifact"]))
         add(f"Run {source['run_id']} · {source['conclusion']} · snapshot {source['snapshot_at']}\n"
-            f"SHA runu: {source['head_sha']}\nArtefakt: {source['snapshot_artifact']}", "small")
+            f"SHA runu: {source['head_sha']}\n{locator}", "small")
     reasons = {r["reason"] for r in report["manifest"]["rejections"] +
                report["audits"]["rejections"] + report["watchlist"]["rejections"]}
     for reason in sorted(reasons):
@@ -266,7 +279,7 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
             grouped[source["system"]].append(source)
         for system, sources in grouped.items():
             label = {"kb21": "KB Score 2.1", "consensus": "Konsensus", "pitchapi": "PitchAPI",
-                     "api_market": "API Market"}[system]
+                     "api_market": "API Market", "api_market_overlay": "API Market — surowa nakładka"}[system]
             latest = max((s["latest_date"] for s in sources if s["latest_date"]), default="nieustalona")
             with_rows = sum(s["rows_for_date"] > 0 for s in sources)
             add(f"{label}: odczytano {len(sources)} plików/eksportów; ostatnia data {latest}. "

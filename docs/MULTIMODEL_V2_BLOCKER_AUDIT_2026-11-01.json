@@ -1,0 +1,1413 @@
+{
+  "schema": "multimodel-v2-source-blocker-audit-v1",
+  "observed_as_of": "2026-11-01T15:26:00Z",
+  "branch": "codex/multimodel-v2",
+  "source_main_read_only_sha": "634c890eb0ddd489693f436722177b5ea3af32ad",
+  "full_shadow_status": "SOURCE_BLOCKED",
+  "full_shadow_passed": false,
+  "can_complete_three_real_data_reports": false,
+  "models_modified": false,
+  "archives_modified": false,
+  "register_writes": false,
+  "n_effect": 0,
+  "paid_api_scans_started": 0,
+  "api_git_publication": {
+    "run": {
+      "id": 40910335546,
+      "path": ".github/workflows/api-market-scan.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "1e7f72041c3777e3d094c7036c9d9a6aba7aab6d",
+      "run_started_at": "2026-10-29T16:18:53Z",
+      "updated_at": "2026-10-29T16:19:24Z",
+      "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/40910335546"
+    },
+    "receipt": {
+      "schema": "multimodel-v2-git-publication-v1",
+      "source_kind": "git_publication",
+      "source_ref": "git:67b123a2befeb6a540c467e44728d873e3f4e976:data/api_football/predictions/2026-10-29/161916070596-866b43bbe577eccc.json",
+      "run_id": 40910335546,
+      "run_head_sha": "1e7f72041c3777e3d094c7036c9d9a6aba7aab6d",
+      "job": {
+        "id": 123576262347,
+        "run_id": 40910335546,
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Resolve scheduled slot",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install PDF dependency before PDF smoke tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Test API calculations, publication and isolation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Verify API secret",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Prefetch full national-team last-20 history",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Build raw API Market freeze and market snapshot",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Build API Market Scan v3 background layers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Freeze and publish unlimited API ranking",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Check renderer and PitchAPI imports before PDF creation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Generate compact daily PDF",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Generate short practical selections PDF (same frozen API quotes)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Commit scan output, data cache and PDF",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          }
+        ]
+      },
+      "publish_commit": "67b123a2befeb6a540c467e44728d873e3f4e976",
+      "parent_commit": "1e7f72041c3777e3d094c7036c9d9a6aba7aab6d",
+      "committed_at": "2026-10-29T16:19:18Z",
+      "blob_oid": "6c8a1fa6c678916bc20eac8559fc2da4d7c2d300",
+      "path": "data/api_football/predictions/2026-10-29/161916070596-866b43bbe577eccc.json",
+      "date": "2026-10-29",
+      "publication_id": "161916070596-866b43bbe577eccc",
+      "generated_at_utc": "2026-10-29T16:19:14.378158+00:00",
+      "captured_at_utc": "2026-10-29T16:19:16.070596+00:00",
+      "capture_sha256": "4a757603db9d1cd2dc66e10da11fa4a23cb8c7c3001d60459b70596e396f1308",
+      "native_payload_sha256": "f085c3f403af01200a80b6720aa4b8dc1c2b84eab951de55a9cb01c3d60fa74c",
+      "normalized_payload_sha256": "dc4ee656be11aec2028627bd7dae9288a11d3af8c8cfcde02d1396d1d5bedcfe",
+      "job_log_sha256": "e12fbce7b3bdebd667a4b54558769f8b8ab4b6d0c56b89e91cbcb0b58e82f98c",
+      "native_summary": {
+        "date": "2026-10-29",
+        "background": 222,
+        "published": 51,
+        "distinct_fixtures": 2,
+        "threshold": 67,
+        "prediction_id": "161916070596-866b43bbe577eccc",
+        "kb_n_effect": 0,
+        "dev_n_effect": 0
+      },
+      "proof_lines": [
+        "2026-10-29T16:19:16.1227253Z {\"date\": \"2026-10-29\", \"background\": 222, \"published\": 51, \"distinct_fixtures\": 2, \"threshold\": 67, \"prediction_id\": \"161916070596-866b43bbe577eccc\", \"kb_n_effect\": 0, \"dev_n_effect\": 0}",
+        "2026-10-29T16:19:18.8813889Z [main 67b123a] report: API Market Scan v3",
+        "2026-10-29T16:19:18.8818576Z  create mode 100644 data/api_football/predictions/2026-10-29/161916070596-866b43bbe577eccc.json",
+        "2026-10-29T16:19:21.7579372Z    1e7f720..67b123a  HEAD -> main"
+      ]
+    }
+  },
+  "api_runs": {
+    "skipped": {
+      "run": {
+        "id": 41317765320,
+        "path": ".github/workflows/api-market-multiday-experiment.yml",
+        "head_sha": "634c890eb0ddd489693f436722177b5ea3af32ad",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-11-01T14:45:32Z",
+        "updated_at": "2026-11-01T14:45:38Z",
+        "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41317765320"
+      },
+      "jobs": {
+        "total_count": 1,
+        "jobs": [
+          {
+            "id": 124881345130,
+            "run_id": 41317765320,
+            "status": "completed",
+            "conclusion": "success",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 1,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Check Warsaw schedule (DST-aware and GitHub-delay-safe)",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 2,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Check out experimental scan code",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 3,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Fetch read-only PitchAPI snapshots from main",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 4,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Prepare read-only PitchAPI goal commentary",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 5,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Test experimental date planner and market filters",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 6,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Install PDF dependency",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 7,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Independent scan per date",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 8,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Upload dated reports and statuses",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 9,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 10,
+                "started_at": "2026-11-01T14:45:36Z",
+                "completed_at": "2026-11-01T14:45:36Z"
+              }
+            ],
+            "runner_id": 1000002753,
+            "runner_name": "GitHub Actions 1000002753"
+          }
+        ]
+      },
+      "artifacts": {
+        "artifacts": []
+      },
+      "runtime_notice": "2026-11-01T14:45:36.8316639Z ##[notice]Opposite DST slot skipped by design: 0 8 * * *"
+    },
+    "failure": {
+      "run": {
+        "id": 41213715025,
+        "path": ".github/workflows/api-market-multiday-experiment.yml",
+        "head_sha": "38db710d69a9c520317220d232a5b71929adf70b",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_started_at": "2026-10-31T15:12:05Z",
+        "updated_at": "2026-10-31T15:12:09Z",
+        "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41213715025"
+      },
+      "jobs": {
+        "total_count": 1,
+        "jobs": [
+          {
+            "id": 124573780300,
+            "run_id": 41213715025,
+            "status": "completed",
+            "conclusion": "failure",
+            "steps": [],
+            "runner_id": 0,
+            "runner_name": ""
+          }
+        ]
+      },
+      "artifacts": {
+        "artifacts": []
+      },
+      "log_retrieval": "404 BlobNotFound",
+      "annotations_count": 2,
+      "annotation_content": "unavailable_connector_endpoint_not_allowlisted",
+      "root_cause": "unconfirmed"
+    }
+  },
+  "recent_run_inventory": {
+    "created_range": "2026-10-30..2026-11-01",
+    "total_count": 61,
+    "returned": 61,
+    "page_complete": true
+  },
+  "api_current_raw_overlays": [
+    {
+      "path": "data/api_football/market_snapshots/2026-11-01/111250.json",
+      "capture_sha256": "e5d1e03e31c95e4bf2bc9e116d342735e4068ad558fda55cc05a11b505d4ee16",
+      "captured_at_utc": "2026-11-01T11:12:50.413176+00:00",
+      "source_schema": "api-market-snapshot-v1",
+      "items": 3023,
+      "fixture_count": 31,
+      "verified_forecast_rows": 0,
+      "after_original_report_cutoff": true,
+      "blockers": [
+        "bookmaker_price_missing",
+        "independent_quote_identity_missing",
+        "kickoff_missing",
+        "original_top_missing",
+        "overlay_not_scored_native_publication",
+        "prematch_freeze_timestamp_missing"
+      ]
+    },
+    {
+      "path": "data/api_football/market_snapshots/2026-11-01/141341.json",
+      "capture_sha256": "226d324cd4ef9ac3e909be51f12163951574038861e770b3e3a592b61622b196",
+      "captured_at_utc": "2026-11-01T14:13:41.437788+00:00",
+      "source_schema": "api-market-snapshot-v1",
+      "items": 1955,
+      "fixture_count": 20,
+      "verified_forecast_rows": 0,
+      "after_original_report_cutoff": true,
+      "blockers": [
+        "bookmaker_price_missing",
+        "independent_quote_identity_missing",
+        "kickoff_missing",
+        "original_top_missing",
+        "overlay_not_scored_native_publication",
+        "prematch_freeze_timestamp_missing"
+      ]
+    }
+  ],
+  "recorded_history": [
+    {
+      "system": "kb21",
+      "file_id": "1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI",
+      "source_url": "https://docs.google.com/spreadsheets/d/1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI/edit",
+      "available_revision_count": 93,
+      "compared_revision_count": 2,
+      "previous": {
+        "revision_id": "247",
+        "revision_modified_at": "2026-10-12T09:30:09.722Z",
+        "capture_sha256": "81828925599316566ba109c4b5f6b6e42bfde90eb920689714c299f547b98987",
+        "content_sha256": "f32f945966a2b2e9fd98302c8965380d1cc16685ee8d2111828924e91838976d",
+        "time_classes": {
+          "REVISION_AFTER_EVENT_DATE": 202
+        },
+        "non_selection_rows": 294
+      },
+      "current": {
+        "revision_id": "248",
+        "revision_modified_at": "2026-10-14T09:29:27.833Z",
+        "capture_sha256": "fdfcadcca713fd20688d0546b38931d299c3d55288fb5df41742a4b8b97a377e",
+        "content_sha256": "9e904ff9636128bad2859948602a2dc520dfcff243b85fad80b54b1d51ba536a",
+        "time_classes": {
+          "REVISION_AFTER_EVENT_DATE": 202
+        },
+        "non_selection_rows": 294
+      },
+      "diff": {
+        "schema": "multimodel-v2-recorded-history-diff-v1",
+        "system": "kb21",
+        "previous_revision": "247",
+        "current_revision": "248",
+        "previous_rows": 202,
+        "current_rows": 202,
+        "added_record_keys": [],
+        "removed_record_keys": [],
+        "ambiguous_record_keys": [],
+        "changes": [],
+        "selection_rule": "KB_native_ID_or_exact_consensus_source_fields_no_fuzzy_join",
+        "earliest_original_forecast_inferred": false,
+        "register_writes": false,
+        "n_effect": 0
+      },
+      "fresh_predictions_created": 0,
+      "earliest_cell_freeze_proved": false,
+      "n_effect": 0
+    },
+    {
+      "system": "consensus",
+      "file_id": "1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc",
+      "source_url": "https://docs.google.com/spreadsheets/d/1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc/edit",
+      "available_revision_count": 90,
+      "compared_revision_count": 2,
+      "previous": {
+        "revision_id": "116",
+        "revision_modified_at": "2026-10-13T08:36:04.786Z",
+        "capture_sha256": "40139672d4b2338cccd771b6301eb200a04c17cf641f6f45898194248f1b21dd",
+        "content_sha256": "caa628c8a4dd1f3c4b983cb2c95368c5425f7d4a33bc20ce5952bfb9ab2883fa",
+        "time_classes": {
+          "SOURCE_DATE_NOT_VERIFIED_EVENT_DATE": 211
+        },
+        "non_selection_rows": 0
+      },
+      "current": {
+        "revision_id": "118",
+        "revision_modified_at": "2026-10-14T08:35:50.604Z",
+        "capture_sha256": "e44f9479da186627b69ffe02c89108a1cfbda7b200d917623c59326756043296",
+        "content_sha256": "a7937ae5b2a2e347c14eb2ad789d2bada4b25cb1d22388e8b168872027fc3cf1",
+        "time_classes": {
+          "SOURCE_DATE_NOT_VERIFIED_EVENT_DATE": 214
+        },
+        "non_selection_rows": 0
+      },
+      "diff": {
+        "schema": "multimodel-v2-recorded-history-diff-v1",
+        "system": "consensus",
+        "previous_revision": "116",
+        "current_revision": "118",
+        "previous_rows": 211,
+        "current_rows": 214,
+        "added_record_keys": [
+          [
+            "2026-10-14 00:00:00",
+            "10:30:00",
+            "Aston Villa – Fenerbahçe",
+            "Moneyline",
+            "Aston Villa ML"
+          ],
+          [
+            "2026-10-14 00:00:00",
+            "10:30:00",
+            "LASK Linz – Liverpool",
+            "Moneyline",
+            "Liverpool ML"
+          ],
+          [
+            "2026-10-14 00:00:00",
+            "10:30:00",
+            "Manchester City – Paris Saint-Germain",
+            "Obie drużyny strzelą",
+            "BTTS – TAK"
+          ]
+        ],
+        "removed_record_keys": [],
+        "ambiguous_record_keys": [],
+        "changes": [
+          {
+            "source_record_key": [
+              "2026-10-13 00:00:00",
+              "10:30:00",
+              "Arsenal – Lille",
+              "Moneyline",
+              "Arsenal ML"
+            ],
+            "changed_fields": [
+              "Profit 1u",
+              "Result"
+            ],
+            "numeric_format_only": []
+          },
+          {
+            "source_record_key": [
+              "2026-10-13 00:00:00",
+              "10:30:00",
+              "Atlético Madryt – Manchester United",
+              "Moneyline",
+              "Atlético Madryt ML"
+            ],
+            "changed_fields": [
+              "Profit 1u",
+              "Result"
+            ],
+            "numeric_format_only": []
+          },
+          {
+            "source_record_key": [
+              "2026-10-13 00:00:00",
+              "10:30:00",
+              "Inter Mediolan – Club Brugge",
+              "Moneyline",
+              "Inter Mediolan ML"
+            ],
+            "changed_fields": [
+              "Profit 1u",
+              "Result"
+            ],
+            "numeric_format_only": []
+          },
+          {
+            "source_record_key": [
+              "2026-10-13 00:00:00",
+              "10:30:00",
+              "Viking FK – Bayern Monachium",
+              "Moneyline",
+              "Bayern Monachium ML"
+            ],
+            "changed_fields": [
+              "Profit 1u",
+              "Result"
+            ],
+            "numeric_format_only": []
+          }
+        ],
+        "selection_rule": "KB_native_ID_or_exact_consensus_source_fields_no_fuzzy_join",
+        "earliest_original_forecast_inferred": false,
+        "register_writes": false,
+        "n_effect": 0
+      },
+      "fresh_predictions_created": 0,
+      "earliest_cell_freeze_proved": false,
+      "n_effect": 0
+    }
+  ],
+  "pitchapi": {
+    "last_existing_snapshot_date": "2026-10-30",
+    "missing_dates": [
+      "2026-11-01",
+      "2026-11-02",
+      "2026-11-03"
+    ],
+    "source_tree_sha": "634c890eb0ddd489693f436722177b5ea3af32ad",
+    "failed_prematch_runs": [
+      41131336292,
+      41238942513
+    ],
+    "future_dates_may_await_prospective_sources": [
+      "2026-11-02",
+      "2026-11-03"
+    ],
+    "november_1_report_cutoff": "2026-11-01T11:30:00+01:00"
+  },
+  "api_daily_observed": [
+    {
+      "run": {
+        "id": 41300832820,
+        "path": ".github/workflows/api-market-scan.yml",
+        "head_sha": "38db710d69a9c520317220d232a5b71929adf70b",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-11-01T11:12:07Z",
+        "updated_at": "2026-11-01T11:12:56Z",
+        "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41300832820"
+      },
+      "jobs": {
+        "total_count": 1,
+        "jobs": [
+          {
+            "id": 124831190128,
+            "run_id": 41300832820,
+            "status": "completed",
+            "conclusion": "success",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 1
+              },
+              {
+                "name": "Run actions/checkout@v4",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 2
+              },
+              {
+                "name": "Resolve scheduled slot",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 3
+              },
+              {
+                "name": "Install PDF dependency before PDF smoke tests",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 4
+              },
+              {
+                "name": "Test API calculations, publication and isolation",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 5
+              },
+              {
+                "name": "Verify API secret",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 6
+              },
+              {
+                "name": "Prefetch full national-team last-20 history",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 7
+              },
+              {
+                "name": "Build raw API Market freeze and market snapshot",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 8
+              },
+              {
+                "name": "Build API Market Scan v3 background layers",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 9
+              },
+              {
+                "name": "Freeze and publish unlimited API ranking",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 10
+              },
+              {
+                "name": "Check renderer and PitchAPI imports before PDF creation",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 11
+              },
+              {
+                "name": "Generate compact daily PDF",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 12
+              },
+              {
+                "name": "Generate short practical selections PDF (same frozen API quotes)",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 13
+              },
+              {
+                "name": "Commit scan output, data cache and PDF",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 14
+              },
+              {
+                "name": "Post Run actions/checkout@v4",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 28
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 29
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "run": {
+        "id": 41315086777,
+        "path": ".github/workflows/api-market-scan.yml",
+        "head_sha": "df20c41daf3c258aa93b865e14a4116f68c1486e",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-11-01T14:13:08Z",
+        "updated_at": "2026-11-01T14:13:45Z",
+        "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41315086777"
+      },
+      "jobs": {
+        "total_count": 1,
+        "jobs": [
+          {
+            "id": 124873308163,
+            "run_id": 41315086777,
+            "status": "completed",
+            "conclusion": "success",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 1
+              },
+              {
+                "name": "Run actions/checkout@v4",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 2
+              },
+              {
+                "name": "Resolve scheduled slot",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 3
+              },
+              {
+                "name": "Install PDF dependency before PDF smoke tests",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 4
+              },
+              {
+                "name": "Test API calculations, publication and isolation",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 5
+              },
+              {
+                "name": "Verify API secret",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 6
+              },
+              {
+                "name": "Prefetch full national-team last-20 history",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 7
+              },
+              {
+                "name": "Build raw API Market freeze and market snapshot",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 8
+              },
+              {
+                "name": "Build API Market Scan v3 background layers",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 9
+              },
+              {
+                "name": "Freeze and publish unlimited API ranking",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 10
+              },
+              {
+                "name": "Check renderer and PitchAPI imports before PDF creation",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 11
+              },
+              {
+                "name": "Generate compact daily PDF",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 12
+              },
+              {
+                "name": "Generate short practical selections PDF (same frozen API quotes)",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 13
+              },
+              {
+                "name": "Commit scan output, data cache and PDF",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 14
+              },
+              {
+                "name": "Post Run actions/checkout@v4",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 28
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 29
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "run": {
+        "id": 41321099659,
+        "path": ".github/workflows/api-market-scan.yml",
+        "head_sha": "634c890eb0ddd489693f436722177b5ea3af32ad",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-11-01T15:24:54Z",
+        "updated_at": "2026-11-01T15:25:12Z",
+        "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41321099659"
+      },
+      "jobs": {
+        "total_count": 1,
+        "jobs": [
+          {
+            "id": 124891305529,
+            "run_id": 41321099659,
+            "status": "completed",
+            "conclusion": "success",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 1
+              },
+              {
+                "name": "Run actions/checkout@v4",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 2
+              },
+              {
+                "name": "Resolve scheduled slot",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 3
+              },
+              {
+                "name": "Install PDF dependency before PDF smoke tests",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 4
+              },
+              {
+                "name": "Test API calculations, publication and isolation",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 5
+              },
+              {
+                "name": "Verify API secret",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 6
+              },
+              {
+                "name": "Prefetch full national-team last-20 history",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 7
+              },
+              {
+                "name": "Build raw API Market freeze and market snapshot",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 8
+              },
+              {
+                "name": "Build API Market Scan v3 background layers",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 9
+              },
+              {
+                "name": "Freeze and publish unlimited API ranking",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 10
+              },
+              {
+                "name": "Check renderer and PitchAPI imports before PDF creation",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 11
+              },
+              {
+                "name": "Generate compact daily PDF",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 12
+              },
+              {
+                "name": "Generate short practical selections PDF (same frozen API quotes)",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 13
+              },
+              {
+                "name": "Commit scan output, data cache and PDF",
+                "status": "completed",
+                "conclusion": "skipped",
+                "number": 14
+              },
+              {
+                "name": "Post Run actions/checkout@v4",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 28
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 29
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "bound_native_comparison": {
+    "mode": "historical_frozen_input_replay",
+    "source": {
+      "locator": "data/api_football/predictions/2026-10-29/161916070596-866b43bbe577eccc.json",
+      "capture_sha256": "4a757603db9d1cd2dc66e10da11fa4a23cb8c7c3001d60459b70596e396f1308"
+    },
+    "freeze": {
+      "id": "161916070596-866b43bbe577eccc",
+      "captured_at_utc": "2026-10-29T16:19:16.070596+00:00",
+      "provenance": "live_pre_match"
+    },
+    "native_schema": "api-market-scan-v3",
+    "run_binding": {
+      "status": "verified",
+      "source_kind": "git_publication",
+      "run_id": "40910335546",
+      "source_ref": "git:67b123a2befeb6a540c467e44728d873e3f4e976:data/api_football/predictions/2026-10-29/161916070596-866b43bbe577eccc.json"
+    },
+    "native_rows": 222,
+    "adapter_rows": 222,
+    "fixture_ids": [
+      "1550169",
+      "1550170"
+    ],
+    "native_status_counts": {
+      "STRONG": 19,
+      "ACCEPT": 32,
+      "BELOW_THRESHOLD": 171
+    },
+    "adapter_status_counts": {
+      "STRONG": 19,
+      "ACCEPT": 32,
+      "BELOW_THRESHOLD": 171
+    },
+    "exact_market_and_quote_digest_native": "c06567e4d8626189a1802d6e47c6a6a6915f4d54395006a934ea611675d4ebf8",
+    "exact_market_and_quote_digest_adapter": "c06567e4d8626189a1802d6e47c6a6a6915f4d54395006a934ea611675d4ebf8",
+    "field_differences": [],
+    "field_comparison_passed": true,
+    "source_consistency_differences": [],
+    "original_top_rows": 51,
+    "original_top_order_preserved": true,
+    "declared_candidates": 222,
+    "background_complete": true,
+    "strict_v2_verified_rows": 0,
+    "strict_v2_audits": {
+      "original_top": {
+        "status": "incomplete",
+        "positions": 51,
+        "fixtures": 2,
+        "settled": 0,
+        "unresolved": 51,
+        "wins": 0,
+        "losses": 0,
+        "voids": 0,
+        "pushes": 0,
+        "hit_rate_pct": null,
+        "roi_pct": null,
+        "fixture_equal_roi_pct": null,
+        "profit_units": null,
+        "roi_status": "unavailable_incomplete_data"
+      },
+      "qualifying_api": {
+        "status": "incomplete",
+        "positions": 0,
+        "fixtures": 0,
+        "settled": 0,
+        "unresolved": 0,
+        "wins": 0,
+        "losses": 0,
+        "voids": 0,
+        "pushes": 0,
+        "hit_rate_pct": null,
+        "roi_pct": null,
+        "fixture_equal_roi_pct": null,
+        "profit_units": null,
+        "roi_status": "unavailable_incomplete_data"
+      },
+      "fouls_under": {
+        "status": "complete",
+        "positions": 0,
+        "fixtures": 0,
+        "settled": 0,
+        "unresolved": 0,
+        "wins": 0,
+        "losses": 0,
+        "voids": 0,
+        "pushes": 0,
+        "hit_rate_pct": null,
+        "roi_pct": null,
+        "fixture_equal_roi_pct": null,
+        "profit_units": null,
+        "roi_status": "unavailable_incomplete_data"
+      }
+    },
+    "native_audit_field_populations_unverified": {
+      "original_top": 51,
+      "qualifying_api": 3,
+      "fouls_under": 0
+    },
+    "native_roi_pct": null,
+    "native_fixture_equal_roi_pct": null,
+    "settlement_inputs": "not_supplied_for_this_freeze",
+    "source_gate_differences": [
+      {
+        "field": "qualifying_api.positions",
+        "native_field_count": 3,
+        "strict_v2": 0,
+        "reason": "missing_verified_full_source_or_provenance"
+      }
+    ],
+    "blockers": [
+      "independent_quote_identity_missing",
+      "no_independently_verified_quote"
+    ],
+    "full_shadow_passed": false
+  },
+  "readiness": {
+    "schema": "multimodel-v2-real-source-readiness-v1",
+    "as_of": "2026-11-01T15:26:00Z",
+    "can_generate_three_pdf_files": true,
+    "can_complete_three_real_data_reports": false,
+    "days": [
+      {
+        "date": "2026-11-01",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 3,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 2,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      },
+      {
+        "date": "2026-11-02",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 3,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 2,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      },
+      {
+        "date": "2026-11-03",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 3,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 2,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "pdf_second_parser": [
+    {
+      "date": "MULTIMODEL_2026-11-01",
+      "pages": 3,
+      "fouls_first_page": true,
+      "raw_overlay_gap": true,
+      "active_links": 0
+    },
+    {
+      "date": "MULTIMODEL_2026-11-02",
+      "pages": 3,
+      "fouls_first_page": true,
+      "raw_overlay_gap": false,
+      "active_links": 0
+    },
+    {
+      "date": "MULTIMODEL_2026-11-03",
+      "pages": 3,
+      "fouls_first_page": true,
+      "raw_overlay_gap": false,
+      "active_links": 0
+    }
+  ]
+}

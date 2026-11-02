@@ -186,6 +186,35 @@ def adapt_api(capture, *, freeze_capture=None):
     return _finish(bundle)
 
 
+def adapt_api_overlay(capture):
+    """Read a raw probability overlay without promoting it to a v3 freeze.
+
+    These files do not retain bookmaker prices or original scored TOP. Even
+    when readable for today's date, they cannot fill the native audit inputs.
+    """
+    payload = capture["payload"]
+    if (not isinstance(payload, dict) or payload.get("schema") != "api-market-snapshot-v1"
+            or not isinstance(payload.get("items"), list)
+            or any(not isinstance(row, dict) for row in payload["items"])):
+        raise ValueError("unsupported_api_overlay_schema")
+    day = local_day(payload.get("date")).isoformat()
+    instant(payload.get("captured_at_utc"))
+    bundle = _bundle("api_market_overlay", capture)
+    gaps = ["overlay_not_scored_native_publication", "original_top_missing",
+            "independent_quote_identity_missing", "bookmaker_price_missing",
+            "kickoff_missing", "prematch_freeze_timestamp_missing"]
+    bundle.update(native_schema=payload["schema"], snapshot_at=payload["captured_at_utc"],
+                  original_payload=deepcopy(payload), background_complete=False, native_top=None,
+                  blockers=gaps.copy())
+    for index, row in enumerate(payload["items"]):
+        bundle["rows"].append({"native_index": index, "date": day,
+            "fixture_id": str(row["fixture_id"]) if row.get("fixture_id") is not None else None,
+            "market_probability_original": row.get("market_probability_pct"),
+            "score": None, "status": None, "odds_original": None,
+            "verified_prematch": False, "blockers": gaps.copy(), "original": deepcopy(row)})
+    return _finish(bundle)
+
+
 def read_api_run(root, *, run_capture, artifacts_capture):
     """Read an existing immutable artifact mirror; never create/repair it."""
     root = Path(root)
@@ -278,6 +307,8 @@ def adapt_sheet(capture, system):
         except (ValueError, OverflowError):
             day = None
         bundle["rows"].append({"native_row": row_number, "date": day,
+            "has_recorded_selection": all(row.get(k) not in (None, "") for k in (
+                ("Data wydarzenia", "Wydarzenie", "Typ") if system == "kb21" else ("Date", "Event", "Pick"))),
             "native_record_id": row.get("ID") if system == "kb21" else None,
             "fixture_id": None, "kickoff": None, "market_identity": None,
             "event": row.get("Wydarzenie" if system == "kb21" else "Event"),
@@ -288,6 +319,8 @@ def adapt_sheet(capture, system):
             "odds_original": row.get("Kurs" if system == "kb21" else "Odds 11:30"),
             "verified_prematch": False, "blockers": gaps.copy(), "original": deepcopy(row),
             "original_cells": deepcopy(cells)})
+    bundle["recorded_selection_rows"] = sum(r["has_recorded_selection"] for r in bundle["rows"])
+    bundle["non_selection_rows"] = len(bundle["rows"]) - bundle["recorded_selection_rows"]
     return _finish(bundle)
 
 
@@ -365,7 +398,7 @@ def source_summary(bundle, day, *, as_of=None):
     blockers = set(bundle["blockers"])
     available = True
     if as_of is not None:
-        stamp = (bundle.get("snapshot_at") if bundle["system"] == "pitchapi" else bundle.get("retrieved_at")
+        stamp = (bundle.get("snapshot_at") if bundle["system"] in ("pitchapi", "api_market_overlay") else bundle.get("retrieved_at")
                  if bundle["system"] in ("kb21", "consensus") else bundle.get("run_updated_at"))
         try:
             available = instant(stamp) <= instant(as_of)
@@ -383,7 +416,7 @@ def source_summary(bundle, day, *, as_of=None):
             "complete_for_date": bool(rows) and len(verified) == len(rows) and not blockers}
 
 
-def api_evidence(bundle, run):
+def api_evidence(bundle, run, *, git_receipt=None):
     """Copy a full original freeze into v2's input, without manufacturing gaps.
 
     Published-only exports return no snapshot. In a full native publication,
@@ -391,6 +424,18 @@ def api_evidence(bundle, run):
     """
     evidence = {"runs": [deepcopy(run)], "snapshots": [], "settlements": []}
     if not bundle.get("background_complete"):
+        return evidence
+    if git_receipt is not None:
+        from .git_publication import normalized_payload, payload_digest, validate_receipt
+        if (bundle["source"]["capture_sha256"] != git_receipt.get("capture_sha256")
+                or payload_digest(bundle["original_payload"]) != git_receipt.get("native_payload_sha256")):
+            raise ValueError("git_bundle_capture_mismatch")
+        snapshot = normalized_payload(bundle["original_payload"])
+        validate_receipt(git_receipt, run, payload=snapshot)
+        evidence["runs"][0].update(source_kind="git_publication", git_publications=[deepcopy(git_receipt)])
+        snapshot.update(run_id=run["id"], head_sha=run["head_sha"], source_kind="git_publication",
+                        source_ref=git_receipt["source_ref"])
+        evidence["snapshots"].append(snapshot)
         return evidence
     if not bundle.get("run_id") or not bundle.get("run_head_sha") or not bundle.get("artifact_name"):
         raise ValueError("run_binding_missing")

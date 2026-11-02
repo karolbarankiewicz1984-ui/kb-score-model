@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 from .adapters import (
-    adapt_api, adapt_pitchapi, adapt_sheet, load_json, match_pitchapi,
+    adapt_api, adapt_pitchapi, adapt_sheet, api_evidence, load_json, match_pitchapi,
     read_api_run, source_summary,
 )
 from .audit import build_audits
@@ -136,6 +136,7 @@ def compare_api(capture, adapted, *, freeze_capture=None, evidence=None, as_of):
     return {
         "mode": "historical_frozen_input_replay", "source": deepcopy(adapted["source"]),
         "freeze": deepcopy(adapted["freeze"]), "native_schema": adapted["native_schema"],
+        "run_binding": deepcopy(adapted.get("run_binding")),
         "native_rows": len(native), "adapter_rows": len(output),
         "fixture_ids": sorted({r["fixture_id"] for r in native}),
         "native_status_counts": dict(Counter(r["status"] for r in native)),
@@ -195,7 +196,7 @@ def three_day_readiness(start_date, bundles, evidence, *, as_of):
             "can_complete_three_real_data_reports": all(d["complete_on_real_data"] for d in days), "days": days}
 
 
-def run_shadow(archive_root, run_file, artifacts_file, kb_file, consensus_file, pitch_files, *, start_date, as_of, api_predictions=()):
+def run_shadow(archive_root, run_file, artifacts_file, kb_file, consensus_file, pitch_files, *, start_date, as_of, api_predictions=(), api_git_proofs=()):
     archive = read_api_run(archive_root, run_capture=load_json(run_file), artifacts_capture=load_json(artifacts_file))
     kb = adapt_sheet(load_json(kb_file), "kb21")
     consensus = adapt_sheet(load_json(consensus_file), "consensus")
@@ -208,13 +209,33 @@ def run_shadow(archive_root, run_file, artifacts_file, kb_file, consensus_file, 
         # never a newly issued historical pre-match prediction.
         comparisons.append(compare_api(capture, api, evidence=archive["evidence"],
                                        as_of=archive["evidence"]["runs"][0]["updated_at"]))
+    proofs = [load_json(path)["payload"] for path in api_git_proofs]
+    used_proofs = set()
     for path in api_predictions:
         capture = load_json(path)
         api = adapt_api(capture)
-        api["blockers"].append("run_binding_missing")
+        matches = [(i, p) for i, p in enumerate(proofs) if p.get("receipt", {}).get("capture_sha256") == capture["capture_sha256"]]
+        if len(matches) > 1:
+            raise ValueError("ambiguous_git_proof")
+        native_evidence = None
+        if matches:
+            index, proof = matches[0]
+            native_evidence = api_evidence(api, proof["run"], git_receipt=proof["receipt"])
+            used_proofs.add(index)
+            receipt = proof["receipt"]
+            api.update(run_binding={"status": "verified", "source_kind": "git_publication",
+                                    "run_id": str(proof["run"]["id"]), "source_ref": receipt["source_ref"]},
+                       run_updated_at=proof["run"]["updated_at"], run_conclusion=proof["run"]["conclusion"],
+                       date_status="ok")
+            for key in ("runs", "snapshots"):
+                archive["evidence"][key].extend(native_evidence[key])
+        else:
+            api["blockers"].append("run_binding_missing")
         bundles.append(api)
         # This is a separate input lineage, NOT the multiday artifact's run.
-        comparisons.append(compare_api(capture, api, as_of=as_of))
+        comparisons.append(compare_api(capture, api, evidence=native_evidence, as_of=as_of))
+    if len(used_proofs) != len(proofs):
+        raise ValueError("unused_git_proof")
     pitch_matches = {}
     for api in archive["bundles"]:
         for row in api["rows"]:
@@ -246,13 +267,15 @@ def main(argv=None):
     parser.add_argument("--consensus", required=True, type=Path)
     parser.add_argument("--pitchapi", nargs="*", type=Path, default=[])
     parser.add_argument("--api-prediction", nargs="*", type=Path, default=[])
+    parser.add_argument("--api-git-proof", nargs="*", type=Path, default=[],
+                        help="Observed {run, receipt} from read_git_publication; no synthetic artifacts")
     parser.add_argument("--start", required=True)
     parser.add_argument("--as-of", required=True)
     parser.add_argument("--pdf-output", type=Path)
     args = parser.parse_args(argv)
     report, bundles, evidence = run_shadow(args.archive_root, args.run_metadata, args.artifacts, args.kb,
                                          args.consensus, args.pitchapi, start_date=args.start, as_of=args.as_of,
-                                         api_predictions=args.api_prediction)
+                                         api_predictions=args.api_prediction, api_git_proofs=args.api_git_proof)
     if args.pdf_output:
         paths = generate_three_pdfs(args.start, evidence["runs"], evidence["snapshots"], evidence["settlements"],
                                     as_of=args.as_of, output_dir=args.pdf_output, source_bundles=bundles)

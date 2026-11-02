@@ -24,6 +24,21 @@ freeze; filtr nie emituje obserwacji, gdy `as_of >= kickoff`.
 
 ## Wejścia i granica weryfikacji
 
+Rozszerzenie audytu blokad etapu 6: [raport i kontrakt odzysku](MULTIMODEL_V2_BLOCKER_AUDIT_2026-11-01.md).
+Obok dotychczasowych artefaktów Actions manifest obsługuje osobny typ
+`git_publication`: udokumentowany oryginalny plik zapisany przez ukończony
+run dzienny, z receipt zweryfikowanym przez `read_git_publication`.
+Nie jest to upload-artifact. Hash kopii znormalizowanej, oryginalny blob,
+publication.id, rodzic commitu, run/job i runtime log muszą się zgadzać.
+To rozszerzenie potwierdza pochodzenie pliku, nie uzupełnia brakujących quotes.
+
+`adapt_api_overlay` czyta istniejące `api-market-snapshot-v1` jako osobny
+system `api_market_overlay`; brak ceny, oceny i TOP pozostaje jawny.
+`history.recover_revision` czyta wyłącznie istniejące, potwierdzone rewizje
+arkuszy i zawsze zwraca historię bez nowego prematch/N. Odczyt po meczu
+nie zabrania audytu autentycznego wcześniejszego freeze, lecz nie pozwala
+tworzyć takiego freeze wstecz. Reguły te rozdziela `source_audit.recovery_policy`.
+
 `runs` i `snapshots` są listami słowników odczytanych z oryginalnych metadanych
 i artefaktów. To kontrakt normalizacji dowodów, nie automatyczny kolektor GitHub
 ani adapter Google Sheets. Funkcja sprawdza spójność dostarczonych dowodów;
