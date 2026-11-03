@@ -330,7 +330,28 @@ def build_native_settlements(snapshot, outcomes, *, as_of, report_date=None,
             else:
                 if outcome.get("fixture_status") != "FT":
                     raise ValueError("native_result_not_final")
-                if not position["kickoff"] < instant(outcome.get("finished_at")) <= instant(outcome.get("settled_at")) <= cutoff:
+                if outcome.get("time_basis") == "official_final_status_observation":
+                    from .outcome_bridge import final_fixture
+                    receipt = outcome.get("final_status_receipt")
+                    final_fixture(receipt, fixture_id=position["key"][0],
+                                  kickoff=position["kickoff"].isoformat(), as_of=as_of)
+                    if outcome.get("finished_at") is not None or outcome.get("final_observed_at") != receipt["received_at"]:
+                        raise ValueError("native_final_observation_binding_mismatch")
+                    from .capture import verify_provider_capture
+                    statistics = outcome.get("statistics_receipt")
+                    verify_provider_capture(statistics, as_of=as_of)
+                    response = statistics["response"]
+                    if (statistics["provider"] != "API-Football" or statistics["endpoint"] != "fixtures/statistics"
+                            or statistics["source"] != receipt["source"] or not isinstance(response, dict)
+                            or response.get("errors") or not isinstance(response.get("parameters"), dict)
+                            or str(response["parameters"].get("fixture")) != position["key"][0]
+                            or statistics["received_at"] != outcome.get("settled_at")
+                            or instant(statistics["requested_at"]) < instant(receipt["received_at"])):
+                        raise ValueError("native_statistics_observation_binding_mismatch")
+                    final_at = instant(outcome["final_observed_at"])
+                else:
+                    final_at = instant(outcome.get("finished_at"))
+                if not position["kickoff"] < final_at <= instant(outcome.get("settled_at")) <= cutoff:
                     raise ValueError("native_result_outside_time_window")
             if "kickoff" in outcome and instant(outcome["kickoff"]) != position["kickoff"]:
                 raise ValueError("settlement_kickoff_mismatch")
