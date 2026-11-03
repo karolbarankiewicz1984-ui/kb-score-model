@@ -8,6 +8,8 @@ zmianami. Start `2dddeae`, następnie fast-forward do czterech nowych commitów
 operatora kończących się `4d8e1f0`. Commit integracyjny
 `8903506f36e607c269ba89c623a06837b938dd61` jest wypchnięty na tę samą gałąź.
 Commit zawierający ten raport zapisuje końcowe dowody. Bez merge do main.
+Końcowa korekta formatowania kontekstu provenance.patch nie zmienia jego treści;
+ponowione 2/2 testy zastosowania propozycji i kontrola whitespace całego zakresu OK.
 
 ## Co wykonano
 
