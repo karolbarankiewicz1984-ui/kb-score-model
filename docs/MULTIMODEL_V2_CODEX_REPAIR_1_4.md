@@ -1,6 +1,8 @@
 # MULTIMODEL v2 — Codex repair batch P1-001/003/004/005
 
-Status: READY_FOR_CODEX; NOT IMPLEMENTED. Date: 2026-11-02. Branch: `codex/multimodel-v2`. PR #55 draft. No merge.
+Status: IMPLEMENTED_IN_ISOLATION / TESTED; REAL_SOURCES_BLOCKED. Plan date: 2026-11-02; implementation: 2026-11-03. Branch: `codex/multimodel-v2`. PR #55 draft. No merge.
+
+Implementation and evidence: [repair report](MULTIMODEL_V2_REPAIR_1_4_REPORT_2026-11-03.md), [machine-readable evidence](MULTIMODEL_V2_REPAIR_1_4_REPORT_2026-11-03.json). Code for tasks 1–4 is complete, with 189 new tests / 995 full regression tests. Production workflow proposals remain unapplied; original current formal freezes/full pools/linked outcomes are still incomplete. Full shadow is not PASS.
 
 Read first: `docs/MULTIMODEL_V2_E2E_AUDIT_2026-11-02.md` and `docs/MULTIMODEL_V2_E2E_EVIDENCE_2026-11-02.json`. Preserve source algorithms, official TOP, thresholds, historical freeze, archives and N. Never backfill pre-match data from post-kickoff captures. No paid API calls. Work in four independent workstreams, with shared tests and a consolidated register.
 

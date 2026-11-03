@@ -24,6 +24,13 @@ freeze; filtr nie emituje obserwacji, gdy `as_of >= kickoff`.
 
 ## Wejścia i granica weryfikacji
 
+Naprawy 1–4 dodają [wspólny forward capture i kwalifikację](MULTIMODEL_V2_FORWARD_CAPTURE.md),
+[formalny freeze KB/Konsensusu](MULTIMODEL_V2_FORWARD_FREEZE.md),
+[pełną natywną pulę API](MULTIMODEL_V2_FULL_POOL.md) i
+[ścisłe native settlement](MULTIMODEL_V2_SETTLEMENT_LINKAGE.md).
+Kod i wyniki regresji: [raport 2026-11-03](MULTIMODEL_V2_REPAIR_1_4_REPORT_2026-11-03.md).
+To izolowane mechanizmy, bez zmiany produkcyjnych workflow i źródeł.
+
 Rozszerzenie audytu blokad etapu 6: [raport i kontrakt odzysku](MULTIMODEL_V2_BLOCKER_AUDIT_2026-11-01.md).
 Obok dotychczasowych artefaktów Actions manifest obsługuje osobny typ
 `git_publication`: udokumentowany oryginalny plik zapisany przez ukończony

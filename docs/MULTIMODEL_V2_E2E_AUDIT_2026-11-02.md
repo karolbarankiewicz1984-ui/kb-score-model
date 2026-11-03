@@ -107,6 +107,13 @@ check_delivery potwierdza istnienie trzech plików i SHA-256: **FILES_VERIFIED_A
 
 ## Lista zmienionych plików w tym audycie
 
+Aktualizacja 2026-11-03: zadania naprawcze 1–4 zaimplementowano w izolacji.
+Pełny stan kodu, nowe kontrole i źródła są opisane w [raporcie napraw](MULTIMODEL_V2_REPAIR_1_4_REPORT_2026-11-03.md).
+Regresja po naprawach: 995/995, v2 387/387; 189 nowych testów. Na tych samych
+zamrożonych wejściach 28/20 brak różnic. Rzeczywiste źródła pozostają
+SOURCE_BLOCKED; pierwotne wyniki audytu powyżej zachowano jako migawkę 2 XI.
+Nie zastosowano propozycji workflow i nie uruchomiono skanów.
+
 - `docs/MULTIMODEL_V2_BLOCKER_AUDIT_2026-11-01.json`
 - `docs/MULTIMODEL_V2_BLOCKER_AUDIT_2026-11-01.md`
 - `docs/MULTIMODEL_V2_CODEX_PLAN.md`
