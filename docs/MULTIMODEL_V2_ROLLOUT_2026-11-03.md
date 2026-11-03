@@ -20,3 +20,29 @@ G3: pierwsze rzeczywiste przedmeczowe publikacje KB/Konsensus i kompletne quotes
 G4: prawidłowe settlement tego samego ID i shadow 1:1 — SOURCE_BLOCKED.
 
 Produkcja niezmieniona. Brak płatnych skanów, merge i zmian N.
+
+
+## Wynik integracji kontrolowanej — 2026-11-03
+
+Kod zapisany w `8903506f36e607c269ba89c623a06837b938dd61`. W trakcie pracy
+zsynchronizowano tę samą gałąź do commitów operatora `4d8e1f0` (fast-forward).
+Źródłowych algorytmów, aktywnych workflow i plików historycznych nie zmieniono.
+
+| Bramka | Wynik po integracji | Znaczenie |
+| --- | --- | --- |
+| G0 | PASS offline | Natywny observer i regresja 1026/1026, w tym 28 nowych testów; 418 testów v2 |
+| G1 | PASS techniczny offline | Trzy daty, rzeczywisty niezmieniony kod producenta 12ebe32, 15→15 wywołań stubu; pełne payload/TOP/freeze identyczne, ZIP/konsument tej samej rewizji |
+| G2 | PENDING | Osobne niezastosowane bootstrap/upload/provenance patche; brak włączenia zmiennych, skanu i uploadu w produkcji |
+| G3 | SOURCE_BLOCKED dla pełnego shadow | Native profile nadal nie zawiera exact identity/period/wybranego quote. KB/Konsensus nieaktywne; formalny callback pozostaje wyłączony bez autentycznego producenta |
+| G4 | SOURCE_BLOCKED | Nie ma kompletnego rzeczywistego settlement tego samego ID/rynku/quote; pełny shadow nie jest PASS |
+
+G1 dotyczy wyłącznie kompletu zapisu technicznego na jawnych unit inputs.
+Nie potwierdza dostępności rzeczywistych trzech dni ani realnych prognoz.
+Zgodnie z nową polityką operatora brak nieaktywnych KB/Konsensusu nie blokuje
+odrębnego API-only; tożsamość rynku, quotes i freeze nadal wymagają weryfikacji.
+PitchAPI pozostaje kontekstem. Nowych raportów użytkowych według dawnej polityki
+osobnej sekcji FAULE UNDER nie opublikowano.
+
+Szczegóły: [raport integracji](MULTIMODEL_V2_ROLLOUT_REPORT_2026-11-03.md),
+[dowody i lista plików](MULTIMODEL_V2_ROLLOUT_REPORT_2026-11-03.json),
+[kontrakt i osobne propozycje](MULTIMODEL_V2_PRODUCER_INTEGRATION.md).
