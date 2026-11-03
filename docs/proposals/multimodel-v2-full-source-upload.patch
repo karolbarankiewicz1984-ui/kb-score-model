@@ -1,0 +1,18 @@
+diff --git a/.github/workflows/api-market-multiday-experiment.yml b/.github/workflows/api-market-multiday-experiment.yml
+--- a/.github/workflows/api-market-multiday-experiment.yml
++++ b/.github/workflows/api-market-multiday-experiment.yml
+@@ -136,3 +136,14 @@
+             reports/api_market_scan/pdf/API_MARKET_SCAN_*.pdf
+             reports/api_market_scan/audit_input/*.json
+           if-no-files-found: warn
++      # Proposed only: the reviewed isolated hooks must populate this folder.
++      # No provider request, scoring invocation or source-file replacement here.
++      - name: Upload optional MULTIMODEL native source evidence
++        if: always() && steps.warsaw.outputs.run_scan == 'true' && vars.MULTIMODEL_V2_FORWARD_CAPTURE == 'true'
++        uses: actions/upload-artifact@v4
++        with:
++          name: multimodel-v2-full-source
++          path: ${{ runner.temp }}/multimodel-v2-sources/
++          if-no-files-found: error
++          retention-days: 30
++          include-hidden-files: false
