@@ -46,3 +46,7 @@ Na tym etapie nie ma udowodnionego przewagi B/C/D nad A. Brak nowego produkcyjne
 
 ## Rejestr decyzji
 2026-10-29: zatwierdzono wyłącznie plan badawczy; bez zmian produkcji. Każdą przyszłą zmianę dopisać z datą, powodem, n fixtures, metrykami, wersją i decyzją użytkownika.
+
+
+## RZ-05 — dyspozycja operatora: PitchAPI bez wewnętrznego limitu (2026-11-03)
+Operator potwierdził, że abonament API-Football wygasa 2026-11-04, a PitchAPI pozostaje aktywne. W przypadku PitchAPI nie należy narzucać sztucznego budżetu wywołań ani blokować pozyskiwania potrzebnych danych z powodu niepotwierdzonych limitów. Można planować szersze pobrania dla legalnych celów badawczych, bez modyfikowania istniejących prognoz, scoringu, TOP, N i historii. Nie potwierdzono, że dostawca nie ma limitów; respektować rzeczywiste 429, warunki usługi i ewentualne płatne rozszerzenia wymagające odrębnej zgody. Ta dyspozycja jest zmianą założenia operacyjnego, NIE dowodem uruchomienia nowych pobrań ani zgodą na automatyczny merge zmian produkcyjnych.
