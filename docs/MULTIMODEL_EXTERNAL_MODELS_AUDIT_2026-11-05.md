@@ -116,3 +116,10 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Znaleziono realny błąd integracyjny: `callumfm/dixon-coles` zaokrągla wyniki `predict()` do 4 miejsc, więc suma 1X2 może odbiegać od 1 o 0.0001; walidator wymaga tolerancji 1e-6. Poprawiono normalizację, odrzucanie wartości niepoprawnych i dodano `tests/test_github_models_dixon_normalization.py` do workflow.
 - Nie wykonano merge PR #55 ani zmian produkcyjnych. Codex nie był potrzebny do tej korekty.
 - Nadal do sprawdzenia: instalacja pakietu i prawdziwe fit/predict, zgodność nazw lig PitchAPI, dostępność snapshotów na wszystkie 3 dni, faktyczne prognozy i zamrożenie wyników.
+
+## Prawdziwy test end-to-end GitHub Actions — 2026-11-05
+- Utworzono izolowany workflow smoke na `main` (`.github/workflows/github-models-smoke.yml`) wyłącznie do testów kodu z `codex/multimodel-v2`, bez scalania kodu badawczego z produkcją.
+- Pierwszy run `42119694934` **FAILED**: `pip install dixon-coles==0.1.0` nie znajduje pakietu na PyPI. Zmieniono instalację na repozytorium autora `git+https://github.com/callumfm/dixon-coles.git` w obu workflow.
+- Drugi run `42119804266` **SUCCESS**: instalacja biblioteki, 16 testów, importer publicznych wyników, kolejka, audyt pokrycia i runner prognoz przeszły. Log: **5708** zaimportowanych historycznych wyników, **0** meczów w kolejce, **0** prognoz; brak snapshotów PitchAPI na 2026-11-05/06/07 w gałęzi badawczej.
+- Zweryfikowano, że `main` posiada snapshot 2026-11-05, ale nie ma 2026-11-06 i 2026-11-07. Dodano do smoke odczyt najnowszych plików z `main` (bez modyfikowania produkcji) i uruchomienie kontrolne po poprawce.
+- Wynik 5708 to rekordy zewnętrznego źródła zaobserwowane podczas uruchomienia, **nie** zweryfikowane typy ani próbki kalibracyjne. Nie twierdzić, że działa automatyczne prognozowanie do czasu uzyskania prawdziwych spotkań w kolejce.
