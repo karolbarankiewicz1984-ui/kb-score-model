@@ -133,3 +133,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 ## Naprawa kolejki — identyfikator ligi
 - Kolejka zachowuje teraz `league_id` z PitchAPI, aby umożliwić bezpieczne dopasowanie rozgrywek. Sam identyfikator nie stanowi jeszcze zweryfikowanej mapy krajów i lig; nie odblokowano arbitralnie brazylijskiej `Serie A`.
 - Zmiany workflow PitchAPI na `main` nie zostały wprowadzone z powodu blokady operacji. Konieczne osobne zatwierdzone wdrożenie.
+
+## Naprawa harmonogramu PitchAPI — etap wdrożenia
+- Potwierdzono przyczynę awarii produkcyjnego runu `42123391386`: `AssertionError: Prematch-only requested day must be future`. Wersja `main` żąda dnia bieżącego, którego kolektor zabrania.
+- W gałęzi `codex/multimodel-v2` poprawiono workflow tak, aby domyślnie zbierał **jutro, pojutrze i trzeci dzień** oraz zapisywał wszystkie trzy snapshoty; jawne wejście `date` nadal obsługuje pojedynczą datę.
+- W gałęzi badawczej dodano warunek `github.ref == 'refs/heads/main'` dla kroku publikacji, aby testy PR nie wypychały danych na produkcję. Wcześniejsze uruchomienia rozpoczęte przed dodaniem warunku wymagają osobnego audytu.
+- Zapisano `league_id` w kolejce i dodano asercję do testu. Zmiany nie są jeszcze wdrożone na `main`; PR #55 jest otwarty. Nie deklarować zakończenia naprawy produkcyjnego harmonogramu do czasu merge i zielonego runu.
