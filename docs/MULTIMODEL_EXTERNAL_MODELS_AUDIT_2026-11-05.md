@@ -110,3 +110,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Dodano `github_models/coverage_audit.py`, raportujący dla każdego meczu dokładny powód blokady, pokrycie historii Elo i liczebność ligi dla Dixon-Coles. Workflow zapisuje odrębny artefakt `reports/github_models/coverage/YYYY-MM-DD.json`.
 - Codex: użytkownik dopuścił wykorzystanie, jeśli potrzebne. Na tym etapie zmiany wykonano bez osobnego zadania Codex; brak uruchomienia sesji Codex.
 - Wciąż niepotwierdzone: pełny workflow na GitHub Actions, pobranie CSV w środowisku CI, rzeczywiste dopasowania lig i drużyn oraz pierwsze zamrożone prognozy. Żadnych deklaracji o skuteczności bez wyników.
+
+## Kontrola CI i naprawa prawdopodobieństw Dixon-Coles
+- Zweryfikowano przez GitHub API: PR #55 (gałąź `codex/multimodel-v2` -> `main`) jest otwarty; `MULTIMODEL v2 isolated regression` dla commitu `79353cef` zakończył się `success` (run `42116313146`). **Nie jest to pełny workflow `github-models-independent.yml`**.
+- Znaleziono realny błąd integracyjny: `callumfm/dixon-coles` zaokrągla wyniki `predict()` do 4 miejsc, więc suma 1X2 może odbiegać od 1 o 0.0001; walidator wymaga tolerancji 1e-6. Poprawiono normalizację, odrzucanie wartości niepoprawnych i dodano `tests/test_github_models_dixon_normalization.py` do workflow.
+- Nie wykonano merge PR #55 ani zmian produkcyjnych. Codex nie był potrzebny do tej korekty.
+- Nadal do sprawdzenia: instalacja pakietu i prawdziwe fit/predict, zgodność nazw lig PitchAPI, dostępność snapshotów na wszystkie 3 dni, faktyczne prognozy i zamrożenie wyników.
