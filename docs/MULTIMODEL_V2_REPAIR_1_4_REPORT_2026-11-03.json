@@ -1,0 +1,842 @@
+{
+  "schema": "multimodel-v2-repair-1-4-report-v1",
+  "date": "2026-11-03",
+  "branch": "codex/multimodel-v2",
+  "base_commit": "9a3a803deca55ecf24bdbb1b16c4243822b913d1",
+  "status": "CODE_READY_REAL_SOURCES_BLOCKED",
+  "code_ready": true,
+  "ready_for_real_parallel_1_to_1": false,
+  "full_shadow_passed": false,
+  "workstreams": [
+    {
+      "task": 1,
+      "code_status": "DONE",
+      "data_status": "BLOCKED",
+      "implemented": [
+        "strict_three_dates",
+        "Warsaw1130_deadline",
+        "nominal_DST_vs_late_execution",
+        "verified_artifact_and_checkout_binding",
+        "complete_pool_and_quote_checks"
+      ],
+      "remaining": [
+        "production_days2_proposal_unapplied",
+        "no_complete_three_date_native_capsule_set"
+      ]
+    },
+    {
+      "task": 2,
+      "code_status": "DONE",
+      "data_status": "BLOCKED",
+      "implemented": [
+        "native_formal_freeze_verification",
+        "historical_register_separation",
+        "immutable_fresh_native_publication_receipt",
+        "read_only_native_publisher_contract"
+      ],
+      "remaining": [
+        "actual_current_KB21_Consensus_native_publications_missing"
+      ]
+    },
+    {
+      "task": 3,
+      "code_status": "DONE",
+      "data_status": "BLOCKED",
+      "implemented": [
+        "immutable_date_partitioned_full_native_pool",
+        "fresh_unchanged_filter_runtime_trace",
+        "original_raw_response_receipts_without_API_calls",
+        "retention_size_and_secret_redaction",
+        "independent_original_TOP_verification"
+      ],
+      "remaining": [
+        "no_1473_999_missing_historical_rows_recovered",
+        "independent_original_quote_fields_and_per_row_runtime_trace_not_in_legacy_files",
+        "optional_producer_hooks_and_upload_not_deployed"
+      ]
+    },
+    {
+      "task": 4,
+      "code_status": "DONE",
+      "data_status": "BLOCKED",
+      "implemented": [
+        "native_publication_market_quote_join",
+        "independent_TOP_API_FOULS_cohorts",
+        "WIN_LOSS_VOID_UNRESOLVED",
+        "complete_cohort_ROI_and_fixture_equal_ROI",
+        "conflicting_fixture_and_duplicate_guards"
+      ],
+      "remaining": [
+        "1391_foreign_observations_cannot_settle_requested_publication",
+        "no_complete_eligible_actual_frozen_cohort_results"
+      ]
+    }
+  ],
+  "test_results": {
+    "baseline_full": 806,
+    "baseline_v2": 198,
+    "new_tests": 189,
+    "full": 995,
+    "v2": 387,
+    "all_passed": true,
+    "breakdown": {
+      "planner": 41,
+      "formal_freeze": 35,
+      "full_pool": 42,
+      "settlement": 40,
+      "raw_capture": 11,
+      "integration": 20
+    },
+    "full_suite_environment": "Python3.12.14; current isolated PDF venv"
+  },
+  "before_after_same_frozen_inputs": {
+    "comparison": "same_original_frozen_input_before_after_repairs",
+    "source_as_of": "2026-11-02T18:06:41Z",
+    "rows": [
+      28,
+      20
+    ],
+    "compared_fields": [
+      "native_rows",
+      "adapter_rows",
+      "fixture_ids",
+      "native_status_counts",
+      "adapter_status_counts",
+      "exact_market_and_quote_digest_native",
+      "exact_market_and_quote_digest_adapter",
+      "field_differences",
+      "source_consistency_differences",
+      "original_top_rows",
+      "original_top_order_preserved",
+      "freeze",
+      "native_audit_field_populations_unverified",
+      "strict_v2_audits"
+    ],
+    "differences": [],
+    "source_1_to_1_unchanged": true,
+    "native_top_order_preserved": true,
+    "full_shadow_passed": false,
+    "native_files_modified": false
+  },
+  "actual_native_preservation_and_settlements": {
+    "as_of": "2026-11-03T08:59:02Z",
+    "source_kind": "separate_original_historical_publication_not_experiment_1473_999",
+    "native_capture_sha256": "4a757603db9d1cd2dc66e10da11fa4a23cb8c7c3001d60459b70596e396f1308",
+    "native_publication_id": "161916070596-866b43bbe577eccc",
+    "full_pool_verification": {
+      "status": "INCOMPLETE",
+      "full_pool_complete": true,
+      "source_eligible": false,
+      "original_top_eligible": false,
+      "original_top_blockers": [
+        "original_top_frozen_quote_missing"
+      ],
+      "blockers": [
+        "incomplete_market_identity",
+        "original_candidate_decision_missing",
+        "original_decision_trace_missing",
+        "original_top_frozen_quote_missing"
+      ],
+      "verified_candidate_rows": 0
+    },
+    "counts": {
+      "captured_candidates": 222,
+      "native_top_positions": 51,
+      "native_score_bands": {
+        "at_least_67": 51,
+        "below_67": 171
+      },
+      "recorded_decisions": {}
+    },
+    "preservation": {
+      "original_capture_sha256": "4a757603db9d1cd2dc66e10da11fa4a23cb8c7c3001d60459b70596e396f1308",
+      "original_payload_sha256": "51ebab1adb356112a25a663c3122877af742afb9d70d6cfff5036dc603bc8c28",
+      "retained_payload_sha256": "51ebab1adb356112a25a663c3122877af742afb9d70d6cfff5036dc603bc8c28",
+      "top_order_preserved": true,
+      "native_fields_synthesized": false,
+      "secret_redaction_paths": []
+    },
+    "native_payload_equal": true,
+    "original_top_equal": true,
+    "historical_native_rows_retained": 222,
+    "historical_top_rows_retained": 51,
+    "copy_integrity": {
+      "written_and_read": true,
+      "stored_sha256": "38cf3346275bc4d0d6703333a102b6f90ed966faadb3db49970d6204a86a5b4d"
+    },
+    "source_original_unchanged": true,
+    "foreign_settlement_source_sha256": "64ae4a2feb9e6b33f3e4638bdc9b1dec61b6b9a049d01186d816bb6a654b7c28",
+    "foreign_observations_received": 1391,
+    "rejection_counts": {
+      "wrong_native_publication_id": 1391
+    },
+    "cohorts": {
+      "original_top": {
+        "status": "AUDYT NIEPEŁNY",
+        "source_status": "SOURCE_BLOCKED",
+        "population_complete": true,
+        "blockers": [
+          "incomplete_market_identity",
+          "native_source_incomplete",
+          "original_quote_missing",
+          "original_top_pool_mismatch_or_duplicate"
+        ],
+        "metrics": {
+          "positions": 51,
+          "known_positions": 51,
+          "fixtures": 2,
+          "settled": 0,
+          "unresolved": 51,
+          "wins": 0,
+          "losses": 0,
+          "voids": 0,
+          "hit_rate_pct": null,
+          "profit_units": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "roi_status": "AUDYT NIEPEŁNY"
+        }
+      },
+      "qualifying_api": {
+        "status": "AUDYT NIEPEŁNY",
+        "source_status": "SOURCE_BLOCKED",
+        "population_complete": false,
+        "blockers": [
+          "cohort_population_not_verified"
+        ],
+        "metrics": {
+          "positions": null,
+          "known_positions": 0,
+          "fixtures": null,
+          "settled": 0,
+          "unresolved": 0,
+          "wins": 0,
+          "losses": 0,
+          "voids": 0,
+          "hit_rate_pct": null,
+          "profit_units": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "roi_status": "AUDYT NIEPEŁNY"
+        }
+      },
+      "fouls_under": {
+        "status": "AUDYT NIEPEŁNY",
+        "source_status": "SOURCE_BLOCKED",
+        "population_complete": true,
+        "blockers": [],
+        "metrics": {
+          "positions": 0,
+          "known_positions": 0,
+          "fixtures": 0,
+          "settled": 0,
+          "unresolved": 0,
+          "wins": 0,
+          "losses": 0,
+          "voids": 0,
+          "hit_rate_pct": null,
+          "profit_units": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "roi_status": "AUDYT NIEPEŁNY"
+        }
+      }
+    },
+    "filtered_exports": [
+      {
+        "date": "2026-11-01",
+        "declared_candidates": 1473,
+        "actual_published_rows": 28,
+        "full_background_rows_recovered": 0,
+        "status": "SOURCE_BLOCKED",
+        "reason": "full_candidate_pool_not_recorded",
+        "capture_sha256": "5a32873c7d00258f34a4fc2f5e33536e911348fb2b5085e3e4e486f1c0e4f1d6"
+      },
+      {
+        "date": "2026-11-02",
+        "declared_candidates": 999,
+        "actual_published_rows": 20,
+        "full_background_rows_recovered": 0,
+        "status": "SOURCE_BLOCKED",
+        "reason": "full_candidate_pool_not_recorded",
+        "capture_sha256": "59a7e59db5fe2b20d4aff85a6e5f2f2697cf242cc939c4e4e6ed79c32f88017b"
+      }
+    ],
+    "register_writes": false,
+    "n_effect": 0,
+    "new_historical_predictions_created": 0,
+    "current_formal_sources": {
+      "kb21": {
+        "schema": "multimodel-v2-register-freeze-inspection-v1",
+        "system": "kb21",
+        "date": "2026-11-03",
+        "status": "SOURCE_BLOCKED",
+        "source_kind": "historical_register",
+        "read_rows": 496,
+        "recorded_selection_rows": 202,
+        "non_selection_rows": 294,
+        "latest_source_date": "2026-10-06",
+        "source_dated_selection_rows": 0,
+        "missing_fields": [
+          "publication.id",
+          "publication.captured_at_utc",
+          "publication.published_at_utc",
+          "publication.source_reference",
+          "picks[].native_selection_id",
+          "picks[].fixture_id",
+          "picks[].kickoff",
+          "picks[].market_identity",
+          "picks[].frozen_quote.market_identity",
+          "picks[].frozen_quote.bookmaker",
+          "picks[].frozen_quote.provider_updated_at",
+          "picks[].frozen_quote.source_reference"
+        ],
+        "blockers": [
+          "bookmaker_missing",
+          "exact_market_identity_missing",
+          "fixture_id_missing",
+          "kickoff_missing",
+          "prematch_freeze_timestamp_missing",
+          "quote_timestamp_missing",
+          "original_formal_publication_not_recorded"
+        ],
+        "source": {
+          "locator": "/workspace/work/multimodel-v2-repair-1-4/kb-current.json",
+          "capture_sha256": "c533c069f317ec56694d90157cea74f10ddc41bf3bb9a953d29b1afc4e55c500"
+        },
+        "source_url": "https://docs.google.com/spreadsheets/d/1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI/edit",
+        "register_writes": false,
+        "historical_rows_promoted": 0,
+        "n_effect": 0
+      },
+      "consensus": {
+        "schema": "multimodel-v2-register-freeze-inspection-v1",
+        "system": "consensus",
+        "date": "2026-11-03",
+        "status": "SOURCE_BLOCKED",
+        "source_kind": "historical_register",
+        "read_rows": 214,
+        "recorded_selection_rows": 214,
+        "non_selection_rows": 0,
+        "latest_source_date": "2026-10-14",
+        "source_dated_selection_rows": 0,
+        "missing_fields": [
+          "publication.id",
+          "publication.captured_at_utc",
+          "publication.published_at_utc",
+          "publication.source_reference",
+          "picks[].native_selection_id",
+          "picks[].fixture_id",
+          "picks[].kickoff",
+          "picks[].market_identity",
+          "picks[].frozen_quote.market_identity",
+          "picks[].frozen_quote.bookmaker",
+          "picks[].frozen_quote.provider_updated_at",
+          "picks[].frozen_quote.source_reference",
+          "picks[].event_date"
+        ],
+        "blockers": [
+          "bookmaker_missing",
+          "exact_market_identity_missing",
+          "fixture_id_missing",
+          "kickoff_missing",
+          "prematch_freeze_timestamp_missing",
+          "quote_timestamp_missing",
+          "source_date_and_analysis_time_not_verified_event_kickoff",
+          "original_formal_publication_not_recorded"
+        ],
+        "source": {
+          "locator": "/workspace/work/multimodel-v2-repair-1-4/consensus-current.json",
+          "capture_sha256": "e6e0fc7f7d9162493031301ffcbca7b65b19dc0a0f7a3da39332e8caca9408e1"
+        },
+        "source_url": "https://docs.google.com/spreadsheets/d/1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc/edit",
+        "register_writes": false,
+        "historical_rows_promoted": 0,
+        "n_effect": 0
+      }
+    }
+  },
+  "current_supplied_source_qualification": {
+    "schema": "multimodel-v2-repair-qualification-v1",
+    "start_date": "2026-11-03",
+    "as_of": "2026-11-03T08:54:22Z",
+    "planner": {
+      "schema": "multimodel-v2-three-day-qualification-v1",
+      "start_date": "2026-11-03",
+      "dates": [
+        "2026-11-03",
+        "2026-11-04",
+        "2026-11-05"
+      ],
+      "timezone": "Europe/Warsaw",
+      "deadline_at": "2026-11-03T11:30:00+01:00",
+      "as_of": "2026-11-03T08:54:22Z",
+      "schedule": {
+        "status": "ACTIVE",
+        "execute": true,
+        "nominal_at_utc": "2026-11-01T09:00:00Z",
+        "nominal_at_warsaw": "2026-11-01T10:00:00+01:00",
+        "delay_seconds": 24838.0
+      },
+      "execution": {
+        "run_id": "41323529393",
+        "run_conclusion": "success",
+        "status": "SOURCE_BLOCKED",
+        "scan_executed_successfully": true,
+        "source_eligible": false,
+        "artifact_count": 1,
+        "paid_scan_started": false,
+        "reason": "dated_payload_validation_required",
+        "cause": "artifact_metadata_alone_is_not_complete_source"
+      },
+      "workflow_head_sha": "634c890eb0ddd489693f436722177b5ea3af32ad",
+      "actual_checkout_sha": "12ebe32220d04b7488889b2c7c4384ff47eb9d2e",
+      "days": [
+        {
+          "date": "2026-11-03",
+          "status": "SOURCE_BLOCKED",
+          "present": false,
+          "source_complete": false,
+          "prematch_valid": false,
+          "available_before_deadline": false,
+          "rows": null,
+          "issues": [
+            "missing_date"
+          ]
+        },
+        {
+          "date": "2026-11-04",
+          "status": "SOURCE_BLOCKED",
+          "present": false,
+          "source_complete": false,
+          "prematch_valid": false,
+          "available_before_deadline": false,
+          "rows": null,
+          "issues": [
+            "missing_date"
+          ]
+        },
+        {
+          "date": "2026-11-05",
+          "status": "SOURCE_BLOCKED",
+          "present": false,
+          "source_complete": false,
+          "prematch_valid": false,
+          "available_before_deadline": false,
+          "rows": null,
+          "issues": [
+            "missing_date"
+          ]
+        }
+      ],
+      "unexpected_dates": [],
+      "issues": [],
+      "deadline_met": false,
+      "original_prematch_valid": false,
+      "source_ready": false,
+      "status": "SOURCE_BLOCKED",
+      "paid_api_calls": 0,
+      "register_writes": false,
+      "n_effect": 0
+    },
+    "days": [
+      {
+        "date": "2026-11-03",
+        "formal_sources": {
+          "kb21": {
+            "schema": "multimodel-v2-register-freeze-inspection-v1",
+            "system": "kb21",
+            "date": "2026-11-03",
+            "status": "SOURCE_BLOCKED",
+            "source_kind": "historical_register",
+            "read_rows": 496,
+            "recorded_selection_rows": 202,
+            "non_selection_rows": 294,
+            "latest_source_date": "2026-10-06",
+            "source_dated_selection_rows": 0,
+            "missing_fields": [
+              "publication.id",
+              "publication.captured_at_utc",
+              "publication.published_at_utc",
+              "publication.source_reference",
+              "picks[].native_selection_id",
+              "picks[].fixture_id",
+              "picks[].kickoff",
+              "picks[].market_identity",
+              "picks[].frozen_quote.market_identity",
+              "picks[].frozen_quote.bookmaker",
+              "picks[].frozen_quote.provider_updated_at",
+              "picks[].frozen_quote.source_reference"
+            ],
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "original_formal_publication_not_recorded"
+            ],
+            "source": {
+              "locator": "/workspace/work/multimodel-v2-repair-1-4/kb-current.json",
+              "capture_sha256": "c533c069f317ec56694d90157cea74f10ddc41bf3bb9a953d29b1afc4e55c500"
+            },
+            "source_url": "https://docs.google.com/spreadsheets/d/1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI/edit",
+            "register_writes": false,
+            "historical_rows_promoted": 0,
+            "n_effect": 0
+          },
+          "consensus": {
+            "schema": "multimodel-v2-register-freeze-inspection-v1",
+            "system": "consensus",
+            "date": "2026-11-03",
+            "status": "SOURCE_BLOCKED",
+            "source_kind": "historical_register",
+            "read_rows": 214,
+            "recorded_selection_rows": 214,
+            "non_selection_rows": 0,
+            "latest_source_date": "2026-10-14",
+            "source_dated_selection_rows": 0,
+            "missing_fields": [
+              "publication.id",
+              "publication.captured_at_utc",
+              "publication.published_at_utc",
+              "publication.source_reference",
+              "picks[].native_selection_id",
+              "picks[].fixture_id",
+              "picks[].kickoff",
+              "picks[].market_identity",
+              "picks[].frozen_quote.market_identity",
+              "picks[].frozen_quote.bookmaker",
+              "picks[].frozen_quote.provider_updated_at",
+              "picks[].frozen_quote.source_reference",
+              "picks[].event_date"
+            ],
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff",
+              "original_formal_publication_not_recorded"
+            ],
+            "source": {
+              "locator": "/workspace/work/multimodel-v2-repair-1-4/consensus-current.json",
+              "capture_sha256": "e6e0fc7f7d9162493031301ffcbca7b65b19dc0a0f7a3da39332e8caca9408e1"
+            },
+            "source_url": "https://docs.google.com/spreadsheets/d/1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc/edit",
+            "register_writes": false,
+            "historical_rows_promoted": 0,
+            "n_effect": 0
+          }
+        },
+        "common_fixtures_at_original_cutoff": [],
+        "required_api_fixture_ids": [],
+        "comparison_scope": "all_original_api_fixtures_independent_native_market_cohorts",
+        "comparison_blockers": [],
+        "native_pool": null,
+        "settlements": null,
+        "ready_for_frozen_parallel_test": false,
+        "ready_for_new_prematch_report": false
+      },
+      {
+        "date": "2026-11-04",
+        "formal_sources": {
+          "kb21": {
+            "schema": "multimodel-v2-register-freeze-inspection-v1",
+            "system": "kb21",
+            "date": "2026-11-04",
+            "status": "SOURCE_BLOCKED",
+            "source_kind": "historical_register",
+            "read_rows": 496,
+            "recorded_selection_rows": 202,
+            "non_selection_rows": 294,
+            "latest_source_date": "2026-10-06",
+            "source_dated_selection_rows": 0,
+            "missing_fields": [
+              "publication.id",
+              "publication.captured_at_utc",
+              "publication.published_at_utc",
+              "publication.source_reference",
+              "picks[].native_selection_id",
+              "picks[].fixture_id",
+              "picks[].kickoff",
+              "picks[].market_identity",
+              "picks[].frozen_quote.market_identity",
+              "picks[].frozen_quote.bookmaker",
+              "picks[].frozen_quote.provider_updated_at",
+              "picks[].frozen_quote.source_reference"
+            ],
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "original_formal_publication_not_recorded"
+            ],
+            "source": {
+              "locator": "/workspace/work/multimodel-v2-repair-1-4/kb-current.json",
+              "capture_sha256": "c533c069f317ec56694d90157cea74f10ddc41bf3bb9a953d29b1afc4e55c500"
+            },
+            "source_url": "https://docs.google.com/spreadsheets/d/1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI/edit",
+            "register_writes": false,
+            "historical_rows_promoted": 0,
+            "n_effect": 0
+          },
+          "consensus": {
+            "schema": "multimodel-v2-register-freeze-inspection-v1",
+            "system": "consensus",
+            "date": "2026-11-04",
+            "status": "SOURCE_BLOCKED",
+            "source_kind": "historical_register",
+            "read_rows": 214,
+            "recorded_selection_rows": 214,
+            "non_selection_rows": 0,
+            "latest_source_date": "2026-10-14",
+            "source_dated_selection_rows": 0,
+            "missing_fields": [
+              "publication.id",
+              "publication.captured_at_utc",
+              "publication.published_at_utc",
+              "publication.source_reference",
+              "picks[].native_selection_id",
+              "picks[].fixture_id",
+              "picks[].kickoff",
+              "picks[].market_identity",
+              "picks[].frozen_quote.market_identity",
+              "picks[].frozen_quote.bookmaker",
+              "picks[].frozen_quote.provider_updated_at",
+              "picks[].frozen_quote.source_reference",
+              "picks[].event_date"
+            ],
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff",
+              "original_formal_publication_not_recorded"
+            ],
+            "source": {
+              "locator": "/workspace/work/multimodel-v2-repair-1-4/consensus-current.json",
+              "capture_sha256": "e6e0fc7f7d9162493031301ffcbca7b65b19dc0a0f7a3da39332e8caca9408e1"
+            },
+            "source_url": "https://docs.google.com/spreadsheets/d/1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc/edit",
+            "register_writes": false,
+            "historical_rows_promoted": 0,
+            "n_effect": 0
+          }
+        },
+        "common_fixtures_at_original_cutoff": [],
+        "required_api_fixture_ids": [],
+        "comparison_scope": "all_original_api_fixtures_independent_native_market_cohorts",
+        "comparison_blockers": [],
+        "native_pool": null,
+        "settlements": null,
+        "ready_for_frozen_parallel_test": false,
+        "ready_for_new_prematch_report": false
+      },
+      {
+        "date": "2026-11-05",
+        "formal_sources": {
+          "kb21": {
+            "schema": "multimodel-v2-register-freeze-inspection-v1",
+            "system": "kb21",
+            "date": "2026-11-05",
+            "status": "SOURCE_BLOCKED",
+            "source_kind": "historical_register",
+            "read_rows": 496,
+            "recorded_selection_rows": 202,
+            "non_selection_rows": 294,
+            "latest_source_date": "2026-10-06",
+            "source_dated_selection_rows": 0,
+            "missing_fields": [
+              "publication.id",
+              "publication.captured_at_utc",
+              "publication.published_at_utc",
+              "publication.source_reference",
+              "picks[].native_selection_id",
+              "picks[].fixture_id",
+              "picks[].kickoff",
+              "picks[].market_identity",
+              "picks[].frozen_quote.market_identity",
+              "picks[].frozen_quote.bookmaker",
+              "picks[].frozen_quote.provider_updated_at",
+              "picks[].frozen_quote.source_reference"
+            ],
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "original_formal_publication_not_recorded"
+            ],
+            "source": {
+              "locator": "/workspace/work/multimodel-v2-repair-1-4/kb-current.json",
+              "capture_sha256": "c533c069f317ec56694d90157cea74f10ddc41bf3bb9a953d29b1afc4e55c500"
+            },
+            "source_url": "https://docs.google.com/spreadsheets/d/1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI/edit",
+            "register_writes": false,
+            "historical_rows_promoted": 0,
+            "n_effect": 0
+          },
+          "consensus": {
+            "schema": "multimodel-v2-register-freeze-inspection-v1",
+            "system": "consensus",
+            "date": "2026-11-05",
+            "status": "SOURCE_BLOCKED",
+            "source_kind": "historical_register",
+            "read_rows": 214,
+            "recorded_selection_rows": 214,
+            "non_selection_rows": 0,
+            "latest_source_date": "2026-10-14",
+            "source_dated_selection_rows": 0,
+            "missing_fields": [
+              "publication.id",
+              "publication.captured_at_utc",
+              "publication.published_at_utc",
+              "publication.source_reference",
+              "picks[].native_selection_id",
+              "picks[].fixture_id",
+              "picks[].kickoff",
+              "picks[].market_identity",
+              "picks[].frozen_quote.market_identity",
+              "picks[].frozen_quote.bookmaker",
+              "picks[].frozen_quote.provider_updated_at",
+              "picks[].frozen_quote.source_reference",
+              "picks[].event_date"
+            ],
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff",
+              "original_formal_publication_not_recorded"
+            ],
+            "source": {
+              "locator": "/workspace/work/multimodel-v2-repair-1-4/consensus-current.json",
+              "capture_sha256": "e6e0fc7f7d9162493031301ffcbca7b65b19dc0a0f7a3da39332e8caca9408e1"
+            },
+            "source_url": "https://docs.google.com/spreadsheets/d/1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc/edit",
+            "register_writes": false,
+            "historical_rows_promoted": 0,
+            "n_effect": 0
+          }
+        },
+        "common_fixtures_at_original_cutoff": [],
+        "required_api_fixture_ids": [],
+        "comparison_scope": "all_original_api_fixtures_independent_native_market_cohorts",
+        "comparison_blockers": [],
+        "native_pool": null,
+        "settlements": null,
+        "ready_for_frozen_parallel_test": false,
+        "ready_for_new_prematch_report": false
+      }
+    ],
+    "issues": [],
+    "ready_for_parallel_1_to_1": false,
+    "full_shadow_passed": false,
+    "status": "SOURCE_BLOCKED",
+    "models_executed": false,
+    "paid_api_calls": 0,
+    "register_writes": false,
+    "n_effect": 0
+  },
+  "source_provenance": {
+    "Google_capture_observed_at": "2026-11-03T08:42:45Z",
+    "frozen_artifact_source_observed_as_of": "2026-11-02T18:06:41Z",
+    "API_artifact_id": 13089668808,
+    "API_run_id": 41323529393,
+    "Pitch_artifact_id": 13100867272,
+    "Pitch_run_id": 41350611997,
+    "note": "Historical frozen inputs are replayed unchanged; this is not a new provider scan or discovery claim for all latest global sources."
+  },
+  "production_changes": false,
+  "source_models_executed": false,
+  "paid_api_calls": 0,
+  "register_writes": false,
+  "n_effect": 0,
+  "merge_performed": false,
+  "proposals": [
+    {
+      "path": "docs/proposals/multimodel-v2-three-day.patch",
+      "applied": false,
+      "git_apply_check": true
+    },
+    {
+      "path": "docs/proposals/multimodel-v2-full-source-upload.patch",
+      "applied": false,
+      "git_apply_check": true
+    }
+  ],
+  "operator_actions": [
+    "Review/apply future workflow proposals separately; nothing applied by this repair",
+    "Wire reviewed collector hooks to already received real native responses and original pure evaluation without extra provider queries",
+    "Provide authorized current KB21/Consensus native publications using formal schema",
+    "Upload genuine original complete source capsules/quotes/results before required cutoffs",
+    "Run actual model parallel comparison only after source gate qualifies; code-test success is not shadow PASS"
+  ],
+  "permissions_status": {
+    "Google_read": "WORKING",
+    "Google_write": "NOT_REQUESTED_NOT_USED",
+    "provider_keys": "NOT_READ_OR_REQUIRED_FOR_OFFLINE_TESTS; needed only by existing authorized source collectors",
+    "GitHub_Actions_settings": "optional repository variable MULTIMODEL_V2_FORWARD_CAPTURE not set by repair"
+  },
+  "protected_source_files_changed": [],
+  "changed_files": [
+    "docs/MULTIMODEL_V2_CODEX_PLAN.md",
+    "docs/MULTIMODEL_V2_CODEX_REPAIR_1_4.md",
+    "docs/MULTIMODEL_V2_E2E_AUDIT_2026-11-02.md",
+    "docs/MULTIMODEL_V2_FORWARD_CAPTURE.md",
+    "docs/MULTIMODEL_V2_FORWARD_FREEZE.md",
+    "docs/MULTIMODEL_V2_FULL_POOL.md",
+    "docs/MULTIMODEL_V2_REPAIR_1_4_REPORT_2026-11-03.json",
+    "docs/MULTIMODEL_V2_REPAIR_1_4_REPORT_2026-11-03.md",
+    "docs/MULTIMODEL_V2_SETTLEMENT_LINKAGE.md",
+    "docs/MULTIMODEL_V2_SOURCES.md",
+    "docs/proposals/multimodel-v2-full-source-upload.patch",
+    "docs/proposals/multimodel-v2-three-day.patch",
+    "multimodel_v2/capture.py",
+    "multimodel_v2/formal_freeze.py",
+    "multimodel_v2/full_pool.py",
+    "multimodel_v2/planner.py",
+    "multimodel_v2/repair_pipeline.py",
+    "multimodel_v2/settlement.py",
+    "tests/test_multimodel_v2_capture.py",
+    "tests/test_multimodel_v2_formal_freeze.py",
+    "tests/test_multimodel_v2_full_pool.py",
+    "tests/test_multimodel_v2_planner.py",
+    "tests/test_multimodel_v2_repair_pipeline.py",
+    "tests/test_multimodel_v2_settlement.py"
+  ],
+  "repair_commits_before_integration_commit": [
+    {
+      "sha": "f28551f7c0337ea9df3deb9a49dc23da6e1cdfdc",
+      "title": "fix(multimodel-v2): require three verified dates and Warsaw deadline"
+    },
+    {
+      "sha": "8c6415517b0fe40b4368645774b1d91ea88de545",
+      "title": "feat(multimodel-v2): verify and retain native forward formal freezes"
+    },
+    {
+      "sha": "243f72b4c595cba41913e9dbf6f73da107febe4e",
+      "title": "feat(multimodel-v2): retain full native pools and raw source evidence"
+    },
+    {
+      "sha": "ec2be9eaf2b8a1270c174569920f07d179a2b751",
+      "title": "feat(multimodel-v2): link native settlements with independent cohorts"
+    }
+  ],
+  "integration_commit_reference": "Current PR head containing this report; full final SHA recorded in PR description and Git history"
+}

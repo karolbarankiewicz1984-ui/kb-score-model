@@ -1,0 +1,467 @@
+{
+  "schema": "multimodel-v2-controlled-rollout-report-v1",
+  "date": "2026-11-03",
+  "branch": "codex/multimodel-v2",
+  "start_commit": "2dddeae",
+  "synchronized_operator_head": "4d8e1f077b3c3d36a75e231862f7ae1b1d70d920",
+  "code_commit": "8903506f36e607c269ba89c623a06837b938dd61",
+  "documentation_commit": "commit_containing_this_report",
+  "code_status": "OFFLINE_INTEGRATION_TESTED_NOT_DEPLOYED",
+  "real_data_status": "SOURCE_BLOCKED",
+  "api_only_verified_ready": false,
+  "full_shadow_passed": false,
+  "paid_api_calls": 0,
+  "source_api_calls": 0,
+  "production_deployed": false,
+  "merge_to_main": false,
+  "protected_source_files_changed": [],
+  "n_effect": 0,
+  "formal_publishers_connected": [],
+  "formal_callback_default": "DISABLED",
+  "pitchapi_context_only": true,
+  "baseline_tests": 995,
+  "operator_added_tests": 3,
+  "rollout_added_tests": 28,
+  "test_results": {
+    "full": 1026,
+    "multimodel_v2": 418,
+    "all_passed": true,
+    "python": "3.12.14",
+    "environment": "isolated PDF venv",
+    "new_tests_file": "tests/test_multimodel_v2_rollout.py"
+  },
+  "offline_native_integration": {
+    "schema": "multimodel-v2-rollout-offline-evidence-v1",
+    "purpose": "EXPLICIT_UNIT_INPUTS_NOT_REAL_PREDICTIONS",
+    "native_source_sha": "12ebe32220d04b7488889b2c7c4384ff47eb9d2e",
+    "api_calls_before": 15,
+    "api_calls_after": 15,
+    "call_arguments_and_order_equal": true,
+    "additional_api_calls": 0,
+    "network_connections": 0,
+    "comparison": [
+      {
+        "date": "2030-01-01",
+        "fixture_ids_equal": true,
+        "entire_native_payload_equal": true,
+        "native_payload_sha256": "02ca38d8e48ac03864696e505d687681634bf3f8acb57983ae282b39f2336367",
+        "candidates": 96,
+        "top": 48,
+        "below67": 48,
+        "capsule_payload_equal": true,
+        "n_effect": 0
+      },
+      {
+        "date": "2030-01-02",
+        "fixture_ids_equal": true,
+        "entire_native_payload_equal": true,
+        "native_payload_sha256": "60f018e67c3cb4721862406f1c814c7e409c7f4659112dee8a1c8b5072d0ba02",
+        "candidates": 96,
+        "top": 48,
+        "below67": 48,
+        "capsule_payload_equal": true,
+        "n_effect": 0
+      },
+      {
+        "date": "2030-01-03",
+        "fixture_ids_equal": true,
+        "entire_native_payload_equal": true,
+        "native_payload_sha256": "21ca0385cdecdf8a147406eb90493e850d06952c0d5d23d64a336eacea7247cd",
+        "candidates": 96,
+        "top": 48,
+        "below67": 48,
+        "capsule_payload_equal": true,
+        "n_effect": 0
+      }
+    ],
+    "bundle_status": "CAPTURE_COMPLETE",
+    "capture_complete": true,
+    "source_ready": false,
+    "source_blockers": [
+      "incomplete_market_identity",
+      "native_publication_checkout_mismatch",
+      "original_top_frozen_quote_missing"
+    ],
+    "files": 63,
+    "full_shadow_passed": false
+  },
+  "actual_frozen_comparison": [
+    {
+      "date": "2026-11-01",
+      "source_sha256": "5a32873c7d00258f34a4fc2f5e33536e911348fb2b5085e3e4e486f1c0e4f1d6",
+      "freeze_sha256": "98200bae7ec5ee7d1d4581088305d50618cffb2b8648b08ffaede011738fdd5b",
+      "rows": 28,
+      "field_differences": [],
+      "source_consistency_differences": [],
+      "original_top_order_preserved": true
+    },
+    {
+      "date": "2026-11-02",
+      "source_sha256": "59a7e59db5fe2b20d4aff85a6e5f2f2697cf242cc939c4e4e6ed79c32f88017b",
+      "freeze_sha256": "16885670c07e51d4d7bf6ebd70d0bfdc351e535e99e779653f5fb97a67679bfe",
+      "rows": 20,
+      "field_differences": [],
+      "source_consistency_differences": [],
+      "original_top_order_preserved": true
+    }
+  ],
+  "actual_native_preservation_baseline": {
+    "as_of": "2026-11-03T08:59:02Z",
+    "source_kind": "separate_original_historical_publication_not_experiment_1473_999",
+    "native_capture_sha256": "4a757603db9d1cd2dc66e10da11fa4a23cb8c7c3001d60459b70596e396f1308",
+    "native_publication_id": "161916070596-866b43bbe577eccc",
+    "full_pool_verification": {
+      "status": "INCOMPLETE",
+      "full_pool_complete": true,
+      "source_eligible": false,
+      "original_top_eligible": false,
+      "original_top_blockers": [
+        "original_top_frozen_quote_missing"
+      ],
+      "blockers": [
+        "incomplete_market_identity",
+        "original_candidate_decision_missing",
+        "original_decision_trace_missing",
+        "original_top_frozen_quote_missing"
+      ],
+      "verified_candidate_rows": 0
+    },
+    "counts": {
+      "captured_candidates": 222,
+      "native_top_positions": 51,
+      "native_score_bands": {
+        "at_least_67": 51,
+        "below_67": 171
+      },
+      "recorded_decisions": {}
+    },
+    "preservation": {
+      "original_capture_sha256": "4a757603db9d1cd2dc66e10da11fa4a23cb8c7c3001d60459b70596e396f1308",
+      "original_payload_sha256": "51ebab1adb356112a25a663c3122877af742afb9d70d6cfff5036dc603bc8c28",
+      "retained_payload_sha256": "51ebab1adb356112a25a663c3122877af742afb9d70d6cfff5036dc603bc8c28",
+      "top_order_preserved": true,
+      "native_fields_synthesized": false,
+      "secret_redaction_paths": []
+    },
+    "native_payload_equal": true,
+    "original_top_equal": true,
+    "historical_native_rows_retained": 222,
+    "historical_top_rows_retained": 51,
+    "copy_integrity": {
+      "written_and_read": true,
+      "stored_sha256": "38cf3346275bc4d0d6703333a102b6f90ed966faadb3db49970d6204a86a5b4d"
+    },
+    "source_original_unchanged": true,
+    "foreign_settlement_source_sha256": "64ae4a2feb9e6b33f3e4638bdc9b1dec61b6b9a049d01186d816bb6a654b7c28",
+    "foreign_observations_received": 1391,
+    "rejection_counts": {
+      "wrong_native_publication_id": 1391
+    },
+    "cohorts": {
+      "original_top": {
+        "status": "AUDYT NIEPEŁNY",
+        "source_status": "SOURCE_BLOCKED",
+        "population_complete": true,
+        "blockers": [
+          "incomplete_market_identity",
+          "native_source_incomplete",
+          "original_quote_missing",
+          "original_top_pool_mismatch_or_duplicate"
+        ],
+        "metrics": {
+          "positions": 51,
+          "known_positions": 51,
+          "fixtures": 2,
+          "settled": 0,
+          "unresolved": 51,
+          "wins": 0,
+          "losses": 0,
+          "voids": 0,
+          "hit_rate_pct": null,
+          "profit_units": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "roi_status": "AUDYT NIEPEŁNY"
+        }
+      },
+      "qualifying_api": {
+        "status": "AUDYT NIEPEŁNY",
+        "source_status": "SOURCE_BLOCKED",
+        "population_complete": false,
+        "blockers": [
+          "cohort_population_not_verified"
+        ],
+        "metrics": {
+          "positions": null,
+          "known_positions": 0,
+          "fixtures": null,
+          "settled": 0,
+          "unresolved": 0,
+          "wins": 0,
+          "losses": 0,
+          "voids": 0,
+          "hit_rate_pct": null,
+          "profit_units": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "roi_status": "AUDYT NIEPEŁNY"
+        }
+      },
+      "fouls_under": {
+        "status": "AUDYT NIEPEŁNY",
+        "source_status": "SOURCE_BLOCKED",
+        "population_complete": true,
+        "blockers": [],
+        "metrics": {
+          "positions": 0,
+          "known_positions": 0,
+          "fixtures": 0,
+          "settled": 0,
+          "unresolved": 0,
+          "wins": 0,
+          "losses": 0,
+          "voids": 0,
+          "hit_rate_pct": null,
+          "profit_units": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "roi_status": "AUDYT NIEPEŁNY"
+        }
+      }
+    },
+    "filtered_exports": [
+      {
+        "date": "2026-11-01",
+        "declared_candidates": 1473,
+        "actual_published_rows": 28,
+        "full_background_rows_recovered": 0,
+        "status": "SOURCE_BLOCKED",
+        "reason": "full_candidate_pool_not_recorded",
+        "capture_sha256": "5a32873c7d00258f34a4fc2f5e33536e911348fb2b5085e3e4e486f1c0e4f1d6"
+      },
+      {
+        "date": "2026-11-02",
+        "declared_candidates": 999,
+        "actual_published_rows": 20,
+        "full_background_rows_recovered": 0,
+        "status": "SOURCE_BLOCKED",
+        "reason": "full_candidate_pool_not_recorded",
+        "capture_sha256": "59a7e59db5fe2b20d4aff85a6e5f2f2697cf242cc939c4e4e6ed79c32f88017b"
+      }
+    ],
+    "register_writes": false,
+    "n_effect": 0,
+    "new_historical_predictions_created": 0,
+    "current_formal_sources": {
+      "kb21": {
+        "schema": "multimodel-v2-register-freeze-inspection-v1",
+        "system": "kb21",
+        "date": "2026-11-03",
+        "status": "SOURCE_BLOCKED",
+        "source_kind": "historical_register",
+        "read_rows": 496,
+        "recorded_selection_rows": 202,
+        "non_selection_rows": 294,
+        "latest_source_date": "2026-10-06",
+        "source_dated_selection_rows": 0,
+        "missing_fields": [
+          "publication.id",
+          "publication.captured_at_utc",
+          "publication.published_at_utc",
+          "publication.source_reference",
+          "picks[].native_selection_id",
+          "picks[].fixture_id",
+          "picks[].kickoff",
+          "picks[].market_identity",
+          "picks[].frozen_quote.market_identity",
+          "picks[].frozen_quote.bookmaker",
+          "picks[].frozen_quote.provider_updated_at",
+          "picks[].frozen_quote.source_reference"
+        ],
+        "blockers": [
+          "bookmaker_missing",
+          "exact_market_identity_missing",
+          "fixture_id_missing",
+          "kickoff_missing",
+          "prematch_freeze_timestamp_missing",
+          "quote_timestamp_missing",
+          "original_formal_publication_not_recorded"
+        ],
+        "source": {
+          "locator": "/workspace/work/multimodel-v2-repair-1-4/kb-current.json",
+          "capture_sha256": "c533c069f317ec56694d90157cea74f10ddc41bf3bb9a953d29b1afc4e55c500"
+        },
+        "source_url": "https://docs.google.com/spreadsheets/d/1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI/edit",
+        "register_writes": false,
+        "historical_rows_promoted": 0,
+        "n_effect": 0
+      },
+      "consensus": {
+        "schema": "multimodel-v2-register-freeze-inspection-v1",
+        "system": "consensus",
+        "date": "2026-11-03",
+        "status": "SOURCE_BLOCKED",
+        "source_kind": "historical_register",
+        "read_rows": 214,
+        "recorded_selection_rows": 214,
+        "non_selection_rows": 0,
+        "latest_source_date": "2026-10-14",
+        "source_dated_selection_rows": 0,
+        "missing_fields": [
+          "publication.id",
+          "publication.captured_at_utc",
+          "publication.published_at_utc",
+          "publication.source_reference",
+          "picks[].native_selection_id",
+          "picks[].fixture_id",
+          "picks[].kickoff",
+          "picks[].market_identity",
+          "picks[].frozen_quote.market_identity",
+          "picks[].frozen_quote.bookmaker",
+          "picks[].frozen_quote.provider_updated_at",
+          "picks[].frozen_quote.source_reference",
+          "picks[].event_date"
+        ],
+        "blockers": [
+          "bookmaker_missing",
+          "exact_market_identity_missing",
+          "fixture_id_missing",
+          "kickoff_missing",
+          "prematch_freeze_timestamp_missing",
+          "quote_timestamp_missing",
+          "source_date_and_analysis_time_not_verified_event_kickoff",
+          "original_formal_publication_not_recorded"
+        ],
+        "source": {
+          "locator": "/workspace/work/multimodel-v2-repair-1-4/consensus-current.json",
+          "capture_sha256": "e6e0fc7f7d9162493031301ffcbca7b65b19dc0a0f7a3da39332e8caca9408e1"
+        },
+        "source_url": "https://docs.google.com/spreadsheets/d/1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc/edit",
+        "register_writes": false,
+        "historical_rows_promoted": 0,
+        "n_effect": 0
+      }
+    }
+  },
+  "ci": [
+    {
+      "run_id": 41648981909,
+      "job_id": 125961791489,
+      "event": "push",
+      "head_sha": "8903506f36e607c269ba89c623a06837b938dd61",
+      "conclusion": "success",
+      "tests_in_log": 1026
+    },
+    {
+      "run_id": 41648992477,
+      "job_id": 125961830614,
+      "event": "pull_request",
+      "head_sha": "8903506f36e607c269ba89c623a06837b938dd61",
+      "conclusion": "success",
+      "tests_in_log": 1026
+    }
+  ],
+  "gates": {
+    "G0": "PASS_OFFLINE",
+    "G1": "PASS_TECHNICAL_CAPTURE_OFFLINE_ONLY",
+    "G2": "PENDING_APPROVAL_NOT_DEPLOYED",
+    "G3": "REAL_EXACT_MARKET_QUOTE_FREEZE_BLOCKED",
+    "G4": "REAL_SAME_ID_SETTLEMENT_AND_FULL_SHADOW_BLOCKED"
+  },
+  "proposals": [
+    {
+      "path": "docs/proposals/multimodel-v2-recorder-bootstrap.patch",
+      "applied_to_active_workflow": false
+    },
+    {
+      "path": "docs/proposals/multimodel-v2-full-source-upload.patch",
+      "applied_to_active_workflow": false,
+      "requires": "bootstrap"
+    },
+    {
+      "path": "docs/proposals/multimodel-v2-native-provenance.patch",
+      "applied_to_native_producer": false,
+      "requires": "new reviewed native commit pin and regression"
+    }
+  ],
+  "remaining_blockers": [
+    {
+      "priority": "P1",
+      "code": "ORIGINAL_QUOTE_FIELDS_MISSING",
+      "cause": "Native profile lacks independently identified exact market/period and original selected frozen_quote; no defaults or price selection may be added retroactively.",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "priority": "P1",
+      "code": "NATIVE_WORKFLOW_SHA_CONFUSION",
+      "cause": "archive_publication writes GITHUB_SHA into code_revision although workflow checks out a separate producer branch.",
+      "status": "PROPOSAL_ONLY_NOT_DEPLOYED"
+    },
+    {
+      "priority": "P1",
+      "code": "REAL_THREE_DAY_FORWARD_CAPTURE_NOT_OBSERVED",
+      "cause": "Recorder and optional upload are not activated; full current three-day capsule set not observed.",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "priority": "P1",
+      "code": "SAME_ID_FINAL_RESULTS_INCOMPLETE",
+      "cause": "Legacy native observations lack period/final metadata/selected quote; 1391 foreign-ID observations cannot settle the requested freeze.",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "priority": "P2",
+      "code": "NEW_REPORT_PRESENTATION_POLICY_NOT_WIRED",
+      "cause": "Operator policy disables dedicated FOULS UNDER section/preferences in future reports; historical renderer retained for regression only.",
+      "status": "NO_NEW_USER_REPORTS_PUBLISHED"
+    },
+    {
+      "priority": "P1",
+      "code": "REAL_ACCESS_AFTER_API_FOOTBALL_EXPIRY_UNVERIFIED",
+      "cause": "Operator inventory states expiry 2026-11-04; no assumptions about future API access or missing outcomes.",
+      "status": "NO_PAID_CALLS_OR_BACKFILL"
+    }
+  ],
+  "inactive_sources": {
+    "kb21": "INACTIVE_NO_AUTHENTIC_NATIVE_PUBLISHER",
+    "consensus": "INACTIVE_NO_AUTHENTIC_NATIVE_PUBLISHER",
+    "blocks_api_only_by_itself": false,
+    "blocks_four_source_composite": true
+  },
+  "data_scope": "Previously frozen audited inputs, offline native source profile, and operator inventory. Not a new global source scan or complete real shadow.",
+  "changed_files": [
+    "docs/MULTIMODEL_V2_CODEX_PLAN.md",
+    "docs/MULTIMODEL_V2_PRODUCER_INTEGRATION.md",
+    "docs/MULTIMODEL_V2_ROLLOUT_2026-11-03.md",
+    "docs/MULTIMODEL_V2_ROLLOUT_REPORT_2026-11-03.json",
+    "docs/MULTIMODEL_V2_ROLLOUT_REPORT_2026-11-03.md",
+    "docs/proposals/multimodel-v2-full-source-upload.patch",
+    "docs/proposals/multimodel-v2-native-provenance.patch",
+    "docs/proposals/multimodel-v2-recorder-bootstrap.patch",
+    "multimodel_v2/bundle.py",
+    "multimodel_v2/outcome_bridge.py",
+    "multimodel_v2/producer.py",
+    "multimodel_v2/publication_bridge.py",
+    "multimodel_v2/settlement.py",
+    "tests/fixtures/multimodel_v2/native_experiment/README.md",
+    "tests/fixtures/multimodel_v2/native_experiment/config/api_market.json",
+    "tests/fixtures/multimodel_v2/native_experiment/config/api_market_playable_experiment.json",
+    "tests/fixtures/multimodel_v2/native_experiment/source_manifest.json",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_freeze.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_http.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_integrity.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_multiday_dates.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_playable_shadow.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_policy.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_presentation.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_report_diversify.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_scan.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_settle.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_storage.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_to_pdf.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_market_v3_enrich.py",
+    "tests/fixtures/multimodel_v2/native_experiment/tools/api_national_today_prefetch.py",
+    "tests/test_multimodel_v2_rollout.py"
+  ],
+  "changed_files_count": 32
+}

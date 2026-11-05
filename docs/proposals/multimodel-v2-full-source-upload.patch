@@ -1,0 +1,50 @@
+--- a/.github/workflows/api-market-multiday-experiment.yml
++++ b/.github/workflows/api-market-multiday-experiment.yml
+@@ -169,3 +169,47 @@
+             reports/api_market_scan/pdf/API_MARKET_SCAN_*.pdf
+             reports/api_market_scan/audit_input/*.json
+           if-no-files-found: warn
++      # Opt-in only; validate actual populated evidence before upload.
++      - name: Validate optional native source bundle
++        id: native_bundle
++        if: always() && steps.warsaw.outputs.run_scan == 'true' && vars.MULTIMODEL_V2_FORWARD_CAPTURE == 'true'
++        env:
++          RECORDER_SHA: ${{ vars.MULTIMODEL_V2_RECORDER_SHA }}
++        run: |
++          set -euo pipefail
++          root="$RUNNER_TEMP/multimodel-v2-sources"
++          python - "$RUNNER_TEMP/multimodel-v2-source.json" <<'PYCODE'
++          import json, os, subprocess, sys
++          source = dict(run_id=os.environ['GITHUB_RUN_ID'], workflow_head_sha=os.environ['GITHUB_SHA'],
++              code_checkout_sha=subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode().strip(),
++              workflow_path='.github/workflows/api-market-multiday-experiment.yml')
++          with open(sys.argv[1], 'x') as out:
++              json.dump(source, out)
++          PYCODE
++          if [ ! -s /tmp/api_scan_dates.txt ]; then
++            echo '{"status":"SOURCE_BLOCKED","upload":false,"errors":["planned_dates_missing"]}' > "$RUNNER_TEMP/multimodel-v2-upload-check.json"
++            exit 2
++          fi
++          first_date=$(head -n 1 /tmp/api_scan_dates.txt)
++          PYTHONPATH="$GITHUB_WORKSPACE/_multimodel_v2_recorder" python -m multimodel_v2.bundle \
++            --root "$root" --manifest "$RUNNER_TEMP/multimodel-v2-upload-check.json" \
++            --start-date "$first_date" --as-of "$(date -u +%FT%TZ)" \
++            --source "$RUNNER_TEMP/multimodel-v2-source.json" --recorder-sha "$RECORDER_SHA" --enabled
++          echo 'upload=true' >> "$GITHUB_OUTPUT"
++      - name: Upload optional MULTIMODEL native source evidence
++        if: always() && steps.native_bundle.outputs.upload == 'true'
++        uses: actions/upload-artifact@v4
++        with:
++          name: multimodel-v2-full-source
++          path: ${{ runner.temp }}/multimodel-v2-sources/
++          if-no-files-found: error
++          retention-days: 30
++          include-hidden-files: false
++      - name: Upload native source validation result
++        if: always() && steps.native_bundle.outcome != 'skipped' && steps.warsaw.outputs.run_scan == 'true' && vars.MULTIMODEL_V2_FORWARD_CAPTURE == 'true'
++        uses: actions/upload-artifact@v4
++        with:
++          name: multimodel-v2-upload-check
++          path: ${{ runner.temp }}/multimodel-v2-upload-check.json
++          if-no-files-found: error
++          retention-days: 30

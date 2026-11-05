@@ -1,0 +1,59 @@
+name: GitHub Models independent daily fixture queue
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  fixture-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install independent Dixon-Coles dependency
+        run: python -m pip install 'git+https://github.com/callumfm/dixon-coles.git'
+      - name: Verify independent queue
+        run: python -m unittest tests.test_github_models_daily_queue tests.test_github_models_independent_forecasts tests.test_github_models_kb3_history_bridge tests.test_github_models_public_results tests.test_github_models_team_mapping tests.test_github_models_dixon_runner tests.test_github_models_dixon_normalization -v
+      - name: Build queue from available pre-match snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -m github_models.daily_queue --as-of "$NOW"
+      - name: Fetch observed public historical results (independent of KB3)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m github_models.public_results
+      - name: Audit actual team mapping and training coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -m github_models.coverage_audit --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --output "reports/github_models/coverage/$DAY.json" --as-of "$NOW"
+      - name: Run independent research predictions (or explicit blockers)
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$NOW"
+      - name: Upload independent research outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-models-fixture-queue
+          path: |
+            reports/github_models/queues/*.json
+            reports/github_models/predictions/*.json
+            reports/github_models/coverage/*.json
+            data/github_models/source_manifest.json
+          retention-days: 30
+          if-no-files-found: error

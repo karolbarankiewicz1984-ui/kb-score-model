@@ -1,0 +1,930 @@
+{
+  "schema": "multimodel-v2-real-shadow-v1",
+  "as_of": "2026-11-01T12:21:45Z",
+  "comparisons": [
+    {
+      "mode": "historical_frozen_input_replay",
+      "source": {
+        "locator": "archive/multimodel/api_market/runs/40906734194/v2/API_MARKET_SCAN_PLAYABLE_2026-10-29.json",
+        "capture_sha256": "8a053f407eb226615ba8a9a5a7c524b31fcd8b3b7112225c79998af5f60808f3"
+      },
+      "freeze": {
+        "id": null,
+        "captured_at_utc": "2026-10-29T15:57:40.776819+00:00",
+        "provenance": null
+      },
+      "native_schema": "api-market-playable-export-v2",
+      "native_rows": 7,
+      "adapter_rows": 7,
+      "fixture_ids": [
+        "1550169",
+        "1550170"
+      ],
+      "native_status_counts": {
+        "ACCEPT": 7
+      },
+      "adapter_status_counts": {
+        "ACCEPT": 7
+      },
+      "exact_market_and_quote_digest_native": "07ca5c6644d992f5dca7a74aed67f0ccb45601faeff3346e26deea7c949c9169",
+      "exact_market_and_quote_digest_adapter": "07ca5c6644d992f5dca7a74aed67f0ccb45601faeff3346e26deea7c949c9169",
+      "field_differences": [],
+      "field_comparison_passed": true,
+      "source_consistency_differences": [],
+      "original_top_rows": 7,
+      "original_top_order_preserved": true,
+      "declared_candidates": 222,
+      "background_complete": false,
+      "strict_v2_verified_rows": 0,
+      "strict_v2_audits": {
+        "original_top": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        },
+        "qualifying_api": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        },
+        "fouls_under": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        }
+      },
+      "native_audit_field_populations_unverified": {
+        "original_top": 7,
+        "qualifying_api": null,
+        "fouls_under": null
+      },
+      "native_roi_pct": null,
+      "native_fixture_equal_roi_pct": null,
+      "settlement_inputs": "not_supplied_for_this_freeze",
+      "source_gate_differences": [
+        {
+          "field": "original_top.positions",
+          "native_field_count": 7,
+          "strict_v2": null,
+          "reason": "missing_verified_full_source_or_provenance"
+        }
+      ],
+      "blockers": [
+        "frozen_top_period_missing",
+        "full_background_not_archived",
+        "independent_quote_identity_missing",
+        "no_independently_verified_quote",
+        "original_publication_id_missing"
+      ],
+      "full_shadow_passed": false
+    },
+    {
+      "mode": "historical_frozen_input_replay",
+      "source": {
+        "locator": "archive/multimodel/api_market/runs/40906734194/v2/API_MARKET_SCAN_PLAYABLE_2026-10-30.json",
+        "capture_sha256": "5b323aeae608a2488a6f048e9a85a16a17f35cd3fc71fb1ca77bd09ae41dff6c"
+      },
+      "freeze": {
+        "id": null,
+        "captured_at_utc": "2026-10-29T15:57:51.149090+00:00",
+        "provenance": null
+      },
+      "native_schema": "api-market-playable-export-v2",
+      "native_rows": 22,
+      "adapter_rows": 22,
+      "fixture_ids": [
+        "1552801",
+        "1552802",
+        "1553211",
+        "1558670",
+        "1570442",
+        "1575211",
+        "1575531",
+        "1584455"
+      ],
+      "native_status_counts": {
+        "ACCEPT": 22
+      },
+      "adapter_status_counts": {
+        "ACCEPT": 22
+      },
+      "exact_market_and_quote_digest_native": "cbec749a3a4f2f7f570a60abff9d48fe7cd26e81fafb67dd3b5b36b562b46eb4",
+      "exact_market_and_quote_digest_adapter": "cbec749a3a4f2f7f570a60abff9d48fe7cd26e81fafb67dd3b5b36b562b46eb4",
+      "field_differences": [],
+      "field_comparison_passed": true,
+      "source_consistency_differences": [],
+      "original_top_rows": 22,
+      "original_top_order_preserved": true,
+      "declared_candidates": 934,
+      "background_complete": false,
+      "strict_v2_verified_rows": 0,
+      "strict_v2_audits": {
+        "original_top": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        },
+        "qualifying_api": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        },
+        "fouls_under": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        }
+      },
+      "native_audit_field_populations_unverified": {
+        "original_top": 22,
+        "qualifying_api": null,
+        "fouls_under": null
+      },
+      "native_roi_pct": null,
+      "native_fixture_equal_roi_pct": null,
+      "settlement_inputs": "not_supplied_for_this_freeze",
+      "source_gate_differences": [
+        {
+          "field": "original_top.positions",
+          "native_field_count": 22,
+          "strict_v2": null,
+          "reason": "missing_verified_full_source_or_provenance"
+        }
+      ],
+      "blockers": [
+        "frozen_top_period_missing",
+        "full_background_not_archived",
+        "independent_quote_identity_missing",
+        "no_independently_verified_quote",
+        "original_publication_id_missing"
+      ],
+      "full_shadow_passed": false
+    },
+    {
+      "mode": "historical_frozen_input_replay",
+      "source": {
+        "locator": "data/api_football/predictions/2026-10-29/161916070596-866b43bbe577eccc.json",
+        "capture_sha256": "4a757603db9d1cd2dc66e10da11fa4a23cb8c7c3001d60459b70596e396f1308"
+      },
+      "freeze": {
+        "id": "161916070596-866b43bbe577eccc",
+        "captured_at_utc": "2026-10-29T16:19:16.070596+00:00",
+        "provenance": "live_pre_match"
+      },
+      "native_schema": "api-market-scan-v3",
+      "native_rows": 222,
+      "adapter_rows": 222,
+      "fixture_ids": [
+        "1550169",
+        "1550170"
+      ],
+      "native_status_counts": {
+        "STRONG": 19,
+        "ACCEPT": 32,
+        "BELOW_THRESHOLD": 171
+      },
+      "adapter_status_counts": {
+        "STRONG": 19,
+        "ACCEPT": 32,
+        "BELOW_THRESHOLD": 171
+      },
+      "exact_market_and_quote_digest_native": "c06567e4d8626189a1802d6e47c6a6a6915f4d54395006a934ea611675d4ebf8",
+      "exact_market_and_quote_digest_adapter": "c06567e4d8626189a1802d6e47c6a6a6915f4d54395006a934ea611675d4ebf8",
+      "field_differences": [],
+      "field_comparison_passed": true,
+      "source_consistency_differences": [],
+      "original_top_rows": 51,
+      "original_top_order_preserved": true,
+      "declared_candidates": 222,
+      "background_complete": true,
+      "strict_v2_verified_rows": 0,
+      "strict_v2_audits": {
+        "original_top": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        },
+        "qualifying_api": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        },
+        "fouls_under": {
+          "status": "source_missing",
+          "positions": null,
+          "fixtures": null,
+          "settled": null,
+          "unresolved": null,
+          "wins": null,
+          "losses": null,
+          "voids": null,
+          "pushes": null,
+          "hit_rate_pct": null,
+          "roi_pct": null,
+          "fixture_equal_roi_pct": null,
+          "profit_units": null,
+          "roi_status": "unavailable_incomplete_data"
+        }
+      },
+      "native_audit_field_populations_unverified": {
+        "original_top": 51,
+        "qualifying_api": 3,
+        "fouls_under": 0
+      },
+      "native_roi_pct": null,
+      "native_fixture_equal_roi_pct": null,
+      "settlement_inputs": "not_supplied_for_this_freeze",
+      "source_gate_differences": [
+        {
+          "field": "original_top.positions",
+          "native_field_count": 51,
+          "strict_v2": null,
+          "reason": "missing_verified_full_source_or_provenance"
+        },
+        {
+          "field": "qualifying_api.positions",
+          "native_field_count": 3,
+          "strict_v2": null,
+          "reason": "missing_verified_full_source_or_provenance"
+        },
+        {
+          "field": "fouls_under.positions",
+          "native_field_count": 0,
+          "strict_v2": null,
+          "reason": "missing_verified_full_source_or_provenance"
+        }
+      ],
+      "blockers": [
+        "independent_quote_identity_missing",
+        "no_independently_verified_quote",
+        "run_binding_missing"
+      ],
+      "full_shadow_passed": false
+    }
+  ],
+  "readiness": {
+    "schema": "multimodel-v2-real-source-readiness-v1",
+    "as_of": "2026-11-01T12:21:45Z",
+    "can_generate_three_pdf_files": true,
+    "can_complete_three_real_data_reports": false,
+    "days": [
+      {
+        "date": "2026-11-01",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 3,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing",
+              "run_binding_missing",
+              "source_not_verified_available_at_cutoff"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 2,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing",
+              "run_binding_missing",
+              "source_not_verified_available_at_cutoff"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      },
+      {
+        "date": "2026-11-02",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 3,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing",
+              "run_binding_missing",
+              "source_not_verified_available_at_cutoff"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 2,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing",
+              "run_binding_missing",
+              "source_not_verified_available_at_cutoff"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      },
+      {
+        "date": "2026-11-03",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 3,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing",
+              "run_binding_missing",
+              "source_not_verified_available_at_cutoff"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 2,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-30",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing",
+              "run_binding_missing",
+              "source_not_verified_available_at_cutoff"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "pitchapi_exact_matches": {
+    "2026-10-29:1550169": "m_0h3uIF",
+    "2026-10-29:1550170": "m_002ZzY",
+    "2026-10-30:1570442": null,
+    "2026-10-30:1552802": "m_1bgQkd",
+    "2026-10-30:1552801": null,
+    "2026-10-30:1584455": null,
+    "2026-10-30:1553211": null,
+    "2026-10-30:1558670": null,
+    "2026-10-30:1575211": null,
+    "2026-10-30:1575531": null
+  },
+  "source_inventory": [
+    {
+      "system": "api_market",
+      "source": {
+        "locator": "archive/multimodel/api_market/runs/40906734194/v2/API_MARKET_SCAN_PLAYABLE_2026-10-29.json",
+        "capture_sha256": "8a053f407eb226615ba8a9a5a7c524b31fcd8b3b7112225c79998af5f60808f3"
+      },
+      "rows": 7,
+      "latest_date": "2026-10-29",
+      "verified_rows": 0,
+      "spreadsheet_url": null,
+      "read_range": null,
+      "spreadsheet_timezone": null,
+      "artifact_digest_from_metadata": "sha256:abb926344161606e0895c76f9f973631401e079f3099259a0a6a77833e89621e",
+      "artifact_bytes_digest_verified": false,
+      "blockers": [
+        "frozen_top_period_missing",
+        "full_background_not_archived",
+        "independent_quote_identity_missing",
+        "no_independently_verified_quote",
+        "original_publication_id_missing"
+      ]
+    },
+    {
+      "system": "api_market",
+      "source": {
+        "locator": "archive/multimodel/api_market/runs/40906734194/v2/API_MARKET_SCAN_PLAYABLE_2026-10-30.json",
+        "capture_sha256": "5b323aeae608a2488a6f048e9a85a16a17f35cd3fc71fb1ca77bd09ae41dff6c"
+      },
+      "rows": 22,
+      "latest_date": "2026-10-30",
+      "verified_rows": 0,
+      "spreadsheet_url": null,
+      "read_range": null,
+      "spreadsheet_timezone": null,
+      "artifact_digest_from_metadata": "sha256:abb926344161606e0895c76f9f973631401e079f3099259a0a6a77833e89621e",
+      "artifact_bytes_digest_verified": false,
+      "blockers": [
+        "frozen_top_period_missing",
+        "full_background_not_archived",
+        "independent_quote_identity_missing",
+        "no_independently_verified_quote",
+        "original_publication_id_missing"
+      ]
+    },
+    {
+      "system": "kb21",
+      "source": {
+        "capture_sha256": "052caf7dd867b08a32c3ba5da7864cd24583c85c5478f4b2ecc0f33585c9df98",
+        "capture_file": "kb.json"
+      },
+      "rows": 204,
+      "latest_date": "2026-10-06",
+      "verified_rows": 0,
+      "spreadsheet_url": "https://docs.google.com/spreadsheets/d/1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI/edit",
+      "read_range": "Rejestr!A1:AP205",
+      "spreadsheet_timezone": "Europe/Warsaw",
+      "artifact_digest_from_metadata": null,
+      "artifact_bytes_digest_verified": null,
+      "blockers": [
+        "bookmaker_missing",
+        "exact_market_identity_missing",
+        "fixture_id_missing",
+        "kickoff_missing",
+        "prematch_freeze_timestamp_missing",
+        "quote_timestamp_missing"
+      ]
+    },
+    {
+      "system": "consensus",
+      "source": {
+        "capture_sha256": "d43f0fd1a71bdb3c142410187ef0362fc6b02619d540e01bc653668ca6538aa4",
+        "capture_file": "consensus.json"
+      },
+      "rows": 214,
+      "latest_date": "2026-10-14",
+      "verified_rows": 0,
+      "spreadsheet_url": "https://docs.google.com/spreadsheets/d/1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc/edit",
+      "read_range": "Selections!A1:Z215",
+      "spreadsheet_timezone": "America/Los_Angeles",
+      "artifact_digest_from_metadata": null,
+      "artifact_bytes_digest_verified": null,
+      "blockers": [
+        "bookmaker_missing",
+        "exact_market_identity_missing",
+        "fixture_id_missing",
+        "kickoff_missing",
+        "prematch_freeze_timestamp_missing",
+        "quote_timestamp_missing",
+        "source_date_and_analysis_time_not_verified_event_kickoff"
+      ]
+    },
+    {
+      "system": "pitchapi",
+      "source": {
+        "capture_sha256": "c5a010eadd8985be7377e0d5e9d7871441ea04356ff2acf1cb59de96282be6a6",
+        "capture_file": "2026-10-29.json"
+      },
+      "rows": 33,
+      "latest_date": "2026-10-29",
+      "verified_rows": 30,
+      "spreadsheet_url": null,
+      "read_range": null,
+      "spreadsheet_timezone": null,
+      "artifact_digest_from_metadata": null,
+      "artifact_bytes_digest_verified": null,
+      "blockers": [
+        "insufficient_historical_context",
+        "missing_pitchapi_history",
+        "pitchapi_capture_or_date_invalid"
+      ]
+    },
+    {
+      "system": "pitchapi",
+      "source": {
+        "capture_sha256": "671567d135a7697f2d4a419f824da0f3eb5fb07bf2fdd0f2295c44308a22d884",
+        "capture_file": "2026-10-30.json"
+      },
+      "rows": 78,
+      "latest_date": "2026-10-30",
+      "verified_rows": 68,
+      "spreadsheet_url": null,
+      "read_range": null,
+      "spreadsheet_timezone": null,
+      "artifact_digest_from_metadata": null,
+      "artifact_bytes_digest_verified": null,
+      "blockers": [
+        "insufficient_historical_context",
+        "invalid_number",
+        "missing_pitchapi_history",
+        "pitchapi_capture_or_date_invalid"
+      ]
+    },
+    {
+      "system": "api_market",
+      "source": {
+        "locator": "data/api_football/predictions/2026-10-29/161916070596-866b43bbe577eccc.json",
+        "capture_sha256": "4a757603db9d1cd2dc66e10da11fa4a23cb8c7c3001d60459b70596e396f1308"
+      },
+      "rows": 222,
+      "latest_date": "2026-10-29",
+      "verified_rows": 0,
+      "spreadsheet_url": null,
+      "read_range": null,
+      "spreadsheet_timezone": null,
+      "artifact_digest_from_metadata": null,
+      "artifact_bytes_digest_verified": null,
+      "blockers": [
+        "independent_quote_identity_missing",
+        "no_independently_verified_quote",
+        "run_binding_missing"
+      ]
+    }
+  ],
+  "full_parallel_1_to_1_complete": false,
+  "models_modified": false,
+  "register_writes": false,
+  "api_scans_started": 0,
+  "pdf_validation": [
+    {
+      "date": "2026-11-01",
+      "pages": 3,
+      "validated": true,
+      "filename": "MULTIMODEL_2026-11-01.pdf"
+    },
+    {
+      "date": "2026-11-02",
+      "pages": 3,
+      "validated": true,
+      "filename": "MULTIMODEL_2026-11-02.pdf"
+    },
+    {
+      "date": "2026-11-03",
+      "pages": 3,
+      "validated": true,
+      "filename": "MULTIMODEL_2026-11-03.pdf"
+    }
+  ],
+  "github_runs_observation": {
+    "query_created_date": "2026-11-01",
+    "reported_total": 10,
+    "complete_page": true,
+    "successful_multiday_runs": [],
+    "closing_snapshots_are_not_multiday_scan": true
+  },
+  "artifact_zip_access": {
+    "direct_cli_download": "proxy_403",
+    "repository_mirror_read": "success",
+    "zip_digest_verified": false
+  },
+  "pdf_outputs": "Validated temporary work specimens with explicit source gaps; not complete forecasts or archived outputs."
+}

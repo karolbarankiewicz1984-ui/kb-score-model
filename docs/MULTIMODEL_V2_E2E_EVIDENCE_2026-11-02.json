@@ -1,0 +1,2952 @@
+{
+  "schema": "multimodel-v2-e2e-artifact-audit-v1",
+  "as_of": "2026-11-02T18:06:41Z",
+  "api": {
+    "manifest": {
+      "artifact_id": 13089668808,
+      "run_id": 41323529393,
+      "zip_sha256": "a63b898dfb51734c33a686511bec2f2f188a8a107bff7fbff259bc5866043276",
+      "zip_size": 99314,
+      "digest_verified": true,
+      "entries": [
+        {
+          "path": "audit_input/2026-11-01.json",
+          "size": 14804,
+          "sha256": "98200bae7ec5ee7d1d4581088305d50618cffb2b8648b08ffaede011738fdd5b"
+        },
+        {
+          "path": "audit_input/2026-11-02.json",
+          "size": 10787,
+          "sha256": "16885670c07e51d4d7bf6ebd70d0bfdc351e535e99e779653f5fb97a67679bfe"
+        },
+        {
+          "path": "multiday_status/2026-11-01.json",
+          "size": 36,
+          "sha256": "fba0df26a4b8063af45d24c502cf0eec21e41dab36933c1218fc61a768ba927b"
+        },
+        {
+          "path": "multiday_status/2026-11-02.json",
+          "size": 36,
+          "sha256": "4ed4b590a536ab8fcbddfa7dc1932cdaba11e63ca8cd4761d549e8fcb9eff670"
+        },
+        {
+          "path": "pdf/API_MARKET_SCAN_2026-11-01.pdf",
+          "size": 48101,
+          "sha256": "38933eb899bff5b6807cd5751189b59dd535223dc96412c194f7d1f1feb64170"
+        },
+        {
+          "path": "pdf/API_MARKET_SCAN_2026-11-02.pdf",
+          "size": 47854,
+          "sha256": "6a8a3d0fa304ca61bd87f896eed27377cee6ad132a3a9cc45474a61bb6178705"
+        },
+        {
+          "path": "v2/API_MARKET_SCAN_PLAYABLE_2026-11-01.json",
+          "size": 29251,
+          "sha256": "5a32873c7d00258f34a4fc2f5e33536e911348fb2b5085e3e4e486f1c0e4f1d6"
+        },
+        {
+          "path": "v2/API_MARKET_SCAN_PLAYABLE_2026-11-01.md",
+          "size": 5082,
+          "sha256": "c188a0a1dd04ef678d4a8b14cacbfa77491fc8aa456f1009b5254f2a72fb7701"
+        },
+        {
+          "path": "v2/API_MARKET_SCAN_PLAYABLE_2026-11-02.json",
+          "size": 21184,
+          "sha256": "59a7e59db5fe2b20d4aff85a6e5f2f2697cf242cc939c4e4e6ed79c32f88017b"
+        },
+        {
+          "path": "v2/API_MARKET_SCAN_PLAYABLE_2026-11-02.md",
+          "size": 3741,
+          "sha256": "0e74e61341739d8c25731aa675844a16fb8224f979055f9e178ee678f8b2f43f"
+        }
+      ]
+    },
+    "days": [
+      {
+        "date": "2026-11-01",
+        "status": {
+          "date": "2026-11-01",
+          "status": "ok"
+        },
+        "missing_members": [],
+        "candidate_count": 1473,
+        "published_count": 28,
+        "fixture_count": 13,
+        "rejection_counts": {
+          "no_eligible_quote": 312,
+          "below_score_threshold": 1133
+        },
+        "declared_counts_reconcile": true,
+        "frozen_at_utc": "2026-11-01T15:54:36.230183+00:00",
+        "published_time_violations": [],
+        "duplicate_exact_markets": 0,
+        "exact_identities_present": true,
+        "recorded_export_order_matches_source_rule": true,
+        "published_only": true,
+        "full_candidate_history_audit": "BLOCKED_NOT_IN_ARTIFACT",
+        "independent_quote_lineage": "SOURCE_BLOCKED",
+        "original_pdf": {
+          "pages": 2,
+          "second_parser_pages": 2,
+          "page_sizes_pt": [
+            [
+              538.58,
+              765.35
+            ],
+            [
+              538.58,
+              765.35
+            ]
+          ],
+          "a5": false,
+          "minimum_font_pt": 6.5,
+          "active_links": 0
+        }
+      },
+      {
+        "date": "2026-11-02",
+        "status": {
+          "date": "2026-11-02",
+          "status": "ok"
+        },
+        "missing_members": [],
+        "candidate_count": 999,
+        "published_count": 20,
+        "fixture_count": 9,
+        "rejection_counts": {
+          "no_eligible_quote": 193,
+          "below_score_threshold": 786
+        },
+        "declared_counts_reconcile": true,
+        "frozen_at_utc": "2026-11-01T15:54:47.669746+00:00",
+        "published_time_violations": [],
+        "duplicate_exact_markets": 0,
+        "exact_identities_present": true,
+        "recorded_export_order_matches_source_rule": true,
+        "published_only": true,
+        "full_candidate_history_audit": "BLOCKED_NOT_IN_ARTIFACT",
+        "independent_quote_lineage": "SOURCE_BLOCKED",
+        "original_pdf": {
+          "pages": 2,
+          "second_parser_pages": 2,
+          "page_sizes_pt": [
+            [
+              538.58,
+              765.35
+            ],
+            [
+              538.58,
+              765.35
+            ]
+          ],
+          "a5": false,
+          "minimum_font_pt": 6.5,
+          "active_links": 0
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "mode": "historical_frozen_input_replay",
+        "source": {
+          "locator": "github-artifact:13089668808:v2/API_MARKET_SCAN_PLAYABLE_2026-11-01.json",
+          "capture_sha256": "5a32873c7d00258f34a4fc2f5e33536e911348fb2b5085e3e4e486f1c0e4f1d6"
+        },
+        "freeze": {
+          "id": null,
+          "captured_at_utc": "2026-11-01T15:54:36.230183+00:00",
+          "provenance": null
+        },
+        "native_schema": "api-market-playable-export-v2",
+        "run_binding": null,
+        "native_rows": 28,
+        "adapter_rows": 28,
+        "fixture_ids": [
+          "1550182",
+          "1550184",
+          "1552804",
+          "1552805",
+          "1552807",
+          "1557453",
+          "1558667",
+          "1570433",
+          "1575205",
+          "1575527",
+          "1575530",
+          "1575534",
+          "1584453"
+        ],
+        "native_status_counts": {
+          "ACCEPT": 28
+        },
+        "adapter_status_counts": {
+          "ACCEPT": 28
+        },
+        "exact_market_and_quote_digest_native": "60e51d744f7b8ee21eb460310fe685589d9974bd8292749f3222687217ddee3e",
+        "exact_market_and_quote_digest_adapter": "60e51d744f7b8ee21eb460310fe685589d9974bd8292749f3222687217ddee3e",
+        "field_differences": [],
+        "field_comparison_passed": true,
+        "source_consistency_differences": [],
+        "original_top_rows": 28,
+        "original_top_order_preserved": true,
+        "declared_candidates": 1473,
+        "background_complete": false,
+        "strict_v2_verified_rows": 0,
+        "strict_v2_audits": {
+          "original_top": {
+            "status": "source_missing",
+            "positions": null,
+            "fixtures": null,
+            "settled": null,
+            "unresolved": null,
+            "wins": null,
+            "losses": null,
+            "voids": null,
+            "pushes": null,
+            "hit_rate_pct": null,
+            "roi_pct": null,
+            "fixture_equal_roi_pct": null,
+            "profit_units": null,
+            "roi_status": "unavailable_incomplete_data"
+          },
+          "qualifying_api": {
+            "status": "source_missing",
+            "positions": null,
+            "fixtures": null,
+            "settled": null,
+            "unresolved": null,
+            "wins": null,
+            "losses": null,
+            "voids": null,
+            "pushes": null,
+            "hit_rate_pct": null,
+            "roi_pct": null,
+            "fixture_equal_roi_pct": null,
+            "profit_units": null,
+            "roi_status": "unavailable_incomplete_data"
+          },
+          "fouls_under": {
+            "status": "source_missing",
+            "positions": null,
+            "fixtures": null,
+            "settled": null,
+            "unresolved": null,
+            "wins": null,
+            "losses": null,
+            "voids": null,
+            "pushes": null,
+            "hit_rate_pct": null,
+            "roi_pct": null,
+            "fixture_equal_roi_pct": null,
+            "profit_units": null,
+            "roi_status": "unavailable_incomplete_data"
+          }
+        },
+        "native_audit_field_populations_unverified": {
+          "original_top": 28,
+          "qualifying_api": null,
+          "fouls_under": null
+        },
+        "native_roi_pct": null,
+        "native_fixture_equal_roi_pct": null,
+        "settlement_inputs": "not_supplied_for_this_freeze",
+        "source_gate_differences": [
+          {
+            "field": "original_top.positions",
+            "native_field_count": 28,
+            "strict_v2": null,
+            "reason": "missing_verified_full_source_or_provenance"
+          }
+        ],
+        "blockers": [
+          "frozen_top_period_missing",
+          "full_background_not_archived",
+          "independent_quote_identity_missing",
+          "no_independently_verified_quote",
+          "original_publication_id_missing"
+        ],
+        "full_shadow_passed": false
+      },
+      {
+        "mode": "historical_frozen_input_replay",
+        "source": {
+          "locator": "github-artifact:13089668808:v2/API_MARKET_SCAN_PLAYABLE_2026-11-02.json",
+          "capture_sha256": "59a7e59db5fe2b20d4aff85a6e5f2f2697cf242cc939c4e4e6ed79c32f88017b"
+        },
+        "freeze": {
+          "id": null,
+          "captured_at_utc": "2026-11-01T15:54:47.669746+00:00",
+          "provenance": null
+        },
+        "native_schema": "api-market-playable-export-v2",
+        "run_binding": null,
+        "native_rows": 20,
+        "adapter_rows": 20,
+        "fixture_ids": [
+          "1550178",
+          "1550185",
+          "1552803",
+          "1553213",
+          "1553214",
+          "1553217",
+          "1575529",
+          "1575533",
+          "1584452"
+        ],
+        "native_status_counts": {
+          "ACCEPT": 20
+        },
+        "adapter_status_counts": {
+          "ACCEPT": 20
+        },
+        "exact_market_and_quote_digest_native": "846aa335fa2943362a70eb2b2fc2f849a346fbbf8ff9f1afa2af0ae64740bc58",
+        "exact_market_and_quote_digest_adapter": "846aa335fa2943362a70eb2b2fc2f849a346fbbf8ff9f1afa2af0ae64740bc58",
+        "field_differences": [],
+        "field_comparison_passed": true,
+        "source_consistency_differences": [],
+        "original_top_rows": 20,
+        "original_top_order_preserved": true,
+        "declared_candidates": 999,
+        "background_complete": false,
+        "strict_v2_verified_rows": 0,
+        "strict_v2_audits": {
+          "original_top": {
+            "status": "source_missing",
+            "positions": null,
+            "fixtures": null,
+            "settled": null,
+            "unresolved": null,
+            "wins": null,
+            "losses": null,
+            "voids": null,
+            "pushes": null,
+            "hit_rate_pct": null,
+            "roi_pct": null,
+            "fixture_equal_roi_pct": null,
+            "profit_units": null,
+            "roi_status": "unavailable_incomplete_data"
+          },
+          "qualifying_api": {
+            "status": "source_missing",
+            "positions": null,
+            "fixtures": null,
+            "settled": null,
+            "unresolved": null,
+            "wins": null,
+            "losses": null,
+            "voids": null,
+            "pushes": null,
+            "hit_rate_pct": null,
+            "roi_pct": null,
+            "fixture_equal_roi_pct": null,
+            "profit_units": null,
+            "roi_status": "unavailable_incomplete_data"
+          },
+          "fouls_under": {
+            "status": "source_missing",
+            "positions": null,
+            "fixtures": null,
+            "settled": null,
+            "unresolved": null,
+            "wins": null,
+            "losses": null,
+            "voids": null,
+            "pushes": null,
+            "hit_rate_pct": null,
+            "roi_pct": null,
+            "fixture_equal_roi_pct": null,
+            "profit_units": null,
+            "roi_status": "unavailable_incomplete_data"
+          }
+        },
+        "native_audit_field_populations_unverified": {
+          "original_top": 20,
+          "qualifying_api": null,
+          "fouls_under": null
+        },
+        "native_roi_pct": null,
+        "native_fixture_equal_roi_pct": null,
+        "settlement_inputs": "not_supplied_for_this_freeze",
+        "source_gate_differences": [
+          {
+            "field": "original_top.positions",
+            "native_field_count": 20,
+            "strict_v2": null,
+            "reason": "missing_verified_full_source_or_provenance"
+          }
+        ],
+        "blockers": [
+          "frozen_top_period_missing",
+          "full_background_not_archived",
+          "independent_quote_identity_missing",
+          "no_independently_verified_quote",
+          "original_publication_id_missing"
+        ],
+        "full_shadow_passed": false
+      }
+    ]
+  },
+  "pitchapi": {
+    "manifest": {
+      "artifact_id": 13100867272,
+      "run_id": 41350611997,
+      "zip_sha256": "755c9351612428d079240b90cb9dd6944aa0e3ba1377087ac83698b7d80d1f41",
+      "zip_size": 274692,
+      "digest_verified": true,
+      "entries": [
+        {
+          "path": "data/pitchapi/prematch/2026-10-16.json",
+          "size": 145937,
+          "sha256": "80fd31b2c26142008c3a070e67dd9890dbbf67168b1a3233d2d1416fe7a6fd3c"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-17.json",
+          "size": 200855,
+          "sha256": "7a70307cfdd1f2fc50e9b403e524f19c3d413df4ea7955dce3554a0505dcbe36"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-18.json",
+          "size": 209638,
+          "sha256": "164abdafec6fc41761a86db586b9b949670000ae136b5dc654ad59ac327b6623"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-19.json",
+          "size": 120919,
+          "sha256": "77ee7543cf88ff46641f53316fb1fdf6c41970d31db16173387ac0e2a1c7e78e"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-20.json",
+          "size": 124910,
+          "sha256": "1f966c02660f381645b9113f58d023364b92c4d282b8a10fb6a43da56926804d"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-21.json",
+          "size": 106478,
+          "sha256": "ea89739f7879b1f57a0583b0c9f6d13e0be240ca7bf728fa39ee873feb5c9bec"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-22.json",
+          "size": 80103,
+          "sha256": "be066f02bfdd5778aae853f036839ea7de42771934ebbd899deef4c4b3158d18"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-23.json",
+          "size": 193474,
+          "sha256": "1360af23d9004f12b92562bba5c78b4f6c32d214c7181084fda8c82590318549"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-24.json",
+          "size": 204227,
+          "sha256": "488f287ff0ae8fe5fde0da7c483b1c2e4643d890c6fc7b063eb6a03748a7ed00"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-25.json",
+          "size": 202471,
+          "sha256": "09a1a84cf4b6f22e61b609e5b7f437d13102258e90e584a9fecdd868680f20b6"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-26.json",
+          "size": 100633,
+          "sha256": "df03b87b6eca540bb034eed261df5c6187dcb3bdae69e6352539dc27c9624986"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-27.json",
+          "size": 82599,
+          "sha256": "be0f1a65a1c5c87a491040d2567a05ff983869f1c44847e7293a3ac16e450af9"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-28.json",
+          "size": 118556,
+          "sha256": "ddc668d4ef7273dd5ae9ca024ea4a1fe2e19eda7ee4d27c7d72f560cbecb5c5c"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-29.json",
+          "size": 85604,
+          "sha256": "c5a010eadd8985be7377e0d5e9d7871441ea04356ff2acf1cb59de96282be6a6"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-10-30.json",
+          "size": 199231,
+          "sha256": "671567d135a7697f2d4a419f824da0f3eb5fb07bf2fdd0f2295c44308a22d884"
+        },
+        {
+          "path": "data/pitchapi/prematch/2026-11-02.json",
+          "size": 161702,
+          "sha256": "e70cec07ee367068a8ba57dd5dfbc549efe7117703b115b19486e5bca906a69e"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-16.md",
+          "size": 5316,
+          "sha256": "34b5a26839f607ab9073b98a617eff67de451ded103541c4721e8b71460676fb"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-17.md",
+          "size": 7093,
+          "sha256": "03a7c1cb8472bc9a15fc838f28157491fc1c0bc87959594a32a0b1c32a80b13b"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-18.md",
+          "size": 7169,
+          "sha256": "53b36b6d0050c5faa98855aa634bcec59939e7c94c9acc3fbf40ea6424467c59"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-19.md",
+          "size": 4422,
+          "sha256": "f1b5e972360c0298af64bdec9f73bb87576359c3974b7509173ee3b4463dfbe8"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-20.md",
+          "size": 4957,
+          "sha256": "58c55f9a259db958cf92de7676cc30d2378ff9f75c2bba718735b3fe49ec179d"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-21.md",
+          "size": 4653,
+          "sha256": "3206a10bad8bec7a6af06ee949259afd26b6365c76c2035b5b3f25c243be2e40"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-22.md",
+          "size": 4595,
+          "sha256": "578c23c3b49846cd26278322786130090e2d2aaf8ca8ace7617b8a6e8a9b20e1"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-23.md",
+          "size": 6932,
+          "sha256": "96a1dff465e80a06f8722306a86a49514aba9ca2f361a48d560ee542d92d39f1"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-24.md",
+          "size": 7159,
+          "sha256": "c655822a38a4dfea7d0d68409ed514ed995a9b81f4109c64303b15ffd48dc0c9"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-25.md",
+          "size": 7128,
+          "sha256": "f1245fe62eadea7e31da66846c83e28996c36be1c914615b10f852cf61d2b787"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-26.md",
+          "size": 3810,
+          "sha256": "a4ea9b9047f9b47201a4df14f7989d734fe9dfb5cc29c7f784b9c2af2fe41c58"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-27.md",
+          "size": 3251,
+          "sha256": "4d149c80683c773ed3d018256434347a39edced19bb8a7214ddb10e9f92abd97"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-28.md",
+          "size": 4297,
+          "sha256": "e825eca57396f450e473cb839c57f1b4d683337892e106ac1d4b4c6aee228baa"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-29.md",
+          "size": 3330,
+          "sha256": "f345a404bee6dd8fc9584ce522632a493ded08cd69daadcd030155061edf1e39"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-10-30.md",
+          "size": 7229,
+          "sha256": "61826e1666ca9b71e594cff06c901f39ef7985c700475affbae18f42b9ca87ef"
+        },
+        {
+          "path": "reports/pitchapi/prematch/2026-11-02.md",
+          "size": 5724,
+          "sha256": "ceb0b8f67e4cacbccc990ace748f1b8cfbf404535e2f85e43cf059e329fbc938"
+        }
+      ]
+    },
+    "days": [
+      {
+        "date": "2026-10-16",
+        "snapshot_at": "2026-10-15T19:28:20.038849+00:00",
+        "captured_in_this_run": false,
+        "rows": 57,
+        "strict_rows": 48,
+        "warsaw_kickoff_dates": {
+          "2026-10-16": 50,
+          "2026-10-17": 7
+        },
+        "invalid_rows": [
+          {
+            "id": "m_15aohm",
+            "kickoff": "2026-10-16T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1KL4di",
+            "kickoff": "2026-10-16T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_2q4KEo",
+            "kickoff": "2026-10-16T14:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2tWorJ",
+            "kickoff": "2026-10-16T17:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0Bq39X",
+            "kickoff": "2026-10-16T22:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_2RvsRC",
+            "kickoff": "2026-10-16T22:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_03XZsF",
+            "kickoff": "2026-10-16T22:20:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1iIU2Q",
+            "kickoff": "2026-10-16T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1Idzzl",
+            "kickoff": "2026-10-16T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-17",
+        "snapshot_at": "2026-10-16T17:47:28.099394+00:00",
+        "captured_in_this_run": false,
+        "rows": 80,
+        "strict_rows": 72,
+        "warsaw_kickoff_dates": {
+          "2026-10-17": 79,
+          "2026-10-18": 1
+        },
+        "invalid_rows": [
+          {
+            "id": "m_2DOPeH",
+            "kickoff": "2026-10-17T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3WwYyH",
+            "kickoff": "2026-10-17T04:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_1dyA0o",
+            "kickoff": "2026-10-17T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_4782Vy",
+            "kickoff": "2026-10-17T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1nGvRr",
+            "kickoff": "2026-10-17T06:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_2PxUv7",
+            "kickoff": "2026-10-17T08:40:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_2rXYmU",
+            "kickoff": "2026-10-17T09:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_43NTnT",
+            "kickoff": "2026-10-17T09:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "missing_pitchapi_history",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-18",
+        "snapshot_at": "2026-10-17T17:35:22.793395+00:00",
+        "captured_in_this_run": false,
+        "rows": 80,
+        "strict_rows": 76,
+        "warsaw_kickoff_dates": {
+          "2026-10-18": 79,
+          "2026-10-19": 1
+        },
+        "invalid_rows": [
+          {
+            "id": "m_0q7lFD",
+            "kickoff": "2026-10-18T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_4Ugz9T",
+            "kickoff": "2026-10-18T02:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_0XQB3R",
+            "kickoff": "2026-10-18T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3kNVci",
+            "kickoff": "2026-10-18T06:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "missing_pitchapi_history",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-19",
+        "snapshot_at": "2026-10-18T17:35:35.827126+00:00",
+        "captured_in_this_run": false,
+        "rows": 46,
+        "strict_rows": 41,
+        "warsaw_kickoff_dates": {
+          "2026-10-19": 42,
+          "2026-10-20": 4
+        },
+        "invalid_rows": [
+          {
+            "id": "m_3xh6Zh",
+            "kickoff": "2026-10-19T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3JQWcB",
+            "kickoff": "2026-10-19T14:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0jukq0",
+            "kickoff": "2026-10-19T22:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1GfIB4",
+            "kickoff": "2026-10-19T22:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_0GaWhz",
+            "kickoff": "2026-10-19T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-20",
+        "snapshot_at": "2026-10-19T17:39:53.439433+00:00",
+        "captured_in_this_run": false,
+        "rows": 50,
+        "strict_rows": 38,
+        "warsaw_kickoff_dates": {
+          "2026-10-20": 47,
+          "2026-10-21": 3
+        },
+        "invalid_rows": [
+          {
+            "id": "m_0CgrSZ",
+            "kickoff": "2026-10-20T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1wcz8f",
+            "kickoff": "2026-10-20T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_12BHNW",
+            "kickoff": "2026-10-20T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_14BqaI",
+            "kickoff": "2026-10-20T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_16kboG",
+            "kickoff": "2026-10-20T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1ETAAh",
+            "kickoff": "2026-10-20T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1w0acT",
+            "kickoff": "2026-10-20T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_24E8L5",
+            "kickoff": "2026-10-20T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3L83Uf",
+            "kickoff": "2026-10-20T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1g78xC",
+            "kickoff": "2026-10-20T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_0enqWu",
+            "kickoff": "2026-10-20T23:15:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_25dYQw",
+            "kickoff": "2026-10-20T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-21",
+        "snapshot_at": "2026-10-20T17:47:08.379408+00:00",
+        "captured_in_this_run": false,
+        "rows": 48,
+        "strict_rows": 23,
+        "warsaw_kickoff_dates": {
+          "2026-10-21": 42,
+          "2026-10-22": 6
+        },
+        "invalid_rows": [
+          {
+            "id": "m_2fv7yB",
+            "kickoff": "2026-10-21T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3ycrif",
+            "kickoff": "2026-10-21T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1LBGR1",
+            "kickoff": "2026-10-21T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1c1hl9",
+            "kickoff": "2026-10-21T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2Q8JBE",
+            "kickoff": "2026-10-21T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2Sd0n0",
+            "kickoff": "2026-10-21T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3QUxWo",
+            "kickoff": "2026-10-21T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3REJMr",
+            "kickoff": "2026-10-21T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_45WQej",
+            "kickoff": "2026-10-21T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1bl6e7",
+            "kickoff": "2026-10-21T04:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3zyJW7",
+            "kickoff": "2026-10-21T04:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_4LgaOA",
+            "kickoff": "2026-10-21T04:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_0BJDps",
+            "kickoff": "2026-10-21T10:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0cFWX2",
+            "kickoff": "2026-10-21T10:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2k83xd",
+            "kickoff": "2026-10-21T10:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3QGsYX",
+            "kickoff": "2026-10-21T10:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3lSJVA",
+            "kickoff": "2026-10-21T10:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_4GWbY7",
+            "kickoff": "2026-10-21T10:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_4XIPes",
+            "kickoff": "2026-10-21T10:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1FcQCQ",
+            "kickoff": "2026-10-21T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1nMr8z",
+            "kickoff": "2026-10-21T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_09AWom",
+            "kickoff": "2026-10-21T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1oBtcP",
+            "kickoff": "2026-10-21T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_0szlZR",
+            "kickoff": "2026-10-21T23:15:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_17Feuo",
+            "kickoff": "2026-10-21T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "missing_pitchapi_history",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-22",
+        "snapshot_at": "2026-10-21T17:38:47.967311+00:00",
+        "captured_in_this_run": false,
+        "rows": 48,
+        "strict_rows": 11,
+        "warsaw_kickoff_dates": {
+          "2026-10-22": 48
+        },
+        "invalid_rows": [
+          {
+            "id": "m_1fCZFa",
+            "kickoff": "2026-10-22T14:30:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_01J8zd",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_02xRNQ",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_03fIwo",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_09sEEq",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0H4laN",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0Nk5la",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0TTL6b",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_29D8nT",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2UAhNr",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2Vc9ps",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2bk3p4",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2eFxOa",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_30rVM5",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3rfQvZ",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3xvkkc",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_4AJq5E",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_4P9a80",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0BeYnx",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0NWvLW",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0f4bUN",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_11ErEE",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_15vUm9",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1Y8u7K",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1dl23c",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1dlAX1",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1qSOni",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2XMbf3",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_32rv3H",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3BS3ZY",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3OUrqj",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3qJtjY",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_45EQn7",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_465zDH",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_47jbOi",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_4JxwYz",
+            "kickoff": "2026-10-22T19:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3r9FnN",
+            "kickoff": "2026-10-22T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "missing_pitchapi_history"
+        ]
+      },
+      {
+        "date": "2026-10-23",
+        "snapshot_at": "2026-10-22T17:38:29.954004+00:00",
+        "captured_in_this_run": false,
+        "rows": 76,
+        "strict_rows": 66,
+        "warsaw_kickoff_dates": {
+          "2026-10-23": 71,
+          "2026-10-24": 5
+        },
+        "invalid_rows": [
+          {
+            "id": "m_30IBHo",
+            "kickoff": "2026-10-23T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_29Cdjc",
+            "kickoff": "2026-10-23T09:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_0KOdj3",
+            "kickoff": "2026-10-23T11:30:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_48MDYK",
+            "kickoff": "2026-10-23T15:30:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_3JJMuv",
+            "kickoff": "2026-10-23T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_2gx9q9",
+            "kickoff": "2026-10-23T17:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2nSI8S",
+            "kickoff": "2026-10-23T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_4KlEwi",
+            "kickoff": "2026-10-23T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1ObLs5",
+            "kickoff": "2026-10-23T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3HDwoJ",
+            "kickoff": "2026-10-23T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "missing_pitchapi_history",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-24",
+        "snapshot_at": "2026-10-23T17:39:07.435639+00:00",
+        "captured_in_this_run": false,
+        "rows": 80,
+        "strict_rows": 72,
+        "warsaw_kickoff_dates": {
+          "2026-10-24": 79,
+          "2026-10-25": 1
+        },
+        "invalid_rows": [
+          {
+            "id": "m_0VKhtb",
+            "kickoff": "2026-10-24T22:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3lPdRC",
+            "kickoff": "2026-10-24T04:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0Y0v2Q",
+            "kickoff": "2026-10-24T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_0dWhRA",
+            "kickoff": "2026-10-24T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2Rssi3",
+            "kickoff": "2026-10-24T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2cEVVQ",
+            "kickoff": "2026-10-24T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0MN98F",
+            "kickoff": "2026-10-24T06:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1LhYSq",
+            "kickoff": "2026-10-24T07:30:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "missing_pitchapi_history",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-25",
+        "snapshot_at": "2026-10-24T17:36:47.064159+00:00",
+        "captured_in_this_run": false,
+        "rows": 80,
+        "strict_rows": 73,
+        "warsaw_kickoff_dates": {
+          "2026-10-25": 80
+        },
+        "invalid_rows": [
+          {
+            "id": "m_3Wu9EG",
+            "kickoff": "2026-10-25T02:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_09dapW",
+            "kickoff": "2026-10-25T04:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0wW94Z",
+            "kickoff": "2026-10-25T04:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1V7pHM",
+            "kickoff": "2026-10-25T04:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_01sUb5",
+            "kickoff": "2026-10-25T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0q45Ey",
+            "kickoff": "2026-10-25T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_3ymSMv",
+            "kickoff": "2026-10-25T05:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "missing_pitchapi_history"
+        ]
+      },
+      {
+        "date": "2026-10-26",
+        "snapshot_at": "2026-10-25T21:19:38.708080+00:00",
+        "captured_in_this_run": false,
+        "rows": 38,
+        "strict_rows": 34,
+        "warsaw_kickoff_dates": {
+          "2026-10-26": 35,
+          "2026-10-27": 3
+        },
+        "invalid_rows": [
+          {
+            "id": "m_4TPeJK",
+            "kickoff": "2026-10-26T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_0Yq6H2",
+            "kickoff": "2026-10-26T14:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_0jm582",
+            "kickoff": "2026-10-26T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3XUr0K",
+            "kickoff": "2026-10-26T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-27",
+        "snapshot_at": "2026-10-26T17:45:27.192143+00:00",
+        "captured_in_this_run": false,
+        "rows": 31,
+        "strict_rows": 28,
+        "warsaw_kickoff_dates": {
+          "2026-10-27": 28,
+          "2026-10-28": 3
+        },
+        "invalid_rows": [
+          {
+            "id": "m_4Jbm8z",
+            "kickoff": "2026-10-27T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_4Uclm8",
+            "kickoff": "2026-10-27T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_45QFHy",
+            "kickoff": "2026-10-27T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-28",
+        "snapshot_at": "2026-10-27T17:51:41.784255+00:00",
+        "captured_in_this_run": false,
+        "rows": 45,
+        "strict_rows": 36,
+        "warsaw_kickoff_dates": {
+          "2026-10-28": 37,
+          "2026-10-29": 8
+        },
+        "invalid_rows": [
+          {
+            "id": "m_46SJs3",
+            "kickoff": "2026-10-28T14:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_3mKsrX",
+            "kickoff": "2026-10-28T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_0rWoXw",
+            "kickoff": "2026-10-28T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1d61Oi",
+            "kickoff": "2026-10-28T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3FvdnV",
+            "kickoff": "2026-10-28T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3PVssZ",
+            "kickoff": "2026-10-28T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_49p6kD",
+            "kickoff": "2026-10-28T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_4DJunR",
+            "kickoff": "2026-10-28T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_4LIR2e",
+            "kickoff": "2026-10-28T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-29",
+        "snapshot_at": "2026-10-28T21:38:28.502456+00:00",
+        "captured_in_this_run": false,
+        "rows": 33,
+        "strict_rows": 30,
+        "warsaw_kickoff_dates": {
+          "2026-10-29": 31,
+          "2026-10-30": 2
+        },
+        "invalid_rows": [
+          {
+            "id": "m_4AOGAt",
+            "kickoff": "2026-10-29T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_4K7BdB",
+            "kickoff": "2026-10-29T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_0XvKaZ",
+            "kickoff": "2026-10-29T23:15:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "missing_pitchapi_history",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-10-30",
+        "snapshot_at": "2026-10-29T21:48:20.986213+00:00",
+        "captured_in_this_run": false,
+        "rows": 78,
+        "strict_rows": 68,
+        "warsaw_kickoff_dates": {
+          "2026-10-30": 73,
+          "2026-10-31": 5
+        },
+        "invalid_rows": [
+          {
+            "id": "m_17UpNs",
+            "kickoff": "2026-10-30T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_4NSPGG",
+            "kickoff": "2026-10-30T09:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_2SkZH1",
+            "kickoff": "2026-10-30T14:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_211UVD",
+            "kickoff": "2026-10-30T14:55:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_1VpUUy",
+            "kickoff": "2026-10-30T16:45:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "missing_pitchapi_history"
+            ]
+          },
+          {
+            "id": "m_3rLUjn",
+            "kickoff": "2026-10-30T18:00:00Z",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number"
+            ]
+          },
+          {
+            "id": "m_1YKrm8",
+            "kickoff": "2026-10-30T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3ldlre",
+            "kickoff": "2026-10-30T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1Nlskk",
+            "kickoff": "2026-10-30T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_1UiP8i",
+            "kickoff": "2026-10-30T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "insufficient_historical_context",
+          "invalid_number",
+          "missing_pitchapi_history",
+          "pitchapi_capture_or_date_invalid"
+        ]
+      },
+      {
+        "date": "2026-11-02",
+        "snapshot_at": "2026-11-01T21:10:31.906535+00:00",
+        "captured_in_this_run": true,
+        "rows": 61,
+        "strict_rows": 58,
+        "warsaw_kickoff_dates": {
+          "2026-11-02": 58,
+          "2026-11-03": 3
+        },
+        "invalid_rows": [
+          {
+            "id": "m_1bTx8A",
+            "kickoff": "2026-11-02T23:00:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_0MORkA",
+            "kickoff": "2026-11-02T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "id": "m_3Y69Uf",
+            "kickoff": "2026-11-02T23:30:00Z",
+            "reasons": [
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        ],
+        "blockers": [
+          "pitchapi_capture_or_date_invalid"
+        ]
+      }
+    ]
+  },
+  "sheets": [
+    {
+      "system": "kb21",
+      "source": {
+        "locator": "/workspace/work/multimodel-v2-e2e-2026-11-02/kb.json",
+        "capture_sha256": "8098793dafc549c526dac236cb2c013f1c254fc3b9da6cf447003ba977945982"
+      },
+      "source_url": "https://docs.google.com/spreadsheets/d/1Raay44yu5OUefV4czv4TN4Xa_SQ5K5txUUPf1WHvXUI/edit",
+      "read_range": "Rejestr!A1:AP996",
+      "spreadsheet_timezone": "Europe/Warsaw",
+      "read_rows": 496,
+      "recorded_selection_rows": 202,
+      "non_selection_rows": 294,
+      "latest_date": "2026-10-06",
+      "verified_prematch_rows": 0,
+      "blockers": [
+        "bookmaker_missing",
+        "exact_market_identity_missing",
+        "fixture_id_missing",
+        "kickoff_missing",
+        "prematch_freeze_timestamp_missing",
+        "quote_timestamp_missing"
+      ]
+    },
+    {
+      "system": "consensus",
+      "source": {
+        "locator": "/workspace/work/multimodel-v2-e2e-2026-11-02/consensus.json",
+        "capture_sha256": "88bc97d4c5a63318207e88a0188d72885077ca7ea2ff8c468f23d91df6570cff"
+      },
+      "source_url": "https://docs.google.com/spreadsheets/d/1zXMN6HIFdFT-DCAgjv4RLd38Bwq1B_-DVJKAy7jydLc/edit",
+      "read_range": "Selections!A1:Z1000",
+      "spreadsheet_timezone": "America/Los_Angeles",
+      "read_rows": 214,
+      "recorded_selection_rows": 214,
+      "non_selection_rows": 0,
+      "latest_date": "2026-10-14",
+      "verified_prematch_rows": 0,
+      "blockers": [
+        "bookmaker_missing",
+        "exact_market_identity_missing",
+        "fixture_id_missing",
+        "kickoff_missing",
+        "prematch_freeze_timestamp_missing",
+        "quote_timestamp_missing",
+        "source_date_and_analysis_time_not_verified_event_kickoff"
+      ]
+    }
+  ],
+  "coverage_current_report": {
+    "start_date": "2026-11-02",
+    "days": [
+      {
+        "date": "2026-11-02",
+        "api_export_present": true,
+        "api_status_ok": true,
+        "pitch_snapshot_present": true,
+        "api_complete_source": false,
+        "pitch_strict_rows": 58
+      },
+      {
+        "date": "2026-11-03",
+        "api_export_present": false,
+        "api_status_ok": false,
+        "pitch_snapshot_present": false,
+        "api_complete_source": false,
+        "pitch_strict_rows": 0
+      },
+      {
+        "date": "2026-11-04",
+        "api_export_present": false,
+        "api_status_ok": false,
+        "pitch_snapshot_present": false,
+        "api_complete_source": false,
+        "pitch_strict_rows": 0
+      }
+    ],
+    "three_api_exports_present": false,
+    "full_multimodel_ready": false
+  },
+  "coverage_api_run_report": {
+    "start_date": "2026-11-01",
+    "days": [
+      {
+        "date": "2026-11-01",
+        "api_export_present": true,
+        "api_status_ok": true,
+        "pitch_snapshot_present": false,
+        "api_complete_source": false,
+        "pitch_strict_rows": 0
+      },
+      {
+        "date": "2026-11-02",
+        "api_export_present": true,
+        "api_status_ok": true,
+        "pitch_snapshot_present": true,
+        "api_complete_source": false,
+        "pitch_strict_rows": 58
+      },
+      {
+        "date": "2026-11-03",
+        "api_export_present": false,
+        "api_status_ok": false,
+        "pitch_snapshot_present": false,
+        "api_complete_source": false,
+        "pitch_strict_rows": 0
+      }
+    ],
+    "three_api_exports_present": false,
+    "full_multimodel_ready": false
+  },
+  "pitchapi_exact_matches": {
+    "2026-11-01:1575530": null,
+    "2026-11-01:1552804": null,
+    "2026-11-01:1552805": null,
+    "2026-11-01:1584453": null,
+    "2026-11-01:1552807": null,
+    "2026-11-01:1575527": null,
+    "2026-11-01:1570433": null,
+    "2026-11-01:1575534": null,
+    "2026-11-01:1550182": null,
+    "2026-11-01:1558667": null,
+    "2026-11-01:1557453": null,
+    "2026-11-01:1550184": null,
+    "2026-11-01:1575205": null,
+    "2026-11-02:1550185": "m_32m5m0",
+    "2026-11-02:1575529": null,
+    "2026-11-02:1552803": null,
+    "2026-11-02:1553214": null,
+    "2026-11-02:1550178": "m_4Z0Hkz",
+    "2026-11-02:1553213": null,
+    "2026-11-02:1553217": null,
+    "2026-11-02:1584452": null,
+    "2026-11-02:1575533": null
+  },
+  "readiness": {
+    "schema": "multimodel-v2-real-source-readiness-v1",
+    "as_of": "2026-11-02T18:06:41Z",
+    "can_generate_three_pdf_files": true,
+    "can_complete_three_real_data_reports": false,
+    "days": [
+      {
+        "date": "2026-11-02",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 2,
+            "rows_for_date": 20,
+            "latest_date": "2026-11-02",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 16,
+            "rows_for_date": 61,
+            "latest_date": "2026-11-02",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      },
+      {
+        "date": "2026-11-03",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 2,
+            "rows_for_date": 0,
+            "latest_date": "2026-11-02",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 16,
+            "rows_for_date": 0,
+            "latest_date": "2026-11-02",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      },
+      {
+        "date": "2026-11-04",
+        "complete_on_real_data": false,
+        "sources": {
+          "api_market": {
+            "readable_captures": 2,
+            "rows_for_date": 0,
+            "latest_date": "2026-11-02",
+            "complete": false,
+            "blockers": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          "kb21": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-06",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          "consensus": {
+            "readable_captures": 1,
+            "rows_for_date": 0,
+            "latest_date": "2026-10-14",
+            "complete": false,
+            "blockers": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          "pitchapi": {
+            "readable_captures": 16,
+            "rows_for_date": 0,
+            "latest_date": "2026-11-02",
+            "complete": false,
+            "blockers": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          }
+        },
+        "blockers": [
+          {
+            "system": "api_market",
+            "reasons": [
+              "frozen_top_period_missing",
+              "full_background_not_archived",
+              "independent_quote_identity_missing",
+              "no_independently_verified_quote",
+              "no_source_rows_for_date",
+              "original_publication_id_missing"
+            ]
+          },
+          {
+            "system": "kb21",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing"
+            ]
+          },
+          {
+            "system": "consensus",
+            "reasons": [
+              "bookmaker_missing",
+              "exact_market_identity_missing",
+              "fixture_id_missing",
+              "kickoff_missing",
+              "no_source_rows_for_date",
+              "prematch_freeze_timestamp_missing",
+              "quote_timestamp_missing",
+              "source_date_and_analysis_time_not_verified_event_kickoff"
+            ]
+          },
+          {
+            "system": "pitchapi",
+            "reasons": [
+              "insufficient_historical_context",
+              "invalid_number",
+              "missing_pitchapi_history",
+              "no_source_rows_for_date",
+              "pitchapi_capture_or_date_invalid"
+            ]
+          },
+          {
+            "system": "original_top",
+            "reasons": [
+              "no_verified_original_freeze_for_date"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "full_parallel_1_to_1_complete": false,
+  "models_modified": false,
+  "register_writes": false,
+  "n_effect": 0,
+  "paid_api_scans_started": 0,
+  "pdf_delivery": {
+    "status": "FILES_VERIFIED_AVAILABLE",
+    "files": [
+      {
+        "name": "MULTIMODEL_2026-11-02.pdf",
+        "sha256": "85fed2bcce5ea416be85fc2ae26f3ef6b8e4e4178b877164772ed475eb4ec488",
+        "bytes": 48951,
+        "pages": 3
+      },
+      {
+        "name": "MULTIMODEL_2026-11-03.pdf",
+        "sha256": "f3689eb3eda7e7d2d10e79d1dc1d4ee59d938e540d7c5249b261f75fcfeb7963",
+        "bytes": 48887,
+        "pages": 3
+      },
+      {
+        "name": "MULTIMODEL_2026-11-04.pdf",
+        "sha256": "b60cbbfad289bbf7cc0b691fd6016f30f80ef287b48d3cd990b91e1056e236f4",
+        "bytes": 48887,
+        "pages": 3
+      }
+    ],
+    "recipient_receipt_confirmed": false,
+    "complete_forecast_delivery": false
+  },
+  "run_metadata": {
+    "api": {
+      "id": 41323529393,
+      "path": ".github/workflows/api-market-multiday-experiment.yml",
+      "head_sha": "634c890eb0ddd489693f436722177b5ea3af32ad",
+      "run_started_at": "2026-11-01T15:53:58Z",
+      "updated_at": "2026-11-01T15:54:51Z",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41323529393"
+    },
+    "pitch": {
+      "id": 41350611997,
+      "path": ".github/workflows/pitchapi-prematch-context.yml",
+      "head_sha": "3ca702d24be27b51511fc17eeaca9d570b3b0d3d",
+      "run_started_at": "2026-11-01T21:10:16Z",
+      "updated_at": "2026-11-01T21:12:30Z",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41350611997"
+    }
+  },
+  "latest_run_inventory": {
+    "total_count": 13,
+    "returned": 13,
+    "relevant": [
+      {
+        "id": 41495085072,
+        "path": ".github/workflows/api-market-multiday-experiment.yml",
+        "head_sha": "03c6488d63afbf29c3471424ebfcc616ef74a62b",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-11-02T17:51:31Z",
+        "updated_at": "2026-11-02T17:51:42Z",
+        "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41495085072"
+      },
+      {
+        "id": 41486556120,
+        "path": ".github/workflows/api-market-scan.yml",
+        "head_sha": "d8d74728b73078807a9a29e894f5f0a2c83cee49",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-11-02T16:58:00Z",
+        "updated_at": "2026-11-02T16:58:31Z",
+        "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41486556120"
+      },
+      {
+        "id": 41443035592,
+        "path": ".github/workflows/api-market-scan.yml",
+        "head_sha": "1f1ab03cfe69808ece569c4247bd42908d0c9c64",
+        "status": "completed",
+        "conclusion": "success",
+        "run_started_at": "2026-11-02T12:14:16Z",
+        "updated_at": "2026-11-02T12:14:50Z",
+        "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41443035592"
+      }
+    ]
+  },
+  "latest_dst_skip": {
+    "run": {
+      "id": 41495085072,
+      "path": ".github/workflows/api-market-multiday-experiment.yml",
+      "head_sha": "03c6488d63afbf29c3471424ebfcc616ef74a62b",
+      "status": "completed",
+      "conclusion": "success",
+      "run_started_at": "2026-11-02T17:51:31Z",
+      "updated_at": "2026-11-02T17:51:42Z",
+      "html_url": "https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/41495085072"
+    },
+    "jobs": {
+      "jobs": [
+        {
+          "id": 125447794053,
+          "name": "multiday",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 41495085072,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Check Warsaw schedule (DST-aware and GitHub-delay-safe)",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Check out experimental scan code",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 3
+            },
+            {
+              "name": "Fetch read-only PitchAPI snapshots from main",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 4
+            },
+            {
+              "name": "Prepare read-only PitchAPI goal commentary",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 5
+            },
+            {
+              "name": "Test experimental date planner and market filters",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 6
+            },
+            {
+              "name": "Install PDF dependency",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Independent scan per date",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Upload dated reports and statuses",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            }
+          ]
+        }
+      ]
+    },
+    "artifacts": {
+      "artifacts": []
+    },
+    "runtime_notice": "2026-11-02T17:51:35.7010657Z ##[notice]Opposite DST slot skipped by design: 0 8 * * *",
+    "classification": {
+      "run_id": "41495085072",
+      "run_conclusion": "success",
+      "status": "SKIPPED",
+      "scan_executed_successfully": false,
+      "source_eligible": false,
+      "artifact_count": 0,
+      "paid_scan_started": false,
+      "reason": "scan_skipped_no_new_source",
+      "cause": "opposite_dst_slot_confirmed"
+    }
+  },
+  "workflow_code_lineage": {
+    "api_workflow_head_sha": "634c890eb0ddd489693f436722177b5ea3af32ad",
+    "api_experiment_checkout_sha": "12ebe32220d04b7488889b2c7c4384ff47eb9d2e",
+    "checkout_proof": "2026-11-01T15:54:04.6983708Z 12ebe32220d04b7488889b2c7c4384ff47eb9d2e",
+    "configured_default_days": 2,
+    "actual_dates": [
+      "2026-11-01",
+      "2026-11-02"
+    ],
+    "scheduled_slot_accepted_notice": "2026-11-01T15:54:02.8429333Z ##[notice]Nominal 10:00 Warsaw slot accepted even when GitHub launches late."
+  },
+  "source_code_sha256": {
+    "api_market_playable_shadow.py.source": "65f9de1f9a9a69fa31b9b8361934e08be862dbe3df268de431661f54e678b23f",
+    "api-market-multiday-experiment.yml.source": "12bc2abf6daf4715f16c2b58e2e2e68396ccc69e5526c39fe267498d884c143d",
+    "api_market_scan.py.source": "b07d3a13dfa99de5806938b8e1d01c9acdebeb3ab283d2daf8a6bee10f6dd2d3"
+  },
+  "original_api_mirror_comparison": {
+    "source_ref": "origin/main",
+    "commit": "03c6488d63afbf29c3471424ebfcc616ef74a62b",
+    "files_compared": 10,
+    "exact_byte_matches": 10
+  },
+  "recorded_settlement_check": {
+    "capture_sha256": "64ae4a2feb9e6b33f3e4638bdc9b1dec61b6b9a049d01186d816bb6a654b7c28",
+    "schema": "api-market-settlement-v2",
+    "observations": 1391,
+    "prediction_id_counts": {
+      "161419348869-9e30d0bd0d7d0096": 1391
+    },
+    "requested_experiment_prediction_ids": [
+      "155435807739-50e8bbe9d1c5d925",
+      "155447364408-95a9cbca691af9eb"
+    ],
+    "matching_prediction_rows": 0,
+    "reuse_as_experiment_settlements": false,
+    "roi_pct": null,
+    "fixture_equal_roi_pct": null,
+    "status": "SOURCE_BLOCKED_DIFFERENT_NATIVE_PUBLICATION"
+  },
+  "isolation_evidence": {
+    "checkpoint_file_sha256": "0fffc9e51361233ede3d0d2f6f4a3dbf7a6f0fb45f7e804f967f20abd8b0e0b9",
+    "official_counters_recomputed": false,
+    "native_settlement_kb_n_effect": 0,
+    "native_settlement_dev_n_effect": 0,
+    "pitch_declared_model_effect": "NONE",
+    "pitch_declared_kb_n_effect": 0,
+    "pitch_declared_dev_n_effect": 0,
+    "source_models_called": false,
+    "protected_files_changed": [],
+    "scope_guard_base": "334a266"
+  },
+  "limits": [
+    "No full candidate rows or original experiment ranking retained in this artifact",
+    "No original native publication ID in experimental audit_input",
+    "No independent exact-market identity on archived quote objects",
+    "No historical source inputs sufficient for a mathematical model replay",
+    "No recipient transport/receipt evidence; only local availability verified"
+  ],
+  "recommendation": "DO_NOT_DEPLOY_SOURCE_BLOCKED",
+  "confirmed_p0": [],
+  "findings": [
+    {
+      "id": "P1-001",
+      "priority": "P1",
+      "kind": "CONFIRMED",
+      "problem": "Two artifact dates, not D/D+1/D+2; missing 3 XI, and current 3/4 XI",
+      "status": "OPEN_SOURCE_OR_WORKFLOW_SCOPE"
+    },
+    {
+      "id": "P1-002",
+      "priority": "P1",
+      "kind": "CONFIRMED",
+      "problem": "Published report for 1 XI generated after 11:30 Warsaw, despite valid prematch freeze",
+      "status": "OPEN_DELIVERY_TIMELINESS"
+    },
+    {
+      "id": "P1-003",
+      "priority": "P1",
+      "kind": "CONFIRMED",
+      "problem": "No current formal KB21/Consensus forecasts or verified freeze/fixture identities",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "id": "P1-004",
+      "priority": "P1",
+      "kind": "CONFIRMED",
+      "problem": "Full background/ranking and independent quote lineage absent; strict TOP/API/fouls audits not complete",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "id": "P1-005",
+      "priority": "P1",
+      "kind": "CONFIRMED",
+      "problem": "Persisted settlement observations belong to another native publication; no certified experiment ROI",
+      "status": "SOURCE_BLOCKED"
+    },
+    {
+      "id": "P2-001",
+      "priority": "P2",
+      "kind": "CONFIRMED",
+      "problem": "Pitch snapshot nominal date has 3 fixtures on next Warsaw day, 58/61 strict valid; exact matches only 2/9 current API fixtures",
+      "status": "EXCLUDED_NO_REASSIGNMENT"
+    },
+    {
+      "id": "P2-002",
+      "priority": "P2",
+      "kind": "CONFIRMED",
+      "problem": "Native artifact has two non-A5 PDFs; no evidence of delivering three complete reports",
+      "status": "NEW_A5_DIAGNOSTICS_VERIFIED_FULL_DELIVERY_BLOCKED"
+    },
+    {
+      "id": "RISK-001",
+      "priority": "P1",
+      "kind": "UNCONFIRMED",
+      "problem": "API history filter uses kickoff rather than publication timestamp; saved sample dates missing for this run, so full lookahead audit cannot be proved",
+      "status": "REQUIRES_ORIGINAL_INPUTS_NO_LEAK_CONFIRMED"
+    },
+    {
+      "id": "P1-006",
+      "priority": "P1",
+      "kind": "CONFIRMED",
+      "problem": "PitchAPI snapshot 21:10Z is later than original API freeze 15:54Z; 2/9 identity matches become 0/9 matches at that freeze",
+      "status": "FIXED_IN_ISOLATED_REPLAY_CUTOFF_GUARD"
+    }
+  ],
+  "pdf_independent_validation": [
+    {
+      "name": "MULTIMODEL_2026-11-02.pdf",
+      "pypdf_pages": 3,
+      "pymupdf_pages": 3,
+      "minimum_font_pt": 7.0,
+      "fouls_first_page": true,
+      "active_links": 0,
+      "api_partial_count_shown": true,
+      "pitch_partial_count_shown": true
+    },
+    {
+      "name": "MULTIMODEL_2026-11-03.pdf",
+      "pypdf_pages": 3,
+      "pymupdf_pages": 3,
+      "minimum_font_pt": 7.0,
+      "fouls_first_page": true,
+      "active_links": 0,
+      "api_partial_count_shown": false,
+      "pitch_partial_count_shown": false
+    },
+    {
+      "name": "MULTIMODEL_2026-11-04.pdf",
+      "pypdf_pages": 3,
+      "pymupdf_pages": 3,
+      "minimum_font_pt": 7.0,
+      "fouls_first_page": true,
+      "active_links": 0,
+      "api_partial_count_shown": false,
+      "pitch_partial_count_shown": false
+    }
+  ],
+  "test_results": {
+    "new_tests": 57,
+    "multimodel_v2_tests": 198,
+    "full_suite_tests": 806,
+    "status": "PASS_CODE_TESTS_ONLY",
+    "source_shadow_status": "SOURCE_BLOCKED"
+  },
+  "source_native_publication_log_evidence": [
+    "2026-11-01T15:54:36.0295315Z {\"date\": \"2026-11-01\", \"background\": 1473, \"published\": 340, \"distinct_fixtures\": 15, \"threshold\": 67.0, \"prediction_id\": \"155435807739-50e8bbe9d1c5d925\", \"kb_n_effect\": 0, \"dev_n_effect\": 0}",
+    "2026-11-01T15:54:47.5126861Z {\"date\": \"2026-11-02\", \"background\": 999, \"published\": 213, \"distinct_fixtures\": 11, \"threshold\": 67.0, \"prediction_id\": \"155447364408-95a9cbca691af9eb\", \"kb_n_effect\": 0, \"dev_n_effect\": 0}"
+  ],
+  "changed_files": [
+    "docs/MULTIMODEL_V2_BLOCKER_AUDIT_2026-11-01.json",
+    "docs/MULTIMODEL_V2_BLOCKER_AUDIT_2026-11-01.md",
+    "docs/MULTIMODEL_V2_CODEX_PLAN.md",
+    "docs/MULTIMODEL_V2_E2E_AUDIT_2026-11-02.md",
+    "docs/MULTIMODEL_V2_E2E_EVIDENCE_2026-11-02.json",
+    "docs/MULTIMODEL_V2_SOURCES.md",
+    "multimodel_v2/adapters.py",
+    "multimodel_v2/artifact_audit.py",
+    "multimodel_v2/audit.py",
+    "multimodel_v2/git_publication.py",
+    "multimodel_v2/history.py",
+    "multimodel_v2/report_pdf.py",
+    "multimodel_v2/shadow.py",
+    "multimodel_v2/source_audit.py",
+    "multimodel_v2/source_manifest.py",
+    "tests/test_multimodel_v2_artifact_audit.py",
+    "tests/test_multimodel_v2_source_blockers.py"
+  ],
+  "pitchapi_matches_at_original_api_freeze": {
+    "2026-11-01:1575530": null,
+    "2026-11-01:1552804": null,
+    "2026-11-01:1552805": null,
+    "2026-11-01:1584453": null,
+    "2026-11-01:1552807": null,
+    "2026-11-01:1575527": null,
+    "2026-11-01:1570433": null,
+    "2026-11-01:1575534": null,
+    "2026-11-01:1550182": null,
+    "2026-11-01:1558667": null,
+    "2026-11-01:1557453": null,
+    "2026-11-01:1550184": null,
+    "2026-11-01:1575205": null,
+    "2026-11-02:1550185": null,
+    "2026-11-02:1575529": null,
+    "2026-11-02:1552803": null,
+    "2026-11-02:1553214": null,
+    "2026-11-02:1550178": null,
+    "2026-11-02:1553213": null,
+    "2026-11-02:1553217": null,
+    "2026-11-02:1584452": null,
+    "2026-11-02:1575533": null
+  },
+  "pitchapi_current_matches_are_not_original_freeze_inputs": true
+}
