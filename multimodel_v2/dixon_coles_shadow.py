@@ -65,8 +65,14 @@ def forecast_dixon_coles(history, fixture, *, frozen_at_utc, model_version,
                       away_xg=np.array([float(h["away_xg"]) for h in accepted]))
     model.fit(**inputs)
     result = model.predict(fixture["home"], fixture["away"])
+    # Upstream predict() rounds to 4 decimals; normalize to satisfy strict 1e-6 contract.
+    raw = [float(result[k]) for k in ("home_win", "draw", "away_win")]
+    total = sum(raw)
+    if not all(isfinite(p) and p >= 0 for p in raw) or total <= 0:
+        raise ValueError("invalid_dixon_coles_probabilities")
+    probs = [p / total for p in raw]
     prediction = dict(fixture_id=fixture["fixture_id"], league=league,
                       kickoff_utc=fixture["kickoff_utc"], frozen_at_utc=frozen_at_utc,
                       model_id="callumfm-dixon-coles", model_version=model_version,
-                      p_home=result["home_win"], p_draw=result["draw"], p_away=result["away_win"])
+                      p_home=probs[0], p_draw=probs[1], p_away=probs[2])
     return validate_shadow_prediction(prediction, as_of=frozen_at_utc)
