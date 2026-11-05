@@ -123,3 +123,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Drugi run `42119804266` **SUCCESS**: instalacja biblioteki, 16 testów, importer publicznych wyników, kolejka, audyt pokrycia i runner prognoz przeszły. Log: **5708** zaimportowanych historycznych wyników, **0** meczów w kolejce, **0** prognoz; brak snapshotów PitchAPI na 2026-11-05/06/07 w gałęzi badawczej.
 - Zweryfikowano, że `main` posiada snapshot 2026-11-05, ale nie ma 2026-11-06 i 2026-11-07. Dodano do smoke odczyt najnowszych plików z `main` (bez modyfikowania produkcji) i uruchomienie kontrolne po poprawce.
 - Wynik 5708 to rekordy zewnętrznego źródła zaobserwowane podczas uruchomienia, **nie** zweryfikowane typy ani próbki kalibracyjne. Nie twierdzić, że działa automatyczne prognozowanie do czasu uzyskania prawdziwych spotkań w kolejce.
+
+## Zakończenie realnego smoke — run 42120228901
+- Run `42120228901` **SUCCESS**: 16/16 testów, instalacja upstream Dixon-Coles, 5708 zaimportowanych wyników historycznych, odczyt najnowszego snapshotu PitchAPI z `main`.
+- Wynik: kolejka **2** przyszłych meczów (2026-11-05), **0** gotowych Elo, **0** gotowych Dixon-Coles, **0** realnych prognoz i **6** jawnych blokad (po 3 modele na mecz). Brak snapshotów na 2026-11-06 i 2026-11-07. Raport dostępny w artefakcie GitHub Actions `github-models-end-to-end-smoke`.
+- Wykryto ważny problem semantyczny: PitchAPI `Serie A` obejmuje również brazylijskie spotkania (np. Palmeiras–Remo), podczas gdy historyczny CSV `Serie A` oznacza Włochy. Dodano blokadę `ambiguous_serie_a_country_not_verified`, dopóki kolejka nie udostępni zweryfikowanego kraju; **nie wolno łączyć ligi po samej nazwie**.
+- Operacyjny następny krok: poprawić dostępność przyszłych snapshotów PitchAPI, dodać identyfikator kraju/rozgrywek do kolejki i mapowanie do danych historycznych. Żadnych prognoz nie wymuszać.
