@@ -129,3 +129,7 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Wynik: kolejka **2** przyszłych meczów (2026-11-05), **0** gotowych Elo, **0** gotowych Dixon-Coles, **0** realnych prognoz i **6** jawnych blokad (po 3 modele na mecz). Brak snapshotów na 2026-11-06 i 2026-11-07. Raport dostępny w artefakcie GitHub Actions `github-models-end-to-end-smoke`.
 - Wykryto ważny problem semantyczny: PitchAPI `Serie A` obejmuje również brazylijskie spotkania (np. Palmeiras–Remo), podczas gdy historyczny CSV `Serie A` oznacza Włochy. Dodano blokadę `ambiguous_serie_a_country_not_verified`, dopóki kolejka nie udostępni zweryfikowanego kraju; **nie wolno łączyć ligi po samej nazwie**.
 - Operacyjny następny krok: poprawić dostępność przyszłych snapshotów PitchAPI, dodać identyfikator kraju/rozgrywek do kolejki i mapowanie do danych historycznych. Żadnych prognoz nie wymuszać.
+
+## Naprawa kolejki — identyfikator ligi
+- Kolejka zachowuje teraz `league_id` z PitchAPI, aby umożliwić bezpieczne dopasowanie rozgrywek. Sam identyfikator nie stanowi jeszcze zweryfikowanej mapy krajów i lig; nie odblokowano arbitralnie brazylijskiej `Serie A`.
+- Zmiany workflow PitchAPI na `main` nie zostały wprowadzone z powodu blokady operacji. Konieczne osobne zatwierdzone wdrożenie.
