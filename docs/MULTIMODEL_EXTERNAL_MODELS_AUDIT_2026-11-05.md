@@ -145,3 +145,8 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - PR #57 przeszedł kontrolę `mergeable_state=clean` i został scalony metodą squash do `main`, commit `012bf33b8aac54f85ac22b0c022ff1c59009e906`.
 - Automatycznie uruchomiony run na `main`: `42124205870`; jego końcowy wynik wymaga weryfikacji. Nie mylić faktu wdrożenia z potwierdzonym skutecznym pobraniem trzech snapshotów.
 - Nadal do rozwiązania: zweryfikowane powiązanie `league_id`/kraj z historycznymi ligami, brakujące zespoły i pierwsze rzeczywiste zamrożone prognozy.
+
+## Stałe uruchamianie niezależnego smoke na main
+- W `.github/workflows/github-models-smoke.yml` dodano harmonogram `40 7 * * *` (UTC). Commit `d332a873da9616bdf8b0d44731034934e720d694` na `main`.
+- Workflow nadal pobiera kod wyłącznie z gałęzi badawczej `codex/multimodel-v2`, historyczne wyniki z publicznego źródła i snapshoty PitchAPI z `main` tylko do odczytu; nie modyfikuje produkcyjnego MULTIMODEL.
+- Uruchomienie kontrolne po zmianie: `42124458450` (kolejka w chwili wpisu). Produkcyjny run naprawionego PitchAPI `42124205870` także oczekiwał na wykonanie. Nie deklarować prognoz bez wyników artefaktu.
