@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 from github_models.elo_engine import predict_elo
+from github_models.dixon_coles_engine import predict_dixon_coles
 from github_models.team_mapping import resolve
 
 def run(queue, history, *, as_of_utc):
@@ -12,15 +13,18 @@ def run(queue, history, *, as_of_utc):
         if datetime.fromisoformat(fixture["kickoff_utc"].replace("Z", "+00:00")) <= datetime.fromisoformat(as_of_utc.replace("Z", "+00:00")):
             continue
         for model in ("elo", "dixon-coles", "xgboost"):
-            if model != "elo":
+            if model == "xgboost":
                 blockers.append(dict(fixture_id=fixture["fixture_id"], model=model,
                                      reason="model_not_trained_or_adapter_not_ready"))
                 continue
             try:
                 mapped = resolve(fixture, history)
-                forecast = predict_elo(history, mapped, frozen_at_utc=as_of_utc)
+                if model == "elo":
+                    forecast = predict_elo(history, mapped, frozen_at_utc=as_of_utc)
+                else:
+                    forecast = predict_dixon_coles(history, mapped, frozen_at_utc=as_of_utc)
                 results.append(forecast)
-            except (ValueError, KeyError, TypeError) as exc:
+            except (ValueError, KeyError, TypeError, RuntimeError) as exc:
                 blockers.append(dict(fixture_id=fixture["fixture_id"], model=model,
                                      reason=str(exc)))
     return dict(schema="github-models-independent-predictions-v1",
