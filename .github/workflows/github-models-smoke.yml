@@ -73,3 +73,5 @@ jobs:
             reports/github_models/predictions/*.json
           if-no-files-found: warn
           retention-days: 14
+
+# Independent queue regression: preserve valid fixtures when other fixtures cross local midnight.
