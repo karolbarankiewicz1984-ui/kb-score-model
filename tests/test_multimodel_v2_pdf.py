@@ -66,6 +66,35 @@ class ThreePdfTests(unittest.TestCase):
         self.assertIn("Gospodarze", "\n".join(page.extract_text() for page in PdfReader(path).pages))
         self.assertNotIn("\ufffd", text)
 
+    def test_pitchapi_first_context_is_visible_without_fabricated_bets(self):
+        root = self.root / "pitchapi"
+        root.mkdir()
+        day = report_dates(DAY)[1]
+        from datetime import datetime, timedelta, timezone
+        from zoneinfo import ZoneInfo
+        kickoff = datetime.fromisoformat(day + "T18:00:00+01:00").astimezone(timezone.utc)
+        previous = kickoff - timedelta(days=7)
+        snapshot = datetime.fromisoformat(CUTOFF.replace("Z", "+00:00")) - timedelta(minutes=1)
+        data = {
+            "schema": "pitchapi-prematch-context-v1", "target_date": day,
+            "source": "PitchAPI", "snapshot_utc": snapshot.isoformat(),
+            "fixtures": [{
+                "pitch_match_id": "m_test", "home": "Gospodarze", "away": "Goście",
+                "league": "Test League", "kickoff_utc": kickoff.isoformat(),
+                "home_recent": {"samples": [{"kickoff_utc": previous.isoformat()}]},
+                "away_recent": {"samples": [{"kickoff_utc": previous.isoformat()}]},
+                "both_sides_sufficient": True,
+            }],
+        }
+        (root / (day + ".json")).write_text(json.dumps(data), encoding="utf-8")
+        paths = self.generate(pitchapi_snapshots=root)
+        text = "\\n".join(page.extract_text() for page in PdfReader(paths[1]).pages)
+        self.assertIn("PitchAPI · analiza przedmeczowa", text)
+        self.assertIn("Gospodarze", text)
+        self.assertIn("bez nowych typów PLAY", text)
+        for path, report_day in zip(paths, report_dates(DAY)):
+            self.assertTrue(validate_pdf(path, report_day)["validated"])
+
     def test_fixture_events_are_strictly_separated_between_local_dates(self):
         runs, original = frozen_evidence()
         snapshots = []
