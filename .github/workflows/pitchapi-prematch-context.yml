@@ -83,6 +83,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
       - name: Save all future pre-match snapshots
+        if: github.ref == 'refs/heads/main'
         env:
           TARGET_DATE: ${{ inputs.date }}
         shell: bash
