@@ -10,7 +10,7 @@ class QueueTests(unittest.TestCase):
             day = "2026-11-05"
             data = dict(schema="pitchapi-prematch-context-v1", source="PitchAPI",
                         target_date=day, snapshot_utc="2026-11-05T07:00:00Z",
-                        fixtures=[dict(pitch_match_id="m1", league="Test League", league_id=987,
+                        fixtures=[dict(pitch_match_id="m1", league="Test League", league_id=987, country="England",
                                        home="A", away="B", kickoff_utc="2026-11-05T17:00:00Z",
                                        both_sides_sufficient=True)])
             Path(tmp, day + ".json").write_text(json.dumps(data))
@@ -21,6 +21,7 @@ class QueueTests(unittest.TestCase):
                              ["dixon-coles", "elo", "xgboost"])
             self.assertNotIn("p_home", q["fixtures"][0])
             self.assertEqual(q["fixtures"][0]["league_id"], 987)
+            self.assertEqual(q["fixtures"][0]["country"], "England")
 
     def test_future_snapshot_not_accepted(self):
         with tempfile.TemporaryDirectory() as tmp:
