@@ -1,0 +1,286 @@
+{
+  "archives_considered_predictions": 11,
+  "audited_at_utc": "2026-11-05T15:09:04.539719+00:00",
+  "date": "2026-11-04",
+  "distinct_settled_matches": 11,
+  "mean_brier_over_2_5": 0.14481,
+  "mean_multiclass_brier_1x2": 0.528331,
+  "model": "kb21-api-last10-goals-shadow-v1",
+  "note": "Strict pre-match shadow ONLY; one independent fixture counts once. Two markets on the same fixture are correlated. No betting claims.",
+  "old_kb21_n_effect": 0,
+  "publication": "RESEARCH_ONLY_NOT_PLAY",
+  "register_writes": false,
+  "results": [
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.94134,
+      "brier_over_2_5": 0.294176,
+      "event": "Rennes – Olympiakos Piraeus",
+      "final_score": [
+        0,
+        0
+      ],
+      "fixture_id": 1636324,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T15:30:00+00:00",
+      "probabilities": {
+        "away": 0.54945,
+        "draw": 0.23106,
+        "home": 0.21949,
+        "over_2_5": 0.54238
+      },
+      "realized_1x2": "draw",
+      "realized_over_2_5": 0,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.403916,
+      "brier_over_2_5": 0.06028,
+      "event": "AEK Athens FC – Real Madrid",
+      "final_score": [
+        2,
+        3
+      ],
+      "fixture_id": 1635606,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T17:45:00+00:00",
+      "probabilities": {
+        "away": 0.4848,
+        "draw": 0.20386,
+        "home": 0.31133,
+        "over_2_5": 0.75448
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.538089,
+      "brier_over_2_5": 0.12919,
+      "event": "Fenerbahçe – Liverpool",
+      "final_score": [
+        3,
+        2
+      ],
+      "fixture_id": 1635658,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T17:45:00+00:00",
+      "probabilities": {
+        "away": 0.36396,
+        "draw": 0.22996,
+        "home": 0.40608,
+        "over_2_5": 0.64057
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.370968,
+      "brier_over_2_5": 0.16981,
+      "event": "Kortrijk – KV Mechelen",
+      "final_score": [
+        1,
+        3
+      ],
+      "fixture_id": 1558657,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T19:30:00+00:00",
+      "probabilities": {
+        "away": 0.5031,
+        "draw": 0.23115,
+        "home": 0.26576,
+        "over_2_5": 0.58792
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.565272,
+      "brier_over_2_5": 0.16981,
+      "event": "Borussia Dortmund – Real Betis",
+      "final_score": [
+        2,
+        1
+      ],
+      "fixture_id": 1635651,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T20:00:00+00:00",
+      "probabilities": {
+        "away": 0.36876,
+        "draw": 0.24064,
+        "home": 0.39059,
+        "over_2_5": 0.58792
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.424341,
+      "brier_over_2_5": 0.160929,
+      "event": "FC Porto – Napoli",
+      "final_score": [
+        4,
+        1
+      ],
+      "fixture_id": 1635656,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T20:00:00+00:00",
+      "probabilities": {
+        "away": 0.29709,
+        "draw": 0.23352,
+        "home": 0.46939,
+        "over_2_5": 0.59884
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.370968,
+      "brier_over_2_5": 0.16981,
+      "event": "Lens – Como",
+      "final_score": [
+        1,
+        9
+      ],
+      "fixture_id": 1635681,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T20:00:00+00:00",
+      "probabilities": {
+        "away": 0.5031,
+        "draw": 0.23115,
+        "home": 0.26576,
+        "over_2_5": 0.58792
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.493886,
+      "brier_over_2_5": 0.091658,
+      "event": "PSV Eindhoven – Club Brugge KV",
+      "final_score": [
+        1,
+        2
+      ],
+      "fixture_id": 1635707,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T20:00:00+00:00",
+      "probabilities": {
+        "away": 0.43128,
+        "draw": 0.21832,
+        "home": 0.3504,
+        "over_2_5": 0.69725
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.453815,
+      "brier_over_2_5": 0.050091,
+      "event": "RB Leipzig – Manchester City",
+      "final_score": [
+        2,
+        3
+      ],
+      "fixture_id": 1635710,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T20:00:00+00:00",
+      "probabilities": {
+        "away": 0.45589,
+        "draw": 0.2023,
+        "home": 0.34181,
+        "over_2_5": 0.77619
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.738202,
+      "brier_over_2_5": 0.220383,
+      "event": "Slavia Praha – Arsenal",
+      "final_score": [
+        1,
+        2
+      ],
+      "fixture_id": 1635726,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T20:00:00+00:00",
+      "probabilities": {
+        "away": 0.30742,
+        "draw": 0.24959,
+        "home": 0.44299,
+        "over_2_5": 0.53055
+      },
+      "realized_1x2": "away",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": false
+    },
+    {
+      "archive_run": "41670265400",
+      "brier_1x2": 0.510841,
+      "brier_over_2_5": 0.076768,
+      "event": "Viking – Sabah FA",
+      "final_score": [
+        4,
+        1
+      ],
+      "fixture_id": 1635745,
+      "freeze_utc": "2026-11-03T16:04:18.596649+00:00",
+      "kickoff_utc": "2026-11-04T20:00:00+00:00",
+      "probabilities": {
+        "away": 0.36326,
+        "draw": 0.21391,
+        "home": 0.42283,
+        "over_2_5": 0.72293
+      },
+      "realized_1x2": "home",
+      "realized_over_2_5": 1,
+      "snapshot_sha256": "030bea0ef0fff0f8d243041cd0491674f298f28c7c2dc44e8867c9350487f9da",
+      "status": "SETTLED_FT",
+      "top_pick_correct": true
+    }
+  ],
+  "safe_to_publish_play": false,
+  "schema": "kb21-shadow-forward-settlement-v1",
+  "source": "API-Football result fixtures (same provider IDs)",
+  "top_1x2_accuracy": 0.8182,
+  "top_1x2_correct": 9,
+  "unique_pregame_predictions": 11,
+  "unresolved_matches": 0
+}
