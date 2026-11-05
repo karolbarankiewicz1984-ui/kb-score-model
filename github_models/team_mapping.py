@@ -50,3 +50,5 @@ def resolve(fixture, history):
             raise ValueError(f"ambiguous_{side}_team:{fixture[side]}")
         matched[side] = options[0]
     return dict(fixture, home=matched["home"], away=matched["away"])
+
+# TODO: league_id-to-country mapping must be explicitly audited against PitchAPI metadata.
