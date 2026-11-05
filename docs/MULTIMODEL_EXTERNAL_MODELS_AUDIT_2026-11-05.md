@@ -30,3 +30,10 @@ Wyłącznie równoległy eksperyment **shadow**, bez zmian progów produkcyjnych
 
 ## Rejestr zmian
 2026-11-05: audyt licencji i architektury; decyzja shadow-only; bez modyfikacji modeli produkcyjnych. Wynik porównawczy: **jeszcze niedostępny**.
+
+## Implementacja — 2026-11-05 (kolejny etap)
+- Utworzono `multimodel_v2/dixon_coles_shadow.py`: adapter do zewnętrznej biblioteki callumfm/dixon-coles, bez ingerencji w produkcję; default goals-only, wymóg daty publikacji danych i cutoffu; nie instaluje ani nie pobiera pakietu samodzielnie.
+- Utworzono `tests/test_multimodel_v2_dixon_coles_shadow.py`: testy braku historii, future-publication, xG provenance, post-kickoff freeze.
+- Wstępny przegląd repozytorium: `data/pitchapi/prematch` to snapshoty kontekstu, nie gotowy zbiór zweryfikowanych historycznych wyników z czasem publikacji; `data/football_data_org` wymaga mapowania i kontroli pochodzenia. **Brak podstaw do deklaracji rzeczywistego backtestu.**
+- CI dla commitu `3015085b73f8154f171ab009b2831db1feb38142`: uruchomienie #56, wynik oczekiwany w chwili wpisu.
+- Następna bramka: audyt historycznego źródła wyników, mapowanie identyfikatorów i czasu publikacji, pin zależności, trening i porównanie na wspólnych meczach.
