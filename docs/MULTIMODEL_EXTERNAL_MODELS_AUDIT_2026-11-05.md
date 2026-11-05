@@ -139,3 +139,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - W gałęzi `codex/multimodel-v2` poprawiono workflow tak, aby domyślnie zbierał **jutro, pojutrze i trzeci dzień** oraz zapisywał wszystkie trzy snapshoty; jawne wejście `date` nadal obsługuje pojedynczą datę.
 - W gałęzi badawczej dodano warunek `github.ref == 'refs/heads/main'` dla kroku publikacji, aby testy PR nie wypychały danych na produkcję. Wcześniejsze uruchomienia rozpoczęte przed dodaniem warunku wymagają osobnego audytu.
 - Zapisano `league_id` w kolejce i dodano asercję do testu. Zmiany nie są jeszcze wdrożone na `main`; PR #55 jest otwarty. Nie deklarować zakończenia naprawy produkcyjnego harmonogramu do czasu merge i zielonego runu.
+
+## Wdrożenie produkcyjnej poprawki PitchAPI — PR #57
+- Utworzono osobny branch `fix/pitchapi-future-three-days` od `main`, zmieniono tylko dwa wystąpienia listy dat w `.github/workflows/pitchapi-prematch-context.yml`: zamiast dziś/+1/+2, używamy +1/+2/+3.
+- PR #57 przeszedł kontrolę `mergeable_state=clean` i został scalony metodą squash do `main`, commit `012bf33b8aac54f85ac22b0c022ff1c59009e906`.
+- Automatycznie uruchomiony run na `main`: `42124205870`; jego końcowy wynik wymaga weryfikacji. Nie mylić faktu wdrożenia z potwierdzonym skutecznym pobraniem trzech snapshotów.
+- Nadal do rozwiązania: zweryfikowane powiązanie `league_id`/kraj z historycznymi ligami, brakujące zespoły i pierwsze rzeczywiste zamrożone prognozy.
