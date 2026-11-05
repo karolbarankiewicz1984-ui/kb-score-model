@@ -37,3 +37,11 @@ Wyłącznie równoległy eksperyment **shadow**, bez zmian progów produkcyjnych
 - Wstępny przegląd repozytorium: `data/pitchapi/prematch` to snapshoty kontekstu, nie gotowy zbiór zweryfikowanych historycznych wyników z czasem publikacji; `data/football_data_org` wymaga mapowania i kontroli pochodzenia. **Brak podstaw do deklaracji rzeczywistego backtestu.**
 - CI dla commitu `3015085b73f8154f171ab009b2831db1feb38142`: uruchomienie #56, wynik oczekiwany w chwili wpisu.
 - Następna bramka: audyt historycznego źródła wyników, mapowanie identyfikatorów i czasu publikacji, pin zależności, trening i porównanie na wspólnych meczach.
+
+## Etap audytu historii — 2026-11-05
+- CI #56 dla adaptera Dixon-Coles: **success** (GitHub Actions run 42106615544).
+- Dodano `multimodel_v2/historical_result_audit.py` i testy: weryfikacja wyniku, czasu zakończenia i publikacji, deduplikacji, statusu dopuszczenia do treningu. Narzędzie jest read-only i nie tworzy fałszywych historii.
+- Sprawdzono `data/football_data_org/2026-10-17.json`: pokazany rekord ma status `TIMED` i nie zawiera końcowego wyniku — nie wolno go uznać za próbkę treningową.
+- Sprawdzono `data/pitchapi/prematch/2026-11-05.json`: `home_recent.samples` zawiera daty wcześniejszych spotkań i xG, ale bez końcowych goli i potwierdzonych timestampów publikacji tych wyników — to nie jest gotowy trening Dixon-Coles.
+- Stan `main` w chwili przeglądu: najnowszy dostępny snapshot `2026-11-05.json`; brakuje plików `2026-11-06.json` i `2026-11-07.json`. Harmonogram dwukrotny istnieje, ale **brak potwierdzenia skutecznego zapisu danych**. Zdiagnozować run workflow, secret i pobieranie przed deklaracją naprawy.
+- Kolejny krok: pozyskać zweryfikowane wyniki końcowe z identyfikatorami i datami publikacji, bez mieszania dostawców i bez retrospektywnego dopisywania czasu publikacji; uruchomić adapter i wspólny backtest dopiero na takim zbiorze.
