@@ -51,7 +51,7 @@ jobs:
             DAYS=("$TARGET_DATE")
           else
             TODAY="$(TZ=Europe/Warsaw date +%F)"
-            DAYS=("$TODAY" "$(TZ=Europe/Warsaw date -d "$TODAY + 1 day" +%F)" "$(TZ=Europe/Warsaw date -d "$TODAY + 2 days" +%F)")
+            DAYS=("$(TZ=Europe/Warsaw date -d "$TODAY + 1 day" +%F)" "$(TZ=Europe/Warsaw date -d "$TODAY + 2 days" +%F)" "$(TZ=Europe/Warsaw date -d "$TODAY + 3 days" +%F)")
           fi
           for DAY in "${DAYS[@]}"; do
             echo "::group::PitchAPI $DAY"
@@ -98,7 +98,7 @@ jobs:
           if [ -n "$TARGET_DATE" ]; then
             DAYS=("$TARGET_DATE")
           else
-            DAYS=("$TODAY" "$(TZ=Europe/Warsaw date -d "$TODAY + 1 day" +%F)" "$(TZ=Europe/Warsaw date -d "$TODAY + 2 days" +%F)")
+            DAYS=("$(TZ=Europe/Warsaw date -d "$TODAY + 1 day" +%F)" "$(TZ=Europe/Warsaw date -d "$TODAY + 2 days" +%F)" "$(TZ=Europe/Warsaw date -d "$TODAY + 3 days" +%F)")
           fi
           for DAY in "${DAYS[@]}"; do
             test -s "data/pitchapi/prematch/$DAY.json"
