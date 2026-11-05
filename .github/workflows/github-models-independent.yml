@@ -30,10 +30,20 @@ jobs:
         run: |
           set -euo pipefail
           python -m github_models.public_results
-      - name: Run independent research predictions (or explicit blockers)\n        shell: bash\n        run: |\n          set -euo pipefail\n          DAY="$(TZ=Europe/Warsaw date +%F)"\n          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"\n          python -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$NOW"\n      - name: Upload independent research outputs
+      - name: Run independent research predictions (or explicit blockers)
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$NOW"
+      - name: Upload independent research outputs
         uses: actions/upload-artifact@v4
         with:
           name: github-models-fixture-queue
-          path: |\n            reports/github_models/queues/*.json\n            reports/github_models/predictions/*.json\n            data/github_models/source_manifest.json
+          path: |
+            reports/github_models/queues/*.json
+            reports/github_models/predictions/*.json
+            data/github_models/source_manifest.json
           retention-days: 30
           if-no-files-found: error
