@@ -211,6 +211,8 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
             add(f"PitchAPI: {pitch['status']}; {', '.join(pitch['blockers'])}", "small")
     else:
         add("PitchAPI: nie dostarczono zweryfikowanego kontekstu.", "small")
+    if not report["watchlist"]["candidates"] and not report["upcoming_api"] and not report.get("pitchapi_first", {}).get("fixtures"):
+        add(MISSING, "card")
     add("Pokrycie źródeł", "section")
     api_status = ("zweryfikowany run i snapshot" if report["manifest"]["status"] == "covered"
                   else "BRAK zweryfikowanego runu / snapshotu dla tej daty")
