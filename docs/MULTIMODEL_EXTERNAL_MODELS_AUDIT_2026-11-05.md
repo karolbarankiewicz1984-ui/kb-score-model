@@ -91,3 +91,10 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Dodano `tests/test_github_models_public_results.py`, rozszerzono niezależny workflow: testy → publiczne wyniki → kolejka → prognozy → artefakty. **Nie wykonano jeszcze zdalnego workflow na tej gałęzi**, więc liczba rzeczywiście zaimportowanych meczów i wygenerowanych typów pozostaje niepotwierdzona.
 - Ryzyko: nazwy drużyn z PitchAPI i football-data.co.uk mogą się różnić. Nie wolno automatycznie zgadywać mapowania ani twierdzić, że system produkuje kompletne typy przed audytem dopasowania ID/nazw. Dodatkowo, Dixon-Coles nadal wymaga opcjonalnej zależności i podłączenia do osobnego runnera.
 - Nie dotykano repozytorium KB Score 3.0, produkcji MULTIMODEL ani oryginalnych prognoz. Nie publikować modelowych rekomendacji przed weryfikacją danych i kalibracją.
+
+## Następna iteracja: naprawa workflow i mapowanie drużyn
+- Wykryto błędne dosłowne znaki `\\n` w workflow `.github/workflows/github-models-independent.yml` (wcześniejszy zapis wielowierszowy). Naprawiono YAML w commicie `d192eec`.
+- Dodano `github_models/team_mapping.py`: dopasowanie dokładne po normalizacji lub przez jawną listę aliasów; brak fuzzy guessing. Nieznane drużyny zgłaszają blokadę, zamiast generować prognozę dla niewłaściwego zespołu.
+- Runner `github_models/predict.py` używa teraz tego mapowania przed Elo. Dodano testy aliasu i odmowy nieznanej drużyny; rozszerzono workflow o te testy.
+- **Stan weryfikacji:** kod i testy zapisane, ale brak potwierdzonego CI dla najnowszego commitu oraz brak pełnego uruchomienia z pobraniem danych. Workflow nadal na gałęzi badawczej. Nie deklarować działającej codziennej automatyzacji ani liczby typów.
+- Następne kroki: audyt rzeczywistych nazw i lig PitchAPI vs football-data.co.uk, test end-to-end, potem podłączenie Dixon-Coles. Przed uruchomieniem codziennym należy upewnić się, że workflow jest na default branch.
