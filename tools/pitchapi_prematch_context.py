@@ -129,7 +129,8 @@ def collect(target, client, now, maximum=45):
                 recent, tid, cache, lambda past: collect_match(past, client))
         records.append({
             "pitch_match_id": field(m, "id"), "league": field(field(m, "league"), "name"),
-            "league_id": lid, "home": field(field(m, "home_team"), "name"),
+            "league_id": lid, "country": field(field(m, "league"), "country"),
+            "home": field(field(m, "home_team"), "name"),
             "away": field(field(m, "away_team"), "name"), "kickoff_utc": field(m, "time_utc"),
             "home_recent": samples["home"], "away_recent": samples["away"],
             "both_sides_sufficient": (samples["home"]["data_quality"] == "sufficient" and
