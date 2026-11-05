@@ -54,6 +54,7 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc):
                 day_rows.append(dict(fixture_id=fid, league=f["league"], home=f["home"],
                                      away=f["away"], kickoff_utc=f["kickoff_utc"],
                                      snapshot_utc=payload["snapshot_utc"], league_id=f.get("league_id"),
+                                     country=f.get("country"),
                                      context_sufficient=bool(f.get("both_sides_sufficient")),
                                      models_requested=list(MODELS)))
             items.extend(day_rows)
