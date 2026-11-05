@@ -53,3 +53,11 @@ Wyłącznie równoległy eksperyment **shadow**, bez zmian progów produkcyjnych
 - Utworzono `multimodel_v2/comparison_only.py` oraz `tests/test_multimodel_v2_comparison_only.py`: porównanie tych samych fixture ID, lig i kickoffów, `production_eligible=False`, `ranking_weight=0`, brak selekcji.
 - Ewentualna przyszła integracja z systemem głównym wymaga **oddzielnej, wyraźnej decyzji użytkownika** po wynikach testów.
 - CI #62 poprzedniego etapu: success. Nowe testy rozdzielenia oczekują na odrębne potwierdzenie.
+
+## Korekta decyzji operatora — niezależne prognozy GitHub Models
+Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propozycji” zostaje **uchylone**. Aktualne zasady:
+1. **GitHub Models to odrębny system prognostyczny**: modele open-source mogą generować własne rzeczywiste, zamrożone przedmeczowe prognozy i propozycje, własne raporty, archiwum i audyt. Nie trzeba czekać na wynik MULTIMODEL, aby stworzyć prognozę GitHub Models.
+2. **MULTIMODEL pozostaje odrębny**: brak automatycznego importu typów z GitHub Models do MULTIMODEL, brak modyfikacji jego progów, rankingu, wag, TOP/N, 3 PDF i historii.
+3. **Porównanie jest opcjonalne i tylko odczytowe**: porównujemy prognozy obu systemów na wspólnych meczach, bez mieszania rankingów.
+4. Obecne `comparison_only.py` nadal służy **wyłącznie do porównywania**, ale jego flagi `production_eligible=False` i `ranking_weight=0` dotyczą wyłącznie **MULTIMODEL**, a nie możliwości niezależnego publikowania prognoz GitHub Models.
+5. Przed rzeczywistym generowaniem prognoz konieczne są zweryfikowane dane, trening, zapis freeze i osobny generator raportów GitHub Models; nie przedstawiać wyników syntetycznych jako realnych.
