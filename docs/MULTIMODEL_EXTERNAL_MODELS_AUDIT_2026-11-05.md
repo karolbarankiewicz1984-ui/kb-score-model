@@ -77,3 +77,10 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Rozszerzono workflow `github-models-independent.yml` o prognozy i plik blokad oraz testy `tests/test_github_models_independent_forecasts.py`.
 - **Bramka wdrożenia:** historyczne wyniki `data/github_models/verified_results.json` muszą być prawdziwe i zawierać identyfikator, ligę, drużyny, końcowe gole, zakończenie i publikację. W repo brak potwierdzonego zasilania tego pliku. Bez niego Elo prawidłowo wygeneruje 0 prognoz i jawne blokady.
 - Workflow pozostaje na gałęzi badawczej; harmonogram zadziała dopiero po bezpiecznym wdrożeniu na default branch. MULTIMODEL nadal nietknięty.
+
+## KB Score 3.0 jako opcjonalne źródło zweryfikowanych wyników — 2026-11-05
+- Odczytano (bez zmian) `karolbarankiewicz1984-ui/kb-score-3/data/pit_sidecar/m0_postmatch/2026-11-05/run-155034343937/M0_POSTMATCH_AND_CALIBRATION_REVIEW.json`: 21 rozliczonych prognoz, 29 oczekujących, nowo rozliczonych 0; ocena M0 nie stanowi automatycznie danych treningowych dla nowych modeli.
+- Historyczne `step14_openfootball/2026-11-05.json` deklaruje `eligible_training_examples: 0` w sprawdzonym artefakcie. Nie wolno oznaczać go jako zweryfikowanego zbioru treningowego.
+- Dodano `github_models/kb3_history_bridge.py` i testy: akceptacja tylko rzeczywistych wyników FINISHED z identyfikatorem źródła, drużynami, golami, czasem zakończenia i publikacji; usuwanie wszelkich obcych pól, w tym prognoz KB3. To **walidator eksportu**, nie aktywny dostęp między repozytoriami.
+- Nie kopiowano danych chronionych, prognoz, SQLite ani zaszyfrowanych plików KB3; KB Score 3.0 i MULTIMODEL pozostają niezmienione.
+- Następna bramka: przygotować niezależny eksport **rzeczywistych wyników** z wiarygodnym `published_at_utc`, sprawdzić mapowanie nazw drużyn i lig oraz testy, a dopiero potem zasilić `data/github_models/verified_results.json`.
