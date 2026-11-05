@@ -28,6 +28,22 @@ jobs:
           python -m unittest tests.test_github_models_daily_queue tests.test_github_models_independent_forecasts tests.test_github_models_kb3_history_bridge tests.test_github_models_public_results tests.test_github_models_team_mapping tests.test_github_models_dixon_runner tests.test_github_models_dixon_normalization -v
       - name: Fetch public observed results
         run: python -m github_models.public_results
+      - name: Read latest main PitchAPI snapshots without modifying production
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin main
+          mkdir -p data/pitchapi/prematch
+          TODAY="$(TZ=Europe/Warsaw date +%F)"
+          for OFFSET in 0 1 2; do
+            DAY="$(TZ=Europe/Warsaw date -d "$TODAY + $OFFSET day" +%F)"
+            if git cat-file -e "FETCH_HEAD:data/pitchapi/prematch/$DAY.json" 2>/dev/null; then
+              git show "FETCH_HEAD:data/pitchapi/prematch/$DAY.json" > "data/pitchapi/prematch/$DAY.json"
+              echo "Loaded main PitchAPI snapshot: $DAY"
+            else
+              echo "Missing main PitchAPI snapshot: $DAY"
+            fi
+          done
       - name: Build fixture queue and coverage
         shell: bash
         run: |
