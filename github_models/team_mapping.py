@@ -30,6 +30,9 @@ def normalize(name):
 
 def resolve(fixture, history):
     league = fixture["league"]
+    # PitchAPI uses "Serie A" for both Italy and Brazil; league name alone is unsafe.
+    if normalize(league) == "serie a" and normalize(str(fixture.get("country", ""))) not in ("italy", "italia"):
+        raise ValueError("ambiguous_serie_a_country_not_verified")
     league_key = normalize(league)
     teams = {normalize(t) for row in history if row.get("league") == league
              for t in (row["home"], row["away"])}
