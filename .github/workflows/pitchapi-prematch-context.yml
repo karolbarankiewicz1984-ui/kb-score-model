@@ -6,11 +6,13 @@ on:
   workflow_dispatch:
     inputs:
       date:
-        description: 'Future target date YYYY-MM-DD, blank = tomorrow in Warsaw'
+        description: 'Optional single target date YYYY-MM-DD; blank = Warsaw today, tomorrow and day after'
         required: false
         type: string
   schedule:
-    # 17:15 UTC: tomorrow's context ready before early-morning API and KB reports.
+    # 04:15 UTC: refresh all three dates ahead of the 11:30 Europe/Warsaw MULTIMODEL report.
+    - cron: '15 4 * * *'
+    # 17:15 UTC: refresh the same horizon for late fixture updates.
     - cron: '15 17 * * *'
   push:
     paths:
@@ -46,10 +48,16 @@ jobs:
         run: |
           test -n "$PITCHAPI_API_KEY" || { echo "Missing PITCHAPI_API_KEY"; exit 1; }
           if [ -n "$TARGET_DATE" ]; then
-            python -m tools.pitchapi_prematch_context --date "$TARGET_DATE" --max-fixtures 80
+            DAYS=("$TARGET_DATE")
           else
-            python -m tools.pitchapi_prematch_context --max-fixtures 80
+            TODAY="$(TZ=Europe/Warsaw date +%F)"
+            DAYS=("$TODAY" "$(TZ=Europe/Warsaw date -d "$TODAY + 1 day" +%F)" "$(TZ=Europe/Warsaw date -d "$TODAY + 2 days" +%F)")
           fi
+          for DAY in "${DAYS[@]}"; do
+            echo "::group::PitchAPI $DAY"
+            python -m tools.pitchapi_prematch_context --date "$DAY" --max-fixtures 80
+            echo "::endgroup::"
+          done
       - name: Safe summary
         shell: bash
         run: |
@@ -86,55 +94,43 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          DAY="${TARGET_DATE:-$(TZ=Europe/Warsaw date -d tomorrow +%F)}"
-          SNAPSHOT="data/pitchapi/prematch/$DAY.json"
-          REPORT="reports/pitchapi/prematch/$DAY.md"
-          test -s "$SNAPSHOT"
-          test -s "$REPORT"
-
-          # A previous run may have pushed the same date while this run worked.
-          # Upload-artifact already succeeded; an equal/newer pre-match snapshot
-          # on main is NOT a failed data collection.
+          TODAY="$(TZ=Europe/Warsaw date +%F)"
+          if [ -n "$TARGET_DATE" ]; then
+            DAYS=("$TARGET_DATE")
+          else
+            DAYS=("$TODAY" "$(TZ=Europe/Warsaw date -d "$TODAY + 1 day" +%F)" "$(TZ=Europe/Warsaw date -d "$TODAY + 2 days" +%F)")
+          fi
+          for DAY in "${DAYS[@]}"; do
+            test -s "data/pitchapi/prematch/$DAY.json"
+            test -s "reports/pitchapi/prematch/$DAY.md"
+          done
+          # Avoid publishing stale snapshots over newer independently committed data.
           for attempt in 1 2 3; do
             git fetch origin main
-            if python - "$SNAPSHOT" "$DAY" <<'PY'
-          import json, pathlib, subprocess, sys
-          path, day = sys.argv[1:]
-          local = json.loads(pathlib.Path(path).read_text(encoding="utf-8"))
-          result = subprocess.run(["git", "show", "origin/main:" + path],
-                                  capture_output=True, text=True)
-          if result.returncode != 0:
-              sys.exit(1)
-          try:
-              remote = json.loads(result.stdout)
-          except (ValueError, TypeError):
-              sys.exit(1)
-          same = (remote.get("schema") == "pitchapi-prematch-context-v1"
-                  and remote.get("target_date") == day)
-          valid = (isinstance(remote.get("fixtures"), list)
-                   and remote.get("fixtures_collected") == len(remote["fixtures"]))
-          if same and valid and remote.get("snapshot_utc", "") >= local.get("snapshot_utc", ""):
-              sys.exit(0)
-          sys.exit(1)
-          PY
-            then
-              echo "::notice::PitchAPI snapshot for $DAY already published with equal or newer timestamp."
-              exit 0
-            fi
-
-            # Re-base the *index* on the latest main, retaining our generated
-            # worktree files. This handles add/add without an interactive rebase.
+            for DAY in "${DAYS[@]}"; do
+              SNAPSHOT="data/pitchapi/prematch/$DAY.json"
+              if git cat-file -e "origin/main:$SNAPSHOT" 2>/dev/null; then
+                REMOTE_STAMP="$(git show "origin/main:$SNAPSHOT" | python -c 'import json,sys; print(json.load(sys.stdin).get("snapshot_utc",""))')"
+                LOCAL_STAMP="$(python -c 'import json,sys; print(json.load(open(sys.argv[1])).get("snapshot_utc",""))' "$SNAPSHOT")"
+                if [[ "$REMOTE_STAMP" > "$LOCAL_STAMP" || "$REMOTE_STAMP" == "$LOCAL_STAMP" ]]; then
+                  git show "origin/main:$SNAPSHOT" > "$SNAPSHOT"
+                  git show "origin/main:reports/pitchapi/prematch/$DAY.md" > "reports/pitchapi/prematch/$DAY.md" || true
+                fi
+              fi
+            done
             git reset --mixed origin/main
-            git add -- "$SNAPSHOT" "$REPORT"
+            for DAY in "${DAYS[@]}"; do
+              git add -- "data/pitchapi/prematch/$DAY.json" "reports/pitchapi/prematch/$DAY.md"
+            done
             if git diff --cached --quiet; then
-              echo "::notice::PitchAPI output already matches main."
+              echo "::notice::All three PitchAPI snapshots already current."
               exit 0
             fi
-            git commit -m "data: read-only PitchAPI prematch xG context"
+            git commit -m "data: three-day PitchAPI prematch context"
             if git push origin HEAD:main; then
               exit 0
             fi
-            echo "::warning::Concurrent main update, rechecking (attempt $attempt/3)"
+            echo "::warning::Concurrent main update (attempt $attempt/3)"
           done
-          echo "::error::Could not publish PitchAPI data after three safe attempts."
+          echo "::error::Could not publish PitchAPI three-day context."
           exit 1
