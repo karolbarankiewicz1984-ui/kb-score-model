@@ -160,3 +160,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - 17/17 testów OK; 5708 historycznych wyników; kolejka 67 meczów; brak `invalid_dates`; Elo-ready 1, Dixon-Coles history-ready 1; 2 prognozy wygenerowane, 199 blokad. **Nie oznacza to jeszcze audytu poprawności kraju ligi ani kalibracji prognoz**.
 - Dodatkowy warunek na gałęzi badawczej wymaga jawnego kraju dla lig o współdzielonych nazwach `Premier League`, `Bundesliga`, `Serie A`; testy mapowania dostosowano i rozszerzono. Ponieważ snapshoty PitchAPI nie zawierają `country`, może to czasowo zmniejszyć liczbę prognoz do czasu potwierdzenia mapy `league_id -> country`. Nie wolno zgadywać kraju z nazwy ligi.
 - Do wykonania: pozyskać i zweryfikować metadane ligi z PitchAPI, bezpiecznie propagować `country` do kolejki, ponownie sprawdzić testy i prognozy.
+
+## Propagacja metadanych kraju PitchAPI — przygotowanie
+- Snapshot 2026-11-06 na `main` zawiera 70 meczów, nazwy i `league_id`, lecz nie ma pola `country`. Ten sam dzień zawiera różne identyfikatory dla `Serie A`, `Premier League` i `Bundesliga`. Nie da się wiarygodnie wywnioskować kraju z samej nazwy ligi.
+- W gałęzi badawczej kolektor `tools/pitchapi_prematch_context.py` zapisuje pole `country` tylko gdy dostawca faktycznie zwraca wartość tekstową w obiekcie ligi. `github_models/daily_queue.py` przenosi ją bez zmiany; test kontroluje propagację.
+- **Brak potwierdzenia**, że biblioteka PitchAPI udostępnia to pole w aktualnej odpowiedzi. Wymagany test integracyjny na realnych danych i weryfikacja identyfikatorów ligi przed dopuszczeniem prognoz. Dotychczasowe 2 prognozy z runu `42124718990` powstały przed wprowadzeniem dodatkowego wymogu kraju; nie należy uznawać ich za zweryfikowane geograficznie.
+- Produkcyjny run `42124205870` nadal trwał w chwili wpisu.
