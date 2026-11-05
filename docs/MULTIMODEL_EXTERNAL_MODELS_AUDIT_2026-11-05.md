@@ -61,3 +61,11 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 3. **Porównanie jest opcjonalne i tylko odczytowe**: porównujemy prognozy obu systemów na wspólnych meczach, bez mieszania rankingów.
 4. Obecne `comparison_only.py` nadal służy **wyłącznie do porównywania**, ale jego flagi `production_eligible=False` i `ranking_weight=0` dotyczą wyłącznie **MULTIMODEL**, a nie możliwości niezależnego publikowania prognoz GitHub Models.
 5. Przed rzeczywistym generowaniem prognoz konieczne są zweryfikowane dane, trening, zapis freeze i osobny generator raportów GitHub Models; nie przedstawiać wyników syntetycznych jako realnych.
+
+## GitHub Models — szeroki terminarz, niezależna ocena (decyzja operatora)
+- Bez arbitralnego limitu liczby meczów w kolejce: pobieramy wszystkie dostępne mecze z trzech dni ze snapshotów PitchAPI, pod warunkiem walidacji dat, ID, drużyn i snapshotu sprzed meczu.
+- `github_models/daily_queue.py`: oddzielny, read-only generator kolejki dla Dixon-Coles, Elo i XGBoost; brak wyników i brak sztucznych prawdopodobieństw; każde z trzech modeli może niezależnie odrzucić mecz z powodu braków treningowych.
+- `tests/test_github_models_daily_queue.py`: testuje pełny trzydniowy zakres, brak przyszłych snapshotów, brak zmyślonych prognoz.
+- `.github/workflows/github-models-independent.yml`: oddzielny workflow planowany 07:00 UTC, zapisujący wyłącznie artifact kolejki `reports/github_models/queues`, z `contents: read`. Nie zmienia MULTIMODEL, jego PDF ani prognoz.
+- **Uwaga wdrożeniowa:** harmonogram GitHub Actions działa automatycznie dopiero po umieszczeniu workflow na domyślnej gałęzi repozytorium; na gałęzi badawczej workflow jest przygotowany, nie jest jeszcze potwierdzony jako działający codziennie.
+- Kolejka nie jest prognozą: do rzeczywistych typów trzeba osobno zapewnić wyniki historyczne, trenowanie każdego modelu, freeze prognoz i rozliczanie. Porównywać Brier/log loss/kalibrację i skuteczność, nie zakładać, że model open-source jest lepszy.
