@@ -1,0 +1,34 @@
+name: GitHub Models independent daily fixture queue
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  fixture-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify independent queue
+        run: python -m unittest tests.test_github_models_daily_queue -v
+      - name: Build queue from available pre-match snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -m github_models.daily_queue --as-of "$NOW"
+      - name: Upload research-only queue
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-models-fixture-queue
+          path: reports/github_models/queues/*.json
+          retention-days: 30
+          if-no-files-found: error
