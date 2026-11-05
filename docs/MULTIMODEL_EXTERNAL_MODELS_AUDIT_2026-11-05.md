@@ -166,3 +166,8 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - W gałęzi badawczej kolektor `tools/pitchapi_prematch_context.py` zapisuje pole `country` tylko gdy dostawca faktycznie zwraca wartość tekstową w obiekcie ligi. `github_models/daily_queue.py` przenosi ją bez zmiany; test kontroluje propagację.
 - **Brak potwierdzenia**, że biblioteka PitchAPI udostępnia to pole w aktualnej odpowiedzi. Wymagany test integracyjny na realnych danych i weryfikacja identyfikatorów ligi przed dopuszczeniem prognoz. Dotychczasowe 2 prognozy z runu `42124718990` powstały przed wprowadzeniem dodatkowego wymogu kraju; nie należy uznawać ich za zweryfikowane geograficznie.
 - Produkcyjny run `42124205870` nadal trwał w chwili wpisu.
+
+## Testy regresyjne po wprowadzeniu kontroli kraju
+- Zaktualizowano test Dixon-Coles, by fikcyjny przykład `Premier League` miał jawnie `country=England` zamiast obchodzić nowy bezpiecznik kraju.
+- Na `main` rozszerzono izolowany smoke o `tests.test_pitchapi_prematch_context`; uruchomienie `42125558569` oczekuje na zakończenie.
+- Produkcyjny zbiór snapshotów nadal nie ma zweryfikowanego pola kraju; nie stosować heurystycznej mapy ligi z nazwy klubu. Następna bramka: potwierdzone metadane `league_id` z dostawcy i ponowny audyt prognoz.
