@@ -69,3 +69,11 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - `.github/workflows/github-models-independent.yml`: oddzielny workflow planowany 07:00 UTC, zapisujący wyłącznie artifact kolejki `reports/github_models/queues`, z `contents: read`. Nie zmienia MULTIMODEL, jego PDF ani prognoz.
 - **Uwaga wdrożeniowa:** harmonogram GitHub Actions działa automatycznie dopiero po umieszczeniu workflow na domyślnej gałęzi repozytorium; na gałęzi badawczej workflow jest przygotowany, nie jest jeszcze potwierdzony jako działający codziennie.
 - Kolejka nie jest prognozą: do rzeczywistych typów trzeba osobno zapewnić wyniki historyczne, trenowanie każdego modelu, freeze prognoz i rozliczanie. Porównywać Brier/log loss/kalibrację i skuteczność, nie zakładać, że model open-source jest lepszy.
+
+## Niezależne prognozy i rozliczanie — etap wdrożenia
+- Dodano `github_models/elo_engine.py`: rzeczywisty, prosty model Elo z chronologicznym treningiem wyłącznie na wynikach końcowych, opublikowanych przed freeze. Wyniki to **niekalibrowane** prawdopodobieństwa badawcze; nie wolno utożsamiać ich z dowiedzioną przewagą.
+- Dodano `github_models/predict.py`: samodzielny generator prognoz dla kolejki GitHub Models. Dla Elo generuje prognozy tylko gdy są zweryfikowane dane historyczne (minimum 5 meczów każdej drużyny). Dla Dixon-Coles i XGBoost zgłasza jawne blokady dopóki nie są gotowe trening i adapter; **nie fabrykuje typów**.
+- Dodano `github_models/settle.py`: oddzielne rozliczanie wyników po potwierdzonym końcowym rezultacie, metryki Brier/log loss/hit rate, bez zmiany prognoz. Moduł jeszcze nie jest podłączony do automatycznego pobierania wyników.
+- Rozszerzono workflow `github-models-independent.yml` o prognozy i plik blokad oraz testy `tests/test_github_models_independent_forecasts.py`.
+- **Bramka wdrożenia:** historyczne wyniki `data/github_models/verified_results.json` muszą być prawdziwe i zawierać identyfikator, ligę, drużyny, końcowe gole, zakończenie i publikację. W repo brak potwierdzonego zasilania tego pliku. Bez niego Elo prawidłowo wygeneruje 0 prognoz i jawne blokady.
+- Workflow pozostaje na gałęzi badawczej; harmonogram zadziała dopiero po bezpiecznym wdrożeniu na default branch. MULTIMODEL nadal nietknięty.
