@@ -199,6 +199,7 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
     add(f"{report['date']} · Europe/Warsaw", "section")
     add(f"Stan źródeł na {report['as_of']}. Dokument obserwacyjny; bez zmian modeli i rejestrów.", "small")
     story.append(HRFlowable(width="100%", color=ACCENT, thickness=1))
+    watch = report["watchlist"]["candidates"]  # legacy audit only, not a promoted section
     pitch = report.get("pitchapi_first")
     if pitch is not None:
         add("PitchAPI · analiza przedmeczowa", "section")
