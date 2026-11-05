@@ -32,6 +32,10 @@ class PitchAPIFirstTest(unittest.TestCase):
         self.assertFalse(rows[1]["top_authorized"])
         self.assertFalse(rows[1]["quotes_authorized"])
 
+    def test_rejects_wrong_warsaw_report_day(self):
+        with self.assertRaisesRegex(ValueError, "start_date_not_current_warsaw_day"):
+            three_day_pitchapi_inventory("2026-11-06", self.root, as_of=self.as_of)
+
     def test_rejects_late_snapshot(self):
         self.write(stamp="2026-11-05T12:00:00Z")
         rows = three_day_pitchapi_inventory("2026-11-05", self.root, as_of=self.as_of)
