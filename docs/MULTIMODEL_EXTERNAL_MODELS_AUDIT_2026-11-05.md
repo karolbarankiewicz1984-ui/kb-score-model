@@ -98,3 +98,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Runner `github_models/predict.py` używa teraz tego mapowania przed Elo. Dodano testy aliasu i odmowy nieznanej drużyny; rozszerzono workflow o te testy.
 - **Stan weryfikacji:** kod i testy zapisane, ale brak potwierdzonego CI dla najnowszego commitu oraz brak pełnego uruchomienia z pobraniem danych. Workflow nadal na gałęzi badawczej. Nie deklarować działającej codziennej automatyzacji ani liczby typów.
 - Następne kroki: audyt rzeczywistych nazw i lig PitchAPI vs football-data.co.uk, test end-to-end, potem podłączenie Dixon-Coles. Przed uruchomieniem codziennym należy upewnić się, że workflow jest na default branch.
+
+## Etap: uruchomienie dwóch niezależnych silników
+- Dodano `github_models/dixon_coles_engine.py` i podłączono do `github_models/predict.py` obok Elo. Oba analizują tę samą kolejkę; Dixon-Coles wymaga minimum 30 zweryfikowanych historycznych wyników z ligi i historycznego składu drużyn.
+- Workflow instaluje opcjonalny pakiet `dixon-coles==0.1.0` z osobnymi zależnościami. Dodano `tests/test_github_models_dixon_runner.py` weryfikujący uruchomienie dwóch niezależnych silników; XGBoost nadal jawnie oznaczony jako niegotowy.
+- **Status:** kod zapisany, ale pełnego rzeczywistego uruchomienia ani zgodności z zewnętrzną biblioteką nie potwierdzono. Harmonogram na gałęzi badawczej nie jest automatycznie aktywny. Brak potwierdzonych prawdziwych typów, danych historycznych i testów CI tej iteracji.
+- Wymagana kontrola: test end-to-end, zgodność API dixon-coles, pokrycie lig i mapowania nazw, zachowanie dat zamrożenia, metryki na niezależnym holdout. Nie wolno przedstawiać prognoz badawczych jako zweryfikowanych rekomendacji bukmacherskich.
