@@ -155,3 +155,8 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Run `42124458450`: 16 testów OK, 5708 wyników historycznych, kolejka 0, `invalid_dates=['2026-11-06']`, `missing_dates=['2026-11-07']`. W snapshotcie 2026-11-06 wykryto mecze z datą lokalną niezgodną z datą pliku; dotychczas wyjątek usuwał cały dzień.
 - `github_models/daily_queue.py` teraz pomija pojedyncze spotkania spoza dnia lokalnego, zachowując prawidłowe; dodano test regresji `test_cross_midnight_fixture_does_not_invalidate_entire_day`.
 - Ponowny smoke po poprawce: `42124718990`, wynik jeszcze niepotwierdzony w chwili wpisu.
+
+## Wynik smoke #42124718990 i dodatkowy bezpiecznik lig
+- 17/17 testów OK; 5708 historycznych wyników; kolejka 67 meczów; brak `invalid_dates`; Elo-ready 1, Dixon-Coles history-ready 1; 2 prognozy wygenerowane, 199 blokad. **Nie oznacza to jeszcze audytu poprawności kraju ligi ani kalibracji prognoz**.
+- Dodatkowy warunek na gałęzi badawczej wymaga jawnego kraju dla lig o współdzielonych nazwach `Premier League`, `Bundesliga`, `Serie A`; testy mapowania dostosowano i rozszerzono. Ponieważ snapshoty PitchAPI nie zawierają `country`, może to czasowo zmniejszyć liczbę prognoz do czasu potwierdzenia mapy `league_id -> country`. Nie wolno zgadywać kraju z nazwy ligi.
+- Do wykonania: pozyskać i zweryfikować metadane ligi z PitchAPI, bezpiecznie propagować `country` do kolejki, ponownie sprawdzić testy i prognozy.
