@@ -12,6 +12,14 @@ def _time(s):
         raise ValueError("timezone_required")
     return t.astimezone(timezone.utc)
 
+def normalize_dixon_probabilities(result):
+    """Upstream rounds 1X2 to four decimals; preserve strict probability sum."""
+    raw = [float(result[k]) for k in ("home_win", "draw", "away_win")]
+    total = sum(raw)
+    if not all(isfinite(p) and p >= 0 for p in raw) or total <= 0:
+        raise ValueError("invalid_dixon_coles_probabilities")
+    return [p / total for p in raw]
+
 def forecast_dixon_coles(history, fixture, *, frozen_at_utc, model_version,
                          min_matches=30, xg_weight=1.0):
     """Fit solely on fully completed, published pre-freeze matches of ONE league.
@@ -66,11 +74,7 @@ def forecast_dixon_coles(history, fixture, *, frozen_at_utc, model_version,
     model.fit(**inputs)
     result = model.predict(fixture["home"], fixture["away"])
     # Upstream predict() rounds to 4 decimals; normalize to satisfy strict 1e-6 contract.
-    raw = [float(result[k]) for k in ("home_win", "draw", "away_win")]
-    total = sum(raw)
-    if not all(isfinite(p) and p >= 0 for p in raw) or total <= 0:
-        raise ValueError("invalid_dixon_coles_probabilities")
-    probs = [p / total for p in raw]
+    probs = normalize_dixon_probabilities(result)
     prediction = dict(fixture_id=fixture["fixture_id"], league=league,
                       kickoff_utc=fixture["kickoff_utc"], frozen_at_utc=frozen_at_utc,
                       model_id="callumfm-dixon-coles", model_version=model_version,
