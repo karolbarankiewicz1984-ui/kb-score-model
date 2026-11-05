@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       date:
-        description: 'Future target date YYYY-MM-DD, blank = tomorrow in Warsaw'
+        description: 'Future target date YYYY-MM-DD, blank = next 3 days in Warsaw'
         required: false
         type: string
   schedule:
@@ -48,7 +48,11 @@ jobs:
           if [ -n "$TARGET_DATE" ]; then
             python -m tools.pitchapi_prematch_context --date "$TARGET_DATE" --max-fixtures 80
           else
-            python -m tools.pitchapi_prematch_context --max-fixtures 80
+            TODAY="$(TZ=Europe/Warsaw date +%F)"
+            for OFFSET in 1 2 3; do
+              DAY="$(TZ=Europe/Warsaw date -d "$TODAY + $OFFSET day" +%F)"
+              python -m tools.pitchapi_prematch_context --date "$DAY" --max-fixtures 80
+            done
           fi
       - name: Safe summary
         shell: bash
