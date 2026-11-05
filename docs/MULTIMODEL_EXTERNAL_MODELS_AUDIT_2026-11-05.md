@@ -84,3 +84,10 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Dodano `github_models/kb3_history_bridge.py` i testy: akceptacja tylko rzeczywistych wyników FINISHED z identyfikatorem źródła, drużynami, golami, czasem zakończenia i publikacji; usuwanie wszelkich obcych pól, w tym prognoz KB3. To **walidator eksportu**, nie aktywny dostęp między repozytoriami.
 - Nie kopiowano danych chronionych, prognoz, SQLite ani zaszyfrowanych plików KB3; KB Score 3.0 i MULTIMODEL pozostają niezmienione.
 - Następna bramka: przygotować niezależny eksport **rzeczywistych wyników** z wiarygodnym `published_at_utc`, sprawdzić mapowanie nazw drużyn i lig oraz testy, a dopiero potem zasilić `data/github_models/verified_results.json`.
+
+## Etap: niezależne historyczne wyniki z publicznego źródła
+- Dodano `github_models/public_results.py` pobierający rzeczywiste wyniki CSV z football-data.co.uk (5 lig, sezony 2023/24–2026/27), bez wywołań API-Football i bez odczytu prognoz KB3. Nie wymaga płatnej subskrypcji.
+- `published_at_utc` oznacza **czas zaobserwowania wyniku przez NASZ importer**, nie dowód pierwotnej publikacji przez dostawcę. `completed_at_utc` to konserwatywna granica dzień meczu + 2 dni, a nie faktyczny moment zakończenia. Dane są dopuszczone dopiero po obu granicach. Źródło i liczebności zapisuje osobny manifest.
+- Dodano `tests/test_github_models_public_results.py`, rozszerzono niezależny workflow: testy → publiczne wyniki → kolejka → prognozy → artefakty. **Nie wykonano jeszcze zdalnego workflow na tej gałęzi**, więc liczba rzeczywiście zaimportowanych meczów i wygenerowanych typów pozostaje niepotwierdzona.
+- Ryzyko: nazwy drużyn z PitchAPI i football-data.co.uk mogą się różnić. Nie wolno automatycznie zgadywać mapowania ani twierdzić, że system produkuje kompletne typy przed audytem dopasowania ID/nazw. Dodatkowo, Dixon-Coles nadal wymaga opcjonalnej zależności i podłączenia do osobnego runnera.
+- Nie dotykano repozytorium KB Score 3.0, produkcji MULTIMODEL ani oryginalnych prognoz. Nie publikować modelowych rekomendacji przed weryfikacją danych i kalibracją.
