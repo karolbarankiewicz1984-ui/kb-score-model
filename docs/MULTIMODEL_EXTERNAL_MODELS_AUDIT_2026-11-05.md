@@ -45,3 +45,11 @@ Wyłącznie równoległy eksperyment **shadow**, bez zmian progów produkcyjnych
 - Sprawdzono `data/pitchapi/prematch/2026-11-05.json`: `home_recent.samples` zawiera daty wcześniejszych spotkań i xG, ale bez końcowych goli i potwierdzonych timestampów publikacji tych wyników — to nie jest gotowy trening Dixon-Coles.
 - Stan `main` w chwili przeglądu: najnowszy dostępny snapshot `2026-11-05.json`; brakuje plików `2026-11-06.json` i `2026-11-07.json`. Harmonogram dwukrotny istnieje, ale **brak potwierdzenia skutecznego zapisu danych**. Zdiagnozować run workflow, secret i pobieranie przed deklaracją naprawy.
 - Kolejny krok: pozyskać zweryfikowane wyniki końcowe z identyfikatorami i datami publikacji, bez mieszania dostawców i bez retrospektywnego dopisywania czasu publikacji; uruchomić adapter i wspólny backtest dopiero na takim zbiorze.
+
+## Wiążąca decyzja operatora — separacja warstwy porównawczej
+- MULTIMODEL pozostaje **odrębnym** systemem głównym. Zewnętrzne projekty z GitHub są **wyłącznie warstwą porównawczą** (shadow/research).
+- Warstwa porównawcza **nie** dostarcza propozycji do 3 PDF, nie zmienia rankingu, wag, filtrów, kursów, TOP/N, progów, modeli KB Score ani zamrożonych historycznych prognoz. Nie jest automatycznym ensemble.
+- Dane mogą być analizowane na wspólnych, już zamrożonych meczach; wyniki porównania służą audytowi, bez automatycznego awansu do produkcji.
+- Utworzono `multimodel_v2/comparison_only.py` oraz `tests/test_multimodel_v2_comparison_only.py`: porównanie tych samych fixture ID, lig i kickoffów, `production_eligible=False`, `ranking_weight=0`, brak selekcji.
+- Ewentualna przyszła integracja z systemem głównym wymaga **oddzielnej, wyraźnej decyzji użytkownika** po wynikach testów.
+- CI #62 poprzedniego etapu: success. Nowe testy rozdzielenia oczekują na odrębne potwierdzenie.
