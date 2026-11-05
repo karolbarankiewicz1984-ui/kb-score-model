@@ -26,6 +26,7 @@ from reportlab.platypus import (
 from .audit import COHORTS, build_audits
 from .adapters import source_summary
 from .fouls_under import fouls_under_watchlist
+from .pitchapi_first import three_day_pitchapi_inventory
 from .source_manifest import WARSAW, build_source_manifest, instant, local_day, number
 
 LABELS = {"original_top": "Oryginalny TOP", "qualifying_api": "Wszystkie kwalifikujące się API",
@@ -198,15 +199,17 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
     add(f"{report['date']} · Europe/Warsaw", "section")
     add(f"Stan źródeł na {report['as_of']}. Dokument obserwacyjny; bez zmian modeli i rejestrów.", "small")
     story.append(HRFlowable(width="100%", color=ACCENT, thickness=1))
-    add("FAULE UNDER · kurs 1.50–2.00", "section")
-    watch = report["watchlist"]["candidates"]
-    if watch:
-        add(f"Zweryfikowane kandydatury: {len(watch)}. Na tej stronie pierwsze {min(2, len(watch))}; pełna lista dalej.", "small")
-        for item in watch[:2]:
-            story.extend([_card(item, styles, compact=True), Spacer(1, 5)])
+    pitch = report.get("pitchapi_first")
+    if pitch is not None:
+        add("PitchAPI · analiza przedmeczowa", "section")
+        if pitch["status"] == "context_only":
+            add(f"Zweryfikowany kontekst: {pitch['fixtures_count']} meczów, {pitch['sufficient_fixtures']} z wystarczającą historią obu drużyn. Brak niezależnych kursów exact market — bez nowych typów PLAY.", "small")
+            for fixture in pitch["fixtures"][:5]:
+                add(f"{fixture['home']} – {fixture['away']} | {fixture['kickoff_utc']} | {fixture['league']} | xG historyczne, nie prognoza", "small")
+        else:
+            add(f"PitchAPI: {pitch['status']}; {', '.join(pitch['blockers'])}", "small")
     else:
-        add(MISSING, "card")
-        add("Brak źródła lub kompletnej kandydatury. Ten komunikat nie oznacza braku spotkań w kalendarzu.", "small")
+        add("PitchAPI: nie dostarczono zweryfikowanego kontekstu.", "small")
     add("Pokrycie źródeł", "section")
     api_status = ("zweryfikowany run i snapshot" if report["manifest"]["status"] == "covered"
                   else "BRAK zweryfikowanego runu / snapshotu dla tej daty")
@@ -308,8 +311,7 @@ def _render_pdf(report, path, *, font_dir=FONT_DIR):
             add("Aneks · pozostałe pozycje oryginalnego TOP", "section")
             for rank, row in appendix:
                 story.extend([_card(dict(row["record"], quote=row["frozen_quote"], status="ORYGINALNY FREEZE"), styles, rank=rank), Spacer(1, 6)])
-    for heading, rows in (("Wszystkie kwalifikujące się API", report["upcoming_api"]),
-                          ("FAULE UNDER · pełna lista", watch)):
+    for heading, rows in (("Wszystkie kwalifikujące się API", report["upcoming_api"]),):
         if rows:
             story.append(PageBreak())
             add(heading, "title")
@@ -369,8 +371,8 @@ def validate_pdf(path, expected_date):
                 text = page.get_text()
                 if f"MULTIMODEL · {expected_date}" not in text or f"Strona {index + 1} / {total}" not in text:
                     raise ValueError("pdf_date_or_pagination_invalid")
-                if index == 0 and "FAULE UNDER" not in text:
-                    raise ValueError("fouls_under_missing_from_first_page")
+                if index == 0 and "Pokrycie źródeł" not in text:
+                    raise ValueError("source_coverage_missing_from_first_page")
                 if "\ufffd" in text or page.get_links():
                     raise ValueError("pdf_invalid_text_or_links")
                 spans = [span for block in page.get_text("dict")["blocks"] if "lines" in block
@@ -400,7 +402,7 @@ def validate_pdf_bundle(directory, start_date):
     return [validate_pdf(directory / f"MULTIMODEL_{day}.pdf", day) for day in days]
 
 
-def generate_three_pdfs(start_date, runs, snapshots, settlements, *, as_of, output_dir, font_dir=FONT_DIR, source_bundles=None):
+def generate_three_pdfs(start_date, runs, snapshots, settlements, *, as_of, output_dir, font_dir=FONT_DIR, source_bundles=None, pitchapi_snapshots=None):
     """Stage/validate all PDFs before publishing paths; never overwrite files."""
     days = report_dates(start_date)
     instant(as_of)
@@ -413,11 +415,15 @@ def generate_three_pdfs(start_date, runs, snapshots, settlements, *, as_of, outp
     if output.exists() and (not output.is_dir() or any(output.iterdir())):
         raise ValueError("output_directory_must_be_empty")
     output.parent.mkdir(parents=True, exist_ok=True)
+    pitch_days = (three_day_pitchapi_inventory(start_date, pitchapi_snapshots, as_of=as_of)
+                  if pitchapi_snapshots is not None else None)
     with tempfile.TemporaryDirectory(prefix=".multimodel-v2-", dir=output.parent) as temporary:
         staging = Path(temporary) / "pdfs"
         staging.mkdir()
-        for day in days:
+        for index, day in enumerate(days):
             report = build_daily_report(day, runs, snapshots, settlements, as_of=as_of, source_bundles=source_bundles)
+            if pitch_days is not None:
+                report["pitchapi_first"] = pitch_days[index]
             _render_pdf(report, staging / f"MULTIMODEL_{day}.pdf", font_dir=font_dir)
         validate_pdf_bundle(staging, start_date)
         os.rename(staging, output)
@@ -430,12 +436,13 @@ def main(argv=None):
     parser.add_argument("--as-of", required=True, help="Actual observation cutoff with UTC offset")
     parser.add_argument("--evidence", type=Path, help="JSON with runs, snapshots and settlements; omission means missing sources")
     parser.add_argument("--output", required=True, type=Path, help="New or empty isolated output directory")
+    parser.add_argument("--pitchapi-snapshots", type=Path, help="Directory with PitchAPI YYYY-MM-DD.json snapshots")
     args = parser.parse_args(argv)
     evidence = {"runs": [], "snapshots": [], "settlements": []}
     if args.evidence:
         evidence = json.loads(args.evidence.read_text(encoding="utf-8"))
     paths = generate_three_pdfs(args.start, evidence["runs"], evidence["snapshots"], evidence["settlements"],
-                                as_of=args.as_of, output_dir=args.output, source_bundles=evidence.get("source_bundles"))
+                                as_of=args.as_of, output_dir=args.output, source_bundles=evidence.get("source_bundles"), pitchapi_snapshots=args.pitchapi_snapshots)
     print(json.dumps(validate_pdf_bundle(paths[0].parent, args.start), ensure_ascii=False, indent=2))
 
 
