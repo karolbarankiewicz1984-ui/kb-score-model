@@ -55,19 +55,15 @@ class ThreePdfTests(unittest.TestCase):
                 self.assertNotIn("ROI: 0", text)
                 self.assertTrue(validate_pdf(path, day)["validated"])
 
-    def test_first_page_has_fouls_under_and_unicode_in_both_parsers(self):
+    def test_first_page_has_source_coverage_without_dedicated_fouls_band(self):
         runs, snapshots = frozen_evidence()
         snapshots[0]["background_candidates"][0]["final_assessment_pct"] = 55
         snapshots[0]["top_positions"] = deepcopy(snapshots[0]["background_candidates"])
         path = self.generate(runs, snapshots)[0]
         text = PdfReader(path).pages[0].extract_text()
-        self.assertIn("FAULE UNDER", text)
-        self.assertIn("EKSPERYMENT/POZA PROGIEM/NIE PLAY", text)
-        self.assertIn("Gospodarze", text)
-        self.assertIn("Goście", text)
-        self.assertIn("UNDER 13.5", text)
-        self.assertIn("RecordedBook", text)
-        self.assertIn("1.75", text)
+        self.assertIn("Pokrycie źródeł", text)
+        self.assertNotIn("FAULE UNDER · kurs 1.50–2.00", text)
+        self.assertIn("Gospodarze", "\n".join(page.extract_text() for page in PdfReader(path).pages))
         self.assertNotIn("\ufffd", text)
 
     def test_fixture_events_are_strictly_separated_between_local_dates(self):
