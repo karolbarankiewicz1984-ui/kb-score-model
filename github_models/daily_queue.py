@@ -41,7 +41,9 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc):
                 if kick.tzinfo is None or kick <= as_of or snap >= kick:
                     continue
                 if kick.astimezone(WARSAW).date().isoformat() != day:
-                    raise ValueError("kickoff_day_mismatch")
+                    # Provider groups some cross-midnight games by UTC date.
+                    # Skip the out-of-day fixture, never invalidate the entire snapshot.
+                    continue
                 fid = str(f["pitch_match_id"])
                 if fid in seen:
                     raise ValueError("duplicate_fixture")
