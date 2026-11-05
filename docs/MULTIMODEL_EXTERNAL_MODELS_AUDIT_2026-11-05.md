@@ -150,3 +150,8 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - W `.github/workflows/github-models-smoke.yml` dodano harmonogram `40 7 * * *` (UTC). Commit `d332a873da9616bdf8b0d44731034934e720d694` na `main`.
 - Workflow nadal pobiera kod wyłącznie z gałęzi badawczej `codex/multimodel-v2`, historyczne wyniki z publicznego źródła i snapshoty PitchAPI z `main` tylko do odczytu; nie modyfikuje produkcyjnego MULTIMODEL.
 - Uruchomienie kontrolne po zmianie: `42124458450` (kolejka w chwili wpisu). Produkcyjny run naprawionego PitchAPI `42124205870` także oczekiwał na wykonanie. Nie deklarować prognoz bez wyników artefaktu.
+
+## Naprawa odrzucania całej doby z powodu meczu po północy
+- Run `42124458450`: 16 testów OK, 5708 wyników historycznych, kolejka 0, `invalid_dates=['2026-11-06']`, `missing_dates=['2026-11-07']`. W snapshotcie 2026-11-06 wykryto mecze z datą lokalną niezgodną z datą pliku; dotychczas wyjątek usuwał cały dzień.
+- `github_models/daily_queue.py` teraz pomija pojedyncze spotkania spoza dnia lokalnego, zachowując prawidłowe; dodano test regresji `test_cross_midnight_fixture_does_not_invalidate_entire_day`.
+- Ponowny smoke po poprawce: `42124718990`, wynik jeszcze niepotwierdzony w chwili wpisu.
