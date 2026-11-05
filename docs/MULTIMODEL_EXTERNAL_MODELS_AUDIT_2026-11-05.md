@@ -104,3 +104,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Workflow instaluje opcjonalny pakiet `dixon-coles==0.1.0` z osobnymi zależnościami. Dodano `tests/test_github_models_dixon_runner.py` weryfikujący uruchomienie dwóch niezależnych silników; XGBoost nadal jawnie oznaczony jako niegotowy.
 - **Status:** kod zapisany, ale pełnego rzeczywistego uruchomienia ani zgodności z zewnętrzną biblioteką nie potwierdzono. Harmonogram na gałęzi badawczej nie jest automatycznie aktywny. Brak potwierdzonych prawdziwych typów, danych historycznych i testów CI tej iteracji.
 - Wymagana kontrola: test end-to-end, zgodność API dixon-coles, pokrycie lig i mapowania nazw, zachowanie dat zamrożenia, metryki na niezależnym holdout. Nie wolno przedstawiać prognoz badawczych jako zweryfikowanych rekomendacji bukmacherskich.
+
+## Audyt gotowości danych i kontrola zależności — kolejna iteracja
+- Zweryfikowano bezpośrednio publiczny kod źródłowy `callumfm/dixon-coles`: `DixonColesModel.fit(home_teams, away_teams, home_goals, away_goals, dates, ...)` i `predict(home_team, away_team)` z kluczami `home_win/draw/away_win` odpowiadają wywołaniom adaptera. Nie jest to jednak test instalacji ani dopasowania na danych rzeczywistych.
+- Dodano `github_models/coverage_audit.py`, raportujący dla każdego meczu dokładny powód blokady, pokrycie historii Elo i liczebność ligi dla Dixon-Coles. Workflow zapisuje odrębny artefakt `reports/github_models/coverage/YYYY-MM-DD.json`.
+- Codex: użytkownik dopuścił wykorzystanie, jeśli potrzebne. Na tym etapie zmiany wykonano bez osobnego zadania Codex; brak uruchomienia sesji Codex.
+- Wciąż niepotwierdzone: pełny workflow na GitHub Actions, pobranie CSV w środowisku CI, rzeczywiste dopasowania lig i drużyn oraz pierwsze zamrożone prognozy. Żadnych deklaracji o skuteczności bez wyników.
