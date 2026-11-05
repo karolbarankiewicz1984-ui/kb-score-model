@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 from github_models.elo_engine import predict_elo
+from github_models.team_mapping import resolve
 
 def run(queue, history, *, as_of_utc):
     results, blockers = [], []
@@ -16,7 +17,8 @@ def run(queue, history, *, as_of_utc):
                                      reason="model_not_trained_or_adapter_not_ready"))
                 continue
             try:
-                forecast = predict_elo(history, fixture, frozen_at_utc=as_of_utc)
+                mapped = resolve(fixture, history)
+                forecast = predict_elo(history, mapped, frozen_at_utc=as_of_utc)
                 results.append(forecast)
             except (ValueError, KeyError, TypeError) as exc:
                 blockers.append(dict(fixture_id=fixture["fixture_id"], model=model,
