@@ -32,6 +32,13 @@ jobs:
         run: |
           set -euo pipefail
           python -m github_models.public_results
+      - name: Audit actual team mapping and training coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -m github_models.coverage_audit --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --output "reports/github_models/coverage/$DAY.json" --as-of "$NOW"
       - name: Run independent research predictions (or explicit blockers)
         shell: bash
         run: |
@@ -46,6 +53,7 @@ jobs:
           path: |
             reports/github_models/queues/*.json
             reports/github_models/predictions/*.json
+            reports/github_models/coverage/*.json
             data/github_models/source_manifest.json
           retention-days: 30
           if-no-files-found: error
