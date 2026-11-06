@@ -2,7 +2,7 @@
 import json
 import math
 from datetime import datetime, timedelta
-from github_models.team_mapping import resolve
+from github_models.reviewed_resolver import resolve_reviewed as resolve
 from github_models.competition_identity import canonicalize
 
 def settle(predictions, queue, history, as_of_utc):
