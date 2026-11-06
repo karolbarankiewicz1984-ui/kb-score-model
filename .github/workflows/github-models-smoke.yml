@@ -109,6 +109,9 @@ jobs:
           request("/contents/" + dest, "PUT", {"message": "archive: frozen independent predictions " + day + " run " + run_id,
               "content": base64.b64encode(payload).decode(), "branch": branch})
           print("Archived", dest, "on", branch)
+          queue = pathlib.Path("reports/github_models/queues", day + ".json").read_bytes()
+          request("/contents/" + f"queues/{day}/{run_id}.json", "PUT", {"message": "archive: paired queue " + run_id,
+              "content": base64.b64encode(queue).decode(), "branch": branch})
           PY
       - name: Upload diagnostic artifacts even on failure
         if: always()
