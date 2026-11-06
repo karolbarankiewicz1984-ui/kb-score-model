@@ -71,6 +71,17 @@ jobs:
           DAY="$(TZ=Europe/Warsaw date +%F)"
           python -B -m github_models.daily_settlement --archive-dir research_archive --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$FROZEN_AT" --output reports/github_models/settlement.json
           python -B -m github_models.research_pdf --predictions "reports/github_models/predictions/$DAY.json" --queue "reports/github_models/queues/$DAY.json" --settlement reports/github_models/settlement.json --event-markets "reports/github_models/markets/$DAY.json" --output "reports/github_models/pdf/RESEARCH_$DAY.pdf"
+      - name: Apply isolated A/B/C research filters and render PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          python -B -m github_models.abc_report \
+            --predictions "reports/github_models/predictions/$DAY.json" \
+            --events "reports/github_models/markets/$DAY.json" \
+            --queue "reports/github_models/queues/$DAY.json" \
+            --output-json "reports/github_models/filters/ABC_$DAY.json" \
+            --output-pdf "reports/github_models/pdf/ABC_$DAY.pdf"
       - name: Upload forecasts, PDF and reproducible source inputs
         if: always()
         uses: actions/upload-artifact@v4
@@ -80,6 +91,7 @@ jobs:
             reports/github_models/queues/*.json
             reports/github_models/predictions/*.json
             reports/github_models/coverage/*.json
+            reports/github_models/filters/*.json
             reports/github_models/markets/*.json
             reports/github_models/pdf/*.pdf
             reports/github_models/settlement.json
