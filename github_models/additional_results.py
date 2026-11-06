@@ -31,6 +31,12 @@ ADDITIONAL_SOURCES = {
     "RUS": dict(country="Russia", source_league="Premier League", league="Russian Premier League", country_code="RUS"),
     "SWE": dict(country="Sweden", source_league="Allsvenskan", league="Allsvenskan", country_code="SWE"),
     "USA": dict(country="USA", source_league="MLS", league="MLS", country_code="USA"),
+    "CHN": dict(country="China", source_league="Super League", league="Chinese Super League", country_code="CHN"),
+    "FIN": dict(country="Finland", source_league="Veikkausliiga", league="Veikkausliiga", country_code="FIN"),
+    "IRL": dict(country="Ireland", source_league="Premier Division", league="Irish Premier Division", country_code="IRL"),
+    "NOR": dict(country="Norway", source_league="Eliteserien", league="Eliteserien", country_code="NOR"),
+    "SWZ": dict(country="Switzerland", source_league="Super League", league="Swiss Super League", country_code="CHE",
+                additional_leagues={"Challenge League": "Swiss Challenge League"}),
 }
 REQUIRED = ("Country", "League", "Season", "Date", "Home", "Away", "HG", "AG", "Res")
 
@@ -63,6 +69,7 @@ def audit_additional_csv(text, *, source_code, observed_at_utc, min_season_year=
     """
     url = source_url(source_code)
     source = ADDITIONAL_SOURCES[source_code]
+    league_names = {source["source_league"]: source["league"], **source.get("additional_leagues", {})}
     observed = _observed(observed_at_utc)
     if type(min_season_year) is not int or not 1 <= min_season_year <= 9999:
         raise ValueError("invalid_min_season_year")
@@ -85,7 +92,7 @@ def audit_additional_csv(text, *, source_code, observed_at_utc, min_season_year=
             row = {key: raw[key].strip() for key in REQUIRED}
             if row["Country"] != source["country"]:
                 raise ValueError("source_country_conflict")
-            if row["League"] != source["source_league"]:
+            if row["League"] not in league_names:
                 raise ValueError("unsupported_source_league")
             season = re.fullmatch(r"([0-9]{4})(?:/([0-9]{4}))?", row["Season"])
             if season is None:
@@ -120,7 +127,7 @@ def audit_additional_csv(text, *, source_code, observed_at_utc, min_season_year=
             if row["Res"] != expected_result:
                 raise ValueError("final_result_score_conflict")
             fixture_id = f"fdco:new:{source_code}:{day.date()}:{home}:{away}"
-            result = dict(fixture_id=fixture_id, league=source["league"],
+            result = dict(fixture_id=fixture_id, league=league_names[row["League"]],
                           league_code="new:" + source_code, country_code=source["country_code"],
                           season=row["Season"], match_date=day.date().isoformat(),
                           home=home, away=away, home_goals=hg, away_goals=ag, status="FINISHED",
@@ -132,7 +139,7 @@ def audit_additional_csv(text, *, source_code, observed_at_utc, min_season_year=
             rejected[str(exc)] += 1
     accepted = []
     for candidates in grouped.values():
-        facts = {(row["season"], row["home_goals"], row["away_goals"]) for row in candidates}
+        facts = {(row["league"], row["season"], row["home_goals"], row["away_goals"]) for row in candidates}
         if len(facts) != 1:
             rejected["conflicting_duplicate_fixture"] += len(candidates)
         else:

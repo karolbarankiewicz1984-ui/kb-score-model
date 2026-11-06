@@ -50,6 +50,12 @@ COMPETITIONS = {
     "l_3v84VE": ("Liga MX", "MEX"),
     "l_0eg6C9": ("MLS", "USA"),
     "l_45VZuL": ("Liga Profesional", "ARG"),
+    "l_20pNSc": ("Chinese Super League", "CHN"),
+    "l_3Ci5Cg": ("Veikkausliiga", "FIN"),
+    "l_1eJSA7": ("Irish Premier Division", "IRL"),
+    "l_0uqFK8": ("Eliteserien", "NOR"),
+    "l_4d6Bwl": ("Swiss Super League", "CHE"),
+    "l_4auCPk": ("Swiss Challenge League", "CHE"),
 }
 
 # Observed foreign namesakes must not become English/Italian/German/Greek
@@ -58,7 +64,6 @@ FOREIGN_COMPETITIONS = {
     "l_1dmt9H": ("Serie A", "ECU"),
     "l_46aZMC": ("Premier League", "EGY"),
     "l_3UiOcj": ("Premier League", "CAN"),
-    "l_20pNSc": ("Super League", "CHN"),
     "l_3qUkB8": ("Serie B", "BRA"),
 }
 
@@ -73,6 +78,8 @@ LEAGUE_COUNTRIES = {
     "Austrian Bundesliga": "AUT", "Brazilian Serie A": "BRA", "Russian Premier League": "RUS",
     "Danish Superliga": "DNK", "Romanian Superliga": "ROU", "Ekstraklasa": "POL",
     "Allsvenskan": "SWE", "J1 League": "JPN", "Liga MX": "MEX", "MLS": "USA", "Liga Profesional": "ARG",
+    "Chinese Super League": "CHN", "Veikkausliiga": "FIN", "Irish Premier Division": "IRL",
+    "Eliteserien": "NOR", "Swiss Super League": "CHE", "Swiss Challenge League": "CHE",
 }
 LEAGUE_LABELS = {
     "Premier League": ("Premier League",),
@@ -99,6 +106,10 @@ LEAGUE_LABELS = {
     "Ekstraklasa": ("Ekstraklasa",), "Allsvenskan": ("Allsvenskan",),
     "J1 League": ("J1 League", "J. League"), "Liga MX": ("Liga MX",),
     "MLS": ("MLS",), "Liga Profesional": ("Liga Profesional",),
+    "Chinese Super League": ("Chinese Super League", "Super League"),
+    "Veikkausliiga": ("Veikkausliiga",), "Irish Premier Division": ("Irish Premier Division", "Premier Division"),
+    "Eliteserien": ("Eliteserien",), "Swiss Super League": ("Swiss Super League", "Super League"),
+    "Swiss Challenge League": ("Swiss Challenge League", "Challenge League"),
 }
 # Generic labels may name competitions in several countries.  Keep the legacy
 # primary label for country-less diagnostics, and disambiguate using a reviewed
@@ -125,6 +136,8 @@ _COUNTRIES = {
     "JPN": ("JPN", "JP", "Japan"), "MEX": ("MEX", "MX", "Mexico", "México"),
     "USA": ("USA", "US", "United States", "United States of America"),
     "ROU": ("ROU", "ROM", "RO", "Romania"),
+    "FIN": ("FIN", "FI", "Finland"), "IRL": ("IRL", "IE", "Ireland", "Republic of Ireland"),
+    "NOR": ("NOR", "NO", "Norway"), "CHE": ("CHE", "SUI", "CH", "Switzerland"),
 }
 COUNTRY_ALIASES = {_key(value): country for country, values in _COUNTRIES.items() for value in values}
 

@@ -180,3 +180,19 @@ ALIASES_EXTRA["bundesliga"].update({"fc heidenheim": "heidenheim"})
 
 ALIASES_EXTRA["2 bundesliga"].update({"fc heidenheim": "heidenheim"})
 ALIASES_EXTRA["jupiler pro league"].update({"lommel": "lommel sk"})
+
+# Final /new/ archive countries. Only observed current-provider spellings with
+# a single literal candidate in the matching country/league table are listed.
+ALIASES_EXTRA.update({
+    "chinese super league": {
+        "henan": "henan songshan longmen", "shenzhen peng city": "shenzhen xinpengcheng",
+        "zhejiang": "zhejiang professional",
+    },
+    "veikkausliiga": {"oulu": "ac oulu"},
+    "irish premier division": {
+        "st patrick s athletic": "st patricks", "st patricks athletic": "st patricks",
+        "drogheda united": "drogheda", "galway united": "galway",
+    },
+    "eliteserien": {"hamarkameratene": "hamkam", "kfum": "kfum oslo"},
+    "swiss super league": {"fc vaduz": "vaduz", "fc zurich": "zurich", "grasshopper": "grasshoppers"},
+})

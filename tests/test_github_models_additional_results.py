@@ -30,7 +30,7 @@ class AdditionalResultsTests(unittest.TestCase):
                                    observed_at_utc=options.pop("observed_at_utc", self.observed), **options)
 
     def test_all_observed_feed_schemas_and_unique_country_competitions(self):
-        self.assertEqual(len(ADDITIONAL_SOURCES), 11)
+        self.assertEqual(len(ADDITIONAL_SOURCES), 16)
         names = set()
         for code, spec in ADDITIONAL_SOURCES.items():
             with self.subTest(source=code):
@@ -41,7 +41,7 @@ class AdditionalResultsTests(unittest.TestCase):
                 self.assertEqual(parsed["country_code"], spec["country_code"])
                 self.assertEqual(parsed["source_url"], f"https://www.football-data.co.uk/new/{code}.csv")
                 names.add(parsed["league"])
-        self.assertEqual(len(names), 11)
+        self.assertEqual(len(names), 16)
         for code, unsafe in (("AUT", "Bundesliga"), ("BRA", "Serie A"), ("RUS", "Premier League")):
             self.assertNotEqual(ADDITIONAL_SOURCES[code]["league"], unsafe)
 
@@ -130,6 +130,32 @@ class AdditionalResultsTests(unittest.TestCase):
         report = self.audit([self.row(Home=""), self.row(Home="Away")])
         self.assertEqual(report["accepted_count"], 0)
         self.assertEqual(report["rejection_reasons"], {"invalid_team_identity": 2})
+
+    def test_final_five_exact_source_identities_include_swiss_filename_exception(self):
+        expected = {
+            "CHN": ("China", "Super League", "Chinese Super League", "CHN"),
+            "FIN": ("Finland", "Veikkausliiga", "Veikkausliiga", "FIN"),
+            "IRL": ("Ireland", "Premier Division", "Irish Premier Division", "IRL"),
+            "NOR": ("Norway", "Eliteserien", "Eliteserien", "NOR"),
+            "SWZ": ("Switzerland", "Super League", "Swiss Super League", "CHE"),
+        }
+        for code, (country, raw_league, league, iso3) in expected.items():
+            with self.subTest(source=code):
+                spec = ADDITIONAL_SOURCES[code]
+                self.assertEqual((spec["country"], spec["source_league"], spec["league"], spec["country_code"]),
+                                 (country, raw_league, league, iso3))
+                self.assertEqual(self.audit([self.row(code, Country="Wrong country")], source=code)["accepted_count"], 0)
+
+    def test_swiss_explicit_leagues_stay_distinct_and_cross_league_duplicates_fail_closed(self):
+        report = self.audit([self.row("SWZ"), self.row("SWZ", League="Challenge League", Home="Second tier")], source="SWZ")
+        self.assertEqual({row["league"] for row in report["accepted"]},
+                         {"Swiss Super League", "Swiss Challenge League"})
+        self.assertEqual({row["country_code"] for row in report["accepted"]}, {"CHE"})
+        conflict = self.audit([self.row("SWZ"), self.row("SWZ", League="Challenge League")], source="SWZ")
+        self.assertEqual(conflict["accepted_count"], 0)
+        self.assertEqual(conflict["rejection_reasons"], {"conflicting_duplicate_fixture": 2})
+        old = self.audit([self.row("SWZ", League="Challenge League", Season="2020/2021", Date="27/05/2021")], source="SWZ")
+        self.assertEqual(old["rejection_reasons"], {"season_before_requested_scope": 1})
 
 
 if __name__ == "__main__":

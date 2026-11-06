@@ -52,11 +52,14 @@ class AdditionalCountryIdentityTests(unittest.TestCase):
             resolve_reviewed(dict(league="Bundesliga", home="Rapid Wien", away="Austria Wien"),
                              [dict(league="Austrian Bundesliga", home="SK Rapid", away="Austria Vienna")])
 
-    def test_ecuador_and_china_are_not_upgraded(self):
-        for fixture in (dict(league="Serie A", league_id="l_1dmt9H", country_code="ECU"),
-                        dict(league="Super League", league_id="l_20pNSc", country_code="CHN")):
-            with self.subTest(fixture=fixture), self.assertRaisesRegex(ValueError, "unsupported_competition_id"):
-                canonicalize(fixture)
+    def test_ecuador_remains_unsupported_and_china_cannot_use_greek_history(self):
+        with self.assertRaisesRegex(ValueError, "unsupported_competition_id"):
+            canonicalize(dict(league="Serie A", league_id="l_1dmt9H", country_code="ECU"))
+        fixture = dict(league="Super League", league_id="l_20pNSc", country_code="CHN", home="Olympiacos", away="AEK Athens")
+        mapped = canonicalize(fixture)
+        self.assertEqual((mapped["league"], mapped["country_code"]), ("Chinese Super League", "CHN"))
+        with self.assertRaisesRegex(ValueError, "unmatched_home_team"):
+            resolve_reviewed(mapped, [dict(league="Super League", home="Olympiakos", away="AEK")])
 
     def test_known_id_country_conflicts_and_label_conflicts_remain_blocked(self):
         with self.assertRaisesRegex(ValueError, "competition_country_conflict"):
