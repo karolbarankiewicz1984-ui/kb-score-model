@@ -8,7 +8,7 @@ on:
     - cron: '40 7 * * *'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   independent-smoke:
@@ -68,6 +68,48 @@ jobs:
           mkdir -p reports/github_models
           printf 'run_id=%s\ncommit=%s\nrun_attempt=%s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$GITHUB_RUN_ATTEMPT" > reports/github_models/run_identity.txt
           find reports/github_models/queues reports/github_models/coverage reports/github_models/predictions -name '*.json' -type f -print0 2>/dev/null | sort -z | xargs -0 -r sha256sum > reports/github_models/sha256sums.txt
+      - name: Archive frozen predictions on dedicated research branch
+        if: success()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          FILE="reports/github_models/predictions/$DAY.json"
+          if [ ! -f "$FILE" ]; then
+            echo "No frozen prediction file to archive"
+            exit 0
+          fi
+          python - <<'PY'
+          import base64, json, os, pathlib, urllib.request
+          run_id = os.environ["GITHUB_RUN_ID"]
+          day = __import__("datetime").datetime.now(__import__("zoneinfo").ZoneInfo("Europe/Warsaw")).date().isoformat()
+          payload = pathlib.Path("reports/github_models/predictions", day + ".json").read_bytes()
+          repo = os.environ["GITHUB_REPOSITORY"]
+          branch = "research/github-models-frozen"
+          dest = f"frozen/{day}/{run_id}.json"
+          api = "https://api.github.com/repos/" + repo
+          def request(path, method="GET", data=None):
+              body = json.dumps(data).encode() if data is not None else None
+              req = urllib.request.Request(api + path, data=body, method=method,
+                  headers={"Authorization": "Bearer " + os.environ["GH_TOKEN"],
+                           "Accept": "application/vnd.github+json",
+                           "Content-Type": "application/json"})
+              with urllib.request.urlopen(req, timeout=25) as response:
+                  return json.load(response)
+          try:
+              request("/git/ref/heads/" + branch)
+          except urllib.error.HTTPError as exc:
+              if exc.code != 404:
+                  raise
+              main = request("/git/ref/heads/main")
+              request("/git/refs", "POST", {"ref": "refs/heads/" + branch,
+                  "sha": main["object"]["sha"]})
+          request("/contents/" + dest, "PUT", {"message": "archive: frozen independent predictions " + day + " run " + run_id,
+              "content": base64.b64encode(payload).decode(), "branch": branch})
+          print("Archived", dest, "on", branch)
+          PY
       - name: Upload diagnostic artifacts even on failure
         if: always()
         uses: actions/upload-artifact@v4
