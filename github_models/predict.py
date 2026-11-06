@@ -1,6 +1,7 @@
 """Generate independent GitHub Models predictions or explicit data blockers."""
 import argparse
 import json
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from github_models.elo_engine import predict_elo
@@ -29,7 +30,8 @@ def run(queue, history, *, as_of_utc):
                                      reason=str(exc)))
     return dict(schema="github-models-independent-predictions-v1",
                 generated_at_utc=as_of_utc, production_multimodel_unchanged=True,
-                predictions=results, blockers=blockers)
+                predictions=results, blockers=blockers,
+                blocker_summary=dict(Counter(x['model'] + ': ' + x['reason'] for x in blockers)))
 
 def main():
     parser = argparse.ArgumentParser()
