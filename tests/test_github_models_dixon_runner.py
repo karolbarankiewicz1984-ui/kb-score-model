@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 from github_models.predict import run
 
-FIXTURE = dict(fixture_id="future1", league="Premier League", country="England", home="Man United",
+FIXTURE = dict(fixture_id="future1", league="Premier League", country_code="ENG", home="Man United",
                away="Chelsea", kickoff_utc="2026-11-07T15:00:00Z")
 HISTORY = [dict(fixture_id=f"old{i}", league="Premier League", home="Man United",
                 away="Chelsea", home_goals=2, away_goals=1,
