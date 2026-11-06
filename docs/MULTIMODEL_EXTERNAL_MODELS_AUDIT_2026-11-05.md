@@ -217,3 +217,6 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - `markets/2026-11-06/42180187676.json` archived on `research/github-models-frozen`, independently fetched and confirmed 192 entries.
 - Automated event-market settlement executed, processed 1 prior archived market file, 0 settled (future matches); therefore outcome correctness against actual completed fixtures and calibration are not yet empirically demonstrated.
 - PDF generated and validated (29759 bytes). Production MULTIMODEL remains isolated.
+
+## Coverage repair request — 2026-11-06
+Requested: broaden league coverage, neutral sectioned PDF, interpretation guide, and justified betting shortlist. Current observed coverage 8 of 226 fixtures (Ligue 1 only). Safety-gated code updates to mapping/report were not applied; do not treat this request as completed. Do not remove prematch provenance checks. Betting picks need calibrated probabilities and verified exact-market bookmaker odds; otherwise show research watchlist only.
