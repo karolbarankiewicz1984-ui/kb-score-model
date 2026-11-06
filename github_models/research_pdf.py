@@ -65,7 +65,7 @@ def build(predictions, queue, settlement, output, event_markets=None):
             if not candidates:
                 continue
             for v in candidates:
-                chunk.append(Paragraph(escape(market) + " " + escape(v["selection"]) + " " +
+                chunk.append(Paragraph(escape({"goals":"Gole","corners":"Rożne","cards":"Żółte kartki","fouls":"Faule"}[market]) + " " + escape(v["selection"]) + " " +
                     str(v["line"]) + ": " + f'{v["probability"]*100:.1f}%' +
                     " (niekalibrowane)", styles["ReportSmall"]))
         chunk.append(Spacer(1, 6))
