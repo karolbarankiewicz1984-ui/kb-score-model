@@ -2,6 +2,7 @@
 import math
 from datetime import datetime, timedelta
 from github_models.team_mapping import resolve
+from github_models.competition_identity import canonicalize
 
 def settle_markets(markets, queue, history, event_history, as_of_utc):
     now = datetime.fromisoformat(as_of_utc.replace("Z","+00:00"))
@@ -22,7 +23,7 @@ def settle_markets(markets, queue, history, event_history, as_of_utc):
             results.append(row)
             continue
         try:
-            mapped = resolve(fixture,history)
+            mapped = resolve(canonicalize(fixture),history)
         except (ValueError,KeyError,TypeError):
             row["status"] = "unmapped"
             results.append(row)
