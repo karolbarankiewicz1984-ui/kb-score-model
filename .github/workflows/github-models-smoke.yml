@@ -61,6 +61,13 @@ jobs:
           python -m github_models.daily_queue --as-of "$NOW"
           python -m github_models.coverage_audit --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --output "reports/github_models/coverage/$DAY.json" --as-of "$NOW"
           python -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$NOW"
+      - name: Settle previously frozen forecasts against verified outcomes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 --branch research/github-models-frozen "https://github.com/${GITHUB_REPOSITORY}.git" research-frozen
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -m github_models.daily_settlement --archive-dir research-frozen --history data/github_models/verified_results.json --as-of "$NOW" --output reports/github_models/settlements/latest.json
       - name: Record immutable run identity and SHA256 checksums
         if: always()
         shell: bash
@@ -125,6 +132,7 @@ jobs:
             reports/github_models/queues/*.json
             reports/github_models/coverage/*.json
             reports/github_models/predictions/*.json
+            reports/github_models/settlements/*.json
           if-no-files-found: warn
           retention-days: 90
 
