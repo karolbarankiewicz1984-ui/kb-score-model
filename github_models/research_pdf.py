@@ -12,7 +12,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether
 
-def build(predictions, queue, settlement, output):
+def build(predictions, queue, settlement, output, event_markets=None):
     font_path = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
     if not font_path.exists():
         raise RuntimeError("DejaVuSans font required for Polish text")
@@ -50,6 +50,26 @@ def build(predictions, queue, settlement, output):
         items.append(KeepTogether(chunk))
     if not by_fixture:
         items.append(Paragraph("Brak dopuszczonych prognoz. Nie uzupełniono ich szacunkami.", styles["ReportText"]))
+    items.append(Paragraph("Bramki, rożne, kartki, faule", styles["ReportHead"]))
+    markets = (event_markets or {}).get("markets", [])
+    if not markets:
+        items.append(Paragraph("Brak prognoz rynków dodatkowych spełniających progi danych. Braków nie zastępujemy szacunkami.", styles["ReportText"]))
+    by_market_fixture = {}
+    for entry in markets:
+        by_market_fixture.setdefault(str(entry["fixture_id"]), []).append(entry)
+    for fid, entries in sorted(by_market_fixture.items(), key=lambda v: fixtures.get(v[0], {}).get("kickoff_utc", "")):
+        f = fixtures.get(fid, {})
+        chunk = [Paragraph(escape(str(f.get("home","?"))) + " - " + escape(str(f.get("away","?"))), styles["ReportText"])]
+        for market in ("goals", "corners", "cards", "fouls"):
+            candidates = [v for v in entries if v["market"] == market]
+            if not candidates:
+                continue
+            for v in candidates:
+                chunk.append(Paragraph(escape(market) + " " + escape(v["selection"]) + " " +
+                    str(v["line"]) + ": " + f'{v["probability"]*100:.1f}%' +
+                    " (niekalibrowane)", styles["ReportSmall"]))
+        chunk.append(Spacer(1, 6))
+        items.append(KeepTogether(chunk))
     items.append(Paragraph("Rozliczenia wcześniejszych prognoz", styles["ReportHead"]))
     reports = settlement.get("reports", [])
     statuses = Counter(x.get("status") for r in reports for x in r.get("result", {}).get("settlements", []))
@@ -76,11 +96,12 @@ def build(predictions, queue, settlement, output):
 
 def main():
     p = argparse.ArgumentParser()
+    p.add_argument("--event-markets")
     for name in ("predictions", "queue", "settlement", "output"):
         p.add_argument("--" + name, required=True)
     a = p.parse_args()
     read = lambda path: json.loads(Path(path).read_text(encoding="utf-8"))
-    build(read(a.predictions), read(a.queue), read(a.settlement), a.output)
+    build(read(a.predictions), read(a.queue), read(a.settlement), a.output, read(a.event_markets) if a.event_markets else None)
 
 if __name__ == "__main__":
     main()
