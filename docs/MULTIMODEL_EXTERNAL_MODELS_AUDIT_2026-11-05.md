@@ -182,3 +182,8 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Oficjalna dokumentacja https://pitchapi.dev/ wskazuje `country_code` (np. `ENG`) w `GET /v1/leagues` i `GET /v1/leagues/{id}`, **nie** w skróconym obiekcie ligi z `GET /v1/date/{date}`. Poprzedni odczyt `country` z fixture był błędnym założeniem.
 - Kolektor badawczy wywołuje `client.leagues.get(league_id)` dla unikalnych lig i zapisuje `country_code` wraz z diagnostyką oraz bezpiecznym stanem `None` przy braku metadanych. Kolejka przenosi `country_code`, a mapowanie weryfikuje ENG/ITA/DEU/GER dla wspólnych nazw lig.
 - Testy dostosowano do kodów, a izolowany smoke uruchomiono ponownie po commit `9752f797f233d2b89559f360612eceb9efb68be8` na `main`. To **potwierdzenie kontraktu API**, nie jeszcze wykonania zapytania z produkcyjnym kluczem; kolektor na main nadal nie ma tej poprawki.
+
+## 2026-11-06 — audit blockers and frozen artifacts
+- Independent forecast JSON now includes `blocker_summary` grouped by model and reason. Previous 662 blockers are per-model attempts, not 662 unique matches.
+- Main smoke uploads per-run unique artifacts with run identity and SHA256 checksums; retention set to 90 days subject to repository limits. This is temporary archival, not a permanent FIT/HOLDOUT database.
+- Run 42171849985 was queued when checked. Production snapshot country_code integration is not yet confirmed.
