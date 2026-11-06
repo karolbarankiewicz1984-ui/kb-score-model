@@ -204,3 +204,10 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Added independent probabilistic totals for goals, corners, yellow cards, fouls with conservative league/team history gates (60 league rows and 8 per team). Poisson/shrinkage probabilities are **uncalibrated exploratory estimates**, not demonstrated hit rates.
 - Research PDF includes over/under proposals for every category that passes its data gate, with explicit probabilities and abstention when missing.
 - Kept production MULTIMODEL untouched. Further gates: end-to-end CI pass, assess observed fouls coverage, holdout calibration, score model settlement for each market.
+
+### Verified full CI execution (2026-11-06)
+- GitHub Actions run `42179685201` completed SUCCESS; 33/33 tests passed.
+- 5707 observed event-history rows, 5707 rows each with corners/cards/fouls fields as reported by collector; source availability is NOT proof of calibration.
+- 226 fixtures in queue, 16 Elo/Dixon-Coles 1X2 forecasts, 192 event-market over/under probabilities, 872 event-market blockers.
+- 7 frozen archives processed for 1X2 settlement. Generated and validated PDF header: `KB_SCORE_RESEARCH_2026-11-06.pdf`, 29761 bytes.
+- Daily report contains 1X2 and all four event-market categories when verified sample gates pass. Predictions are exploratory, not calibrated hit rates. Event-market result settlement and prospective holdout calibration remain pending.
