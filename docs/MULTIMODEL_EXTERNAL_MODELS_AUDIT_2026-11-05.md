@@ -187,3 +187,8 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Independent forecast JSON now includes `blocker_summary` grouped by model and reason. Previous 662 blockers are per-model attempts, not 662 unique matches.
 - Main smoke uploads per-run unique artifacts with run identity and SHA256 checksums; retention set to 90 days subject to repository limits. This is temporary archival, not a permanent FIT/HOLDOUT database.
 - Run 42171849985 was queued when checked. Production snapshot country_code integration is not yet confirmed.
+
+## 2026-11-06 — persistent frozen forecast archive attempt
+- Run `42172152561` succeeded with 28/28 tests, 226 fixtures, 16 research forecasts, 662 per-model blockers.
+- On `main` workflow commit `e87d5375bd3e9094dc1674c7ed0b720e5d74498d`, added write of each frozen prediction JSON to `research/github-models-frozen` branch at `frozen/YYYY-MM-DD/RUN_ID.json`, preserving separate daily runs without overwriting. No production model code is changed by this archive.
+- GitHub Actions repository write permissions and end-to-end archival are **not yet confirmed**; run `42172507593` was queued. This is an archival mechanism, not yet a complete result settlement/calibration pipeline.
