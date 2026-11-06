@@ -61,18 +61,27 @@ jobs:
           python -m github_models.daily_queue --as-of "$NOW"
           python -m github_models.coverage_audit --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --output "reports/github_models/coverage/$DAY.json" --as-of "$NOW"
           python -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$NOW"
+      - name: Record immutable run identity and SHA256 checksums
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p reports/github_models
+          printf 'run_id=%s\ncommit=%s\nrun_attempt=%s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$GITHUB_RUN_ATTEMPT" > reports/github_models/run_identity.txt
+          find reports/github_models/queues reports/github_models/coverage reports/github_models/predictions -name '*.json' -type f -print0 2>/dev/null | sort -z | xargs -0 -r sha256sum > reports/github_models/sha256sums.txt
       - name: Upload diagnostic artifacts even on failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: github-models-end-to-end-smoke
+          name: github-models-frozen-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             data/github_models/source_manifest.json
+            reports/github_models/run_identity.txt
+            reports/github_models/sha256sums.txt
             reports/github_models/queues/*.json
             reports/github_models/coverage/*.json
             reports/github_models/predictions/*.json
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 90
 
 # Independent queue regression: preserve valid fixtures when other fixtures cross local midnight.
 # Verify country-aware matching regression on isolated research branch.
