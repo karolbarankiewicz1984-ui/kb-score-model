@@ -60,6 +60,35 @@ class TestPrematch(unittest.TestCase):
         self.assertIs(lookup_context({"fixtures":[item]},"Roma","Real Madrid","UEFA Champions League"),item)
         self.assertIsNone(lookup_context({"fixtures":[item]},"Roma","Real Madrid","Premier League"))
 
+    def test_provider_country_code_from_league_detail(self):
+        future = match("f1", "2026-11-08T18:00:00Z", status="upcoming")
+        class Leagues:
+            def matches(self, league_id, status="all"):
+                return O(matches=[])
+            def get(self, league_id):
+                self.requested = league_id
+                return O(country_code="ENG")
+        leagues = Leagues()
+        client = O(date=O(get=lambda day, status: O(matches=[future])), leagues=leagues)
+        report = collect(datetime(2026,11,8).date(), client,
+                         datetime(2026,11,6,7,tzinfo=timezone.utc))
+        self.assertEqual(leagues.requested, "lg1")
+        self.assertEqual(report["fixtures"][0]["country_code"], "ENG")
+        self.assertTrue(report["league_country_diagnostics"]["lg1"]["country_code_present"])
+
+    def test_missing_provider_country_is_not_guessed(self):
+        future = match("f1", "2026-11-08T18:00:00Z", status="upcoming")
+        class Leagues:
+            def matches(self, league_id, status="all"):
+                return O(matches=[])
+            def get(self, league_id):
+                raise RuntimeError("unavailable")
+        client = O(date=O(get=lambda day, status: O(matches=[future])), leagues=Leagues())
+        report = collect(datetime(2026,11,8).date(), client,
+                         datetime(2026,11,6,7,tzinfo=timezone.utc))
+        self.assertIsNone(report["fixtures"][0]["country_code"])
+        self.assertFalse(report["league_country_diagnostics"]["lg1"]["country_code_present"])
+
     def test_render_marks_no_scores_recalculated(self):
         report={"target_date":"2026-10-16","snapshot_utc":"2026-10-15T18:00:00Z",
                 "fixtures_collected":0,"available_upcoming":0,
