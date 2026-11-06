@@ -12,9 +12,12 @@ class CompetitionIdentityTests(unittest.TestCase):
     def test_russian_premier_league_not_misclassified(self):
         fixture = dict(league="Premier League",league_id="l_2Mh0jT",
                        home="Chelsea",away="Arsenal")
-        self.assertRaisesRegex(ValueError,"country_not_verified",
-            resolve,canonicalize(fixture),
-            [dict(league="Premier League",home="Chelsea",away="Arsenal")])
+        mapped = canonicalize(fixture)
+        self.assertEqual(mapped["league"], "Russian Premier League")
+        self.assertEqual(mapped["country_code"], "RUS")
+        self.assertRaisesRegex(ValueError, "unmatched_home_team:Chelsea",
+            resolve, mapped,
+            [dict(league="Premier League", home="Chelsea", away="Arsenal")])
 
     def test_country_conflict_blocks(self):
         self.assertRaisesRegex(ValueError,"competition_country_conflict",canonicalize,

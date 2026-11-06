@@ -27,7 +27,7 @@ def normalize(name):
     if not isinstance(name, str):
         return ""
     text = unicodedata.normalize("NFKD", name.casefold())
-    text = text.translate(str.maketrans({"ł": "l", "ø": "o", "đ": "d", "ı": "i"}))
+    text = text.translate(str.maketrans({"ł": "l", "ø": "o", "đ": "d", "ı": "i", "æ": "ae", "œ": "oe"}))
     text = text.encode("ascii", "ignore").decode("ascii")
     return re.sub(r"[^a-z0-9]+", " ", text).strip()
 

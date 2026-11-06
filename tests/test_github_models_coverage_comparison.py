@@ -98,6 +98,17 @@ class CoverageComparisonTests(unittest.TestCase):
             self.assertEqual(result["summary"][name]["elo_ready"], 0)
             self.assertEqual(result["summary"][name]["reasons"]["prediction_not_prematch"], 1)
 
+    def test_event_sample_diagnostic_excludes_foreign_country_namesake(self):
+        event = dict(league="Premier League", home="A", away="B", country_code="ENG",
+                     completed_at_utc="2026-11-01T20:00:00Z",
+                     published_at_utc="2026-11-02T08:00:00Z",
+                     events={"corners": [3, 4], "cards": [1, 2], "fouls": [7, 8]})
+        foreign = dict(event, country_code="RUS", home="C", away="D")
+        result, _ = compare(self.queue, self.history, [event, foreign], baseline_root=self.root,
+                            as_of_utc=self.cutoff)
+        self.assertEqual(result["event_samples_available"]["Premier League"],
+                         {"corners": 1, "cards": 1, "fouls": 1})
+
     def test_duplicate_fixture_and_missing_old_source_fail_closed(self):
         self.queue["fixtures"].append(copy.deepcopy(self.queue["fixtures"][0]))
         with self.assertRaisesRegex(ValueError, "duplicate_queue_fixture"):

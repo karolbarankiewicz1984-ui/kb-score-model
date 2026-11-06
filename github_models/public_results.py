@@ -87,6 +87,26 @@ def main():
                                     sha256=hashlib.sha256(raw).hexdigest(), bytes=len(raw)))
             except Exception as exc:
                 sources.append(dict(url=url, status="error", reason=type(exc).__name__))
+    # These independently published rolling CSVs use a different, explicitly
+    # validated schema. They contain scores only, never missing event counts.
+    from github_models.additional_results import ADDITIONAL_SOURCES, audit_additional_csv, source_url
+    for code in ADDITIONAL_SOURCES:
+        url = source_url(code)
+        try:
+            with urlopen(Request(url, headers={"User-Agent": "github-models-research/1.0"}), timeout=args.timeout) as response:
+                raw = response.read(4_000_000)
+                if len(raw) >= 4_000_000:
+                    raise ValueError("historical_response_size_limit")
+            observed_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+            batch = audit_additional_csv(raw.decode("utf-8-sig", errors="replace"),
+                                        source_code=code, observed_at_utc=observed_at)
+            rows.extend(batch["accepted"])
+            sources.append(dict(url=url, status="ok", rows=batch["accepted_count"],
+                rejected=batch["rejected_count"], rejection_reasons=batch["rejection_reasons"],
+                observed_at_utc=observed_at, sha256=hashlib.sha256(raw).hexdigest(), bytes=len(raw),
+                schema="football-data-additional-results", event_statistics_available=False))
+        except Exception as exc:
+            sources.append(dict(url=url, status="error", reason=type(exc).__name__))
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     imported = import_verified_results(rows, as_of_utc=now)
     if not imported["accepted"]:

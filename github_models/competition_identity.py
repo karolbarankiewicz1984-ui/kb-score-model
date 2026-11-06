@@ -2,7 +2,8 @@
 
 The opaque identifiers below are bound to stored PitchAPI fixture examples in
 ``data/pitchapi/prematch/2026-10-16.json`` through ``2026-10-30.json``.  They are
-research mappings, not a claim of independent provider metadata verification.
+research mappings. Matching live league metadata was additionally observed in
+GitHub Actions run 42189744814 for IDs present in that collection.
 Neither a club name nor a generic competition label supplies a missing country.
 """
 import re
@@ -13,7 +14,7 @@ def _key(value):
     if not isinstance(value, str):
         return ""
     value = unicodedata.normalize("NFKD", value.casefold())
-    value = value.translate(str.maketrans({"ł": "l", "ø": "o", "đ": "d", "ı": "i"}))
+    value = value.translate(str.maketrans({"ł": "l", "ø": "o", "đ": "d", "ı": "i", "æ": "ae", "œ": "oe"}))
     value = value.encode("ascii", "ignore").decode("ascii")
     return re.sub(r"[^a-z0-9]+", " ", value).strip()
 
@@ -37,15 +38,24 @@ COMPETITIONS = {
     "l_0jy5yE": ("Serie B", "ITA"),
     "l_3kyHLd": ("La Liga 2", "ESP"),
     "l_0275VP": ("Ligue 2", "FRA"),
+    "l_3xwVF2": ("Super League", "GRC"),
+    "l_3zsMpo": ("Austrian Bundesliga", "AUT"),
+    "l_1D8Xrl": ("Brazilian Serie A", "BRA"),
+    "l_2Mh0jT": ("Russian Premier League", "RUS"),
+    "l_49Zmno": ("Danish Superliga", "DNK"),
+    "l_0kSJLz": ("Romanian Superliga", "ROU"),
+    "l_214sqK": ("Ekstraklasa", "POL"),
+    "l_1XsMdH": ("Allsvenskan", "SWE"),
+    "l_2ApGa4": ("J1 League", "JPN"),
+    "l_3v84VE": ("Liga MX", "MEX"),
+    "l_0eg6C9": ("MLS", "USA"),
+    "l_45VZuL": ("Liga Profesional", "ARG"),
 }
 
 # Observed foreign namesakes must not become English/Italian/German/Greek
 # competitions even if a caller accidentally supplies those countries.
 FOREIGN_COMPETITIONS = {
-    "l_3zsMpo": ("Bundesliga", "AUT"),
-    "l_1D8Xrl": ("Serie A", "BRA"),
     "l_1dmt9H": ("Serie A", "ECU"),
-    "l_2Mh0jT": ("Premier League", "RUS"),
     "l_46aZMC": ("Premier League", "EGY"),
     "l_3UiOcj": ("Premier League", "CAN"),
     "l_20pNSc": ("Super League", "CHN"),
@@ -60,6 +70,9 @@ LEAGUE_COUNTRIES = {
     "Championship": "ENG", "League One": "ENG", "League Two": "ENG", "National League": "ENG",
     "2. Bundesliga": "DEU", "Serie B": "ITA", "La Liga 2": "ESP", "Ligue 2": "FRA",
     "Scottish Championship": "SCO", "Scottish League One": "SCO", "Scottish League Two": "SCO",
+    "Austrian Bundesliga": "AUT", "Brazilian Serie A": "BRA", "Russian Premier League": "RUS",
+    "Danish Superliga": "DNK", "Romanian Superliga": "ROU", "Ekstraklasa": "POL",
+    "Allsvenskan": "SWE", "J1 League": "JPN", "Liga MX": "MEX", "MLS": "USA", "Liga Profesional": "ARG",
 }
 LEAGUE_LABELS = {
     "Premier League": ("Premier League",),
@@ -72,14 +85,30 @@ LEAGUE_LABELS = {
     "Jupiler Pro League": ("Jupiler Pro League", "First Division A"),
     "Super Lig": ("Super Lig", "Süper Lig"),
     "Premiership": ("Premiership", "Scottish Premiership"),
-    "Super League": ("Super League", "Super League Greece"),
+    "Super League": ("Super League", "Super League Greece", "Super League 1"),
     "Championship": ("Championship",), "League One": ("League One",), "League Two": ("League Two",),
     "National League": ("National League",), "2. Bundesliga": ("2. Bundesliga",),
     "Serie B": ("Serie B",), "La Liga 2": ("La Liga 2", "LaLiga2"), "Ligue 2": ("Ligue 2",),
     "Scottish Championship": ("Scottish Championship",), "Scottish League One": ("Scottish League One",),
     "Scottish League Two": ("Scottish League Two",),
+    "Austrian Bundesliga": ("Austrian Bundesliga", "Bundesliga"),
+    "Brazilian Serie A": ("Brazilian Serie A", "Serie A"),
+    "Russian Premier League": ("Russian Premier League", "Premier League"),
+    "Danish Superliga": ("Danish Superliga", "Superligaen", "Superliga"),
+    "Romanian Superliga": ("Romanian Superliga", "Liga I", "Superliga"),
+    "Ekstraklasa": ("Ekstraklasa",), "Allsvenskan": ("Allsvenskan",),
+    "J1 League": ("J1 League", "J. League"), "Liga MX": ("Liga MX",),
+    "MLS": ("MLS",), "Liga Profesional": ("Liga Profesional",),
 }
-LABEL_TO_LEAGUE = {_key(label): league for league, labels in LEAGUE_LABELS.items() for label in labels}
+# Generic labels may name competitions in several countries.  Keep the legacy
+# primary label for country-less diagnostics, and disambiguate using a reviewed
+# ID or the complete (label, country) pair before matching any teams.
+LABEL_TO_LEAGUE = {}
+LABEL_COUNTRY_TO_LEAGUE = {}
+for _league, _labels in LEAGUE_LABELS.items():
+    for _label in _labels:
+        LABEL_TO_LEAGUE.setdefault(_key(_label), _league)
+        LABEL_COUNTRY_TO_LEAGUE[(_key(_label), LEAGUE_COUNTRIES[_league])] = _league
 
 _COUNTRIES = {
     "ENG": ("ENG", "England"), "DEU": ("DEU", "GER", "DE", "Germany", "Deutschland"),
@@ -91,6 +120,11 @@ _COUNTRIES = {
     "BRA": ("BRA", "BR", "Brazil", "Brasil"), "ECU": ("ECU", "EC", "Ecuador"),
     "RUS": ("RUS", "RU", "Russia"), "EGY": ("EGY", "EG", "Egypt"),
     "CAN": ("CAN", "CA", "Canada"), "CHN": ("CHN", "CN", "China"),
+    "POL": ("POL", "PL", "Poland"), "DNK": ("DNK", "DEN", "DK", "Denmark"),
+    "SWE": ("SWE", "SE", "Sweden"), "ARG": ("ARG", "AR", "Argentina"),
+    "JPN": ("JPN", "JP", "Japan"), "MEX": ("MEX", "MX", "Mexico", "México"),
+    "USA": ("USA", "US", "United States", "United States of America"),
+    "ROU": ("ROU", "ROM", "RO", "Romania"),
 }
 COUNTRY_ALIASES = {_key(value): country for country, values in _COUNTRIES.items() for value in values}
 
@@ -98,6 +132,12 @@ COUNTRY_ALIASES = {_key(value): country for country, values in _COUNTRIES.items(
 def country_code(value):
     """Normalize reviewed country spellings; GB/UK do not identify England."""
     return COUNTRY_ALIASES.get(_key(value))
+
+
+def league_for_label(league, country=None):
+    """Resolve an explicit label/country pair, never infer a country from teams."""
+    code = country_code(country)
+    return LABEL_COUNTRY_TO_LEAGUE.get((_key(league), code), LABEL_TO_LEAGUE.get(_key(league), league))
 
 
 def country_for_league(league):
@@ -134,7 +174,7 @@ def canonicalize(fixture):
         raise ValueError("competition_country_conflict")
     supplied = countries[0] if countries else None
     raw_league = fixture.get("league")
-    league = LABEL_TO_LEAGUE.get(_key(raw_league), raw_league)
+    league = league_for_label(raw_league, supplied)
     if known or foreign:
         expected_league, expected_country = known or foreign
         if supplied and supplied != expected_country:
@@ -150,6 +190,8 @@ def canonicalize(fixture):
         return result
     if league_id and supplied and league in LEAGUE_COUNTRIES:
         raise ValueError("competition_id_not_verified")
+    if supplied and league in LEAGUE_COUNTRIES and supplied != LEAGUE_COUNTRIES[league]:
+        raise ValueError("competition_country_conflict")
     if supplied:
         result["country_code"] = supplied
     result["league"] = league

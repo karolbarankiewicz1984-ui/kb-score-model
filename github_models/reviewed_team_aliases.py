@@ -106,3 +106,77 @@ ALIASES_EXTRA["la liga 2"] = dict(ALIASES_EXTRA["la liga"], **{
     "real zaragoza": "zaragoza", "cd castellon": "castellon",
 })
 ALIASES_EXTRA["ligue 2"] = dict(ALIASES_EXTRA["ligue 1"], **{"annecy fc": "annecy", "pau": "pau fc"})
+
+# Additional first divisions, verified against their separate /new/ CSV tables
+# and matching PitchAPI league metadata in Actions run 42189744814. Generic
+# league names are disambiguated before any of these aliases are considered.
+ALIASES_EXTRA.update({
+    "austrian bundesliga": {
+        "austria lustenau": "a lustenau", "austria wien": "austria vienna",
+        "rapid wien": "sk rapid", "wsg tirol": "tirol",
+    },
+    "brazilian serie a": {
+        "athletico paranaense": "athletico pr", "botafogo": "botafogo rj",
+        "chapecoense": "chapecoense sc", "flamengo": "flamengo rj",
+        "rb bragantino": "bragantino", "vasco da gama": "vasco",
+    },
+    "russian premier league": {
+        "dinamo moscow": "dynamo moscow", "fc krasnodar": "krasnodar",
+        "fc orenburg": "orenburg", "fc rostov": "fk rostov", "fk akhmat": "akhmat grozny",
+        "fakel": "fakel voronezh", "krylya sovetov samara": "krylya sovetov",
+        "rodina": "rodina moscow", "zenit st petersburg": "zenit",
+    },
+    "danish superliga": {
+        "ac horsens": "horsens", "brondby if": "brondby", "fc kobenhavn": "fc copenhagen",
+        "fc midtjylland": "midtjylland", "ob": "odense", "agf": "aarhus",
+        "fc nordsjaelland": "nordsjaelland",
+    },
+    "romanian superliga": {
+        "arges": "fc arges", "botosani": "fc botosani", "corvinul hunedoara": "corvinul",
+        "csikszereda": "csikszereda m ciuc", "otelul galati": "otelul", "petrolul 52": "petrolul",
+        "rapid bucuresti": "fc rapid bucuresti", "sepsi": "sepsi sf gheorghe",
+        "universitatea cluj": "u cluj", "universitatea craiova": "univ craiova", "voluntari": "fc voluntari",
+    },
+    "ekstraklasa": {
+        "jagiellonia bialystok": "jagiellonia", "legia warszawa": "legia",
+        "rakow czestochowa": "rakow", "wisla krakow": "wisla", "zaglebie lubin": "zaglebie",
+    },
+    "allsvenskan": {
+        "halmstads bk": "halmstad", "ifk goteborg": "goteborg", "kalmar ff": "kalmar",
+    },
+    "j1 league": {
+        "fagiano okayama fc": "okayama", "jef united chiba": "chiba", "kyoto sanga fc": "kyoto",
+        "machida zelvia": "machida", "mito hollyhock": "mito", "tokyo verdy": "verdy",
+        "urawa red diamonds": "urawa reds",
+    },
+    "liga mx": {
+        "atletico de san luis": "atl san luis", "cf america": "club america",
+        "chivas": "guadalajara chivas", "fc juarez": "juarez", "leon": "club leon",
+        "pumas": "unam pumas", "queretaro fc": "queretaro", "tigres": "tigres uanl", "tijuana": "club tijuana",
+    },
+    "mls": {
+        "atlanta united": "atlanta utd", "charlotte fc": "charlotte", "chicago fire fc": "chicago fire",
+        "houston dynamo fc": "houston dynamo", "inter miami cf": "inter miami",
+        "la galaxy": "los angeles galaxy", "new york city fc": "new york city",
+        "red bull new york": "new york red bulls", "seattle sounders fc": "seattle sounders",
+    },
+    "liga profesional": {
+        "argentinos juniors": "argentinos jrs", "atletico tucuman": "atl tucuman",
+        "central cordoba de santiago": "central cordoba", "club atletico platense": "platense",
+        "deportivo riestra": "dep riestra", "estudiantes": "estudiantes l p",
+        "estudiantes de rio cuarto": "estudiantes rio cuarto", "gimnasia lp": "gimnasia l p",
+        "independiente rivadavia": "ind rivadavia", "newell s old boys": "newells old boys",
+        "sarmiento": "sarmiento junin", "talleres": "talleres cordoba", "union": "union de santa fe",
+    },
+    "super league": {
+        "aek athens": "aek", "aris thessaloniki": "aris", "kifisia fc": "kifisia",
+        "levadiakos": "levadeiakos", "nfc volos": "volos nfc", "olympiacos": "olympiakos",
+        "paok thessaloniki": "paok",
+    },
+})
+ALIASES_EXTRA["jupiler pro league"].update({"sporting charleroi": "charleroi", "union st gilloise": "st gilloise"})
+ALIASES_EXTRA["la liga 2"].update({"ad ceuta fc": "ceuta"})
+ALIASES_EXTRA["bundesliga"].update({"fc heidenheim": "heidenheim"})
+
+ALIASES_EXTRA["2 bundesliga"].update({"fc heidenheim": "heidenheim"})
+ALIASES_EXTRA["jupiler pro league"].update({"lommel": "lommel sk"})
