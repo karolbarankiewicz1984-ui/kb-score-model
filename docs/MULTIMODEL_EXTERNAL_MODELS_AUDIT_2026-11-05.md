@@ -171,3 +171,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Zaktualizowano test Dixon-Coles, by fikcyjny przykład `Premier League` miał jawnie `country=England` zamiast obchodzić nowy bezpiecznik kraju.
 - Na `main` rozszerzono izolowany smoke o `tests.test_pitchapi_prematch_context`; uruchomienie `42125558569` oczekuje na zakończenie.
 - Produkcyjny zbiór snapshotów nadal nie ma zweryfikowanego pola kraju; nie stosować heurystycznej mapy ligi z nazwy klubu. Następna bramka: potwierdzone metadane `league_id` z dostawcy i ponowny audyt prognoz.
+
+## 2026-11-06 — kontrola awarii i diagnostyka kraju ligi
+- Run `42125558569` zakończył się błędem **jednego testu** (26 uruchomionych): test nieznanej drużyny `Premier League` nie podawał kraju i trafiał w poprawny bezpiecznik `country_not_verified` przed weryfikacją nazwy. Poprawiono fixture testowy przez `country=England` bez osłabiania kontroli.
+- Dodano `league_country_diagnostics` do raportu kolektora badawczego: dla każdego `league_id` zapisuje jawnie dostępność i wartość pola kraju od dostawcy. Bez wartości nadal blokada; to diagnostyka, nie heurystyka.
+- Nowy izolowany smoke `42168642822` uruchomiony na `main`, wynik niepotwierdzony w chwili wpisu. Produkcyjny PitchAPI run `42124205870` wcześniej zakończył się sukcesem.
+- Pozostaje potwierdzenie metadanych kraju z prawdziwej odpowiedzi PitchAPI, a następnie dopiero walidacja nowych prognoz.
