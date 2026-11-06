@@ -1,0 +1,1172 @@
+{
+  "schema": "pitchapi-prematch-context-v1",
+  "target_date": "2026-11-09",
+  "snapshot_utc": "2026-11-06T12:07:16.964958+00:00",
+  "source": "PitchAPI",
+  "available_upcoming": 12,
+  "fixtures_collected": 12,
+  "fixtures_with_both_sides_sufficient": 12,
+  "league_errors": [],
+  "fixtures": [
+    {
+      "pitch_match_id": "m_0yAzwO",
+      "league": "Serie A",
+      "league_id": "l_1dmt9H",
+      "home": "Mushuc Runa",
+      "away": "Delfín",
+      "kickoff_utc": "2026-11-09T18:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.266,
+        "mean_xg_against": 1.664,
+        "source_match_ids": [
+          "m_259QMc",
+          "m_3qZ4Ic",
+          "m_0ouctN",
+          "m_1K46By",
+          "m_1YF0E8"
+        ],
+        "samples": [
+          {
+            "match_id": "m_259QMc",
+            "kickoff_utc": "2026-11-03T20:30:00Z",
+            "xg_for": 2.63,
+            "xg_against": 1.97
+          },
+          {
+            "match_id": "m_3qZ4Ic",
+            "kickoff_utc": "2026-10-26T20:30:00Z",
+            "xg_for": 0.63,
+            "xg_against": 2.32
+          },
+          {
+            "match_id": "m_0ouctN",
+            "kickoff_utc": "2026-10-19T20:30:00Z",
+            "xg_for": 1.43,
+            "xg_against": 0.73
+          },
+          {
+            "match_id": "m_1K46By",
+            "kickoff_utc": "2026-10-09T20:30:00Z",
+            "xg_for": 0.9,
+            "xg_against": 1.7
+          },
+          {
+            "match_id": "m_1YF0E8",
+            "kickoff_utc": "2026-09-20T21:00:00Z",
+            "xg_for": 0.74,
+            "xg_against": 1.6
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.8,
+        "mean_xg_against": 0.897,
+        "source_match_ids": [
+          "m_3OYPcy",
+          "m_15tKDK",
+          "m_1K46By",
+          "m_19fTWQ"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3OYPcy",
+            "kickoff_utc": "2026-10-31T16:30:00Z",
+            "xg_for": 1.87,
+            "xg_against": 0.47
+          },
+          {
+            "match_id": "m_15tKDK",
+            "kickoff_utc": "2026-10-18T16:30:00Z",
+            "xg_for": 2.28,
+            "xg_against": 1.5
+          },
+          {
+            "match_id": "m_1K46By",
+            "kickoff_utc": "2026-10-09T20:30:00Z",
+            "xg_for": 1.7,
+            "xg_against": 0.9
+          },
+          {
+            "match_id": "m_19fTWQ",
+            "kickoff_utc": "2026-09-20T18:30:00Z",
+            "xg_for": 1.35,
+            "xg_against": 0.72
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1xgwFq",
+      "league": "Serie A",
+      "league_id": "l_1dmt9H",
+      "home": "Técnico Universitario",
+      "away": "Manta",
+      "kickoff_utc": "2026-11-09T20:30:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.16,
+        "mean_xg_against": 0.908,
+        "source_match_ids": [
+          "m_07fYHs",
+          "m_3qZ4Ic",
+          "m_2X69y9",
+          "m_19fTWQ"
+        ],
+        "samples": [
+          {
+            "match_id": "m_07fYHs",
+            "kickoff_utc": "2026-11-02T20:30:00Z",
+            "xg_for": 0.57,
+            "xg_against": 0.92
+          },
+          {
+            "match_id": "m_3qZ4Ic",
+            "kickoff_utc": "2026-10-26T20:30:00Z",
+            "xg_for": 2.32,
+            "xg_against": 0.63
+          },
+          {
+            "match_id": "m_2X69y9",
+            "kickoff_utc": "2026-10-10T19:00:00Z",
+            "xg_for": 1.03,
+            "xg_against": 0.73
+          },
+          {
+            "match_id": "m_19fTWQ",
+            "kickoff_utc": "2026-09-20T18:30:00Z",
+            "xg_for": 0.72,
+            "xg_against": 1.35
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.555,
+        "mean_xg_against": 1.897,
+        "source_match_ids": [
+          "m_259QMc",
+          "m_15tKDK",
+          "m_2X69y9",
+          "m_29y1qr"
+        ],
+        "samples": [
+          {
+            "match_id": "m_259QMc",
+            "kickoff_utc": "2026-11-03T20:30:00Z",
+            "xg_for": 1.97,
+            "xg_against": 2.63
+          },
+          {
+            "match_id": "m_15tKDK",
+            "kickoff_utc": "2026-10-18T16:30:00Z",
+            "xg_for": 1.5,
+            "xg_against": 2.28
+          },
+          {
+            "match_id": "m_2X69y9",
+            "kickoff_utc": "2026-10-10T19:00:00Z",
+            "xg_for": 0.73,
+            "xg_against": 1.03
+          },
+          {
+            "match_id": "m_29y1qr",
+            "kickoff_utc": "2026-09-21T19:00:00Z",
+            "xg_for": 2.02,
+            "xg_against": 1.65
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1Bhvp4",
+      "league": "USL League One",
+      "league_id": "l_3Kf7Ni",
+      "home": "Charlotte Independence",
+      "away": "Forward Madison",
+      "kickoff_utc": "2026-11-09T00:00:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.593,
+        "mean_xg_against": 2.042,
+        "source_match_ids": [
+          "m_2jIT10",
+          "m_0GSQt3",
+          "m_2PonIC",
+          "m_1aGjTN"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2jIT10",
+            "kickoff_utc": "2026-10-24T21:00:00Z",
+            "xg_for": 0.65,
+            "xg_against": 3.18
+          },
+          {
+            "match_id": "m_0GSQt3",
+            "kickoff_utc": "2026-10-17T23:00:00Z",
+            "xg_for": 2.09,
+            "xg_against": 1.63
+          },
+          {
+            "match_id": "m_2PonIC",
+            "kickoff_utc": "2026-10-10T23:00:00Z",
+            "xg_for": 1.67,
+            "xg_against": 0.55
+          },
+          {
+            "match_id": "m_1aGjTN",
+            "kickoff_utc": "2026-10-03T23:30:00Z",
+            "xg_for": 1.96,
+            "xg_against": 2.81
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.674,
+        "mean_xg_against": 0.94,
+        "source_match_ids": [
+          "m_1UiP8i",
+          "m_0ShBoj",
+          "m_1W1GFu",
+          "m_3yjQG8",
+          "m_1Qbt5S"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1UiP8i",
+            "kickoff_utc": "2026-10-30T23:30:00Z",
+            "xg_for": 1.29,
+            "xg_against": 0.86
+          },
+          {
+            "match_id": "m_0ShBoj",
+            "kickoff_utc": "2026-10-24T22:00:00Z",
+            "xg_for": 1.03,
+            "xg_against": 0.94
+          },
+          {
+            "match_id": "m_1W1GFu",
+            "kickoff_utc": "2026-10-17T22:00:00Z",
+            "xg_for": 3.73,
+            "xg_against": 0.38
+          },
+          {
+            "match_id": "m_3yjQG8",
+            "kickoff_utc": "2026-10-10T23:00:00Z",
+            "xg_for": 0.93,
+            "xg_against": 1.26
+          },
+          {
+            "match_id": "m_1Qbt5S",
+            "kickoff_utc": "2026-10-03T23:30:00Z",
+            "xg_for": 1.39,
+            "xg_against": 1.26
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1rIZZ0",
+      "league": "Liga MX",
+      "league_id": "l_3v84VE",
+      "home": "Querétaro FC",
+      "away": "Puebla",
+      "kickoff_utc": "2026-11-09T00:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.602,
+        "mean_xg_against": 1.872,
+        "source_match_ids": [
+          "m_3vAUGx",
+          "m_3orP8R",
+          "m_2MQECZ",
+          "m_19JhDo",
+          "m_38dcLj"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3vAUGx",
+            "kickoff_utc": "2026-10-31T01:00:00Z",
+            "xg_for": 2.69,
+            "xg_against": 1.44
+          },
+          {
+            "match_id": "m_3orP8R",
+            "kickoff_utc": "2026-10-26T01:00:00Z",
+            "xg_for": 1.17,
+            "xg_against": 1.67
+          },
+          {
+            "match_id": "m_2MQECZ",
+            "kickoff_utc": "2026-10-21T01:00:00Z",
+            "xg_for": 1.02,
+            "xg_against": 1.37
+          },
+          {
+            "match_id": "m_19JhDo",
+            "kickoff_utc": "2026-10-17T23:00:00Z",
+            "xg_for": 1.53,
+            "xg_against": 4.17
+          },
+          {
+            "match_id": "m_38dcLj",
+            "kickoff_utc": "2026-10-10T23:00:00Z",
+            "xg_for": 1.6,
+            "xg_against": 0.71
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.964,
+        "mean_xg_against": 1.83,
+        "source_match_ids": [
+          "m_01THKD",
+          "m_3xGZ0m",
+          "m_2s2yi4",
+          "m_2oNDOp",
+          "m_4RLOlH"
+        ],
+        "samples": [
+          {
+            "match_id": "m_01THKD",
+            "kickoff_utc": "2026-10-31T03:00:00Z",
+            "xg_for": 1.26,
+            "xg_against": 2.92
+          },
+          {
+            "match_id": "m_3xGZ0m",
+            "kickoff_utc": "2026-10-25T23:00:00Z",
+            "xg_for": 1.06,
+            "xg_against": 1.29
+          },
+          {
+            "match_id": "m_2s2yi4",
+            "kickoff_utc": "2026-10-22T01:00:00Z",
+            "xg_for": 1.45,
+            "xg_against": 1.98
+          },
+          {
+            "match_id": "m_2oNDOp",
+            "kickoff_utc": "2026-10-17T03:05:00Z",
+            "xg_for": 0.41,
+            "xg_against": 1.17
+          },
+          {
+            "match_id": "m_4RLOlH",
+            "kickoff_utc": "2026-10-10T01:00:00Z",
+            "xg_for": 0.64,
+            "xg_against": 1.79
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_2rDK5o",
+      "league": "Primera A",
+      "league_id": "l_1xXulJ",
+      "home": "Alianza",
+      "away": "Llaneros",
+      "kickoff_utc": "2026-11-09T01:15:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.012,
+        "mean_xg_against": 0.968,
+        "source_match_ids": [
+          "m_3mKsrX",
+          "m_0JYz57",
+          "m_2EVbIq",
+          "m_3cX67z"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3mKsrX",
+            "kickoff_utc": "2026-10-28T23:00:00Z",
+            "xg_for": 0.48,
+            "xg_against": 1.98
+          },
+          {
+            "match_id": "m_0JYz57",
+            "kickoff_utc": "2026-10-25T21:05:00Z",
+            "xg_for": 1.47,
+            "xg_against": 0.26
+          },
+          {
+            "match_id": "m_2EVbIq",
+            "kickoff_utc": "2026-10-20T01:05:00Z",
+            "xg_for": 0.61,
+            "xg_against": 0.31
+          },
+          {
+            "match_id": "m_3cX67z",
+            "kickoff_utc": "2026-10-09T23:00:00Z",
+            "xg_for": 1.49,
+            "xg_against": 1.32
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.26,
+        "mean_xg_against": 1.108,
+        "source_match_ids": [
+          "m_2qyEnf",
+          "m_0jm582",
+          "m_0szlZR",
+          "m_0hYMtR",
+          "m_2HOoYs"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2qyEnf",
+            "kickoff_utc": "2026-10-31T23:00:00Z",
+            "xg_for": 1.16,
+            "xg_against": 1.61
+          },
+          {
+            "match_id": "m_0jm582",
+            "kickoff_utc": "2026-10-26T23:00:00Z",
+            "xg_for": 0.83,
+            "xg_against": 1.44
+          },
+          {
+            "match_id": "m_0szlZR",
+            "kickoff_utc": "2026-10-21T23:15:00Z",
+            "xg_for": 0.62,
+            "xg_against": 0.46
+          },
+          {
+            "match_id": "m_0hYMtR",
+            "kickoff_utc": "2026-10-18T23:05:00Z",
+            "xg_for": 2.13,
+            "xg_against": 1.34
+          },
+          {
+            "match_id": "m_2HOoYs",
+            "kickoff_utc": "2026-10-10T01:10:00Z",
+            "xg_for": 1.56,
+            "xg_against": 0.69
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0d2vLd",
+      "league": "Liga 1",
+      "league_id": "l_3uNwVX",
+      "home": "Universitario",
+      "away": "Deportivo Moquegua",
+      "kickoff_utc": "2026-11-09T01:30:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.8,
+        "mean_xg_against": 1.205,
+        "source_match_ids": [
+          "m_2XO0Pf",
+          "m_0bYY34",
+          "m_4Jvxc3",
+          "m_3L4vXH"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2XO0Pf",
+            "kickoff_utc": "2026-11-05T01:30:00Z",
+            "xg_for": 2.34,
+            "xg_against": 1.4
+          },
+          {
+            "match_id": "m_0bYY34",
+            "kickoff_utc": "2026-11-01T20:30:00Z",
+            "xg_for": 1.59,
+            "xg_against": 1.37
+          },
+          {
+            "match_id": "m_4Jvxc3",
+            "kickoff_utc": "2026-10-25T00:30:00Z",
+            "xg_for": 2.0,
+            "xg_against": 0.11
+          },
+          {
+            "match_id": "m_3L4vXH",
+            "kickoff_utc": "2026-10-11T00:00:00Z",
+            "xg_for": 1.27,
+            "xg_against": 1.94
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.6,
+        "mean_xg_against": 1.588,
+        "source_match_ids": [
+          "m_4PgWRG",
+          "m_3eBeXd",
+          "m_4TXQ7i",
+          "m_4Z6V7a",
+          "m_2JoL2O"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4PgWRG",
+            "kickoff_utc": "2026-11-01T16:00:00Z",
+            "xg_for": 0.98,
+            "xg_against": 1.42
+          },
+          {
+            "match_id": "m_3eBeXd",
+            "kickoff_utc": "2026-10-28T16:00:00Z",
+            "xg_for": 0.42,
+            "xg_against": 1.79
+          },
+          {
+            "match_id": "m_4TXQ7i",
+            "kickoff_utc": "2026-10-25T18:15:00Z",
+            "xg_for": 0.51,
+            "xg_against": 1.62
+          },
+          {
+            "match_id": "m_4Z6V7a",
+            "kickoff_utc": "2026-10-18T18:15:00Z",
+            "xg_for": 0.47,
+            "xg_against": 0.68
+          },
+          {
+            "match_id": "m_2JoL2O",
+            "kickoff_utc": "2026-10-08T18:00:00Z",
+            "xg_for": 0.62,
+            "xg_against": 2.43
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1Ikrwo",
+      "league": "Liga MX",
+      "league_id": "l_3v84VE",
+      "home": "León",
+      "away": "Chivas",
+      "kickoff_utc": "2026-11-09T02:10:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.872,
+        "mean_xg_against": 1.506,
+        "source_match_ids": [
+          "m_0hT2Ot",
+          "m_47W0xs",
+          "m_30neKJ",
+          "m_0rX1sC",
+          "m_4RLOlH"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0hT2Ot",
+            "kickoff_utc": "2026-11-02T01:10:00Z",
+            "xg_for": 2.15,
+            "xg_against": 1.48
+          },
+          {
+            "match_id": "m_47W0xs",
+            "kickoff_utc": "2026-10-24T23:00:00Z",
+            "xg_for": 1.49,
+            "xg_against": 1.42
+          },
+          {
+            "match_id": "m_30neKJ",
+            "kickoff_utc": "2026-10-21T03:10:00Z",
+            "xg_for": 2.3,
+            "xg_against": 1.86
+          },
+          {
+            "match_id": "m_0rX1sC",
+            "kickoff_utc": "2026-10-18T01:00:00Z",
+            "xg_for": 1.63,
+            "xg_against": 2.13
+          },
+          {
+            "match_id": "m_4RLOlH",
+            "kickoff_utc": "2026-10-10T01:00:00Z",
+            "xg_for": 1.79,
+            "xg_against": 0.64
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.45,
+        "mean_xg_against": 1.166,
+        "source_match_ids": [
+          "m_0x59ZN",
+          "m_2JEO49",
+          "m_4bUIkL",
+          "m_4D6YOs",
+          "m_2I9ocE"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0x59ZN",
+            "kickoff_utc": "2026-11-01T01:07:00Z",
+            "xg_for": 1.56,
+            "xg_against": 1.57
+          },
+          {
+            "match_id": "m_2JEO49",
+            "kickoff_utc": "2026-10-25T01:00:00Z",
+            "xg_for": 1.28,
+            "xg_against": 1.64
+          },
+          {
+            "match_id": "m_4bUIkL",
+            "kickoff_utc": "2026-10-21T00:07:00Z",
+            "xg_for": 0.69,
+            "xg_against": 0.53
+          },
+          {
+            "match_id": "m_4D6YOs",
+            "kickoff_utc": "2026-10-17T23:07:00Z",
+            "xg_for": 1.66,
+            "xg_against": 0.43
+          },
+          {
+            "match_id": "m_2I9ocE",
+            "kickoff_utc": "2026-10-11T01:00:00Z",
+            "xg_for": 2.06,
+            "xg_against": 1.66
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_08cYCJ",
+      "league": "Liga I",
+      "league_id": "l_0kSJLz",
+      "home": "Botoșani",
+      "away": "Oţelul Galați",
+      "kickoff_utc": "2026-11-09T18:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.346,
+        "mean_xg_against": 1.948,
+        "source_match_ids": [
+          "m_2QuJAB",
+          "m_320oID",
+          "m_032bKI",
+          "m_1zTHDg",
+          "m_3wc9Lf"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2QuJAB",
+            "kickoff_utc": "2026-11-01T15:30:00Z",
+            "xg_for": 0.58,
+            "xg_against": 1.06
+          },
+          {
+            "match_id": "m_320oID",
+            "kickoff_utc": "2026-10-23T15:00:00Z",
+            "xg_for": 1.4,
+            "xg_against": 1.34
+          },
+          {
+            "match_id": "m_032bKI",
+            "kickoff_utc": "2026-10-16T18:00:00Z",
+            "xg_for": 0.22,
+            "xg_against": 3.83
+          },
+          {
+            "match_id": "m_1zTHDg",
+            "kickoff_utc": "2026-10-10T14:15:00Z",
+            "xg_for": 3.59,
+            "xg_against": 0.67
+          },
+          {
+            "match_id": "m_3wc9Lf",
+            "kickoff_utc": "2026-09-19T14:30:00Z",
+            "xg_for": 0.94,
+            "xg_against": 2.84
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.746,
+        "mean_xg_against": 1.3,
+        "source_match_ids": [
+          "m_1ySYdb",
+          "m_0xjPGX",
+          "m_3Qm9DY",
+          "m_1ppWN3",
+          "m_0E7Mgi"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1ySYdb",
+            "kickoff_utc": "2026-11-01T13:00:00Z",
+            "xg_for": 2.02,
+            "xg_against": 0.34
+          },
+          {
+            "match_id": "m_0xjPGX",
+            "kickoff_utc": "2026-10-25T14:00:00Z",
+            "xg_for": 1.3,
+            "xg_against": 1.19
+          },
+          {
+            "match_id": "m_3Qm9DY",
+            "kickoff_utc": "2026-10-16T15:00:00Z",
+            "xg_for": 2.89,
+            "xg_against": 1.37
+          },
+          {
+            "match_id": "m_1ppWN3",
+            "kickoff_utc": "2026-10-10T18:30:00Z",
+            "xg_for": 0.27,
+            "xg_against": 0.8
+          },
+          {
+            "match_id": "m_0E7Mgi",
+            "kickoff_utc": "2026-09-21T15:00:00Z",
+            "xg_for": 2.25,
+            "xg_against": 2.8
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1cAOm2",
+      "league": "1. Division",
+      "league_id": "l_1rPvVD",
+      "home": "Hvidovre",
+      "away": "Aarhus Fremad",
+      "kickoff_utc": "2026-11-09T18:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.042,
+        "mean_xg_against": 1.188,
+        "source_match_ids": [
+          "m_0fr4J8",
+          "m_1F6pOH",
+          "m_2yp8yo",
+          "m_0v48o3",
+          "m_2QM8Le"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0fr4J8",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.07,
+            "xg_against": 1.21
+          },
+          {
+            "match_id": "m_1F6pOH",
+            "kickoff_utc": "2026-10-23T17:00:00Z",
+            "xg_for": 1.48,
+            "xg_against": 1.0
+          },
+          {
+            "match_id": "m_2yp8yo",
+            "kickoff_utc": "2026-10-18T11:00:00Z",
+            "xg_for": 0.86,
+            "xg_against": 1.01
+          },
+          {
+            "match_id": "m_0v48o3",
+            "kickoff_utc": "2026-10-09T16:00:00Z",
+            "xg_for": 0.68,
+            "xg_against": 1.38
+          },
+          {
+            "match_id": "m_2QM8Le",
+            "kickoff_utc": "2026-09-19T12:00:00Z",
+            "xg_for": 5.12,
+            "xg_against": 1.34
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.035,
+        "mean_xg_against": 2.192,
+        "source_match_ids": [
+          "m_23q9Z5",
+          "m_3BlGLS",
+          "m_2vrCh1",
+          "m_2QM8Le"
+        ],
+        "samples": [
+          {
+            "match_id": "m_23q9Z5",
+            "kickoff_utc": "2026-10-24T16:30:00Z",
+            "xg_for": 0.78,
+            "xg_against": 0.94
+          },
+          {
+            "match_id": "m_3BlGLS",
+            "kickoff_utc": "2026-10-16T17:00:00Z",
+            "xg_for": 1.33,
+            "xg_against": 1.24
+          },
+          {
+            "match_id": "m_2vrCh1",
+            "kickoff_utc": "2026-10-09T17:00:00Z",
+            "xg_for": 0.69,
+            "xg_against": 1.47
+          },
+          {
+            "match_id": "m_2QM8Le",
+            "kickoff_utc": "2026-09-19T12:00:00Z",
+            "xg_for": 1.34,
+            "xg_against": 5.12
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1tvJBs",
+      "league": "LaLiga2",
+      "league_id": "l_3kyHLd",
+      "home": "Sabadell",
+      "away": "Real Sociedad B",
+      "kickoff_utc": "2026-11-09T19:30:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.07,
+        "mean_xg_against": 0.86,
+        "source_match_ids": [
+          "m_431VBQ",
+          "m_1Z04qw",
+          "m_1EQca2",
+          "m_3NUanz",
+          "m_4gTg8b"
+        ],
+        "samples": [
+          {
+            "match_id": "m_431VBQ",
+            "kickoff_utc": "2026-10-31T20:00:00Z",
+            "xg_for": 1.62,
+            "xg_against": 0.34
+          },
+          {
+            "match_id": "m_1Z04qw",
+            "kickoff_utc": "2026-10-25T13:00:00Z",
+            "xg_for": 0.82,
+            "xg_against": 0.65
+          },
+          {
+            "match_id": "m_1EQca2",
+            "kickoff_utc": "2026-10-18T19:00:00Z",
+            "xg_for": 0.37,
+            "xg_against": 2.13
+          },
+          {
+            "match_id": "m_3NUanz",
+            "kickoff_utc": "2026-10-10T14:15:00Z",
+            "xg_for": 1.44,
+            "xg_against": 0.9
+          },
+          {
+            "match_id": "m_4gTg8b",
+            "kickoff_utc": "2026-10-04T19:00:00Z",
+            "xg_for": 1.1,
+            "xg_against": 0.28
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.692,
+        "mean_xg_against": 1.742,
+        "source_match_ids": [
+          "m_3ivChS",
+          "m_1t9c7u",
+          "m_0J4m7n",
+          "m_2DqhYz",
+          "m_2gaMfS"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3ivChS",
+            "kickoff_utc": "2026-10-31T13:00:00Z",
+            "xg_for": 1.95,
+            "xg_against": 0.53
+          },
+          {
+            "match_id": "m_1t9c7u",
+            "kickoff_utc": "2026-10-24T16:30:00Z",
+            "xg_for": 0.9,
+            "xg_against": 1.04
+          },
+          {
+            "match_id": "m_0J4m7n",
+            "kickoff_utc": "2026-10-17T12:00:00Z",
+            "xg_for": 1.6,
+            "xg_against": 1.89
+          },
+          {
+            "match_id": "m_2DqhYz",
+            "kickoff_utc": "2026-10-10T19:00:00Z",
+            "xg_for": 1.81,
+            "xg_against": 1.89
+          },
+          {
+            "match_id": "m_2gaMfS",
+            "kickoff_utc": "2026-10-04T12:00:00Z",
+            "xg_for": 2.2,
+            "xg_against": 3.36
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_3T6JS4",
+      "league": "Division Profesional",
+      "league_id": "l_4FPF2L",
+      "home": "Sportivo San Lorenzo",
+      "away": "Rubio Ñú",
+      "kickoff_utc": "2026-11-09T20:00:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.305,
+        "mean_xg_against": 1.63,
+        "source_match_ids": [
+          "m_2tj8VZ",
+          "m_3RYtla",
+          "m_08gnUd",
+          "m_0kg7JI"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2tj8VZ",
+            "kickoff_utc": "2026-11-03T22:30:00Z",
+            "xg_for": 1.74,
+            "xg_against": 1.3
+          },
+          {
+            "match_id": "m_3RYtla",
+            "kickoff_utc": "2026-10-31T22:30:00Z",
+            "xg_for": 1.67,
+            "xg_against": 0.77
+          },
+          {
+            "match_id": "m_08gnUd",
+            "kickoff_utc": "2026-10-18T22:20:00Z",
+            "xg_for": 0.62,
+            "xg_against": 3.14
+          },
+          {
+            "match_id": "m_0kg7JI",
+            "kickoff_utc": "2026-10-10T20:00:00Z",
+            "xg_for": 1.19,
+            "xg_against": 1.31
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.272,
+        "mean_xg_against": 1.784,
+        "source_match_ids": [
+          "m_157B1L",
+          "m_2fCqtg",
+          "m_1udWPa",
+          "m_03XZsF",
+          "m_43umEQ"
+        ],
+        "samples": [
+          {
+            "match_id": "m_157B1L",
+            "kickoff_utc": "2026-11-05T22:00:00Z",
+            "xg_for": 1.18,
+            "xg_against": 2.16
+          },
+          {
+            "match_id": "m_2fCqtg",
+            "kickoff_utc": "2026-10-30T22:30:00Z",
+            "xg_for": 2.25,
+            "xg_against": 2.45
+          },
+          {
+            "match_id": "m_1udWPa",
+            "kickoff_utc": "2026-10-23T20:00:00Z",
+            "xg_for": 1.2,
+            "xg_against": 0.95
+          },
+          {
+            "match_id": "m_03XZsF",
+            "kickoff_utc": "2026-10-16T22:20:00Z",
+            "xg_for": 1.49,
+            "xg_against": 1.46
+          },
+          {
+            "match_id": "m_43umEQ",
+            "kickoff_utc": "2026-10-11T20:00:00Z",
+            "xg_for": 0.24,
+            "xg_against": 1.9
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_3gtWCd",
+      "league": "Division Profesional",
+      "league_id": "l_4FPF2L",
+      "home": "Sportivo Luqueño",
+      "away": "2 de Mayo",
+      "kickoff_utc": "2026-11-09T22:30:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.566,
+        "mean_xg_against": 1.572,
+        "source_match_ids": [
+          "m_157B1L",
+          "m_0g71l9",
+          "m_2nSI8S",
+          "m_08gnUd",
+          "m_2Qy5BR"
+        ],
+        "samples": [
+          {
+            "match_id": "m_157B1L",
+            "kickoff_utc": "2026-11-05T22:00:00Z",
+            "xg_for": 2.16,
+            "xg_against": 1.18
+          },
+          {
+            "match_id": "m_0g71l9",
+            "kickoff_utc": "2026-10-31T22:30:00Z",
+            "xg_for": 0.36,
+            "xg_against": 0.92
+          },
+          {
+            "match_id": "m_2nSI8S",
+            "kickoff_utc": "2026-10-23T22:30:00Z",
+            "xg_for": 1.25,
+            "xg_against": 1.61
+          },
+          {
+            "match_id": "m_08gnUd",
+            "kickoff_utc": "2026-10-18T22:20:00Z",
+            "xg_for": 3.14,
+            "xg_against": 0.62
+          },
+          {
+            "match_id": "m_2Qy5BR",
+            "kickoff_utc": "2026-10-10T22:20:00Z",
+            "xg_for": 0.92,
+            "xg_against": 3.53
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.68,
+        "mean_xg_against": 0.972,
+        "source_match_ids": [
+          "m_064ePu",
+          "m_0GP3f1",
+          "m_2MkjsQ",
+          "m_0L2Mnj",
+          "m_1LTGYL"
+        ],
+        "samples": [
+          {
+            "match_id": "m_064ePu",
+            "kickoff_utc": "2026-11-03T20:00:00Z",
+            "xg_for": 0.64,
+            "xg_against": 0.65
+          },
+          {
+            "match_id": "m_0GP3f1",
+            "kickoff_utc": "2026-10-30T22:30:00Z",
+            "xg_for": 0.52,
+            "xg_against": 0.69
+          },
+          {
+            "match_id": "m_2MkjsQ",
+            "kickoff_utc": "2026-10-24T22:20:00Z",
+            "xg_for": 0.67,
+            "xg_against": 0.33
+          },
+          {
+            "match_id": "m_0L2Mnj",
+            "kickoff_utc": "2026-10-17T22:20:00Z",
+            "xg_for": 0.99,
+            "xg_against": 2.56
+          },
+          {
+            "match_id": "m_1LTGYL",
+            "kickoff_utc": "2026-10-12T20:00:00Z",
+            "xg_for": 0.58,
+            "xg_against": 0.63
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    }
+  ],
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "important": "Historic xG averages, not predicted goals or betting probabilities. Only fixtures played BEFORE snapshot enter samples."
+}
