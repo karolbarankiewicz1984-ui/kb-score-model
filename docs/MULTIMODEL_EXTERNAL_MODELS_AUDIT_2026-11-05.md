@@ -211,3 +211,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - 226 fixtures in queue, 16 Elo/Dixon-Coles 1X2 forecasts, 192 event-market over/under probabilities, 872 event-market blockers.
 - 7 frozen archives processed for 1X2 settlement. Generated and validated PDF header: `KB_SCORE_RESEARCH_2026-11-06.pdf`, 29761 bytes.
 - Daily report contains 1X2 and all four event-market categories when verified sample gates pass. Predictions are exploratory, not calibrated hit rates. Event-market result settlement and prospective holdout calibration remain pending.
+
+### Market settlement and immutable archive verified
+- Successful GitHub Actions run `42180187676`: 35/35 tests; 192 event-market probabilities (48 each for goals, corners, yellow cards, fouls); 872 event-market blockers; 5707 observed rows for each event category.
+- `markets/2026-11-06/42180187676.json` archived on `research/github-models-frozen`, independently fetched and confirmed 192 entries.
+- Automated event-market settlement executed, processed 1 prior archived market file, 0 settled (future matches); therefore outcome correctness against actual completed fixtures and calibration are not yet empirically demonstrated.
+- PDF generated and validated (29759 bytes). Production MULTIMODEL remains isolated.
