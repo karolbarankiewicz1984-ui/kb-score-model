@@ -1,0 +1,16 @@
+{
+  "schema": "github-models-filter-policy-v1",
+  "scope": "codex/multimodel-v2 only",
+  "variants": {
+    "A": 0.7,
+    "B": 0.75,
+    "C": 0.8
+  },
+  "model_agreement_max_pp": 10,
+  "require_frozen_prematch": true,
+  "retain_rejected": true,
+  "require_math_valid": true,
+  "v2_score": "not computed pending validated features",
+  "calibration": "unverified",
+  "production_unchanged": true
+}
