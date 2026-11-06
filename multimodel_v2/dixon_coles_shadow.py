@@ -3,7 +3,7 @@
 Requires separately installed dixon-coles package and verified historical outcomes.
 """
 from datetime import datetime, timezone
-from math import isfinite
+from math import fsum, isfinite
 from .external_model_shadow import validate_shadow_prediction
 
 def _time(s):
@@ -14,9 +14,19 @@ def _time(s):
 
 def normalize_dixon_probabilities(result):
     """Upstream rounds 1X2 to four decimals; preserve strict probability sum."""
-    raw = [float(result[k]) for k in ("home_win", "draw", "away_win")]
-    total = sum(raw)
-    if not all(isfinite(p) and p >= 0 for p in raw) or total <= 0:
+    try:
+        values = [result[k] for k in ("home_win", "draw", "away_win")]
+        if any(isinstance(value, bool) for value in values):
+            raise ValueError("boolean_probability")
+        raw = [float(value) for value in values]
+    except (KeyError, TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("invalid_dixon_coles_probabilities") from exc
+    if not all(isfinite(p) and 0 <= p <= 1 for p in raw):
+        raise ValueError("invalid_dixon_coles_probabilities")
+    total = fsum(raw)
+    # Three probabilities rounded to four decimals can differ from one by
+    # at most 0.00015. Do not turn arbitrary weights into invented forecasts.
+    if total <= 0 or abs(total - 1) > 0.000150000001:
         raise ValueError("invalid_dixon_coles_probabilities")
     return [p / total for p in raw]
 
@@ -39,7 +49,7 @@ def forecast_dixon_coles(history, fixture, *, frozen_at_utc, model_version,
             continue
         end = _time(h["completed_at_utc"])
         published = _time(h["published_at_utc"])
-        if end >= freeze or published > freeze:
+        if end >= freeze or published > freeze or published < end:
             continue
         if h["home"] == h["away"]:
             raise ValueError("invalid_training_match")

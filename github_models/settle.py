@@ -1,30 +1,49 @@
 """Read-only settlement of independently frozen GitHub Models forecasts."""
 from collections import defaultdict
 from math import log
+from datetime import datetime, timezone
+from github_models.settlement import probability_vector
+from github_models.elo_engine import utc
 
-def settle(predictions, verified_outcomes):
+def settle(predictions, verified_outcomes, *, as_of_utc=None):
     """Use exact fixture ID and verified final goals; never rewrite forecasts."""
-    outcomes = {}
+    cutoff = utc(as_of_utc) if as_of_utc is not None else datetime.now(timezone.utc)
+    outcomes = defaultdict(list)
     for row in verified_outcomes:
         try:
             if row["status"] != "FINISHED" or not row["published_at_utc"]:
                 continue
+            published = utc(row["published_at_utc"])
+            if published > cutoff:
+                continue
+            if row.get("completed_at_utc") and utc(row["completed_at_utc"]) > published:
+                continue
             goals = row["home_goals"], row["away_goals"]
             if any(type(g) is not int or g < 0 for g in goals):
                 continue
-            outcomes[row["fixture_id"]] = goals
-        except (KeyError, TypeError):
+            outcomes[str(row["fixture_id"])].append((goals, row))
+        except (KeyError, TypeError, ValueError, AttributeError):
             continue
     by_model = defaultdict(list)
     for pred in predictions:
-        if pred["fixture_id"] not in outcomes:
+        matches = outcomes.get(str(pred["fixture_id"]), [])
+        if len(matches) != 1:
             continue
-        hg, ag = outcomes[pred["fixture_id"]]
+        (hg, ag), source = matches[0]
         outcome = 0 if hg > ag else (1 if hg == ag else 2)
-        probs = [float(pred[k]) for k in ("p_home", "p_draw", "p_away")]
-        if any(p < 0 or p > 1 for p in probs) or abs(sum(probs) - 1) > 1e-6:
+        try:
+            probs = probability_vector(pred)
+            frozen, kickoff = utc(pred["frozen_at_utc"]), utc(pred["kickoff_utc"])
+            if not frozen < kickoff < cutoff:
+                continue
+            if source.get("completed_at_utc") and utc(source["completed_at_utc"]) <= kickoff:
+                continue
+            if (pred.get("source_provider") and source.get("source_provider")
+                    and pred["source_provider"] != source["source_provider"]):
+                continue
+        except (ValueError, TypeError, KeyError, AttributeError):
             continue
-        brier = sum((p - int(i == outcome)) ** 2 for i, p in enumerate(probs)) / 3
+        brier = sum((p - int(i == outcome)) ** 2 for i, p in enumerate(probs))
         loss = -log(max(probs[outcome], 1e-15))
         hit = int(max(range(3), key=lambda i: probs[i]) == outcome)
         by_model[pred["model_id"]].append((brier, loss, hit))

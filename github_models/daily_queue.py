@@ -5,6 +5,7 @@ selects fixtures based on bookmaker odds. No fabricated model predictions.
 """
 import argparse
 import json
+from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -19,7 +20,7 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc):
     start = datetime.strptime(start_date, "%Y-%m-%d").date()
     if as_of.astimezone(WARSAW).date() != start:
         raise ValueError("date_not_current_warsaw_day")
-    items, missing, invalid = [], [], []
+    items, missing, invalid, exclusions = [], [], [], []
     seen = set()
     for offset in range(3):
         day = (start + timedelta(days=offset)).isoformat()
@@ -32,37 +33,52 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc):
             snap = datetime.fromisoformat(payload["snapshot_utc"].replace("Z", "+00:00"))
             if (snap.tzinfo is None or snap > as_of or
                 payload["target_date"] != day or payload["source"] != "PitchAPI" or
-                payload["schema"] != "pitchapi-prematch-context-v1" or
+                payload["schema"] not in ("pitchapi-prematch-context-v1", "pitchapi-research-fixtures-v1") or
                 not isinstance(payload["fixtures"], list)):
                 raise ValueError("invalid_snapshot")
-            day_rows = []
+            if payload["schema"] == "pitchapi-research-fixtures-v1" and payload.get("source_status") != "ok":
+                raise ValueError("incomplete_pitchapi_source_response")
+            day_rows, day_seen = [], set()
             for f in payload["fixtures"]:
                 kick = datetime.fromisoformat(f["kickoff_utc"].replace("Z", "+00:00"))
                 if kick.tzinfo is None or kick <= as_of or snap >= kick:
+                    exclusions.append(dict(date=day, fixture_id=f.get("pitch_match_id"),
+                                           reason="kickoff_not_verified_future_prematch"))
                     continue
                 if kick.astimezone(WARSAW).date().isoformat() != day:
                     # Provider groups some cross-midnight games by UTC date.
                     # Skip the out-of-day fixture, never invalidate the entire snapshot.
+                    exclusions.append(dict(date=day, fixture_id=f.get("pitch_match_id"),
+                                           reason="kickoff_outside_warsaw_snapshot_date"))
                     continue
-                fid = str(f["pitch_match_id"])
-                if fid in seen:
+                native_id = f["pitch_match_id"]
+                if isinstance(native_id, bool) or not isinstance(native_id, (str, int)) or not str(native_id).strip():
+                    raise ValueError("invalid_fixture_id")
+                fid = str(native_id).strip()
+                if fid in seen or fid in day_seen:
                     raise ValueError("duplicate_fixture")
                 if not all(isinstance(f.get(k), str) and f[k].strip()
                            for k in ("league", "home", "away")):
                     raise ValueError("invalid_teams")
-                seen.add(fid)
+                day_seen.add(fid)
                 day_rows.append(dict(fixture_id=fid, league=f["league"], home=f["home"],
                                      away=f["away"], kickoff_utc=f["kickoff_utc"],
                                      snapshot_utc=payload["snapshot_utc"], league_id=f.get("league_id"),
                                      country_code=f.get("country_code"),
+                                     home_team_id=f.get("home_team_id"), away_team_id=f.get("away_team_id"),
+                                     source_provider="PitchAPI", identity_blockers=f.get("identity_blockers", []),
                                      context_sufficient=bool(f.get("both_sides_sufficient")),
                                      models_requested=list(MODELS)))
             items.extend(day_rows)
-        except (ValueError, KeyError, TypeError, json.JSONDecodeError):
+            seen.update(day_seen)
+        except (ValueError, KeyError, TypeError, AttributeError, json.JSONDecodeError) as exc:
             invalid.append(day)
+            exclusions.append(dict(date=day, fixture_id=None, reason="invalid_snapshot:" + str(exc)))
     return dict(schema="github-models-fixture-queue-v1", generated_at_utc=as_of_utc,
                 dates=[(start + timedelta(days=i)).isoformat() for i in range(3)],
                 missing_dates=missing, invalid_dates=invalid,
+                exclusions=exclusions,
+                exclusion_summary=dict(Counter(row["reason"] for row in exclusions)),
                 fixtures=sorted(items, key=lambda x: (x["kickoff_utc"], x["fixture_id"])),
                 note="Queue only; not model predictions. Each model independently checks training readiness.")
 

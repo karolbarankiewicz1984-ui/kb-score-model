@@ -8,15 +8,27 @@ import argparse
 import csv
 import io
 import json
+import hashlib
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 
 LEAGUES = {"E0": "Premier League", "D1": "Bundesliga",
-           "I1": "Serie A", "SP1": "La Liga", "F1": "Ligue 1"}
+           "I1": "Serie A", "SP1": "La Liga", "F1": "Ligue 1",
+           "N1": "Eredivisie", "P1": "Primeira Liga", "B1": "Jupiler Pro League",
+           "T1": "Super Lig", "SC0": "Premiership", "G1": "Super League",
+           "E1": "Championship", "E2": "League One", "E3": "League Two", "EC": "National League",
+           "D2": "2. Bundesliga", "I2": "Serie B", "SP2": "La Liga 2", "F2": "Ligue 2",
+           "SC1": "Scottish Championship", "SC2": "Scottish League One", "SC3": "Scottish League Two"}
+COUNTRIES = {"E0": "ENG", "D1": "DEU", "I1": "ITA", "SP1": "ESP", "F1": "FRA",
+             "N1": "NLD", "P1": "PRT", "B1": "BEL", "T1": "TUR", "SC0": "SCO", "G1": "GRC",
+             "E1": "ENG", "E2": "ENG", "E3": "ENG", "EC": "ENG", "D2": "DEU", "I2": "ITA",
+             "SP2": "ESP", "F2": "FRA", "SC1": "SCO", "SC2": "SCO", "SC3": "SCO"}
 SEASONS = ("2324", "2425", "2526", "2627")
 
 def parse_csv(text, *, league_code, season, observed_at_utc):
+    if league_code not in LEAGUES:
+        raise ValueError("unsupported_football_data_division")
     observed = datetime.fromisoformat(observed_at_utc.replace("Z", "+00:00"))
     if observed.tzinfo is None:
         raise ValueError("observed_at_timezone_required")
@@ -39,7 +51,9 @@ def parse_csv(text, *, league_code, season, observed_at_utc):
             if not home or not away or home == away or min(hg, ag) < 0:
                 continue
             accepted.append(dict(fixture_id=f"fdco:{season}:{league_code}:{day.date()}:{home}:{away}",
-                                 league=LEAGUES[league_code], home=home, away=away,
+                                 league=LEAGUES[league_code], country_code=COUNTRIES[league_code],
+                                 league_code=league_code, match_date=day.date().isoformat(),
+                                 home=home, away=away,
                                  home_goals=hg, away_goals=ag, status="FINISHED",
                                  completed_at_utc=completed_bound.isoformat().replace("+00:00", "Z"),
                                  published_at_utc=observed_at_utc,
@@ -55,7 +69,6 @@ def main():
     p.add_argument("--manifest", default="data/github_models/source_manifest.json")
     p.add_argument("--timeout", type=int, default=20)
     args = p.parse_args()
-    now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     from github_models.kb3_history_bridge import import_verified_results
     rows, sources = [], []
     for season in SEASONS:
@@ -64,12 +77,17 @@ def main():
             try:
                 with urlopen(Request(url, headers={"User-Agent": "github-models-research/1.0"}), timeout=args.timeout) as response:
                     raw = response.read(4_000_000)
+                    if len(raw) >= 4_000_000:
+                        raise ValueError("historical_response_size_limit")
+                observed_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
                 batch = parse_csv(raw.decode("utf-8-sig", errors="replace"),
-                                  league_code=code, season=season, observed_at_utc=now)
+                                  league_code=code, season=season, observed_at_utc=observed_at)
                 rows.extend(batch)
-                sources.append(dict(url=url, status="ok", rows=len(batch)))
+                sources.append(dict(url=url, status="ok", rows=len(batch), observed_at_utc=observed_at,
+                                    sha256=hashlib.sha256(raw).hexdigest(), bytes=len(raw)))
             except Exception as exc:
                 sources.append(dict(url=url, status="error", reason=type(exc).__name__))
+    now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     imported = import_verified_results(rows, as_of_utc=now)
     if not imported["accepted"]:
         raise RuntimeError("no_verified_results_ingested")

@@ -3,7 +3,9 @@
 Accepts only independently verifiable final results. Never imports KB3
 probabilities, model weights, or training/test labels from forecast files.
 """
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
+from collections import Counter
+from github_models.competition_identity import canonicalize
 
 def _utc(value):
     if not isinstance(value, str):
@@ -15,6 +17,11 @@ def _utc(value):
 
 def import_verified_results(rows, *, as_of_utc):
     cutoff = _utc(as_of_utc)
+    rows = list(rows)
+    source_counts = Counter((row.get("source_provider"), row.get("source_record_id"))
+        for row in rows if isinstance(row, dict)
+        and isinstance(row.get("source_provider"), str)
+        and isinstance(row.get("source_record_id"), str))
     accepted, rejected, seen = [], {}, set()
     for i, row in enumerate(rows):
         try:
@@ -40,10 +47,24 @@ def import_verified_results(rows, *, as_of_utc):
             if completed > published or published > cutoff:
                 raise ValueError("not_verified_before_cutoff")
             key = (row["source_provider"], row["source_record_id"])
-            if key in seen:
+            if source_counts[key] > 1 or key in seen:
                 raise ValueError("duplicate_source_record")
+            canonical = canonicalize(row)  # Reject contradictory supplied identifiers.
+            result = {k: canonical[k] for k in required if k != "source_provider" and k != "source_record_id"}
+            if row.get("match_date") is not None:
+                day = date.fromisoformat(row["match_date"])
+                if day > completed.date():
+                    raise ValueError("match_date_after_completion")
+                result["match_date"] = day.isoformat()
+            if row.get("kickoff_utc") is not None:
+                if _utc(row["kickoff_utc"]) >= completed:
+                    raise ValueError("kickoff_not_before_completion")
+                result["kickoff_utc"] = row["kickoff_utc"]
+            for field in ("league_id", "country_code", "home_id", "away_id"):
+                if field in canonical:
+                    result[field] = canonical[field]
             seen.add(key)
-            accepted.append({k: row[k] for k in required if k != "source_provider" and k != "source_record_id"})
+            accepted.append(result)
         except (ValueError, TypeError, KeyError) as exc:
             reason = str(exc)
             rejected[reason] = rejected.get(reason, 0) + 1

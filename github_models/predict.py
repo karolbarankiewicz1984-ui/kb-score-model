@@ -4,27 +4,43 @@ import json
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
-from github_models.elo_engine import predict_elo
+from github_models.elo_engine import predict_elo, eligible_history, utc
 from github_models.dixon_coles_engine import predict_dixon_coles
 from github_models.reviewed_resolver import resolve_reviewed as resolve
 from github_models.competition_identity import canonicalize
+from github_models.settlement import fixture_index, probability_vector
 
 def run(queue, history, *, as_of_utc):
+    cutoff = utc(as_of_utc)
+    # Names introduced only by future/unobserved results are not valid evidence.
+    eligible = eligible_history(history, frozen_at_utc=as_of_utc)
+    fixture_index(queue)
     results, blockers = [], []
     for fixture in queue["fixtures"]:
-        if datetime.fromisoformat(fixture["kickoff_utc"].replace("Z", "+00:00")) <= datetime.fromisoformat(as_of_utc.replace("Z", "+00:00")):
-            continue
+        try:
+            if utc(fixture["kickoff_utc"]) <= cutoff:
+                continue
+            mapped = resolve(canonicalize(fixture), eligible)
+            mapping_error = None
+        except (ValueError, KeyError, TypeError, AttributeError) as exc:
+            mapping_error = str(exc)
         for model in ("elo", "dixon-coles", "xgboost"):
             if model == "xgboost":
                 blockers.append(dict(fixture_id=fixture["fixture_id"], model=model,
                                      reason="model_not_trained_or_adapter_not_ready"))
                 continue
             try:
-                mapped = resolve(canonicalize(fixture), history)
+                if mapping_error is not None:
+                    raise ValueError(mapping_error)
                 if model == "elo":
-                    forecast = predict_elo(history, mapped, frozen_at_utc=as_of_utc)
+                    forecast = predict_elo(eligible, mapped, frozen_at_utc=as_of_utc)
                 else:
-                    forecast = predict_dixon_coles(history, mapped, frozen_at_utc=as_of_utc)
+                    forecast = predict_dixon_coles(eligible, mapped, frozen_at_utc=as_of_utc)
+                probability_vector(forecast)
+                forecast = dict(forecast, resolved_identity={k: mapped[k]
+                    for k in ("league", "country_code", "league_id", "home", "away",
+                              "home_id", "away_id", "home_team_id", "away_team_id",
+                              "source_provider") if k in mapped})
                 results.append(forecast)
             except (ValueError, KeyError, TypeError, RuntimeError) as exc:
                 blockers.append(dict(fixture_id=fixture["fixture_id"], model=model,

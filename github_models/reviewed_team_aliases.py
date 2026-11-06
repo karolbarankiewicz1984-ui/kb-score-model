@@ -1,28 +1,108 @@
-"""Explicitly reviewed source-name aliases; no approximate matching."""
+"""Explicit club-name equivalences, scoped to one reviewed competition.
+
+Targets are normalized football-data.co.uk spellings.  Matching always checks
+all literal candidate names, so an alias can never choose between two targets.
+No prefixes, suffix removal, edit distance or cross-league fallback is used.
+"""
 ALIASES_EXTRA = {
     "premier league": {
         "brighton and hove albion": "brighton",
+        "coventry city": "coventry", "hull city": "hull", "luton town": "luton",
+        "wolverhampton": "wolves",
     },
     "bundesliga": {
-        "bayern munchen": "bayern munich",
-        "vfb stuttgart": "stuttgart",
-        "borussia monchengladbach": "m gladbach",
-        "eintracht frankfurt": "ein frankfurt",
-        "mainz 05": "mainz",
+        "bayern munchen": "bayern munich", "fc bayern munchen": "bayern munich",
+        "vfb stuttgart": "stuttgart", "borussia monchengladbach": "m gladbach",
+        "eintracht frankfurt": "ein frankfurt", "mainz 05": "mainz",
+        "1 fsv mainz 05": "mainz", "1 fc koln": "fc koln",
+        "hamburger sv": "hamburg", "fc st pauli": "st pauli",
+        "1 fc heidenheim": "heidenheim", "sv darmstadt 98": "darmstadt",
+        "sc paderborn 07": "paderborn", "1 fc union berlin": "union berlin",
+        "sc freiburg": "freiburg", "fc augsburg": "augsburg",
+        "tsg hoffenheim": "hoffenheim", "vfl wolfsburg": "wolfsburg",
+        "sv werder bremen": "werder bremen", "sv elversberg": "elversberg",
     },
     "serie a": {
-        "ac monza": "monza",
+        "ac monza": "monza", "hellas verona": "verona", "fc internazionale": "inter",
     },
     "la liga": {
-        "atletico madrid": "ath madrid",
-        "deportivo alaves": "alaves",
-        "real betis": "betis",
-        "celta vigo": "celta",
-        "real sociedad": "sociedad",
+        "atletico madrid": "ath madrid", "deportivo alaves": "alaves",
+        "real betis": "betis", "celta vigo": "celta", "real sociedad": "sociedad",
+        "espanyol": "espanol", "rayo vallecano": "vallecano",
+        "deportivo a coruna": "la coruna", "racing santander": "santander",
+        "real valladolid": "valladolid", "real oviedo": "oviedo",
+        "cd leganes": "leganes", "ud las palmas": "las palmas",
     },
     "ligue 1": {
-        "paris saint germain": "paris sg",
-        "olympique lyonnais": "lyon",
-        "olympique marseille": "marseille",
+        "paris saint germain": "paris sg", "olympique lyonnais": "lyon",
+        "olympique marseille": "marseille", "olympique de marseille": "marseille",
+        "saint etienne": "st etienne", "as saint etienne": "st etienne",
+        "clermont foot": "clermont",
+    },
+    "eredivisie": {
+        "sc heerenveen": "heerenveen", "fortuna sittard": "for sittard",
+        "fc groningen": "groningen", "fc twente": "twente", "fc utrecht": "utrecht",
+        "nec nijmegen": "nijmegen", "pec zwolle": "zwolle", "ado den haag": "den haag",
+        "almere city fc": "almere city", "rkc waalwijk": "waalwijk", "fc volendam": "volendam",
+    },
+    "primeira liga": {
+        "sporting cp": "sp lisbon", "sporting lisbon": "sp lisbon", "braga": "sp braga",
+        "sporting braga": "sp braga", "fc porto": "porto", "casa pia ac": "casa pia",
+        "estrela da amadora": "estrela", "vitoria de guimaraes": "guimaraes",
+    },
+    "jupiler pro league": {
+        "kv mechelen": "mechelen", "standard liege": "standard", "sk beveren": "beveren",
+        "zulte waregem": "waregem", "royal antwerp": "antwerp", "kaa gent": "gent",
+        "krc genk": "genk", "oh leuven": "oud heverlee leuven",
+        "union saint gilloise": "st gilloise", "sint truiden": "st truiden",
+    },
+    "super lig": {
+        "amed sportif": "amedspor", "corum fk": "corum", "erzurumspor fk": "erzurumspor",
+        "basaksehir": "buyuksehyr", "istanbul basaksehir": "buyuksehyr",
+        "gaziantep fk": "gaziantep", "goztepe": "goztep",
+    },
+    "premiership": {
+        "dundee fc": "dundee", "heart of midlothian": "hearts",
+        "st johnstone": "st johnstone", "st mirren": "st mirren",
     },
 }
+
+# The same explicitly identified English clubs can move between divisions.
+# These spellings are reviewed against E1/E2/E3/EC CSVs, never borrowed from
+# another league's candidate set during resolution.
+ENGLISH_DIVISION_ALIASES = {
+    "bolton wanderers": "bolton", "derby county": "derby", "wolverhampton wanderers": "wolves",
+    "west ham united": "west ham", "leicester city": "leicester", "ipswich town": "ipswich",
+    "leeds united": "leeds", "hull city": "hull", "coventry city": "coventry",
+    "norwich city": "norwich", "luton town": "luton", "birmingham city": "birmingham",
+    "blackburn rovers": "blackburn", "cardiff city": "cardiff", "charlton athletic": "charlton",
+    "huddersfield town": "huddersfield", "lincoln city": "lincoln", "oxford united": "oxford",
+    "plymouth argyle": "plymouth", "preston north end": "preston", "queens park rangers": "qpr",
+    "rotherham united": "rotherham", "sheffield wednesday": "sheffield weds", "stoke city": "stoke",
+    "swansea city": "swansea", "west bromwich albion": "west brom", "cambridge united": "cambridge",
+    "wycombe wanderers": "wycombe", "peterborough united": "peterboro", "mansfield town": "mansfield",
+    "burton albion": "burton", "bradford city": "bradford", "doncaster rovers": "doncaster",
+    "stockport county": "stockport", "wigan athletic": "wigan", "bristol rovers": "bristol rvs",
+    "carlisle united": "carlisle", "cheltenham town": "cheltenham", "exeter city": "exeter",
+    "northampton town": "northampton", "shrewsbury town": "shrewsbury", "crewe alexandra": "crewe",
+    "tranmere rovers": "tranmere", "grimsby town": "grimsby", "colchester united": "colchester",
+    "swindon town": "swindon", "york city": "york", "accrington stanley": "accrington",
+    "salford city": "salford", "oldham athletic": "oldham", "forest green rovers": "forest green",
+    "harrogate town": "harrogate", "sutton united": "sutton",
+}
+for _league in ("championship", "league one", "league two", "national league"):
+    ALIASES_EXTRA[_league] = dict(ENGLISH_DIVISION_ALIASES)
+
+ALIASES_EXTRA["2 bundesliga"] = dict(ALIASES_EXTRA["bundesliga"], **{
+    "1 fc nurnberg": "nurnberg", "energie cottbus": "cottbus", "dynamo dresden": "dresden",
+    "arminia bielefeld": "bielefeld", "eintracht braunschweig": "braunschweig",
+    "vfl osnabruck": "osnabruck", "hertha bsc": "hertha", "hannover 96": "hannover",
+    "karlsruher sc": "karlsruhe", "sv wehen wiesbaden": "wehen", "ssv jahn regensburg": "regensburg",
+})
+ALIASES_EXTRA["serie b"] = dict(ALIASES_EXTRA["serie a"], **{"lr vicenza": "vicenza"})
+ALIASES_EXTRA["la liga 2"] = dict(ALIASES_EXTRA["la liga"], **{
+    "fc andorra": "andorra", "burgos cf": "burgos", "celta fortuna": "celta b",
+    "real sociedad b": "sociedad b", "sporting gijon": "sp gijon", "racing ferrol": "ferrol",
+    "real zaragoza": "zaragoza", "cd castellon": "castellon",
+})
+ALIASES_EXTRA["ligue 2"] = dict(ALIASES_EXTRA["ligue 1"], **{"annecy fc": "annecy", "pau": "pau fc"})
