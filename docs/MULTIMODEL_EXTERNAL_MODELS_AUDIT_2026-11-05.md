@@ -192,3 +192,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Run `42172152561` succeeded with 28/28 tests, 226 fixtures, 16 research forecasts, 662 per-model blockers.
 - On `main` workflow commit `e87d5375bd3e9094dc1674c7ed0b720e5d74498d`, added write of each frozen prediction JSON to `research/github-models-frozen` branch at `frozen/YYYY-MM-DD/RUN_ID.json`, preserving separate daily runs without overwriting. No production model code is changed by this archive.
 - GitHub Actions repository write permissions and end-to-end archival are **not yet confirmed**; run `42172507593` was queued. This is an archival mechanism, not yet a complete result settlement/calibration pipeline.
+
+## 2026-11-06 — daily settlement integration verified
+- Research module `github_models/settlement.py` and daily runner `github_models/daily_settlement.py` added. Main isolated workflow checks out frozen branch read-only, runs settlement against verified historical results, uploads settlement JSON as diagnostic artifact, and archives matching queue alongside each forecast.
+- Initial run `42174241374` failed due to unauthenticated clone of private archive; replaced with authenticated actions/checkout.
+- Run `42174492397` passed but processed 0 archives because queue pairing path was wrong; corrected in `baa3d741934f5572d7326096201c47b01ab95401`.
+- **Full successful run `42174671993`: 30/30 tests, 226 fixtures, 16 research forecasts, 4 prior archives processed, 0 settled outcomes (fixtures still future at run time).** No Brier/log-loss aggregate is justified yet. Research production remains isolated.
