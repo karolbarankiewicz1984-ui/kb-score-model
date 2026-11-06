@@ -63,6 +63,13 @@ jobs:
           python -m github_models.daily_queue --as-of "$NOW"
           python -m github_models.coverage_audit --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --output "reports/github_models/coverage/$DAY.json" --as-of "$NOW"
           python -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$NOW"
+      - name: Calculate verified event-market probabilities
+        shell: bash
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          python -m github_models.market_runner --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$NOW" --output "reports/github_models/markets/$DAY.json"
       - name: Checkout frozen research archive read-only
         uses: actions/checkout@v4
         with:
