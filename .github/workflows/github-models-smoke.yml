@@ -87,7 +87,7 @@ jobs:
         run: |
           set -euo pipefail
           DAY="$(TZ=Europe/Warsaw date +%F)"
-          python -m github_models.research_pdf --predictions "reports/github_models/predictions/$DAY.json" --queue "reports/github_models/queues/$DAY.json" --settlement reports/github_models/settlements/latest.json --output "reports/github_models/pdf/KB_SCORE_RESEARCH_$DAY.pdf"
+          python -m github_models.research_pdf --predictions "reports/github_models/predictions/$DAY.json" --queue "reports/github_models/queues/$DAY.json" --settlement reports/github_models/settlements/latest.json --event-markets "reports/github_models/markets/$DAY.json" --output "reports/github_models/pdf/KB_SCORE_RESEARCH_$DAY.pdf"
           python - <<'PY'
           from pathlib import Path
           import reportlab
@@ -162,6 +162,8 @@ jobs:
             reports/github_models/predictions/*.json
             reports/github_models/settlements/*.json
             reports/github_models/pdf/*.pdf
+            reports/github_models/markets/*.json
+            data/github_models/events_manifest.json
           if-no-files-found: warn
           retention-days: 90
 
