@@ -16,7 +16,7 @@ def main():
     reports = []
     for forecast in sorted(root.glob("frozen/*/*.json")):
         relative = forecast.relative_to(root)
-        queue_file = root / "queues" / relative.parent / relative.name
+        queue_file = root / "queues" / relative.parts[1] / relative.name
         if not queue_file.exists():
             continue
         predictions = json.loads(forecast.read_text())
