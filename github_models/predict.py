@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from github_models.elo_engine import predict_elo
 from github_models.dixon_coles_engine import predict_dixon_coles
-from github_models.team_mapping import resolve
+from github_models.reviewed_resolver import resolve_reviewed as resolve
 from github_models.competition_identity import canonicalize
 
 def run(queue, history, *, as_of_utc):
