@@ -21,7 +21,7 @@ class QueueTests(unittest.TestCase):
                              ["dixon-coles", "elo", "xgboost"])
             self.assertNotIn("p_home", q["fixtures"][0])
             self.assertEqual(q["fixtures"][0]["league_id"], 987)
-            self.assertEqual(q["fixtures"][0]["country_code"], "England")
+            self.assertEqual(q["fixtures"][0]["country_code"], "ENG")
 
     def test_future_snapshot_not_accepted(self):
         with tempfile.TemporaryDirectory() as tmp:
