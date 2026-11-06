@@ -7,6 +7,7 @@ from pathlib import Path
 from github_models.elo_engine import predict_elo
 from github_models.dixon_coles_engine import predict_dixon_coles
 from github_models.team_mapping import resolve
+from github_models.competition_identity import canonicalize
 
 def run(queue, history, *, as_of_utc):
     results, blockers = [], []
@@ -19,7 +20,7 @@ def run(queue, history, *, as_of_utc):
                                      reason="model_not_trained_or_adapter_not_ready"))
                 continue
             try:
-                mapped = resolve(fixture, history)
+                mapped = resolve(canonicalize(fixture), history)
                 if model == "elo":
                     forecast = predict_elo(history, mapped, frozen_at_utc=as_of_utc)
                 else:
