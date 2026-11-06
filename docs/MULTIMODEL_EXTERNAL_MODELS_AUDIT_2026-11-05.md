@@ -198,3 +198,9 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Initial run `42174241374` failed due to unauthenticated clone of private archive; replaced with authenticated actions/checkout.
 - Run `42174492397` passed but processed 0 archives because queue pairing path was wrong; corrected in `baa3d741934f5572d7326096201c47b01ab95401`.
 - **Full successful run `42174671993`: 30/30 tests, 226 fixtures, 16 research forecasts, 4 prior archives processed, 0 settled outcomes (fixtures still future at run time).** No Brier/log-loss aggregate is justified yet. Research production remains isolated.
+
+## 2026-11-06 — observed multi-market research expansion
+- Added independent historical event ingestion from football-data.co.uk: corners HC/AC, yellow cards HY/AY, fouls HF/AF when actually present; no missing-field imputation.
+- Added independent probabilistic totals for goals, corners, yellow cards, fouls with conservative league/team history gates (60 league rows and 8 per team). Poisson/shrinkage probabilities are **uncalibrated exploratory estimates**, not demonstrated hit rates.
+- Research PDF includes over/under proposals for every category that passes its data gate, with explicit probabilities and abstention when missing.
+- Kept production MULTIMODEL untouched. Further gates: end-to-end CI pass, assess observed fouls coverage, holdout calibration, score model settlement for each market.
