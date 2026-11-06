@@ -115,10 +115,17 @@ def collect(target, client, now, maximum=45):
             history_errors.append({"league_id": league_id, "type": type(exc).__name__})
     cache = {}
     records = []
+    league_country_diagnostics = {}
     for m in fixture_limit:
         kickoff = utc(field(m, "time_utc"))
         cutoff = min(kickoff, now)
         lid = field(field(m, "league"), "id")
+        raw_country = field(field(m, "league"), "country")
+        country = raw_country.strip() if isinstance(raw_country, str) and raw_country.strip() else None
+        league_country_diagnostics[str(lid)] = dict(
+            league=field(field(m, "league"), "name"),
+            country_present=country is not None,
+            country=country)
         all_history = league_map.get(lid, [])
         samples = {}
         for side in ("home", "away"):
@@ -129,8 +136,7 @@ def collect(target, client, now, maximum=45):
                 recent, tid, cache, lambda past: collect_match(past, client))
         records.append({
             "pitch_match_id": field(m, "id"), "league": field(field(m, "league"), "name"),
-            "league_id": lid, "country": (field(field(m, "league"), "country")
-                        if isinstance(field(field(m, "league"), "country"), str) else None),
+            "league_id": lid, "country": country,
             "home": field(field(m, "home_team"), "name"),
             "away": field(field(m, "away_team"), "name"), "kickoff_utc": field(m, "time_utc"),
             "home_recent": samples["home"], "away_recent": samples["away"],
@@ -140,7 +146,8 @@ def collect(target, client, now, maximum=45):
             "snapshot_utc": now.isoformat(), "source": "PitchAPI",
             "available_upcoming": len(fixtures), "fixtures_collected": len(records),
             "fixtures_with_both_sides_sufficient": sum(r["both_sides_sufficient"] for r in records),
-            "league_errors": history_errors, "fixtures": records,
+            "league_errors": history_errors, "league_country_diagnostics": league_country_diagnostics,
+            "fixtures": records,
             "model_effect": "NONE", "kb_n_effect": 0, "dev_n_effect": 0,
             "important": "Historic xG averages, not predicted goals or betting probabilities. "
                          "Only fixtures played BEFORE snapshot enter samples."}
