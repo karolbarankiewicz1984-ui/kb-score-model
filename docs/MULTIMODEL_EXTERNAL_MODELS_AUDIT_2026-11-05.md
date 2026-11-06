@@ -177,3 +177,8 @@ Poprzednie sformułowanie „warstwa porównawcza nie dostarcza własnych propoz
 - Dodano `league_country_diagnostics` do raportu kolektora badawczego: dla każdego `league_id` zapisuje jawnie dostępność i wartość pola kraju od dostawcy. Bez wartości nadal blokada; to diagnostyka, nie heurystyka.
 - Nowy izolowany smoke `42168642822` uruchomiony na `main`, wynik niepotwierdzony w chwili wpisu. Produkcyjny PitchAPI run `42124205870` wcześniej zakończył się sukcesem.
 - Pozostaje potwierdzenie metadanych kraju z prawdziwej odpowiedzi PitchAPI, a następnie dopiero walidacja nowych prognoz.
+
+## 2026-11-06 — potwierdzone źródło kraju ligi w PitchAPI
+- Oficjalna dokumentacja https://pitchapi.dev/ wskazuje `country_code` (np. `ENG`) w `GET /v1/leagues` i `GET /v1/leagues/{id}`, **nie** w skróconym obiekcie ligi z `GET /v1/date/{date}`. Poprzedni odczyt `country` z fixture był błędnym założeniem.
+- Kolektor badawczy wywołuje `client.leagues.get(league_id)` dla unikalnych lig i zapisuje `country_code` wraz z diagnostyką oraz bezpiecznym stanem `None` przy braku metadanych. Kolejka przenosi `country_code`, a mapowanie weryfikuje ENG/ITA/DEU/GER dla wspólnych nazw lig.
+- Testy dostosowano do kodów, a izolowany smoke uruchomiono ponownie po commit `9752f797f233d2b89559f360612eceb9efb68be8` na `main`. To **potwierdzenie kontraktu API**, nie jeszcze wykonania zapytania z produkcyjnym kluczem; kolektor na main nadal nie ma tej poprawki.
