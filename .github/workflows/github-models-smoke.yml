@@ -81,7 +81,7 @@ jobs:
         run: |
           set -euo pipefail
           NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          python -m github_models.daily_settlement --archive-dir research-frozen --history data/github_models/verified_results.json --as-of "$NOW" --output reports/github_models/settlements/latest.json
+          python -m github_models.daily_settlement --archive-dir research-frozen --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$NOW" --output reports/github_models/settlements/latest.json
       - name: Generate independent research PDF
         shell: bash
         run: |
