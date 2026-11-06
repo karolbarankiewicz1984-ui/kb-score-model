@@ -24,7 +24,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install isolated research dependency
-        run: python -m pip install 'git+https://github.com/callumfm/dixon-coles.git'
+        run: python -m pip install 'git+https://github.com/callumfm/dixon-coles.git' reportlab
       - name: Run independent test suite
         run: |
           python -m unittest tests.test_github_models_daily_queue tests.test_github_models_independent_forecasts tests.test_github_models_kb3_history_bridge tests.test_github_models_public_results tests.test_github_models_team_mapping tests.test_github_models_dixon_runner tests.test_github_models_dixon_normalization tests.test_pitchapi_prematch_context tests.test_github_models_settlement -v
@@ -73,6 +73,20 @@ jobs:
           set -euo pipefail
           NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           python -m github_models.daily_settlement --archive-dir research-frozen --history data/github_models/verified_results.json --as-of "$NOW" --output reports/github_models/settlements/latest.json
+      - name: Generate independent research PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          python -m github_models.research_pdf --predictions "reports/github_models/predictions/$DAY.json" --queue "reports/github_models/queues/$DAY.json" --settlement reports/github_models/settlements/latest.json --output "reports/github_models/pdf/KB_SCORE_RESEARCH_$DAY.pdf"
+          python - <<'PY'
+          from pathlib import Path
+          import reportlab
+          files = list(Path("reports/github_models/pdf").glob("*.pdf"))
+          assert len(files) == 1
+          assert files[0].read_bytes()[:5] == b"%PDF-"
+          print("PDF header validated:", files[0])
+          PY
       - name: Record immutable run identity and SHA256 checksums
         if: always()
         shell: bash
@@ -138,6 +152,7 @@ jobs:
             reports/github_models/coverage/*.json
             reports/github_models/predictions/*.json
             reports/github_models/settlements/*.json
+            reports/github_models/pdf/*.pdf
           if-no-files-found: warn
           retention-days: 90
 
