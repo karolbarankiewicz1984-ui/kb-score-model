@@ -3,7 +3,8 @@ import argparse
 import json
 from collections import Counter
 from pathlib import Path
-from github_models.team_mapping import resolve
+from github_models.reviewed_resolver import resolve_reviewed as resolve
+from github_models.competition_identity import canonicalize
 from github_models.elo_engine import train_elo
 
 def audit(queue, history, *, as_of_utc):
@@ -13,7 +14,7 @@ def audit(queue, history, *, as_of_utc):
         row = dict(fixture_id=fixture["fixture_id"], league=fixture["league"],
                    home=fixture["home"], away=fixture["away"])
         try:
-            mapped = resolve(fixture, history)
+            mapped = resolve(canonicalize(fixture), history)
             row["mapped_home"], row["mapped_away"] = mapped["home"], mapped["away"]
             row["home_training_matches"] = counts.get((mapped["league"], mapped["home"]), 0)
             row["away_training_matches"] = counts.get((mapped["league"], mapped["away"]), 0)
