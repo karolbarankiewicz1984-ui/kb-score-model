@@ -34,10 +34,10 @@ def resolve(fixture, history):
     # Other generic names (Premier League, Bundesliga) also exist in multiple countries.
     league_key = normalize(league)
     if league_key in ("serie a", "premier league", "bundesliga"):
-        country = normalize(str(fixture.get("country") or ""))
-        expected = {"serie a": ("italy", "italia"),
-                    "premier league": ("england",),
-                    "bundesliga": ("germany", "deutschland")}[league_key]
+        country = normalize(str(fixture.get("country_code") or ""))
+        expected = {"serie a": ("ita",),
+                    "premier league": ("eng",),
+                    "bundesliga": ("deu", "ger")}[league_key]
         if country not in expected:
             raise ValueError(f"ambiguous_{league_key.replace(chr(32), chr(95))}_country_not_verified")
     league_key = normalize(league)
