@@ -113,6 +113,15 @@ def collect(target, client, now, maximum=45):
         except Exception as exc:
             league_map[league_id] = []
             history_errors.append({"league_id": league_id, "type": type(exc).__name__})
+    league_country_codes = {}
+    for league_id in league_map:
+        try:
+            detail = client.leagues.get(league_id)
+            code = field(detail, "country_code")
+            league_country_codes[league_id] = code.strip().upper() if isinstance(code, str) and code.strip() else None
+        except Exception as exc:
+            league_country_codes[league_id] = None
+            history_errors.append({"league_id": league_id, "operation": "league_country_code", "type": type(exc).__name__})
     cache = {}
     records = []
     league_country_diagnostics = {}
@@ -120,12 +129,11 @@ def collect(target, client, now, maximum=45):
         kickoff = utc(field(m, "time_utc"))
         cutoff = min(kickoff, now)
         lid = field(field(m, "league"), "id")
-        raw_country = field(field(m, "league"), "country")
-        country = raw_country.strip() if isinstance(raw_country, str) and raw_country.strip() else None
+        country_code = league_country_codes.get(lid)
         league_country_diagnostics[str(lid)] = dict(
             league=field(field(m, "league"), "name"),
-            country_present=country is not None,
-            country=country)
+            country_code_present=country_code is not None,
+            country_code=country_code)
         all_history = league_map.get(lid, [])
         samples = {}
         for side in ("home", "away"):
@@ -136,7 +144,7 @@ def collect(target, client, now, maximum=45):
                 recent, tid, cache, lambda past: collect_match(past, client))
         records.append({
             "pitch_match_id": field(m, "id"), "league": field(field(m, "league"), "name"),
-            "league_id": lid, "country": country,
+            "league_id": lid, "country_code": country_code,
             "home": field(field(m, "home_team"), "name"),
             "away": field(field(m, "away_team"), "name"), "kickoff_utc": field(m, "time_utc"),
             "home_recent": samples["home"], "away_recent": samples["away"],
