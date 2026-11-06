@@ -1,0 +1,5385 @@
+{
+  "schema": "github-models-coverage-comparison-v1",
+  "as_of_utc": "2026-11-06T09:53:42.542940+00:00",
+  "scope": "stored_queue_not_complete_provider_calendar",
+  "total": 488,
+  "started_fixtures": 0,
+  "history_rows": 42133,
+  "eligible_history_rows": 42133,
+  "event_history_rows": 25360,
+  "event_samples_available": {
+    "2. Bundesliga": {
+      "corners": 1008,
+      "cards": 1008,
+      "fouls": 1008
+    },
+    "Allsvenskan": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Austrian Bundesliga": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Brazilian Serie A": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Bundesliga": {
+      "corners": 989,
+      "cards": 989,
+      "fouls": 989
+    },
+    "Championship": {
+      "corners": 1824,
+      "cards": 1824,
+      "fouls": 1824
+    },
+    "Chinese Super League": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Danish Superliga": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Ekstraklasa": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Eliteserien": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Eredivisie": {
+      "corners": 1017,
+      "cards": 1017,
+      "fouls": 1017
+    },
+    "Irish Premier Division": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "J1 League": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Jupiler Pro League": {
+      "corners": 1024,
+      "cards": 1024,
+      "fouls": 1024
+    },
+    "La Liga": {
+      "corners": 1249,
+      "cards": 1249,
+      "fouls": 1249
+    },
+    "La Liga 2": {
+      "corners": 1517,
+      "cards": 1517,
+      "fouls": 1517
+    },
+    "League One": {
+      "corners": 1814,
+      "cards": 1814,
+      "fouls": 1814
+    },
+    "League Two": {
+      "corners": 1820,
+      "cards": 1820,
+      "fouls": 1820
+    },
+    "Liga MX": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Liga Profesional": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Ligue 1": {
+      "corners": 999,
+      "cards": 999,
+      "fouls": 999
+    },
+    "Ligue 2": {
+      "corners": 1089,
+      "cards": 1089,
+      "fouls": 1089
+    },
+    "MLS": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "National League": {
+      "corners": 189,
+      "cards": 1845,
+      "fouls": 189
+    },
+    "Premier League": {
+      "corners": 1230,
+      "cards": 1230,
+      "fouls": 1230
+    },
+    "Premiership": {
+      "corners": 753,
+      "cards": 753,
+      "fouls": 753
+    },
+    "Primeira Liga": {
+      "corners": 1008,
+      "cards": 1008,
+      "fouls": 1008
+    },
+    "Romanian Superliga": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Russian Premier League": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Scottish Championship": {
+      "corners": 604,
+      "cards": 604,
+      "fouls": 604
+    },
+    "Scottish League One": {
+      "corners": 603,
+      "cards": 604,
+      "fouls": 603
+    },
+    "Scottish League Two": {
+      "corners": 600,
+      "cards": 600,
+      "fouls": 600
+    },
+    "Serie A": {
+      "corners": 1240,
+      "cards": 1240,
+      "fouls": 1240
+    },
+    "Serie B": {
+      "corners": 1240,
+      "cards": 1240,
+      "fouls": 1240
+    },
+    "Super League": {
+      "corners": 770,
+      "cards": 770,
+      "fouls": 770
+    },
+    "Super Lig": {
+      "corners": 1116,
+      "cards": 1116,
+      "fouls": 1116
+    },
+    "Swiss Super League": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    },
+    "Veikkausliiga": {
+      "corners": 0,
+      "cards": 0,
+      "fouls": 0
+    }
+  },
+  "summary": {
+    "before_same_history": {
+      "total": 488,
+      "identity_ready": 87,
+      "elo_ready": 87,
+      "dixon_coles_history_ready": 87,
+      "reasons": {
+        "ambiguous_bundesliga_country_not_verified": 6,
+        "ambiguous_premier_league_country_not_verified": 10,
+        "ambiguous_serie_a_country_not_verified": 7,
+        "competition_country_conflict": 9,
+        "ready_for_model_attempt": 87,
+        "unmatched_away_team:Amed Sportif": 1,
+        "unmatched_away_team:Annecy FC": 1,
+        "unmatched_away_team:Arminia Bielefeld": 1,
+        "unmatched_away_team:Atlético Tucumán": 2,
+        "unmatched_away_team:Club Atlético Platense": 2,
+        "unmatched_away_team:Coventry City": 1,
+        "unmatched_away_team:Deportivo Riestra": 2,
+        "unmatched_away_team:Dundee FC": 1,
+        "unmatched_away_team:Erzurumspor FK": 1,
+        "unmatched_away_team:Estudiantes de Río Cuarto": 2,
+        "unmatched_away_team:FC Groningen": 1,
+        "unmatched_away_team:Hellas Verona": 1,
+        "unmatched_away_team:Hull City": 1,
+        "unmatched_away_team:Independiente Rivadavia": 2,
+        "unmatched_away_team:KFUM": 1,
+        "unmatched_away_team:Karlsruher SC": 1,
+        "unmatched_away_team:LA Galaxy": 1,
+        "unmatched_away_team:New York City FC": 1,
+        "unmatched_away_team:Newell's Old Boys": 2,
+        "unmatched_away_team:Norwich City": 1,
+        "unmatched_away_team:Oulu": 1,
+        "unmatched_away_team:PEC Zwolle": 1,
+        "unmatched_away_team:Racing Santander": 1,
+        "unmatched_away_team:Rayo Vallecano": 1,
+        "unmatched_away_team:Sarmiento": 2,
+        "unmatched_away_team:Stoke City": 1,
+        "unmatched_away_team:Tijuana": 1,
+        "unmatched_away_team:Wisła Płock": 1,
+        "unmatched_away_team:Wolverhampton Wanderers": 1,
+        "unmatched_away_team:Zagłębie Lubin": 1,
+        "unmatched_home_team:1. FC Nürnberg": 1,
+        "unmatched_home_team:AB": 1,
+        "unmatched_home_team:ADO Den Haag": 1,
+        "unmatched_home_team:ADT": 1,
+        "unmatched_home_team:AEK Athens": 1,
+        "unmatched_home_team:AGF": 1,
+        "unmatched_home_team:AZ II": 1,
+        "unmatched_home_team:Aarau": 1,
+        "unmatched_home_team:Adelaide United": 1,
+        "unmatched_home_team:Ajman": 1,
+        "unmatched_home_team:Al Ahli": 2,
+        "unmatched_home_team:Al Akhdoud": 1,
+        "unmatched_home_team:Al Arabi": 1,
+        "unmatched_home_team:Al Dhafra": 1,
+        "unmatched_home_team:Al Fateh FC": 1,
+        "unmatched_home_team:Al Gharafa": 1,
+        "unmatched_home_team:Al Hazem": 1,
+        "unmatched_home_team:Al Ittihad": 1,
+        "unmatched_home_team:Al Jazira": 1,
+        "unmatched_home_team:Al Najma": 1,
+        "unmatched_home_team:Al Nasr": 1,
+        "unmatched_home_team:Al Qadsiah": 1,
+        "unmatched_home_team:Al Sadd": 1,
+        "unmatched_home_team:Al Shamal": 1,
+        "unmatched_home_team:Al Taee": 1,
+        "unmatched_home_team:Al Taraji": 1,
+        "unmatched_home_team:Al Wahda": 1,
+        "unmatched_home_team:Al Wakrah": 1,
+        "unmatched_home_team:Al-Ettifaq": 1,
+        "unmatched_home_team:Al-Faisaly": 1,
+        "unmatched_home_team:Al-Jandal": 1,
+        "unmatched_home_team:Al-Saqer FC": 1,
+        "unmatched_home_team:Al-Wehda": 1,
+        "unmatched_home_team:Al-Zulfi": 1,
+        "unmatched_home_team:Alverca": 1,
+        "unmatched_home_team:Always Ready": 1,
+        "unmatched_home_team:América de Cali": 1,
+        "unmatched_home_team:Anderlecht Futures": 1,
+        "unmatched_home_team:Ankara Keçiörengücü": 1,
+        "unmatched_home_team:Antalyaspor": 1,
+        "unmatched_home_team:Argentinos Juniors": 2,
+        "unmatched_home_team:Argeș": 1,
+        "unmatched_home_team:Aris Thessaloniki": 1,
+        "unmatched_home_team:Asteras Tripolis": 1,
+        "unmatched_home_team:Athletic Club Boise": 1,
+        "unmatched_home_team:Athletic Club MG": 1,
+        "unmatched_home_team:Atlético Grau": 1,
+        "unmatched_home_team:Atlético Nacional": 1,
+        "unmatched_home_team:Atlético de San Luis": 1,
+        "unmatched_home_team:Auckland FC": 1,
+        "unmatched_home_team:Audax Italiano": 1,
+        "unmatched_home_team:Avaí": 1,
+        "unmatched_home_team:Avispa Fukuoka": 1,
+        "unmatched_home_team:Ayutthaya United FC": 1,
+        "unmatched_home_team:BG Pathum United": 1,
+        "unmatched_home_team:Bandırmaspor": 1,
+        "unmatched_home_team:Beijing Guoan": 1,
+        "unmatched_home_team:Birmingham City": 1,
+        "unmatched_home_team:Blackburn Rovers": 1,
+        "unmatched_home_team:Boluspor": 1,
+        "unmatched_home_team:Bolívar": 1,
+        "unmatched_home_team:Boyacá Chicó": 1,
+        "unmatched_home_team:Bucheon FC 1995": 1,
+        "unmatched_home_team:Burgos CF": 1,
+        "unmatched_home_team:CFR Cluj": 1,
+        "unmatched_home_team:Caracas": 1,
+        "unmatched_home_team:Cardiff City": 1,
+        "unmatched_home_team:Castellón": 1,
+        "unmatched_home_team:Ceará": 1,
+        "unmatched_home_team:Central Córdoba de Santiago": 2,
+        "unmatched_home_team:Cerro Porteño": 1,
+        "unmatched_home_team:Charleston Battery": 1,
+        "unmatched_home_team:Charlton Athletic": 1,
+        "unmatched_home_team:Chennaiyin FC": 1,
+        "unmatched_home_team:Cheonan City": 1,
+        "unmatched_home_team:Chicago Fire FC": 1,
+        "unmatched_home_team:Cienciano": 1,
+        "unmatched_home_team:Clermont Foot": 1,
+        "unmatched_home_team:Club Brugge": 1,
+        "unmatched_home_team:Club Guaraní": 1,
+        "unmatched_home_team:Csikszereda": 1,
+        "unmatched_home_team:Cuiabá": 1,
+        "unmatched_home_team:Cádiz": 1,
+        "unmatched_home_team:Córdoba": 1,
+        "unmatched_home_team:DAC 1904": 1,
+        "unmatched_home_team:Daejeon Hana Citizen": 1,
+        "unmatched_home_team:Dalian Yingbo": 1,
+        "unmatched_home_team:Damac FC": 1,
+        "unmatched_home_team:Den Bosch": 1,
+        "unmatched_home_team:Derby County": 1,
+        "unmatched_home_team:Dordrecht": 1,
+        "unmatched_home_team:Dukla Banská Bystrica": 1,
+        "unmatched_home_team:Dynamo Dresden": 1,
+        "unmatched_home_team:Ehime": 1,
+        "unmatched_home_team:Eindhoven": 1,
+        "unmatched_home_team:Eintracht Braunschweig": 1,
+        "unmatched_home_team:Espanyol": 1,
+        "unmatched_home_team:Estoril": 1,
+        "unmatched_home_team:Estrela da Amadora": 1,
+        "unmatched_home_team:Everton": 1,
+        "unmatched_home_team:FC Andorra": 1,
+        "unmatched_home_team:FC Cajamarca": 1,
+        "unmatched_home_team:FC Emmen": 1,
+        "unmatched_home_team:FC Goa": 1,
+        "unmatched_home_team:FC Heidenheim": 1,
+        "unmatched_home_team:FC Ingolstadt": 1,
+        "unmatched_home_team:FC København": 1,
+        "unmatched_home_team:FC Midtjylland": 1,
+        "unmatched_home_team:FC Seoul": 1,
+        "unmatched_home_team:FC Tokyo": 1,
+        "unmatched_home_team:FC Twente": 1,
+        "unmatched_home_team:FC Utrecht": 1,
+        "unmatched_home_team:FC Vaduz": 1,
+        "unmatched_home_team:FCSB": 1,
+        "unmatched_home_team:Famalicão": 1,
+        "unmatched_home_team:Farul Constanţa": 1,
+        "unmatched_home_team:Fortaleza": 1,
+        "unmatched_home_team:Fortuna Sittard": 1,
+        "unmatched_home_team:Francs Borains": 1,
+        "unmatched_home_team:Fukushima United": 1,
+        "unmatched_home_team:Gainare Tottori": 1,
+        "unmatched_home_team:Gamba Osaka": 1,
+        "unmatched_home_team:Gangwon FC": 1,
+        "unmatched_home_team:Gaziantep FK": 1,
+        "unmatched_home_team:Genk U23": 1,
+        "unmatched_home_team:Gent": 1,
+        "unmatched_home_team:Gifu": 1,
+        "unmatched_home_team:Gimcheon Sangmu": 1,
+        "unmatched_home_team:Gimhae City": 1,
+        "unmatched_home_team:Gimnasia LP": 1,
+        "unmatched_home_team:Gimpo Citizen": 1,
+        "unmatched_home_team:Girona": 1,
+        "unmatched_home_team:Goiás": 1,
+        "unmatched_home_team:Granada": 1,
+        "unmatched_home_team:Grasshopper": 1,
+        "unmatched_home_team:Grobiņa": 1,
+        "unmatched_home_team:Guabirá": 1,
+        "unmatched_home_team:Gualberto Villarroel SJ": 1,
+        "unmatched_home_team:Göztepe": 1,
+        "unmatched_home_team:HB Køge": 1,
+        "unmatched_home_team:HNK Gorica": 1,
+        "unmatched_home_team:Halmstads BK": 1,
+        "unmatched_home_team:Hamarkameratene": 1,
+        "unmatched_home_team:Hansa Rostock": 1,
+        "unmatched_home_team:Hapoel Beer Sheva": 1,
+        "unmatched_home_team:Hapoel Jerusalem": 1,
+        "unmatched_home_team:Hapoel Petah Tikva": 1,
+        "unmatched_home_team:Hatta": 1,
+        "unmatched_home_team:Heart of Midlothian": 1,
+        "unmatched_home_team:Helmond Sport": 1,
+        "unmatched_home_team:Heracles": 1,
+        "unmatched_home_team:Hertha BSC": 1,
+        "unmatched_home_team:Hillerød": 1,
+        "unmatched_home_team:Hobro": 1,
+        "unmatched_home_team:Houston Dynamo FC": 1,
+        "unmatched_home_team:Hradec Králové": 1,
+        "unmatched_home_team:IFK Göteborg": 1,
+        "unmatched_home_team:Independiente": 1,
+        "unmatched_home_team:Independiente Santa Fe": 1,
+        "unmatched_home_team:Inter Kashi": 1,
+        "unmatched_home_team:Inter Miami CF": 1,
+        "unmatched_home_team:Iraklis": 1,
+        "unmatched_home_team:Ironi Kiryat Shmona": 1,
+        "unmatched_home_team:Ironi Tiberias": 1,
+        "unmatched_home_team:Istra 1961": 1,
+        "unmatched_home_team:JEF United Chiba": 1,
+        "unmatched_home_team:Jablonec": 1,
+        "unmatched_home_team:Jagiellonia Białystok": 1,
+        "unmatched_home_team:Jaguares de Córdoba": 1,
+        "unmatched_home_team:Jeju SK": 1,
+        "unmatched_home_team:Jelgava": 1,
+        "unmatched_home_team:K. Lierse SK": 1,
+        "unmatched_home_team:KSC Lokeren": 1,
+        "unmatched_home_team:Kalmar FF": 1,
+        "unmatched_home_team:Kashiwa Reysol": 1,
+        "unmatched_home_team:Komárno": 1,
+        "unmatched_home_team:Kriens": 1,
+        "unmatched_home_team:LR Vicenza": 1,
+        "unmatched_home_team:La Serena": 1,
+        "unmatched_home_team:Lamphun Warrior": 1,
+        "unmatched_home_team:Las Palmas": 1,
+        "unmatched_home_team:Leganés": 1,
+        "unmatched_home_team:Legia Warszawa": 1,
+        "unmatched_home_team:Libertad": 1,
+        "unmatched_home_team:Lillestrøm": 1,
+        "unmatched_home_team:Lokomotiva Zagreb": 1,
+        "unmatched_home_team:Los Chankas": 1,
+        "unmatched_home_team:Louisville City": 1,
+        "unmatched_home_team:Lusail City": 1,
+        "unmatched_home_team:Luzern": 1,
+        "unmatched_home_team:Macarthur FC": 1,
+        "unmatched_home_team:Maccabi Haifa": 1,
+        "unmatched_home_team:Maccabi Tel Aviv": 1,
+        "unmatched_home_team:Machida Zelvia": 1,
+        "unmatched_home_team:Mardin 1969": 1,
+        "unmatched_home_team:Matsumoto Yamaga": 1,
+        "unmatched_home_team:Melbourne City FC": 1,
+        "unmatched_home_team:Melgar": 1,
+        "unmatched_home_team:Meppen": 1,
+        "unmatched_home_team:Monagas": 1,
+        "unmatched_home_team:Muğlaspor": 1,
+        "unmatched_home_team:NFC Volos": 1,
+        "unmatched_home_team:Nacional": 1,
+        "unmatched_home_team:Nacional Potosí": 1,
+        "unmatched_home_team:Nagano Parceiro": 1,
+        "unmatched_home_team:Nagoya Grampus": 1,
+        "unmatched_home_team:Nara Club": 1,
+        "unmatched_home_team:New Mexico United": 1,
+        "unmatched_home_team:Nottingham Forest": 1,
+        "unmatched_home_team:Novi Pazar": 1,
+        "unmatched_home_team:Novorizontino": 1,
+        "unmatched_home_team:Náutico": 1,
+        "unmatched_home_team:OB": 1,
+        "unmatched_home_team:OFI Crete": 1,
+        "unmatched_home_team:OH Leuven": 1,
+        "unmatched_home_team:Olympiacos": 1,
+        "unmatched_home_team:Once Caldas": 1,
+        "unmatched_home_team:Operário PR": 1,
+        "unmatched_home_team:Osijek": 1,
+        "unmatched_home_team:Paju Frontier": 1,
+        "unmatched_home_team:Partizan Beograd": 1,
+        "unmatched_home_team:Pau": 1,
+        "unmatched_home_team:Pendikspor": 1,
+        "unmatched_home_team:Perth Glory": 1,
+        "unmatched_home_team:Podbrezová": 1,
+        "unmatched_home_team:Port FC": 1,
+        "unmatched_home_team:Portuguesa": 1,
+        "unmatched_home_team:Prachuap FC": 1,
+        "unmatched_home_team:Preston North End": 1,
+        "unmatched_home_team:Preussen Münster": 1,
+        "unmatched_home_team:Pumas": 1,
+        "unmatched_home_team:Qingdao Hainiu": 1,
+        "unmatched_home_team:Queens Park Rangers": 1,
+        "unmatched_home_team:RAAL La Louvière": 1,
+        "unmatched_home_team:Radnik Surdulica": 1,
+        "unmatched_home_team:Randers FC": 1,
+        "unmatched_home_team:Rasisalai United": 1,
+        "unmatched_home_team:Ratchaburi FC": 1,
+        "unmatched_home_team:Red Bull New York": 1,
+        "unmatched_home_team:Riga FC": 1,
+        "unmatched_home_team:Rio Ave": 1,
+        "unmatched_home_team:Roasso Kumamoto": 1,
+        "unmatched_home_team:Rot-Weiss Essen": 1,
+        "unmatched_home_team:Royal Antwerp": 1,
+        "unmatched_home_team:SC Heerenveen": 1,
+        "unmatched_home_team:Sacramento Republic": 1,
+        "unmatched_home_team:Sagamihara": 1,
+        "unmatched_home_team:Saint-Étienne": 1,
+        "unmatched_home_team:Santa Clara": 1,
+        "unmatched_home_team:Sarıyer": 1,
+        "unmatched_home_team:Seattle Sounders FC": 1,
+        "unmatched_home_team:Seongnam": 1,
+        "unmatched_home_team:Seoul E-Land": 1,
+        "unmatched_home_team:Sepsi": 1,
+        "unmatched_home_team:Servette": 1,
+        "unmatched_home_team:Shandong Taishan": 1,
+        "unmatched_home_team:Shanghai Port": 1,
+        "unmatched_home_team:Shanghai Shenhua": 1,
+        "unmatched_home_team:Sharjah": 1,
+        "unmatched_home_team:Shimizu S-Pulse": 1,
+        "unmatched_home_team:Silkeborg": 1,
+        "unmatched_home_team:Skalica": 1,
+        "unmatched_home_team:Slavia Prague": 1,
+        "unmatched_home_team:Slovan Bratislava": 1,
+        "unmatched_home_team:Slovan Liberec": 1,
+        "unmatched_home_team:Sport Boys": 1,
+        "unmatched_home_team:Sporting CP": 1,
+        "unmatched_home_team:Sporting Gijón": 1,
+        "unmatched_home_team:Sporting Hasselt": 1,
+        "unmatched_home_team:Sportivo Trinidense": 1,
+        "unmatched_home_team:St. Gallen": 1,
+        "unmatched_home_team:St.Truiden": 1,
+        "unmatched_home_team:Stade Nyonnais": 1,
+        "unmatched_home_team:Standard Liège": 1,
+        "unmatched_home_team:Stuttgart II": 1,
+        "unmatched_home_team:Super Nova": 1,
+        "unmatched_home_team:Suwon": 1,
+        "unmatched_home_team:Suwon Bluewings": 1,
+        "unmatched_home_team:TOP Oss": 1,
+        "unmatched_home_team:Talleres": 2,
+        "unmatched_home_team:Teplice": 1,
+        "unmatched_home_team:Thespa Gunma": 1,
+        "unmatched_home_team:Thun": 1,
+        "unmatched_home_team:Tigres": 1,
+        "unmatched_home_team:Tromsø": 1,
+        "unmatched_home_team:Tukums": 1,
+        "unmatched_home_team:UTA Arad": 1,
+        "unmatched_home_team:Union St.Gilloise": 1,
+        "unmatched_home_team:Universidad Católica": 1,
+        "unmatched_home_team:Universidad de Chile": 1,
+        "unmatched_home_team:Unión": 2,
+        "unmatched_home_team:Unión La Calera": 1,
+        "unmatched_home_team:Uthai Thani FC": 1,
+        "unmatched_home_team:VVV": 1,
+        "unmatched_home_team:Vanspor": 1,
+        "unmatched_home_team:Varaždin": 1,
+        "unmatched_home_team:Vejle Boldklub": 1,
+        "unmatched_home_team:VfL Osnabrück": 1,
+        "unmatched_home_team:Viktoria Köln": 1,
+        "unmatched_home_team:Viktoria Plzeň": 1,
+        "unmatched_home_team:Vila Nova": 1,
+        "unmatched_home_team:Virton": 1,
+        "unmatched_home_team:Vissel Kobe": 1,
+        "unmatched_home_team:Vitesse": 1,
+        "unmatched_home_team:Vitória de Guimarães": 1,
+        "unmatched_home_team:Vojvodina": 1,
+        "unmatched_home_team:Waldhof Mannheim": 1,
+        "unmatched_home_team:Wehen Wiesbaden": 1,
+        "unmatched_home_team:West Bromwich Albion": 1,
+        "unmatched_home_team:Westerlo": 1,
+        "unmatched_home_team:Widzew Łódź": 1,
+        "unmatched_home_team:Winterthur": 1,
+        "unmatched_home_team:Wisła Kraków": 1,
+        "unmatched_home_team:Würzburger Kickers": 1,
+        "unmatched_home_team:Yokohama F.Marinos": 1,
+        "unmatched_home_team:Yunnan Yukun": 1,
+        "unmatched_home_team:Yverdon": 1,
+        "unmatched_home_team:Zbrojovka Brno": 1,
+        "unmatched_home_team:Zemun": 1,
+        "unmatched_home_team:Zhejiang": 1,
+        "unmatched_home_team:Zlín": 1,
+        "unmatched_home_team:Çorum FK": 1,
+        "unmatched_home_team:Ñublense": 1,
+        "unmatched_home_team:Ümraniyespor": 1,
+        "unmatched_home_team:Čukarički": 1,
+        "unmatched_home_team:Śląsk Wrocław": 1,
+        "unmatched_home_team:Železničar Pančevo": 1
+      }
+    },
+    "after": {
+      "total": 488,
+      "identity_ready": 277,
+      "elo_ready": 276,
+      "dixon_coles_history_ready": 277,
+      "reasons": {
+        "competition_country_not_verified": 10,
+        "insufficient_team_history": 1,
+        "ready_for_model_attempt": 276,
+        "unmatched_home_team:AB": 1,
+        "unmatched_home_team:ADT": 1,
+        "unmatched_home_team:AZ II": 1,
+        "unmatched_home_team:Aarau": 1,
+        "unmatched_home_team:Adelaide United": 1,
+        "unmatched_home_team:Ajman": 1,
+        "unmatched_home_team:Al Ahli": 2,
+        "unmatched_home_team:Al Akhdoud": 1,
+        "unmatched_home_team:Al Arabi": 1,
+        "unmatched_home_team:Al Dhafra": 1,
+        "unmatched_home_team:Al Fateh FC": 1,
+        "unmatched_home_team:Al Gharafa": 1,
+        "unmatched_home_team:Al Hazem": 1,
+        "unmatched_home_team:Al Ittihad": 1,
+        "unmatched_home_team:Al Jazira": 1,
+        "unmatched_home_team:Al Najma": 1,
+        "unmatched_home_team:Al Nasr": 1,
+        "unmatched_home_team:Al Qadsiah": 1,
+        "unmatched_home_team:Al Sadd": 1,
+        "unmatched_home_team:Al Shamal": 1,
+        "unmatched_home_team:Al Taee": 1,
+        "unmatched_home_team:Al Taraji": 1,
+        "unmatched_home_team:Al Wahda": 1,
+        "unmatched_home_team:Al Wakrah": 1,
+        "unmatched_home_team:Al-Ettifaq": 1,
+        "unmatched_home_team:Al-Faisaly": 1,
+        "unmatched_home_team:Al-Jandal": 1,
+        "unmatched_home_team:Al-Saqer FC": 1,
+        "unmatched_home_team:Al-Wehda": 1,
+        "unmatched_home_team:Al-Zulfi": 1,
+        "unmatched_home_team:Always Ready": 1,
+        "unmatched_home_team:América de Cali": 1,
+        "unmatched_home_team:Anderlecht Futures": 1,
+        "unmatched_home_team:Athletic Club Boise": 1,
+        "unmatched_home_team:Atlético Grau": 1,
+        "unmatched_home_team:Atlético Nacional": 1,
+        "unmatched_home_team:Auckland FC": 1,
+        "unmatched_home_team:Audax Italiano": 1,
+        "unmatched_home_team:Ayutthaya United FC": 1,
+        "unmatched_home_team:BG Pathum United": 1,
+        "unmatched_home_team:Bolívar": 1,
+        "unmatched_home_team:Boyacá Chicó": 1,
+        "unmatched_home_team:Bucheon FC 1995": 1,
+        "unmatched_home_team:Caracas": 1,
+        "unmatched_home_team:Cerro Porteño": 1,
+        "unmatched_home_team:Charleston Battery": 1,
+        "unmatched_home_team:Chennaiyin FC": 1,
+        "unmatched_home_team:Cheonan City": 1,
+        "unmatched_home_team:Cienciano": 1,
+        "unmatched_home_team:Club Guaraní": 1,
+        "unmatched_home_team:DAC 1904": 1,
+        "unmatched_home_team:Daejeon Hana Citizen": 1,
+        "unmatched_home_team:Damac FC": 1,
+        "unmatched_home_team:Den Bosch": 1,
+        "unmatched_home_team:Dordrecht": 1,
+        "unmatched_home_team:Dukla Banská Bystrica": 1,
+        "unmatched_home_team:Ehime": 1,
+        "unmatched_home_team:Eindhoven": 1,
+        "unmatched_home_team:Everton": 1,
+        "unmatched_home_team:FC Cajamarca": 1,
+        "unmatched_home_team:FC Emmen": 1,
+        "unmatched_home_team:FC Goa": 1,
+        "unmatched_home_team:FC Ingolstadt": 1,
+        "unmatched_home_team:FC Seoul": 1,
+        "unmatched_home_team:Fortaleza": 1,
+        "unmatched_home_team:Francs Borains": 1,
+        "unmatched_home_team:Fukushima United": 1,
+        "unmatched_home_team:Gainare Tottori": 1,
+        "unmatched_home_team:Gangwon FC": 1,
+        "unmatched_home_team:Genk U23": 1,
+        "unmatched_home_team:Gifu": 1,
+        "unmatched_home_team:Gimcheon Sangmu": 1,
+        "unmatched_home_team:Gimhae City": 1,
+        "unmatched_home_team:Gimpo Citizen": 1,
+        "unmatched_home_team:Grobiņa": 1,
+        "unmatched_home_team:Guabirá": 1,
+        "unmatched_home_team:Gualberto Villarroel SJ": 1,
+        "unmatched_home_team:HB Køge": 1,
+        "unmatched_home_team:HNK Gorica": 1,
+        "unmatched_home_team:Hansa Rostock": 1,
+        "unmatched_home_team:Hapoel Beer Sheva": 1,
+        "unmatched_home_team:Hapoel Jerusalem": 1,
+        "unmatched_home_team:Hapoel Petah Tikva": 1,
+        "unmatched_home_team:Hatta": 1,
+        "unmatched_home_team:Helmond Sport": 1,
+        "unmatched_home_team:Heracles": 1,
+        "unmatched_home_team:Hillerød": 1,
+        "unmatched_home_team:Hobro": 1,
+        "unmatched_home_team:Hradec Králové": 1,
+        "unmatched_home_team:Independiente": 1,
+        "unmatched_home_team:Independiente Santa Fe": 1,
+        "unmatched_home_team:Inter Kashi": 1,
+        "unmatched_home_team:Ironi Kiryat Shmona": 1,
+        "unmatched_home_team:Ironi Tiberias": 1,
+        "unmatched_home_team:Istra 1961": 1,
+        "unmatched_home_team:Jablonec": 1,
+        "unmatched_home_team:Jaguares de Córdoba": 1,
+        "unmatched_home_team:Jeju SK": 1,
+        "unmatched_home_team:Jelgava": 1,
+        "unmatched_home_team:K. Lierse SK": 1,
+        "unmatched_home_team:KSC Lokeren": 1,
+        "unmatched_home_team:Komárno": 1,
+        "unmatched_home_team:Kriens": 1,
+        "unmatched_home_team:La Serena": 1,
+        "unmatched_home_team:Lamphun Warrior": 1,
+        "unmatched_home_team:Libertad": 1,
+        "unmatched_home_team:Lokomotiva Zagreb": 1,
+        "unmatched_home_team:Los Chankas": 1,
+        "unmatched_home_team:Louisville City": 1,
+        "unmatched_home_team:Lusail City": 1,
+        "unmatched_home_team:Macarthur FC": 1,
+        "unmatched_home_team:Maccabi Haifa": 1,
+        "unmatched_home_team:Maccabi Tel Aviv": 1,
+        "unmatched_home_team:Matsumoto Yamaga": 1,
+        "unmatched_home_team:Melbourne City FC": 1,
+        "unmatched_home_team:Melgar": 1,
+        "unmatched_home_team:Meppen": 1,
+        "unmatched_home_team:Monagas": 1,
+        "unmatched_home_team:Nacional Potosí": 1,
+        "unmatched_home_team:Nagano Parceiro": 1,
+        "unmatched_home_team:Nara Club": 1,
+        "unmatched_home_team:New Mexico United": 1,
+        "unmatched_home_team:Novi Pazar": 1,
+        "unmatched_home_team:Once Caldas": 1,
+        "unmatched_home_team:Osijek": 1,
+        "unmatched_home_team:Paju Frontier": 1,
+        "unmatched_home_team:Partizan Beograd": 1,
+        "unmatched_home_team:Perth Glory": 1,
+        "unmatched_home_team:Podbrezová": 1,
+        "unmatched_home_team:Port FC": 1,
+        "unmatched_home_team:Portuguesa": 1,
+        "unmatched_home_team:Prachuap FC": 1,
+        "unmatched_home_team:Preussen Münster": 1,
+        "unmatched_home_team:Radnik Surdulica": 1,
+        "unmatched_home_team:Rasisalai United": 1,
+        "unmatched_home_team:Ratchaburi FC": 1,
+        "unmatched_home_team:Riga FC": 1,
+        "unmatched_home_team:Roasso Kumamoto": 1,
+        "unmatched_home_team:Rot-Weiss Essen": 1,
+        "unmatched_home_team:Sacramento Republic": 1,
+        "unmatched_home_team:Sagamihara": 1,
+        "unmatched_home_team:Seongnam": 1,
+        "unmatched_home_team:Seoul E-Land": 1,
+        "unmatched_home_team:Sharjah": 1,
+        "unmatched_home_team:Skalica": 1,
+        "unmatched_home_team:Slavia Prague": 1,
+        "unmatched_home_team:Slovan Bratislava": 1,
+        "unmatched_home_team:Slovan Liberec": 1,
+        "unmatched_home_team:Sport Boys": 1,
+        "unmatched_home_team:Sporting Hasselt": 1,
+        "unmatched_home_team:Sportivo Trinidense": 1,
+        "unmatched_home_team:Stade Nyonnais": 1,
+        "unmatched_home_team:Stuttgart II": 1,
+        "unmatched_home_team:Super Nova": 1,
+        "unmatched_home_team:Suwon": 1,
+        "unmatched_home_team:Suwon Bluewings": 1,
+        "unmatched_home_team:TOP Oss": 1,
+        "unmatched_home_team:Teplice": 1,
+        "unmatched_home_team:Thespa Gunma": 1,
+        "unmatched_home_team:Tukums": 1,
+        "unmatched_home_team:Universidad Católica": 1,
+        "unmatched_home_team:Universidad de Chile": 1,
+        "unmatched_home_team:Unión La Calera": 1,
+        "unmatched_home_team:Uthai Thani FC": 1,
+        "unmatched_home_team:VVV": 1,
+        "unmatched_home_team:Varaždin": 1,
+        "unmatched_home_team:Vejle Boldklub": 1,
+        "unmatched_home_team:Viktoria Köln": 1,
+        "unmatched_home_team:Viktoria Plzeň": 1,
+        "unmatched_home_team:Virton": 1,
+        "unmatched_home_team:Vitesse": 1,
+        "unmatched_home_team:Vojvodina": 1,
+        "unmatched_home_team:Waldhof Mannheim": 1,
+        "unmatched_home_team:Wehen Wiesbaden": 1,
+        "unmatched_home_team:Winterthur": 1,
+        "unmatched_home_team:Würzburger Kickers": 1,
+        "unmatched_home_team:Yverdon": 1,
+        "unmatched_home_team:Zbrojovka Brno": 1,
+        "unmatched_home_team:Zemun": 1,
+        "unmatched_home_team:Zlín": 1,
+        "unmatched_home_team:Ñublense": 1,
+        "unmatched_home_team:Čukarički": 1,
+        "unmatched_home_team:Železničar Pančevo": 1,
+        "unsupported_competition_id": 17
+      }
+    },
+    "before_original_history": {
+      "total": 488,
+      "identity_ready": 33,
+      "elo_ready": 33,
+      "dixon_coles_history_ready": 33,
+      "reasons": {
+        "ambiguous_bundesliga_country_not_verified": 6,
+        "ambiguous_premier_league_country_not_verified": 10,
+        "ambiguous_serie_a_country_not_verified": 7,
+        "competition_country_conflict": 9,
+        "ready_for_model_attempt": 33,
+        "unmatched_away_team:Coventry City": 1,
+        "unmatched_away_team:Hull City": 1,
+        "unmatched_away_team:Racing Santander": 1,
+        "unmatched_away_team:Rayo Vallecano": 1,
+        "unmatched_home_team:1. FC Nürnberg": 1,
+        "unmatched_home_team:AB": 1,
+        "unmatched_home_team:ADO Den Haag": 1,
+        "unmatched_home_team:ADT": 1,
+        "unmatched_home_team:AEK Athens": 1,
+        "unmatched_home_team:AGF": 1,
+        "unmatched_home_team:AIK": 1,
+        "unmatched_home_team:AZ Alkmaar": 1,
+        "unmatched_home_team:AZ II": 1,
+        "unmatched_home_team:Aarau": 1,
+        "unmatched_home_team:Aberdeen": 1,
+        "unmatched_home_team:Adelaide United": 1,
+        "unmatched_home_team:Ajman": 1,
+        "unmatched_home_team:Al Ahli": 2,
+        "unmatched_home_team:Al Akhdoud": 1,
+        "unmatched_home_team:Al Arabi": 1,
+        "unmatched_home_team:Al Dhafra": 1,
+        "unmatched_home_team:Al Fateh FC": 1,
+        "unmatched_home_team:Al Gharafa": 1,
+        "unmatched_home_team:Al Hazem": 1,
+        "unmatched_home_team:Al Ittihad": 1,
+        "unmatched_home_team:Al Jazira": 1,
+        "unmatched_home_team:Al Najma": 1,
+        "unmatched_home_team:Al Nasr": 1,
+        "unmatched_home_team:Al Qadsiah": 1,
+        "unmatched_home_team:Al Sadd": 1,
+        "unmatched_home_team:Al Shamal": 1,
+        "unmatched_home_team:Al Taee": 1,
+        "unmatched_home_team:Al Taraji": 1,
+        "unmatched_home_team:Al Wahda": 1,
+        "unmatched_home_team:Al Wakrah": 1,
+        "unmatched_home_team:Al-Ettifaq": 1,
+        "unmatched_home_team:Al-Faisaly": 1,
+        "unmatched_home_team:Al-Jandal": 1,
+        "unmatched_home_team:Al-Saqer FC": 1,
+        "unmatched_home_team:Al-Wehda": 1,
+        "unmatched_home_team:Al-Zulfi": 1,
+        "unmatched_home_team:Alanyaspor": 1,
+        "unmatched_home_team:Aldosivi": 1,
+        "unmatched_home_team:Alverca": 1,
+        "unmatched_home_team:Always Ready": 1,
+        "unmatched_home_team:América de Cali": 1,
+        "unmatched_home_team:Anderlecht Futures": 1,
+        "unmatched_home_team:Ankara Keçiörengücü": 1,
+        "unmatched_home_team:Antalyaspor": 1,
+        "unmatched_home_team:Argentinos Juniors": 2,
+        "unmatched_home_team:Argeș": 1,
+        "unmatched_home_team:Aris Thessaloniki": 1,
+        "unmatched_home_team:Ascoli": 1,
+        "unmatched_home_team:Asteras Tripolis": 1,
+        "unmatched_home_team:Athletic Club Boise": 1,
+        "unmatched_home_team:Athletic Club MG": 1,
+        "unmatched_home_team:Atlante": 1,
+        "unmatched_home_team:Atlas": 1,
+        "unmatched_home_team:Atlético Grau": 1,
+        "unmatched_home_team:Atlético Nacional": 1,
+        "unmatched_home_team:Atlético de San Luis": 1,
+        "unmatched_home_team:Auckland FC": 1,
+        "unmatched_home_team:Audax Italiano": 1,
+        "unmatched_home_team:Austin FC": 1,
+        "unmatched_home_team:Avaí": 1,
+        "unmatched_home_team:Avispa Fukuoka": 1,
+        "unmatched_home_team:Ayutthaya United FC": 1,
+        "unmatched_home_team:BG Pathum United": 1,
+        "unmatched_home_team:Bandırmaspor": 1,
+        "unmatched_home_team:Banfield": 2,
+        "unmatched_home_team:Barracas Central": 2,
+        "unmatched_home_team:Beijing Guoan": 1,
+        "unmatched_home_team:Benevento": 1,
+        "unmatched_home_team:Beşiktaş": 1,
+        "unmatched_home_team:Birmingham City": 1,
+        "unmatched_home_team:Blackburn Rovers": 1,
+        "unmatched_home_team:Boca Juniors": 2,
+        "unmatched_home_team:Bochum": 1,
+        "unmatched_home_team:Boluspor": 1,
+        "unmatched_home_team:Bolívar": 1,
+        "unmatched_home_team:Boulogne": 1,
+        "unmatched_home_team:Boyacá Chicó": 1,
+        "unmatched_home_team:Bristol City": 1,
+        "unmatched_home_team:Brommapojkarna": 1,
+        "unmatched_home_team:Bucheon FC 1995": 1,
+        "unmatched_home_team:Burgos CF": 1,
+        "unmatched_home_team:CF Montréal": 1,
+        "unmatched_home_team:CFR Cluj": 1,
+        "unmatched_home_team:Cambuur": 1,
+        "unmatched_home_team:Caracas": 1,
+        "unmatched_home_team:Cardiff City": 1,
+        "unmatched_home_team:Carrarese": 1,
+        "unmatched_home_team:Castellón": 1,
+        "unmatched_home_team:Ceará": 1,
+        "unmatched_home_team:Celtic": 1,
+        "unmatched_home_team:Central Córdoba de Santiago": 2,
+        "unmatched_home_team:Cerro Porteño": 1,
+        "unmatched_home_team:Cesena": 1,
+        "unmatched_home_team:Charleston Battery": 1,
+        "unmatched_home_team:Charlton Athletic": 1,
+        "unmatched_home_team:Chennaiyin FC": 1,
+        "unmatched_home_team:Cheonan City": 1,
+        "unmatched_home_team:Chicago Fire FC": 1,
+        "unmatched_home_team:Cienciano": 1,
+        "unmatched_home_team:Clermont Foot": 1,
+        "unmatched_home_team:Club Brugge": 1,
+        "unmatched_home_team:Club Guaraní": 1,
+        "unmatched_home_team:Csikszereda": 1,
+        "unmatched_home_team:Cuiabá": 1,
+        "unmatched_home_team:Cádiz": 1,
+        "unmatched_home_team:Córdoba": 1,
+        "unmatched_home_team:DAC 1904": 1,
+        "unmatched_home_team:DC United": 1,
+        "unmatched_home_team:Daejeon Hana Citizen": 1,
+        "unmatched_home_team:Dalian Yingbo": 1,
+        "unmatched_home_team:Damac FC": 1,
+        "unmatched_home_team:Degerfors": 1,
+        "unmatched_home_team:Den Bosch": 1,
+        "unmatched_home_team:Derby County": 1,
+        "unmatched_home_team:Dijon": 1,
+        "unmatched_home_team:Dordrecht": 1,
+        "unmatched_home_team:Dukla Banská Bystrica": 1,
+        "unmatched_home_team:Dundee United": 1,
+        "unmatched_home_team:Dunkerque": 1,
+        "unmatched_home_team:Dynamo Dresden": 1,
+        "unmatched_home_team:Ehime": 1,
+        "unmatched_home_team:Eindhoven": 1,
+        "unmatched_home_team:Eintracht Braunschweig": 1,
+        "unmatched_home_team:Espanyol": 1,
+        "unmatched_home_team:Estoril": 1,
+        "unmatched_home_team:Estrela da Amadora": 1,
+        "unmatched_home_team:Everton": 1,
+        "unmatched_home_team:Excelsior": 1,
+        "unmatched_home_team:Eyüpspor": 1,
+        "unmatched_home_team:FC Andorra": 1,
+        "unmatched_home_team:FC Cajamarca": 1,
+        "unmatched_home_team:FC Cincinnati": 1,
+        "unmatched_home_team:FC Dallas": 1,
+        "unmatched_home_team:FC Emmen": 1,
+        "unmatched_home_team:FC Goa": 1,
+        "unmatched_home_team:FC Heidenheim": 1,
+        "unmatched_home_team:FC Ingolstadt": 1,
+        "unmatched_home_team:FC København": 1,
+        "unmatched_home_team:FC Midtjylland": 1,
+        "unmatched_home_team:FC Seoul": 1,
+        "unmatched_home_team:FC Tokyo": 1,
+        "unmatched_home_team:FC Twente": 1,
+        "unmatched_home_team:FC Utrecht": 1,
+        "unmatched_home_team:FC Vaduz": 1,
+        "unmatched_home_team:FCSB": 1,
+        "unmatched_home_team:Famalicão": 1,
+        "unmatched_home_team:Farul Constanţa": 1,
+        "unmatched_home_team:Fortaleza": 1,
+        "unmatched_home_team:Fortuna Sittard": 1,
+        "unmatched_home_team:Francs Borains": 1,
+        "unmatched_home_team:Fredrikstad": 1,
+        "unmatched_home_team:Fukushima United": 1,
+        "unmatched_home_team:Gainare Tottori": 1,
+        "unmatched_home_team:Galatasaray": 1,
+        "unmatched_home_team:Gamba Osaka": 1,
+        "unmatched_home_team:Gangwon FC": 1,
+        "unmatched_home_team:Gaziantep FK": 1,
+        "unmatched_home_team:Genk U23": 1,
+        "unmatched_home_team:Gent": 1,
+        "unmatched_home_team:Gifu": 1,
+        "unmatched_home_team:Gimcheon Sangmu": 1,
+        "unmatched_home_team:Gimhae City": 1,
+        "unmatched_home_team:Gimnasia LP": 1,
+        "unmatched_home_team:Gimnasia Mendoza": 2,
+        "unmatched_home_team:Gimpo Citizen": 1,
+        "unmatched_home_team:Girona": 1,
+        "unmatched_home_team:Gnistan": 1,
+        "unmatched_home_team:Goiás": 1,
+        "unmatched_home_team:Granada": 1,
+        "unmatched_home_team:Grasshopper": 1,
+        "unmatched_home_team:Grenoble": 1,
+        "unmatched_home_team:Grobiņa": 1,
+        "unmatched_home_team:Guabirá": 1,
+        "unmatched_home_team:Gualberto Villarroel SJ": 1,
+        "unmatched_home_team:Górnik Zabrze": 1,
+        "unmatched_home_team:Göztepe": 1,
+        "unmatched_home_team:HB Køge": 1,
+        "unmatched_home_team:HJK": 1,
+        "unmatched_home_team:HNK Gorica": 1,
+        "unmatched_home_team:Halmstads BK": 1,
+        "unmatched_home_team:Hamarkameratene": 1,
+        "unmatched_home_team:Hammarby": 1,
+        "unmatched_home_team:Hansa Rostock": 1,
+        "unmatched_home_team:Hapoel Beer Sheva": 1,
+        "unmatched_home_team:Hapoel Jerusalem": 1,
+        "unmatched_home_team:Hapoel Petah Tikva": 1,
+        "unmatched_home_team:Hatta": 1,
+        "unmatched_home_team:Heart of Midlothian": 1,
+        "unmatched_home_team:Helmond Sport": 1,
+        "unmatched_home_team:Heracles": 1,
+        "unmatched_home_team:Hertha BSC": 1,
+        "unmatched_home_team:Hillerød": 1,
+        "unmatched_home_team:Hobro": 1,
+        "unmatched_home_team:Holstein Kiel": 1,
+        "unmatched_home_team:Houston Dynamo FC": 1,
+        "unmatched_home_team:Hradec Králové": 1,
+        "unmatched_home_team:IFK Göteborg": 1,
+        "unmatched_home_team:Independiente": 3,
+        "unmatched_home_team:Independiente Santa Fe": 1,
+        "unmatched_home_team:Instituto": 2,
+        "unmatched_home_team:Inter Kashi": 1,
+        "unmatched_home_team:Inter Miami CF": 1,
+        "unmatched_home_team:Iraklis": 1,
+        "unmatched_home_team:Ironi Kiryat Shmona": 1,
+        "unmatched_home_team:Ironi Tiberias": 1,
+        "unmatched_home_team:Istra 1961": 1,
+        "unmatched_home_team:JEF United Chiba": 1,
+        "unmatched_home_team:Jablonec": 1,
+        "unmatched_home_team:Jagiellonia Białystok": 1,
+        "unmatched_home_team:Jaguares de Córdoba": 1,
+        "unmatched_home_team:Jeju SK": 1,
+        "unmatched_home_team:Jelgava": 1,
+        "unmatched_home_team:Juve Stabia": 1,
+        "unmatched_home_team:K. Lierse SK": 1,
+        "unmatched_home_team:KSC Lokeren": 1,
+        "unmatched_home_team:Kalmar FF": 1,
+        "unmatched_home_team:Kashiwa Reysol": 1,
+        "unmatched_home_team:Komárno": 1,
+        "unmatched_home_team:Korona Kielce": 1,
+        "unmatched_home_team:Kriens": 1,
+        "unmatched_home_team:Kristiansund": 1,
+        "unmatched_home_team:KuPS": 1,
+        "unmatched_home_team:LR Vicenza": 1,
+        "unmatched_home_team:La Serena": 1,
+        "unmatched_home_team:Lamphun Warrior": 1,
+        "unmatched_home_team:Las Palmas": 1,
+        "unmatched_home_team:Lech Poznań": 1,
+        "unmatched_home_team:Leganés": 1,
+        "unmatched_home_team:Legia Warszawa": 1,
+        "unmatched_home_team:Libertad": 1,
+        "unmatched_home_team:Lillestrøm": 1,
+        "unmatched_home_team:Lokomotiva Zagreb": 1,
+        "unmatched_home_team:Los Chankas": 1,
+        "unmatched_home_team:Louisville City": 1,
+        "unmatched_home_team:Lusail City": 1,
+        "unmatched_home_team:Luzern": 1,
+        "unmatched_home_team:Macarthur FC": 1,
+        "unmatched_home_team:Maccabi Haifa": 1,
+        "unmatched_home_team:Maccabi Tel Aviv": 1,
+        "unmatched_home_team:Machida Zelvia": 1,
+        "unmatched_home_team:Magdeburg": 1,
+        "unmatched_home_team:Mantova": 1,
+        "unmatched_home_team:Mardin 1969": 1,
+        "unmatched_home_team:Matsumoto Yamaga": 1,
+        "unmatched_home_team:Melbourne City FC": 1,
+        "unmatched_home_team:Melgar": 1,
+        "unmatched_home_team:Meppen": 1,
+        "unmatched_home_team:Minnesota United": 1,
+        "unmatched_home_team:Monagas": 1,
+        "unmatched_home_team:Montpellier": 1,
+        "unmatched_home_team:Motor Lublin": 1,
+        "unmatched_home_team:Muğlaspor": 1,
+        "unmatched_home_team:NFC Volos": 1,
+        "unmatched_home_team:Nacional": 1,
+        "unmatched_home_team:Nacional Potosí": 1,
+        "unmatched_home_team:Nagano Parceiro": 1,
+        "unmatched_home_team:Nagoya Grampus": 1,
+        "unmatched_home_team:Nancy": 1,
+        "unmatched_home_team:Nara Club": 1,
+        "unmatched_home_team:Necaxa": 1,
+        "unmatched_home_team:New Mexico United": 1,
+        "unmatched_home_team:Nottingham Forest": 1,
+        "unmatched_home_team:Novi Pazar": 1,
+        "unmatched_home_team:Novorizontino": 1,
+        "unmatched_home_team:Náutico": 1,
+        "unmatched_home_team:OB": 1,
+        "unmatched_home_team:OFI Crete": 1,
+        "unmatched_home_team:OH Leuven": 1,
+        "unmatched_home_team:Olympiacos": 1,
+        "unmatched_home_team:Once Caldas": 1,
+        "unmatched_home_team:Operário PR": 1,
+        "unmatched_home_team:Orlando City": 1,
+        "unmatched_home_team:Osijek": 1,
+        "unmatched_home_team:Padova": 1,
+        "unmatched_home_team:Paju Frontier": 1,
+        "unmatched_home_team:Partizan Beograd": 1,
+        "unmatched_home_team:Pau": 1,
+        "unmatched_home_team:Pendikspor": 1,
+        "unmatched_home_team:Perth Glory": 1,
+        "unmatched_home_team:Philadelphia Union": 1,
+        "unmatched_home_team:Pisa": 1,
+        "unmatched_home_team:Podbrezová": 1,
+        "unmatched_home_team:Port FC": 1,
+        "unmatched_home_team:Portsmouth": 1,
+        "unmatched_home_team:Portuguesa": 1,
+        "unmatched_home_team:Prachuap FC": 1,
+        "unmatched_home_team:Preston North End": 1,
+        "unmatched_home_team:Preussen Münster": 1,
+        "unmatched_home_team:Pumas": 1,
+        "unmatched_home_team:Qingdao Hainiu": 1,
+        "unmatched_home_team:Queens Park Rangers": 1,
+        "unmatched_home_team:RAAL La Louvière": 1,
+        "unmatched_home_team:Radnik Surdulica": 1,
+        "unmatched_home_team:Randers FC": 1,
+        "unmatched_home_team:Rasisalai United": 1,
+        "unmatched_home_team:Ratchaburi FC": 1,
+        "unmatched_home_team:Real Salt Lake": 1,
+        "unmatched_home_team:Red Bull New York": 1,
+        "unmatched_home_team:Riga FC": 1,
+        "unmatched_home_team:Rio Ave": 1,
+        "unmatched_home_team:Rizespor": 1,
+        "unmatched_home_team:Roasso Kumamoto": 1,
+        "unmatched_home_team:Rosario Central": 2,
+        "unmatched_home_team:Rosenborg": 1,
+        "unmatched_home_team:Rot-Weiss Essen": 1,
+        "unmatched_home_team:Royal Antwerp": 1,
+        "unmatched_home_team:SC Heerenveen": 1,
+        "unmatched_home_team:Sacramento Republic": 1,
+        "unmatched_home_team:Sagamihara": 1,
+        "unmatched_home_team:Saint-Étienne": 1,
+        "unmatched_home_team:Samsunspor": 1,
+        "unmatched_home_team:San Diego FC": 1,
+        "unmatched_home_team:San Lorenzo": 2,
+        "unmatched_home_team:Sandefjord": 1,
+        "unmatched_home_team:Santa Clara": 1,
+        "unmatched_home_team:Sarıyer": 1,
+        "unmatched_home_team:Seattle Sounders FC": 1,
+        "unmatched_home_team:Seongnam": 1,
+        "unmatched_home_team:Seoul E-Land": 1,
+        "unmatched_home_team:Sepsi": 1,
+        "unmatched_home_team:Servette": 1,
+        "unmatched_home_team:Shandong Taishan": 1,
+        "unmatched_home_team:Shanghai Port": 1,
+        "unmatched_home_team:Shanghai Shenhua": 1,
+        "unmatched_home_team:Sharjah": 1,
+        "unmatched_home_team:Shimizu S-Pulse": 1,
+        "unmatched_home_team:Silkeborg": 1,
+        "unmatched_home_team:Skalica": 1,
+        "unmatched_home_team:Slavia Prague": 1,
+        "unmatched_home_team:Slovan Bratislava": 1,
+        "unmatched_home_team:Slovan Liberec": 1,
+        "unmatched_home_team:Sport Boys": 1,
+        "unmatched_home_team:Sporting CP": 1,
+        "unmatched_home_team:Sporting Gijón": 1,
+        "unmatched_home_team:Sporting Hasselt": 1,
+        "unmatched_home_team:Sportivo Trinidense": 1,
+        "unmatched_home_team:St. Gallen": 1,
+        "unmatched_home_team:St. Johnstone": 1,
+        "unmatched_home_team:St. Mirren": 1,
+        "unmatched_home_team:St.Truiden": 1,
+        "unmatched_home_team:Stade Nyonnais": 1,
+        "unmatched_home_team:Standard Liège": 1,
+        "unmatched_home_team:Stuttgart II": 1,
+        "unmatched_home_team:Super Nova": 1,
+        "unmatched_home_team:Suwon": 1,
+        "unmatched_home_team:Suwon Bluewings": 1,
+        "unmatched_home_team:TOP Oss": 1,
+        "unmatched_home_team:Talleres": 2,
+        "unmatched_home_team:Teplice": 1,
+        "unmatched_home_team:Thespa Gunma": 1,
+        "unmatched_home_team:Thun": 1,
+        "unmatched_home_team:Tigre": 2,
+        "unmatched_home_team:Tigres": 1,
+        "unmatched_home_team:Toluca": 1,
+        "unmatched_home_team:Tromsø": 1,
+        "unmatched_home_team:Tukums": 1,
+        "unmatched_home_team:UTA Arad": 1,
+        "unmatched_home_team:Union St.Gilloise": 1,
+        "unmatched_home_team:Universidad Católica": 1,
+        "unmatched_home_team:Universidad de Chile": 1,
+        "unmatched_home_team:Unión": 2,
+        "unmatched_home_team:Unión La Calera": 1,
+        "unmatched_home_team:Uthai Thani FC": 1,
+        "unmatched_home_team:VVV": 1,
+        "unmatched_home_team:Vanspor": 1,
+        "unmatched_home_team:Varaždin": 1,
+        "unmatched_home_team:Vejle Boldklub": 1,
+        "unmatched_home_team:VfL Osnabrück": 1,
+        "unmatched_home_team:Viking": 1,
+        "unmatched_home_team:Viktoria Köln": 1,
+        "unmatched_home_team:Viktoria Plzeň": 1,
+        "unmatched_home_team:Vila Nova": 1,
+        "unmatched_home_team:Virton": 1,
+        "unmatched_home_team:Virtus Entella": 1,
+        "unmatched_home_team:Vissel Kobe": 1,
+        "unmatched_home_team:Vitesse": 1,
+        "unmatched_home_team:Vitória de Guimarães": 1,
+        "unmatched_home_team:Vojvodina": 1,
+        "unmatched_home_team:Waldhof Mannheim": 1,
+        "unmatched_home_team:Watford": 1,
+        "unmatched_home_team:Wehen Wiesbaden": 1,
+        "unmatched_home_team:West Bromwich Albion": 1,
+        "unmatched_home_team:Westerlo": 1,
+        "unmatched_home_team:Widzew Łódź": 1,
+        "unmatched_home_team:Willem II": 1,
+        "unmatched_home_team:Winterthur": 1,
+        "unmatched_home_team:Wisła Kraków": 1,
+        "unmatched_home_team:Wrexham": 1,
+        "unmatched_home_team:Würzburger Kickers": 1,
+        "unmatched_home_team:Yokohama F.Marinos": 1,
+        "unmatched_home_team:Yunnan Yukun": 1,
+        "unmatched_home_team:Yverdon": 1,
+        "unmatched_home_team:Zbrojovka Brno": 1,
+        "unmatched_home_team:Zemun": 1,
+        "unmatched_home_team:Zhejiang": 1,
+        "unmatched_home_team:Zlín": 1,
+        "unmatched_home_team:Çorum FK": 1,
+        "unmatched_home_team:Ñublense": 1,
+        "unmatched_home_team:Örgryte": 1,
+        "unmatched_home_team:Ümraniyespor": 1,
+        "unmatched_home_team:Čukarički": 1,
+        "unmatched_home_team:Śląsk Wrocław": 1,
+        "unmatched_home_team:Železničar Pančevo": 1
+      }
+    }
+  },
+  "leagues": [
+    {
+      "league_id": "l_0275VP",
+      "raw_labels": [
+        "Ligue 2"
+      ],
+      "canonical_leagues": [
+        "Ligue 2"
+      ],
+      "countries": [
+        "FRA"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_0SdhsF",
+        "m_16XH1c",
+        "m_171LS5",
+        "m_1qOzRp",
+        "m_3LrXGA",
+        "m_3aWOHc",
+        "m_28Zxuc",
+        "m_2ExY3T",
+        "m_3BAUml"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 5,
+        "elo_ready": 5,
+        "dixon_coles_history_ready": 5,
+        "reasons": {
+          "ready_for_model_attempt": 5,
+          "unmatched_away_team:Annecy FC": 1,
+          "unmatched_home_team:Clermont Foot": 1,
+          "unmatched_home_team:Pau": 1,
+          "unmatched_home_team:Saint-Étienne": 1
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Boulogne": 1,
+          "unmatched_home_team:Clermont Foot": 1,
+          "unmatched_home_team:Dijon": 1,
+          "unmatched_home_team:Dunkerque": 1,
+          "unmatched_home_team:Grenoble": 1,
+          "unmatched_home_team:Montpellier": 1,
+          "unmatched_home_team:Nancy": 1,
+          "unmatched_home_team:Pau": 1,
+          "unmatched_home_team:Saint-Étienne": 1
+        }
+      },
+      "identity_mapping_delta": 4,
+      "elo_ready_delta": 4
+    },
+    {
+      "league_id": "l_0ALvwF",
+      "raw_labels": [
+        "Serie A"
+      ],
+      "canonical_leagues": [
+        "Serie A"
+      ],
+      "countries": [
+        "ITA"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_3A4n8A",
+        "m_4L3dqh",
+        "m_4Qe0mW",
+        "m_3zuIzO",
+        "m_4eXnUR",
+        "m_1dxYhp",
+        "m_2CEago",
+        "m_2Cwjmd",
+        "m_0XsEm1",
+        "m_1TtlDk"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 10,
+        "elo_ready": 10,
+        "dixon_coles_history_ready": 10,
+        "reasons": {
+          "ready_for_model_attempt": 10
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 10,
+        "elo_ready": 10,
+        "dixon_coles_history_ready": 10,
+        "reasons": {
+          "ready_for_model_attempt": 10
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 10,
+        "elo_ready": 10,
+        "dixon_coles_history_ready": 10,
+        "reasons": {
+          "ready_for_model_attempt": 10
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_0ErfuF",
+      "raw_labels": [
+        "LaLiga"
+      ],
+      "canonical_leagues": [
+        "La Liga"
+      ],
+      "countries": [
+        "ESP"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_3apOTP",
+        "m_0cvasI",
+        "m_30eKwT",
+        "m_2s2FJD",
+        "m_3s9Uyk",
+        "m_47KsEj",
+        "m_3pLoZ3",
+        "m_1wSi73",
+        "m_4ChvE9",
+        "m_1FwCGv"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 7,
+        "elo_ready": 7,
+        "dixon_coles_history_ready": 7,
+        "reasons": {
+          "ready_for_model_attempt": 7,
+          "unmatched_away_team:Racing Santander": 1,
+          "unmatched_away_team:Rayo Vallecano": 1,
+          "unmatched_home_team:Espanyol": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 10,
+        "elo_ready": 10,
+        "dixon_coles_history_ready": 10,
+        "reasons": {
+          "ready_for_model_attempt": 10
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 7,
+        "elo_ready": 7,
+        "dixon_coles_history_ready": 7,
+        "reasons": {
+          "ready_for_model_attempt": 7,
+          "unmatched_away_team:Racing Santander": 1,
+          "unmatched_away_team:Rayo Vallecano": 1,
+          "unmatched_home_team:Espanyol": 1
+        }
+      },
+      "identity_mapping_delta": 3,
+      "elo_ready_delta": 3
+    },
+    {
+      "league_id": "l_0F4I4F",
+      "raw_labels": [
+        "1. Liga"
+      ],
+      "canonical_leagues": [
+        "1. Liga"
+      ],
+      "countries": [
+        "CZE"
+      ],
+      "total": 8,
+      "fixture_ids": [
+        "m_16HLnN",
+        "m_3NzOwh",
+        "m_3uzPnW",
+        "m_1AzSOb",
+        "m_4JQEWq",
+        "m_01ydMe",
+        "m_3RBPxQ",
+        "m_0YpOgc"
+      ],
+      "before_same_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Hradec Králové": 1,
+          "unmatched_home_team:Jablonec": 1,
+          "unmatched_home_team:Slavia Prague": 1,
+          "unmatched_home_team:Slovan Liberec": 1,
+          "unmatched_home_team:Teplice": 1,
+          "unmatched_home_team:Viktoria Plzeň": 1,
+          "unmatched_home_team:Zbrojovka Brno": 1,
+          "unmatched_home_team:Zlín": 1
+        }
+      },
+      "after": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Hradec Králové": 1,
+          "unmatched_home_team:Jablonec": 1,
+          "unmatched_home_team:Slavia Prague": 1,
+          "unmatched_home_team:Slovan Liberec": 1,
+          "unmatched_home_team:Teplice": 1,
+          "unmatched_home_team:Viktoria Plzeň": 1,
+          "unmatched_home_team:Zbrojovka Brno": 1,
+          "unmatched_home_team:Zlín": 1
+        }
+      },
+      "before_original_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Hradec Králové": 1,
+          "unmatched_home_team:Jablonec": 1,
+          "unmatched_home_team:Slavia Prague": 1,
+          "unmatched_home_team:Slovan Liberec": 1,
+          "unmatched_home_team:Teplice": 1,
+          "unmatched_home_team:Viktoria Plzeň": 1,
+          "unmatched_home_team:Zbrojovka Brno": 1,
+          "unmatched_home_team:Zlín": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_0Lpz1f",
+      "raw_labels": [
+        "Saudi Pro League"
+      ],
+      "canonical_leagues": [
+        "Saudi Pro League"
+      ],
+      "countries": [
+        "SAU"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_3Qk9M1",
+        "m_2oM7SE",
+        "m_4BCHm0",
+        "m_3RqVbe",
+        "m_3l0Vl3",
+        "m_2KAb10"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Ahli": 1,
+          "unmatched_home_team:Al Fateh FC": 1,
+          "unmatched_home_team:Al Hazem": 1,
+          "unmatched_home_team:Al Ittihad": 1,
+          "unmatched_home_team:Al-Ettifaq": 1,
+          "unmatched_home_team:Al-Faisaly": 1
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Ahli": 1,
+          "unmatched_home_team:Al Fateh FC": 1,
+          "unmatched_home_team:Al Hazem": 1,
+          "unmatched_home_team:Al Ittihad": 1,
+          "unmatched_home_team:Al-Ettifaq": 1,
+          "unmatched_home_team:Al-Faisaly": 1
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Ahli": 1,
+          "unmatched_home_team:Al Fateh FC": 1,
+          "unmatched_home_team:Al Hazem": 1,
+          "unmatched_home_team:Al Ittihad": 1,
+          "unmatched_home_team:Al-Ettifaq": 1,
+          "unmatched_home_team:Al-Faisaly": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_0S1uaf",
+      "raw_labels": [
+        "Super Lig"
+      ],
+      "canonical_leagues": [
+        "Super Lig"
+      ],
+      "countries": [
+        "TUR"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_12G6QF",
+        "m_1ZfVht",
+        "m_3PC9J0",
+        "m_14mbeK",
+        "m_2br6kp",
+        "m_4eZj2n",
+        "m_2d7YyQ",
+        "m_4KgMsz",
+        "m_1m90jr"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 4,
+        "elo_ready": 4,
+        "dixon_coles_history_ready": 4,
+        "reasons": {
+          "ready_for_model_attempt": 4,
+          "unmatched_away_team:Amed Sportif": 1,
+          "unmatched_away_team:Erzurumspor FK": 1,
+          "unmatched_home_team:Gaziantep FK": 1,
+          "unmatched_home_team:Göztepe": 1,
+          "unmatched_home_team:Çorum FK": 1
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Alanyaspor": 1,
+          "unmatched_home_team:Beşiktaş": 1,
+          "unmatched_home_team:Eyüpspor": 1,
+          "unmatched_home_team:Galatasaray": 1,
+          "unmatched_home_team:Gaziantep FK": 1,
+          "unmatched_home_team:Göztepe": 1,
+          "unmatched_home_team:Rizespor": 1,
+          "unmatched_home_team:Samsunspor": 1,
+          "unmatched_home_team:Çorum FK": 1
+        }
+      },
+      "identity_mapping_delta": 5,
+      "elo_ready_delta": 5
+    },
+    {
+      "league_id": "l_0aEfof",
+      "raw_labels": [
+        "Pro League"
+      ],
+      "canonical_leagues": [
+        "Pro League"
+      ],
+      "countries": [
+        "ARE"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_3aOjJc",
+        "m_2lCl3z",
+        "m_3Yl1z9",
+        "m_2zYiEc",
+        "m_3n2gOS",
+        "m_0Bsq2O",
+        "m_0TA6zd"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ajman": 1,
+          "unmatched_home_team:Al Dhafra": 1,
+          "unmatched_home_team:Al Jazira": 1,
+          "unmatched_home_team:Al Nasr": 1,
+          "unmatched_home_team:Al Wahda": 1,
+          "unmatched_home_team:Hatta": 1,
+          "unmatched_home_team:Sharjah": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ajman": 1,
+          "unmatched_home_team:Al Dhafra": 1,
+          "unmatched_home_team:Al Jazira": 1,
+          "unmatched_home_team:Al Nasr": 1,
+          "unmatched_home_team:Al Wahda": 1,
+          "unmatched_home_team:Hatta": 1,
+          "unmatched_home_team:Sharjah": 1
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ajman": 1,
+          "unmatched_home_team:Al Dhafra": 1,
+          "unmatched_home_team:Al Jazira": 1,
+          "unmatched_home_team:Al Nasr": 1,
+          "unmatched_home_team:Al Wahda": 1,
+          "unmatched_home_team:Hatta": 1,
+          "unmatched_home_team:Sharjah": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_0eg6C9",
+      "raw_labels": [
+        "MLS"
+      ],
+      "canonical_leagues": [
+        "MLS"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "total": 15,
+      "fixture_ids": [
+        "m_0DUPEx",
+        "m_0Ib66V",
+        "m_0YPXXn",
+        "m_18Y0WY",
+        "m_3LLqse",
+        "m_3O69ot",
+        "m_3ntyIM",
+        "m_4VXi1B",
+        "m_0CXjeB",
+        "m_0V7aQs",
+        "m_14PVOe",
+        "m_17z4XD",
+        "m_2a41sm",
+        "m_2qNS19",
+        "m_339M3I"
+      ],
+      "before_same_history": {
+        "total": 15,
+        "identity_ready": 8,
+        "elo_ready": 8,
+        "dixon_coles_history_ready": 8,
+        "reasons": {
+          "ready_for_model_attempt": 8,
+          "unmatched_away_team:LA Galaxy": 1,
+          "unmatched_away_team:New York City FC": 1,
+          "unmatched_home_team:Chicago Fire FC": 1,
+          "unmatched_home_team:Houston Dynamo FC": 1,
+          "unmatched_home_team:Inter Miami CF": 1,
+          "unmatched_home_team:Red Bull New York": 1,
+          "unmatched_home_team:Seattle Sounders FC": 1
+        }
+      },
+      "after": {
+        "total": 15,
+        "identity_ready": 15,
+        "elo_ready": 15,
+        "dixon_coles_history_ready": 15,
+        "reasons": {
+          "ready_for_model_attempt": 15
+        }
+      },
+      "before_original_history": {
+        "total": 15,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Austin FC": 1,
+          "unmatched_home_team:CF Montréal": 1,
+          "unmatched_home_team:Chicago Fire FC": 1,
+          "unmatched_home_team:DC United": 1,
+          "unmatched_home_team:FC Cincinnati": 1,
+          "unmatched_home_team:FC Dallas": 1,
+          "unmatched_home_team:Houston Dynamo FC": 1,
+          "unmatched_home_team:Inter Miami CF": 1,
+          "unmatched_home_team:Minnesota United": 1,
+          "unmatched_home_team:Orlando City": 1,
+          "unmatched_home_team:Philadelphia Union": 1,
+          "unmatched_home_team:Real Salt Lake": 1,
+          "unmatched_home_team:Red Bull New York": 1,
+          "unmatched_home_team:San Diego FC": 1,
+          "unmatched_home_team:Seattle Sounders FC": 1
+        }
+      },
+      "identity_mapping_delta": 7,
+      "elo_ready_delta": 7
+    },
+    {
+      "league_id": "l_0jy5yE",
+      "raw_labels": [
+        "Serie B"
+      ],
+      "canonical_leagues": [
+        "Serie B"
+      ],
+      "countries": [
+        "ITA"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_3ix5IU",
+        "m_00jZDj",
+        "m_2H8x1D",
+        "m_2frYCJ",
+        "m_3qgGbo",
+        "m_19lzfa",
+        "m_4Z50cN",
+        "m_1sb3yN",
+        "m_4QBwLC",
+        "m_0ZEvsd"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 8,
+        "elo_ready": 8,
+        "dixon_coles_history_ready": 8,
+        "reasons": {
+          "ready_for_model_attempt": 8,
+          "unmatched_away_team:Hellas Verona": 1,
+          "unmatched_home_team:LR Vicenza": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 10,
+        "elo_ready": 10,
+        "dixon_coles_history_ready": 10,
+        "reasons": {
+          "ready_for_model_attempt": 10
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ascoli": 1,
+          "unmatched_home_team:Benevento": 1,
+          "unmatched_home_team:Carrarese": 1,
+          "unmatched_home_team:Cesena": 1,
+          "unmatched_home_team:Juve Stabia": 1,
+          "unmatched_home_team:LR Vicenza": 1,
+          "unmatched_home_team:Mantova": 1,
+          "unmatched_home_team:Padova": 1,
+          "unmatched_home_team:Pisa": 1,
+          "unmatched_home_team:Virtus Entella": 1
+        }
+      },
+      "identity_mapping_delta": 2,
+      "elo_ready_delta": 2
+    },
+    {
+      "league_id": "l_0kSJLz",
+      "raw_labels": [
+        "Liga I"
+      ],
+      "canonical_leagues": [
+        "Romanian Superliga"
+      ],
+      "countries": [
+        "ROU"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_10oBJT",
+        "m_0rTSbC",
+        "m_1OnWg9",
+        "m_35JdGQ",
+        "m_1SgKLR",
+        "m_43WXaU",
+        "m_4c7ayZ"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Argeș": 1,
+          "unmatched_home_team:CFR Cluj": 1,
+          "unmatched_home_team:Csikszereda": 1,
+          "unmatched_home_team:FCSB": 1,
+          "unmatched_home_team:Farul Constanţa": 1,
+          "unmatched_home_team:Sepsi": 1,
+          "unmatched_home_team:UTA Arad": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 7,
+        "elo_ready": 7,
+        "dixon_coles_history_ready": 7,
+        "reasons": {
+          "ready_for_model_attempt": 7
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Argeș": 1,
+          "unmatched_home_team:CFR Cluj": 1,
+          "unmatched_home_team:Csikszereda": 1,
+          "unmatched_home_team:FCSB": 1,
+          "unmatched_home_team:Farul Constanţa": 1,
+          "unmatched_home_team:Sepsi": 1,
+          "unmatched_home_team:UTA Arad": 1
+        }
+      },
+      "identity_mapping_delta": 7,
+      "elo_ready_delta": 7
+    },
+    {
+      "league_id": "l_0uqFK8",
+      "raw_labels": [
+        "Eliteserien"
+      ],
+      "canonical_leagues": [
+        "Eliteserien"
+      ],
+      "countries": [
+        "NOR"
+      ],
+      "total": 8,
+      "fixture_ids": [
+        "m_3xFw2b",
+        "m_2SXu7E",
+        "m_4AWtPH",
+        "m_06Fc7P",
+        "m_0Sgl1B",
+        "m_42sgZF",
+        "m_43FZrC",
+        "m_3ESzR1"
+      ],
+      "before_same_history": {
+        "total": 8,
+        "identity_ready": 4,
+        "elo_ready": 4,
+        "dixon_coles_history_ready": 4,
+        "reasons": {
+          "ready_for_model_attempt": 4,
+          "unmatched_away_team:KFUM": 1,
+          "unmatched_home_team:Hamarkameratene": 1,
+          "unmatched_home_team:Lillestrøm": 1,
+          "unmatched_home_team:Tromsø": 1
+        }
+      },
+      "after": {
+        "total": 8,
+        "identity_ready": 8,
+        "elo_ready": 8,
+        "dixon_coles_history_ready": 8,
+        "reasons": {
+          "ready_for_model_attempt": 8
+        }
+      },
+      "before_original_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Fredrikstad": 1,
+          "unmatched_home_team:Hamarkameratene": 1,
+          "unmatched_home_team:Kristiansund": 1,
+          "unmatched_home_team:Lillestrøm": 1,
+          "unmatched_home_team:Rosenborg": 1,
+          "unmatched_home_team:Sandefjord": 1,
+          "unmatched_home_team:Tromsø": 1,
+          "unmatched_home_team:Viking": 1
+        }
+      },
+      "identity_mapping_delta": 4,
+      "elo_ready_delta": 4
+    },
+    {
+      "league_id": "l_16Sq13",
+      "raw_labels": [
+        "Ligat ha'Al"
+      ],
+      "canonical_leagues": [
+        "Ligat ha'Al"
+      ],
+      "countries": [
+        "ISR"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_0VrzX1",
+        "m_4HEExR",
+        "m_3zoXEW",
+        "m_1N7llx",
+        "m_3EYnG5",
+        "m_1Lnha0",
+        "m_2QFBdN"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Hapoel Beer Sheva": 1,
+          "unmatched_home_team:Hapoel Jerusalem": 1,
+          "unmatched_home_team:Hapoel Petah Tikva": 1,
+          "unmatched_home_team:Ironi Kiryat Shmona": 1,
+          "unmatched_home_team:Ironi Tiberias": 1,
+          "unmatched_home_team:Maccabi Haifa": 1,
+          "unmatched_home_team:Maccabi Tel Aviv": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Hapoel Beer Sheva": 1,
+          "unmatched_home_team:Hapoel Jerusalem": 1,
+          "unmatched_home_team:Hapoel Petah Tikva": 1,
+          "unmatched_home_team:Ironi Kiryat Shmona": 1,
+          "unmatched_home_team:Ironi Tiberias": 1,
+          "unmatched_home_team:Maccabi Haifa": 1,
+          "unmatched_home_team:Maccabi Tel Aviv": 1
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Hapoel Beer Sheva": 1,
+          "unmatched_home_team:Hapoel Jerusalem": 1,
+          "unmatched_home_team:Hapoel Petah Tikva": 1,
+          "unmatched_home_team:Ironi Kiryat Shmona": 1,
+          "unmatched_home_team:Ironi Tiberias": 1,
+          "unmatched_home_team:Maccabi Haifa": 1,
+          "unmatched_home_team:Maccabi Tel Aviv": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_1BFfna",
+      "raw_labels": [
+        "1. Lig"
+      ],
+      "canonical_leagues": [],
+      "countries": [],
+      "total": 10,
+      "fixture_ids": [
+        "m_2HriTd",
+        "m_2ZbIJr",
+        "m_3sm9Xt",
+        "m_4I6kv7",
+        "m_435GOh",
+        "m_2kL7k7",
+        "m_47ktqL",
+        "m_2HHDvR",
+        "m_3KFJdH",
+        "m_1vxTmm"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ankara Keçiörengücü": 1,
+          "unmatched_home_team:Antalyaspor": 1,
+          "unmatched_home_team:Bandırmaspor": 1,
+          "unmatched_home_team:Boluspor": 1,
+          "unmatched_home_team:Mardin 1969": 1,
+          "unmatched_home_team:Muğlaspor": 1,
+          "unmatched_home_team:Pendikspor": 1,
+          "unmatched_home_team:Sarıyer": 1,
+          "unmatched_home_team:Vanspor": 1,
+          "unmatched_home_team:Ümraniyespor": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "competition_country_not_verified": 10
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ankara Keçiörengücü": 1,
+          "unmatched_home_team:Antalyaspor": 1,
+          "unmatched_home_team:Bandırmaspor": 1,
+          "unmatched_home_team:Boluspor": 1,
+          "unmatched_home_team:Mardin 1969": 1,
+          "unmatched_home_team:Muğlaspor": 1,
+          "unmatched_home_team:Pendikspor": 1,
+          "unmatched_home_team:Sarıyer": 1,
+          "unmatched_home_team:Vanspor": 1,
+          "unmatched_home_team:Ümraniyespor": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_1D8Xrl",
+      "raw_labels": [
+        "Serie A"
+      ],
+      "canonical_leagues": [
+        "Brazilian Serie A"
+      ],
+      "countries": [
+        "BRA"
+      ],
+      "total": 1,
+      "fixture_ids": [
+        "m_0UNq3X"
+      ],
+      "before_same_history": {
+        "total": 1,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_serie_a_country_not_verified": 1
+        }
+      },
+      "after": {
+        "total": 1,
+        "identity_ready": 1,
+        "elo_ready": 1,
+        "dixon_coles_history_ready": 1,
+        "reasons": {
+          "ready_for_model_attempt": 1
+        }
+      },
+      "before_original_history": {
+        "total": 1,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_serie_a_country_not_verified": 1
+        }
+      },
+      "identity_mapping_delta": 1,
+      "elo_ready_delta": 1
+    },
+    {
+      "league_id": "l_1Isor4",
+      "raw_labels": [
+        "Bundesliga"
+      ],
+      "canonical_leagues": [
+        "Bundesliga"
+      ],
+      "countries": [
+        "DEU"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_2DSeYr",
+        "m_0j8R2e",
+        "m_2X8YYk",
+        "m_2zGfLM",
+        "m_4RiOkV",
+        "m_01qGwO",
+        "m_4Ksfe4",
+        "m_3tJQt1",
+        "m_1yCXSs"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "competition_country_conflict": 9
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "competition_country_conflict": 9
+        }
+      },
+      "identity_mapping_delta": 9,
+      "elo_ready_delta": 9
+    },
+    {
+      "league_id": "l_1LMdEO",
+      "raw_labels": [
+        "Premiership"
+      ],
+      "canonical_leagues": [
+        "Premiership"
+      ],
+      "countries": [
+        "SCO"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_08tqCM",
+        "m_0g7IpO",
+        "m_2fKtRe",
+        "m_3wxe4p",
+        "m_07h4W8",
+        "m_26kQvF"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 4,
+        "elo_ready": 4,
+        "dixon_coles_history_ready": 4,
+        "reasons": {
+          "ready_for_model_attempt": 4,
+          "unmatched_away_team:Dundee FC": 1,
+          "unmatched_home_team:Heart of Midlothian": 1
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 6,
+        "elo_ready": 6,
+        "dixon_coles_history_ready": 6,
+        "reasons": {
+          "ready_for_model_attempt": 6
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Aberdeen": 1,
+          "unmatched_home_team:Celtic": 1,
+          "unmatched_home_team:Dundee United": 1,
+          "unmatched_home_team:Heart of Midlothian": 1,
+          "unmatched_home_team:St. Johnstone": 1,
+          "unmatched_home_team:St. Mirren": 1
+        }
+      },
+      "identity_mapping_delta": 2,
+      "elo_ready_delta": 2
+    },
+    {
+      "league_id": "l_1SGwQT",
+      "raw_labels": [
+        "Women's Premier League"
+      ],
+      "canonical_leagues": [
+        "Women's Premier League"
+      ],
+      "countries": [
+        "SAU"
+      ],
+      "total": 3,
+      "fixture_ids": [
+        "m_3MNFbt",
+        "m_1NLzaW",
+        "m_4NnnLd"
+      ],
+      "before_same_history": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Ahli": 1,
+          "unmatched_home_team:Al Qadsiah": 1,
+          "unmatched_home_team:Al Taraji": 1
+        }
+      },
+      "after": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Ahli": 1,
+          "unmatched_home_team:Al Qadsiah": 1,
+          "unmatched_home_team:Al Taraji": 1
+        }
+      },
+      "before_original_history": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Ahli": 1,
+          "unmatched_home_team:Al Qadsiah": 1,
+          "unmatched_home_team:Al Taraji": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_1TVRZW",
+      "raw_labels": [
+        "Primera Division"
+      ],
+      "canonical_leagues": [
+        "Primera Division"
+      ],
+      "countries": [
+        "VEN"
+      ],
+      "total": 3,
+      "fixture_ids": [
+        "m_1ZMzRQ",
+        "m_1f7Wc2",
+        "m_13UI1n"
+      ],
+      "before_same_history": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Caracas": 1,
+          "unmatched_home_team:Monagas": 1,
+          "unmatched_home_team:Portuguesa": 1
+        }
+      },
+      "after": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Caracas": 1,
+          "unmatched_home_team:Monagas": 1,
+          "unmatched_home_team:Portuguesa": 1
+        }
+      },
+      "before_original_history": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Caracas": 1,
+          "unmatched_home_team:Monagas": 1,
+          "unmatched_home_team:Portuguesa": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_1XsMdH",
+      "raw_labels": [
+        "Allsvenskan"
+      ],
+      "canonical_leagues": [
+        "Allsvenskan"
+      ],
+      "countries": [
+        "SWE"
+      ],
+      "total": 8,
+      "fixture_ids": [
+        "m_0eqpJ9",
+        "m_2SpOAH",
+        "m_2rlJQa",
+        "m_2GvbFW",
+        "m_3dhzqK",
+        "m_0jpTtv",
+        "m_1cs4Ys",
+        "m_1yhzvS"
+      ],
+      "before_same_history": {
+        "total": 8,
+        "identity_ready": 5,
+        "elo_ready": 5,
+        "dixon_coles_history_ready": 5,
+        "reasons": {
+          "ready_for_model_attempt": 5,
+          "unmatched_home_team:Halmstads BK": 1,
+          "unmatched_home_team:IFK Göteborg": 1,
+          "unmatched_home_team:Kalmar FF": 1
+        }
+      },
+      "after": {
+        "total": 8,
+        "identity_ready": 8,
+        "elo_ready": 8,
+        "dixon_coles_history_ready": 8,
+        "reasons": {
+          "ready_for_model_attempt": 8
+        }
+      },
+      "before_original_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AIK": 1,
+          "unmatched_home_team:Brommapojkarna": 1,
+          "unmatched_home_team:Degerfors": 1,
+          "unmatched_home_team:Halmstads BK": 1,
+          "unmatched_home_team:Hammarby": 1,
+          "unmatched_home_team:IFK Göteborg": 1,
+          "unmatched_home_team:Kalmar FF": 1,
+          "unmatched_home_team:Örgryte": 1
+        }
+      },
+      "identity_mapping_delta": 3,
+      "elo_ready_delta": 3
+    },
+    {
+      "league_id": "l_1dmt9H",
+      "raw_labels": [
+        "Serie A"
+      ],
+      "canonical_leagues": [
+        "Serie A"
+      ],
+      "countries": [
+        "ECU"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_45ydPy",
+        "m_2VfJtT",
+        "m_3DrPCu",
+        "m_36Yyd9",
+        "m_2AN52c",
+        "m_3ZeROs"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_serie_a_country_not_verified": 6
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unsupported_competition_id": 6
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_serie_a_country_not_verified": 6
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_1pQOHK",
+      "raw_labels": [
+        "Challenger Pro League"
+      ],
+      "canonical_leagues": [
+        "Challenger Pro League"
+      ],
+      "countries": [
+        "BEL"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_1vA4Z9",
+        "m_3farYM",
+        "m_1qQR74",
+        "m_2bCIQY",
+        "m_3TjKT5",
+        "m_0vnXMA",
+        "m_3k9BNU"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Anderlecht Futures": 1,
+          "unmatched_home_team:Francs Borains": 1,
+          "unmatched_home_team:Genk U23": 1,
+          "unmatched_home_team:K. Lierse SK": 1,
+          "unmatched_home_team:KSC Lokeren": 1,
+          "unmatched_home_team:Sporting Hasselt": 1,
+          "unmatched_home_team:Virton": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Anderlecht Futures": 1,
+          "unmatched_home_team:Francs Borains": 1,
+          "unmatched_home_team:Genk U23": 1,
+          "unmatched_home_team:K. Lierse SK": 1,
+          "unmatched_home_team:KSC Lokeren": 1,
+          "unmatched_home_team:Sporting Hasselt": 1,
+          "unmatched_home_team:Virton": 1
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Anderlecht Futures": 1,
+          "unmatched_home_team:Francs Borains": 1,
+          "unmatched_home_team:Genk U23": 1,
+          "unmatched_home_team:K. Lierse SK": 1,
+          "unmatched_home_team:KSC Lokeren": 1,
+          "unmatched_home_team:Sporting Hasselt": 1,
+          "unmatched_home_team:Virton": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_1qpFVw",
+      "raw_labels": [
+        "Indian Super League"
+      ],
+      "canonical_leagues": [
+        "Indian Super League"
+      ],
+      "countries": [
+        "IND"
+      ],
+      "total": 3,
+      "fixture_ids": [
+        "m_2PtllL",
+        "m_3hUnSj",
+        "m_2Rk4GQ"
+      ],
+      "before_same_history": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Chennaiyin FC": 1,
+          "unmatched_home_team:FC Goa": 1,
+          "unmatched_home_team:Inter Kashi": 1
+        }
+      },
+      "after": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Chennaiyin FC": 1,
+          "unmatched_home_team:FC Goa": 1,
+          "unmatched_home_team:Inter Kashi": 1
+        }
+      },
+      "before_original_history": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Chennaiyin FC": 1,
+          "unmatched_home_team:FC Goa": 1,
+          "unmatched_home_team:Inter Kashi": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_1rPvVD",
+      "raw_labels": [
+        "1. Division"
+      ],
+      "canonical_leagues": [
+        "1. Division"
+      ],
+      "countries": [
+        "DNK"
+      ],
+      "total": 5,
+      "fixture_ids": [
+        "m_2Z0zC5",
+        "m_1rRpmv",
+        "m_1uhK2K",
+        "m_1S3X6m",
+        "m_1FogUi"
+      ],
+      "before_same_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AB": 1,
+          "unmatched_home_team:HB Køge": 1,
+          "unmatched_home_team:Hillerød": 1,
+          "unmatched_home_team:Hobro": 1,
+          "unmatched_home_team:Vejle Boldklub": 1
+        }
+      },
+      "after": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AB": 1,
+          "unmatched_home_team:HB Køge": 1,
+          "unmatched_home_team:Hillerød": 1,
+          "unmatched_home_team:Hobro": 1,
+          "unmatched_home_team:Vejle Boldklub": 1
+        }
+      },
+      "before_original_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AB": 1,
+          "unmatched_home_team:HB Køge": 1,
+          "unmatched_home_team:Hillerød": 1,
+          "unmatched_home_team:Hobro": 1,
+          "unmatched_home_team:Vejle Boldklub": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_1xXulJ",
+      "raw_labels": [
+        "Primera A"
+      ],
+      "canonical_leagues": [
+        "Primera A"
+      ],
+      "countries": [
+        "COL"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_2WJPQy",
+        "m_11n3hC",
+        "m_3iXaWz",
+        "m_2SivU0",
+        "m_3XVj8D",
+        "m_2QhWx3",
+        "m_0L1ruM"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:América de Cali": 1,
+          "unmatched_home_team:Atlético Nacional": 1,
+          "unmatched_home_team:Boyacá Chicó": 1,
+          "unmatched_home_team:Fortaleza": 1,
+          "unmatched_home_team:Independiente Santa Fe": 1,
+          "unmatched_home_team:Jaguares de Córdoba": 1,
+          "unmatched_home_team:Once Caldas": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:América de Cali": 1,
+          "unmatched_home_team:Atlético Nacional": 1,
+          "unmatched_home_team:Boyacá Chicó": 1,
+          "unmatched_home_team:Fortaleza": 1,
+          "unmatched_home_team:Independiente Santa Fe": 1,
+          "unmatched_home_team:Jaguares de Córdoba": 1,
+          "unmatched_home_team:Once Caldas": 1
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:América de Cali": 1,
+          "unmatched_home_team:Atlético Nacional": 1,
+          "unmatched_home_team:Boyacá Chicó": 1,
+          "unmatched_home_team:Fortaleza": 1,
+          "unmatched_home_team:Independiente Santa Fe": 1,
+          "unmatched_home_team:Jaguares de Córdoba": 1,
+          "unmatched_home_team:Once Caldas": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_20pNSc",
+      "raw_labels": [
+        "Super League"
+      ],
+      "canonical_leagues": [
+        "Chinese Super League"
+      ],
+      "countries": [
+        "CHN"
+      ],
+      "total": 8,
+      "fixture_ids": [
+        "m_149JHR",
+        "m_1brPd5",
+        "m_1dPm5v",
+        "m_1qfjLI",
+        "m_2Oiyz9",
+        "m_2XvRq3",
+        "m_3qeVin",
+        "m_4ahhWJ"
+      ],
+      "before_same_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Beijing Guoan": 1,
+          "unmatched_home_team:Dalian Yingbo": 1,
+          "unmatched_home_team:Qingdao Hainiu": 1,
+          "unmatched_home_team:Shandong Taishan": 1,
+          "unmatched_home_team:Shanghai Port": 1,
+          "unmatched_home_team:Shanghai Shenhua": 1,
+          "unmatched_home_team:Yunnan Yukun": 1,
+          "unmatched_home_team:Zhejiang": 1
+        }
+      },
+      "after": {
+        "total": 8,
+        "identity_ready": 8,
+        "elo_ready": 8,
+        "dixon_coles_history_ready": 8,
+        "reasons": {
+          "ready_for_model_attempt": 8
+        }
+      },
+      "before_original_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Beijing Guoan": 1,
+          "unmatched_home_team:Dalian Yingbo": 1,
+          "unmatched_home_team:Qingdao Hainiu": 1,
+          "unmatched_home_team:Shandong Taishan": 1,
+          "unmatched_home_team:Shanghai Port": 1,
+          "unmatched_home_team:Shanghai Shenhua": 1,
+          "unmatched_home_team:Yunnan Yukun": 1,
+          "unmatched_home_team:Zhejiang": 1
+        }
+      },
+      "identity_mapping_delta": 8,
+      "elo_ready_delta": 8
+    },
+    {
+      "league_id": "l_214sqK",
+      "raw_labels": [
+        "Ekstraklasa"
+      ],
+      "canonical_leagues": [
+        "Ekstraklasa"
+      ],
+      "countries": [
+        "POL"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_4euj53",
+        "m_1VgAIj",
+        "m_1qCH0w",
+        "m_1Cd8Es",
+        "m_1gzaFl",
+        "m_3evwZJ",
+        "m_0Mra1r",
+        "m_0QVmvs",
+        "m_1GIbl2"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 2,
+        "elo_ready": 2,
+        "dixon_coles_history_ready": 2,
+        "reasons": {
+          "ready_for_model_attempt": 2,
+          "unmatched_away_team:Wisła Płock": 1,
+          "unmatched_away_team:Zagłębie Lubin": 1,
+          "unmatched_home_team:Jagiellonia Białystok": 1,
+          "unmatched_home_team:Legia Warszawa": 1,
+          "unmatched_home_team:Widzew Łódź": 1,
+          "unmatched_home_team:Wisła Kraków": 1,
+          "unmatched_home_team:Śląsk Wrocław": 1
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Górnik Zabrze": 1,
+          "unmatched_home_team:Jagiellonia Białystok": 1,
+          "unmatched_home_team:Korona Kielce": 1,
+          "unmatched_home_team:Lech Poznań": 1,
+          "unmatched_home_team:Legia Warszawa": 1,
+          "unmatched_home_team:Motor Lublin": 1,
+          "unmatched_home_team:Widzew Łódź": 1,
+          "unmatched_home_team:Wisła Kraków": 1,
+          "unmatched_home_team:Śląsk Wrocław": 1
+        }
+      },
+      "identity_mapping_delta": 7,
+      "elo_ready_delta": 7
+    },
+    {
+      "league_id": "l_271pqa",
+      "raw_labels": [
+        "K League 2"
+      ],
+      "canonical_leagues": [
+        "K League 2"
+      ],
+      "countries": [
+        "KOR"
+      ],
+      "total": 8,
+      "fixture_ids": [
+        "m_3V4Llo",
+        "m_3qCz5O",
+        "m_21fkuA",
+        "m_2GTEmI",
+        "m_3BaMYd",
+        "m_0HNr2k",
+        "m_0kTwC5",
+        "m_4Ci0lA"
+      ],
+      "before_same_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Cheonan City": 1,
+          "unmatched_home_team:Gimhae City": 1,
+          "unmatched_home_team:Gimpo Citizen": 1,
+          "unmatched_home_team:Paju Frontier": 1,
+          "unmatched_home_team:Seongnam": 1,
+          "unmatched_home_team:Seoul E-Land": 1,
+          "unmatched_home_team:Suwon": 1,
+          "unmatched_home_team:Suwon Bluewings": 1
+        }
+      },
+      "after": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Cheonan City": 1,
+          "unmatched_home_team:Gimhae City": 1,
+          "unmatched_home_team:Gimpo Citizen": 1,
+          "unmatched_home_team:Paju Frontier": 1,
+          "unmatched_home_team:Seongnam": 1,
+          "unmatched_home_team:Seoul E-Land": 1,
+          "unmatched_home_team:Suwon": 1,
+          "unmatched_home_team:Suwon Bluewings": 1
+        }
+      },
+      "before_original_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Cheonan City": 1,
+          "unmatched_home_team:Gimhae City": 1,
+          "unmatched_home_team:Gimpo Citizen": 1,
+          "unmatched_home_team:Paju Frontier": 1,
+          "unmatched_home_team:Seongnam": 1,
+          "unmatched_home_team:Seoul E-Land": 1,
+          "unmatched_home_team:Suwon": 1,
+          "unmatched_home_team:Suwon Bluewings": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_2ApGa4",
+      "raw_labels": [
+        "J. League"
+      ],
+      "canonical_leagues": [
+        "J1 League"
+      ],
+      "countries": [
+        "JPN"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_0uKucb",
+        "m_2xgaPl",
+        "m_44B2i2",
+        "m_09bpcV",
+        "m_4f21qW",
+        "m_2nvMbw",
+        "m_0tePuh",
+        "m_2JKEdt",
+        "m_2HjylB",
+        "m_2PpFZC"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Avispa Fukuoka": 1,
+          "unmatched_home_team:FC Tokyo": 1,
+          "unmatched_home_team:Gamba Osaka": 1,
+          "unmatched_home_team:JEF United Chiba": 1,
+          "unmatched_home_team:Kashiwa Reysol": 1,
+          "unmatched_home_team:Machida Zelvia": 1,
+          "unmatched_home_team:Nagoya Grampus": 1,
+          "unmatched_home_team:Shimizu S-Pulse": 1,
+          "unmatched_home_team:Vissel Kobe": 1,
+          "unmatched_home_team:Yokohama F.Marinos": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 10,
+        "elo_ready": 10,
+        "dixon_coles_history_ready": 10,
+        "reasons": {
+          "ready_for_model_attempt": 10
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Avispa Fukuoka": 1,
+          "unmatched_home_team:FC Tokyo": 1,
+          "unmatched_home_team:Gamba Osaka": 1,
+          "unmatched_home_team:JEF United Chiba": 1,
+          "unmatched_home_team:Kashiwa Reysol": 1,
+          "unmatched_home_team:Machida Zelvia": 1,
+          "unmatched_home_team:Nagoya Grampus": 1,
+          "unmatched_home_team:Shimizu S-Pulse": 1,
+          "unmatched_home_team:Vissel Kobe": 1,
+          "unmatched_home_team:Yokohama F.Marinos": 1
+        }
+      },
+      "identity_mapping_delta": 10,
+      "elo_ready_delta": 10
+    },
+    {
+      "league_id": "l_2EKrnc",
+      "raw_labels": [
+        "K League 1"
+      ],
+      "canonical_leagues": [
+        "K League 1"
+      ],
+      "countries": [
+        "KOR"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_2udOjK",
+        "m_0bjfBm",
+        "m_0LnQSh",
+        "m_14lWyF",
+        "m_1x911G",
+        "m_2hXHFC"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Bucheon FC 1995": 1,
+          "unmatched_home_team:Daejeon Hana Citizen": 1,
+          "unmatched_home_team:FC Seoul": 1,
+          "unmatched_home_team:Gangwon FC": 1,
+          "unmatched_home_team:Gimcheon Sangmu": 1,
+          "unmatched_home_team:Jeju SK": 1
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Bucheon FC 1995": 1,
+          "unmatched_home_team:Daejeon Hana Citizen": 1,
+          "unmatched_home_team:FC Seoul": 1,
+          "unmatched_home_team:Gangwon FC": 1,
+          "unmatched_home_team:Gimcheon Sangmu": 1,
+          "unmatched_home_team:Jeju SK": 1
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Bucheon FC 1995": 1,
+          "unmatched_home_team:Daejeon Hana Citizen": 1,
+          "unmatched_home_team:FC Seoul": 1,
+          "unmatched_home_team:Gangwon FC": 1,
+          "unmatched_home_team:Gimcheon Sangmu": 1,
+          "unmatched_home_team:Jeju SK": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_2L6d1F",
+      "raw_labels": [
+        "First Division A"
+      ],
+      "canonical_leagues": [
+        "Jupiler Pro League"
+      ],
+      "countries": [
+        "BEL"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_2AeM1n",
+        "m_49BmX0",
+        "m_2mTlRY",
+        "m_15S8J5",
+        "m_23nahk",
+        "m_3j0Gh6",
+        "m_1IihxY",
+        "m_4Avmz7",
+        "m_1SGX0x"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Club Brugge": 1,
+          "unmatched_home_team:Gent": 1,
+          "unmatched_home_team:OH Leuven": 1,
+          "unmatched_home_team:RAAL La Louvière": 1,
+          "unmatched_home_team:Royal Antwerp": 1,
+          "unmatched_home_team:St.Truiden": 1,
+          "unmatched_home_team:Standard Liège": 1,
+          "unmatched_home_team:Union St.Gilloise": 1,
+          "unmatched_home_team:Westerlo": 1
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Club Brugge": 1,
+          "unmatched_home_team:Gent": 1,
+          "unmatched_home_team:OH Leuven": 1,
+          "unmatched_home_team:RAAL La Louvière": 1,
+          "unmatched_home_team:Royal Antwerp": 1,
+          "unmatched_home_team:St.Truiden": 1,
+          "unmatched_home_team:Standard Liège": 1,
+          "unmatched_home_team:Union St.Gilloise": 1,
+          "unmatched_home_team:Westerlo": 1
+        }
+      },
+      "identity_mapping_delta": 9,
+      "elo_ready_delta": 9
+    },
+    {
+      "league_id": "l_2Mh0jT",
+      "raw_labels": [
+        "Premier League"
+      ],
+      "canonical_leagues": [
+        "Russian Premier League"
+      ],
+      "countries": [
+        "RUS"
+      ],
+      "total": 8,
+      "fixture_ids": [
+        "m_06euIK",
+        "m_48HfIZ",
+        "m_1oH0aC",
+        "m_2ikRfI",
+        "m_2MOpf6",
+        "m_0FoBft",
+        "m_3v06Pi",
+        "m_2X9T1g"
+      ],
+      "before_same_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_premier_league_country_not_verified": 8
+        }
+      },
+      "after": {
+        "total": 8,
+        "identity_ready": 8,
+        "elo_ready": 7,
+        "dixon_coles_history_ready": 8,
+        "reasons": {
+          "insufficient_team_history": 1,
+          "ready_for_model_attempt": 7
+        }
+      },
+      "before_original_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_premier_league_country_not_verified": 8
+        }
+      },
+      "identity_mapping_delta": 8,
+      "elo_ready_delta": 7
+    },
+    {
+      "league_id": "l_2tFk9k",
+      "raw_labels": [
+        "HNL"
+      ],
+      "canonical_leagues": [
+        "HNL"
+      ],
+      "countries": [
+        "HRV"
+      ],
+      "total": 5,
+      "fixture_ids": [
+        "m_0nDQDz",
+        "m_12HeV6",
+        "m_135XTD",
+        "m_3Lf1bN",
+        "m_39jil6"
+      ],
+      "before_same_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:HNK Gorica": 1,
+          "unmatched_home_team:Istra 1961": 1,
+          "unmatched_home_team:Lokomotiva Zagreb": 1,
+          "unmatched_home_team:Osijek": 1,
+          "unmatched_home_team:Varaždin": 1
+        }
+      },
+      "after": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:HNK Gorica": 1,
+          "unmatched_home_team:Istra 1961": 1,
+          "unmatched_home_team:Lokomotiva Zagreb": 1,
+          "unmatched_home_team:Osijek": 1,
+          "unmatched_home_team:Varaždin": 1
+        }
+      },
+      "before_original_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:HNK Gorica": 1,
+          "unmatched_home_team:Istra 1961": 1,
+          "unmatched_home_team:Lokomotiva Zagreb": 1,
+          "unmatched_home_team:Osijek": 1,
+          "unmatched_home_team:Varaždin": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_2xBPKk",
+      "raw_labels": [
+        "Super Liga"
+      ],
+      "canonical_leagues": [
+        "Super Liga"
+      ],
+      "countries": [
+        "SRB"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_29ePtK",
+        "m_0jdkdA",
+        "m_0pSQEl",
+        "m_0R40k2",
+        "m_47XvEL",
+        "m_1mTrxw",
+        "m_0fFhaT"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Novi Pazar": 1,
+          "unmatched_home_team:Partizan Beograd": 1,
+          "unmatched_home_team:Radnik Surdulica": 1,
+          "unmatched_home_team:Vojvodina": 1,
+          "unmatched_home_team:Zemun": 1,
+          "unmatched_home_team:Čukarički": 1,
+          "unmatched_home_team:Železničar Pančevo": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Novi Pazar": 1,
+          "unmatched_home_team:Partizan Beograd": 1,
+          "unmatched_home_team:Radnik Surdulica": 1,
+          "unmatched_home_team:Vojvodina": 1,
+          "unmatched_home_team:Zemun": 1,
+          "unmatched_home_team:Čukarički": 1,
+          "unmatched_home_team:Železničar Pančevo": 1
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Novi Pazar": 1,
+          "unmatched_home_team:Partizan Beograd": 1,
+          "unmatched_home_team:Radnik Surdulica": 1,
+          "unmatched_home_team:Vojvodina": 1,
+          "unmatched_home_team:Zemun": 1,
+          "unmatched_home_team:Čukarički": 1,
+          "unmatched_home_team:Železničar Pančevo": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3CB6qX",
+      "raw_labels": [
+        "Saudi First Division"
+      ],
+      "canonical_leagues": [
+        "Saudi First Division"
+      ],
+      "countries": [
+        "SAU"
+      ],
+      "total": 8,
+      "fixture_ids": [
+        "m_1HWKSc",
+        "m_2RFopT",
+        "m_2QxXOT",
+        "m_2FDHmV",
+        "m_3uniVv",
+        "m_0t38cH",
+        "m_3n70g5",
+        "m_1bmUuO"
+      ],
+      "before_same_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Akhdoud": 1,
+          "unmatched_home_team:Al Najma": 1,
+          "unmatched_home_team:Al Taee": 1,
+          "unmatched_home_team:Al-Jandal": 1,
+          "unmatched_home_team:Al-Saqer FC": 1,
+          "unmatched_home_team:Al-Wehda": 1,
+          "unmatched_home_team:Al-Zulfi": 1,
+          "unmatched_home_team:Damac FC": 1
+        }
+      },
+      "after": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Akhdoud": 1,
+          "unmatched_home_team:Al Najma": 1,
+          "unmatched_home_team:Al Taee": 1,
+          "unmatched_home_team:Al-Jandal": 1,
+          "unmatched_home_team:Al-Saqer FC": 1,
+          "unmatched_home_team:Al-Wehda": 1,
+          "unmatched_home_team:Al-Zulfi": 1,
+          "unmatched_home_team:Damac FC": 1
+        }
+      },
+      "before_original_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Akhdoud": 1,
+          "unmatched_home_team:Al Najma": 1,
+          "unmatched_home_team:Al Taee": 1,
+          "unmatched_home_team:Al-Jandal": 1,
+          "unmatched_home_team:Al-Saqer FC": 1,
+          "unmatched_home_team:Al-Wehda": 1,
+          "unmatched_home_team:Al-Zulfi": 1,
+          "unmatched_home_team:Damac FC": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3Ci5Cg",
+      "raw_labels": [
+        "Veikkausliiga"
+      ],
+      "canonical_leagues": [
+        "Veikkausliiga"
+      ],
+      "countries": [
+        "FIN"
+      ],
+      "total": 3,
+      "fixture_ids": [
+        "m_1tTa2K",
+        "m_2dYbzd",
+        "m_4dDiSY"
+      ],
+      "before_same_history": {
+        "total": 3,
+        "identity_ready": 2,
+        "elo_ready": 2,
+        "dixon_coles_history_ready": 2,
+        "reasons": {
+          "ready_for_model_attempt": 2,
+          "unmatched_away_team:Oulu": 1
+        }
+      },
+      "after": {
+        "total": 3,
+        "identity_ready": 3,
+        "elo_ready": 3,
+        "dixon_coles_history_ready": 3,
+        "reasons": {
+          "ready_for_model_attempt": 3
+        }
+      },
+      "before_original_history": {
+        "total": 3,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Gnistan": 1,
+          "unmatched_home_team:HJK": 1,
+          "unmatched_home_team:KuPS": 1
+        }
+      },
+      "identity_mapping_delta": 1,
+      "elo_ready_delta": 1
+    },
+    {
+      "league_id": "l_3FJFUl",
+      "raw_labels": [
+        "Ligue 1"
+      ],
+      "canonical_leagues": [
+        "Ligue 1"
+      ],
+      "countries": [
+        "FRA"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_2vsKSO",
+        "m_1ronn6",
+        "m_264TKg",
+        "m_0mizTH",
+        "m_0BcQYa",
+        "m_16ULxt",
+        "m_1fpHlF",
+        "m_3osflk",
+        "m_3xBldf"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3Kf7Ni",
+      "raw_labels": [
+        "USL League One"
+      ],
+      "canonical_leagues": [
+        "USL League One"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "total": 1,
+      "fixture_ids": [
+        "m_4Q7Sdu"
+      ],
+      "before_same_history": {
+        "total": 1,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Athletic Club Boise": 1
+        }
+      },
+      "after": {
+        "total": 1,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Athletic Club Boise": 1
+        }
+      },
+      "before_original_history": {
+        "total": 1,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Athletic Club Boise": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3UiOcj",
+      "raw_labels": [
+        "Premier League"
+      ],
+      "canonical_leagues": [
+        "Premier League"
+      ],
+      "countries": [
+        "CAN"
+      ],
+      "total": 2,
+      "fixture_ids": [
+        "m_1Ue9Ik",
+        "m_0Hqknu"
+      ],
+      "before_same_history": {
+        "total": 2,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_premier_league_country_not_verified": 2
+        }
+      },
+      "after": {
+        "total": 2,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unsupported_competition_id": 2
+        }
+      },
+      "before_original_history": {
+        "total": 2,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_premier_league_country_not_verified": 2
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3fglZv",
+      "raw_labels": [
+        "J3 League"
+      ],
+      "canonical_leagues": [
+        "J3 League"
+      ],
+      "countries": [
+        "JPN"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_0L7spa",
+        "m_0Vsf82",
+        "m_1ONnbL",
+        "m_3eyJKn",
+        "m_4Iw56h",
+        "m_255Jp7",
+        "m_0Z5M3x",
+        "m_0ZPGiJ",
+        "m_1CUBlN",
+        "m_2GeR8g"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ehime": 1,
+          "unmatched_home_team:Fukushima United": 1,
+          "unmatched_home_team:Gainare Tottori": 1,
+          "unmatched_home_team:Gifu": 1,
+          "unmatched_home_team:Matsumoto Yamaga": 1,
+          "unmatched_home_team:Nagano Parceiro": 1,
+          "unmatched_home_team:Nara Club": 1,
+          "unmatched_home_team:Roasso Kumamoto": 1,
+          "unmatched_home_team:Sagamihara": 1,
+          "unmatched_home_team:Thespa Gunma": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ehime": 1,
+          "unmatched_home_team:Fukushima United": 1,
+          "unmatched_home_team:Gainare Tottori": 1,
+          "unmatched_home_team:Gifu": 1,
+          "unmatched_home_team:Matsumoto Yamaga": 1,
+          "unmatched_home_team:Nagano Parceiro": 1,
+          "unmatched_home_team:Nara Club": 1,
+          "unmatched_home_team:Roasso Kumamoto": 1,
+          "unmatched_home_team:Sagamihara": 1,
+          "unmatched_home_team:Thespa Gunma": 1
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ehime": 1,
+          "unmatched_home_team:Fukushima United": 1,
+          "unmatched_home_team:Gainare Tottori": 1,
+          "unmatched_home_team:Gifu": 1,
+          "unmatched_home_team:Matsumoto Yamaga": 1,
+          "unmatched_home_team:Nagano Parceiro": 1,
+          "unmatched_home_team:Nara Club": 1,
+          "unmatched_home_team:Roasso Kumamoto": 1,
+          "unmatched_home_team:Sagamihara": 1,
+          "unmatched_home_team:Thespa Gunma": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3hW1NO",
+      "raw_labels": [
+        "Thai League 1"
+      ],
+      "canonical_leagues": [
+        "Thai League 1"
+      ],
+      "countries": [
+        "THA"
+      ],
+      "total": 8,
+      "fixture_ids": [
+        "m_0N8kHu",
+        "m_0QyUwZ",
+        "m_4O57LJ",
+        "m_0JOFJZ",
+        "m_3mRAIK",
+        "m_3yFD5e",
+        "m_3XGIoc",
+        "m_0Y5U1h"
+      ],
+      "before_same_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ayutthaya United FC": 1,
+          "unmatched_home_team:BG Pathum United": 1,
+          "unmatched_home_team:Lamphun Warrior": 1,
+          "unmatched_home_team:Port FC": 1,
+          "unmatched_home_team:Prachuap FC": 1,
+          "unmatched_home_team:Rasisalai United": 1,
+          "unmatched_home_team:Ratchaburi FC": 1,
+          "unmatched_home_team:Uthai Thani FC": 1
+        }
+      },
+      "after": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ayutthaya United FC": 1,
+          "unmatched_home_team:BG Pathum United": 1,
+          "unmatched_home_team:Lamphun Warrior": 1,
+          "unmatched_home_team:Port FC": 1,
+          "unmatched_home_team:Prachuap FC": 1,
+          "unmatched_home_team:Rasisalai United": 1,
+          "unmatched_home_team:Ratchaburi FC": 1,
+          "unmatched_home_team:Uthai Thani FC": 1
+        }
+      },
+      "before_original_history": {
+        "total": 8,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Ayutthaya United FC": 1,
+          "unmatched_home_team:BG Pathum United": 1,
+          "unmatched_home_team:Lamphun Warrior": 1,
+          "unmatched_home_team:Port FC": 1,
+          "unmatched_home_team:Prachuap FC": 1,
+          "unmatched_home_team:Rasisalai United": 1,
+          "unmatched_home_team:Ratchaburi FC": 1,
+          "unmatched_home_team:Uthai Thani FC": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3hvsne",
+      "raw_labels": [
+        "2. Bundesliga"
+      ],
+      "canonical_leagues": [
+        "2. Bundesliga"
+      ],
+      "countries": [
+        "DEU"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_1utErr",
+        "m_4Duv9a",
+        "m_2xCK2J",
+        "m_3SNQqf",
+        "m_47pmEm",
+        "m_3RjJN8",
+        "m_1GB7ot",
+        "m_29mOXv",
+        "m_4OrzK8"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 1,
+        "elo_ready": 1,
+        "dixon_coles_history_ready": 1,
+        "reasons": {
+          "ready_for_model_attempt": 1,
+          "unmatched_away_team:Arminia Bielefeld": 1,
+          "unmatched_away_team:Karlsruher SC": 1,
+          "unmatched_home_team:1. FC Nürnberg": 1,
+          "unmatched_home_team:Dynamo Dresden": 1,
+          "unmatched_home_team:Eintracht Braunschweig": 1,
+          "unmatched_home_team:FC Heidenheim": 1,
+          "unmatched_home_team:Hertha BSC": 1,
+          "unmatched_home_team:VfL Osnabrück": 1
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:1. FC Nürnberg": 1,
+          "unmatched_home_team:Bochum": 1,
+          "unmatched_home_team:Dynamo Dresden": 1,
+          "unmatched_home_team:Eintracht Braunschweig": 1,
+          "unmatched_home_team:FC Heidenheim": 1,
+          "unmatched_home_team:Hertha BSC": 1,
+          "unmatched_home_team:Holstein Kiel": 1,
+          "unmatched_home_team:Magdeburg": 1,
+          "unmatched_home_team:VfL Osnabrück": 1
+        }
+      },
+      "identity_mapping_delta": 8,
+      "elo_ready_delta": 8
+    },
+    {
+      "league_id": "l_3kyHLd",
+      "raw_labels": [
+        "LaLiga2"
+      ],
+      "canonical_leagues": [
+        "La Liga 2"
+      ],
+      "countries": [
+        "ESP"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_1kKDPB",
+        "m_3lgRHr",
+        "m_0oL6G2",
+        "m_1yLD13",
+        "m_3wlJov",
+        "m_4KOEvD",
+        "m_3oD42f",
+        "m_4XpkL2",
+        "m_09CSQq",
+        "m_2jyYwm"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Burgos CF": 1,
+          "unmatched_home_team:Castellón": 1,
+          "unmatched_home_team:Cádiz": 1,
+          "unmatched_home_team:Córdoba": 1,
+          "unmatched_home_team:FC Andorra": 1,
+          "unmatched_home_team:Girona": 1,
+          "unmatched_home_team:Granada": 1,
+          "unmatched_home_team:Las Palmas": 1,
+          "unmatched_home_team:Leganés": 1,
+          "unmatched_home_team:Sporting Gijón": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 10,
+        "elo_ready": 10,
+        "dixon_coles_history_ready": 10,
+        "reasons": {
+          "ready_for_model_attempt": 10
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Burgos CF": 1,
+          "unmatched_home_team:Castellón": 1,
+          "unmatched_home_team:Cádiz": 1,
+          "unmatched_home_team:Córdoba": 1,
+          "unmatched_home_team:FC Andorra": 1,
+          "unmatched_home_team:Girona": 1,
+          "unmatched_home_team:Granada": 1,
+          "unmatched_home_team:Las Palmas": 1,
+          "unmatched_home_team:Leganés": 1,
+          "unmatched_home_team:Sporting Gijón": 1
+        }
+      },
+      "identity_mapping_delta": 10,
+      "elo_ready_delta": 10
+    },
+    {
+      "league_id": "l_3qNjzC",
+      "raw_labels": [
+        "Liga de Primera"
+      ],
+      "canonical_leagues": [
+        "Liga de Primera"
+      ],
+      "countries": [
+        "CHL"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_2Bk6kj",
+        "m_37Fh2G",
+        "m_0KizW9",
+        "m_325ayX",
+        "m_2zgblL",
+        "m_4dqFiP",
+        "m_1nYiXS"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Audax Italiano": 1,
+          "unmatched_home_team:Everton": 1,
+          "unmatched_home_team:La Serena": 1,
+          "unmatched_home_team:Universidad Católica": 1,
+          "unmatched_home_team:Universidad de Chile": 1,
+          "unmatched_home_team:Unión La Calera": 1,
+          "unmatched_home_team:Ñublense": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Audax Italiano": 1,
+          "unmatched_home_team:Everton": 1,
+          "unmatched_home_team:La Serena": 1,
+          "unmatched_home_team:Universidad Católica": 1,
+          "unmatched_home_team:Universidad de Chile": 1,
+          "unmatched_home_team:Unión La Calera": 1,
+          "unmatched_home_team:Ñublense": 1
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Audax Italiano": 1,
+          "unmatched_home_team:Everton": 1,
+          "unmatched_home_team:La Serena": 1,
+          "unmatched_home_team:Universidad Católica": 1,
+          "unmatched_home_team:Universidad de Chile": 1,
+          "unmatched_home_team:Unión La Calera": 1,
+          "unmatched_home_team:Ñublense": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3qUkB8",
+      "raw_labels": [
+        "Serie B"
+      ],
+      "canonical_leagues": [
+        "Serie B"
+      ],
+      "countries": [
+        "BRA"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_1h754A",
+        "m_3UaBoh",
+        "m_3Z0k8f",
+        "m_2K4qY5",
+        "m_4cN4DQ",
+        "m_48zqwx",
+        "m_0V3pRq",
+        "m_12FrQR",
+        "m_2AXXdU"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Athletic Club MG": 1,
+          "unmatched_home_team:Avaí": 1,
+          "unmatched_home_team:Ceará": 1,
+          "unmatched_home_team:Cuiabá": 1,
+          "unmatched_home_team:Goiás": 1,
+          "unmatched_home_team:Novorizontino": 1,
+          "unmatched_home_team:Náutico": 1,
+          "unmatched_home_team:Operário PR": 1,
+          "unmatched_home_team:Vila Nova": 1
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unsupported_competition_id": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Athletic Club MG": 1,
+          "unmatched_home_team:Avaí": 1,
+          "unmatched_home_team:Ceará": 1,
+          "unmatched_home_team:Cuiabá": 1,
+          "unmatched_home_team:Goiás": 1,
+          "unmatched_home_team:Novorizontino": 1,
+          "unmatched_home_team:Náutico": 1,
+          "unmatched_home_team:Operário PR": 1,
+          "unmatched_home_team:Vila Nova": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3uNwVX",
+      "raw_labels": [
+        "Liga 1"
+      ],
+      "canonical_leagues": [
+        "Liga 1"
+      ],
+      "countries": [
+        "PER"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_22uKuG",
+        "m_3ET6WN",
+        "m_2igOQB",
+        "m_2naiBX",
+        "m_16Q0E0",
+        "m_2S9dSC",
+        "m_3J5Wih"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:ADT": 1,
+          "unmatched_home_team:Atlético Grau": 1,
+          "unmatched_home_team:Cienciano": 1,
+          "unmatched_home_team:FC Cajamarca": 1,
+          "unmatched_home_team:Los Chankas": 1,
+          "unmatched_home_team:Melgar": 1,
+          "unmatched_home_team:Sport Boys": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:ADT": 1,
+          "unmatched_home_team:Atlético Grau": 1,
+          "unmatched_home_team:Cienciano": 1,
+          "unmatched_home_team:FC Cajamarca": 1,
+          "unmatched_home_team:Los Chankas": 1,
+          "unmatched_home_team:Melgar": 1,
+          "unmatched_home_team:Sport Boys": 1
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:ADT": 1,
+          "unmatched_home_team:Atlético Grau": 1,
+          "unmatched_home_team:Cienciano": 1,
+          "unmatched_home_team:FC Cajamarca": 1,
+          "unmatched_home_team:Los Chankas": 1,
+          "unmatched_home_team:Melgar": 1,
+          "unmatched_home_team:Sport Boys": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3v84VE",
+      "raw_labels": [
+        "Liga MX"
+      ],
+      "canonical_leagues": [
+        "Liga MX"
+      ],
+      "countries": [
+        "MEX"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_0bfKTW",
+        "m_1DTX3N",
+        "m_16qy53",
+        "m_37wnXk",
+        "m_1149TE",
+        "m_2sQ7JG",
+        "m_0aDQ8y"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 3,
+        "elo_ready": 3,
+        "dixon_coles_history_ready": 3,
+        "reasons": {
+          "ready_for_model_attempt": 3,
+          "unmatched_away_team:Tijuana": 1,
+          "unmatched_home_team:Atlético de San Luis": 1,
+          "unmatched_home_team:Pumas": 1,
+          "unmatched_home_team:Tigres": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 7,
+        "elo_ready": 7,
+        "dixon_coles_history_ready": 7,
+        "reasons": {
+          "ready_for_model_attempt": 7
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Atlante": 1,
+          "unmatched_home_team:Atlas": 1,
+          "unmatched_home_team:Atlético de San Luis": 1,
+          "unmatched_home_team:Necaxa": 1,
+          "unmatched_home_team:Pumas": 1,
+          "unmatched_home_team:Tigres": 1,
+          "unmatched_home_team:Toluca": 1
+        }
+      },
+      "identity_mapping_delta": 4,
+      "elo_ready_delta": 4
+    },
+    {
+      "league_id": "l_3wr44B",
+      "raw_labels": [
+        "Qatar Stars League"
+      ],
+      "canonical_leagues": [
+        "Qatar Stars League"
+      ],
+      "countries": [
+        "QAT"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_28IQ1r",
+        "m_1qdODC",
+        "m_3Fp1KU",
+        "m_0Rch5O",
+        "m_01lk0g",
+        "m_3UVsUf"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Arabi": 1,
+          "unmatched_home_team:Al Gharafa": 1,
+          "unmatched_home_team:Al Sadd": 1,
+          "unmatched_home_team:Al Shamal": 1,
+          "unmatched_home_team:Al Wakrah": 1,
+          "unmatched_home_team:Lusail City": 1
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Arabi": 1,
+          "unmatched_home_team:Al Gharafa": 1,
+          "unmatched_home_team:Al Sadd": 1,
+          "unmatched_home_team:Al Shamal": 1,
+          "unmatched_home_team:Al Wakrah": 1,
+          "unmatched_home_team:Lusail City": 1
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Al Arabi": 1,
+          "unmatched_home_team:Al Gharafa": 1,
+          "unmatched_home_team:Al Sadd": 1,
+          "unmatched_home_team:Al Shamal": 1,
+          "unmatched_home_team:Al Wakrah": 1,
+          "unmatched_home_team:Lusail City": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3xwVF2",
+      "raw_labels": [
+        "Super League 1"
+      ],
+      "canonical_leagues": [
+        "Super League"
+      ],
+      "countries": [
+        "GRC"
+      ],
+      "total": 7,
+      "fixture_ids": [
+        "m_2E2WMC",
+        "m_3sC2Cy",
+        "m_0K5HSO",
+        "m_0KpIEi",
+        "m_2o7qfL",
+        "m_2IG83Q",
+        "m_0zU0XV"
+      ],
+      "before_same_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AEK Athens": 1,
+          "unmatched_home_team:Aris Thessaloniki": 1,
+          "unmatched_home_team:Asteras Tripolis": 1,
+          "unmatched_home_team:Iraklis": 1,
+          "unmatched_home_team:NFC Volos": 1,
+          "unmatched_home_team:OFI Crete": 1,
+          "unmatched_home_team:Olympiacos": 1
+        }
+      },
+      "after": {
+        "total": 7,
+        "identity_ready": 7,
+        "elo_ready": 7,
+        "dixon_coles_history_ready": 7,
+        "reasons": {
+          "ready_for_model_attempt": 7
+        }
+      },
+      "before_original_history": {
+        "total": 7,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AEK Athens": 1,
+          "unmatched_home_team:Aris Thessaloniki": 1,
+          "unmatched_home_team:Asteras Tripolis": 1,
+          "unmatched_home_team:Iraklis": 1,
+          "unmatched_home_team:NFC Volos": 1,
+          "unmatched_home_team:OFI Crete": 1,
+          "unmatched_home_team:Olympiacos": 1
+        }
+      },
+      "identity_mapping_delta": 7,
+      "elo_ready_delta": 7
+    },
+    {
+      "league_id": "l_3yVUAO",
+      "raw_labels": [
+        "USL Championship"
+      ],
+      "canonical_leagues": [
+        "USL Championship"
+      ],
+      "countries": [
+        "USA"
+      ],
+      "total": 4,
+      "fixture_ids": [
+        "m_21aqXu",
+        "m_0WuZ2J",
+        "m_32RSaU",
+        "m_0rLm9B"
+      ],
+      "before_same_history": {
+        "total": 4,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Charleston Battery": 1,
+          "unmatched_home_team:Louisville City": 1,
+          "unmatched_home_team:New Mexico United": 1,
+          "unmatched_home_team:Sacramento Republic": 1
+        }
+      },
+      "after": {
+        "total": 4,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Charleston Battery": 1,
+          "unmatched_home_team:Louisville City": 1,
+          "unmatched_home_team:New Mexico United": 1,
+          "unmatched_home_team:Sacramento Republic": 1
+        }
+      },
+      "before_original_history": {
+        "total": 4,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Charleston Battery": 1,
+          "unmatched_home_team:Louisville City": 1,
+          "unmatched_home_team:New Mexico United": 1,
+          "unmatched_home_team:Sacramento Republic": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_3zsMpo",
+      "raw_labels": [
+        "Bundesliga"
+      ],
+      "canonical_leagues": [
+        "Austrian Bundesliga"
+      ],
+      "countries": [
+        "AUT"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_4Hzoft",
+        "m_2CXibl",
+        "m_3fNX4y",
+        "m_1DTXAz",
+        "m_2ql9or",
+        "m_2eEqcr"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_bundesliga_country_not_verified": 6
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 6,
+        "elo_ready": 6,
+        "dixon_coles_history_ready": 6,
+        "reasons": {
+          "ready_for_model_attempt": 6
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "ambiguous_bundesliga_country_not_verified": 6
+        }
+      },
+      "identity_mapping_delta": 6,
+      "elo_ready_delta": 6
+    },
+    {
+      "league_id": "l_45VZuL",
+      "raw_labels": [
+        "Liga Profesional"
+      ],
+      "canonical_leagues": [
+        "Liga Profesional"
+      ],
+      "countries": [
+        "ARG"
+      ],
+      "total": 28,
+      "fixture_ids": [
+        "m_3SBDok",
+        "m_0ctVTv",
+        "m_3J9Dx6",
+        "m_4HejXW",
+        "m_2FeK6D",
+        "m_4MHB45",
+        "m_1PqwIS",
+        "m_1ZJBxI",
+        "m_12oott",
+        "m_20IYEi",
+        "m_3ly3YU",
+        "m_3nby2e",
+        "m_0VzRnN",
+        "m_0aDGPE",
+        "m_0hXaSz",
+        "m_0k4tjH",
+        "m_0sZCSM",
+        "m_1FLsSH",
+        "m_1H5th5",
+        "m_1gv5I0",
+        "m_29igO7",
+        "m_2foykb",
+        "m_2sJi7P",
+        "m_31vOd3",
+        "m_3ZNKbm",
+        "m_4aitUF",
+        "m_4dE2GW",
+        "m_413FmJ"
+      ],
+      "before_same_history": {
+        "total": 28,
+        "identity_ready": 5,
+        "elo_ready": 5,
+        "dixon_coles_history_ready": 5,
+        "reasons": {
+          "ready_for_model_attempt": 5,
+          "unmatched_away_team:Atlético Tucumán": 2,
+          "unmatched_away_team:Club Atlético Platense": 2,
+          "unmatched_away_team:Deportivo Riestra": 2,
+          "unmatched_away_team:Estudiantes de Río Cuarto": 2,
+          "unmatched_away_team:Independiente Rivadavia": 2,
+          "unmatched_away_team:Newell's Old Boys": 2,
+          "unmatched_away_team:Sarmiento": 2,
+          "unmatched_home_team:Argentinos Juniors": 2,
+          "unmatched_home_team:Central Córdoba de Santiago": 2,
+          "unmatched_home_team:Gimnasia LP": 1,
+          "unmatched_home_team:Talleres": 2,
+          "unmatched_home_team:Unión": 2
+        }
+      },
+      "after": {
+        "total": 28,
+        "identity_ready": 28,
+        "elo_ready": 28,
+        "dixon_coles_history_ready": 28,
+        "reasons": {
+          "ready_for_model_attempt": 28
+        }
+      },
+      "before_original_history": {
+        "total": 28,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Aldosivi": 1,
+          "unmatched_home_team:Argentinos Juniors": 2,
+          "unmatched_home_team:Banfield": 2,
+          "unmatched_home_team:Barracas Central": 2,
+          "unmatched_home_team:Boca Juniors": 2,
+          "unmatched_home_team:Central Córdoba de Santiago": 2,
+          "unmatched_home_team:Gimnasia LP": 1,
+          "unmatched_home_team:Gimnasia Mendoza": 2,
+          "unmatched_home_team:Independiente": 2,
+          "unmatched_home_team:Instituto": 2,
+          "unmatched_home_team:Rosario Central": 2,
+          "unmatched_home_team:San Lorenzo": 2,
+          "unmatched_home_team:Talleres": 2,
+          "unmatched_home_team:Tigre": 2,
+          "unmatched_home_team:Unión": 2
+        }
+      },
+      "identity_mapping_delta": 23,
+      "elo_ready_delta": 23
+    },
+    {
+      "league_id": "l_45xKXM",
+      "raw_labels": [
+        "Virsliga"
+      ],
+      "canonical_leagues": [
+        "Virsliga"
+      ],
+      "countries": [
+        "LVA"
+      ],
+      "total": 5,
+      "fixture_ids": [
+        "m_0jesNY",
+        "m_2KAs6J",
+        "m_2NRjQ8",
+        "m_2ufCeb",
+        "m_2vJfYO"
+      ],
+      "before_same_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Grobiņa": 1,
+          "unmatched_home_team:Jelgava": 1,
+          "unmatched_home_team:Riga FC": 1,
+          "unmatched_home_team:Super Nova": 1,
+          "unmatched_home_team:Tukums": 1
+        }
+      },
+      "after": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Grobiņa": 1,
+          "unmatched_home_team:Jelgava": 1,
+          "unmatched_home_team:Riga FC": 1,
+          "unmatched_home_team:Super Nova": 1,
+          "unmatched_home_team:Tukums": 1
+        }
+      },
+      "before_original_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Grobiņa": 1,
+          "unmatched_home_team:Jelgava": 1,
+          "unmatched_home_team:Riga FC": 1,
+          "unmatched_home_team:Super Nova": 1,
+          "unmatched_home_team:Tukums": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_47077Y",
+      "raw_labels": [
+        "3. Liga"
+      ],
+      "canonical_leagues": [
+        "3. Liga"
+      ],
+      "countries": [
+        "DEU"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_02eGB7",
+        "m_0ou5ao",
+        "m_1VcGoT",
+        "m_1jNSwM",
+        "m_3WidQB",
+        "m_3pOF5U",
+        "m_13w1Qj",
+        "m_1mKc8r",
+        "m_2OwKbP",
+        "m_4IxXfM"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:FC Ingolstadt": 1,
+          "unmatched_home_team:Hansa Rostock": 1,
+          "unmatched_home_team:Meppen": 1,
+          "unmatched_home_team:Preussen Münster": 1,
+          "unmatched_home_team:Rot-Weiss Essen": 1,
+          "unmatched_home_team:Stuttgart II": 1,
+          "unmatched_home_team:Viktoria Köln": 1,
+          "unmatched_home_team:Waldhof Mannheim": 1,
+          "unmatched_home_team:Wehen Wiesbaden": 1,
+          "unmatched_home_team:Würzburger Kickers": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:FC Ingolstadt": 1,
+          "unmatched_home_team:Hansa Rostock": 1,
+          "unmatched_home_team:Meppen": 1,
+          "unmatched_home_team:Preussen Münster": 1,
+          "unmatched_home_team:Rot-Weiss Essen": 1,
+          "unmatched_home_team:Stuttgart II": 1,
+          "unmatched_home_team:Viktoria Köln": 1,
+          "unmatched_home_team:Waldhof Mannheim": 1,
+          "unmatched_home_team:Wehen Wiesbaden": 1,
+          "unmatched_home_team:Würzburger Kickers": 1
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:FC Ingolstadt": 1,
+          "unmatched_home_team:Hansa Rostock": 1,
+          "unmatched_home_team:Meppen": 1,
+          "unmatched_home_team:Preussen Münster": 1,
+          "unmatched_home_team:Rot-Weiss Essen": 1,
+          "unmatched_home_team:Stuttgart II": 1,
+          "unmatched_home_team:Viktoria Köln": 1,
+          "unmatched_home_team:Waldhof Mannheim": 1,
+          "unmatched_home_team:Wehen Wiesbaden": 1,
+          "unmatched_home_team:Würzburger Kickers": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_49KZaB",
+      "raw_labels": [
+        "Eerste Divisie"
+      ],
+      "canonical_leagues": [
+        "Eerste Divisie"
+      ],
+      "countries": [
+        "NLD"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_0cwh8e",
+        "m_1LlscI",
+        "m_1YJznG",
+        "m_2GPh3s",
+        "m_39E1lf",
+        "m_3hSfVd",
+        "m_4YwWtG",
+        "m_15I5hc",
+        "m_0fS4vv",
+        "m_1k2g3U"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AZ II": 1,
+          "unmatched_home_team:Den Bosch": 1,
+          "unmatched_home_team:Dordrecht": 1,
+          "unmatched_home_team:Eindhoven": 1,
+          "unmatched_home_team:FC Emmen": 1,
+          "unmatched_home_team:Helmond Sport": 1,
+          "unmatched_home_team:Heracles": 1,
+          "unmatched_home_team:TOP Oss": 1,
+          "unmatched_home_team:VVV": 1,
+          "unmatched_home_team:Vitesse": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AZ II": 1,
+          "unmatched_home_team:Den Bosch": 1,
+          "unmatched_home_team:Dordrecht": 1,
+          "unmatched_home_team:Eindhoven": 1,
+          "unmatched_home_team:FC Emmen": 1,
+          "unmatched_home_team:Helmond Sport": 1,
+          "unmatched_home_team:Heracles": 1,
+          "unmatched_home_team:TOP Oss": 1,
+          "unmatched_home_team:VVV": 1,
+          "unmatched_home_team:Vitesse": 1
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AZ II": 1,
+          "unmatched_home_team:Den Bosch": 1,
+          "unmatched_home_team:Dordrecht": 1,
+          "unmatched_home_team:Eindhoven": 1,
+          "unmatched_home_team:FC Emmen": 1,
+          "unmatched_home_team:Helmond Sport": 1,
+          "unmatched_home_team:Heracles": 1,
+          "unmatched_home_team:TOP Oss": 1,
+          "unmatched_home_team:VVV": 1,
+          "unmatched_home_team:Vitesse": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_49Zmno",
+      "raw_labels": [
+        "Superligaen"
+      ],
+      "canonical_leagues": [
+        "Danish Superliga"
+      ],
+      "countries": [
+        "DNK"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_4RkLkV",
+        "m_1AkZaN",
+        "m_0MBFdf",
+        "m_46z3hy",
+        "m_3tmjTq",
+        "m_2honTz"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AGF": 1,
+          "unmatched_home_team:FC København": 1,
+          "unmatched_home_team:FC Midtjylland": 1,
+          "unmatched_home_team:OB": 1,
+          "unmatched_home_team:Randers FC": 1,
+          "unmatched_home_team:Silkeborg": 1
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 6,
+        "elo_ready": 6,
+        "dixon_coles_history_ready": 6,
+        "reasons": {
+          "ready_for_model_attempt": 6
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:AGF": 1,
+          "unmatched_home_team:FC København": 1,
+          "unmatched_home_team:FC Midtjylland": 1,
+          "unmatched_home_team:OB": 1,
+          "unmatched_home_team:Randers FC": 1,
+          "unmatched_home_team:Silkeborg": 1
+        }
+      },
+      "identity_mapping_delta": 6,
+      "elo_ready_delta": 6
+    },
+    {
+      "league_id": "l_4DWyTT",
+      "raw_labels": [
+        "Championship"
+      ],
+      "canonical_leagues": [
+        "Championship"
+      ],
+      "countries": [
+        "ENG"
+      ],
+      "total": 12,
+      "fixture_ids": [
+        "m_3TyReK",
+        "m_1xULzG",
+        "m_459kUj",
+        "m_4HVVcu",
+        "m_0AdSWa",
+        "m_0wPfzq",
+        "m_1uN7TD",
+        "m_2r3ALf",
+        "m_2sVNQM",
+        "m_3G9qRR",
+        "m_3aHY1f",
+        "m_4CQtdo"
+      ],
+      "before_same_history": {
+        "total": 12,
+        "identity_ready": 1,
+        "elo_ready": 1,
+        "dixon_coles_history_ready": 1,
+        "reasons": {
+          "ready_for_model_attempt": 1,
+          "unmatched_away_team:Norwich City": 1,
+          "unmatched_away_team:Stoke City": 1,
+          "unmatched_away_team:Wolverhampton Wanderers": 1,
+          "unmatched_home_team:Birmingham City": 1,
+          "unmatched_home_team:Blackburn Rovers": 1,
+          "unmatched_home_team:Cardiff City": 1,
+          "unmatched_home_team:Charlton Athletic": 1,
+          "unmatched_home_team:Derby County": 1,
+          "unmatched_home_team:Preston North End": 1,
+          "unmatched_home_team:Queens Park Rangers": 1,
+          "unmatched_home_team:West Bromwich Albion": 1
+        }
+      },
+      "after": {
+        "total": 12,
+        "identity_ready": 12,
+        "elo_ready": 12,
+        "dixon_coles_history_ready": 12,
+        "reasons": {
+          "ready_for_model_attempt": 12
+        }
+      },
+      "before_original_history": {
+        "total": 12,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Birmingham City": 1,
+          "unmatched_home_team:Blackburn Rovers": 1,
+          "unmatched_home_team:Bristol City": 1,
+          "unmatched_home_team:Cardiff City": 1,
+          "unmatched_home_team:Charlton Athletic": 1,
+          "unmatched_home_team:Derby County": 1,
+          "unmatched_home_team:Portsmouth": 1,
+          "unmatched_home_team:Preston North End": 1,
+          "unmatched_home_team:Queens Park Rangers": 1,
+          "unmatched_home_team:Watford": 1,
+          "unmatched_home_team:West Bromwich Albion": 1,
+          "unmatched_home_team:Wrexham": 1
+        }
+      },
+      "identity_mapping_delta": 11,
+      "elo_ready_delta": 11
+    },
+    {
+      "league_id": "l_4FPF2L",
+      "raw_labels": [
+        "Division Profesional"
+      ],
+      "canonical_leagues": [
+        "Division Profesional"
+      ],
+      "countries": [
+        "PRY"
+      ],
+      "total": 4,
+      "fixture_ids": [
+        "m_4XRIJ5",
+        "m_1bgBKe",
+        "m_3NPhFN",
+        "m_29mLqI"
+      ],
+      "before_same_history": {
+        "total": 4,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Cerro Porteño": 1,
+          "unmatched_home_team:Club Guaraní": 1,
+          "unmatched_home_team:Libertad": 1,
+          "unmatched_home_team:Sportivo Trinidense": 1
+        }
+      },
+      "after": {
+        "total": 4,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Cerro Porteño": 1,
+          "unmatched_home_team:Club Guaraní": 1,
+          "unmatched_home_team:Libertad": 1,
+          "unmatched_home_team:Sportivo Trinidense": 1
+        }
+      },
+      "before_original_history": {
+        "total": 4,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Cerro Porteño": 1,
+          "unmatched_home_team:Club Guaraní": 1,
+          "unmatched_home_team:Libertad": 1,
+          "unmatched_home_team:Sportivo Trinidense": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_4H43wr",
+      "raw_labels": [
+        "Eredivisie"
+      ],
+      "canonical_leagues": [
+        "Eredivisie"
+      ],
+      "countries": [
+        "NLD"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_1qdH6l",
+        "m_0gM11h",
+        "m_3Emnav",
+        "m_3sUZnn",
+        "m_4Uu1Th",
+        "m_3BUB1s",
+        "m_49zUS6",
+        "m_4cJyXq",
+        "m_1coZrO"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 2,
+        "elo_ready": 2,
+        "dixon_coles_history_ready": 2,
+        "reasons": {
+          "ready_for_model_attempt": 2,
+          "unmatched_away_team:FC Groningen": 1,
+          "unmatched_away_team:PEC Zwolle": 1,
+          "unmatched_home_team:ADO Den Haag": 1,
+          "unmatched_home_team:FC Twente": 1,
+          "unmatched_home_team:FC Utrecht": 1,
+          "unmatched_home_team:Fortuna Sittard": 1,
+          "unmatched_home_team:SC Heerenveen": 1
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:ADO Den Haag": 1,
+          "unmatched_home_team:AZ Alkmaar": 1,
+          "unmatched_home_team:Cambuur": 1,
+          "unmatched_home_team:Excelsior": 1,
+          "unmatched_home_team:FC Twente": 1,
+          "unmatched_home_team:FC Utrecht": 1,
+          "unmatched_home_team:Fortuna Sittard": 1,
+          "unmatched_home_team:SC Heerenveen": 1,
+          "unmatched_home_team:Willem II": 1
+        }
+      },
+      "identity_mapping_delta": 7,
+      "elo_ready_delta": 7
+    },
+    {
+      "league_id": "l_4MPd7x",
+      "raw_labels": [
+        "A-League"
+      ],
+      "canonical_leagues": [
+        "A-League"
+      ],
+      "countries": [
+        "AUS"
+      ],
+      "total": 5,
+      "fixture_ids": [
+        "m_2rhmgG",
+        "m_35bgv6",
+        "m_1VBLD9",
+        "m_25ZpE2",
+        "m_1FKl4T"
+      ],
+      "before_same_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Adelaide United": 1,
+          "unmatched_home_team:Auckland FC": 1,
+          "unmatched_home_team:Macarthur FC": 1,
+          "unmatched_home_team:Melbourne City FC": 1,
+          "unmatched_home_team:Perth Glory": 1
+        }
+      },
+      "after": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Adelaide United": 1,
+          "unmatched_home_team:Auckland FC": 1,
+          "unmatched_home_team:Macarthur FC": 1,
+          "unmatched_home_team:Melbourne City FC": 1,
+          "unmatched_home_team:Perth Glory": 1
+        }
+      },
+      "before_original_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Adelaide United": 1,
+          "unmatched_home_team:Auckland FC": 1,
+          "unmatched_home_team:Macarthur FC": 1,
+          "unmatched_home_team:Melbourne City FC": 1,
+          "unmatched_home_team:Perth Glory": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_4MU9Yh",
+      "raw_labels": [
+        "1. liga"
+      ],
+      "canonical_leagues": [
+        "1. liga"
+      ],
+      "countries": [
+        "SVK"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_1J9HR6",
+        "m_1XPRIH",
+        "m_3LKBom",
+        "m_29FEEz",
+        "m_1QpnhS",
+        "m_207pqj"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:DAC 1904": 1,
+          "unmatched_home_team:Dukla Banská Bystrica": 1,
+          "unmatched_home_team:Komárno": 1,
+          "unmatched_home_team:Podbrezová": 1,
+          "unmatched_home_team:Skalica": 1,
+          "unmatched_home_team:Slovan Bratislava": 1
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:DAC 1904": 1,
+          "unmatched_home_team:Dukla Banská Bystrica": 1,
+          "unmatched_home_team:Komárno": 1,
+          "unmatched_home_team:Podbrezová": 1,
+          "unmatched_home_team:Skalica": 1,
+          "unmatched_home_team:Slovan Bratislava": 1
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:DAC 1904": 1,
+          "unmatched_home_team:Dukla Banská Bystrica": 1,
+          "unmatched_home_team:Komárno": 1,
+          "unmatched_home_team:Podbrezová": 1,
+          "unmatched_home_team:Skalica": 1,
+          "unmatched_home_team:Slovan Bratislava": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_4QexZg",
+      "raw_labels": [
+        "Liga Portugal"
+      ],
+      "canonical_leagues": [
+        "Primeira Liga"
+      ],
+      "countries": [
+        "PRT"
+      ],
+      "total": 9,
+      "fixture_ids": [
+        "m_0y9oRC",
+        "m_3B2IG6",
+        "m_1Wfs3N",
+        "m_3sV45E",
+        "m_1qZoHc",
+        "m_3jwqyI",
+        "m_0zsRcu",
+        "m_0FPJr3",
+        "m_0KAwlT"
+      ],
+      "before_same_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Alverca": 1,
+          "unmatched_home_team:Estoril": 1,
+          "unmatched_home_team:Estrela da Amadora": 1,
+          "unmatched_home_team:Famalicão": 1,
+          "unmatched_home_team:Nacional": 1,
+          "unmatched_home_team:Rio Ave": 1,
+          "unmatched_home_team:Santa Clara": 1,
+          "unmatched_home_team:Sporting CP": 1,
+          "unmatched_home_team:Vitória de Guimarães": 1
+        }
+      },
+      "after": {
+        "total": 9,
+        "identity_ready": 9,
+        "elo_ready": 9,
+        "dixon_coles_history_ready": 9,
+        "reasons": {
+          "ready_for_model_attempt": 9
+        }
+      },
+      "before_original_history": {
+        "total": 9,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Alverca": 1,
+          "unmatched_home_team:Estoril": 1,
+          "unmatched_home_team:Estrela da Amadora": 1,
+          "unmatched_home_team:Famalicão": 1,
+          "unmatched_home_team:Nacional": 1,
+          "unmatched_home_team:Rio Ave": 1,
+          "unmatched_home_team:Santa Clara": 1,
+          "unmatched_home_team:Sporting CP": 1,
+          "unmatched_home_team:Vitória de Guimarães": 1
+        }
+      },
+      "identity_mapping_delta": 9,
+      "elo_ready_delta": 9
+    },
+    {
+      "league_id": "l_4WFCIZ",
+      "raw_labels": [
+        "Premier League"
+      ],
+      "canonical_leagues": [
+        "Premier League"
+      ],
+      "countries": [
+        "ENG"
+      ],
+      "total": 10,
+      "fixture_ids": [
+        "m_0ZFoVd",
+        "m_4L4kXH",
+        "m_0D9KSt",
+        "m_2UcMLw",
+        "m_2cf00t",
+        "m_0CUyUv",
+        "m_0sKilh",
+        "m_2hOf3a",
+        "m_4Ct268",
+        "m_1hg20L"
+      ],
+      "before_same_history": {
+        "total": 10,
+        "identity_ready": 7,
+        "elo_ready": 7,
+        "dixon_coles_history_ready": 7,
+        "reasons": {
+          "ready_for_model_attempt": 7,
+          "unmatched_away_team:Coventry City": 1,
+          "unmatched_away_team:Hull City": 1,
+          "unmatched_home_team:Nottingham Forest": 1
+        }
+      },
+      "after": {
+        "total": 10,
+        "identity_ready": 10,
+        "elo_ready": 10,
+        "dixon_coles_history_ready": 10,
+        "reasons": {
+          "ready_for_model_attempt": 10
+        }
+      },
+      "before_original_history": {
+        "total": 10,
+        "identity_ready": 7,
+        "elo_ready": 7,
+        "dixon_coles_history_ready": 7,
+        "reasons": {
+          "ready_for_model_attempt": 7,
+          "unmatched_away_team:Coventry City": 1,
+          "unmatched_away_team:Hull City": 1,
+          "unmatched_home_team:Nottingham Forest": 1
+        }
+      },
+      "identity_mapping_delta": 3,
+      "elo_ready_delta": 3
+    },
+    {
+      "league_id": "l_4auCPk",
+      "raw_labels": [
+        "Challenge League"
+      ],
+      "canonical_leagues": [
+        "Swiss Challenge League"
+      ],
+      "countries": [
+        "CHE"
+      ],
+      "total": 5,
+      "fixture_ids": [
+        "m_49izGb",
+        "m_4SlS1U",
+        "m_0Bu0f7",
+        "m_4LVb4u",
+        "m_2Bmm59"
+      ],
+      "before_same_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Aarau": 1,
+          "unmatched_home_team:Kriens": 1,
+          "unmatched_home_team:Stade Nyonnais": 1,
+          "unmatched_home_team:Winterthur": 1,
+          "unmatched_home_team:Yverdon": 1
+        }
+      },
+      "after": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Aarau": 1,
+          "unmatched_home_team:Kriens": 1,
+          "unmatched_home_team:Stade Nyonnais": 1,
+          "unmatched_home_team:Winterthur": 1,
+          "unmatched_home_team:Yverdon": 1
+        }
+      },
+      "before_original_history": {
+        "total": 5,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Aarau": 1,
+          "unmatched_home_team:Kriens": 1,
+          "unmatched_home_team:Stade Nyonnais": 1,
+          "unmatched_home_team:Winterthur": 1,
+          "unmatched_home_team:Yverdon": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    },
+    {
+      "league_id": "l_4d6Bwl",
+      "raw_labels": [
+        "Super League"
+      ],
+      "canonical_leagues": [
+        "Swiss Super League"
+      ],
+      "countries": [
+        "CHE"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_0rFGGy",
+        "m_1rRHQy",
+        "m_2nESWx",
+        "m_2NMuuL",
+        "m_2jXVcJ",
+        "m_3ObKf6"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:FC Vaduz": 1,
+          "unmatched_home_team:Grasshopper": 1,
+          "unmatched_home_team:Luzern": 1,
+          "unmatched_home_team:Servette": 1,
+          "unmatched_home_team:St. Gallen": 1,
+          "unmatched_home_team:Thun": 1
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 6,
+        "elo_ready": 6,
+        "dixon_coles_history_ready": 6,
+        "reasons": {
+          "ready_for_model_attempt": 6
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:FC Vaduz": 1,
+          "unmatched_home_team:Grasshopper": 1,
+          "unmatched_home_team:Luzern": 1,
+          "unmatched_home_team:Servette": 1,
+          "unmatched_home_team:St. Gallen": 1,
+          "unmatched_home_team:Thun": 1
+        }
+      },
+      "identity_mapping_delta": 6,
+      "elo_ready_delta": 6
+    },
+    {
+      "league_id": "l_4dzm4e",
+      "raw_labels": [
+        "Primera Division"
+      ],
+      "canonical_leagues": [
+        "Primera Division"
+      ],
+      "countries": [
+        "BOL"
+      ],
+      "total": 6,
+      "fixture_ids": [
+        "m_1eLmmn",
+        "m_3cHWog",
+        "m_4BjB2p",
+        "m_1e814v",
+        "m_1pFzg8",
+        "m_3XA1RL"
+      ],
+      "before_same_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Always Ready": 1,
+          "unmatched_home_team:Bolívar": 1,
+          "unmatched_home_team:Guabirá": 1,
+          "unmatched_home_team:Gualberto Villarroel SJ": 1,
+          "unmatched_home_team:Independiente": 1,
+          "unmatched_home_team:Nacional Potosí": 1
+        }
+      },
+      "after": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Always Ready": 1,
+          "unmatched_home_team:Bolívar": 1,
+          "unmatched_home_team:Guabirá": 1,
+          "unmatched_home_team:Gualberto Villarroel SJ": 1,
+          "unmatched_home_team:Independiente": 1,
+          "unmatched_home_team:Nacional Potosí": 1
+        }
+      },
+      "before_original_history": {
+        "total": 6,
+        "identity_ready": 0,
+        "elo_ready": 0,
+        "dixon_coles_history_ready": 0,
+        "reasons": {
+          "unmatched_home_team:Always Ready": 1,
+          "unmatched_home_team:Bolívar": 1,
+          "unmatched_home_team:Guabirá": 1,
+          "unmatched_home_team:Gualberto Villarroel SJ": 1,
+          "unmatched_home_team:Independiente": 1,
+          "unmatched_home_team:Nacional Potosí": 1
+        }
+      },
+      "identity_mapping_delta": 0,
+      "elo_ready_delta": 0
+    }
+  ],
+  "interpretation": {
+    "before_same_history": "Original code and repaired code receive identical eligible expanded history.",
+    "before_original_history": "Optional old ingestion scope; use to measure the combined ingestion and identity change.",
+    "identity_ready": "Both team identities resolve uniquely within a verified competition.",
+    "elo_ready": "Identity and existing minimum team-history gates passed.",
+    "dixon_coles_history_ready": "Identity and league-history gate passed; not evidence that model fitting succeeds.",
+    "probabilities": "No probabilities are generated by this comparison.",
+    "archived_runs": "Older archived coverage has different code or inputs and is not this change's baseline."
+  },
+  "production_multimodel_unchanged": true,
+  "baseline_commit": "f609427e07ea9e9e944a61c3063ab18a11f3b897",
+  "input_sha256": {
+    "queue": "0b4756f342423ee178743f0729af53ca7f675e6a6a2d5822ebeae50b1ad6a140",
+    "history": "c123d050dc1dc19921a2c1f1267629a4c07caacbdb423045fa3db6c499d5b20b",
+    "events": "b762ae2550c4ffdfcf68aa16fd297ae585716bcdca8d73d81b054ccc9ff6451e",
+    "before_history": "382e81eed3fd84d74fde4c99c4272923b5c5babb2eff680589530b200a0ac652"
+  },
+  "audit_files": {
+    "before_same_history": "coverage_comparison_final.before_same_history.json",
+    "after": "coverage_comparison_final.after.json",
+    "before_original_history": "coverage_comparison_final.before_original_history.json"
+  }
+}
