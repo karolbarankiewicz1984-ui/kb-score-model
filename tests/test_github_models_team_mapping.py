@@ -12,7 +12,7 @@ class TeamMappingTests(unittest.TestCase):
 
     def test_no_fuzzy_guessing(self):
         history = [dict(league="Premier League", home="Man United", away="Chelsea")]
-        fixture = dict(fixture_id="m1", league="Premier League",
+        fixture = dict(fixture_id="m1", league="Premier League", country="England",
                        home="Unknown FC", away="Chelsea")
         with self.assertRaisesRegex(ValueError, "unmatched_home_team"):
             resolve(fixture, history)
