@@ -31,10 +31,12 @@ def normalize_dixon_probabilities(result):
     return [p / total for p in raw]
 
 def forecast_dixon_coles(history, fixture, *, frozen_at_utc, model_version,
-                         min_matches=30, xg_weight=1.0):
+                         min_matches=30, xg_weight=1.0, fitted_cache=None):
     """Fit solely on fully completed, published pre-freeze matches of ONE league.
 
     xg_weight=1 uses goals only; never infer historical xG availability.
+    An optional caller-owned cache reuses only the exact same verified fit.
+    Upstream predict() reads fitted parameters without changing model state.
     """
     freeze = _time(frozen_at_utc)
     kickoff = _time(fixture["kickoff_utc"])
@@ -72,7 +74,6 @@ def forecast_dixon_coles(history, fixture, *, frozen_at_utc, model_version,
         import dixon_coles as dc
     except ImportError as exc:
         raise RuntimeError("optional_dixon_coles_dependency_not_installed") from exc
-    model = dc.DixonColesModel(seed=42, xg_weight=xg_weight)
     inputs = dict(home_teams=np.array([h["home"] for h in accepted]),
                   away_teams=np.array([h["away"] for h in accepted]),
                   home_goals=np.array([h["home_goals"] for h in accepted], dtype=int),
@@ -81,7 +82,24 @@ def forecast_dixon_coles(history, fixture, *, frozen_at_utc, model_version,
     if xg_weight != 1.0:
         inputs.update(home_xg=np.array([float(h["home_xg"]) for h in accepted]),
                       away_xg=np.array([float(h["away_xg"]) for h in accepted]))
-    model.fit(**inputs)
+    cache_key = None
+    if fitted_cache is not None:
+        # Key the complete ordered fit inputs, rather than arbitrary source
+        # metadata that the model does not read. Normalized availability bounds
+        # also bind the provenance; every temporal/quality guard above still
+        # executes on cache hits. Dependency identity prevents cross-code reuse.
+        availability = tuple((_time(h["completed_at_utc"]).isoformat(),
+                              _time(h["published_at_utc"]).isoformat(),
+                              _time(h["xg_published_at_utc"]).isoformat() if xg_weight != 1.0 else None)
+                             for h in accepted)
+        arrays = tuple((name, value.dtype.str, value.shape, value.tobytes())
+                       for name, value in sorted(inputs.items()))
+        cache_key = (dc.DixonColesModel, league, freeze.isoformat(), model_version,
+                     min_matches, xg_weight, 42, availability, arrays)
+    model = fitted_cache.get(cache_key) if cache_key is not None else None
+    if model is None:
+        model = dc.DixonColesModel(seed=42, xg_weight=xg_weight)
+        model.fit(**inputs)
     result = model.predict(fixture["home"], fixture["away"])
     # Upstream predict() rounds to 4 decimals; normalize to satisfy strict 1e-6 contract.
     probs = normalize_dixon_probabilities(result)
@@ -89,4 +107,8 @@ def forecast_dixon_coles(history, fixture, *, frozen_at_utc, model_version,
                       kickoff_utc=fixture["kickoff_utc"], frozen_at_utc=frozen_at_utc,
                       model_id="callumfm-dixon-coles", model_version=model_version,
                       p_home=probs[0], p_draw=probs[1], p_away=probs[2])
-    return validate_shadow_prediction(prediction, as_of=frozen_at_utc)
+    validated = validate_shadow_prediction(prediction, as_of=frozen_at_utc)
+    if cache_key is not None:
+        # Failed fits and invalid probability vectors never enter the cache.
+        fitted_cache[cache_key] = model
+    return validated

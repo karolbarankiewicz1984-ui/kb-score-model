@@ -16,6 +16,9 @@ def run(queue, history, *, as_of_utc):
     eligible = eligible_history(history, frozen_at_utc=as_of_utc)
     fixture_index(queue)
     results, blockers = [], []
+    # Fitted state belongs only to this invocation and this observed history.
+    # Different fixtures of one league can share a fit, never a prediction.
+    fitted_cache = {}
     for fixture in queue["fixtures"]:
         try:
             if utc(fixture["kickoff_utc"]) <= cutoff:
@@ -35,7 +38,8 @@ def run(queue, history, *, as_of_utc):
                 if model == "elo":
                     forecast = predict_elo(eligible, mapped, frozen_at_utc=as_of_utc)
                 else:
-                    forecast = predict_dixon_coles(eligible, mapped, frozen_at_utc=as_of_utc)
+                    forecast = predict_dixon_coles(eligible, mapped, frozen_at_utc=as_of_utc,
+                                                  fitted_cache=fitted_cache)
                 probability_vector(forecast)
                 forecast = dict(forecast, resolved_identity={k: mapped[k]
                     for k in ("league", "country_code", "league_id", "home", "away",

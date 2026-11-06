@@ -139,6 +139,17 @@ _COUNTRIES = {
     "FIN": ("FIN", "FI", "Finland"), "IRL": ("IRL", "IE", "Ireland", "Republic of Ireland"),
     "NOR": ("NOR", "NO", "Norway"), "CHE": ("CHE", "SUI", "CH", "Switzerland"),
 }
+# Additional country codes actually observed in the 65 live league metadata
+# receipts from run 42189744814. FIFA spellings normalize to ISO alpha-3; this
+# recognizes metadata only and does not authorize any league ID or add history.
+_COUNTRIES.update({
+    "AUS": ("AUS",), "BOL": ("BOL",), "COL": ("COL",),
+    "HRV": ("HRV", "CRO"), "CHL": ("CHL", "CHI"), "PRY": ("PRY", "PAR"),
+    "SAU": ("SAU", "KSA"), "ARE": ("ARE", "UAE"), "KOR": ("KOR",),
+    "THA": ("THA",), "IND": ("IND",), "SRB": ("SRB",),
+    "CZE": ("CZE",), "SVK": ("SVK",), "ISR": ("ISR",), "QAT": ("QAT",),
+    "PER": ("PER",), "VEN": ("VEN",), "LVA": ("LVA",),
+})
 COUNTRY_ALIASES = {_key(value): country for country, values in _COUNTRIES.items() for value in values}
 
 
