@@ -2,6 +2,7 @@
 import math
 from datetime import datetime
 from github_models.team_mapping import resolve
+from github_models.competition_identity import canonicalize
 
 THRESHOLDS = {"goals": (1.5, 2.5, 3.5), "corners": (7.5, 8.5, 9.5),
               "cards": (2.5, 3.5, 4.5), "fouls": (19.5, 22.5, 25.5)}
@@ -27,7 +28,7 @@ def run(queue, history, event_history, as_of_utc):
         if kick <= now:
             continue
         try:
-            mapped = resolve(fixture, history)
+            mapped = resolve(canonicalize(fixture), history)
         except (ValueError, KeyError, TypeError) as exc:
             for market in THRESHOLDS:
                 blockers.append({"fixture_id":fixture["fixture_id"],"market":market,"reason":"team_mapping_unverified"})
