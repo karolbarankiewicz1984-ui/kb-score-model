@@ -1,0 +1,86 @@
+name: Isolated MULTIMODEL V2 daily research audit
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/github-models-v2-daily-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  research-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/multimodel-v2
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated dependencies
+        run: |
+          python -m pip install -r github_models/requirements.txt
+          sudo apt-get update
+          sudo apt-get install -y fonts-dejavu-core
+      - name: Collect independent fixtures and observed results
+        env:
+          PITCHAPI_API_KEY: ${{ secrets.PITCHAPI_API_KEY }}
+        run: |
+          python -B -m github_models.pitchapi_fixtures --output-dir research_inputs/pitchapi
+          python -B -m github_models.public_results
+          python -B -m github_models.collect_events
+      - name: Freeze the input cutoff
+        run: |
+          python - <<'PY'
+          import os
+          from datetime import datetime, timezone
+          with open(os.environ["GITHUB_ENV"], "a") as output:
+              output.write("FROZEN_AT="+datetime.now(timezone.utc).isoformat()+"\n")
+          PY
+      - name: Generate independent forecasts for upcoming fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          python -B -m github_models.daily_queue --snapshot-dir research_inputs/pitchapi --as-of "$FROZEN_AT"
+          python -B -m github_models.coverage_audit --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --output "reports/github_models/coverage/$DAY.json" --as-of "$FROZEN_AT"
+          python -B -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$FROZEN_AT"
+          python -B -m github_models.market_runner --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/markets/$DAY.json"
+      - name: Read immutable research archives
+        uses: actions/checkout@v4
+        with:
+          ref: research/github-models-frozen
+          path: research_archive
+          persist-credentials: false
+      - name: Settle previous predictions and audit A/B/C
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          python -B -m github_models.daily_settlement --archive-dir research_archive --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/settlement.json"
+          python -B -m github_models.abc_audit_runner --archive-dir research_archive --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/filters/AUDIT_$DAY.json"
+          python -B -m github_models.abc_audit_pdf --input "reports/github_models/filters/AUDIT_$DAY.json" --output "reports/github_models/pdf/AUDIT_$DAY.pdf"
+          python -B -m github_models.abc_report --predictions "reports/github_models/predictions/$DAY.json" --events "reports/github_models/markets/$DAY.json" --queue "reports/github_models/queues/$DAY.json" --output-json "reports/github_models/filters/ABC_$DAY.json" --output-pdf "reports/github_models/pdf/ABC_$DAY.pdf"
+      - name: Archive outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-v2-daily-research-${{ github.run_id }}
+          path: |
+            reports/github_models/queues/*.json
+            reports/github_models/predictions/*.json
+            reports/github_models/markets/*.json
+            reports/github_models/coverage/*.json
+            reports/github_models/filters/*.json
+            reports/github_models/pdf/*.pdf
+            reports/github_models/settlement.json
+            data/github_models/verified_results.json
+            data/github_models/verified_events.json
+          retention-days: 30
+          if-no-files-found: error
