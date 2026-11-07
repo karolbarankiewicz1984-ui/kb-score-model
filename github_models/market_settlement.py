@@ -8,6 +8,7 @@ def settle_markets(markets, queue, history, event_history, as_of_utc):
     now = utc(as_of_utc)
     fixtures = fixture_index(queue)
     results = []
+    matches_cache = {}
     for p in markets.get("markets", []):
         fixture = fixtures[str(p["fixture_id"])]
         kickoff, frozen = utc(fixture["kickoff_utc"]), utc(p["frozen_at_utc"])
@@ -31,8 +32,17 @@ def settle_markets(markets, queue, history, event_history, as_of_utc):
             continue
         pool = history if p["market"] == "goals" else event_history
         try:
-            candidates = matching_outcomes(fixture, pool, as_of_utc=as_of_utc,
-                                            resolved_identity=p.get("resolved_identity"))
+            cache_key = (str(p["fixture_id"]), p["market"], repr(p.get("resolved_identity")))
+            if cache_key not in matches_cache:
+                try:
+                    matches_cache[cache_key] = (matching_outcomes(
+                        fixture, pool, as_of_utc=as_of_utc,
+                        resolved_identity=p.get("resolved_identity")), None)
+                except (ValueError, KeyError, TypeError, AttributeError) as error:
+                    matches_cache[cache_key] = (None, error)
+            candidates, error = matches_cache[cache_key]
+            if error is not None:
+                raise error
             if len(candidates) == 1:
                 outcome = candidates[0]
                 values = ([outcome["home_goals"], outcome["away_goals"]] if p["market"] == "goals"
