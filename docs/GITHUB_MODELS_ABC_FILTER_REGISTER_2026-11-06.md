@@ -57,3 +57,5 @@ Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 be
 **Bramka weryfikacyjna:** nowy układ jest zapisany w kodzie; testy jednostkowe i pełny przebieg dzienny na nowym commicie wymagają osobnego potwierdzenia. Nie uznawać statusu CI SUCCESS bez dowodu.
 
 - Dodano lekki workflow kontroli PDF: `.github/workflows/github-models-abc-pdf-check.yml` (tylko gałąź badawcza, smoke test generatorów). Jego wynik nie został jeszcze potwierdzony; nie przypisywać PASS przed odczytem GitHub Actions.
+
+**Potwierdzenie testu (2026-11-07):** GitHub Actions `42397986020` — `GitHub Models ABC PDF regression (research branch)`, wynik **SUCCESS**, commit `aefb5f4586c4b8a2fa8db23afd857e7567fcb520`. Testy obejmują renderowanie A/B/C i audytu na danych syntetycznych oraz podstawowe zabezpieczenia formatowania; nie stanowią dowodu zakończenia pełnego dziennego przebiegu na najnowszym kodzie. Raport demonstracyjny z archiwum `42365229210` odtworzony lokalnie ma 408 meczów, A=815, B=538, C=295 (odrębny przebieg od wcześniejszego PDF 413/819/542/297).
