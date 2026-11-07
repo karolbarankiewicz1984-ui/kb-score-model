@@ -196,3 +196,22 @@ ALIASES_EXTRA.update({
     "eliteserien": {"hamarkameratene": "hamkam", "kfum": "kfum oslo"},
     "swiss super league": {"fc vaduz": "vaduz", "fc zurich": "zurich", "grasshopper": "grasshoppers"},
 })
+
+# API-Football final-result labels observed on 2026-11-07 (fixture date
+# 2026-11-06). Each target was checked against ONE existing literal club
+# identity in its reviewed historical league. No fuzzy matching at runtime.
+ALIASES_EXTRA["romanian superliga"].update({
+    "petrolul ploiesti": "petrolul", "arges pitesti": "fc arges",
+})
+ALIASES_EXTRA["russian premier league"].update({
+    "lokomotiv": "lokomotiv moscow",
+})
+ALIASES_EXTRA["2 bundesliga"].update({
+    "spvgg greuther furth": "greuther furth",
+})
+ALIASES_EXTRA["allsvenskan"].update({"hammarby ff": "hammarby"})
+ALIASES_EXTRA["austrian bundesliga"].update({"rapid vienna": "sk rapid"})
+ALIASES_EXTRA["ligue 2"].update({"red star fc 93": "red star"})
+ALIASES_EXTRA["ekstraklasa"].update({"cracovia krakow": "cracovia"})
+# Swiss Challenge League has no comparable reviewed historical candidate
+# in this source set; SC Kriens / FC Aarau / Stade Nyonnais remain blocked.
