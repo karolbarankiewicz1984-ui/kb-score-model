@@ -43,3 +43,15 @@ Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 be
 - Wystąpiły błędy HTTP w odpytywaniu 2026-11-05 i części statystyk; te dane pozostają nierozliczone. 316 lig/rekordów nie przeszło rygorystycznego zatwierdzenia tożsamości rozgrywek.
 - Dodano później osiem nowych, ligowo ograniczonych aliasów po sprawdzeniu dosłownego historycznego odpowiednika. Nie dopuszczono Swiss Challenge League bez historii. Te aliasy nie uczestniczyły w powyższym wyniku.
 - Osobny szybki test zakończony SUCCESS; pełny zaktualizowany dzienny przebieg pozostaje do odrębnego potwierdzenia. Automatyczne zmiany progów zabronione.
+
+
+## 2026-11-07 — ujednolicenie raportów PDF A/B/C (wyłącznie prezentacja)
+- Nowy wspólny standard graficzny: `github_models/abc_pdf_style.py` (DejaVu Sans, polskie znaki, A4, nagłówki, tabele, paginacja, stopka).
+- `github_models/abc_report.py`: każdy codzienny PDF ma te same sekcje: informacja o dacie i cutoff, porównanie A/B/C, trzy czytelne wykazy rynków, krótki przekrój do 3 najwyższych prognoz na rynek w każdym wariancie oraz ograniczenia.
+- Pełna lista kandydatów zachowana w `ABC_YYYY-MM-DD.json`. PDF to przegląd: selekcja wyświetlanych pozycji nie zmienia progów ani listy JSON.
+- `github_models/abc_audit_pdf.py`: ten sam wygląd, podsumowanie rozliczeń A/B/C, Brier i log loss, rozliczenia rynków i jawne powody nierozliczenia.
+- Brak zweryfikowanego kursu jest oznaczony jako `brak`; nie pobiera się ani nie wymyśla kursów. Warunek przyszłej selekcji bukmacherskiej: tylko kurs exact-market **>= 1,20**, potwierdzony przed meczem.
+- Wprowadzono `tests/test_github_models_abc_pdf.py` (bezpieczne prezentowanie braków, nazwy rynków, zachowanie pełnego JSON, kontrola wygenerowania i odczytu PDF).
+- **Brak ingerencji w modele, ich wagi, progi 70/75/80%, źródła, archiwa, rozliczanie i workflow**. Gałąź wyłącznie `codex/multimodel-v2`; brak merge do `main`.
+
+**Bramka weryfikacyjna:** nowy układ jest zapisany w kodzie; testy jednostkowe i pełny przebieg dzienny na nowym commicie wymagają osobnego potwierdzenia. Nie uznawać statusu CI SUCCESS bez dowodu.
