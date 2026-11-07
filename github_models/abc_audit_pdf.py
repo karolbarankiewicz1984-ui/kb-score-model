@@ -13,6 +13,8 @@ def build(data, output):
     lines=["MULTIMODEL V2 — audyt A/B/C",
            "UTC: "+str(data["as_of_utc"]),
            "Archiwa: "+str(data["archives_processed"]),
+           "Unikalne propozycje: "+str(data.get("unique_candidate_records","nieustalone")),
+           "Powtórzone migawki pominięte: "+str(data.get("duplicate_snapshots_suppressed",0)),
            "Niezweryfikowane wyniki nie są nietrafieniami."]
     for row in data["summary"]:
         rate=row["hit_rate"]
@@ -20,6 +22,8 @@ def build(data, output):
                      (row["variant"],row["market"],row["settled"],row["hits"],
                       "brak" if rate is None else "%.1f%%"%(rate*100),
                       str(row["brier"]),str(row["log_loss"])))
+    for reason,count in sorted(data.get("unresolved_reasons",{}).items(),key=lambda x:-x[1])[:8]:
+        lines.append("Nierozliczone — "+str(reason)+": "+str(count))
     lines.append("Bez automatycznej zmiany progów; weryfikacja po 100–150 unikalnych meczach.")
     Path(output).parent.mkdir(parents=True,exist_ok=True)
     SimpleDocTemplate(output).build([Paragraph(line,style) for line in lines])
