@@ -62,19 +62,22 @@ jobs:
           ref: research/github-models-frozen
           path: research_archive
           persist-credentials: false
-      - name: Observe API-Football final scores and bounded event statistics for settlement only
-        env:
-          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+      - name: Prepare independently verified public results for settlement (no API-Football)
         shell: bash
         run: |
           set -euo pipefail
-          python -B -m github_models.fast_final_collect \
-            --history-input data/github_models/verified_results.json \
-            --events-input data/github_models/verified_events.json \
-            --history-output data/github_models/settlement_verified_results.json \
-            --events-output data/github_models/settlement_verified_events.json \
-            --manifest reports/github_models/api_final_manifest.json \
-            --days-back 2 --max-stats 24
+          test -s data/github_models/verified_results.json
+          test -s data/github_models/verified_events.json
+          cp data/github_models/verified_results.json data/github_models/settlement_verified_results.json
+          cp data/github_models/verified_events.json data/github_models/settlement_verified_events.json
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          manifest = {"schema":"v2-postmatch-public-verified-v1","status":"ok","provider":"football-data.co.uk and configured public CSV sources","api_football_used":False,"note":"Only independently collected observed results/events; missing market statistics remain missing, never inferred.","observed_at_utc":datetime.now(timezone.utc).isoformat()}
+          Path("reports/github_models/api_final_manifest.json").parent.mkdir(parents=True,exist_ok=True)
+          Path("reports/github_models/api_final_manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\\n",encoding="utf-8")
+          PY
       - name: Set post-result audit cutoff
         shell: bash
         run: echo "AUDIT_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
