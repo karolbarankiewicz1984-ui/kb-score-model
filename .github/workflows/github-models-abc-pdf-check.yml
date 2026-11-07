@@ -1,0 +1,34 @@
+name: GitHub Models ABC PDF regression (research branch)
+
+on:
+  push:
+    branches: [codex/multimodel-v2]
+    paths:
+      - 'github_models/abc_report.py'
+      - 'github_models/abc_audit_pdf.py'
+      - 'github_models/abc_pdf_style.py'
+      - 'tests/test_github_models_abc_pdf.py'
+      - '.github/workflows/github-models-abc-pdf-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  abc-pdf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install minimal PDF dependencies
+        run: |
+          python -m pip install 'reportlab>=4,<5' 'PyMuPDF>=1.24.4,<2'
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-dejavu-core
+      - name: Test unified A/B/C forecast and audit PDFs
+        run: python -B -m unittest discover -s tests -p 'test_github_models_abc_pdf.py' -v
