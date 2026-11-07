@@ -128,6 +128,7 @@ def settle(predictions, queue, history, as_of_utc):
     now = utc(as_of_utc)
     fixtures = fixture_index(queue)
     out = []
+    matches_cache = {}
     for p in predictions["predictions"]:
         f = fixtures[str(p["fixture_id"])]
         kick, frozen = utc(f["kickoff_utc"]), utc(p["frozen_at_utc"])
@@ -139,8 +140,17 @@ def settle(predictions, queue, history, as_of_utc):
         row = {"fixture_id": p["fixture_id"], "model_id": p["model_id"], "status": "pending"}
         if kick < now:
             try:
-                matches = matching_outcomes(f, history, as_of_utc=as_of_utc,
-                                            resolved_identity=p.get("resolved_identity"))
+                cache_key = (str(p["fixture_id"]), repr(p.get("resolved_identity")))
+                if cache_key not in matches_cache:
+                    try:
+                        matches_cache[cache_key] = (matching_outcomes(
+                            f, history, as_of_utc=as_of_utc,
+                            resolved_identity=p.get("resolved_identity")), None)
+                    except (ValueError, KeyError, TypeError, AttributeError) as error:
+                        matches_cache[cache_key] = (None, error)
+                matches, error = matches_cache[cache_key]
+                if error is not None:
+                    raise error
                 if len(matches) == 1:
                     h = matches[0]
                     if any(type(h[k]) is not int or h[k] < 0 for k in ("home_goals", "away_goals")):
