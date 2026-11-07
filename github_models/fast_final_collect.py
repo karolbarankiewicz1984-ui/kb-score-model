@@ -43,6 +43,10 @@ def collect(history,events,key,days,max_stats=24,getter=fetch):
     added_events=[]
     rejected=Counter()
     originals={}
+    previous_events={}
+    for row in events:
+        for market, counts in row.get("events",{}).items():
+            previous_events.setdefault((identity(row),market),set()).add(tuple(counts))
     for row in history:
         originals.setdefault(identity(row),set()).add((row["home_goals"],row["away_goals"]))
     already=set()
@@ -80,9 +84,19 @@ def collect(history,events,key,days,max_stats=24,getter=fetch):
                 if not counts:
                     rejected["no_verified_event_counts"]+=1
                     continue
+                filtered={}
+                for market,values in counts.items():
+                    old_values=previous_events.get((identity(row),market),set())
+                    if old_values and len(old_values)==1 and tuple(values) in old_values:
+                        continue
+                    if old_values:
+                        rejected["conflicting_provider_events_kept_for_ambiguous_review"]+=1
+                    filtered[market]=values
+                if not filtered:
+                    continue
                 now=observed()
                 new={k:row[k] for k in ("fixture_id","league","country_code","home","away","match_date","kickoff_utc","source_provider","source_record_id")}
-                new.update(completed_at_utc=now,published_at_utc=now,events=counts)
+                new.update(completed_at_utc=now,published_at_utc=now,events=filtered)
                 added_events.append(new)
             except Exception as exc:
                 rejected["statistics_"+type(exc).__name__]+=1
