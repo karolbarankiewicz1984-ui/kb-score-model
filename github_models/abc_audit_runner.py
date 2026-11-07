@@ -18,11 +18,38 @@ def run(root, history, events, as_of):
         load=lambda p:json.loads(p.read_text(encoding="utf-8"))
         rows.extend(audit(load(f),load(m),load(q),history,events,as_of))
         archives+=1
-    groups=defaultdict(list)
+    # Repeated snapshots of the same match/line/selection are not independent
+    # observations. Retain the earliest archived candidate; fail closed if
+    # archived duplicates disagree about the actual outcome.
+    unique={}
+    duplicates=0
+    revisions=0
+    outcome_conflicts=0
     for row in rows:
+        key=(row["variant"],str(row["fixture_id"]),row["market"],
+             row["selection"],row.get("line"))
+        if key not in unique:
+            unique[key]=dict(row)
+            continue
+        duplicates+=1
+        earlier=unique[key]
+        if abs(earlier["probability"]-row["probability"])>1e-9:
+            revisions+=1
+        if earlier["status"]=="settled" and row["status"]=="settled" and earlier["hit"]!=row["hit"]:
+            earlier.update(status="unresolved",hit=None,reason="conflicting_archive_outcomes")
+            outcome_conflicts+=1
+    groups=defaultdict(list)
+    reasons=defaultdict(int)
+    for row in unique.values():
         groups[(row["variant"],"all")].append(row)
         groups[(row["variant"],row["market"])].append(row)
-    return dict(schema="abc-audit-v1",as_of_utc=as_of,archives_processed=archives,
+        if row["status"]!="settled":
+            reasons[row.get("reason") or "unexplained_pending"]+=1
+    return dict(schema="abc-audit-v2",as_of_utc=as_of,archives_processed=archives,
+        forecast_records=len(rows),unique_candidate_records=len(unique),
+        duplicate_snapshots_suppressed=duplicates,probability_revisions_observed=revisions,
+        conflicting_archive_outcomes=outcome_conflicts,
+        unresolved_reasons=dict(reasons),
         summary=[dict(variant=v,market=m,**metrics(items)) for (v,m),items in sorted(groups.items())],
         calibration="unverified",production_unchanged=True)
 
