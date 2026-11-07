@@ -59,3 +59,38 @@ Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 be
 - Dodano lekki workflow kontroli PDF: `.github/workflows/github-models-abc-pdf-check.yml` (tylko gałąź badawcza, smoke test generatorów). Jego wynik nie został jeszcze potwierdzony; nie przypisywać PASS przed odczytem GitHub Actions.
 
 **Potwierdzenie testu (2026-11-07):** GitHub Actions `42397986020` — `GitHub Models ABC PDF regression (research branch)`, wynik **SUCCESS**, commit `aefb5f4586c4b8a2fa8db23afd857e7567fcb520`. Testy obejmują renderowanie A/B/C i audytu na danych syntetycznych oraz podstawowe zabezpieczenia formatowania; nie stanowią dowodu zakończenia pełnego dziennego przebiegu na najnowszym kodzie. Raport demonstracyjny z archiwum `42365229210` odtworzony lokalnie ma 408 meczów, A=815, B=538, C=295 (odrębny przebieg od wcześniejszego PDF 413/819/542/297).
+
+## 2026-11-07 — PODSUMOWANIE DECYZJI I STAN REALIZACJI (wpis porządkujący)
+
+**Decyzja użytkownika: „Ujednolić” i „Zapisz wszystko do rejestru”.** Ten wpis jest aktualnym podsumowaniem końcowym zmian prezentacyjnych; wcześniejsze robocze uwagi „test jeszcze niepotwierdzony” pozostają historią, ale w zakresie krótkiego testu PDF zostały zastąpione poniższym potwierdzeniem. Nie nadpisuje on prognoz ani źródeł danych.
+
+### Wymagany stały format codziennego raportu A/B/C
+1. Jeden konsekwentny układ A4 we wszystkich dniach i również w PDF audytowym: DejaVu Sans, polskie opisy, tabele, sekcje, paginacja i stopka.
+2. Strona otwierająca: data, strefa Europe/Warsaw dla godziny meczu, czas zamrożenia (lub jawny brak jego potwierdzenia), liczba meczów, podsumowanie A/B/C, ostrzeżenia.
+3. Progi **A 70%, B 75%, C 80%** pozostają bez zmian. Zawsze podawać liczbę propozycji *i* liczbę unikalnych meczów; warianty są zagnieżdżone/nakładające się, dlatego nie sumować ich jako niezależnych próbek.
+4. Każdy wariant: czytelny przekrój najważniejszych propozycji w każdym rynku (maksymalnie trzy najwyższe niekalibrowane P na rynek; nie przedstawiać tego jako TOP do gry). Rynek po polsku: „Bramki/Faule/Żółte kartki/Rożne: Powyżej/Poniżej X,X” albo „Wynik meczu 1/X/2”; identyfikacja meczu, P modelu, godzina rozpoczęcia, jawny status kursu.
+5. Pełny, nieskrócony zbiór kandydatów nadal w **`ABC_YYYY-MM-DD.json`**; PDF stanowi krótkie podsumowanie do czytania. Nie wolno przez skracanie PDF modyfikować JSON, progów, wag, wyboru modelu czy archiwów.
+6. **Kursy:** nie wymyślać kursów ani bukmachera. Dopiero po potwierdzeniu dokładnego rynku, źródła, czasu notowania przed meczem i kursu **>= 1,20** można zakwalifikować propozycję do części bukmacherskiej. Bez tych dowodów oznaczać „brak” / „OBSERWACJA”; nie wyliczać nieuzasadnionego ROI, „value”, V2 Score ani pewności gry.
+7. Osobny PDF rozliczeniowy w identycznej stylistyce: A/B/C, liczby rozliczonych/trafionych/nierozliczonych, **unikalne mecze**, rynki, Brier, log loss, powody odmowy rozliczenia; brak wyniku ≠ przegrana. Zawsze pokazywać ograniczenia próby.
+8. Brak zmian w bazowym MULTIMODELU, KB Score 3.0 ani na `main`. Zmiany wyłącznie na `codex/multimodel-v2`.
+
+### Zapisane pliki i dowody
+- Wspólny szablon: `github_models/abc_pdf_style.py`.
+- Raport prognoz: `github_models/abc_report.py`.
+- Raport audytu: `github_models/abc_audit_pdf.py`.
+- Test regresyjny: `tests/test_github_models_abc_pdf.py`.
+- Wydzielony workflow testowy: `.github/workflows/github-models-abc-pdf-check.yml`.
+- Rejestr zmian: `docs/GITHUB_MODELS_ABC_FILTER_REGISTER_2026-11-06.md`.
+- **Potwierdzenie:** [GitHub Actions #42397986020](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/42397986020), status `SUCCESS`; regresja formatu PDF na danych testowych, nie pełne przebiegi modeli.
+- **Raport przykładowy:** lokalnie odtworzony `MULTIMODEL_V2_ABC_2026-11-07_UJEDNOLICONY.pdf` z archiwalnego artefaktu run `42365229210`. Nie jest to commitowany plik repo ani dowód uruchomienia nowego codziennego workflow w produkcji.
+- **Różnice danych:** wcześniejszy `ABC_2026-11-07.pdf`: 413 meczów / A 819 / B 542 / C 297; nowszy odtworzony artefakt: 408 meczów / A 815 / B 538 / C 295. Rozbieżność wynika z różnych przebiegów/artefaktów, nie należy łączyć ich w jedną próbę.
+- **Dotychczasowy audyt wyników (bez związku z korektą szablonu):** A 40/51 (78,4%, 19 meczów), B 22/27 (81,5%, 14 meczów), C 13/15 (86,7%, 7 meczów); liczebności zbyt małe do wnioskowania o trwałej skuteczności. Rynki fauli 10/10 w A na małej próbie; bramki 21/30 w A wymagają osobnej analizy. Wyniki A/B/C nakładają się.
+
+### Pozostałe bramki i dalsze działania
+- **ZROBIONE:** wdrożenie kodu i rejestru na gałęzi badawczej, ujednolicenie obu generatorów oraz test smoke/regresyjny ze statusem SUCCESS.
+- **NIEPOTWIERDZONE:** pełny, nowy dzienny workflow po aktualizacji kodu, jego PDF/JSON z tego samego zamrożonego przebiegu i prawidłowe dostarczenie raportu użytkownikowi. Do czasu potwierdzenia nie ogłaszać pełnego wdrożenia.
+- **NIEZROBIONE:** integracja rzeczywistych kursów bukmacherskich exact-market i wynikający z tego test ROI; prognozy nadal niekalibrowane. Nie sugerować, że wymóg >=1,20 filtruje już aktualny arkusz kandydatów.
+- **WYMAGANE:** zweryfikować pełny workflow oraz identyczność liczb i źródeł JSON ↔ PDF; sprawdzić szczególnie czas freeze, brakujące kursy, kompletność identyfikacji rynków i statystyk; zebrać 100–150 unikalnych rozliczonych spotkań przed decyzjami o kalibracji.
+- **ZAKAZ:** brak automatycznych zmian progów, modelu, danych historycznych i merge do `main` bez odrębnej decyzji.
+
+**Kryterium zamknięcia zadania:** test formatu **ZALICZONY**, zapis w rejestrze **WYKONANY**; pełne uruchomienie i automatyczna publikacja nowego standardu **DO POTWIERDZENIA**.
