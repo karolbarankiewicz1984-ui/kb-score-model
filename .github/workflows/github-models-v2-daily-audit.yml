@@ -62,13 +62,26 @@ jobs:
           ref: research/github-models-frozen
           path: research_archive
           persist-credentials: false
+      - name: Observe API-Football final scores and bounded event statistics for settlement only
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m github_models.fast_final_collect \
+            --history-input data/github_models/verified_results.json \
+            --events-input data/github_models/verified_events.json \
+            --history-output data/github_models/settlement_verified_results.json \
+            --events-output data/github_models/settlement_verified_events.json \
+            --manifest reports/github_models/api_final_manifest.json \
+            --days-back 2 --max-stats 24
       - name: Settle previous predictions and audit A/B/C
         shell: bash
         run: |
           set -euo pipefail
           DAY="$(TZ=Europe/Warsaw date +%F)"
-          python -B -m github_models.daily_settlement --archive-dir research_archive --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/settlement.json"
-          python -B -m github_models.abc_audit_runner --archive-dir research_archive --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/filters/AUDIT_$DAY.json"
+          python -B -m github_models.daily_settlement --archive-dir research_archive --history data/github_models/settlement_verified_results.json --events data/github_models/settlement_verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/settlement.json"
+          python -B -m github_models.abc_audit_runner --archive-dir research_archive --history data/github_models/settlement_verified_results.json --events data/github_models/settlement_verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/filters/AUDIT_$DAY.json"
           python -B -m github_models.abc_audit_pdf --input "reports/github_models/filters/AUDIT_$DAY.json" --output "reports/github_models/pdf/AUDIT_$DAY.pdf"
           python -B -m github_models.abc_report --predictions "reports/github_models/predictions/$DAY.json" --events "reports/github_models/markets/$DAY.json" --queue "reports/github_models/queues/$DAY.json" --output-json "reports/github_models/filters/ABC_$DAY.json" --output-pdf "reports/github_models/pdf/ABC_$DAY.pdf"
       - name: Preserve new research snapshots immutably
@@ -113,6 +126,9 @@ jobs:
             reports/github_models/filters/*.json
             reports/github_models/pdf/*.pdf
             reports/github_models/settlement.json
+            reports/github_models/api_final_manifest.json
+            data/github_models/settlement_verified_results.json
+            data/github_models/settlement_verified_events.json
             data/github_models/verified_results.json
             data/github_models/verified_events.json
           retention-days: 30
