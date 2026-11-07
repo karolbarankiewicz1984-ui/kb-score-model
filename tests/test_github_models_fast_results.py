@@ -45,7 +45,7 @@ class FastResultsTests(unittest.TestCase):
                   {"team":{"id":11},"statistics":[{"type":"Corner Kicks","value":7}]}]
         def get(endpoint,params,key):
             return ([MATCH] if endpoint=="fixtures" else response),"sha"
-        rows,events,meta=collect(HISTORY,[],"test",["2026-11-06"],gettter if False else 4,getter=get)
+        rows,events,meta=collect(HISTORY,[],"test",["2026-11-06"],max_stats=4,getter=get)
         self.assertEqual(len(rows),2)
         self.assertEqual(events[0]["events"]["corners"],[4,7])
         self.assertEqual(meta["accepted_scores"],1)
