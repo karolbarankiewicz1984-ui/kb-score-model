@@ -57,5 +57,21 @@ class FastResultsTests(unittest.TestCase):
         self.assertEqual(rows,[prior])
         self.assertEqual(meta["corroborated_existing_scores"],1)
 
+    def test_reviewed_provider_aliases_are_league_scoped(self):
+        from github_models.reviewed_resolver import resolve_reviewed
+        cases=[("Romanian Superliga","ROU","Petrolul Ploiesti","Petrolul"),
+               ("Romanian Superliga","ROU","Arges Pitesti","FC Arges"),
+               ("Russian Premier League","RUS","Lokomotiv","Lokomotiv Moscow"),
+               ("2. Bundesliga","DEU","SpVgg Greuther Fürth","Greuther Furth"),
+               ("Allsvenskan","SWE","Hammarby FF","Hammarby"),
+               ("Austrian Bundesliga","AUT","Rapid Vienna","SK Rapid"),
+               ("Ligue 2","FRA","RED Star FC 93","Red Star"),
+               ("Ekstraklasa","POL","Cracovia Krakow","Cracovia")]
+        for league,country,alias,target in cases:
+            with self.subTest(alias=alias):
+                history=[{"league":league,"country_code":country,"home":target,"away":"Other Team"}]
+                fixture={"league":league,"country_code":country,"home":alias,"away":"Other Team"}
+                self.assertEqual(resolve_reviewed(fixture,history)["home"],target)
+
 if __name__ == "__main__":
     unittest.main()
