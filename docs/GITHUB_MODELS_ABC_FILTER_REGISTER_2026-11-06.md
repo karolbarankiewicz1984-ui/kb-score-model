@@ -55,3 +55,5 @@ Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 be
 - **Brak ingerencji w modele, ich wagi, progi 70/75/80%, źródła, archiwa, rozliczanie i workflow**. Gałąź wyłącznie `codex/multimodel-v2`; brak merge do `main`.
 
 **Bramka weryfikacyjna:** nowy układ jest zapisany w kodzie; testy jednostkowe i pełny przebieg dzienny na nowym commicie wymagają osobnego potwierdzenia. Nie uznawać statusu CI SUCCESS bez dowodu.
+
+- Dodano lekki workflow kontroli PDF: `.github/workflows/github-models-abc-pdf-check.yml` (tylko gałąź badawcza, smoke test generatorów). Jego wynik nie został jeszcze potwierdzony; nie przypisywać PASS przed odczytem GitHub Actions.
