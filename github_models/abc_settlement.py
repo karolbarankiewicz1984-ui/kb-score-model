@@ -19,12 +19,15 @@ def audit(predictions, markets, queue, history, events, as_of):
             y=a.get((fid,"callumfm-dixon-coles"),{})
             ok=x.get("status")=="settled" and y.get("status")=="settled" and x.get("actual")==y.get("actual")
             hit=x["actual"]==c["selection"] if ok else None
+            reason=None if ok else (x.get("reason") or y.get("reason") or "no_verified_final_yet")
             probability=c["probability_min"]
         else:
             x=b.get((fid,c["model"],c["market"],c["line"],c["selection"]),{})
             ok=x.get("status")=="settled"
             hit=x["hit"] if ok else None
+            reason=None if ok else (x.get("reason") or "no_verified_statistics_yet")
             probability=c["probability"]
         out.append(dict(variant=c["variant"],fixture_id=fid,market=c["market"],
-            probability=probability,status="settled" if ok else "unresolved",hit=hit))
+            probability=probability,line=c.get("line"),selection=c["selection"],
+            status="settled" if ok else "unresolved",reason=reason,hit=hit))
     return out
