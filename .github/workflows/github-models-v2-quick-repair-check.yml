@@ -1,0 +1,56 @@
+name: MULTIMODEL V2 repair verification (on-demand)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/github-models-v2-quick-repair-check.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/multimodel-v2
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: research/github-models-frozen
+          path: research_archive
+          persist-credentials: false
+      - name: Read previous verified source snapshot (not today's forecasts)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          mkdir -p previous_source
+          gh run download 42355073948 --repo "$GITHUB_REPOSITORY" --name multimodel-v2-daily-research-42355073948 --dir previous_source
+          test -s previous_source/data/github_models/verified_results.json
+          test -s previous_source/data/github_models/verified_events.json
+      - name: Collect final scores and run isolated frozen settlement
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -B -m github_models.fast_final_collect --history-input previous_source/data/github_models/verified_results.json --events-input previous_source/data/github_models/verified_events.json --history-output result/verified_results.json --events-output result/verified_events.json --manifest result/manifest.json --days-back 2 --max-stats 12
+          python -B -m github_models.abc_audit_runner --archive-dir research_archive --history result/verified_results.json --events result/verified_events.json --as-of "$NOW" --output result/abc_audit.json
+          python - <<'PY'
+          import json
+          data=json.load(open("result/abc_audit.json"))
+          source=json.load(open("result/manifest.json"))
+          print("SOURCE:",json.dumps(source,ensure_ascii=False))
+          print("AUDIT:",json.dumps([x for x in data["summary"] if x["market"]=="all"],ensure_ascii=False))
+          print("DEDUP:",data["duplicate_snapshots_suppressed"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v2-repair-verified-results-${{ github.run_id }}
+          path: result/*.json
+          retention-days: 30
