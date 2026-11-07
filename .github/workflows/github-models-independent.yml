@@ -4,12 +4,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 7 * * *'
-  push:
-    branches: [codex/multimodel-v2]
-    paths:
-      - 'github_models/**'
-      - 'tests/test_github_models*.py'
-      - '.github/workflows/github-models-independent.yml'
 
 permissions:
   contents: read
