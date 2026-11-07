@@ -1,11 +1,11 @@
 {
   "schema": "pitchapi-prematch-context-v1",
   "target_date": "2026-11-09",
-  "snapshot_utc": "2026-11-06T22:10:14.475244+00:00",
+  "snapshot_utc": "2026-11-07T11:04:25.343105+00:00",
   "source": "PitchAPI",
-  "available_upcoming": 12,
-  "fixtures_collected": 12,
-  "fixtures_with_both_sides_sufficient": 12,
+  "available_upcoming": 13,
+  "fixtures_collected": 13,
+  "fixtures_with_both_sides_sufficient": 13,
   "league_errors": [],
   "fixtures": [
     {
@@ -863,6 +863,107 @@
             "kickoff_utc": "2026-09-19T12:00:00Z",
             "xg_for": 1.34,
             "xg_against": 5.12
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_3xFw2b",
+      "league": "Eliteserien",
+      "league_id": "l_0uqFK8",
+      "home": "Kristiansund",
+      "away": "Vålerenga",
+      "kickoff_utc": "2026-11-09T18:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.538,
+        "mean_xg_against": 2.806,
+        "source_match_ids": [
+          "m_3tApg8",
+          "m_3acRds",
+          "m_2YKhXj",
+          "m_1Lw4bm",
+          "m_4S79W6"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3tApg8",
+            "kickoff_utc": "2026-11-01T16:00:00Z",
+            "xg_for": 2.19,
+            "xg_against": 3.53
+          },
+          {
+            "match_id": "m_3acRds",
+            "kickoff_utc": "2026-10-25T16:00:00Z",
+            "xg_for": 3.19,
+            "xg_against": 2.07
+          },
+          {
+            "match_id": "m_2YKhXj",
+            "kickoff_utc": "2026-10-17T14:00:00Z",
+            "xg_for": 1.29,
+            "xg_against": 1.85
+          },
+          {
+            "match_id": "m_1Lw4bm",
+            "kickoff_utc": "2026-10-10T14:00:00Z",
+            "xg_for": 0.21,
+            "xg_against": 3.95
+          },
+          {
+            "match_id": "m_4S79W6",
+            "kickoff_utc": "2026-09-19T14:00:00Z",
+            "xg_for": 0.81,
+            "xg_against": 2.63
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.896,
+        "mean_xg_against": 1.752,
+        "source_match_ids": [
+          "m_3DoETr",
+          "m_3aC3Sb",
+          "m_4Tuma0",
+          "m_2eSWfz",
+          "m_10DUcM"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3DoETr",
+            "kickoff_utc": "2026-11-01T18:15:00Z",
+            "xg_for": 2.27,
+            "xg_against": 0.27
+          },
+          {
+            "match_id": "m_3aC3Sb",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.2,
+            "xg_against": 2.8
+          },
+          {
+            "match_id": "m_4Tuma0",
+            "kickoff_utc": "2026-10-18T15:00:00Z",
+            "xg_for": 2.76,
+            "xg_against": 2.94
+          },
+          {
+            "match_id": "m_2eSWfz",
+            "kickoff_utc": "2026-10-12T17:00:00Z",
+            "xg_for": 1.69,
+            "xg_against": 2.03
+          },
+          {
+            "match_id": "m_10DUcM",
+            "kickoff_utc": "2026-09-20T12:30:00Z",
+            "xg_for": 1.56,
+            "xg_against": 0.72
           }
         ]
       },
