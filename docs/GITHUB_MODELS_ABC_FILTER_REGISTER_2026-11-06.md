@@ -33,3 +33,13 @@ Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 be
 - API-Football może nie pokrywać wszystkich lig oraz statystyk; brak wyniku jest `unresolved`, nigdy porażką.
 - Potwierdzenie działania: testy PASS, cały przebieg SUCCESS, dodatnia liczba rzeczywiście zweryfikowanych wyników 2026-11-06 i niezależna kontrola liczb Brier/log loss. Brak sukcesu na którejkolwiek bramce pozostaje otwartą usterką.
 - Progi A/B/C i model produkcyjny bez zmian. Nie podnosić oceny skuteczności bez nowej próby.
+
+## 2026-11-07 — pierwsza rzeczywista weryfikacja naprawy
+- GitHub Actions QUICK run: `42365011332`, status **SUCCESS**, artefakt `v2-repair-verified-results-42365011332`.
+- Źródło API-Football 2026-11-06: 347 finalnych rekordów, 20 zaakceptowanych zweryfikowanych wyników zgodnych z obowiązującymi mapowaniami, 9 spotkań ze statystykami zdarzeń; 12 odpytań szczegółowych.
+- Audyt 6 archiwów: 3129 rekordów surowych, 1922 unikalnych propozycji, 1207 powtórzonych rekordów odjętych; 3 rewizje prawdopodobieństw odnotowane.
+- A: 51 rozliczonych / 40 trafień, 19 unikalnych meczów, Brier 0.1632, log loss 0.5003. B: 27 / 22, 14 meczów, Brier 0.1431, log loss 0.4490. C: 15 / 13, 7 meczów, Brier 0.1087, log loss 0.3613.
+- 1X2: 0 rozliczonych. Liczebność nadal niewystarczająca do kalibracji; brak jakichkolwiek uzasadnionych zmian A/B/C.
+- Wystąpiły błędy HTTP w odpytywaniu 2026-11-05 i części statystyk; te dane pozostają nierozliczone. 316 lig/rekordów nie przeszło rygorystycznego zatwierdzenia tożsamości rozgrywek.
+- Dodano później osiem nowych, ligowo ograniczonych aliasów po sprawdzeniu dosłownego historycznego odpowiednika. Nie dopuszczono Swiss Challenge League bez historii. Te aliasy nie uczestniczyły w powyższym wyniku.
+- Osobny szybki test zakończony SUCCESS; pełny zaktualizowany dzienny przebieg pozostaje do odrębnego potwierdzenia. Automatyczne zmiany progów zabronione.
