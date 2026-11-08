@@ -1,0 +1,110 @@
+{
+  "schema": "pitchapi-prematch-context-v1",
+  "target_date": "2026-11-11",
+  "snapshot_utc": "2026-11-08T11:16:55.937252+00:00",
+  "source": "PitchAPI",
+  "available_upcoming": 1,
+  "fixtures_collected": 1,
+  "fixtures_with_both_sides_sufficient": 1,
+  "league_errors": [],
+  "fixtures": [
+    {
+      "pitch_match_id": "m_4XjY7T",
+      "league": "Serie B",
+      "league_id": "l_3qUkB8",
+      "home": "Londrina",
+      "away": "Náutico",
+      "kickoff_utc": "2026-11-11T22:00:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.36,
+        "mean_xg_against": 1.91,
+        "source_match_ids": [
+          "m_1Otmxd",
+          "m_12cYQx",
+          "m_1g78xC",
+          "m_3GUgZK"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1Otmxd",
+            "kickoff_utc": "2026-11-05T22:30:00Z",
+            "xg_for": 0.23,
+            "xg_against": 3.04
+          },
+          {
+            "match_id": "m_12cYQx",
+            "kickoff_utc": "2026-10-24T21:30:00Z",
+            "xg_for": 2.42,
+            "xg_against": 2.54
+          },
+          {
+            "match_id": "m_1g78xC",
+            "kickoff_utc": "2026-10-20T22:30:00Z",
+            "xg_for": 0.61,
+            "xg_against": 0.66
+          },
+          {
+            "match_id": "m_3GUgZK",
+            "kickoff_utc": "2026-10-13T22:30:00Z",
+            "xg_for": 2.18,
+            "xg_against": 1.4
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.026,
+        "mean_xg_against": 1.292,
+        "source_match_ids": [
+          "m_48zqwx",
+          "m_4VuX6e",
+          "m_3XUr0K",
+          "m_0GaWhz",
+          "m_0D7HYm"
+        ],
+        "samples": [
+          {
+            "match_id": "m_48zqwx",
+            "kickoff_utc": "2026-11-08T00:30:00Z",
+            "xg_for": 0.04,
+            "xg_against": 0.76
+          },
+          {
+            "match_id": "m_4VuX6e",
+            "kickoff_utc": "2026-10-31T22:30:00Z",
+            "xg_for": 1.25,
+            "xg_against": 0.43
+          },
+          {
+            "match_id": "m_3XUr0K",
+            "kickoff_utc": "2026-10-26T23:30:00Z",
+            "xg_for": 2.03,
+            "xg_against": 3.21
+          },
+          {
+            "match_id": "m_0GaWhz",
+            "kickoff_utc": "2026-10-19T22:30:00Z",
+            "xg_for": 1.21,
+            "xg_against": 1.55
+          },
+          {
+            "match_id": "m_0D7HYm",
+            "kickoff_utc": "2026-10-11T20:30:00Z",
+            "xg_for": 0.6,
+            "xg_against": 0.51
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    }
+  ],
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "important": "Historic xG averages, not predicted goals or betting probabilities. Only fixtures played BEFORE snapshot enter samples."
+}
