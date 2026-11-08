@@ -94,3 +94,27 @@ Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 be
 - **ZAKAZ:** brak automatycznych zmian progów, modelu, danych historycznych i merge do `main` bez odrębnej decyzji.
 
 **Kryterium zamknięcia zadania:** test formatu **ZALICZONY**, zapis w rejestrze **WYKONANY**; pełne uruchomienie i automatyczna publikacja nowego standardu **DO POTWIERDZENIA**.
+
+
+## 2026-11-08 — zmiana formatu A/B/C na TOP + pełen harmonogram meczów
+
+**Wymaganie użytkownika:** Na początku PDF mają znajdować się najsilniejsze pozycje, a następnie wszystkie zakwalifikowane rynki i linie każdego spotkania dnia, zgodnie z godziną rozpoczęcia w Europe/Warsaw. Każda pozycja ma własną procentową ocenę modelu.
+
+**Nowy standard prezentacji:**
+1. Nagłówek podaje datę, strefę Europe/Warsaw, źródło i cutoff lub brak potwierdzenia cutoff. Niekalibrowane P i brak zweryfikowanego kursu zawsze pozostają jawne.
+2. Tabela liczebności dla A (70%), B (75%), C (80%) oraz unikalne mecze.
+3. Skrót TOP: maksymalnie 12 najwyższych surowych ocen P, maksymalnie 3 propozycje z jednego rynku, maksymalnie 1 pozycja na mecz. Jest to ranking orientacyjny, a nie rekomendacja stawek.
+4. **Pełny harmonogram:** każdy mecz daty raportu występuje raz, chronologicznie według polskiej godziny rozpoczęcia. Poniżej wszystkie zakwalifikowane pozycje bez limitu: wynik 1X2, bramki, faule, kartki, rożne, wszystkie linie i kierunki, procent P, wariant(y), status kursu.
+5. Identyczna prognoza występująca równolegle w A, B, C jest pokazywana raz z oznaczeniem A, A/B albo A/B/C. Osobne linie (np. faule powyżej 19,5 i 22,5) oraz prognozy różnych modeli pozostają oddzielne. Sprzeczności P powodują błąd jawny, nie ciche pominięcie.
+6. Pozycje spoza dnia raportu pozostają w pełnym JSON. Dla pozycji o niepewnej dacie/godzinie PDF zawiera osobny blok ostrzegawczy; nie wolno arbitralnie przypisywać ich do daty.
+7. Kurs co najmniej 1,20 ma sens wyłącznie po potwierdzeniu rzeczywistej przedmeczowej oferty dokładnego rynku; bez tego jawnie „brak”. Nie generować fikcyjnych kursów ani ROI.
+8. Żadnych zmian progów, modeli, źródeł, zamrożonych prognoz, danych historycznych ani produkcyjnego MULTIMODELU i KB Score 3.0.
+
+**Wdrożone pliki na gałęzi codex/multimodel-v2:**
+- github_models/abc_chronological_pdf.py — generator pełnego chronologicznego raportu, z kontrolą kompletności.
+- github_models/abc_report.py — wywołuje nowy renderer po zapisaniu pełnego, niezmienionego ABC_YYYY-MM-DD.json.
+- tests/test_github_models_abc_pdf.py — testy chronologii, wszystkich kategorii i linii, deduplikacji wariantów oraz zachowania pełnego JSON.
+- Przykładowy PDF utworzony lokalnie: MULTIMODEL_V2_ABC_2026-11-08_PELNY_CHRONOLOGICZNY.pdf, 19 stron, 103 mecze i 353 unikalne propozycje z 7-listopadowego archiwum run 42365229210, po filtrze spotkań jeszcze nierozpoczętych o 12:30 dnia 8 listopada. Warianty archiwalne: A 353, B 243, C 133.
+- Kontrola regresyjna przez GitHub Actions: GitHub Models ABC PDF regression (research branch). Dopiero ukończony SUCCESS potwierdza test.
+
+**Stan:** kod i testy zapisane, przykładowy PDF odtworzony i sprawdzony. Pełny automatyczny przebieg dzienny najnowszej wersji nie został jeszcze potwierdzony; bez merge do main.
