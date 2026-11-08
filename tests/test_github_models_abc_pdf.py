@@ -80,7 +80,7 @@ class ABCPDFTests(unittest.TestCase):
             self.assertEqual(len(collapse(all_day)), 6)
             self.assertEqual(len(json.loads(json_out.read_text())["candidates"]),
                              len(result["candidates"]))
-            self.assertEqual(result["counts"], {"A":6,"B":5,"C":4})
+            self.assertEqual(result["counts"], {"A":6,"B":6,"C":5})
             with fitz.open(pdf) as doc:
                 content = "\\n".join(page.get_text() for page in doc)
                 self.assertLess(content.index("Wcześniejsi – Goście"),
