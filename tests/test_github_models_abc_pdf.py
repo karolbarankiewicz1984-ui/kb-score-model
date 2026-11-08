@@ -83,8 +83,9 @@ class ABCPDFTests(unittest.TestCase):
             self.assertEqual(result["counts"], {"A":6,"B":6,"C":5})
             with fitz.open(pdf) as doc:
                 content = "\\n".join(page.get_text() for page in doc)
-                self.assertLess(content.index("Wcześniejsi – Goście"),
-                                content.index("Późniejsi – Gospodarze"))
+                schedule = content.split("Pełny harmonogram meczów", 1)[1]
+                self.assertLess(schedule.index("Wcześniejsi – Goście"),
+                                schedule.index("Późniejsi – Gospodarze"))
                 for label in ("Bramki: Powyżej 1,5",
                               "Faule: Powyżej 19,5", "Faule: Powyżej 22,5",
                               "Żółte kartki: Powyżej 2,5",
