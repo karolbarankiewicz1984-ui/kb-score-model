@@ -118,3 +118,6 @@ Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 be
 - Kontrola regresyjna przez GitHub Actions: GitHub Models ABC PDF regression (research branch). Dopiero ukończony SUCCESS potwierdza test.
 
 **Stan:** kod i testy zapisane, przykładowy PDF odtworzony i sprawdzony. Pełny automatyczny przebieg dzienny najnowszej wersji nie został jeszcze potwierdzony; bez merge do main.
+
+
+**Potwierdzenie regresji nowego formatu 2026-11-08:** GitHub Actions run 42479953940, commit f78a3eb7dfe4ca68c1c1c737d6091aed99e34651, wynik **SUCCESS**: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/42479953940. Weryfikacja obejmuje kompletność wielu linii/rynków w meczu, chronologię w pełnej części, rozdzielność dziennych PDF i pełnego JSON oraz PDF audytowy. Wcześniejsze dwie próby CI skończyły się błędnymi oczekiwaniami testów: w wariancie testowym próg B/C błędnie policzono oraz porównywano kolejność meczów w sekcji TOP zamiast harmonogramie. Poprawiono testy; finalny przebieg PASS. Pełny dzienny workflow nadal do osobnego sprawdzenia.
