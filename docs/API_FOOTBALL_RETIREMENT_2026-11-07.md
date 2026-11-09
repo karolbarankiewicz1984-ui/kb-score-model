@@ -20,3 +20,7 @@ Outstanding dependencies intentionally NOT altered to preserve other models:
 - Other KB21 historical snapshot readers may reference data/api_football paths; historical files were not deleted.
 
 No claim is made that API-Football has been removed from all code paths. No PitchAPI, KB Score 3.0, or model data modifications were made.
+
+## 2026-11-09 follow-up — no active API-Football
+
+The user confirmed API-Football is no longer available. The scheduled/push triggers for `api-market-scan.yml` and the scheduled triggers for `api-market-multiday-experiment.yml`, `api-market-audit.yml`, `api-market-settle.yml`, `api-market-closing.yml` are retired. They remain manually dispatchable as historical diagnostics, but **must not** be presented as live/verified betting signals while the provider is unavailable. `multimodel-immutable-archive.yml` skips automatic archiving of failed source runs to avoid cascading error notifications. The independent PitchAPI and GitHub Models V2 workflows are unchanged. No archived quotes, forecasts, score thresholds, probabilities, or model weights were changed. New live API Market scans require a separately implemented, verified data-source migration and renewed tests.
