@@ -1,6 +1,6 @@
-# MULTIMODEL V2 — filtry A/B/C, 2026-11-06
+# GitHub Models V2 — A/B/C | rejestr zmian (od 2026-11-06)
 
-Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 bez zmian.
+Zakres: projekt **GitHub Models V2 — A/B/C**, gałąź `codex/multimodel-v2`; harmonogram na `main`. Wcześniejszy MULTIMODEL i KB Score 3.0 pozostają bez zmian. Historyczne wpisy poniżej zachowują oryginalne nazwy sprzed rebrandingu.
 
 ## Zmiany
 - `github_models/abc_filter_policy.json`: eksperymentalne progi A 70%, B 75%, C 80%, zgodność Elo/Dixon-Coles maks. 10 p.p.
