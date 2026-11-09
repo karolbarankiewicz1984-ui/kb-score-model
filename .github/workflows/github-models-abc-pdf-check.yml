@@ -1,10 +1,11 @@
-name: GitHub Models ABC PDF regression (research branch)
+name: GitHub Models V2 ABC PDF regression (research branch)
 
 on:
   push:
     branches: [codex/multimodel-v2]
     paths:
       - 'github_models/abc_report.py'
+      - 'github_models/abc_chronological_pdf.py'
       - 'github_models/abc_audit_pdf.py'
       - 'github_models/abc_pdf_style.py'
       - 'tests/test_github_models_abc_pdf.py'
