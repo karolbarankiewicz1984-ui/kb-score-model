@@ -117,7 +117,7 @@ def _lead(story, st, day, result, filtered, unique, outside, undated, source):
     nfix = {v: len({str(r["fixture_id"]) for r in filtered
                     if r["variant"] == v}) for v in PRIORITY}
     story.extend([
-        p("MULTIMODEL GitHub V2 | Typy A/B/C", st["title"]),
+        p("GitHub Models V2 | Typy A/B/C", st["title"]),
         p("Data spotkań: " + day + " | Godziny w Polsce (Europe/Warsaw)", st["sub"]),
         p("Raport obserwacyjny. Procenty to SUROWE, NIEKALIBROWANE oceny modelu. "
           "Brak zweryfikowanych kursów przedmeczowych, nie rekomendujemy stawek.",
@@ -232,7 +232,7 @@ def render_day(result, fixtures, output_pdf, day, *, source=None):
           "Zawiera " + str(total_emitted) + " unikalnych rynków/linii dla " +
           str(len(ids)) + " meczów w tym dniu.", st["small"])
     ])
-    render(story, output_pdf, "MULTIMODEL GitHub V2 | pełny ABC " + day)
+    render(story, output_pdf, "GitHub Models V2 | pełny ABC " + day)
     return {"date": day, "unique_positions": total_emitted, "fixtures": len(ids),
             "variants": {v: sum(r["variant"] == v for r in filtered)
                          for v in PRIORITY},
