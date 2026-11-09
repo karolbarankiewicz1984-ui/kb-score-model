@@ -1,0 +1,294 @@
+{
+  "schema": "github-models-independent-predictions-v1",
+  "generated_at_utc": "2026-11-09T10:25:20.496117+00:00",
+  "production_multimodel_unchanged": true,
+  "predictions": [
+    {
+      "fixture_id": "m_08cYCJ",
+      "league": "Romanian Superliga",
+      "kickoff_utc": "2026-11-09T18:00:00Z",
+      "frozen_at_utc": "2026-11-09T10:25:20.496117+00:00",
+      "model_id": "github-elo",
+      "model_version": "elo-v1",
+      "p_home": 0.4604375388217733,
+      "p_draw": 0.2272075148243296,
+      "p_away": 0.31235494635389716,
+      "probability_status": "uncalibrated_research",
+      "training_matches": 1069,
+      "resolved_identity": {
+        "league": "Romanian Superliga",
+        "country_code": "ROU",
+        "league_id": "l_0kSJLz",
+        "home": "FC Botosani",
+        "away": "Otelul",
+        "home_team_id": "t_2AlLmq",
+        "away_team_id": "t_0VlZPz",
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_08cYCJ",
+      "league": "Romanian Superliga",
+      "kickoff_utc": "2026-11-09T18:00:00Z",
+      "frozen_at_utc": "2026-11-09T10:25:20.496117+00:00",
+      "model_id": "callumfm-dixon-coles",
+      "model_version": "callumfm-dixon-coles-v1",
+      "p_home": 0.521,
+      "p_draw": 0.2392,
+      "p_away": 0.2398,
+      "probability_status": "uncalibrated_research",
+      "resolved_identity": {
+        "league": "Romanian Superliga",
+        "country_code": "ROU",
+        "league_id": "l_0kSJLz",
+        "home": "FC Botosani",
+        "away": "Otelul",
+        "home_team_id": "t_2AlLmq",
+        "away_team_id": "t_0VlZPz",
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_3xFw2b",
+      "league": "Eliteserien",
+      "kickoff_utc": "2026-11-09T18:00:00Z",
+      "frozen_at_utc": "2026-11-09T10:25:20.496117+00:00",
+      "model_id": "github-elo",
+      "model_version": "elo-v1",
+      "p_home": 0.3895489221421609,
+      "p_draw": 0.2524756075053172,
+      "p_away": 0.3579754703525219,
+      "probability_status": "uncalibrated_research",
+      "training_matches": 924,
+      "resolved_identity": {
+        "league": "Eliteserien",
+        "country_code": "NOR",
+        "league_id": "l_0uqFK8",
+        "home": "Kristiansund",
+        "away": "Valerenga",
+        "home_team_id": "t_3c8V46",
+        "away_team_id": "t_1XQxdj",
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_3xFw2b",
+      "league": "Eliteserien",
+      "kickoff_utc": "2026-11-09T18:00:00Z",
+      "frozen_at_utc": "2026-11-09T10:25:20.496117+00:00",
+      "model_id": "callumfm-dixon-coles",
+      "model_version": "callumfm-dixon-coles-v1",
+      "p_home": 0.3011301130113011,
+      "p_draw": 0.2158215821582158,
+      "p_away": 0.48304830483048306,
+      "probability_status": "uncalibrated_research",
+      "resolved_identity": {
+        "league": "Eliteserien",
+        "country_code": "NOR",
+        "league_id": "l_0uqFK8",
+        "home": "Kristiansund",
+        "away": "Valerenga",
+        "home_team_id": "t_3c8V46",
+        "away_team_id": "t_1XQxdj",
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_1tvJBs",
+      "league": "La Liga 2",
+      "kickoff_utc": "2026-11-09T19:30:00Z",
+      "frozen_at_utc": "2026-11-09T10:25:20.496117+00:00",
+      "model_id": "github-elo",
+      "model_version": "elo-v1",
+      "p_home": 0.5519398800310632,
+      "p_draw": 0.19758670811508344,
+      "p_away": 0.25047341185385325,
+      "probability_status": "uncalibrated_research",
+      "training_matches": 1522,
+      "resolved_identity": {
+        "league": "La Liga 2",
+        "country_code": "ESP",
+        "league_id": "l_3kyHLd",
+        "home": "Sabadell",
+        "away": "Sociedad B",
+        "home_team_id": "t_0zUYIo",
+        "away_team_id": "t_2CjdmV",
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_1tvJBs",
+      "league": "La Liga 2",
+      "kickoff_utc": "2026-11-09T19:30:00Z",
+      "frozen_at_utc": "2026-11-09T10:25:20.496117+00:00",
+      "model_id": "callumfm-dixon-coles",
+      "model_version": "callumfm-dixon-coles-v1",
+      "p_home": 0.5336,
+      "p_draw": 0.2727,
+      "p_away": 0.1937,
+      "probability_status": "uncalibrated_research",
+      "resolved_identity": {
+        "league": "La Liga 2",
+        "country_code": "ESP",
+        "league_id": "l_3kyHLd",
+        "home": "Sabadell",
+        "away": "Sociedad B",
+        "home_team_id": "t_0zUYIo",
+        "away_team_id": "t_2CjdmV",
+        "source_provider": "PitchAPI"
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "fixture_id": "m_08cYCJ",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_0yAzwO",
+      "model": "elo",
+      "reason": "unsupported_competition_id"
+    },
+    {
+      "fixture_id": "m_0yAzwO",
+      "model": "dixon-coles",
+      "reason": "unsupported_competition_id"
+    },
+    {
+      "fixture_id": "m_0yAzwO",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_1cAOm2",
+      "model": "elo",
+      "reason": "unmatched_home_team:Hvidovre"
+    },
+    {
+      "fixture_id": "m_1cAOm2",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Hvidovre"
+    },
+    {
+      "fixture_id": "m_1cAOm2",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_3xFw2b",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_1tvJBs",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_3T6JS4",
+      "model": "elo",
+      "reason": "unmatched_home_team:Sportivo San Lorenzo"
+    },
+    {
+      "fixture_id": "m_3T6JS4",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Sportivo San Lorenzo"
+    },
+    {
+      "fixture_id": "m_3T6JS4",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_1xgwFq",
+      "model": "elo",
+      "reason": "unsupported_competition_id"
+    },
+    {
+      "fixture_id": "m_1xgwFq",
+      "model": "dixon-coles",
+      "reason": "unsupported_competition_id"
+    },
+    {
+      "fixture_id": "m_1xgwFq",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_3gtWCd",
+      "model": "elo",
+      "reason": "unmatched_home_team:Sportivo Luqueño"
+    },
+    {
+      "fixture_id": "m_3gtWCd",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Sportivo Luqueño"
+    },
+    {
+      "fixture_id": "m_3gtWCd",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_0NldjE",
+      "model": "elo",
+      "reason": "unmatched_home_team:Junior"
+    },
+    {
+      "fixture_id": "m_0NldjE",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Junior"
+    },
+    {
+      "fixture_id": "m_0NldjE",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_1EmehY",
+      "model": "elo",
+      "reason": "unmatched_home_team:Aurora"
+    },
+    {
+      "fixture_id": "m_1EmehY",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Aurora"
+    },
+    {
+      "fixture_id": "m_1EmehY",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_4XjY7T",
+      "model": "elo",
+      "reason": "unsupported_competition_id"
+    },
+    {
+      "fixture_id": "m_4XjY7T",
+      "model": "dixon-coles",
+      "reason": "unsupported_competition_id"
+    },
+    {
+      "fixture_id": "m_4XjY7T",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    }
+  ],
+  "blocker_summary": {
+    "xgboost: model_not_trained_or_adapter_not_ready": 11,
+    "elo: unsupported_competition_id": 3,
+    "dixon-coles: unsupported_competition_id": 3,
+    "elo: unmatched_home_team:Hvidovre": 1,
+    "dixon-coles: unmatched_home_team:Hvidovre": 1,
+    "elo: unmatched_home_team:Sportivo San Lorenzo": 1,
+    "dixon-coles: unmatched_home_team:Sportivo San Lorenzo": 1,
+    "elo: unmatched_home_team:Sportivo Luqueño": 1,
+    "dixon-coles: unmatched_home_team:Sportivo Luqueño": 1,
+    "elo: unmatched_home_team:Junior": 1,
+    "dixon-coles: unmatched_home_team:Junior": 1,
+    "elo: unmatched_home_team:Aurora": 1,
+    "dixon-coles: unmatched_home_team:Aurora": 1
+  }
+}
