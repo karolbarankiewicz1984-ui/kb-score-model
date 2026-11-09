@@ -1,8 +1,6 @@
 name: API Market Audit next-day
+# Requires retired API-Football: manual historical diagnostic only.
 on:
-  schedule:
-    # Warsaw 12:00 local, DST aware: 10:00 UTC summer, 11:00 UTC winter.
-    - cron: '0 10,11 * * *'
   workflow_dispatch:
     inputs:
       audit_date:
