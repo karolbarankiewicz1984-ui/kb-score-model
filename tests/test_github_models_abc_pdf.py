@@ -6,10 +6,17 @@ import unittest
 
 import fitz
 from github_models.abc_audit_pdf import build as build_audit
-from github_models.abc_report import build as build_forecast, label_market, select_overview
+from github_models.abc_report import build as build_forecast, label_market, select_overview, report_day
 from github_models.abc_chronological_pdf import collapse, select_top, by_day
 
 class ABCPDFTests(unittest.TestCase):
+    def test_new_filename_day_and_legacy_filename(self):
+        self.assertEqual(report_day("GITHUB_MODELS_V2_ABC_2026-11-09.pdf", {}),
+                         "2026-11-09")
+        self.assertEqual(report_day("ABC_2026-11-08.pdf", {}), "2026-11-08")
+        self.assertEqual(report_day("GITHUB_MODELS_V2_ABC_badname.pdf",
+                                    {"date": "2026-11-07"}), "2026-11-07")
+
     def test_market_labels_and_balanced_shortlist(self):
         self.assertEqual(label_market(dict(market="goals", selection="under", line=3.5)),
                          "Bramki: Poniżej 3,5")
