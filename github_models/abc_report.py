@@ -65,8 +65,11 @@ def select_overview(candidates, *, limit_each=PER_MARKET):
 
 def report_day(output_pdf, queue):
     name = Path(output_pdf).stem
-    if name.startswith("ABC_") and len(name) >= 14:
-        return name[4:14]
+    if len(name) >= 10:
+        try:
+            return datetime.strptime(name[-10:], "%Y-%m-%d").strftime("%Y-%m-%d")
+        except ValueError:
+            pass
     return str(queue.get("date") or "brak daty raportu")
 
 def build(predictions, events, queue, output_json, output_pdf):
@@ -88,7 +91,7 @@ def build(predictions, events, queue, output_json, output_pdf):
 
     from github_models.abc_chronological_pdf import render_day
     render_day(result, fixtures, output_pdf, report_day(output_pdf, queue),
-               source="GitHub Models A/B/C research — zamrożone dane wejściowe")
+               source="GitHub Models V2 — A/B/C: zamrożone dane wejściowe")
     return result
 
 def main():
