@@ -17,6 +17,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   archive:
+    # Never attempt to archive a failed/cancelled source workflow (no artifact).
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

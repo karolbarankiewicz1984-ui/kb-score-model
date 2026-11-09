@@ -1,15 +1,10 @@
 name: API Market Scan multi-day experiment
+# API-Football retired: only manually initiated research using historical or restored access.
 on:
-  schedule:
-    # Scan starts 10:00 Warsaw (08:00 UTC summer / 09:00 UTC winter).
-    # MULTIMODEL ChatGPT PDF delivery remains 11:30 Warsaw; 90-min headroom.
-    # Separate entries so github.event.schedule equals one unambiguous slot.
-    - cron: '0 8 * * *'
-    - cron: '0 9 * * *'
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/api-market-multiday-experiment.yml'
+  # No automatic schedule: this legacy experiment needs API_FOOTBALL_KEY,
+  # which is no longer the selected data source. Keep manual dispatch for research.
+  # The separate API Market Scan workflow and ChatGPT MULTIMODEL PDF delivery
+  # are not changed by this workflow's de-scheduling.
   workflow_dispatch:
     inputs:
       start_date:

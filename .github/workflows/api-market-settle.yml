@@ -1,8 +1,7 @@
 name: API Market Settle
 
+# Requires retired API-Football: no scheduled runs until data-source migration.
 on:
-  schedule:
-    - cron: '30 4 * * *'
   workflow_dispatch:
     inputs:
       date:

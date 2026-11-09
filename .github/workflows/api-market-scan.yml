@@ -1,6 +1,7 @@
 # API Market Scan v3: PURE + reliability + market + context + compact daily PDF
 # Final national-team coverage is populated before the raw sieve.
 name: API Market Scan
+# API-Football retired: manual diagnostic only. Do NOT schedule without migrated provider.
 
 on:
   workflow_dispatch:
@@ -9,25 +10,6 @@ on:
         description: "Date YYYY-MM-DD; blank = today"
         required: false
         type: string
-  schedule:
-    # Early market snapshots, then a final run near 10:30 Europe/Warsaw.
-    - cron: '5 4 * * *'
-    - cron: '5 7 * * *'
-    - cron: '30 8 * * *'
-    - cron: '30 9 * * *'
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/api-market-scan.yml"
-      - "tools/api_market*.py"
-      - "config/api_market.json"
-      - "tests/test_api_market*.py"
-      - "tools/api_market_v3_enrich.py"
-      - "tools/api_national_today_prefetch.py"
-      - "tools/api_market_report_diversify.py"
-      - "tools/render_api_market_pdf.py"
-      - "tools/api_market_practical_pdf.py"
-      - "tests/test_api_market_practical_pdf.py"
 
 env:
   PYTHONDONTWRITEBYTECODE: "1"
