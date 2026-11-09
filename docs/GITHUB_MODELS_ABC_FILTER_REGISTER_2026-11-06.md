@@ -121,3 +121,30 @@ Zakres: wyłącznie gałąź `codex/multimodel-v2`. MULTIMODEL i KB Score 3.0 be
 
 
 **Potwierdzenie regresji nowego formatu 2026-11-08:** GitHub Actions run 42479953940, commit f78a3eb7dfe4ca68c1c1c737d6091aed99e34651, wynik **SUCCESS**: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/42479953940. Weryfikacja obejmuje kompletność wielu linii/rynków w meczu, chronologię w pełnej części, rozdzielność dziennych PDF i pełnego JSON oraz PDF audytowy. Wcześniejsze dwie próby CI skończyły się błędnymi oczekiwaniami testów: w wariancie testowym próg B/C błędnie policzono oraz porównywano kolejność meczów w sekcji TOP zamiast harmonogramie. Poprawiono testy; finalny przebieg PASS. Pełny dzienny workflow nadal do osobnego sprawdzenia.
+
+## 2026-11-09 — harmonogram, publikacja PDF przed audytem i nowa nazwa projektu
+
+**Decyzja użytkownika:** sprawdzić i naprawić automatyczne codzienne raporty oraz odróżnić badawczy projekt od wcześniejszego MULTIMODELU. Nowa nazwa użytkowa: **GitHub Models V2 — A/B/C** (skrót GH Models V2). Nazwy istniejącego repozytorium `kb-score-model`, gałęzi `codex/multimodel-v2`, klasyfikatorów i danych historycznych nie zmieniano, aby zachować linki i zgodność wsteczną.
+
+### Dowody diagnozy
+- Workflow `.github/workflows/github-models-v2-daily-audit.yml` na **main** posiadał `schedule: cron '0 7 * * *'` oraz `timeout-minutes: 40`. GitHub schedule działa według UTC, a nie Europe/Warsaw.
+- Zaplanowany przebieg [42488628492](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/42488628492) z **2026-11-08 14:12 UTC** był uruchomiony jako `event=schedule`, ale wystartował z istotnym opóźnieniem względem deklarowanego 07:00 UTC.
+- Przebiegi [42488628492](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/42488628492) i [42420153742](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/42420153742) zakończyły się `cancelled` po ok. 40 minutach na etapie `Settle previous predictions and audit A/B/C`. Weryfikacja kroków i logów potwierdziła, że wcześniejsze pobieranie danych i prognozowanie zdążyły się zakończyć, natomiast PDF A/B/C był generowany dopiero na końcu długiego kroku audytu. Skutkiem były archiwa ze źródłami bez właściwego nowego PDF A/B/C.
+- Dnia 2026-11-09 do ok. 11:10 Europe/Warsaw brak było nowego przebiegu GitHub Models V2. To nie jest dowód wyłączenia workflow: GitHub może opóźniać lub pomijać uruchomienia harmonogramowe. Nie twierdzić bez dodatkowych danych, że harmonogram na pewno był `disabled`.
+
+### Zastosowane naprawy
+1. **Workflow na main**: wyświetlana nazwa `GitHub Models V2 — A/B/C | daily forecast and audit`. Zmieniono harmonogram na `17 7 * * *`, tj. **08:17 CET zimą / 09:17 CEST latem**, aby unikać przeciążonej pełnej godziny. Jest to godzina docelowa, nie gwarantowana godzina wykonania GitHub Actions. Pozostawiono `workflow_dispatch`, a aktualizacja samego workflow wyzwala kontrolny `push`.
+2. **Zwiększono limit pojedynczego joba z 40 do 90 minut.** Nie zmienia to ograniczeń czasowych GitHub Actions ani nie gwarantuje, że każdy audyt się zakończy.
+3. **Poprawiono kolejność:** po `daily_queue`, `predict` i `market_runner` najpierw generować `GITHUB_MODELS_V2_ABC_YYYY-MM-DD.pdf` i kompletny `ABC_YYYY-MM-DD.json`. Następnie **od razu publikować osobny artefakt `github-models-v2-abc-forecast-<run_id>`** wraz z wejściami. PDF nie może już zależeć od ukończenia historycznego `daily_settlement` i `abc_audit_runner`.
+4. **Zapis niezmiennych prognoz do gałęzi `research/github-models-frozen` przeniesiono przed długim audytem.** Wcześniej anulowanie audytu omijało zapis archiwum. Zapis zachowuje dotychczasowy mechanizm nieprzepisywania istniejących rekordów.
+5. Następnie oddzielnie wykonywać rozliczenie historyczne i audyt (bez API-Football) oraz wytwarzać `GITHUB_MODELS_V2_AUDIT_YYYY-MM-DD.pdf`; końcowy artefakt całego przebiegu to `github-models-v2-abc-complete-<run_id>`. Wyniki zerowej liczby rozliczeń to brak próby, nie porażka prognoz.
+6. W gałęzi badawczej zaktualizowano tytuły A/B/C i audytu w `github_models/abc_chronological_pdf.py`, `abc_pdf_style.py` i `abc_audit_pdf.py`, w tym nagłówek i stopki. `abc_report.py` rozpoznaje datę również w nowej nazwie PDF. W `.github/workflows/github-models-independent.yml` usunięto `schedule` (pozostawiono ręczne uruchamianie), aby po ewentualnym przeniesieniu na default branch nie uruchamiać drugiego konkurencyjnego harmonogramu. Uaktualniono zakres triggerów testu PDF.
+7. **Oddzielność projektów:** żadnych zmian w pierwotnym MULTIMODELU, automatyzacji trzech PDF, KB Score 3.0, progach A/B/C, logice forecast, kursach ani sposobie zbierania treningowych danych.
+
+### Stan i warunki potwierdzenia
+- Zapis naprawy workflow na `main`: commit `f6e4396dc122711e91824e2c1ecb4511db6faa47`, zainicjowany przez `push` przebieg kontrolny [42600261774](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/42600261774).
+- Testy prezentacji nowego brandingu na gałęzi badawczej: końcowy workflow GitHub Models V2 ABC PDF regression — odczytać wynik po zakończeniu, nie deklarować SUCCESS przed sprawdzeniem. Wcześniejsze regresje 42600186200, 42600191912 i 42600203494 miały SUCCESS dla wcześniejszych commitów.
+- **Bramka 1:** dzienny run dochodzi do kroku `Publish today's PDF and sources BEFORE historical audit` i publikuje pobieralny artefakt zawierający rzeczywisty PDF/JSON z tej samej prognozy. Samo `in_progress` nie potwierdza publikacji.
+- **Bramka 2:** sprawdzić poprawność czasu kickoff, nazw/rynków, pełnej listy, wersji A/B/C i `input_cutoff_utc`. W razie braków oznaczać otwarty problem.
+- **Bramka 3:** sprawdzić końcowy audyt, zamrożenie w archiwum i końcowy artefakt. Długi audyt może wymagać optymalizacji w osobnym kroku, nawet przy 90 minutach.
+- **Bramka 4:** dopiero kolejne rzeczywiste automatyczne uruchomienie `event=schedule` potwierdzi działanie nowej godziny. Pojedynczy `push` dowodzi tylko uruchomienia ręcznie inicjowanego przez zmianę pliku, nie punktualności planowania.
