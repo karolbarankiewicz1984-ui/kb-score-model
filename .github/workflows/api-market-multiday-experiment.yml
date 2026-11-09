@@ -1,13 +1,10 @@
 name: API Market Scan multi-day experiment
+# API-Football retired: only manually initiated research using historical or restored access.
 on:
   # No automatic schedule: this legacy experiment needs API_FOOTBALL_KEY,
   # which is no longer the selected data source. Keep manual dispatch for research.
   # The separate API Market Scan workflow and ChatGPT MULTIMODEL PDF delivery
   # are not changed by this workflow's de-scheduling.
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/api-market-multiday-experiment.yml'
   workflow_dispatch:
     inputs:
       start_date:
