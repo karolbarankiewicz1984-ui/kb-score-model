@@ -19,7 +19,7 @@ def build(data, output):
     st = styles()
     rows = {(row["variant"], row["market"]): row for row in data["summary"]}
     story = [
-        p("MULTIMODEL GitHub V2 | Audyt A/B/C", st["title"]),
+        p("GitHub Models V2 | Audyt A/B/C", st["title"]),
         p("Stan danych: " + str(data.get("as_of_utc") or "brak UTC"), st["sub"]),
         p("Rozliczamy wyłącznie potwierdzone wyniki. Nierozliczone zdarzenia "
           "NIE SĄ błędnymi prognozami. Wyniki mają charakter badawczy.", st["body"]),
