@@ -1,4 +1,4 @@
-"""Unified Polish PDF layout for the isolated GitHub Models A/B/C reports."""
+"""Unified Polish PDF layout for GitHub Models V2 — A/B/C reports."""
 from pathlib import Path
 from xml.sax.saxutils import escape
 
@@ -66,7 +66,7 @@ def footer(canv, doc):
     canv.saveState()
     canv.setFont("ABCRegular", 7)
     canv.setFillColor(MUTED)
-    canv.drawString(36, 20, "MULTIMODEL GitHub V2 | badanie A/B/C")
+    canv.drawString(36, 20, "GitHub Models V2 | badanie A/B/C")
     canv.drawRightString(A4[0] - 36, 20, "Strona " + str(doc.page))
     canv.restoreState()
 
@@ -77,7 +77,7 @@ def render(story, output, title):
     doc = SimpleDocTemplate(str(dest), pagesize=A4,
                             leftMargin=36, rightMargin=36,
                             topMargin=38, bottomMargin=40,
-                            title=title, author="MULTIMODEL GitHub V2")
+                            title=title, author="GitHub Models V2")
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
     if not dest.is_file() or dest.stat().st_size < 1000:
         raise RuntimeError("abc_pdf_not_generated")
