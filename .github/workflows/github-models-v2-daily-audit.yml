@@ -73,7 +73,7 @@ jobs:
       - name: Publish today's PDF and sources BEFORE historical audit
         uses: actions/upload-artifact@v4
         with:
-          name: github-models-v2-abc-forecast-${{ github.run_id }}
+          name: github-models-v2-abc-forecast-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             reports/github_models/queues/*.json
             reports/github_models/predictions/*.json
@@ -151,7 +151,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: github-models-v2-abc-complete-${{ github.run_id }}
+          name: github-models-v2-abc-complete-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             reports/github_models/queues/*.json
             reports/github_models/predictions/*.json
