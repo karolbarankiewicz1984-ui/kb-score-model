@@ -1,0 +1,218 @@
+{
+  "schema": "pitchapi-prematch-context-v1",
+  "target_date": "2026-11-13",
+  "snapshot_utc": "2026-11-10T00:41:08.185023+00:00",
+  "source": "PitchAPI",
+  "available_upcoming": 2,
+  "fixtures_collected": 2,
+  "fixtures_with_both_sides_sufficient": 2,
+  "league_errors": [],
+  "fixtures": [
+    {
+      "pitch_match_id": "m_4FyyOV",
+      "league": "Liga 1",
+      "league_id": "l_3uNwVX",
+      "home": "UTC Cajamarca",
+      "away": "Los Chankas",
+      "kickoff_utc": "2026-11-13T18:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.798,
+        "mean_xg_against": 1.208,
+        "source_match_ids": [
+          "m_3J5Wih",
+          "m_4DmdGR",
+          "m_47VWgW",
+          "m_2jUGcg",
+          "m_28Lz8R"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3J5Wih",
+            "kickoff_utc": "2026-11-08T20:30:00Z",
+            "xg_for": 0.27,
+            "xg_against": 1.35
+          },
+          {
+            "match_id": "m_4DmdGR",
+            "kickoff_utc": "2026-11-02T18:15:00Z",
+            "xg_for": 0.7,
+            "xg_against": 1.37
+          },
+          {
+            "match_id": "m_47VWgW",
+            "kickoff_utc": "2026-10-28T18:15:00Z",
+            "xg_for": 1.44,
+            "xg_against": 0.44
+          },
+          {
+            "match_id": "m_2jUGcg",
+            "kickoff_utc": "2026-10-23T18:00:00Z",
+            "xg_for": 1.27,
+            "xg_against": 0.86
+          },
+          {
+            "match_id": "m_28Lz8R",
+            "kickoff_utc": "2026-10-18T23:30:00Z",
+            "xg_for": 0.31,
+            "xg_against": 2.02
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.398,
+        "mean_xg_against": 1.274,
+        "source_match_ids": [
+          "m_2S9dSC",
+          "m_4PgWRG",
+          "m_3bwnrd",
+          "m_0ftnyu",
+          "m_4NEFLl"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2S9dSC",
+            "kickoff_utc": "2026-11-08T18:00:00Z",
+            "xg_for": 2.01,
+            "xg_against": 0.9
+          },
+          {
+            "match_id": "m_4PgWRG",
+            "kickoff_utc": "2026-11-01T16:00:00Z",
+            "xg_for": 1.42,
+            "xg_against": 0.98
+          },
+          {
+            "match_id": "m_3bwnrd",
+            "kickoff_utc": "2026-10-29T18:00:00Z",
+            "xg_for": 1.48,
+            "xg_against": 1.47
+          },
+          {
+            "match_id": "m_0ftnyu",
+            "kickoff_utc": "2026-10-25T23:00:00Z",
+            "xg_for": 0.5,
+            "xg_against": 2.16
+          },
+          {
+            "match_id": "m_4NEFLl",
+            "kickoff_utc": "2026-10-16T20:30:00Z",
+            "xg_for": 1.58,
+            "xg_against": 0.86
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1hp7Eb",
+      "league": "LaLiga2",
+      "league_id": "l_3kyHLd",
+      "home": "Leganés",
+      "away": "Burgos CF",
+      "kickoff_utc": "2026-11-13T19:30:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.682,
+        "mean_xg_against": 1.862,
+        "source_match_ids": [
+          "m_3wlJov",
+          "m_1ESxst",
+          "m_0NzNwK",
+          "m_3d7PdN",
+          "m_3e5giB"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3wlJov",
+            "kickoff_utc": "2026-11-07T17:30:00Z",
+            "xg_for": 2.38,
+            "xg_against": 2.23
+          },
+          {
+            "match_id": "m_1ESxst",
+            "kickoff_utc": "2026-11-02T17:30:00Z",
+            "xg_for": 2.29,
+            "xg_against": 2.87
+          },
+          {
+            "match_id": "m_0NzNwK",
+            "kickoff_utc": "2026-10-24T14:15:00Z",
+            "xg_for": 2.58,
+            "xg_against": 0.9
+          },
+          {
+            "match_id": "m_3d7PdN",
+            "kickoff_utc": "2026-10-16T18:30:00Z",
+            "xg_for": 0.75,
+            "xg_against": 2.1
+          },
+          {
+            "match_id": "m_3e5giB",
+            "kickoff_utc": "2026-10-11T14:15:00Z",
+            "xg_for": 0.41,
+            "xg_against": 1.21
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.586,
+        "mean_xg_against": 1.046,
+        "source_match_ids": [
+          "m_3lgRHr",
+          "m_1c5qCy",
+          "m_1cSeCE",
+          "m_1EQca2",
+          "m_3APqhP"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3lgRHr",
+            "kickoff_utc": "2026-11-07T13:00:00Z",
+            "xg_for": 2.79,
+            "xg_against": 0.51
+          },
+          {
+            "match_id": "m_1c5qCy",
+            "kickoff_utc": "2026-11-01T17:30:00Z",
+            "xg_for": 0.32,
+            "xg_against": 0.27
+          },
+          {
+            "match_id": "m_1cSeCE",
+            "kickoff_utc": "2026-10-26T19:30:00Z",
+            "xg_for": 1.55,
+            "xg_against": 1.74
+          },
+          {
+            "match_id": "m_1EQca2",
+            "kickoff_utc": "2026-10-18T19:00:00Z",
+            "xg_for": 2.13,
+            "xg_against": 0.37
+          },
+          {
+            "match_id": "m_3APqhP",
+            "kickoff_utc": "2026-10-12T14:15:00Z",
+            "xg_for": 1.14,
+            "xg_against": 2.34
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    }
+  ],
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "important": "Historic xG averages, not predicted goals or betting probabilities. Only fixtures played BEFORE snapshot enter samples."
+}
