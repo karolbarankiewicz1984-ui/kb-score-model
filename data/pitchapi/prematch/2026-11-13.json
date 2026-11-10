@@ -1,114 +1,13 @@
 {
   "schema": "pitchapi-prematch-context-v1",
   "target_date": "2026-11-13",
-  "snapshot_utc": "2026-11-10T00:41:08.185023+00:00",
+  "snapshot_utc": "2026-11-10T12:37:13.595683+00:00",
   "source": "PitchAPI",
-  "available_upcoming": 2,
-  "fixtures_collected": 2,
-  "fixtures_with_both_sides_sufficient": 2,
+  "available_upcoming": 1,
+  "fixtures_collected": 1,
+  "fixtures_with_both_sides_sufficient": 1,
   "league_errors": [],
   "fixtures": [
-    {
-      "pitch_match_id": "m_4FyyOV",
-      "league": "Liga 1",
-      "league_id": "l_3uNwVX",
-      "home": "UTC Cajamarca",
-      "away": "Los Chankas",
-      "kickoff_utc": "2026-11-13T18:00:00Z",
-      "home_recent": {
-        "complete_samples": 5,
-        "requested_samples": 5,
-        "data_quality": "sufficient",
-        "mean_xg_for": 0.798,
-        "mean_xg_against": 1.208,
-        "source_match_ids": [
-          "m_3J5Wih",
-          "m_4DmdGR",
-          "m_47VWgW",
-          "m_2jUGcg",
-          "m_28Lz8R"
-        ],
-        "samples": [
-          {
-            "match_id": "m_3J5Wih",
-            "kickoff_utc": "2026-11-08T20:30:00Z",
-            "xg_for": 0.27,
-            "xg_against": 1.35
-          },
-          {
-            "match_id": "m_4DmdGR",
-            "kickoff_utc": "2026-11-02T18:15:00Z",
-            "xg_for": 0.7,
-            "xg_against": 1.37
-          },
-          {
-            "match_id": "m_47VWgW",
-            "kickoff_utc": "2026-10-28T18:15:00Z",
-            "xg_for": 1.44,
-            "xg_against": 0.44
-          },
-          {
-            "match_id": "m_2jUGcg",
-            "kickoff_utc": "2026-10-23T18:00:00Z",
-            "xg_for": 1.27,
-            "xg_against": 0.86
-          },
-          {
-            "match_id": "m_28Lz8R",
-            "kickoff_utc": "2026-10-18T23:30:00Z",
-            "xg_for": 0.31,
-            "xg_against": 2.02
-          }
-        ]
-      },
-      "away_recent": {
-        "complete_samples": 5,
-        "requested_samples": 5,
-        "data_quality": "sufficient",
-        "mean_xg_for": 1.398,
-        "mean_xg_against": 1.274,
-        "source_match_ids": [
-          "m_2S9dSC",
-          "m_4PgWRG",
-          "m_3bwnrd",
-          "m_0ftnyu",
-          "m_4NEFLl"
-        ],
-        "samples": [
-          {
-            "match_id": "m_2S9dSC",
-            "kickoff_utc": "2026-11-08T18:00:00Z",
-            "xg_for": 2.01,
-            "xg_against": 0.9
-          },
-          {
-            "match_id": "m_4PgWRG",
-            "kickoff_utc": "2026-11-01T16:00:00Z",
-            "xg_for": 1.42,
-            "xg_against": 0.98
-          },
-          {
-            "match_id": "m_3bwnrd",
-            "kickoff_utc": "2026-10-29T18:00:00Z",
-            "xg_for": 1.48,
-            "xg_against": 1.47
-          },
-          {
-            "match_id": "m_0ftnyu",
-            "kickoff_utc": "2026-10-25T23:00:00Z",
-            "xg_for": 0.5,
-            "xg_against": 2.16
-          },
-          {
-            "match_id": "m_4NEFLl",
-            "kickoff_utc": "2026-10-16T20:30:00Z",
-            "xg_for": 1.58,
-            "xg_against": 0.86
-          }
-        ]
-      },
-      "both_sides_sufficient": true
-    },
     {
       "pitch_match_id": "m_1hp7Eb",
       "league": "LaLiga2",

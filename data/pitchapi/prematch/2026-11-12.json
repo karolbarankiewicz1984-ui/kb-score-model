@@ -1,13 +1,108 @@
 {
   "schema": "pitchapi-prematch-context-v1",
   "target_date": "2026-11-12",
-  "snapshot_utc": "2026-11-10T00:41:07.852430+00:00",
+  "snapshot_utc": "2026-11-10T12:37:11.686308+00:00",
   "source": "PitchAPI",
-  "available_upcoming": 0,
-  "fixtures_collected": 0,
-  "fixtures_with_both_sides_sufficient": 0,
+  "available_upcoming": 1,
+  "fixtures_collected": 1,
+  "fixtures_with_both_sides_sufficient": 1,
   "league_errors": [],
-  "fixtures": [],
+  "fixtures": [
+    {
+      "pitch_match_id": "m_1EVUX4",
+      "league": "Serie B",
+      "league_id": "l_3qUkB8",
+      "home": "Ponte Preta",
+      "away": "Operário PR",
+      "kickoff_utc": "2026-11-12T22:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.876,
+        "mean_xg_against": 1.908,
+        "source_match_ids": [
+          "m_12FrQR",
+          "m_0bSn3v",
+          "m_2hU1ri",
+          "m_1iIU2Q",
+          "m_2MHtiA"
+        ],
+        "samples": [
+          {
+            "match_id": "m_12FrQR",
+            "kickoff_utc": "2026-11-08T22:15:00Z",
+            "xg_for": 0.64,
+            "xg_against": 1.64
+          },
+          {
+            "match_id": "m_0bSn3v",
+            "kickoff_utc": "2026-10-30T22:30:00Z",
+            "xg_for": 0.11,
+            "xg_against": 2.01
+          },
+          {
+            "match_id": "m_2hU1ri",
+            "kickoff_utc": "2026-10-24T21:30:00Z",
+            "xg_for": 0.85,
+            "xg_against": 1.92
+          },
+          {
+            "match_id": "m_1iIU2Q",
+            "kickoff_utc": "2026-10-16T22:30:00Z",
+            "xg_for": 1.12,
+            "xg_against": 2.28
+          },
+          {
+            "match_id": "m_2MHtiA",
+            "kickoff_utc": "2026-10-12T22:00:00Z",
+            "xg_for": 1.66,
+            "xg_against": 1.69
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.54,
+        "mean_xg_against": 1.21,
+        "source_match_ids": [
+          "m_1XOKHN",
+          "m_4KlEwi",
+          "m_2jeBon",
+          "m_4crsgX"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1XOKHN",
+            "kickoff_utc": "2026-11-01T21:30:00Z",
+            "xg_for": 0.37,
+            "xg_against": 1.54
+          },
+          {
+            "match_id": "m_4KlEwi",
+            "kickoff_utc": "2026-10-23T22:30:00Z",
+            "xg_for": 0.58,
+            "xg_against": 0.79
+          },
+          {
+            "match_id": "m_2jeBon",
+            "kickoff_utc": "2026-10-17T21:30:00Z",
+            "xg_for": 0.88,
+            "xg_against": 1.63
+          },
+          {
+            "match_id": "m_4crsgX",
+            "kickoff_utc": "2026-10-11T21:30:00Z",
+            "xg_for": 0.33,
+            "xg_against": 0.88
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    }
+  ],
   "model_effect": "NONE",
   "kb_n_effect": 0,
   "dev_n_effect": 0,
