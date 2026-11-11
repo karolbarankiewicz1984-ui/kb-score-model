@@ -1,0 +1,145 @@
+{
+  "schema": "github-models-independent-predictions-v1",
+  "generated_at_utc": "2026-11-11T15:41:58Z",
+  "production_multimodel_unchanged": true,
+  "predictions": [
+    {
+      "fixture_id": "m_1hp7Eb",
+      "league": "La Liga 2",
+      "kickoff_utc": "2026-11-13T19:30:00Z",
+      "frozen_at_utc": "2026-11-11T15:41:58Z",
+      "model_id": "github-elo",
+      "model_version": "elo-v1",
+      "p_home": 0.2992560746722744,
+      "p_draw": 0.2206177863407734,
+      "p_away": 0.48012613898695217,
+      "probability_status": "uncalibrated_research",
+      "training_matches": 1526,
+      "resolved_identity": {
+        "league": "La Liga 2",
+        "country_code": "ESP",
+        "league_id": "l_3kyHLd",
+        "home": "Leganes",
+        "away": "Burgos",
+        "home_team_id": null,
+        "away_team_id": null,
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_1hp7Eb",
+      "league": "La Liga 2",
+      "kickoff_utc": "2026-11-13T19:30:00Z",
+      "frozen_at_utc": "2026-11-11T15:41:58Z",
+      "model_id": "callumfm-dixon-coles",
+      "model_version": "callumfm-dixon-coles-v1",
+      "p_home": 0.2209,
+      "p_draw": 0.3008,
+      "p_away": 0.4783,
+      "probability_status": "uncalibrated_research",
+      "resolved_identity": {
+        "league": "La Liga 2",
+        "country_code": "ESP",
+        "league_id": "l_3kyHLd",
+        "home": "Leganes",
+        "away": "Burgos",
+        "home_team_id": null,
+        "away_team_id": null,
+        "source_provider": "PitchAPI"
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "fixture_id": "m_4XjY7T",
+      "model": "elo",
+      "reason": "ambiguous_serie_b_country_not_verified"
+    },
+    {
+      "fixture_id": "m_4XjY7T",
+      "model": "dixon-coles",
+      "reason": "ambiguous_serie_b_country_not_verified"
+    },
+    {
+      "fixture_id": "m_4XjY7T",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_1EVUX4",
+      "model": "elo",
+      "reason": "ambiguous_serie_b_country_not_verified"
+    },
+    {
+      "fixture_id": "m_1EVUX4",
+      "model": "dixon-coles",
+      "reason": "ambiguous_serie_b_country_not_verified"
+    },
+    {
+      "fixture_id": "m_1EVUX4",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_1mqz2L",
+      "model": "elo",
+      "reason": "unmatched_home_team:Deportivo Pasto"
+    },
+    {
+      "fixture_id": "m_1mqz2L",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Deportivo Pasto"
+    },
+    {
+      "fixture_id": "m_1mqz2L",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_2uXJ0C",
+      "model": "elo",
+      "reason": "unmatched_home_team:Academia Puerto Cabello"
+    },
+    {
+      "fixture_id": "m_2uXJ0C",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Academia Puerto Cabello"
+    },
+    {
+      "fixture_id": "m_2uXJ0C",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_0BE3yt",
+      "model": "elo",
+      "reason": "unmatched_home_team:Llaneros"
+    },
+    {
+      "fixture_id": "m_0BE3yt",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Llaneros"
+    },
+    {
+      "fixture_id": "m_0BE3yt",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_1hp7Eb",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    }
+  ],
+  "blocker_summary": {
+    "elo: ambiguous_serie_b_country_not_verified": 2,
+    "dixon-coles: ambiguous_serie_b_country_not_verified": 2,
+    "xgboost: model_not_trained_or_adapter_not_ready": 6,
+    "elo: unmatched_home_team:Deportivo Pasto": 1,
+    "dixon-coles: unmatched_home_team:Deportivo Pasto": 1,
+    "elo: unmatched_home_team:Academia Puerto Cabello": 1,
+    "dixon-coles: unmatched_home_team:Academia Puerto Cabello": 1,
+    "elo: unmatched_home_team:Llaneros": 1,
+    "dixon-coles: unmatched_home_team:Llaneros": 1
+  }
+}
