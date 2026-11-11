@@ -1,0 +1,79 @@
+{
+  "schema": "pitchapi-postmatch-xg-v1",
+  "date": "2026-11-10",
+  "observed_at_utc": "2026-11-11T12:13:41.265927+00:00",
+  "source": "PitchAPI",
+  "fixtures_available": 2,
+  "matches_collected": 2,
+  "match_limit": 75,
+  "matches_with_complete_xg": 2,
+  "rows": [
+    {
+      "pitch_match_id": "m_0NldjE",
+      "date": null,
+      "kickoff_utc": "2026-11-10T00:00:00Z",
+      "league": "Primera A",
+      "league_id": "l_1xXulJ",
+      "home": "Junior",
+      "away": "Cúcuta Deportivo",
+      "home_team_id": "t_2e5O8D",
+      "away_team_id": "t_11ggED",
+      "goals_home": 2,
+      "goals_away": 0,
+      "status": "finished",
+      "xg_home": {
+        "shot_count": 17,
+        "shots_with_xg": 17,
+        "xg": 1.15,
+        "xg_complete": true,
+        "xgot": 1.21,
+        "shots_with_xgot": 17
+      },
+      "xg_away": {
+        "shot_count": 14,
+        "shots_with_xg": 14,
+        "xg": 1.37,
+        "xg_complete": true,
+        "xgot": 1.01,
+        "shots_with_xgot": 14
+      },
+      "shots_error": null
+    },
+    {
+      "pitch_match_id": "m_1EmehY",
+      "date": null,
+      "kickoff_utc": "2026-11-10T00:30:00Z",
+      "league": "Primera Division",
+      "league_id": "l_4dzm4e",
+      "home": "Aurora",
+      "away": "Universitario de Vinto",
+      "home_team_id": "t_3KpT7r",
+      "away_team_id": "t_2txXQc",
+      "goals_home": 1,
+      "goals_away": 1,
+      "status": "finished",
+      "xg_home": {
+        "shot_count": 18,
+        "shots_with_xg": 18,
+        "xg": 1.82,
+        "xg_complete": true,
+        "xgot": 1.75,
+        "shots_with_xgot": 18
+      },
+      "xg_away": {
+        "shot_count": 10,
+        "shots_with_xg": 10,
+        "xg": 0.35,
+        "xg_complete": true,
+        "xgot": 0.38,
+        "shots_with_xgot": 10
+      },
+      "shots_error": null
+    }
+  ],
+  "isolation": "POSTMATCH_DATA_ONLY_NO_KB_OR_DEV_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "notice": "Observed post-match xG, NOT predicted pre-match xG."
+}
