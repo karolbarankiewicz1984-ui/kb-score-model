@@ -1,0 +1,162 @@
+{
+  "schema": "github-models-fixture-queue-v1",
+  "generated_at_utc": "2026-11-11T15:15:15.917210+00:00",
+  "dates": [
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13"
+  ],
+  "missing_dates": [],
+  "invalid_dates": [],
+  "exclusions": [],
+  "exclusion_summary": {},
+  "fixtures": [
+    {
+      "fixture_id": "m_4XjY7T",
+      "league": "Serie B",
+      "home": "Londrina",
+      "away": "Náutico",
+      "kickoff_utc": "2026-11-11T22:00:00Z",
+      "snapshot_utc": "2026-11-11T15:12:12.060793Z",
+      "league_id": "l_3qUkB8",
+      "country_code": "BRA",
+      "home_team_id": "t_2RhN0s",
+      "away_team_id": "t_1cAOm2",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [
+        "unsupported_competition_id"
+      ],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1EVUX4",
+      "league": "Serie B",
+      "home": "Ponte Preta",
+      "away": "Operário PR",
+      "kickoff_utc": "2026-11-12T22:00:00Z",
+      "snapshot_utc": "2026-11-11T15:12:12.060793Z",
+      "league_id": "l_3qUkB8",
+      "country_code": "BRA",
+      "home_team_id": "t_0UQch0",
+      "away_team_id": "t_1uel0V",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [
+        "unsupported_competition_id"
+      ],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1mqz2L",
+      "league": "Primera A",
+      "home": "Deportivo Pasto",
+      "away": "Junior",
+      "kickoff_utc": "2026-11-12T22:00:00Z",
+      "snapshot_utc": "2026-11-11T15:12:12.060793Z",
+      "league_id": "l_1xXulJ",
+      "country_code": "COL",
+      "home_team_id": "t_1oYsOc",
+      "away_team_id": "t_2e5O8D",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2uXJ0C",
+      "league": "Primera Division",
+      "home": "Academia Puerto Cabello",
+      "away": "Monagas",
+      "kickoff_utc": "2026-11-12T22:00:00Z",
+      "snapshot_utc": "2026-11-11T15:12:12.060793Z",
+      "league_id": "l_1TVRZW",
+      "country_code": "VEN",
+      "home_team_id": "t_31pxlb",
+      "away_team_id": "t_348X3O",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4SCAxW",
+      "league": "Serie B",
+      "home": "São Bernardo",
+      "away": "Athletic Club MG",
+      "kickoff_utc": "2026-11-12T23:00:00Z",
+      "snapshot_utc": "2026-11-11T15:12:12.060793Z",
+      "league_id": "l_3qUkB8",
+      "country_code": "BRA",
+      "home_team_id": "t_0nhgm1",
+      "away_team_id": "t_2DbKZ4",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [
+        "unsupported_competition_id"
+      ],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0BE3yt",
+      "league": "Primera A",
+      "home": "Llaneros",
+      "away": "Boyacá Chicó",
+      "kickoff_utc": "2026-11-13T00:00:00Z",
+      "snapshot_utc": "2026-11-11T15:12:12.060793Z",
+      "league_id": "l_1xXulJ",
+      "country_code": "COL",
+      "home_team_id": "t_1z1VVv",
+      "away_team_id": "t_1FogUi",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1hp7Eb",
+      "league": "LaLiga2",
+      "home": "Leganés",
+      "away": "Burgos CF",
+      "kickoff_utc": "2026-11-13T19:30:00Z",
+      "snapshot_utc": "2026-11-11T15:12:12.060793Z",
+      "league_id": "l_3kyHLd",
+      "country_code": "ESP",
+      "home_team_id": "t_15AmuZ",
+      "away_team_id": "t_3jBGGK",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    }
+  ],
+  "note": "Queue only; not model predictions. Each model independently checks training readiness."
+}
