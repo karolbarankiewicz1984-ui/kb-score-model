@@ -4,11 +4,16 @@ from collections import defaultdict
 import json
 from pathlib import Path
 from github_models.abc_settlement import audit
+from github_models.settlement import CachedHistoricalPool
 from github_models.abc_metrics import metrics
 
 def run(root, history, events, as_of):
     rows=[]
     archives=0
+    # Share exact-match decisions across repeated frozen snapshots.
+    # Original output and matching rules stay unchanged.
+    history = CachedHistoricalPool(history)
+    events = CachedHistoricalPool(events)
     for f in sorted((root/"frozen").glob("*/*.json")):
         rel=f.relative_to(root)
         q=root/"queues"/rel.parts[1]/rel.name
@@ -51,6 +56,10 @@ def run(root, history, events, as_of):
         conflicting_archive_outcomes=outcome_conflicts,
         unresolved_reasons=dict(reasons),
         summary=[dict(variant=v,market=m,**metrics(items)) for (v,m),items in sorted(groups.items())],
+        cache_diagnostics={"history_hits":history.hits,
+                           "history_misses":history.misses,
+                           "events_hits":events.hits,
+                           "events_misses":events.misses},
         calibration="unverified",production_unchanged=True)
 
 def main():
