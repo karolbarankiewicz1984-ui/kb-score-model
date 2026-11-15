@@ -36,7 +36,7 @@ jobs:
         env:
           PITCHAPI_API_KEY: ${{ secrets.PITCHAPI_API_KEY }}
         run: |
-          python -B -m github_models.pitchapi_fixtures --output-dir research_inputs/pitchapi
+          python -B -m github_models.pitchapi_fixtures --output-dir research_inputs/pitchapi --days 7
           python -B -m github_models.public_results
           python -B -m github_models.collect_events
       - name: Freeze the input cutoff
@@ -52,7 +52,7 @@ jobs:
         run: |
           set -euo pipefail
           DAY="$(TZ=Europe/Warsaw date +%F)"
-          python -B -m github_models.daily_queue --snapshot-dir research_inputs/pitchapi --as-of "$FROZEN_AT"
+          python -B -m github_models.daily_queue --snapshot-dir research_inputs/pitchapi --as-of "$FROZEN_AT" --days 7
           python -B -m github_models.coverage_audit --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --output "reports/github_models/coverage/$DAY.json" --as-of "$FROZEN_AT"
           python -B -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$FROZEN_AT"
           python -B -m github_models.market_runner --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/markets/$DAY.json"
@@ -71,41 +71,11 @@ jobs:
           test -s "reports/github_models/filters/ABC_$DAY.json"
           test -s "reports/github_models/pdf/GITHUB_MODELS_V2_ABC_$DAY.pdf"
 
-          # The frozen queue spans three Warsaw dates. Preserve the full JSON,
-          # and render each date separately without making any new predictions.
-          python - <<'PY'
-          from datetime import date, timedelta
-          import json
-          from pathlib import Path
-          from github_models.abc_chronological_pdf import render_day
-          root = Path("reports/github_models")
-          now = date.today()  # Date is read from the frozen queue below, not runner TZ.
-          queue_file = sorted((root / "queues").glob("*.json"))
-          if len(queue_file) != 1:
-              raise RuntimeError("expected_one_frozen_queue")
-          base_day = date.fromisoformat(queue_file[0].stem)
-          queue = json.loads(queue_file[0].read_text(encoding="utf-8"))
-          selected = json.loads((root / "filters" / ("ABC_" + str(base_day) + ".json")).read_text(encoding="utf-8"))
-          fixtures = {str(row["fixture_id"]): row for row in queue["fixtures"]}
-          if len(fixtures) != len(queue["fixtures"]):
-              raise ValueError("duplicate_frozen_fixture")
-          report = {}
-          for offset in (1, 2):
-              day = str(base_day + timedelta(days=offset))
-              target = root / "pdf" / ("GITHUB_MODELS_V2_ABC_" + day + ".pdf")
-              report[day] = render_day(
-                  selected, fixtures, str(target), day,
-                  source="Frozen same-run A/B/C input, no additional prediction")
-              if not target.is_file() or target.stat().st_size < 1024:
-                  raise ValueError("missing_or_empty_date_pdf:" + day)
-          (root / "filters" / ("THREE_DAY_MANIFEST_" + str(base_day) + ".json")).write_text(
-              json.dumps({"schema": "github-models-three-day-pdf-v1",
-                          "base_day": str(base_day), "next_days": report,
-                          "source": "one frozen run; no resnapshot",
-                          "odds_verified": False, "probabilities_calibrated": False},
-                         ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-          print("Three date-scoped PDFs ready:", [str(base_day), *report])
-          PY
+          # Create seven Polish local-calendar reports from the SAME frozen
+          # research queue/forecasts, without additional API or re-estimation.
+          python -B -m github_models.weekly_reports \
+            --root reports/github_models --day "$DAY" --days 7
+          test -s "reports/github_models/filters/SEVEN_DAY_MANIFEST_$DAY.json"
       - name: Publish today's PDF and sources BEFORE historical audit
         uses: actions/upload-artifact@v4
         with:
@@ -116,7 +86,7 @@ jobs:
             reports/github_models/coverage/*.json
             reports/github_models/markets/*.json
             reports/github_models/filters/ABC_*.json
-            reports/github_models/filters/THREE_DAY_MANIFEST_*.json
+            reports/github_models/filters/SEVEN_DAY_MANIFEST_*.json
             reports/github_models/pdf/GITHUB_MODELS_V2_ABC_*.pdf
             data/github_models/source_manifest.json
             data/github_models/events_manifest.json
