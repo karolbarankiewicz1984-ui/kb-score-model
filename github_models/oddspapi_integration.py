@@ -197,7 +197,7 @@ def _selection(quote, ident):
     return None
 
 
-def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc):
+def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc, frozen_predictions=None):
     """Exact-match model-vs-Superbet layer; never create forecasts from odds."""
     as_of = utc(as_of_utc)
     originals = defaultdict(list)
@@ -211,6 +211,37 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc):
             # Frozen forecasts do not always embed kickoff: verify through link below.
             pass
         originals[str(row.get("fixture_id"))].append(row)
+    # Two independent pre-match 1X2 models: produce minimum consensus only
+    # if both are present and their probabilities agree to within 10pp.
+    by_model=defaultdict(dict)
+    for row in (frozen_predictions or {}).get("predictions",[]):
+        if row.get("model_id") not in {"github-elo","callumfm-dixon-coles"}:
+            continue
+        vals=[row.get(k) for k in ("p_home","p_draw","p_away")]
+        if (any(type(x) not in (int,float) or not math.isfinite(x)
+                or not 0<=x<=1 for x in vals) or abs(sum(vals)-1)>.0001):
+            continue
+        by_model[str(row.get("fixture_id"))][row["model_id"]]=row
+    for fid,models in by_model.items():
+        a,b=models.get("github-elo"),models.get("callumfm-dixon-coles")
+        if a is None or b is None:
+            continue
+        try:
+            frozen_a,frozen_b=utc(a["frozen_at_utc"]),utc(b["frozen_at_utc"])
+            frozen=max(frozen_a,frozen_b).isoformat()
+            if frozen_a>as_of or frozen_b>as_of:
+                continue
+        except (ValueError,KeyError,TypeError):
+            continue
+        for field,selection in (("p_home","1"),("p_draw","X"),("p_away","2")):
+            if abs(a[field]-b[field])>.10:
+                continue
+            originals[fid].append({
+                "fixture_id":fid,"market":"1X2","line":0,
+                "selection":selection,"model_id":"elo-and-dixon-min-consensus",
+                "probability":min(a[field],b[field]),
+                "probability_status":"research_uncalibrated",
+                "frozen_at_utc":frozen})
     output=[]
     counters=Counter()
     quote_ids = {}
@@ -247,8 +278,6 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc):
             if sel is None:
                 continue
             key=(ident["model_market"],ident["line"],sel)
-            if ident["model_market"]=="1X2":
-                continue  # Existing 1X2 is model-consensus dependent; link via dedicated forecasts later.
             if key not in grouped or grouped[key]["odds"] < q["odds"]:
                 grouped[key]=q
         for p in originals.get(fid,[]):
@@ -281,7 +310,7 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc):
                 "forecast_frozen_at_utc":p["frozen_at_utc"],
                 "source_market_id":offer["market_id"],
                 "source_outcome_id":offer["outcome_id"],
-                "calibration_verified":False,"settlement_verified":p["market"] in {"goals","corners"},
+                "calibration_verified":False,"settlement_verified":p["market"] in {"goals","corners","1X2"},
                 "not_an_ev_claim":True})
             counters["matched_exact_market"]+=1
     return {"schema":"github-models-oddspapi-market-comparison-v1",
@@ -348,7 +377,7 @@ def main(argv=None):
     p=argparse.ArgumentParser()
     p.add_argument("mode",choices=("join","overlay","audit"))
     p.add_argument("--queue");p.add_argument("--fixtures");p.add_argument("--links")
-    p.add_argument("--odds");p.add_argument("--markets");p.add_argument("--settlements")
+    p.add_argument("--odds");p.add_argument("--markets");p.add_argument("--settlements");p.add_argument("--predictions")
     p.add_argument("--as-of",required=True);p.add_argument("--out",required=True)
     a=p.parse_args(argv)
     load=lambda name:json.loads(Path(name).read_text(encoding="utf-8"))
@@ -357,7 +386,9 @@ def main(argv=None):
     elif a.mode=="overlay":
         payload=load(a.odds)
         snapshots = payload["snapshots"] if isinstance(payload,dict) else payload
-        result=market_overlay(load(a.links),snapshots,load(a.markets) if a.markets else None,as_of_utc=a.as_of)
+        result=market_overlay(load(a.links),snapshots,load(a.markets) if a.markets else None,
+                             as_of_utc=a.as_of,
+                             frozen_predictions=load(a.predictions) if a.predictions else None)
     else:
         result=compare_variants(load(a.odds),load(a.settlements))
     dest=Path(a.out);dest.parent.mkdir(parents=True,exist_ok=True)
