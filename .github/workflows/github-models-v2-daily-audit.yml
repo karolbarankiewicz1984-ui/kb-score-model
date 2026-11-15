@@ -39,6 +39,14 @@ jobs:
           python -B -m github_models.pitchapi_fixtures --output-dir research_inputs/pitchapi --days 7
           python -B -m github_models.public_results
           python -B -m github_models.collect_events
+      - name: Upload 7-day PitchAPI source diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-models-v2-pitchapi-source-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research_inputs/pitchapi/*.json
+          retention-days: 30
+          if-no-files-found: warn
       - name: Freeze the input cutoff
         run: |
           python - <<'PY'
