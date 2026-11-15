@@ -45,6 +45,30 @@ class QueueTests(unittest.TestCase):
             self.assertEqual([f["fixture_id"] for f in q["fixtures"]], ["sat"])
             self.assertNotIn("p_home", q["fixtures"][0])
 
+
+    def test_partial_saturday_keeps_verified_subset_and_warns(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            saturday = "2026-11-21"
+            payload = dict(
+                schema="pitchapi-research-fixtures-v1", source="PitchAPI",
+                source_status="partial", target_date=saturday,
+                snapshot_utc="2026-11-15T20:22:05Z",
+                errors=[dict(operation="fixture_validation", error_type="ValueError")
+                        for _ in range(2)],
+                fixtures=[dict(pitch_match_id="valid-saturday", league="LaLiga2",
+                               league_id="l_3kyHLd", country_code="ESP",
+                               home="Eibar", away="Cadiz",
+                               kickoff_utc="2026-11-21T17:30:00Z")])
+            Path(tmp, saturday + ".json").write_text(json.dumps(payload))
+            q = build_queue(tmp, start_date="2026-11-15",
+                            as_of_utc="2026-11-15T20:30:00Z", days=7)
+            self.assertEqual(q["partial_dates"], ["2026-11-21"])
+            self.assertEqual(q["invalid_dates"], [])
+            self.assertEqual([x["fixture_id"] for x in q["fixtures"]],
+                             ["valid-saturday"])
+            self.assertIn("partial_source_calendar", q["exclusion_summary"])
+            self.assertEqual(q["exclusions"][-1]["rejected_rows"], 2)
+
     def test_seven_day_missing_and_invalid_dates_are_never_silent(self):
         with tempfile.TemporaryDirectory() as tmp:
             Saturday = "2026-11-21"
