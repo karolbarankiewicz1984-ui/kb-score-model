@@ -4,7 +4,9 @@ on:
     branches: [codex/oddspapi-odds-layer]
     paths:
       - 'github_models/oddspapi_market.py'
+      - 'github_models/oddspapi_integration.py'
       - 'tests/test_github_models_oddspapi_market.py'
+      - 'tests/test_github_models_oddspapi_integration.py'
       - '.github/workflows/oddspapi-research-regression.yml'
   workflow_dispatch:
 
@@ -24,5 +26,5 @@ jobs:
           python-version: '3.12'
       - name: Compile adapter and run no-network tests
         run: |
-          python -m py_compile github_models/oddspapi_market.py tests/test_github_models_oddspapi_market.py
-          python -m unittest discover -s tests -p 'test_github_models_oddspapi_market.py' -v
+          python -m py_compile github_models/oddspapi_market.py github_models/oddspapi_integration.py tests/test_github_models_oddspapi_market.py tests/test_github_models_oddspapi_integration.py
+          python -m unittest discover -s tests -p 'test_github_models_oddspapi*.py' -v
