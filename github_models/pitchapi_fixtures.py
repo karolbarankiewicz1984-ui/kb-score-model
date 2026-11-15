@@ -183,6 +183,7 @@ def collect(client, *, start_date=None, days=3, clock=None):
     seen, conflicting_ids = {}, set()
     for query_date, matches in batches:
         for match in matches:
+            payload = None
             try:
                 kickoff = _instant(_field(match, "time_utc"))
                 target = kickoff.astimezone(WARSAW).date()
@@ -212,15 +213,34 @@ def collect(client, *, start_date=None, days=3, clock=None):
                         continue
                     conflicting_ids.add(identity)
                     previous_payload["fixtures"] = [item for item in previous_payload["fixtures"] if item["pitch_match_id"] != identity]
+                    if previous_payload["source_status"] != "source_error":
+                        previous_payload["source_status"] = "partial"
+                    previous_payload["errors"].append(dict(operation="provider_fixture_conflict",
+                                                          provider_query_date=query_date,
+                                                          error_type="ValueError"))
                     raise ValueError("contradictory_provider_fixture_id")
                 seen[identity] = (row, payload)
                 if clock_valid:
                     payload["fixtures"].append(row)
             except (ValueError, TypeError, KeyError, AttributeError) as exc:
-                for payload in payloads.values():
-                    if payload["source_status"] != "source_error":
-                        payload["source_status"] = "partial"
-                    payload["errors"].append(dict(operation="fixture_validation", error_type=type(exc).__name__))
+                # One invalid source row must not hide independently verified
+                # future days. When kickoff is known, exclude only its Warsaw
+                # day. Without a usable kickoff, the queried UTC date can
+                # correspond to that date or the following Warsaw date.
+                if payload is not None:
+                    affected = [payload]
+                else:
+                    query_day = date.fromisoformat(query_date)
+                    affected = [payloads[name] for name in
+                                (query_day.isoformat(), (query_day + timedelta(days=1)).isoformat())
+                                if name in payloads]
+                for affected_day in affected:
+                    if affected_day["source_status"] != "source_error":
+                        affected_day["source_status"] = "partial"
+                    affected_day["errors"].append(
+                        dict(operation="fixture_validation", provider_query_date=query_date,
+                             error_type=type(exc).__name__))
+
     for payload in payloads.values():
         payload["fixtures"].sort(key=lambda row: (row["kickoff_utc"], row["pitch_match_id"]))
         payload["fixtures_collected"] = len(payload["fixtures"])
@@ -245,8 +265,11 @@ def main():
         print(json.dumps(dict(date=payload["target_date"], status=payload["source_status"],
                              available=payload["available_upcoming"], collected=payload["fixtures_collected"],
                              metadata_errors=sum(x["status"] == "error" for x in payload["league_metadata"].values()))))
-    if any(payload["source_status"] != "ok" for payload in snapshots):
-        raise SystemExit("PitchAPI research collection incomplete; diagnostic snapshots written")
+    if any(payload["source_status"] == "source_error" for payload in snapshots) or not any(
+            payload["source_status"] == "ok" for payload in snapshots):
+        raise SystemExit("PitchAPI source queries incomplete; diagnostic snapshots written")
+    if any(payload["source_status"] == "partial" for payload in snapshots):
+        print("PitchAPI: affected dates are quarantined (partial); other dates remain usable")
 
 
 if __name__ == "__main__":
