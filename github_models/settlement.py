@@ -2,6 +2,40 @@
 import math
 import re
 from datetime import date
+import json
+
+class CachedHistoricalPool:
+    """Run-scoped memoization for exact frozen match settlement.
+
+    Preserves the original matching_outcomes algorithm, the historical evidence
+    pool, publication cutoffs, and errors. Never persists data between runs.
+    """
+    def __init__(self, rows):
+        self.rows = rows
+        self.cache = {}
+        self.hits = 0
+        self.misses = 0
+
+    def lookup(self, fixture, *, as_of_utc, resolved_identity=None):
+        key = (str(as_of_utc),
+               json.dumps(fixture, sort_keys=True, ensure_ascii=False),
+               json.dumps(resolved_identity, sort_keys=True, ensure_ascii=False))
+        if key not in self.cache:
+            self.misses += 1
+            try:
+                value = matching_outcomes(
+                    fixture, self.rows, as_of_utc=as_of_utc,
+                    resolved_identity=resolved_identity)
+                self.cache[key] = (True, value)
+            except (ValueError, TypeError, KeyError, AttributeError) as error:
+                self.cache[key] = (False, error)
+        else:
+            self.hits += 1
+        ok, value = self.cache[key]
+        if ok:
+            return value
+        raise value
+
 from zoneinfo import ZoneInfo
 from github_models.reviewed_resolver import resolve_reviewed as resolve
 from github_models.competition_identity import canonicalize
@@ -73,6 +107,9 @@ def _frozen_team_id(identity, side):
 
 def matching_outcomes(fixture, pool, *, as_of_utc, resolved_identity=None):
     """Return exact league, ordered-team and local-date candidates available now."""
+    if isinstance(pool, CachedHistoricalPool):
+        return pool.lookup(fixture, as_of_utc=as_of_utc,
+                           resolved_identity=resolved_identity)
     now = utc(as_of_utc)
     eligible = []
     for row in pool:
