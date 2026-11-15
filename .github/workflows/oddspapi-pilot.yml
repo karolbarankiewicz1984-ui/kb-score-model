@@ -51,6 +51,8 @@ jobs:
           set -euo pipefail
           QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
           test -n "$QUEUE"
+          mkdir -p reports/oddspapi_pilot
+          cp "$QUEUE" reports/oddspapi_pilot/pitch_queue.json
           python -B -m github_models.oddspapi_collect \
             --queue "$QUEUE" \
             --catalog-cache "research_cache/${{ steps.period.outputs.month }}/markets.json" \
@@ -81,5 +83,5 @@ jobs:
         with:
           name: odds-polish-research-${{ github.run_id }}
           path: reports/oddspapi_pilot/
-          retention-days: 7
+          retention-days: 90
           if-no-files-found: ignore
