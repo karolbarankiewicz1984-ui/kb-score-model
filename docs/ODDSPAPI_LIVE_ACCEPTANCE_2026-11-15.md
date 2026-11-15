@@ -56,7 +56,7 @@ The category-name counter in `oddspapi_coverage_probe.py` is an *overlapping key
 - Free `/v4/historical-odds` endpoint does not increment quota, but is blocked if subscription allowance is exhausted; `/v4/account` is always unmetered.
 - The 250-request allowance resets on the **first day of each calendar month**. Both errors and empty billable responses may consume quota.
 - Conservative fallback budget for **30 days**, if per-fixture requests are required: 30 daily fixtures lists + 150 odds snapshots (up to 5 selected fixtures/day) + 20 catalogue/verification/recovery calls + 50 reserve = 250 maximum. On 31-day months, adapt caps dynamically and reserve space by stopping at `request_limit - 50`.
-- Hard stop enforced using the live `request_count`, plus a persistent ledger of attempted billable calls to protect against concurrency, unexpected retries and duplicate fixture collection. A daily or global runner must never quietly spend quota outside the allocation.
+- Future scheduled collector must enforce a hard stop using the live `request_count`, plus a persistent ledger of attempted billable calls to protect against concurrency, unexpected retries and duplicate fixture collection. A daily or global runner must never quietly spend quota outside the allocation.
 - **Not yet implemented:** batch API adapter, dedicated per-month scheduler, STS feed, production odds merge, market PDF. Do not infer deployment from this revised plan.
 
 Provider references:
