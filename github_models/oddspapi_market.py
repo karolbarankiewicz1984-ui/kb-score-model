@@ -20,7 +20,7 @@ from urllib.request import urlopen
 
 HOST = "https://api.oddspapi.io"
 SAFE_ENDPOINTS = frozenset({"account", "markets", "bookmakers", "fixtures",
-                            "odds", "historical-odds"})
+                            "odds", "odds-by-tournaments", "historical-odds"})
 PROVIDER = "oddspapi-v4"
 
 
