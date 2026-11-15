@@ -1,0 +1,33 @@
+name: MULTIMODEL V2 recovery regression
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/multimodel-v2-recovery-regression.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout isolated research code
+        uses: actions/checkout@v4
+        with:
+          ref: codex/multimodel-v2
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install rendering test dependencies
+        run: python -m pip install 'reportlab>=4,<5' 'PyMuPDF>=1.24.4,<2'
+      - name: Regression tests: frozen history, cutoffs, filters and PDF
+        run: |
+          set -euo pipefail
+          python -B -m unittest \
+            tests.test_github_models_cached_history \
+            tests.test_github_models_abc_filter \
+            tests.test_github_models_abc_metrics \
+            tests.test_github_models_settlement \
+            tests.test_github_models_abc_pdf -v
