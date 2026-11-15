@@ -6,12 +6,11 @@ archives. Missing fixtures/source dates are shown as missing, not forecasted.
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 from datetime import date, timedelta
 import json
 from pathlib import Path
 
-from github_models.abc_chronological_pdf import render_day
+from github_models.abc_chronological_pdf import render_day, date_time
 
 DAYS = 7
 SCHEMA = "github-models-seven-day-pdf-v1"
@@ -49,12 +48,11 @@ def build(root, base_day, *, days=DAYS):
             raise ValueError("invalid_pdf_header:" + report_day)
         status = ("source_snapshot_missing" if report_day in missing else
                   "source_snapshot_invalid" if report_day in invalid else "source_snapshot_valid")
-        fixture_count = sum(row["kickoff_utc"][:10] == report_day
-                            for row in fixtures.values()
-                            if "kickoff_utc" in row)
-        positions.append(dict(date=report_day, status=status,
-                              fixtures_in_queue=fixture_count,
-                              **stats))
+        fixture_count = sum((date_time(row.get("kickoff_utc")) is not None and
+                             date_time(row["kickoff_utc"]).date().isoformat() == report_day)
+                            for row in fixtures.values())
+        positions.append(dict(stats, source_status=status,
+                              fixtures_in_queue=fixture_count))
     manifest = dict(schema=SCHEMA,
                     base_day=str(day), horizon_days=days,
                     frozen_at_utc=selected.get("input_cutoff_utc"),
