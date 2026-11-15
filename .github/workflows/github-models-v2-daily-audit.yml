@@ -70,6 +70,42 @@ jobs:
             --output-pdf "reports/github_models/pdf/GITHUB_MODELS_V2_ABC_$DAY.pdf"
           test -s "reports/github_models/filters/ABC_$DAY.json"
           test -s "reports/github_models/pdf/GITHUB_MODELS_V2_ABC_$DAY.pdf"
+
+          # The frozen queue spans three Warsaw dates. Preserve the full JSON,
+          # and render each date separately without making any new predictions.
+          python - <<'PY'
+          from datetime import date, timedelta
+          import json
+          from pathlib import Path
+          from github_models.abc_chronological_pdf import render_day
+          root = Path("reports/github_models")
+          now = date.today()  # Date is read from the frozen queue below, not runner TZ.
+          queue_file = sorted((root / "queues").glob("*.json"))
+          if len(queue_file) != 1:
+              raise RuntimeError("expected_one_frozen_queue")
+          base_day = date.fromisoformat(queue_file[0].stem)
+          queue = json.loads(queue_file[0].read_text(encoding="utf-8"))
+          selected = json.loads((root / "filters" / ("ABC_" + str(base_day) + ".json")).read_text(encoding="utf-8"))
+          fixtures = {str(row["fixture_id"]): row for row in queue["fixtures"]}
+          if len(fixtures) != len(queue["fixtures"]):
+              raise ValueError("duplicate_frozen_fixture")
+          report = {}
+          for offset in (1, 2):
+              day = str(base_day + timedelta(days=offset))
+              target = root / "pdf" / ("GITHUB_MODELS_V2_ABC_" + day + ".pdf")
+              report[day] = render_day(
+                  selected, fixtures, str(target), day,
+                  source="Frozen same-run A/B/C input, no additional prediction")
+              if not target.is_file() or target.stat().st_size < 1024:
+                  raise ValueError("missing_or_empty_date_pdf:" + day)
+          (root / "filters" / ("THREE_DAY_MANIFEST_" + str(base_day) + ".json")).write_text(
+              json.dumps({"schema": "github-models-three-day-pdf-v1",
+                          "base_day": str(base_day), "next_days": report,
+                          "source": "one frozen run; no resnapshot",
+                          "odds_verified": False, "probabilities_calibrated": False},
+                         ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+          print("Three date-scoped PDFs ready:", [str(base_day), *report])
+          PY
       - name: Publish today's PDF and sources BEFORE historical audit
         uses: actions/upload-artifact@v4
         with:
@@ -80,6 +116,7 @@ jobs:
             reports/github_models/coverage/*.json
             reports/github_models/markets/*.json
             reports/github_models/filters/ABC_*.json
+            reports/github_models/filters/THREE_DAY_MANIFEST_*.json
             reports/github_models/pdf/GITHUB_MODELS_V2_ABC_*.pdf
             data/github_models/source_manifest.json
             data/github_models/events_manifest.json
@@ -144,7 +181,8 @@ jobs:
         run: |
           set -euo pipefail
           DAY="$(TZ=Europe/Warsaw date +%F)"
-          python -B -m github_models.daily_settlement --archive-dir research_archive --history data/github_models/settlement_verified_results.json --events data/github_models/settlement_verified_events.json --as-of "$AUDIT_AT" --output "reports/github_models/settlement.json"
+          # Full frozen settlement already runs in the independent smoke workflow.
+          # Do not compute it twice here; A/B/C audit settles the exact same records.
           python -B -m github_models.abc_audit_runner --archive-dir research_archive --history data/github_models/settlement_verified_results.json --events data/github_models/settlement_verified_events.json --as-of "$AUDIT_AT" --output "reports/github_models/filters/AUDIT_$DAY.json"
           python -B -m github_models.abc_audit_pdf --input "reports/github_models/filters/AUDIT_$DAY.json" --output "reports/github_models/pdf/GITHUB_MODELS_V2_AUDIT_$DAY.pdf"
       - name: Archive outputs
