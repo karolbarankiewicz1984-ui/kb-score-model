@@ -184,7 +184,7 @@ def collect(queue, *, now, catalog_path, batches=2, output_dir):
     results={"schema":"github-models-oddspapi-poland-collection-v1",
              "provider":"OddsPapi","bookmakers":[POLISH_BOOK],
              "sts_status":"not_in_account" if not sts_in_plan else "not_validated",
-             "as_of_utc":stamp.isoformat(),"market_catalog_refresh":was_refreshed,
+             "as_of_utc":datetime.now(timezone.utc).isoformat(),"market_catalog_refresh":was_refreshed,
              "links":links,
              "captured_fixture_count":len(all_snapshots),
              "captured_quote_count":sum(len(x["quotes"]) for x in all_snapshots),
