@@ -50,7 +50,8 @@ def _label(row):
 
 def make_pdf(collection, overlay, audit, output, *, report_date=None):
     """Stand-alone Polish PDF; all displayed odds traceable to captured rows."""
-    from github_models.abc_pdf_style import p, render, styles, table, WIDTH
+    from github_models.abc_pdf_style import fonts, p, render, styles, table, WIDTH
+    fonts()
     st=styles()
     story=[]
     story.append(p("GITHUB MULTIMODEL V2 | SUPERBET.PL",st["title"]))
