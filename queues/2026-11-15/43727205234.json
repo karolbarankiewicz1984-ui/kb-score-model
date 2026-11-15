@@ -1,0 +1,269 @@
+{
+  "schema": "github-models-fixture-queue-v1",
+  "generated_at_utc": "2026-11-15T15:02:03Z",
+  "dates": [
+    "2026-11-15",
+    "2026-11-16",
+    "2026-11-17"
+  ],
+  "missing_dates": [],
+  "invalid_dates": [],
+  "exclusions": [
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_1qt01i",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_0upg8B",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_0k3BH5",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_1ZDe39",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_3o4V64",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_4YoRoL",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_0kF8Ig",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_2lTrxO",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_1ejz9A",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-15",
+      "fixture_id": "m_42t8st",
+      "reason": "kickoff_not_verified_future_prematch"
+    }
+  ],
+  "exclusion_summary": {
+    "kickoff_not_verified_future_prematch": 10
+  },
+  "fixtures": [
+    {
+      "fixture_id": "m_1S4SNM",
+      "league": "LaLiga2",
+      "home": "Granada",
+      "away": "Las Palmas",
+      "kickoff_utc": "2026-11-15T15:15:00Z",
+      "snapshot_utc": "2026-11-11T23:28:47.570303+00:00",
+      "league_id": "l_3kyHLd",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0LGexK",
+      "league": "LaLiga2",
+      "home": "Eibar",
+      "away": "Cádiz",
+      "kickoff_utc": "2026-11-15T17:30:00Z",
+      "snapshot_utc": "2026-11-11T23:28:47.570303+00:00",
+      "league_id": "l_3kyHLd",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4PAjc4",
+      "league": "LaLiga2",
+      "home": "Eldense",
+      "away": "Sabadell",
+      "kickoff_utc": "2026-11-15T17:30:00Z",
+      "snapshot_utc": "2026-11-11T23:28:47.570303+00:00",
+      "league_id": "l_3kyHLd",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2CNT6R",
+      "league": "Liga 1",
+      "home": "Comerciantes Unidos",
+      "away": "Sport Boys",
+      "kickoff_utc": "2026-11-15T18:00:00Z",
+      "snapshot_utc": "2026-11-11T23:28:47.570303+00:00",
+      "league_id": "l_3uNwVX",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0ic5Py",
+      "league": "Liga 1",
+      "home": "Juan Pablo II College",
+      "away": "Deportivo Garcilaso",
+      "kickoff_utc": "2026-11-15T20:15:00Z",
+      "snapshot_utc": "2026-11-11T23:28:47.570303+00:00",
+      "league_id": "l_3uNwVX",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_33v2PD",
+      "league": "USL Championship",
+      "home": "New Mexico United",
+      "away": "Sacramento Republic",
+      "kickoff_utc": "2026-11-16T00:00:00Z",
+      "snapshot_utc": "2026-11-15T13:30:34.393965+00:00",
+      "league_id": "l_3yVUAO",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4FyyOV",
+      "league": "Liga 1",
+      "home": "UTC Cajamarca",
+      "away": "Los Chankas",
+      "kickoff_utc": "2026-11-16T18:00:00Z",
+      "snapshot_utc": "2026-11-15T13:30:34.393965+00:00",
+      "league_id": "l_3uNwVX",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3NvoM5",
+      "league": "LaLiga2",
+      "home": "Albacete",
+      "away": "Celta Fortuna",
+      "kickoff_utc": "2026-11-16T19:30:00Z",
+      "snapshot_utc": "2026-11-15T13:30:34.393965+00:00",
+      "league_id": "l_3kyHLd",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0hYM9t",
+      "league": "Liga 1",
+      "home": "Cusco",
+      "away": "ADT",
+      "kickoff_utc": "2026-11-16T20:15:00Z",
+      "snapshot_utc": "2026-11-15T13:30:34.393965+00:00",
+      "league_id": "l_3uNwVX",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1SZ3oO",
+      "league": "Liga 1",
+      "home": "Deportivo Moquegua",
+      "away": "Atlético Grau",
+      "kickoff_utc": "2026-11-16T20:15:00Z",
+      "snapshot_utc": "2026-11-15T13:30:34.393965+00:00",
+      "league_id": "l_3uNwVX",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    }
+  ],
+  "note": "Queue only; not model predictions. Each model independently checks training readiness."
+}
