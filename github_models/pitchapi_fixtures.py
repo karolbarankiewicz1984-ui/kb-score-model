@@ -1,6 +1,6 @@
 """Uncapped, fixture-only PitchAPI collection for isolated research.
 
-At most four UTC date requests and one metadata request per unique league are made.
+At most eight UTC date requests (seven Warsaw days) and one metadata request per unique league are made.
 No xG, history, scores, odds, model probabilities or production files are used.
 """
 from __future__ import annotations
@@ -120,18 +120,18 @@ def _fixture(match, metadata, snapshot, target):
 def collect(client, *, start_date=None, days=3, clock=None):
     """Observe UTC provider date lists, then group by actual Warsaw kickoff day.
 
-    Three Warsaw days can span four UTC dates near local midnight. Source errors
+    Seven Warsaw days can span eight UTC dates near local midnight. Source errors
     fail all requested calendar days closed; metadata failures remain explicit
     and may use only the resolver's reviewed competition-ID evidence later.
     """
-    if type(days) is not int or not 1 <= days <= 3:
-        raise ValueError("research_collection_days_must_be_1_to_3")
+    if type(days) is not int or not 1 <= days <= 7:
+        raise ValueError("research_collection_days_must_be_1_to_7")
     clock = clock or (lambda: datetime.now(timezone.utc))
     initial = _instant(clock())
     today = initial.astimezone(WARSAW).date()
     start = date.fromisoformat(start_date) if isinstance(start_date, str) else start_date or today
-    if not today <= start <= today + timedelta(days=2) or start + timedelta(days=days-1) > today + timedelta(days=2):
-        raise ValueError("research_collection_requires_current_three_warsaw_days")
+    if not today <= start <= today + timedelta(days=6) or start + timedelta(days=days-1) > today + timedelta(days=6):
+        raise ValueError("research_collection_requires_current_seven_warsaw_days")
     targets = [start + timedelta(days=offset) for offset in range(days)]
     payloads = {target.isoformat(): dict(
         schema=SCHEMA, source="PitchAPI", target_date=target.isoformat(), source_status="ok",
