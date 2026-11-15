@@ -67,7 +67,7 @@ jobs:
         run: |
           set -euo pipefail
           QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
-          REL="\${QUEUE#frozen_source/queues/}"
+          REL="${QUEUE#frozen_source/queues/}"
           test -f "frozen_source/frozen/$REL"
           test -f "frozen_source/markets/$REL"
           python -B -m github_models.oddspapi_produce \
