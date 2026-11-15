@@ -1,0 +1,89 @@
+name: MULTIMODEL V2 - Superbet OddsPapi market layer (daily)
+on:
+  schedule:
+    - cron: '25 8 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/oddspapi-daily.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oddspapi-poland-account-collector
+  cancel-in-progress: false
+
+jobs:
+  odds-and-research-report:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Checkout pinned, independently tested OddsPapi research implementation
+        uses: actions/checkout@v4
+        with:
+          ref: 58aed306013205a5215d4a35584cc25eedd53d33
+          persist-credentials: false
+      - name: Read immutable GitHub Models V2 inputs
+        uses: actions/checkout@v4
+        with:
+          ref: research/github-models-frozen
+          path: frozen_source
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install report generator
+        run: |
+          python -m pip install reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
+      - id: month
+        run: echo "value=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+      - name: Reuse static market catalog for calendar month
+        uses: actions/cache@v4
+        with:
+          path: research_cache
+          key: oddspapi-v4-soccer-catalog-${{ steps.month.outputs.value }}
+      - name: Collect only Superbet.pl; up to nine league groups; quota hard stop 200/250
+        env:
+          ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
+          test -n "$QUEUE"
+          mkdir -p reports/oddspapi_daily
+          cp "$QUEUE" reports/oddspapi_daily/pitch_queue.json
+          python -B -m github_models.oddspapi_collect \
+            --queue "$QUEUE" \
+            --catalog-cache "research_cache/${{ steps.month.outputs.value }}/markets.json" \
+            --batches 3 \
+            --output-dir reports/oddspapi_daily
+      - name: Compare exact markets against original frozen forecasts
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
+          REL="\${QUEUE#frozen_source/queues/}"
+          test -f "frozen_source/frozen/$REL"
+          test -f "frozen_source/markets/$REL"
+          python -B -m github_models.oddspapi_produce \
+            --collection reports/oddspapi_daily/collection.json \
+            --queue "$QUEUE" \
+            --frozen "frozen_source/frozen/$REL" \
+            --markets "frozen_source/markets/$REL" \
+            --outdir reports/oddspapi_daily
+          test -s reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf
+          pdfinfo reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf | grep 'Pages:'
+          pdftotext reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf - | grep -q 'SUPERBET.PL'
+      - name: Save time-stamped source evidence, comparisons and PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oddspapi-daily
+          path: reports/oddspapi_daily/
+          if-no-files-found: ignore
+          retention-days: 90
