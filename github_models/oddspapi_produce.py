@@ -30,7 +30,11 @@ def run(collection, queue, frozen, event_markets, history, event_history, outdir
                           as_of_utc=as_of,frozen_predictions=frozen)
     # No settlement inference from bookmaker market data. Verify outcomes in
     # separate independent final-score and event databases.
-    settlements=settle_markets(event_markets,queue,history,event_history,as_of)
+    if history is None or event_history is None:
+        settlements={"schema":"github-models-event-settlement-v1",
+                     "settlements":[],"status":"awaiting_verified_final_data"}
+    else:
+        settlements=settle_markets(event_markets,queue,history,event_history,as_of)
     audit=compare_variants(overlay,settlements)
     out=Path(outdir)
     _write(out/"market_overlay.json",overlay)
@@ -47,12 +51,15 @@ def run(collection, queue, frozen, event_markets, history, event_history, outdir
 
 def main():
     p=argparse.ArgumentParser()
-    for k in ("collection","queue","frozen","markets","history","events","outdir"):
+    for k in ("collection","queue","frozen","markets","outdir"):
         p.add_argument("--"+k,required=True)
+    p.add_argument("--history")
+    p.add_argument("--events")
     a=p.parse_args()
     get=lambda x:json.loads(Path(x).read_text(encoding="utf-8"))
     run(get(a.collection),get(a.queue),get(a.frozen),
-        get(a.markets),get(a.history),get(a.events),a.outdir)
+        get(a.markets),get(a.history) if a.history else None,
+        get(a.events) if a.events else None,a.outdir)
 
 
 if __name__=="__main__":
