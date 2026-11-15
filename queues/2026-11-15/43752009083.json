@@ -1,0 +1,136 @@
+{
+  "schema": "github-models-fixture-queue-v1",
+  "generated_at_utc": "2026-11-15T19:25:30.065708+00:00",
+  "dates": [
+    "2026-11-15",
+    "2026-11-16",
+    "2026-11-17"
+  ],
+  "missing_dates": [],
+  "invalid_dates": [],
+  "exclusions": [],
+  "exclusion_summary": {},
+  "fixtures": [
+    {
+      "fixture_id": "m_0ic5Py",
+      "league": "Liga 1",
+      "home": "Juan Pablo II College",
+      "away": "Deportivo Garcilaso",
+      "kickoff_utc": "2026-11-15T20:15:00Z",
+      "snapshot_utc": "2026-11-15T19:22:29.521355Z",
+      "league_id": "l_3uNwVX",
+      "country_code": "PER",
+      "home_team_id": "t_1XzLP9",
+      "away_team_id": "t_48wfSF",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_33v2PD",
+      "league": "USL Championship",
+      "home": "New Mexico United",
+      "away": "Sacramento Republic",
+      "kickoff_utc": "2026-11-16T00:00:00Z",
+      "snapshot_utc": "2026-11-15T19:22:29.521355Z",
+      "league_id": "l_3yVUAO",
+      "country_code": "USA",
+      "home_team_id": "t_4M4sjN",
+      "away_team_id": "t_3BlGLS",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4FyyOV",
+      "league": "Liga 1",
+      "home": "UTC Cajamarca",
+      "away": "Los Chankas",
+      "kickoff_utc": "2026-11-16T18:00:00Z",
+      "snapshot_utc": "2026-11-15T19:22:29.521355Z",
+      "league_id": "l_3uNwVX",
+      "country_code": "PER",
+      "home_team_id": "t_3Duigi",
+      "away_team_id": "t_2797mK",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3NvoM5",
+      "league": "LaLiga2",
+      "home": "Albacete",
+      "away": "Celta Fortuna",
+      "kickoff_utc": "2026-11-16T19:30:00Z",
+      "snapshot_utc": "2026-11-15T19:22:29.521355Z",
+      "league_id": "l_3kyHLd",
+      "country_code": "ESP",
+      "home_team_id": "t_4FyD35",
+      "away_team_id": "t_4YXkkv",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0hYM9t",
+      "league": "Liga 1",
+      "home": "Cusco",
+      "away": "ADT",
+      "kickoff_utc": "2026-11-16T20:15:00Z",
+      "snapshot_utc": "2026-11-15T19:22:29.521355Z",
+      "league_id": "l_3uNwVX",
+      "country_code": "PER",
+      "home_team_id": "t_4RV0vt",
+      "away_team_id": "t_3Xc6B2",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1SZ3oO",
+      "league": "Liga 1",
+      "home": "Deportivo Moquegua",
+      "away": "Atlético Grau",
+      "kickoff_utc": "2026-11-16T20:15:00Z",
+      "snapshot_utc": "2026-11-15T19:22:29.521355Z",
+      "league_id": "l_3uNwVX",
+      "country_code": "PER",
+      "home_team_id": "t_0aGgxm",
+      "away_team_id": "t_3FEth4",
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    }
+  ],
+  "note": "Queue only; not model predictions. Each model independently checks training readiness."
+}
