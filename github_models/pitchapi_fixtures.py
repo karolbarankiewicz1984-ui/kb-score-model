@@ -171,15 +171,27 @@ def collect(client, *, start_date=None, days=3, clock=None):
     snapshot = _stamp(clock)
     clock_valid = all(_instant(item["requested_at_utc"]) <= _instant(item["received_at_utc"]) <= _instant(snapshot)
                       for item in queries) and all(_instant(item["received_at_utc"]) <= _instant(snapshot) for item in cache.values())
-    errors = [dict(operation="date_fixtures", query_date=item["date"], error_type=item["error_type"])
-              for item in queries if item["status"] == "error"]
-    if not clock_valid:
-        errors.append(dict(operation="observation_clock_order", error_type="ValueError"))
     for payload in payloads.values():
         payload.update(snapshot_utc=snapshot, requested_at_utc=queries[0]["requested_at_utc"],
                        source_queries=queries, fixtures_received_at_utc=max(item["received_at_utc"] for item in queries))
-        if errors:
-            payload.update(source_status="source_error", available_upcoming=None, errors=list(errors))
+        if not clock_valid:
+            payload.update(source_status="source_error", available_upcoming=None,
+                           errors=[dict(operation="observation_clock_order", error_type="ValueError")])
+    # One failed UTC provider date query can affect only that Warsaw day and
+    # the following Warsaw day. Other dates keep their verified source rows.
+    # Never mistake a failed query for an empty calendar.
+    for source_query in queries:
+        if source_query["status"] != "error":
+            continue
+        utc_day = date.fromisoformat(source_query["date"])
+        for affected in (utc_day, utc_day + timedelta(days=1)):
+            payload = payloads.get(affected.isoformat())
+            if payload is not None:
+                payload["source_status"] = "source_error"
+                payload["available_upcoming"] = None
+                payload["errors"].append(dict(
+                    operation="date_fixtures", query_date=source_query["date"],
+                    error_type=source_query["error_type"]))
     seen, conflicting_ids = {}, set()
     for query_date, matches in batches:
         for match in matches:
@@ -265,11 +277,10 @@ def main():
         print(json.dumps(dict(date=payload["target_date"], status=payload["source_status"],
                              available=payload["available_upcoming"], collected=payload["fixtures_collected"],
                              metadata_errors=sum(x["status"] == "error" for x in payload["league_metadata"].values()))))
-    if any(payload["source_status"] == "source_error" for payload in snapshots) or not any(
-            payload["source_status"] == "ok" for payload in snapshots):
-        raise SystemExit("PitchAPI source queries incomplete; diagnostic snapshots written")
-    if any(payload["source_status"] == "partial" for payload in snapshots):
-        print("PitchAPI: affected dates are quarantined (partial); other dates remain usable")
+    if not any(payload["source_status"] == "ok" for payload in snapshots):
+        raise SystemExit("PitchAPI: no complete source date; diagnostic snapshots written")
+    if any(payload["source_status"] in ("partial", "source_error") for payload in snapshots):
+        print("PitchAPI: incomplete dates are quarantined; valid dates remain usable")
 
 
 if __name__ == "__main__":
