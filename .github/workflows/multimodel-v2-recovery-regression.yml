@@ -27,6 +27,9 @@ jobs:
           set -euo pipefail
           python -B -m unittest \
             tests.test_github_models_cached_history \
+            tests.test_github_models_pitchapi_fixtures \
+            tests.test_github_models_daily_queue \
+            tests.test_github_models_weekly_reports \
             tests.test_github_models_abc_filter \
             tests.test_github_models_abc_metrics \
             tests.test_github_models_settlement \
