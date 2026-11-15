@@ -33,17 +33,22 @@ def build(root, base_day, *, days=DAYS):
         raise ValueError("duplicate_frozen_fixture")
     missing = set(queue.get("missing_dates", []))
     invalid = set(queue.get("invalid_dates", []))
-    if (missing | invalid) - set(expected) or missing & invalid:
+    partial = set(queue.get("partial_dates", []))
+    if ((missing | invalid | partial) - set(expected) or
+            (missing & invalid) or (missing & partial) or (invalid & partial)):
         raise ValueError("inconsistent_frozen_queue_coverage")
 
     positions = []
     for report_day in expected:
         target = root / "pdf" / ("GITHUB_MODELS_V2_ABC_" + report_day + ".pdf")
         status = ("source_snapshot_missing" if report_day in missing else
-                  "source_snapshot_invalid" if report_day in invalid else "source_snapshot_valid")
+                  "source_snapshot_invalid" if report_day in invalid else
+                  "source_snapshot_partial" if report_day in partial else
+                  "source_snapshot_valid")
         message = {
             "source_snapshot_missing": "BRAK MIGAWKI PITCHAPI: brak potwierdzonego terminarza",
             "source_snapshot_invalid": "BLAD MIGAWKI PITCHAPI: terminarz niewiarygodny",
+            "source_snapshot_partial": "NIEPELNY TERMINARZ PITCHAPI: tylko zweryfikowane spotkania",
             "source_snapshot_valid": "Zweryfikowana migawka PitchAPI; niekalibrowane A/B/C",
         }[status]
         stats = render_day(
@@ -63,8 +68,9 @@ def build(root, base_day, *, days=DAYS):
                     frozen_at_utc=selected.get("input_cutoff_utc"),
                     source="one immutable A/B/C snapshot, no re-estimation",
                     odds_verified=False, probabilities_calibrated=False,
-                    all_source_dates_valid=not (missing or invalid),
+                    all_source_dates_valid=not (missing or invalid or partial),
                     missing_dates=sorted(missing), invalid_dates=sorted(invalid),
+                    partial_dates=sorted(partial),
                     reports=positions)
     path = root / "filters" / ("SEVEN_DAY_MANIFEST_" + str(day) + ".json")
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2,
