@@ -80,7 +80,9 @@ def build(predictions, events, queue, output_json, output_pdf):
     if any(str(row["fixture_id"]) not in fixtures for row in result["candidates"]):
         raise ValueError("unknown_fixture")
     result["queue_fixtures"] = len(fixtures)
-    result["input_cutoff_utc"] = predictions.get("as_of_utc") or predictions.get("frozen_at_utc")
+    result["input_cutoff_utc"] = (predictions.get("generated_at_utc") or
+                                  predictions.get("as_of_utc") or
+                                  predictions.get("frozen_at_utc"))
     result["rules"] = {"A": "P>=70%", "B": "P>=75%", "C": "P>=80%",
                        "1X2": "both Elo and Dixon-Coles pass; max 10pp difference",
                        "events": "single-model, mathematically complete over/under pairs"}
