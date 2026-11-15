@@ -97,8 +97,8 @@ def _cache_catalog(path):
 
 
 def collect(queue, *, now, catalog_path, batches=2, output_dir):
-    if type(batches) is not int or not 1<=batches<=2:
-        raise ValueError("one_or_two_batches_per_run")
+    if type(batches) is not int or not 1<=batches<=3:
+        raise ValueError("one_to_three_batches_per_run")
     stamp=_utc(now)
     month=stamp.strftime("%Y-%m")
     catalog_path=Path(catalog_path)
