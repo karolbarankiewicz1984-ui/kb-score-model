@@ -203,6 +203,24 @@ class ResearchPitchapiCollectorTests(unittest.TestCase):
         self.assertEqual(snapshots[-1]["fixtures_collected"], 1)
         self.assertEqual(snapshots[-1]["fixtures"][0]["pitch_match_id"], "sat")
 
+
+    def test_one_failed_utc_query_does_not_hide_saturday(self):
+        sunday = datetime(2026, 11, 15, 8, tzinfo=timezone.utc)
+        client = client_for([])
+        sat = match(identity="sat", kickoff="2026-11-21T17:30:00Z")
+        def source(day, *, status):
+            if day == "2026-11-15":
+                raise RuntimeError("unavailable")
+            return SimpleNamespace(matches=[sat] if day == "2026-11-21" else [])
+        client.date.get.side_effect = source
+        snapshots = collect(client, days=7, start_date="2026-11-15",
+                            clock=lambda: sunday)
+        self.assertEqual([p["source_status"] for p in snapshots],
+                         ["source_error", "source_error", "ok", "ok", "ok", "ok", "ok"])
+        self.assertEqual(snapshots[-1]["fixtures_collected"], 1)
+        self.assertEqual(snapshots[0]["errors"][0]["query_date"], "2026-11-15")
+        self.assertNotIn("date_fixtures", json.dumps(snapshots[-1]["errors"]))
+
     def test_unparseable_kickoff_blocks_possible_two_local_dates_only(self):
         sunday = datetime(2026, 11, 15, 8, tzinfo=timezone.utc)
         broken = match(identity="bad", kickoff="unparseable")
