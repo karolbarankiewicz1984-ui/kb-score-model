@@ -181,6 +181,38 @@ def normalize_snapshot(payload, market_catalog, *, captured_at_utc, min_odd=1.20
     }
 
 
+
+def normalize_history(payload, *, kickoff_utc):
+    """Keep only recorded prices strictly earlier than a verified scheduled kickoff.
+
+    This data is historical price evidence, NOT a retroactively frozen forecast.
+    """
+    cutoff = utc(kickoff_utc)
+    filtered = []
+    for bookmaker, b in (payload.get("bookmakers") or {}).items():
+        for market_id, market in (b.get("markets") or {}).items():
+            for outcome_id, outcome in (market.get("outcomes") or {}).items():
+                for player_id, entries in (outcome.get("players") or {}).items():
+                    for entry in entries if isinstance(entries, list) else []:
+                        stamp, price = entry.get("createdAt"), entry.get("price")
+                        try:
+                            if utc(stamp) >= cutoff or type(price) not in (int, float) or not math.isfinite(price) or price <= 1:
+                                continue
+                        except (ValueError, TypeError):
+                            continue
+                        filtered.append({
+                            "bookmaker": bookmaker, "market_id": str(market_id),
+                            "outcome_id": str(outcome_id), "player_id": str(player_id),
+                            "recorded_at_utc": stamp, "odds": float(price),
+                            "active_at_record_time": entry.get("active"),
+                            "limit": entry.get("limit"),
+                        })
+    return {"schema": "github-models-oddspapi-historical-prices-v1",
+            "fixture_id": payload.get("fixtureId"), "scheduled_kickoff_utc": cutoff.isoformat(),
+            "all_prices_strictly_prekickoff": True,
+            "not_a_frozen_model_prediction": True, "provider": PROVIDER,
+            "history": filtered}
+
 def main(argv=None):
     p = argparse.ArgumentParser(description="Isolated OddsPapi catalog/quote snapshots")
     p.add_argument("mode", choices=("catalog", "snapshot", "history", "quota"))
@@ -188,6 +220,8 @@ def main(argv=None):
     p.add_argument("--catalog")
     p.add_argument("--out")
     p.add_argument("--reserve", type=int, default=10)
+    p.add_argument("--bookmakers", help="Comma-separated provider slugs, max 3 (history)")
+    p.add_argument("--kickoff-utc", help="Verified scheduled kickoff ISO 8601 (history)")
     args = p.parse_args(argv)
     account = api_get("account")
     if args.mode == "quota":
@@ -205,7 +239,12 @@ def main(argv=None):
     if args.mode == "catalog":
         result = api_get("markets", params={"language": "en"})
     elif args.mode == "history":
-        p.error("Historical odds requires an explicit --bookmakers list; use v4 endpoint after mapping.")
+        books = [b.strip() for b in (args.bookmakers or "").split(",") if b.strip()]
+        if not 1 <= len(books) <= 3 or len(set(books)) != len(books) or not args.kickoff_utc:
+            p.error("history requires 1-3 distinct --bookmakers and --kickoff-utc")
+        raw = api_get("historical-odds", params={"fixtureId": args.fixture_id,
+                                                  "bookmakers": ",".join(books)})
+        result = normalize_history(raw, kickoff_utc=args.kickoff_utc)
     else:
         catalog = json.loads(Path(args.catalog).read_text(encoding="utf-8"))
         payload = api_get("odds", params={"fixtureId": args.fixture_id,
