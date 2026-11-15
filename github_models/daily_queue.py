@@ -22,7 +22,7 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc, days=3):
     start = datetime.strptime(start_date, "%Y-%m-%d").date()
     if as_of.astimezone(WARSAW).date() != start:
         raise ValueError("date_not_current_warsaw_day")
-    items, missing, invalid, exclusions = [], [], [], []
+    items, missing, invalid, partial, exclusions = [], [], [], [], []
     seen = set()
     for offset in range(days):
         day = (start + timedelta(days=offset)).isoformat()
@@ -38,8 +38,18 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc, days=3):
                 payload["schema"] not in ("pitchapi-prematch-context-v1", "pitchapi-research-fixtures-v1") or
                 not isinstance(payload["fixtures"], list)):
                 raise ValueError("invalid_snapshot")
-            if payload["schema"] == "pitchapi-research-fixtures-v1" and payload.get("source_status") != "ok":
-                raise ValueError("incomplete_pitchapi_source_response")
+            if payload["schema"] == "pitchapi-research-fixtures-v1":
+                status = payload.get("source_status")
+                if status not in ("ok", "partial"):
+                    raise ValueError("incomplete_pitchapi_source_response")
+                if status == "partial":
+                    # Individual source rows were rejected and are NOT eligible
+                    # for prediction; retain verified fixture subset, but mark
+                    # that the provider calendar is not exhaustive.
+                    partial.append(day)
+                    exclusions.append(dict(date=day, fixture_id=None,
+                                           reason="partial_source_calendar",
+                                           rejected_rows=len(payload.get("errors", []))))
             day_rows, day_seen = [], set()
             for f in payload["fixtures"]:
                 kick = datetime.fromisoformat(f["kickoff_utc"].replace("Z", "+00:00"))
@@ -78,7 +88,7 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc, days=3):
             exclusions.append(dict(date=day, fixture_id=None, reason="invalid_snapshot:" + str(exc)))
     return dict(schema="github-models-fixture-queue-v1", generated_at_utc=as_of_utc,
                 dates=[(start + timedelta(days=i)).isoformat() for i in range(days)],
-                missing_dates=missing, invalid_dates=invalid,
+                missing_dates=missing, invalid_dates=invalid, partial_dates=partial,
                 exclusions=exclusions,
                 exclusion_summary=dict(Counter(row["reason"] for row in exclusions)),
                 fixtures=sorted(items, key=lambda x: (x["kickoff_utc"], x["fixture_id"])),
@@ -97,7 +107,7 @@ def main():
     path = Path(args.output_dir) / (start + ".json")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(queue, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"GitHub Models queue: {len(queue['fixtures'])} fixtures, missing={queue['missing_dates']}, invalid={queue['invalid_dates']}")
+    print(f"GitHub Models queue: {len(queue['fixtures'])} fixtures, missing={queue['missing_dates']}, invalid={queue['invalid_dates']}, partial={queue['partial_dates']}")
 
 if __name__ == "__main__":
     main()
