@@ -157,10 +157,55 @@ class ResearchPitchapiCollectorTests(unittest.TestCase):
 
     def test_historical_and_outside_three_day_requests_rejected_before_api_calls(self):
         client = client_for([])
-        for kwargs in (dict(start_date="2026-11-05"), dict(start_date="2026-11-08", days=2), dict(days=4)):
+        for kwargs in (dict(start_date="2026-11-05"), dict(start_date="2026-11-08", days=2), dict(days=8)):
             with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
                 collect(client, clock=lambda: NOW, **kwargs)
         client.date.get.assert_not_called()
+
+
+    def test_seven_day_horizon_reaches_following_saturday_without_late_leakage(self):
+        sunday = datetime(2026, 11, 15, 8, tzinfo=timezone.utc)
+        client = client_for([])
+        future = match(identity="saturday", kickoff="2026-11-21T17:30:00Z")
+        client.date.get.side_effect = [
+            SimpleNamespace(matches=[future] if day == 21 else [])
+            for day in range(15, 22)
+        ]
+        snapshots = collect(client, start_date="2026-11-15", days=7,
+                            clock=lambda: sunday)
+        self.assertEqual(len(snapshots), 7)
+        self.assertEqual([s["target_date"] for s in snapshots],
+                         [f"2026-11-{day:02d}" for day in range(15, 22)])
+        self.assertEqual([s["fixtures_collected"] for s in snapshots],
+                         [0, 0, 0, 0, 0, 0, 1])
+        self.assertEqual(snapshots[-1]["fixtures"][0]["pitch_match_id"],
+                         "saturday")
+        self.assertEqual(client.date.get.call_count, 7)
+        self.assertEqual(client.leagues.get.call_count, 1)
+
+    def test_seven_day_midnight_horizon_can_span_eight_utc_dates(self):
+        local_morning = NOW.replace(day=5, hour=23, minute=30)
+        client = client_for([])
+        snapshots = collect(client, days=7, clock=lambda: local_morning)
+        self.assertEqual([p["target_date"] for p in snapshots],
+                         [f"2026-11-{day:02d}" for day in range(6, 13)])
+        self.assertEqual([call.args[0] for call in client.date.get.call_args_list],
+                         [f"2026-11-{day:02d}" for day in range(5, 13)])
+
+    def test_seven_day_source_failure_is_not_treated_as_empty_future_saturday(self):
+        sunday = datetime(2026, 11, 15, 8, tzinfo=timezone.utc)
+        client = client_for([])
+        def source(day, *, status):
+            if day == "2026-11-21":
+                raise ConnectionError("unavailable")
+            return SimpleNamespace(matches=[])
+        client.date.get.side_effect = source
+        snapshots = collect(client, start_date="2026-11-15", days=7,
+                            clock=lambda: sunday)
+        saturday = snapshots[-1]
+        self.assertEqual(saturday["source_status"], "source_error")
+        self.assertIsNone(saturday["available_upcoming"])
+        self.assertEqual(saturday["errors"][0]["query_date"], "2026-11-21")
 
     def test_timezone_is_required_for_the_observation_clock(self):
         with self.assertRaisesRegex(ValueError, "timezone_invalid"):
