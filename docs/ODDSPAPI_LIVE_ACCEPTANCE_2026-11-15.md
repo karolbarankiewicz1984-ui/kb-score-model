@@ -45,3 +45,21 @@ The category-name counter in `oddspapi_coverage_probe.py` is an *overlapping key
 - Use free historical endpoint for independent pre-kickoff odds and calibration work, provided exact event mapping and account rules permit.
 - Score all *supported* exact markets, but do not pretend every quoted prop is predictable. Separate the original frozen model forecast from market implied probability, no-vig median, market disagreements and verified price >=1.20.
 - Add per-source provenance, time and missingness to PDF. Measure future calibration before adjusting weights.
+
+
+## Revised business scope for phase 3 — user decision 2026-11-15
+- Audit **only Polish Superbet and STS**. Do not silently substitute Fortuna, a different Superbet region, or another sportsbook.
+- Confirmed from authenticated `/v4/account` subscription snapshot: `superbet.pl` is present; neither `sts` nor `sts.pl` appears in the 366 bookmaker slugs. **STS coverage is currently BLOCKED / UNAVAILABLE via this account**, not an incorrect odds parser result. Verify if a future provider catalogue adds it; no further STS API requests until it is available.
+- Phase 3 therefore proceeds with `superbet.pl` only. The universal market adapter stays generic, but the sampling/reporting configuration for phase 3 is scoped to these two Polish books.
+- The `/v4/odds?fixtureId=...&bookmakers=superbet.pl` endpoint costs **one** quota unit per fixture regardless of selections or bookmaker count. Restricting books reduces payload, not quota per match.
+- Explore `/v4/odds-by-tournaments?tournamentIds=<up to 3 IDs>&bookmaker=superbet.pl`: one billed request can retrieve a bookmaker's full odds for up to **three leagues**, reducing billed calls across multiple fixtures. Before enabling, validate raw result handling, league relevance and response size, without confusing a tournament-level batch with a single-fixture call.
+- Free `/v4/historical-odds` endpoint does not increment quota, but is blocked if subscription allowance is exhausted; `/v4/account` is always unmetered.
+- The 250-request allowance resets on the **first day of each calendar month**. Both errors and empty billable responses may consume quota.
+- Conservative fallback budget for **30 days**, if per-fixture requests are required: 30 daily fixtures lists + 150 odds snapshots (up to 5 selected fixtures/day) + 20 catalogue/verification/recovery calls + 50 reserve = 250 maximum. On 31-day months, adapt caps dynamically and reserve space by stopping at `request_limit - 50`.
+- Hard stop enforced using the live `request_count`, plus a persistent ledger of attempted billable calls to protect against concurrency, unexpected retries and duplicate fixture collection. A daily or global runner must never quietly spend quota outside the allocation.
+- **Not yet implemented:** batch API adapter, dedicated per-month scheduler, STS feed, production odds merge, market PDF. Do not infer deployment from this revised plan.
+
+Provider references:
+- https://oddspapi.io/us/docs/requests-and-quota
+- https://oddspapi.io/en/docs/get-odds-by-tournaments
+- https://oddspapi.io/en/docs/get-odds
