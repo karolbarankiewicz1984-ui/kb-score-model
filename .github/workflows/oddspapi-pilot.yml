@@ -34,7 +34,7 @@ jobs:
         run: |
           python -m pip install reportlab
           sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-dejavu-core
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
       - name: Define monthly market catalog cache
         id: period
         shell: bash
@@ -71,6 +71,10 @@ jobs:
             --markets "frozen_source/markets/$REL" \
             --outdir reports/oddspapi_pilot
           test -s reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf
+          pdfinfo reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf | grep 'Pages:'
+          pdftotext reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf - | grep -q 'SUPERBET.PL'
+          pdftoppm -f 1 -singlefile -r 100 -png reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf reports/oddspapi_pilot/first_page
+          test -s reports/oddspapi_pilot/first_page.png
       - name: Retain read-only evidence for manual review (no provider key)
         if: always()
         uses: actions/upload-artifact@v4
