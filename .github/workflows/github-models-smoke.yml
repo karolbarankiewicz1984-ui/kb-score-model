@@ -13,7 +13,9 @@ permissions:
 jobs:
   independent-smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Full historical settlement requires ~20 minutes with the current frozen archive.
+    # Allow enough time to finish immutable archival after PDF generation.
+    timeout-minutes: 45
     steps:
       - name: Checkout isolated research branch (never main code)
         uses: actions/checkout@v4
