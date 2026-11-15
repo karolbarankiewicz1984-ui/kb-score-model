@@ -13,7 +13,9 @@ from zoneinfo import ZoneInfo
 WARSAW = ZoneInfo("Europe/Warsaw")
 MODELS = ("dixon-coles", "elo", "xgboost")
 
-def build_queue(snapshot_dir, *, start_date, as_of_utc):
+def build_queue(snapshot_dir, *, start_date, as_of_utc, days=3):
+    if type(days) is not int or not 1 <= days <= 7:
+        raise ValueError("queue_horizon_days_must_be_1_to_7")
     as_of = datetime.fromisoformat(as_of_utc.replace("Z", "+00:00"))
     if as_of.tzinfo is None:
         raise ValueError("as_of_timezone_required")
@@ -22,7 +24,7 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc):
         raise ValueError("date_not_current_warsaw_day")
     items, missing, invalid, exclusions = [], [], [], []
     seen = set()
-    for offset in range(3):
+    for offset in range(days):
         day = (start + timedelta(days=offset)).isoformat()
         path = Path(snapshot_dir) / (day + ".json")
         if not path.exists():
@@ -75,7 +77,7 @@ def build_queue(snapshot_dir, *, start_date, as_of_utc):
             invalid.append(day)
             exclusions.append(dict(date=day, fixture_id=None, reason="invalid_snapshot:" + str(exc)))
     return dict(schema="github-models-fixture-queue-v1", generated_at_utc=as_of_utc,
-                dates=[(start + timedelta(days=i)).isoformat() for i in range(3)],
+                dates=[(start + timedelta(days=i)).isoformat() for i in range(days)],
                 missing_dates=missing, invalid_dates=invalid,
                 exclusions=exclusions,
                 exclusion_summary=dict(Counter(row["reason"] for row in exclusions)),
@@ -87,10 +89,11 @@ def main():
     parser.add_argument("--snapshot-dir", default="data/pitchapi/prematch")
     parser.add_argument("--output-dir", default="reports/github_models/queues")
     parser.add_argument("--as-of", required=True)
+    parser.add_argument("--days", type=int, default=3, choices=range(1, 8))
     args = parser.parse_args()
     as_of = datetime.fromisoformat(args.as_of.replace("Z", "+00:00"))
     start = as_of.astimezone(WARSAW).date().isoformat()
-    queue = build_queue(args.snapshot_dir, start_date=start, as_of_utc=args.as_of)
+    queue = build_queue(args.snapshot_dir, start_date=start, as_of_utc=args.as_of, days=args.days)
     path = Path(args.output_dir) / (start + ".json")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(queue, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
