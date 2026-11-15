@@ -1,0 +1,60 @@
+name: OddsPapi Poland market research pilot (manual + isolated first run)
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/oddspapi-odds-layer]
+    paths:
+      - '.github/workflows/oddspapi-pilot.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oddspapi-poland-account-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: research/github-models-frozen
+          path: frozen_source
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Define monthly market catalog cache
+        id: period
+        shell: bash
+        run: echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: research_cache
+          key: oddspapi-v4-soccer-catalog-${{ steps.period.outputs.month }}
+      - name: Verify queue files and safely run ONE Superbet tournament-batch request
+        env:
+          ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
+          test -n "$QUEUE"
+          python -B -m github_models.oddspapi_collect \
+            --queue "$QUEUE" \
+            --catalog-cache "research_cache/${{ steps.period.outputs.month }}/markets.json" \
+            --batches 1 \
+            --output-dir reports/oddspapi_pilot
+      - name: Retain read-only evidence for manual review (no provider key)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: odds-polish-research-${{ github.run_id }}
+          path: reports/oddspapi_pilot/
+          retention-days: 7
+          if-no-files-found: ignore
