@@ -183,6 +183,42 @@ class ResearchPitchapiCollectorTests(unittest.TestCase):
         self.assertEqual(client.date.get.call_count, 7)
         self.assertEqual(client.leagues.get.call_count, 1)
 
+
+    def test_invalid_today_row_does_not_poison_verified_saturday(self):
+        sunday = datetime(2026, 11, 15, 8, tzinfo=timezone.utc)
+        broken = match(identity="bad", kickoff="2026-11-15T17:00:00Z",
+                       home_team=dict(name="No ID"))
+        saturday = match(identity="sat", kickoff="2026-11-21T17:30:00Z")
+        client = client_for([])
+        client.date.get.side_effect = [
+            SimpleNamespace(matches=[broken] if day == 15 else
+                            [saturday] if day == 21 else [])
+            for day in range(15, 22)
+        ]
+        snapshots = collect(client, start_date="2026-11-15", days=7,
+                            clock=lambda: sunday)
+        self.assertEqual(snapshots[0]["source_status"], "partial")
+        self.assertEqual(snapshots[0]["fixtures_collected"], 0)
+        self.assertTrue(all(p["source_status"] == "ok" for p in snapshots[1:]))
+        self.assertEqual(snapshots[-1]["fixtures_collected"], 1)
+        self.assertEqual(snapshots[-1]["fixtures"][0]["pitch_match_id"], "sat")
+
+    def test_unparseable_kickoff_blocks_possible_two_local_dates_only(self):
+        sunday = datetime(2026, 11, 15, 8, tzinfo=timezone.utc)
+        broken = match(identity="bad", kickoff="unparseable")
+        saturday = match(identity="sat", kickoff="2026-11-21T17:30:00Z")
+        client = client_for([])
+        client.date.get.side_effect = [
+            SimpleNamespace(matches=[broken] if day == 15 else
+                            [saturday] if day == 21 else [])
+            for day in range(15, 22)
+        ]
+        snapshots = collect(client, start_date="2026-11-15", days=7,
+                            clock=lambda: sunday)
+        self.assertEqual([s["source_status"] for s in snapshots],
+                         ["partial", "partial", "ok", "ok", "ok", "ok", "ok"])
+        self.assertEqual(snapshots[-1]["fixtures_collected"], 1)
+
     def test_seven_day_midnight_horizon_can_span_eight_utc_dates(self):
         local_morning = NOW.replace(day=5, hour=23, minute=30)
         client = client_for([])
