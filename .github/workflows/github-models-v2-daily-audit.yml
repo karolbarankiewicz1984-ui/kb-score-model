@@ -103,7 +103,7 @@ jobs:
                           "base_day": str(base_day), "next_days": report,
                           "source": "one frozen run; no resnapshot",
                           "odds_verified": False, "probabilities_calibrated": False},
-                         ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+                         ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           print("Three date-scoped PDFs ready:", [str(base_day), *report])
           PY
       - name: Publish today's PDF and sources BEFORE historical audit
