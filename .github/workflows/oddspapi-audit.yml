@@ -1,0 +1,80 @@
+name: MULTIMODEL V2 - OddsPapi historical bookmaker audit (daily)
+on:
+  schedule:
+    - cron: '10 20 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: oddspapi-historical-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install report PDF support
+        run: |
+          python -m pip install reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
+      - name: Recover up to 35 latest exact-odds frozen archive artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit_inputs
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?name=oddspapi-daily&per_page=100" \
+            --jq '.artifacts[] | select(.expired == false) | [.id, .workflow_run.id] | @tsv' \
+            | sort -nr | head -n 35 > /tmp/odds-artifacts.tsv || true
+          while IFS=$'\t' read -r artifact_id run_id; do
+            if [[ -n "$run_id" ]]; then
+              mkdir -p "audit_inputs/$run_id"
+              gh run download "$run_id" --name oddspapi-daily --dir "audit_inputs/$run_id" \
+                || echo "ARCHIVE_DOWNLOAD_FAILED=$run_id"
+            fi
+          done < /tmp/odds-artifacts.tsv
+          echo "ARCHIVED_OVERLAYS=$(find audit_inputs -name market_overlay.json | wc -l)"
+      - name: Fetch independently observable final scores and event statistics
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m github_models.oddspapi_outcomes --outdir reports/oddspapi_audit/outcomes
+      - name: Compare frozen forecast, verified pre-match quote and actual results
+        shell: bash
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -B -m github_models.oddspapi_replay_audit \
+            --archive-dir audit_inputs \
+            --history reports/oddspapi_audit/outcomes/verified_results.json \
+            --events reports/oddspapi_audit/outcomes/verified_events.json \
+            --as-of "$NOW" \
+            --out reports/oddspapi_audit/REPLAY_AUDIT.json
+          python -B -m github_models.oddspapi_audit_pdf \
+            --input reports/oddspapi_audit/REPLAY_AUDIT.json \
+            --output reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf
+          pdfinfo reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf | grep 'Pages:'
+      - name: Preserve independent source manifest and audited metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oddspapi-rolling-audit
+          path: |
+            reports/oddspapi_audit/REPLAY_AUDIT.json
+            reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf
+            reports/oddspapi_audit/outcomes/source_manifest.json
+          if-no-files-found: ignore
+          retention-days: 90
