@@ -241,6 +241,7 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc, fr
                 "selection":selection,"model_id":"elo-and-dixon-min-consensus",
                 "probability":min(a[field],b[field]),
                 "probability_status":"research_uncalibrated",
+                "resolved_identity":a.get("resolved_identity") if a.get("resolved_identity")==b.get("resolved_identity") else None,
                 "frozen_at_utc":frozen})
     output=[]
     counters=Counter()
@@ -301,6 +302,7 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc, fr
                 "kickoff_utc":link["kickoff_utc"],"market":p["market"],
                 "selection":p["selection"],"line":p["line"],
                 "model_id":p.get("model_id"),"p_model":prob,
+                "resolved_identity":p.get("resolved_identity"),
                 "probability_status":p.get("probability_status","uncalibrated_research"),
                 "price":offer["odds"],"bookmaker":offer["bookmaker"],
                 "eligible_min_odds_1_20":bool(offer["eligible_min_odd"]),
