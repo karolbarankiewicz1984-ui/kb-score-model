@@ -9,11 +9,14 @@ on:
       - 'github_models/oddspapi_produce.py'
       - 'github_models/oddspapi_report_pdf.py'
       - 'github_models/oddspapi_replay_audit.py'
+      - 'github_models/oddspapi_audit_pdf.py'
+      - 'github_models/oddspapi_outcomes.py'
       - 'tests/test_github_models_oddspapi_market.py'
       - 'tests/test_github_models_oddspapi_integration.py'
       - 'tests/test_github_models_oddspapi_collection.py'
       - 'tests/test_github_models_oddspapi_pdf.py'
       - 'tests/test_github_models_oddspapi_replay_audit.py'
+      - 'tests/test_github_models_oddspapi_audit_pdf.py'
       - '.github/workflows/oddspapi-research-regression.yml'
   workflow_dispatch:
 
@@ -38,5 +41,5 @@ jobs:
           sudo apt-get install -y -qq fonts-dejavu-core
       - name: Compile adapter and run no-network tests
         run: |
-          python -m compileall -q github_models/oddspapi_market.py github_models/oddspapi_integration.py github_models/oddspapi_collect.py github_models/oddspapi_produce.py github_models/oddspapi_report_pdf.py
+          python -m compileall -q github_models/oddspapi_market.py github_models/oddspapi_integration.py github_models/oddspapi_collect.py github_models/oddspapi_produce.py github_models/oddspapi_report_pdf.py github_models/oddspapi_replay_audit.py github_models/oddspapi_audit_pdf.py github_models/oddspapi_outcomes.py
           python -m unittest discover -s tests -p 'test_github_models_oddspapi*.py' -v
