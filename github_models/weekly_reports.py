@@ -39,18 +39,23 @@ def build(root, base_day, *, days=DAYS):
     positions = []
     for report_day in expected:
         target = root / "pdf" / ("GITHUB_MODELS_V2_ABC_" + report_day + ".pdf")
+        status = ("source_snapshot_missing" if report_day in missing else
+                  "source_snapshot_invalid" if report_day in invalid else "source_snapshot_valid")
+        message = {
+            "source_snapshot_missing": "BRAK MIGAWKI PITCHAPI: brak potwierdzonego terminarza",
+            "source_snapshot_invalid": "BLAD MIGAWKI PITCHAPI: terminarz niewiarygodny",
+            "source_snapshot_valid": "Zweryfikowana migawka PitchAPI; niekalibrowane A/B/C",
+        }[status]
         stats = render_day(
             selected, fixtures, str(target), report_day,
-            source="Single frozen A/B/C run; odds unverified")
+            source=message + "; bez zweryfikowanych kursow")
         if not target.is_file() or target.stat().st_size < 1024:
             raise ValueError("missing_or_empty_date_pdf:" + report_day)
         if target.read_bytes()[:5] != b"%PDF-":
             raise ValueError("invalid_pdf_header:" + report_day)
-        status = ("source_snapshot_missing" if report_day in missing else
-                  "source_snapshot_invalid" if report_day in invalid else "source_snapshot_valid")
-        fixture_count = sum((date_time(row.get("kickoff_utc")) is not None and
-                             date_time(row["kickoff_utc"]).date().isoformat() == report_day)
-                            for row in fixtures.values())
+        fixture_count = sum(
+            local is not None and local.date().isoformat() == report_day
+            for local in (date_time(row.get("kickoff_utc")) for row in fixtures.values()))
         positions.append(dict(stats, source_status=status,
                               fixtures_in_queue=fixture_count))
     manifest = dict(schema=SCHEMA,
