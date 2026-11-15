@@ -56,6 +56,24 @@ class WeeklyReportsTests(unittest.TestCase):
             self.assertFalse(manifest["probabilities_calibrated"])
             self.assertEqual(manifest["frozen_at_utc"], "2026-11-15T09:00:00Z")
 
+
+    def test_partial_saturday_pdf_displays_explicit_coverage_warning(self):
+        with tempfile.TemporaryDirectory() as work:
+            root = Path(work)
+            q = self.setup_files(root)
+            q["partial_dates"] = ["2026-11-21"]
+            (root / "queues" / "2026-11-15.json").write_text(json.dumps(q))
+            result = build(root, "2026-11-15")
+            self.assertFalse(result["all_source_dates_valid"])
+            self.assertEqual(result["partial_dates"], ["2026-11-21"])
+            self.assertEqual(result["reports"][-1]["unique_positions"], 1)
+            self.assertEqual(result["reports"][-1]["source_status"],
+                             "source_snapshot_partial")
+            with fitz.open(root/"pdf"/"GITHUB_MODELS_V2_ABC_2026-11-21.pdf") as pdf:
+                content = "\n".join(page.get_text() for page in pdf)
+                self.assertIn("NIEPELNY TERMINARZ", content)
+                self.assertIn("Eibar", content)
+
     def test_missing_saturday_is_reported_not_fabricated(self):
         with tempfile.TemporaryDirectory() as work:
             root = Path(work)
