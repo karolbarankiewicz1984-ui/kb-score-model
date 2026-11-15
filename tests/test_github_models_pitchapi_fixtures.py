@@ -155,9 +155,9 @@ class ResearchPitchapiCollectorTests(unittest.TestCase):
         self.assertEqual(payload["fixtures_collected"], 0)
         self.assertEqual(payload["errors"], [dict(operation="observation_clock_order", error_type="ValueError")])
 
-    def test_historical_and_outside_three_day_requests_rejected_before_api_calls(self):
+    def test_historical_and_outside_seven_day_requests_rejected_before_api_calls(self):
         client = client_for([])
-        for kwargs in (dict(start_date="2026-11-05"), dict(start_date="2026-11-08", days=2), dict(days=8)):
+        for kwargs in (dict(start_date="2026-11-05"), dict(start_date="2026-11-12", days=2), dict(days=8)):
             with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
                 collect(client, clock=lambda: NOW, **kwargs)
         client.date.get.assert_not_called()
