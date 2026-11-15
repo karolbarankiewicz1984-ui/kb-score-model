@@ -30,6 +30,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install PDF renderer and Polish fonts
+        run: |
+          python -m pip install reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core
       - name: Define monthly market catalog cache
         id: period
         shell: bash
@@ -51,6 +56,21 @@ jobs:
             --catalog-cache "research_cache/${{ steps.period.outputs.month }}/markets.json" \
             --batches 1 \
             --output-dir reports/oddspapi_pilot
+      - name: Build full market comparison, evidence-aware audit and separate PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
+          REL="${QUEUE#frozen_source/queues/}"
+          test -f "frozen_source/frozen/$REL"
+          test -f "frozen_source/markets/$REL"
+          python -B -m github_models.oddspapi_produce \
+            --collection reports/oddspapi_pilot/collection.json \
+            --queue "$QUEUE" \
+            --frozen "frozen_source/frozen/$REL" \
+            --markets "frozen_source/markets/$REL" \
+            --outdir reports/oddspapi_pilot
+          test -s reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf
       - name: Retain read-only evidence for manual review (no provider key)
         if: always()
         uses: actions/upload-artifact@v4
