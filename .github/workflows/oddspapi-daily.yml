@@ -47,13 +47,62 @@ jobs:
         with:
           path: research_cache
           key: oddspapi-v4-soccer-catalog-${{ steps.month.outputs.value }}
+      - name: Select complete recent forecast queue (never a smaller smoke-test queue)
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUEUE="$(python - <<'PY'
+          import json
+          from datetime import datetime,timezone
+          from pathlib import Path
+
+          now=datetime.now(timezone.utc)
+          root=Path("frozen_source/queues")
+          candidates=[]
+          for path in root.glob("*/*.json"):
+              try:
+                  p=json.loads(path.read_text(encoding="utf-8"))
+                  if p.get("schema") != "github-models-fixture-queue-v1":
+                      continue
+                  stamp=datetime.fromisoformat(p["generated_at_utc"].replace("Z","+00:00"))
+                  if stamp.tzinfo is None or not 0 <= (now-stamp).total_seconds() <= 48*3600:
+                      continue
+                  rel=path.relative_to(root)
+                  if not (Path("frozen_source/frozen")/rel).is_file():
+                      continue
+                  if not (Path("frozen_source/markets")/rel).is_file():
+                      continue
+                  rows=p["fixtures"]
+                  if not isinstance(rows,list):
+                      continue
+                  future=0
+                  for row in rows:
+                      dt=datetime.fromisoformat(row["kickoff_utc"].replace("Z","+00:00"))
+                      if dt.tzinfo is not None and dt>now:
+                          future+=1
+                  if future:
+                      candidates.append((path.parent.name,future,stamp,path))
+              except (ValueError,KeyError,TypeError,OSError,AttributeError):
+                  continue
+          if not candidates:
+              raise SystemExit("no_current_complete_frozen_forecast_queue")
+          latest_day=max(row[0] for row in candidates)
+          eligible=(r for r in candidates if r[0]==latest_day)
+          best=max(eligible,key=lambda r:(r[1],r[2]))
+          print(best[3])
+          PY
+          )"
+          test -n "$QUEUE"
+          printf 'ODDSPAPI_INPUT_QUEUE=%s\n' "$QUEUE" >> "$GITHUB_ENV"
+          printf 'ODDSPAPI_INPUT_REL=%s\n' "${QUEUE#frozen_source/queues/}" >> "$GITHUB_ENV"
+          echo "SELECTED_FROZEN_QUEUE=$QUEUE"
       - name: Collect only Superbet.pl; up to nine league groups; quota hard stop 200/250
         env:
           ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
         shell: bash
         run: |
           set -euo pipefail
-          QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
+          QUEUE="$ODDSPAPI_INPUT_QUEUE"
           test -n "$QUEUE"
           mkdir -p reports/oddspapi_daily
           cp "$QUEUE" reports/oddspapi_daily/pitch_queue.json
@@ -66,8 +115,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
-          REL="${QUEUE#frozen_source/queues/}"
+          QUEUE="$ODDSPAPI_INPUT_QUEUE"
+          REL="$ODDSPAPI_INPUT_REL"
           test -f "frozen_source/frozen/$REL"
           test -f "frozen_source/markets/$REL"
           python -B -m github_models.oddspapi_produce \
