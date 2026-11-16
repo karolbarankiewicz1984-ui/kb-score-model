@@ -1,0 +1,214 @@
+{
+  "schema": "github-models-independent-predictions-v1",
+  "generated_at_utc": "2026-11-16T17:32:14Z",
+  "production_multimodel_unchanged": true,
+  "predictions": [
+    {
+      "fixture_id": "m_3NvoM5",
+      "league": "La Liga 2",
+      "kickoff_utc": "2026-11-16T19:30:00Z",
+      "frozen_at_utc": "2026-11-16T17:32:14Z",
+      "model_id": "github-elo",
+      "model_version": "elo-v1",
+      "p_home": 0.4659203339824029,
+      "p_draw": 0.2253572338165908,
+      "p_away": 0.3087224322010063,
+      "probability_status": "uncalibrated_research",
+      "training_matches": 1532,
+      "resolved_identity": {
+        "league": "La Liga 2",
+        "country_code": "ESP",
+        "league_id": "l_3kyHLd",
+        "home": "Albacete",
+        "away": "Celta B",
+        "home_team_id": null,
+        "away_team_id": null,
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_3NvoM5",
+      "league": "La Liga 2",
+      "kickoff_utc": "2026-11-16T19:30:00Z",
+      "frozen_at_utc": "2026-11-16T17:32:14Z",
+      "model_id": "callumfm-dixon-coles",
+      "model_version": "callumfm-dixon-coles-v1",
+      "p_home": 0.5074507450745074,
+      "p_draw": 0.21092109210921092,
+      "p_away": 0.28162816281628167,
+      "probability_status": "uncalibrated_research",
+      "resolved_identity": {
+        "league": "La Liga 2",
+        "country_code": "ESP",
+        "league_id": "l_3kyHLd",
+        "home": "Albacete",
+        "away": "Celta B",
+        "home_team_id": null,
+        "away_team_id": null,
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_4Ny7vk",
+      "league": "Brazilian Serie A",
+      "kickoff_utc": "2026-11-18T22:30:00Z",
+      "frozen_at_utc": "2026-11-16T17:32:14Z",
+      "model_id": "github-elo",
+      "model_version": "elo-v1",
+      "p_home": 0.3452073655614758,
+      "p_draw": 0.24494933786276615,
+      "p_away": 0.4098432965757581,
+      "probability_status": "uncalibrated_research",
+      "training_matches": 1481,
+      "resolved_identity": {
+        "league": "Brazilian Serie A",
+        "country_code": "BRA",
+        "league_id": "l_1D8Xrl",
+        "home": "Coritiba",
+        "away": "Santos",
+        "home_team_id": null,
+        "away_team_id": null,
+        "source_provider": "PitchAPI"
+      }
+    },
+    {
+      "fixture_id": "m_4Ny7vk",
+      "league": "Brazilian Serie A",
+      "kickoff_utc": "2026-11-18T22:30:00Z",
+      "frozen_at_utc": "2026-11-16T17:32:14Z",
+      "model_id": "callumfm-dixon-coles",
+      "model_version": "callumfm-dixon-coles-v1",
+      "p_home": 0.28767123287671237,
+      "p_draw": 0.2768723127687231,
+      "p_away": 0.43545645435456454,
+      "probability_status": "uncalibrated_research",
+      "resolved_identity": {
+        "league": "Brazilian Serie A",
+        "country_code": "BRA",
+        "league_id": "l_1D8Xrl",
+        "home": "Coritiba",
+        "away": "Santos",
+        "home_team_id": null,
+        "away_team_id": null,
+        "source_provider": "PitchAPI"
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "fixture_id": "m_4FyyOV",
+      "model": "elo",
+      "reason": "unmatched_home_team:UTC Cajamarca"
+    },
+    {
+      "fixture_id": "m_4FyyOV",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:UTC Cajamarca"
+    },
+    {
+      "fixture_id": "m_4FyyOV",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_3NvoM5",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_0hYM9t",
+      "model": "elo",
+      "reason": "unmatched_home_team:Cusco"
+    },
+    {
+      "fixture_id": "m_0hYM9t",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Cusco"
+    },
+    {
+      "fixture_id": "m_0hYM9t",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_1SZ3oO",
+      "model": "elo",
+      "reason": "unmatched_home_team:Deportivo Moquegua"
+    },
+    {
+      "fixture_id": "m_1SZ3oO",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Deportivo Moquegua"
+    },
+    {
+      "fixture_id": "m_1SZ3oO",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_33v2PD",
+      "model": "elo",
+      "reason": "unmatched_home_team:New Mexico United"
+    },
+    {
+      "fixture_id": "m_33v2PD",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:New Mexico United"
+    },
+    {
+      "fixture_id": "m_33v2PD",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_4QHczv",
+      "model": "elo",
+      "reason": "unmatched_home_team:Al-Adalah"
+    },
+    {
+      "fixture_id": "m_4QHczv",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Al-Adalah"
+    },
+    {
+      "fixture_id": "m_4QHczv",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_2eAsEf",
+      "model": "elo",
+      "reason": "unmatched_home_team:Alianza Atlético"
+    },
+    {
+      "fixture_id": "m_2eAsEf",
+      "model": "dixon-coles",
+      "reason": "unmatched_home_team:Alianza Atlético"
+    },
+    {
+      "fixture_id": "m_2eAsEf",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    },
+    {
+      "fixture_id": "m_4Ny7vk",
+      "model": "xgboost",
+      "reason": "model_not_trained_or_adapter_not_ready"
+    }
+  ],
+  "blocker_summary": {
+    "elo: unmatched_home_team:UTC Cajamarca": 1,
+    "dixon-coles: unmatched_home_team:UTC Cajamarca": 1,
+    "xgboost: model_not_trained_or_adapter_not_ready": 8,
+    "elo: unmatched_home_team:Cusco": 1,
+    "dixon-coles: unmatched_home_team:Cusco": 1,
+    "elo: unmatched_home_team:Deportivo Moquegua": 1,
+    "dixon-coles: unmatched_home_team:Deportivo Moquegua": 1,
+    "elo: unmatched_home_team:New Mexico United": 1,
+    "dixon-coles: unmatched_home_team:New Mexico United": 1,
+    "elo: unmatched_home_team:Al-Adalah": 1,
+    "dixon-coles: unmatched_home_team:Al-Adalah": 1,
+    "elo: unmatched_home_team:Alianza Atlético": 1,
+    "dixon-coles: unmatched_home_team:Alianza Atlético": 1
+  }
+}
