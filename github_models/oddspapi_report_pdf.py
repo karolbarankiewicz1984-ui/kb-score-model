@@ -48,7 +48,7 @@ def _label(row):
             str(row["line"]).replace(".",","))
 
 
-def make_pdf(collection, overlay, audit, output, *, report_date=None):
+def make_pdf(collection, overlay, audit, output, *, report_date=None, market_gaps=None):
     """Stand-alone Polish PDF; all displayed odds traceable to captured rows."""
     from github_models.abc_pdf_style import fonts, p, render, styles, table, WIDTH
     fonts()
@@ -129,6 +129,34 @@ def make_pdf(collection, overlay, audit, output, *, report_date=None):
     story.append(p("Celem sekcji jest mapa oferty. Rynek dostepny w API nie oznacza, "
                    "ze model ma dla niego zweryfikowana prognoze. "
                    "Zerowa liczba fauli meczowych nie oznacza zerowej liczby fauli na boisku.",st["small"]))
+    # Preserve strongest original predictions even when Superbet has no usable
+    # exact market/line quote. Do not assign a fabricated price or fair probability.
+    if market_gaps is not None:
+        story.append(p("Prognozy modelu bez porownywalnego kursu Superbet",st["head"]))
+        summary = [["Kategoria", "Prognozy >=67%", "Bez zgodnego kursu"]]
+        for code, label in (("goals","Bramki"),("corners","Rozne"),
+                            ("fouls","Faule lacznie"),("cards","Zolte kartki")):
+            item = market_gaps.get("by_market",{}).get(code,{})
+            summary.append([label,str(item.get("high_confidence_candidates",0)),
+                            str(item.get("no_verified_comparable_quote",0))])
+        story.append(table(summary,[WIDTH*.48,WIDTH*.25,WIDTH*.27],st))
+        story.append(p("Kurs: BRAK w porownywalnym rynku. Pozycje ponizej NIE sa typami do "
+                       "obstawienia. Zolte kartki modelu nie sa automatycznie tym samym "
+                       "co rynki Bookings/points Superbet, a faule zawodnika nie sa suma fauli.",st["small"]))
+        no_quote=market_gaps.get("model_only_candidates",[])[:25]
+        if no_quote:
+            missing=[["Mecz", "Rynek modelu", "P(model)", "Przyczyna"]]
+            reason={"booking_rules_unverified":"rozliczenie kartek niejasne",
+                    "no_verified_yellow_cards_offer":"brak kartki",
+                    "player_props_not_match_total":"tylko rynki zawodnikow",
+                    "no_exact_market_line":"brak tej linii",
+                    "only_offer_below_minimum_odds":"kurs ponizej 1,20"}
+            for item in no_quote:
+                missing.append([
+                    _clock(item["kickoff_utc"])+" "+item["home"]+"-"+item["away"],
+                    _label(item),_pct(item["model_probability"]),
+                    reason.get(item["status"],item["status"])])
+            story.append(table(missing,[WIDTH*.35,WIDTH*.28,WIDTH*.12,WIDTH*.25],st))
     story.append(p("Audyt historyczny i warianty eksperymentalne",st["head"]))
     tested=(audit or {}).get("metrics",[])
     if tested:
