@@ -1,0 +1,141 @@
+{
+  "schema": "pitchapi-postmatch-xg-v1",
+  "date": "2026-11-16",
+  "observed_at_utc": "2026-11-17T13:54:40.747054+00:00",
+  "source": "PitchAPI",
+  "fixtures_available": 4,
+  "matches_collected": 4,
+  "match_limit": 75,
+  "matches_with_complete_xg": 4,
+  "rows": [
+    {
+      "pitch_match_id": "m_4FyyOV",
+      "date": null,
+      "kickoff_utc": "2026-11-16T18:00:00Z",
+      "league": "Liga 1",
+      "league_id": "l_3uNwVX",
+      "home": "UTC Cajamarca",
+      "away": "Los Chankas",
+      "home_team_id": "t_3Duigi",
+      "away_team_id": "t_2797mK",
+      "goals_home": 5,
+      "goals_away": 3,
+      "status": "finished",
+      "xg_home": {
+        "shot_count": 19,
+        "shots_with_xg": 19,
+        "xg": 2.3,
+        "xg_complete": true,
+        "xgot": 3.18,
+        "shots_with_xgot": 19
+      },
+      "xg_away": {
+        "shot_count": 19,
+        "shots_with_xg": 19,
+        "xg": 1.85,
+        "xg_complete": true,
+        "xgot": 2.02,
+        "shots_with_xgot": 19
+      },
+      "shots_error": null
+    },
+    {
+      "pitch_match_id": "m_3NvoM5",
+      "date": null,
+      "kickoff_utc": "2026-11-16T19:30:00Z",
+      "league": "LaLiga2",
+      "league_id": "l_3kyHLd",
+      "home": "Albacete",
+      "away": "Celta Fortuna",
+      "home_team_id": "t_4FyD35",
+      "away_team_id": "t_4YXkkv",
+      "goals_home": 1,
+      "goals_away": 0,
+      "status": "finished",
+      "xg_home": {
+        "shot_count": 16,
+        "shots_with_xg": 16,
+        "xg": 2.04,
+        "xg_complete": true,
+        "xgot": 0.89,
+        "shots_with_xgot": 16
+      },
+      "xg_away": {
+        "shot_count": 12,
+        "shots_with_xg": 12,
+        "xg": 1.32,
+        "xg_complete": true,
+        "xgot": 0.44,
+        "shots_with_xgot": 11
+      },
+      "shots_error": null
+    },
+    {
+      "pitch_match_id": "m_0hYM9t",
+      "date": null,
+      "kickoff_utc": "2026-11-16T20:15:00Z",
+      "league": "Liga 1",
+      "league_id": "l_3uNwVX",
+      "home": "Cusco",
+      "away": "ADT",
+      "home_team_id": "t_4RV0vt",
+      "away_team_id": "t_3Xc6B2",
+      "goals_home": 2,
+      "goals_away": 2,
+      "status": "finished",
+      "xg_home": {
+        "shot_count": 8,
+        "shots_with_xg": 8,
+        "xg": 1.09,
+        "xg_complete": true,
+        "xgot": 1.43,
+        "shots_with_xgot": 8
+      },
+      "xg_away": {
+        "shot_count": 22,
+        "shots_with_xg": 22,
+        "xg": 2.12,
+        "xg_complete": true,
+        "xgot": 1.77,
+        "shots_with_xgot": 22
+      },
+      "shots_error": null
+    },
+    {
+      "pitch_match_id": "m_1SZ3oO",
+      "date": null,
+      "kickoff_utc": "2026-11-16T20:15:00Z",
+      "league": "Liga 1",
+      "league_id": "l_3uNwVX",
+      "home": "Deportivo Moquegua",
+      "away": "Atlético Grau",
+      "home_team_id": "t_0aGgxm",
+      "away_team_id": "t_3FEth4",
+      "goals_home": 2,
+      "goals_away": 1,
+      "status": "finished",
+      "xg_home": {
+        "shot_count": 12,
+        "shots_with_xg": 12,
+        "xg": 1.48,
+        "xg_complete": true,
+        "xgot": 1.94,
+        "shots_with_xgot": 12
+      },
+      "xg_away": {
+        "shot_count": 8,
+        "shots_with_xg": 8,
+        "xg": 0.49,
+        "xg_complete": true,
+        "xgot": 0.19,
+        "shots_with_xgot": 8
+      },
+      "shots_error": null
+    }
+  ],
+  "isolation": "POSTMATCH_DATA_ONLY_NO_KB_OR_DEV_WRITES",
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "notice": "Observed post-match xG, NOT predicted pre-match xG."
+}
