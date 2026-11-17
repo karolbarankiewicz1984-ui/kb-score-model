@@ -57,7 +57,10 @@ def audit_one(overlay, queue, history, events, now):
                "odds_captured_at_utc":row["odds_captured_at_utc"],
                "forecast_frozen_at_utc":row["forecast_frozen_at_utc"],
                "status":"unresolved","reason":"final_result_pending"}
-        if str(row["fixture_id"]) not in fixtures:
+        # No post-match source should be consulted for fixtures not yet played.
+        if utc(row["kickoff_utc"]) >= now:
+            entry.update(status="pending_future", reason="kickoff_not_yet_passed")
+        elif str(row["fixture_id"]) not in fixtures:
             entry["reason"]="fixture_missing_in_archived_queue"
         elif row["market"]=="1X2":
             try:
@@ -156,6 +159,11 @@ def run(root, history, events, as_of_utc):
                            "last_captured_utc":last["odds_captured_at_utc"],
                            "price_delta":round(last["price"]-first["price"],5)})
     settled=[r for r in unique.values() if r.get("status")=="settled"]
+    status_counts=Counter(r["status"] for r in unique.values())
+    pending_kickoffs=sorted({r["kickoff_utc"] for r in unique.values()
+                             if r["status"]=="pending_future"})
+    unresolved_reasons=Counter(r.get("reason") or "unexplained" for r in unique.values()
+                               if r["status"] not in {"settled","pending_future"})
     variants=defaultdict(list)
     by_market=defaultdict(list)
     by_band=defaultdict(list)
@@ -180,6 +188,12 @@ def run(root, history, events, as_of_utc):
             "unique_selection_quotes":len(unique),
             "settled_selection_quotes":len(settled),
             "unique_settled_fixtures":len({r["fixture_id"] for r in settled}),
+            "status_counts":dict(status_counts),
+            "pending_future_quotes":status_counts.get("pending_future",0),
+            "pending_future_fixture_count":len({r["fixture_id"] for r in unique.values()
+                                                if r["status"]=="pending_future"}),
+            "earliest_pending_kickoff_utc":pending_kickoffs[0] if pending_kickoffs else None,
+            "unresolved_reasons":dict(unresolved_reasons),
             "duplicates_suppressed":len(rows)-len(unique),
             "exclusions":dict(errors),
             "summary":[{"variant":v,**_metrics(g)} for v,g in sorted(variants.items())],
@@ -212,6 +226,8 @@ def main():
                     encoding="utf-8")
     print("AUDIT_ARCHIVES="+str(result["archives_processed"]))
     print("AUDIT_UNIQUE_SETTLED_FIXTURES="+str(result["unique_settled_fixtures"]))
+    print("AUDIT_PENDING_FUTURE_QUOTES="+str(result["pending_future_quotes"]))
+    print("AUDIT_EARLIEST_PENDING_KICKOFF="+str(result["earliest_pending_kickoff_utc"]))
     print("AUDIT_DECISION="+result["decision"])
 
 
