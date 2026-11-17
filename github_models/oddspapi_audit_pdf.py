@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 
 def render_audit(data, outpath):
@@ -17,11 +19,20 @@ def render_audit(data, outpath):
           "Nie zmieniono wag modelu produkcyjnego.",st["body"]),
         p("Stan probki",st["head"]),
     ]
+    pending=data.get("earliest_pending_kickoff_utc")
+    try:
+        first=(datetime.fromisoformat(str(pending).replace("Z","+00:00"))
+               .astimezone(ZoneInfo("Europe/Warsaw")).strftime("%d.%m %H:%M (PL)"))
+    except (TypeError,ValueError):
+        first="brak"
     rows=[["Parametr","Wartosc"],
           ["Archiwa wejsciowe",str(data.get("archives_processed",0))],
           ["Unikatowe oferty",str(data.get("unique_selection_quotes",0))],
           ["Rozliczone oferty",str(data.get("settled_selection_quotes",0))],
           ["Rozliczone mecze",str(data.get("unique_settled_fixtures",0))],
+          ["Oczekujace przyszle pozycje",str(data.get("pending_future_quotes",0))],
+          ["Mecze przyszle",str(data.get("pending_future_fixture_count",0))],
+          ["Pierwszy przyszly mecz",first],
           ["Wykluczone duplikaty",str(data.get("duplicates_suppressed",0))],
           ["Prog 100 meczow","TAK" if data.get("promotion_gate",{}).get("minimum_reached") else "NIE"]]
     story.append(table(rows,[WIDTH*.65,WIDTH*.35],st))
