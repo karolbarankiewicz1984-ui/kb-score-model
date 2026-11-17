@@ -1,7 +1,10 @@
 name: MULTIMODEL V2 - Superbet OddsPapi market layer (daily)
 on:
-  schedule:
-    - cron: '25 8 * * *'
+  workflow_run:
+    workflows:
+      - 'GitHub Models V2 — A/B/C | daily forecast and audit'
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
   push:
     branches: [main]
@@ -17,14 +20,17 @@ concurrency:
 
 jobs:
   odds-and-research-report:
-    if: github.ref == 'refs/heads/main'
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'))
     runs-on: ubuntu-latest
     timeout-minutes: 18
     steps:
       - name: Checkout pinned, independently tested OddsPapi research implementation
         uses: actions/checkout@v4
         with:
-          ref: 58aed306013205a5215d4a35584cc25eedd53d33
+          ref: 0e9af0ec27889bf84ea4fa6daeeb4fcb0d0e9394
           persist-credentials: false
       - name: Read immutable GitHub Models V2 inputs
         uses: actions/checkout@v4
@@ -48,11 +54,14 @@ jobs:
           path: research_cache
           key: oddspapi-v4-soccer-catalog-${{ steps.month.outputs.value }}
       - name: Select complete recent forecast queue (never a smaller smoke-test queue)
+        env:
+          TRIGGER_RUN_ID: ${{ github.event.workflow_run.id || '' }}
         shell: bash
         run: |
           set -euo pipefail
           QUEUE="$(python - <<'PY'
           import json
+          import os
           from datetime import datetime,timezone
           from pathlib import Path
 
@@ -86,9 +95,17 @@ jobs:
                   continue
           if not candidates:
               raise SystemExit("no_current_complete_frozen_forecast_queue")
-          latest_day=max(row[0] for row in candidates)
-          eligible=(r for r in candidates if r[0]==latest_day)
-          best=max(eligible,key=lambda r:(r[1],r[2]))
+          trigger=os.environ.get("TRIGGER_RUN_ID","").strip()
+          if trigger:
+              # Never join full A/B/C odds with a different (e.g. smoke) run.
+              matched=[r for r in candidates if r[3].stem==trigger]
+              if len(matched)!=1:
+                  raise SystemExit("triggered_abc_forecast_archive_missing_or_stale")
+              best=matched[0]
+          else:
+              latest_day=max(row[0] for row in candidates)
+              eligible=(r for r in candidates if r[0]==latest_day)
+              best=max(eligible,key=lambda r:(r[1],r[2]))
           print(best[3])
           PY
           )"
@@ -128,6 +145,16 @@ jobs:
           test -s reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf
           pdfinfo reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf | grep 'Pages:'
           pdftotext reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf - | grep -q 'SUPERBET.PL'
+      - name: Publish health and missing-market warnings
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m github_models.oddspapi_health \
+            --collection reports/oddspapi_daily/collection.json \
+            --overlay reports/oddspapi_daily/market_overlay.json \
+            --gaps reports/oddspapi_daily/market_gaps.json \
+            --queue reports/oddspapi_daily/pitch_queue.json \
+            --out reports/oddspapi_daily/market_health.json
       - name: Save time-stamped source evidence, comparisons and PDF
         if: always()
         uses: actions/upload-artifact@v4
