@@ -18,6 +18,7 @@ from statistics import mean
 from github_models.market_settlement import settle_markets
 from github_models.settlement import matching_outcomes
 from github_models.oddspapi_market import utc
+from github_models.oddspapi_agreement_test import compare_agreement
 
 
 def audit_one(overlay, queue, history, events, now):
@@ -201,6 +202,7 @@ def run(root, history, events, as_of_utc):
                          for (v,m),g in sorted(by_market.items())],
             "by_probability_band":[{"variant":v,"band":b,**_metrics(g)}
                                    for (v,b),g in sorted(by_band.items())],
+            "market_agreement_test":compare_agreement(list(unique.values())),
             "price_changes":trends[:1000],
             "promotion_gate":{"minimum_distinct_matches":100,
                               "minimum_reached":len({r["fixture_id"] for r in settled})>=100,
@@ -229,6 +231,8 @@ def main():
     print("AUDIT_PENDING_FUTURE_QUOTES="+str(result["pending_future_quotes"]))
     print("AUDIT_EARLIEST_PENDING_KICKOFF="+str(result["earliest_pending_kickoff_utc"]))
     print("AUDIT_DECISION="+result["decision"])
+    print("AGREEMENT_SETTLED_MATCHES="+str(result["market_agreement_test"]["eligible_distinct_matches"]))
+    print("AGREEMENT_DECISION="+str(result["market_agreement_test"]["decision"]))
 
 
 if __name__=="__main__":
