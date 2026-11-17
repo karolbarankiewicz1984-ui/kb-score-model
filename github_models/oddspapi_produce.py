@@ -9,6 +9,7 @@ from pathlib import Path
 from github_models.oddspapi_integration import market_overlay, compare_variants
 from github_models.market_settlement import settle_markets
 from github_models.oddspapi_report_pdf import make_pdf
+from github_models.oddspapi_market_gaps import coverage
 
 
 def _write(path,data):
@@ -36,13 +37,17 @@ def run(collection, queue, frozen, event_markets, history, event_history, outdir
     else:
         settlements=settle_markets(event_markets,queue,history,event_history,as_of)
     audit=compare_variants(overlay,settlements)
+    gaps=coverage(collection,event_markets,as_of_utc=as_of)
     out=Path(outdir)
     _write(out/"market_overlay.json",overlay)
+    _write(out/"market_gaps.json",gaps)
     _write(out/"actual_settlements.json",settlements)
     _write(out/"shadow_variants_audit.json",audit)
     pdf=out/"MULTIMODEL_V2_SUPERBET_MARKET.pdf"
-    make_pdf(collection,overlay,audit,pdf)
+    make_pdf(collection,overlay,audit,pdf,market_gaps=gaps)
     print("MARKET_OVERLAY_COMPARISONS="+str(len(overlay["comparisons"])))
+    print("MODEL_ONLY_UNQUOTED="+str(len(gaps["model_only_candidates"])))
+    print("MODEL_ONLY_BY_MARKET="+json.dumps(gaps["by_market"],sort_keys=True))
     print("SETTLED_FORECASTS="+str(sum(x["status"]=="settled" for x in settlements["settlements"])))
     print("AUDIT_VARIANTS="+str(len(audit["metrics"])))
     print("ODDS_MARKET_PDF="+str(pdf))
