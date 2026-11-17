@@ -59,6 +59,27 @@ def render_audit(data, outpath):
         story.append(table(out,[WIDTH*.65,WIDTH*.12,WIDTH*.23],st))
     else:
         story.append(p("Kalibracja czeka na rozliczone prognozy.",st["body"]))
+    story.append(p("Czy zgodnosc z Superbet poprawia trafnosc?",st["head"]))
+    agreement=data.get("market_agreement_test",{})
+    cohorts=agreement.get("same_population_comparison",{})
+    if cohorts:
+        compared=[["Grupa","Pozycje","Mecze","Trafnosc","Brier"]]
+        for label,key in (("Wszystkie","all"),("Zgodne <=10pp","agree"),
+                          ("Rozbiezne >10pp","disagree")):
+            values=cohorts.get(key,{})
+            compared.append([label,str(values.get("positions",0)),
+                             str(values.get("distinct_matches",0)),
+                             ("%.1f%%"%(100*values["hit_rate"])).replace(".",",")
+                             if values.get("hit_rate") is not None else "brak",
+                             ("%.3f"%values["brier"]).replace(".",",")
+                             if values.get("brier") is not None else "brak"])
+        story.append(table(compared,[WIDTH*.32,WIDTH*.13,WIDTH*.12,WIDTH*.20,WIDTH*.23],st))
+    else:
+        story.append(p("Brak rozliczonych, porownywalnych obserwacji.",st["body"]))
+    story.append(p("Weryfikacja hipotezy: "+
+                   agreement.get("decision","BRAK PROBY")+
+                   ". Niezbedne sa niezalezne wyniki koncowe i dane przedmeczowe. "
+                   "Zgodnosc rynku nie dowodzi przyczynowej poprawy skutecznosci.",st["small"]))
     story.append(p("Decyzja",st["head"]))
     story.append(p("BRAK ZGODY NA AUTOMATYCZNA ZMIANE PRODUKCJI. "
                    "Roznice na niewielkiej lub retrospektywnej probce wymagaja "
