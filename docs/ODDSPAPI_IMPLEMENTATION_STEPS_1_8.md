@@ -41,3 +41,16 @@ GitHub Models V2 forecasting probabilities.
 - `MULTIMODEL_V2_SUPERBET_MARKET.pdf`: top rows, chronological matched selections, P(model), exact quote, P(no-vig), market coverage, and audit availability.
 - `MULTIMODEL_V2_SUPERBET_AUDIT.pdf`: retrospective metrics only when independently settled.
 - `collection.json`, `fixture_links.json`, `market_overlay.json`, `pitch_queue.json`: reproducible source evidence and mapping.
+
+## Follow-up implementation register — user directive 2026-11-17 (steps 1–4)
+
+Scope: GitHub MultiModel V2, actual Polish `superbet.pl` prices only; STS unavailable in subscribed catalogue. This is **not** KB Score 3.0. Existing predictions and A/B/C scoring are immutable.
+
+| Priority | Task | Initial observed state (as of 2026-11-17 10:04 Europe/Warsaw) | Acceptance gate |
+|---|---|---|---|
+| 1 | Synchronize full forecast with bookmaker collection, alert on empty overlay | Full 2026-11-16 archive has 423 fixtures; selection fix PR #63 passed live and delivered 59 linked matches, 58 priced fixtures, 19,597 quotes and 450 exact comparisons. Current daily workflow is scheduled, not tied to A/B/C success. | Latest successful full A/B/C source only, no smoke input; preserve 200/250 quota, warnings and explicit diagnostics on empty or stale overlays. |
+| 2 | Complete cards/fouls market classification and true Superbet coverage | 2026-11-16 Superbet sample: 0 confirmed match-total fouls or bookings quotes in 58 captured fixtures; no false substitutions. Full model *does* provide event predictions. | Deterministic exact market taxonomy and separate complete model-only predictions when bookmaker market missing; settlement semantics explicitly unresolved for bookings. |
+| 3 | Settle first real matches and explain 0 settled | Audit run 44006351945 PASS, 3 archives; 0 distinct settled fixtures. Captured paired fixtures start 2026-11-20, so 0 settled is expected as of 2026-11-17. | Explicit future/pending vs blocked/unmatched/ambiguous reasons, no retroactive odds, scheduled independent audit. |
+| 4 | Quantify Superbet agreement filter effect | No prospectively settled exact-odds cohort yet; comparison not measurable. | Implement same-cohort agrees/disagrees vs all, by market and probability threshold, outcome-dependent stats only for verified finishes, no claim of lift before minimum sample. |
+
+Execution journal to be appended with commit/test links and accepted/blocked details. Production forecast weights MUST remain unchanged; no budget expansion; avoid new paid API probes just to prove source categories absent.
