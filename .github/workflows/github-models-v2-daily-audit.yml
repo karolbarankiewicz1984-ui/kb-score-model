@@ -84,6 +84,21 @@ jobs:
           python -B -m github_models.weekly_reports \
             --root reports/github_models --day "$DAY" --days 7
           test -s "reports/github_models/filters/SEVEN_DAY_MANIFEST_$DAY.json"
+      - name: Generate independent SHADOW BTTS / handicap and seven daily PDFs
+        shell: bash
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          python -B -m github_models.shadow_runner \
+            --queue "reports/github_models/queues/$DAY.json" \
+            --history data/github_models/verified_results.json \
+            --as-of "$FROZEN_AT" \
+            --output "reports/github_models/shadow/$DAY.json"
+          python -B -m github_models.shadow_reports \
+            --root reports/github_models --day "$DAY" --days 7
+          test -s "reports/github_models/shadow/SHADOW_MANIFEST_$DAY.json"
+
       - name: Publish today's PDF and sources BEFORE historical audit
         uses: actions/upload-artifact@v4
         with:
@@ -96,6 +111,8 @@ jobs:
             reports/github_models/filters/ABC_*.json
             reports/github_models/filters/SEVEN_DAY_MANIFEST_*.json
             reports/github_models/pdf/GITHUB_MODELS_V2_ABC_*.pdf
+            reports/github_models/pdf/MULTIMODEL_V2_SHADOW_*.pdf
+            reports/github_models/shadow/*.json
             data/github_models/source_manifest.json
             data/github_models/events_manifest.json
           retention-days: 30
@@ -133,6 +150,19 @@ jobs:
           git -C archive_write config user.name "github-actions[bot]"
           git -C archive_write config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git -C archive_write add "frozen/$DAY/$RUN_ID.json" "queues/$DAY/$RUN_ID.json" "markets/$DAY/$RUN_ID.json"
+          # SHADOW is optional: missing new-market inputs must not stop A/B/C.
+          if test -s "reports/github_models/shadow/$DAY.json"; then
+            target="archive_write/shadow/$DAY/$RUN_ID.json"
+            if test -e "$target"; then
+              echo "::error::Frozen SHADOW entry already exists: $target"
+              exit 1
+            fi
+            mkdir -p "$(dirname "$target")"
+            cp "reports/github_models/shadow/$DAY.json" "$target"
+            git -C archive_write add "shadow/$DAY/$RUN_ID.json"
+          else
+            echo "::warning::SHADOW source unavailable; original frozen A/B/C still archived"
+          fi
           git -C archive_write commit -m "freeze: research forecast $DAY run $RUN_ID"
           git -C archive_write push origin HEAD:research/github-models-frozen
       - name: Prepare independently verified public results for settlement (no API-Football)
@@ -163,6 +193,18 @@ jobs:
           # Do not compute it twice here; A/B/C audit settles the exact same records.
           python -B -m github_models.abc_audit_runner --archive-dir research_archive --history data/github_models/settlement_verified_results.json --events data/github_models/settlement_verified_events.json --as-of "$AUDIT_AT" --output "reports/github_models/filters/AUDIT_$DAY.json"
           python -B -m github_models.abc_audit_pdf --input "reports/github_models/filters/AUDIT_$DAY.json" --output "reports/github_models/pdf/GITHUB_MODELS_V2_AUDIT_$DAY.pdf"
+      - name: Audit independently frozen SHADOW BTTS / handicap results
+        shell: bash
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          DAY="$(TZ=Europe/Warsaw date +%F)"
+          python -B -m github_models.shadow_audit \
+            --archive-dir research_archive \
+            --history data/github_models/settlement_verified_results.json \
+            --as-of "$AUDIT_AT" \
+            --output "reports/github_models/shadow/SHADOW_AUDIT_$DAY.json"
+
       - name: Archive outputs
         if: always()
         uses: actions/upload-artifact@v4
@@ -173,6 +215,7 @@ jobs:
             reports/github_models/predictions/*.json
             reports/github_models/markets/*.json
             reports/github_models/coverage/*.json
+            reports/github_models/shadow/*.json
             reports/github_models/filters/*.json
             reports/github_models/pdf/*.pdf
             reports/github_models/settlement.json
