@@ -146,3 +146,44 @@ W migawce `collection.json` z 20.11.2026 oba wyniki `1`/`2` występują dla jedn
 | 10. Kalibracja | **Nie włączona** | Dane z >=100 niezależnych meczów + poprawa na holdoucie |
 
 Ten wpis jest rejestrem implementacji i stanu wiedzy. Nie oznacza automatycznej zgody na promowanie SHADOW lub na przekazywanie niesprawdzonych kursów fauli i kartek.
+
+## Kontrola końcowa i stan potwierdzony — 20.11.2026 (po PR #71–#73)
+
+**Decyzja operacyjna:** wdrożono rozliczanie wyłącznie niezależnych wyników rynków `BTTS Full Time` i `Asian Handicap ±1,5 Full Time`, przyporządkowanych do rzeczywiście zapisanych ofert Superbet. W publikacjach pozostaje etykieta **SHADOW / badawcze / niekalibrowane**. Nie nastąpiła promocja modeli, wag lub fauli/kartek.
+
+### Zmiany scalone
+
+- PR **#71** — źródłowo udokumentowany znak handicapów OddsPapi + deduplikacja archiwów i rozliczanie po rzeczywistym wyniku, testy: https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/71
+- PR **#72** — prawidłowe rozpoznanie pola dostawcy w `collection.json` (`OddsPapi`) przy odrębnym `oddspapi-v4` dla snapshotów: https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/72
+- PR **#73** — poprawne ograniczenie siedmiodniowego archiwum kursów do bieżącej daty każdego PDF: https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/73
+- Kontrolę zakończenia wykonano w CI, z udokumentowanymi dwoma błędami pośrednimi PDF na `main` i następczymi poprawkami; **nie traktować starych czerwonych runów jako aktualnej awarii**.
+- Bieżąca korekta opisowa PDF (w tym usunięcie sprzecznego komunikatu o niepotwierdzonym znaku AH) została dodana w osobnym PR do akceptacji.
+
+### Dowody z GitHub Actions
+
+- [Regresja #71 — 19/19 testów PASS](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44732720862).
+- [Nowy nocny audyt rynków — PASS](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44732878148): 9 zamrożonych archiwów odds w istniejącym audycie, 1 archiwum można było bezpiecznie połączyć z odpowiednią zamrożoną prognozą SHADOW; odrzucono pozostałe 9 plików, dla których nie znaleziono unikalnego identycznego archiwum SHADOW (brak dopasowania **nie** oznacza przegranej).
+- Z tego audytu: **200** unikalnych wycenionych pozycji badawczych z **43** meczów = **86 BTTS** + **114 handicapów ±1,5**. Wszystkie mają `status=pending`, **0 `settled`**, brak liczonych hit rate/Brier/ROI z przyszłych wyników. `PRICED_SHADOW_BROKEN_GATES=0`, dodatkowe zapytania OddsPapi **0**.
+- [Dwa końcowe PDF-y — PASS](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44733417657): w raporcie 20.11 jest **65** spotkań, **98** unikalnych propozycji A/B/C i **144** SHADOW; **29** pozycji z rzeczywistą zapisaną ceną, w tym **12** cen AH (i 8 BTTS w komplecie SHADOW dla tej daty). Wygenerowano **tylko 2 PDF**: prognozy 10 stron i audyt 2 strony; bez zmian historycznych danych.
+
+### Rezultat weryfikacji fauli i kartek
+
+**Faule — NIEZATWIERDZONE DO ROZLICZENIA JAKO SUPERBET:** oficjalne kryterium faulu i OPTA zostały odnalezione, a pochodzenie źródła `HF/AF` z `football-data.co.uk` potwierdzono. **Nie istnieje w archiwum druga, wspólna próba oficjalnych wyników OPTA**, zatem brak jest rzetelnego dowodu równoważności; rynki fauli zawodnika nie są rynkami fauli meczu.
+
+**Kartki — NIEZATWIERDZONE DO ROZLICZENIA JAKO SUPERBET:** oficjalne jednostki żółte / czerwone / łączna liczba kartek / punkty kartkowe są rozdzielone, `HY/AY` to tylko żółte karty. Nadal brak danych czerwonych kart oraz graczy i godzin kartek do rekonstrukcji wypłaty dla `bookings`.
+
+**Handicapy — ZATWIERDZONO TYLKO TOŻSAMOŚĆ RYNKU, NIE WYPŁATĘ BUKMACHERA:** home-line, outcome `1`/`2`, podział na azjatycki i europejski potwierdzony dokumentacją operatora; matematyczne rozliczenie ±1,5 bazuje na niezależnym końcowym wyniku. Bez kuponu/wyciągu Superbet nie nazywać tego oficjalnym rozliczeniem przez bukmachera.
+
+### Zadania otwarte, według priorytetu (stan po odczycie ostatniego audytu)
+
+1. **[BLOCKER FAULE]** Uzyskać rzeczywiste, zgodne identyfikatorowo statystyki OPTA dla tej samej próby spotkań co `HF/AF` i opublikować zestawienie różnic; do tego czasu brak wyceniania/rozliczania statystycznego fauli jako Superbet.
+2. **[BLOCKER KARTKI]** Udokumentować dokładną jednostkę `Bookings - Over Under Full Time` w Superbet/OddsPapi i wyjaśnić czerwone, drugie żółte, rezerwowych oraz kartki po gwizdku, przed dodaniem jakiejkolwiek ceny do propozycji kartek.
+3. **[BLOCKER WYPŁATA]** Potwierdzić rzeczywistym zakończonym kuponem rozliczanie ±1,5 oraz BTTS w Superbet (kod nie sugeruje wypłaty).
+4. **[CZAS]** Zebrać rozliczone niezależnie wyniki meczów z 20.11 i dni późniejszych, odświeżać archiwum z cenami; obecnie 0 `settled`, nie wyliczać ROI ani kalibracji.
+5. **[CI]** Obserwować kolejne cykle dzienne i nocne, w szczególności zmienność źródeł `OddsPapi`/`oddspapi-v4`, zgodność kolejnego PDF po aktualizacji oraz częściowy terminarz 25–26.11.
+6. **[HISTORIA]** Zwiększać liczbę poprawnie powiązanych zamrożonych archiwów SHADOW; starszych 9 archiwów odds nie można automatycznie potraktować jako zgodnych prognoz SHADOW.
+7. **[DANE]** Zweryfikować możliwość pozyskiwania historycznych statystyk strzałów, strzałów celnych i spalonych, bez wymyślania danych.
+8. **[KALIBRACJA]** Po pierwszych 20–30 niezależnych wynikach tylko diagnostyka; formalny przegląd od ~100 różnych rozliczonych spotkań i reprezentatywnej liczby na rynek, a zmiana wag dopiero po poprawie na niezależnym holdoucie.
+9. **[PRODUKT]** STS nadal niedostępny w subskrypcji, a dodatkowego harmonogramu e-mail z PDF nie ustanowiono; aktualny system utrzymuje wyłącznie 2 artefakty PDF dziennie.
+
+Wyniki historyczne A/B/C w audycie, szczególnie dla `fouls` i `cards`, są statystykami badań `football-data.co.uk`; **nie stanowią potwierdzonego rozliczenia bukmacherskiego OPTA/Superbet**.

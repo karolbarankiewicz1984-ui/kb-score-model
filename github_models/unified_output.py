@@ -339,9 +339,10 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
         f"handicapy europejskie: {families.get('european_handicap',0)}."))
     story.append(P(
         "Blokady: fauli zawodnika nie wolno utożsamiać z faulami całego meczu. "
-        "Bookingi nie są automatycznie żółtymi kartkami. Dla azjatyckich "
-        "handicapów konieczne jest potwierdzenie znaku i strony w OddsPapi; "
-        "handicap europejski (3 drogi) nie jest tożsamy z azjatyckim."))
+        "Bookingi nie są automatycznie żółtymi kartkami. Znak i strona "
+        "azjatyckiego handicapu ±1,5 zostały zweryfikowane w dokumentacji "
+        "OddsPapi. Faktyczna wypłata Superbet nie jest niezależnie "
+        "potwierdzona; handicap europejski (3 drogi) to inny rynek."))
     if gaps:
         fouls = gaps.get("fouls", {})
         cards = gaps.get("cards", {})
@@ -352,11 +353,11 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
             f"kartki {cards.get('without_comparable_offer','—')} / "
             f"{cards.get('modeled_candidates','—')}. "
             "Brak ceny nie oznacza przegranej prognozy."))
-    story.append(P("6. Plan i bramki jakości","head"))
-    story.append(P("Najpierw: udokumentowane wyniki, rozliczenie SHADOW i pełny audyt Superbet. "
-                   "Dalej: porównania rynków w identycznej próbie, poprawne reguły kartkowe "
-                   "i handicapowe, weryfikacja dostępności danych strzałów i spalonych. "
-                   "Zmiany wag dopiero po uzasadnieniu empirycznym."))
+    story.append(P(
+        "Przed formalną kalibracją: prospektywna próba niezależnie rozliczonych "
+        "meczów, Brier/log loss na holdoucie, osobna walidacja fauli i kartek "
+        "według OPTA. Historyczne trafności A/B/C nie są potwierdzeniem "
+        "trafności zakładów Superbet."))
     export_pdf(dest,story)
     return dict(abc_archives=a.get("archives_processed",0),
                 shadow_archives=s.get("archives_processed",0) if s else None,
