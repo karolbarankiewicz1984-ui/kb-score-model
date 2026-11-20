@@ -1,0 +1,94 @@
+name: MultiModel SHADOW real-archive integration (no paid API)
+on:
+  push:
+    branches: [codex/multimodel-shadow-deploy-20261120]
+  pull_request:
+    paths:
+      - '.github/workflows/github-models-v2-daily-audit.yml'
+      - '.github/workflows/oddspapi-daily.yml'
+      - '.github/workflows/multimodel-shadow-real-archive-ci.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout tested SHADOW research implementation
+        uses: actions/checkout@v4
+        with:
+          ref: codex/multimodel-v2
+          path: shadow_code
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF dependencies
+        run: python -m pip install 'reportlab>=4,<6' 'PyMuPDF>=1.24.4,<2'
+      - name: Recover existing A/B/C data and OddsPapi quotes, WITHOUT API calls
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run download 44567125403 --repo "$GITHUB_REPOSITORY" \
+            --name github-models-v2-abc-complete-44567125403-1 --dir archive
+          gh run download 44571730918 --repo "$GITHUB_REPOSITORY" \
+            --name oddspapi-daily --dir quotes
+          test -s archive/data/github_models/verified_results.json
+          test -s archive/reports/github_models/queues/2026-11-19.json
+          test -s quotes/collection.json
+          test -s quotes/pitch_queue.json
+      - name: Real old-snapshot BTTS / handicap SHADOW and 7 PDF rendering
+        shell: bash
+        run: |
+          set -euo pipefail
+          DAY=2026-11-19
+          FROZEN="$(python - <<'PY'
+          import json
+          d=json.load(open('archive/reports/github_models/queues/2026-11-19.json'))
+          print(d['generated_at_utc'])
+          PY
+          )"
+          PYTHONPATH="$PWD/shadow_code" python -B -m github_models.shadow_runner \
+            --queue "archive/reports/github_models/queues/$DAY.json" \
+            --history archive/data/github_models/verified_results.json \
+            --as-of "$FROZEN" \
+            --output "archive/reports/github_models/shadow/$DAY.json"
+          PYTHONPATH="$PWD/shadow_code" python -B -m github_models.shadow_reports \
+            --root archive/reports/github_models --day "$DAY" --days 7
+          PYTHONPATH="$PWD/shadow_code" python -B -m github_models.shadow_superbet \
+            --collection quotes/collection.json \
+            --queue quotes/pitch_queue.json \
+            --shadow "archive/reports/github_models/shadow/$DAY.json" \
+            --output-dir out
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          g=json.load(open("archive/reports/github_models/shadow/2026-11-19.json"))
+          x=json.load(open("out/SHADOW_SUPERBET_OVERLAY.json"))
+          assert g["candidates"], "No real BTTS/handicap forecasts!"
+          assert len(g["candidates"]) == len(x["rows"])
+          assert any(r["market"]=="btts" for r in g["candidates"])
+          assert all(r["odds"] is None for r in x["rows"] if r["market"]=="handicap")
+          pdfs=list(Path("archive/reports/github_models/pdf").glob("MULTIMODEL_V2_SHADOW_*.pdf"))
+          assert len(pdfs)==7
+          assert all(p.read_bytes()[:5]==b"%PDF-" for p in pdfs)
+          assert Path("out/MULTIMODEL_V2_SHADOW_SUPERBET.pdf").read_bytes()[:5]==b"%PDF-"
+          print("REAL_SHADOW_FORECASTS="+str(len(g["candidates"])))
+          print("REAL_SHADOW_QUOTES="+str(x["counts"].get("quoted_research",0)))
+          print("REAL_SHADOW_MODEL_ONLY="+str(x["counts"].get("model_only",0)))
+          print("REAL_SHADOW_7_PDFS=PASS")
+          PY
+      - name: Preserve integration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-shadow-real-archive-check
+          path: |
+            archive/reports/github_models/shadow/*.json
+            out/SHADOW_SUPERBET_OVERLAY.json
+            out/MULTIMODEL_V2_SHADOW_SUPERBET.pdf
+            archive/reports/github_models/pdf/MULTIMODEL_V2_SHADOW_*.pdf
+          retention-days: 30
+          if-no-files-found: ignore
