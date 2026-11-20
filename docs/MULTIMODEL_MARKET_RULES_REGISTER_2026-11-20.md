@@ -59,10 +59,10 @@ Dokumenty opisują zasady bukmachera; **nie dowodzą**, że konkretne pola `hand
 
 ## Warunki wdrożenia
 
-- [ ] PR z testami i kodem scalony do `main`.
-- [ ] GitHub Actions z testami oraz odczytem archiwum przechodzi pomyślnie.
-- [ ] W audycie końcowym istnieją dwa poprawne PDF; brak trzeciego raportu dla użytkownika.
-- [ ] Przesłany raport stanowi dokumentację postępu, nie obietnicę, że handicapy czy kartki zostały już zatwierdzone do obstawiania.
+- [x] PR z testami i kodem scalony do `main` (PR #70 i #71–#74).
+- [x] GitHub Actions z testami i rzeczywistym archiwum przechodzi pomyślnie (19 testów, replay 200 ofert).
+- [x] W audycie końcowym istnieją dwa poprawne PDF; brak trzeciego raportu dla użytkownika.
+- [x] Raport wyraźnie odróżnia badawcze handicapy od zweryfikowanych wypłat bukmachera; kartki i faule pozostają zablokowane.
 
 ## Potwierdzenie wdrożenia produkcyjnego — 20.11.2026
 
@@ -157,7 +157,7 @@ Ten wpis jest rejestrem implementacji i stanu wiedzy. Nie oznacza automatycznej 
 - PR **#72** — prawidłowe rozpoznanie pola dostawcy w `collection.json` (`OddsPapi`) przy odrębnym `oddspapi-v4` dla snapshotów: https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/72
 - PR **#73** — poprawne ograniczenie siedmiodniowego archiwum kursów do bieżącej daty każdego PDF: https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/73
 - Kontrolę zakończenia wykonano w CI, z udokumentowanymi dwoma błędami pośrednimi PDF na `main` i następczymi poprawkami; **nie traktować starych czerwonych runów jako aktualnej awarii**.
-- Bieżąca korekta opisowa PDF (w tym usunięcie sprzecznego komunikatu o niepotwierdzonym znaku AH) została dodana w osobnym PR do akceptacji.
+- Korektę opisową PDF (w tym usunięcie sprzecznego komunikatu o niepotwierdzonym znaku AH) scalono w PR #74.
 
 ### Dowody z GitHub Actions
 
