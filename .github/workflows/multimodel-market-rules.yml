@@ -1,0 +1,100 @@
+name: MultiModel V2 — market rules safety and archived Superbet audit
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'github_models/market_rule_gate.py'
+      - 'tests/test_multimodel_market_rule_gate.py'
+      - 'github_models/unified_output.py'
+      - '.github/workflows/multimodel-market-rules.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'github_models/market_rule_gate.py'
+      - 'tests/test_multimodel_market_rule_gate.py'
+      - 'github_models/unified_output.py'
+      - '.github/workflows/multimodel-market-rules.yml'
+  workflow_run:
+    workflows:
+      - 'MULTIMODEL V2 - Superbet OddsPapi market layer (daily)'
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: multimodel-market-semantics-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  market-rules:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regression tests — no scope or settlement substitutions
+        run: python -m unittest -v tests.test_multimodel_market_rule_gate
+
+      - name: Fetch ONLY already archived odds (no paid API)
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TRIGGER_RUN_ID: ${{ github.event.workflow_run.id || '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "$TRIGGER_RUN_ID" ]]; then
+            run_id="$TRIGGER_RUN_ID"
+          else
+            run_id="$(gh run list --repo "$GITHUB_REPOSITORY" \
+              --workflow oddspapi-daily.yml --status success --limit 1 \
+              --json databaseId --jq '.[0].databaseId')"
+          fi
+          test -n "$run_id" && test "$run_id" != "null"
+          mkdir -p input
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" \
+            --name oddspapi-daily --dir input
+          test -s input/collection.json
+          test -s input/market_gaps.json
+          echo "SOURCE_ODDSPAPI_RUN=$run_id"
+
+      - name: Inspect actual bookmaker market identities
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m github_models.market_rule_gate \
+            --collection input/collection.json \
+            --gaps input/market_gaps.json \
+            --output out/MARKET_RULES_AUDIT.json
+          test -s out/MARKET_RULES_AUDIT.json
+          python - <<'PY'
+          import json
+          v=json.load(open("out/MARKET_RULES_AUDIT.json",encoding="utf-8"))
+          assert v["automatically_promoted_markets"] == []
+          assert v["new_paid_api_calls"] == 0
+          assert v["snapshots_checked"] > 0
+          assert v["quotes_checked"] > 0
+          print("MARKET_RULES_SEMANTIC_GATES=PASS")
+          PY
+
+      - name: Save technical JSON audit (two user-facing PDFs unchanged)
+        if: success() && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-market-rules-diagnostic
+          path: out/MARKET_RULES_AUDIT.json
+          if-no-files-found: error
+          retention-days: 90
