@@ -66,7 +66,15 @@ jobs:
           test -s input/odds/pitch_queue.json
           test -s input/odds/market_overlay.json
           echo "SOURCE_ODDSPAPI_RUN=$run_id" >> "$GITHUB_ENV"
-          echo "INPUT_DAY=$(TZ=Europe/Warsaw date +%F)" >> "$GITHUB_ENV"
+          day="$(python - <<'PY'
+import json
+from datetime import datetime
+from zoneinfo import ZoneInfo
+q=json.load(open('input/odds/pitch_queue.json',encoding='utf-8'))
+print(datetime.fromisoformat(q['generated_at_utc'].replace('Z','+00:00')).astimezone(ZoneInfo('Europe/Warsaw')).date().isoformat())
+PY
+)"
+          echo "INPUT_DAY=$day" >> "$GITHUB_ENV"
 
       - name: Retrieve exact A/B/C and SHADOW archive matching Superbet queue
         shell: bash
