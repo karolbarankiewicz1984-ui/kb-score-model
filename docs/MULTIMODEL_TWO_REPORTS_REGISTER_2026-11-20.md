@@ -53,3 +53,11 @@ Na zapisanych archiwach wykonano test lokalny składający jeden PDF z rynkami p
 - Brak wycenionych dokładnie fauli/kartki — nie generować fikcyjnych kursów.
 - SHADOW to niekalibrowana analiza; brak dowodu dodatniego EV.
 - Anulowany pomocniczy smoke z 19.11, częściowy terminarz 25–26.11 oraz status 0 rozliczonych nowych próbek pozostają osobnymi pozycjami monitoringu, nie przesłaniają generowania użytkowych raportów.
+
+## Aktualizacja 20.11.2026 — etapy I/II: faule, kartki, handicapy
+
+Pełny **10-krokowy rejestr dalszych działań**, aktualne dowody z archiwum OddsPapi, kryteria weryfikacji rynku, historia zmian i warunki kalibracji:
+
+**[MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md)**
+
+Dodano rozdzielanie jednostek *bookings* od żółtych kartek, fauli gracza od fauli meczu oraz handicapów azjatyckich od europejskich; wynik semantyczny zostanie dodany do istniejącego PDF audytu. Modele A/B/C i SHADOW pozostają bez zmian, zero nowych wywołań OddsPapi. Integracja rzeczywistych reguł rozliczeń i dalsza kalibracja są oddzielnymi krokami zależnymi od weryfikacji danych.
