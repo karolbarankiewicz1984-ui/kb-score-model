@@ -58,7 +58,7 @@ def sample():
                              model("handicap", "away", 1.5),
                              model("handicap", "home", 1.5),
                              model("handicap", "away", -1.5)]}
-    collection = {"provider": "oddspapi-v4", "bookmakers": ["superbet.pl"],
+    collection = {"provider": "OddsPapi", "bookmakers": ["superbet.pl"],
                   "links": {"links": [{"status": "matched", "fixture_id": "m_1",
                                       "odds_fixture_id": "of1"}]},
                   "snapshots": [{"provider": "oddspapi-v4", "pitch_fixture_id": "m_1",
@@ -80,6 +80,12 @@ class Pricings(unittest.TestCase):
         self.assertEqual(found[("handicap", "away", -1.5)]["price"], 6.5)
         self.assertNotIn(("handicap", "home", 1.5), found)
         self.assertEqual(excluded["odds_below_1_20_or_invalid"], 1)
+
+    def test_collection_provider_must_match_documented_form(self):
+        c, q, f = sample()
+        c["provider"] = "unknown provider"
+        with self.assertRaises(ValueError):
+            quote_pairs(c, q, f)
 
     def test_correct_btts_not_booking_or_fouls(self):
         c,q,f=sample()
