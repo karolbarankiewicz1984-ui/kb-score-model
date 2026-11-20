@@ -222,7 +222,11 @@ def build_day(abc_root,odds_root,day,dest):
     export_pdf(dest,story)
     return dict(fixtures=len(fixtures),abc=abc_count,shadow=shadow_count,with_odds=priced)
 
-def build_audit(abc_root,audit_root,day,dest):
+def build_audit(abc_root,odds_root,audit_root,day,dest):
+    # Inventory of exact stored Superbet market names; no odds API requests.
+    from github_models.market_rule_gate import audit as market_rule_audit
+    semantics = market_rule_audit(load(odds_root,"collection.json"),
+                                  load(odds_root,"market_gaps.json",True))
     p="reports/github_models/"
     a=load(abc_root,p+f"filters/AUDIT_{day}.json")
     s=load(abc_root,p+f"shadow/SHADOW_AUDIT_{day}.json",True)
@@ -276,7 +280,31 @@ def build_audit(abc_root,audit_root,day,dest):
         story.append(P("Decyzja: "+str(b.get("decision","brak wystarczających danych"))))
     else:
         story.append(P("Brak audytu kursów — wyniki i ROI pozostają nieustalone."))
-    story.append(P("4. Plan i bramki jakości","head"))
+    story.append(P("4. Kontrola zgodności rynków Superbet","head"))
+    families = semantics["family_counts"]
+    gaps = semantics.get("model_vs_bookmaker_gaps", {})
+    story.append(P(
+        f"Sprawdzono {semantics['quotes_checked']} zapisanych ofert. "
+        f"Faule zawodników: {families.get('player_fouls',0)}; "
+        f"bookings/kartki: {families.get('bookings_or_cards',0)}; "
+        f"handicapy azjatyckie: {families.get('asian_handicap',0)}; "
+        f"handicapy europejskie: {families.get('european_handicap',0)}."))
+    story.append(P(
+        "Blokady: fauli zawodnika nie wolno utożsamiać z faulami całego meczu. "
+        "Bookingi nie są automatycznie żółtymi kartkami. Dla azjatyckich "
+        "handicapów konieczne jest potwierdzenie znaku i strony w OddsPapi; "
+        "handicap europejski (3 drogi) nie jest tożsamy z azjatyckim."))
+    if gaps:
+        fouls = gaps.get("fouls", {})
+        cards = gaps.get("cards", {})
+        story.append(P(
+            f"Bez porównywalnego kursu: faule "
+            f"{fouls.get('without_comparable_offer','—')} / "
+            f"{fouls.get('modeled_candidates','—')}; "
+            f"kartki {cards.get('without_comparable_offer','—')} / "
+            f"{cards.get('modeled_candidates','—')}. "
+            "Brak ceny nie oznacza przegranej prognozy."))
+    story.append(P("5. Plan i bramki jakości","head"))
     story.append(P("Najpierw: udokumentowane wyniki, rozliczenie SHADOW i pełny audyt Superbet. "
                    "Dalej: porównania rynków w identycznej próbie, poprawne reguły kartkowe "
                    "i handicapowe, weryfikacja dostępności danych strzałów i spalonych. "
@@ -284,7 +312,9 @@ def build_audit(abc_root,audit_root,day,dest):
     export_pdf(dest,story)
     return dict(abc_archives=a.get("archives_processed",0),
                 shadow_archives=s.get("archives_processed",0) if s else None,
-                bookmaker_settled=b.get("unique_settled_fixtures",0) if b else None)
+                bookmaker_settled=b.get("unique_settled_fixtures",0) if b else None,
+                market_rules_quotes=semantics["quotes_checked"],
+                market_rules_automatic_promotions=len(semantics["automatically_promoted_markets"]))
 
 def main():
     parser=argparse.ArgumentParser()
@@ -294,7 +324,7 @@ def main():
     arg=parser.parse_args()
     out=Path(arg.output_dir);out.mkdir(parents=True,exist_ok=True)
     one=build_day(arg.abc_dir,arg.odds_dir,arg.day,out/f"MULTIMODEL_{arg.day}.pdf")
-    two=build_audit(arg.abc_dir,arg.audit_dir,arg.day,
+    two=build_audit(arg.abc_dir,arg.odds_dir,arg.audit_dir,arg.day,
                     out/f"MULTIMODEL_AUDYT_{arg.day}.pdf")
     state={"schema":"multimodel-two-final-pdfs-v1","day":arg.day,
            "prognoses":one,"audit":two,"minimum_verified_odds":1.20,
