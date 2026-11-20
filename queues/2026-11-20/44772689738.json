@@ -1,0 +1,4396 @@
+{
+  "schema": "github-models-fixture-queue-v1",
+  "generated_at_utc": "2026-11-20T16:26:49Z",
+  "dates": [
+    "2026-11-20",
+    "2026-11-21",
+    "2026-11-22"
+  ],
+  "missing_dates": [],
+  "invalid_dates": [],
+  "partial_dates": [],
+  "exclusions": [
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_4C4yum",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_0ojMZu",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_2i2gIX",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_0XkCCZ",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_080aBE",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_2m6zPx",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_3bUb0Q",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_06arYD",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_0jHB3f",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_0WkNDd",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_2S1LEC",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_44Inzk",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_1bKbvL",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_1hSvpC",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_2VBnND",
+      "reason": "kickoff_not_verified_future_prematch"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_1ASbOL",
+      "reason": "kickoff_outside_warsaw_snapshot_date"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_2elZCb",
+      "reason": "kickoff_outside_warsaw_snapshot_date"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_1JbauL",
+      "reason": "kickoff_outside_warsaw_snapshot_date"
+    },
+    {
+      "date": "2026-11-20",
+      "fixture_id": "m_1lr9va",
+      "reason": "kickoff_outside_warsaw_snapshot_date"
+    }
+  ],
+  "exclusion_summary": {
+    "kickoff_not_verified_future_prematch": 15,
+    "kickoff_outside_warsaw_snapshot_date": 4
+  },
+  "fixtures": [
+    {
+      "fixture_id": "m_1mOprn",
+      "league": "Premier League",
+      "home": "FC Rostov",
+      "away": "Krylya Sovetov Samara",
+      "kickoff_utc": "2026-11-20T16:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_2Mh0jT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0Wb4sm",
+      "league": "1. Lig",
+      "home": "Iğdır",
+      "away": "Ümraniyespor",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_1BFfna",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0sfpwB",
+      "league": "Saudi Pro League",
+      "home": "Al-Taawoun",
+      "away": "Abha",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1WT7cr",
+      "league": "Saudi Pro League",
+      "home": "Al Hilal",
+      "away": "Al Diriyah",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_24smAv",
+      "league": "Saudi Pro League",
+      "home": "Al-Fayha",
+      "away": "Al Fateh FC",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2PdyzE",
+      "league": "Saudi Pro League",
+      "home": "Al Ahli",
+      "away": "Al-Faisaly",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2nc6Ss",
+      "league": "Saudi Pro League",
+      "home": "Al Nassr FC",
+      "away": "Al Qadsiah",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_30r25V",
+      "league": "Saudi Pro League",
+      "home": "Al Khaleej",
+      "away": "Al Ittihad",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3HbnWW",
+      "league": "Saudi Pro League",
+      "home": "Al Riyadh",
+      "away": "Al Hazem",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_44q9f4",
+      "league": "Ekstraklasa",
+      "home": "Piast Gliwice",
+      "away": "Korona Kielce",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_214sqK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_45cqSV",
+      "league": "Saudi Pro League",
+      "home": "Al Shabab",
+      "away": "Al-Ettifaq",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4HfCh4",
+      "league": "Saudi Pro League",
+      "home": "Neom SC",
+      "away": "Al Kholood",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4dwanr",
+      "league": "Serie A",
+      "home": "Independiente Valle",
+      "away": "Macará",
+      "kickoff_utc": "2026-11-20T17:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_1dmt9H",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1TlDTC",
+      "league": "Saudi Pro League",
+      "home": "Al Ahli",
+      "away": "Al Nassr FC",
+      "kickoff_utc": "2026-11-20T17:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0Lpz1f",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2BvDnX",
+      "league": "2. Bundesliga",
+      "home": "Arminia Bielefeld",
+      "away": "Magdeburg",
+      "kickoff_utc": "2026-11-20T17:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_3hvsne",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2jA4uF",
+      "league": "2. Bundesliga",
+      "home": "Darmstadt",
+      "away": "FC Heidenheim",
+      "kickoff_utc": "2026-11-20T17:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_3hvsne",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1d5kqu",
+      "league": "Eliteserien",
+      "home": "Molde",
+      "away": "Bodø/Glimt",
+      "kickoff_utc": "2026-11-20T18:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0uqFK8",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1knCPg",
+      "league": "1. Division",
+      "home": "Aarhus Fremad",
+      "away": "Hobro",
+      "kickoff_utc": "2026-11-20T18:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_1rPvVD",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3Ohay8",
+      "league": "1. Division",
+      "home": "Kolding",
+      "away": "AaB",
+      "kickoff_utc": "2026-11-20T18:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_1rPvVD",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3bCFs5",
+      "league": "3. Liga",
+      "home": "Havelse",
+      "away": "Viktoria Köln",
+      "kickoff_utc": "2026-11-20T18:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_47077Y",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4GMUHC",
+      "league": "Superligaen",
+      "home": "AGF",
+      "away": "Lyngby",
+      "kickoff_utc": "2026-11-20T18:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49Zmno",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_00Q6ay",
+      "league": "Challenge League",
+      "home": "Xamax",
+      "away": "Etoile Carouge",
+      "kickoff_utc": "2026-11-20T18:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_4auCPk",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1F71Y9",
+      "league": "Liga I",
+      "home": "Farul Constanţa",
+      "away": "Universitatea Cluj",
+      "kickoff_utc": "2026-11-20T18:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0kSJLz",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2nYDnl",
+      "league": "Challenge League",
+      "home": "Rapperswil-Jona",
+      "away": "Aarau",
+      "kickoff_utc": "2026-11-20T18:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_4auCPk",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4Xbgu6",
+      "league": "Challenge League",
+      "home": "Stade-Lausanne-Ouchy",
+      "away": "Kriens",
+      "kickoff_utc": "2026-11-20T18:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_4auCPk",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4bAaEo",
+      "league": "Challenge League",
+      "home": "Stade Nyonnais",
+      "away": "Wil",
+      "kickoff_utc": "2026-11-20T18:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_4auCPk",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_01XpUc",
+      "league": "Ligue 2",
+      "home": "Red Star",
+      "away": "Pau",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0275VP",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0Ds1wD",
+      "league": "Eerste Divisie",
+      "home": "De Graafschap",
+      "away": "MVV",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0hLiXm",
+      "league": "Eerste Divisie",
+      "home": "Den Bosch",
+      "away": "VVV",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0rfGnH",
+      "league": "Eerste Divisie",
+      "home": "Helmond Sport",
+      "away": "Dordrecht",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0tVsST",
+      "league": "Eerste Divisie",
+      "home": "Heracles",
+      "away": "PSV II",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_13JV11",
+      "league": "Challenger Pro League",
+      "home": "Club Brugge NXT",
+      "away": "Virton",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_1pQOHK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1EblMh",
+      "league": "Eerste Divisie",
+      "home": "FC Volendam",
+      "away": "Ajax II",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1HL1DQ",
+      "league": "Ligue 2",
+      "home": "Guingamp",
+      "away": "Rodez",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0275VP",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1ag3ur",
+      "league": "Eerste Divisie",
+      "home": "Utrecht II",
+      "away": "FC Emmen",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_26mVwo",
+      "league": "Eerste Divisie",
+      "home": "TOP Oss",
+      "away": "Roda JC",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_29SS78",
+      "league": "Eerste Divisie",
+      "home": "Almere City FC",
+      "away": "NAC Breda",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_34w395",
+      "league": "Ligue 2",
+      "home": "Metz",
+      "away": "Boulogne",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0275VP",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3Xhvtm",
+      "league": "Eerste Divisie",
+      "home": "Vitesse",
+      "away": "AZ II",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_49KZaB",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3u8MAM",
+      "league": "Ligue 2",
+      "home": "Nancy",
+      "away": "Dijon",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0275VP",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_42TOa9",
+      "league": "Challenger Pro League",
+      "home": "K. Lierse SK",
+      "away": "KSC Lokeren",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_1pQOHK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_458FVy",
+      "league": "Ligue 2",
+      "home": "Annecy FC",
+      "away": "Clermont Foot",
+      "kickoff_utc": "2026-11-20T19:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0275VP",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0JhbeN",
+      "league": "Challenge League",
+      "home": "Yverdon",
+      "away": "Winterthur",
+      "kickoff_utc": "2026-11-20T19:15:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_4auCPk",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_18gP2q",
+      "league": "Ekstraklasa",
+      "home": "Pogoń Szczecin",
+      "away": "Śląsk Wrocław",
+      "kickoff_utc": "2026-11-20T19:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_214sqK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3biNtz",
+      "league": "Serie B",
+      "home": "Hellas Verona",
+      "away": "Cesena",
+      "kickoff_utc": "2026-11-20T19:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0jy5yE",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4McNx8",
+      "league": "Bundesliga",
+      "home": "Bayern München",
+      "away": "1. FC Köln",
+      "kickoff_utc": "2026-11-20T19:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4TOc5w",
+      "league": "LaLiga2",
+      "home": "FC Andorra",
+      "away": "Leganés",
+      "kickoff_utc": "2026-11-20T19:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_3kyHLd",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0h4svj",
+      "league": "First Division A",
+      "home": "Cercle Brugge",
+      "away": "Westerlo",
+      "kickoff_utc": "2026-11-20T19:45:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_2L6d1F",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3rtQqb",
+      "league": "Ligue 1",
+      "home": "Troyes",
+      "away": "Le Havre",
+      "kickoff_utc": "2026-11-20T19:45:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0iaTdE",
+      "league": "LaLiga",
+      "home": "Athletic Club",
+      "away": "Espanyol",
+      "kickoff_utc": "2026-11-20T20:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4clIHb",
+      "league": "League One",
+      "home": "Barnsley",
+      "away": "Sheffield Wednesday",
+      "kickoff_utc": "2026-11-20T20:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_0ahLw8",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0HQQwy",
+      "league": "Division Profesional",
+      "home": "Sportivo Ameliano",
+      "away": "Sportivo Luqueño",
+      "kickoff_utc": "2026-11-20T20:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_4FPF2L",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1noK1K",
+      "league": "Liga de Primera",
+      "home": "Cobresal",
+      "away": "Audax Italiano",
+      "kickoff_utc": "2026-11-20T21:00:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_3qNjzC",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_24axG5",
+      "league": "Primera A",
+      "home": "Independiente Medellín",
+      "away": "Independiente Santa Fe",
+      "kickoff_utc": "2026-11-20T21:30:00Z",
+      "snapshot_utc": "2026-11-19T13:00:38.167324+00:00",
+      "league_id": "l_1xXulJ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_35pfmQ",
+      "league": "Liga MX",
+      "home": "Puebla",
+      "away": "Atlético de San Luis",
+      "kickoff_utc": "2026-11-21T01:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3v84VE",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2AXJxn",
+      "league": "Primera A",
+      "home": "Deportivo Cali",
+      "away": "Millonarios",
+      "kickoff_utc": "2026-11-21T01:40:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1xXulJ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0DAPAs",
+      "league": "Liga MX",
+      "home": "FC Juárez",
+      "away": "Atlas",
+      "kickoff_utc": "2026-11-21T03:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3v84VE",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1xjef7",
+      "league": "Liga MX",
+      "home": "Tijuana",
+      "away": "Atlante",
+      "kickoff_utc": "2026-11-21T03:10:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3v84VE",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1m0OFl",
+      "league": "A-League",
+      "home": "Auckland FC",
+      "away": "Melbourne Victory",
+      "kickoff_utc": "2026-11-21T04:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4MPd7x",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0d6lv9",
+      "league": "J. League",
+      "home": "Tokyo Verdy",
+      "away": "Nagoya Grampus",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2ApGa4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_18009J",
+      "league": "J. League",
+      "home": "Kyoto Sanga FC",
+      "away": "Urawa Red Diamonds",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2ApGa4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1DU0Lz",
+      "league": "J. League",
+      "home": "Machida Zelvia",
+      "away": "V-Varen Nagasaki",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2ApGa4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1GUFIQ",
+      "league": "J3 League",
+      "home": "Thespa Gunma",
+      "away": "Tochigi",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2G51nV",
+      "league": "K League 2",
+      "home": "Busan IPark",
+      "away": "Chungbuk Cheongju",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_271pqa",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2U1Xhf",
+      "league": "K League 1",
+      "home": "Pohang Steelers",
+      "away": "FC Anyang",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2EKrnc",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2u1RYN",
+      "league": "K League 2",
+      "home": "Suwon Bluewings",
+      "away": "Gyeongnam",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_271pqa",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3F4gwT",
+      "league": "J3 League",
+      "home": "Zweigen Kanazawa",
+      "away": "Kagoshima United",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3Jk0YW",
+      "league": "J3 League",
+      "home": "Gainare Tottori",
+      "away": "Nagano Parceiro",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3ROObJ",
+      "league": "J3 League",
+      "home": "Ehime",
+      "away": "Gifu",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3SbLCs",
+      "league": "J3 League",
+      "home": "Kochi United",
+      "away": "Fukushima United",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3dGbhk",
+      "league": "J3 League",
+      "home": "Nara Club",
+      "away": "Sagamihara",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4RD8E0",
+      "league": "K League 1",
+      "home": "Jeonbuk Hyundai Motors FC",
+      "away": "FC Seoul",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2EKrnc",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4RQKzt",
+      "league": "J3 League",
+      "home": "Matsumoto Yamaga",
+      "away": "Ryūkyū",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4YPBpl",
+      "league": "J. League",
+      "home": "Sanfrecce Hiroshima",
+      "away": "Yokohama F.Marinos",
+      "kickoff_utc": "2026-11-21T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2ApGa4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0wSb1g",
+      "league": "A-League",
+      "home": "Central Coast Mariners",
+      "away": "Perth Glory",
+      "kickoff_utc": "2026-11-21T06:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4MPd7x",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_45SAfB",
+      "league": "J. League",
+      "home": "Cerezo Osaka",
+      "away": "FC Tokyo",
+      "kickoff_utc": "2026-11-21T06:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2ApGa4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4JXuBD",
+      "league": "J. League",
+      "home": "Kawasaki Frontale",
+      "away": "Avispa Fukuoka",
+      "kickoff_utc": "2026-11-21T06:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2ApGa4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1cuUd1",
+      "league": "J. League",
+      "home": "Gamba Osaka",
+      "away": "Fagiano Okayama FC",
+      "kickoff_utc": "2026-11-21T07:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2ApGa4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_133xbG",
+      "league": "K League 1",
+      "home": "Incheon United",
+      "away": "Ulsan HD FC",
+      "kickoff_utc": "2026-11-21T07:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2EKrnc",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2Otnhl",
+      "league": "K League 2",
+      "home": "Seongnam",
+      "away": "Yongin",
+      "kickoff_utc": "2026-11-21T07:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_271pqa",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3bTXVn",
+      "league": "K League 2",
+      "home": "Gimpo Citizen",
+      "away": "Suwon",
+      "kickoff_utc": "2026-11-21T07:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_271pqa",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4b4ATm",
+      "league": "K League 1",
+      "home": "Gangwon FC",
+      "away": "Daejeon Hana Citizen",
+      "kickoff_utc": "2026-11-21T07:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2EKrnc",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3k3Nek",
+      "league": "A-League",
+      "home": "Brisbane Roar FC",
+      "away": "Sydney FC",
+      "kickoff_utc": "2026-11-21T08:40:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4MPd7x",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_28eV91",
+      "league": "Premier League",
+      "home": "FC Orenburg",
+      "away": "Baltika",
+      "kickoff_utc": "2026-11-21T10:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2Mh0jT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0DtFS8",
+      "league": "Super Lig",
+      "home": "Gençlerbirliği",
+      "away": "Gaziantep FK",
+      "kickoff_utc": "2026-11-21T10:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0S1uaf",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1RiWMp",
+      "league": "1. Lig",
+      "home": "Mardin 1969",
+      "away": "Bandırmaspor",
+      "kickoff_utc": "2026-11-21T10:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1BFfna",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_33sa4a",
+      "league": "Premier League",
+      "home": "Akron Togliatti",
+      "away": "Fakel",
+      "kickoff_utc": "2026-11-21T12:15:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2Mh0jT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4S00KG",
+      "league": "Premier League",
+      "home": "Manchester City",
+      "away": "Fulham",
+      "kickoff_utc": "2026-11-21T12:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1J9qAA",
+      "league": "Super Lig",
+      "home": "Amed Sportif",
+      "away": "Rizespor",
+      "kickoff_utc": "2026-11-21T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0S1uaf",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1MrgIP",
+      "league": "LaLiga",
+      "home": "Deportivo Alavés",
+      "away": "Deportivo A Coruña",
+      "kickoff_utc": "2026-11-21T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2Nqkzr",
+      "league": "Super Lig",
+      "home": "Galatasaray",
+      "away": "Samsunspor",
+      "kickoff_utc": "2026-11-21T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0S1uaf",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1HVQ62",
+      "league": "Ekstraklasa",
+      "home": "Cracovia",
+      "away": "Jagiellonia Białystok",
+      "kickoff_utc": "2026-11-21T13:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_214sqK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_01qIw5",
+      "league": "Serie A",
+      "home": "Como",
+      "away": "Cagliari",
+      "kickoff_utc": "2026-11-21T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4MACO8",
+      "league": "Serie A",
+      "home": "Lazio",
+      "away": "Lecce",
+      "kickoff_utc": "2026-11-21T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0aFyPg",
+      "league": "Bundesliga",
+      "home": "Eintracht Frankfurt",
+      "away": "Hoffenheim",
+      "kickoff_utc": "2026-11-21T14:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0k03w6",
+      "league": "Bundesliga",
+      "home": "Borussia Mönchengladbach",
+      "away": "Borussia Dortmund",
+      "kickoff_utc": "2026-11-21T14:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0vvP0O",
+      "league": "Bundesliga",
+      "home": "Union Berlin",
+      "away": "RB Leipzig",
+      "kickoff_utc": "2026-11-21T14:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2mXps3",
+      "league": "Bundesliga",
+      "home": "Elversberg",
+      "away": "Freiburg",
+      "kickoff_utc": "2026-11-21T14:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3AV8Lv",
+      "league": "Premier League",
+      "home": "Rubin Kazan",
+      "away": "Zenit St. Petersburg",
+      "kickoff_utc": "2026-11-21T14:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2Mh0jT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3vFZhn",
+      "league": "Bundesliga",
+      "home": "Bayer Leverkusen",
+      "away": "Paderborn",
+      "kickoff_utc": "2026-11-21T14:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_04ixCx",
+      "league": "Premier League",
+      "home": "Aston Villa",
+      "away": "Sunderland",
+      "kickoff_utc": "2026-11-21T15:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0B6kF2",
+      "league": "Premier League",
+      "home": "Coventry City",
+      "away": "Crystal Palace",
+      "kickoff_utc": "2026-11-21T15:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_19nSVX",
+      "league": "Premier League",
+      "home": "Chelsea",
+      "away": "Leeds United",
+      "kickoff_utc": "2026-11-21T15:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2PtCYr",
+      "league": "Premier League",
+      "home": "Tottenham Hotspur",
+      "away": "Ipswich Town",
+      "kickoff_utc": "2026-11-21T15:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3IrTv6",
+      "league": "Premier League",
+      "home": "AFC Bournemouth",
+      "away": "Nottingham Forest",
+      "kickoff_utc": "2026-11-21T15:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3JKUH6",
+      "league": "LaLiga",
+      "home": "Rayo Vallecano",
+      "away": "Valencia",
+      "kickoff_utc": "2026-11-21T15:15:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2iUNB9",
+      "league": "Eredivisie",
+      "home": "NEC Nijmegen",
+      "away": "PSV Eindhoven",
+      "kickoff_utc": "2026-11-21T15:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2yfa25",
+      "league": "Bundesliga",
+      "home": "LASK",
+      "away": "Hartberg",
+      "kickoff_utc": "2026-11-21T16:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3zsMpo",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3O66jI",
+      "league": "Bundesliga",
+      "home": "WSG Tirol",
+      "away": "Austria Lustenau",
+      "kickoff_utc": "2026-11-21T16:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3zsMpo",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4Nltap",
+      "league": "Super Lig",
+      "home": "Kocaelispor",
+      "away": "Fenerbahçe",
+      "kickoff_utc": "2026-11-21T16:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0S1uaf",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3qap9x",
+      "league": "Ligue 1",
+      "home": "Nice",
+      "away": "Paris Saint-Germain",
+      "kickoff_utc": "2026-11-21T16:15:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_262w1Q",
+      "league": "Ekstraklasa",
+      "home": "Zagłębie Lubin",
+      "away": "Górnik Zabrze",
+      "kickoff_utc": "2026-11-21T16:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_214sqK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0XRW38",
+      "league": "Premier League",
+      "home": "CSKA Moscow",
+      "away": "FK Akhmat",
+      "kickoff_utc": "2026-11-21T16:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_2Mh0jT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2fNTjV",
+      "league": "Serie A",
+      "home": "Parma",
+      "away": "Roma",
+      "kickoff_utc": "2026-11-21T17:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_38aXX1",
+      "league": "Bundesliga",
+      "home": "Schalke 04",
+      "away": "VfB Stuttgart",
+      "kickoff_utc": "2026-11-21T17:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3XXOvK",
+      "league": "Premier League",
+      "home": "Newcastle United",
+      "away": "Arsenal",
+      "kickoff_utc": "2026-11-21T17:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4DeisY",
+      "league": "LaLiga",
+      "home": "Sevilla",
+      "away": "Real Betis",
+      "kickoff_utc": "2026-11-21T17:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0ixAhG",
+      "league": "Eredivisie",
+      "home": "Feyenoord",
+      "away": "Excelsior",
+      "kickoff_utc": "2026-11-21T17:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1AYLxx",
+      "league": "Eredivisie",
+      "home": "FC Utrecht",
+      "away": "Cambuur",
+      "kickoff_utc": "2026-11-21T17:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1PqyYD",
+      "league": "Bundesliga",
+      "home": "Grazer AK",
+      "away": "Rapid Wien",
+      "kickoff_utc": "2026-11-21T18:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3zsMpo",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_10n7iK",
+      "league": "Serie A",
+      "home": "Técnico Universitario",
+      "away": "Deportivo Cuenca",
+      "kickoff_utc": "2026-11-21T19:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1dmt9H",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4dpQ5H",
+      "league": "Ekstraklasa",
+      "home": "Radomiak Radom",
+      "away": "Wisła Kraków",
+      "kickoff_utc": "2026-11-21T19:15:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_214sqK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3L2PBF",
+      "league": "Serie A",
+      "home": "Palmeiras",
+      "away": "Flamengo",
+      "kickoff_utc": "2026-11-21T19:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1D8Xrl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1jov2C",
+      "league": "Serie A",
+      "home": "Napoli",
+      "away": "Torino",
+      "kickoff_utc": "2026-11-21T19:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1waD57",
+      "league": "Ligue 1",
+      "home": "Lille",
+      "away": "Lyon",
+      "kickoff_utc": "2026-11-21T19:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_39zXtJ",
+      "league": "Ligue 1",
+      "home": "Lens",
+      "away": "Toulouse",
+      "kickoff_utc": "2026-11-21T19:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3vBvLr",
+      "league": "Ligue 1",
+      "home": "Monaco",
+      "away": "Auxerre",
+      "kickoff_utc": "2026-11-21T19:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_47p1ca",
+      "league": "Ligue 1",
+      "home": "Strasbourg",
+      "away": "Brest",
+      "kickoff_utc": "2026-11-21T19:45:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_101pSt",
+      "league": "LaLiga",
+      "home": "Real Madrid",
+      "away": "Celta Vigo",
+      "kickoff_utc": "2026-11-21T20:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3DedXe",
+      "league": "Eredivisie",
+      "home": "Telstar",
+      "away": "PEC Zwolle",
+      "kickoff_utc": "2026-11-21T20:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_404rbS",
+      "league": "Premier League",
+      "home": "Cavalry",
+      "away": "Atlético Ottawa",
+      "kickoff_utc": "2026-11-21T20:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_3UiOcj",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_42n8w2",
+      "league": "Eredivisie",
+      "home": "FC Groningen",
+      "away": "SC Heerenveen",
+      "kickoff_utc": "2026-11-21T20:00:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3cXEhh",
+      "league": "Serie A",
+      "home": "Bahia",
+      "away": "Coritiba",
+      "kickoff_utc": "2026-11-21T20:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1D8Xrl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4cO09q",
+      "league": "Serie A",
+      "home": "Universidad Católica",
+      "away": "Barcelona",
+      "kickoff_utc": "2026-11-21T21:30:00Z",
+      "snapshot_utc": "2026-11-20T12:51:40.895811+00:00",
+      "league_id": "l_1dmt9H",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4g7i2n",
+      "league": "Serie A",
+      "home": "Chapecoense",
+      "away": "Cruzeiro",
+      "kickoff_utc": "2026-11-22T00:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1D8Xrl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4bxqrJ",
+      "league": "Liga MX",
+      "home": "Pumas",
+      "away": "Monterrey",
+      "kickoff_utc": "2026-11-22T01:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3v84VE",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0LDEzH",
+      "league": "Primera A",
+      "home": "Once Caldas",
+      "away": "Atlético Nacional",
+      "kickoff_utc": "2026-11-22T01:15:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1xXulJ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0P5aXe",
+      "league": "A-League",
+      "home": "Wellington Phoenix",
+      "away": "Macarthur FC",
+      "kickoff_utc": "2026-11-22T02:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4MPd7x",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1CicZd",
+      "league": "Liga MX",
+      "home": "Tigres",
+      "away": "CF América",
+      "kickoff_utc": "2026-11-22T03:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3v84VE",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3SQl1v",
+      "league": "J3 League",
+      "home": "Roasso Kumamoto",
+      "away": "Giravanz Kitakyushu",
+      "kickoff_utc": "2026-11-22T04:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0L0R6H",
+      "league": "J3 League",
+      "home": "Renofa Yamaguchi",
+      "away": "Reilac Shiga",
+      "kickoff_utc": "2026-11-22T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2LVkXj",
+      "league": "K League 1",
+      "home": "Gimcheon Sangmu",
+      "away": "Jeju SK",
+      "kickoff_utc": "2026-11-22T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2EKrnc",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_36zdBj",
+      "league": "K League 2",
+      "home": "Jeonnam Dragons",
+      "away": "Ansan Greeners",
+      "kickoff_utc": "2026-11-22T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_271pqa",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4168qh",
+      "league": "K League 1",
+      "home": "Gwangju FC",
+      "away": "Bucheon FC 1995",
+      "kickoff_utc": "2026-11-22T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2EKrnc",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4QXFoJ",
+      "league": "K League 2",
+      "home": "Daegu",
+      "away": "Gimhae City",
+      "kickoff_utc": "2026-11-22T05:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_271pqa",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4SResO",
+      "league": "J3 League",
+      "home": "Osaka",
+      "away": "Kamatamare Sanuki",
+      "kickoff_utc": "2026-11-22T06:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3fglZv",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_25E770",
+      "league": "K League 2",
+      "home": "Seoul E-Land",
+      "away": "Chungnam Asan",
+      "kickoff_utc": "2026-11-22T07:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_271pqa",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3BlQAk",
+      "league": "K League 2",
+      "home": "Paju Frontier",
+      "away": "Cheonan City",
+      "kickoff_utc": "2026-11-22T07:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_271pqa",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2CXyFE",
+      "league": "1. Lig",
+      "home": "Batman Petrolspor",
+      "away": "Muğlaspor",
+      "kickoff_utc": "2026-11-22T10:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1BFfna",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_42ahTy",
+      "league": "Super Lig",
+      "home": "Erzurumspor FK",
+      "away": "Göztepe",
+      "kickoff_utc": "2026-11-22T10:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0S1uaf",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0WMoif",
+      "league": "Premier League",
+      "home": "Dynamo Moscow",
+      "away": "FC Krasnodar",
+      "kickoff_utc": "2026-11-22T11:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2Mh0jT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2dLTJi",
+      "league": "Thai League 1",
+      "home": "Bangkok United",
+      "away": "Ayutthaya United FC",
+      "kickoff_utc": "2026-11-22T11:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3hW1NO",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_26Cebe",
+      "league": "Eredivisie",
+      "home": "FC Twente",
+      "away": "Willem II",
+      "kickoff_utc": "2026-11-22T11:15:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_42XRoo",
+      "league": "Ekstraklasa",
+      "home": "Raków Częstochowa",
+      "away": "Widzew Łódź",
+      "kickoff_utc": "2026-11-22T11:15:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_214sqK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0M5Pz1",
+      "league": "Serie A",
+      "home": "Juventus",
+      "away": "Venezia",
+      "kickoff_utc": "2026-11-22T11:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_36Gb0g",
+      "league": "Thai League 1",
+      "home": "Chiangrai United",
+      "away": "Lamphun Warrior",
+      "kickoff_utc": "2026-11-22T11:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3hW1NO",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0d7JW9",
+      "league": "1. Liga",
+      "home": "Pardubice",
+      "away": "Zbrojovka Brno",
+      "kickoff_utc": "2026-11-22T12:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0F4I4F",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1MHxfR",
+      "league": "Championship",
+      "home": "Burnley",
+      "away": "Blackburn Rovers",
+      "kickoff_utc": "2026-11-22T12:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4DWyTT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_26xtZs",
+      "league": "Thai League 1",
+      "home": "Rayong FC",
+      "away": "Rasisalai United",
+      "kickoff_utc": "2026-11-22T12:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3hW1NO",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_39DDt1",
+      "league": "Super Liga",
+      "home": "Radnički 1923",
+      "away": "Čukarički",
+      "kickoff_utc": "2026-11-22T12:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2xBPKk",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0FYEVK",
+      "league": "First Division A",
+      "home": "SK Beveren",
+      "away": "Gent",
+      "kickoff_utc": "2026-11-22T12:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2L6d1F",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1t2HI2",
+      "league": "2. Bundesliga",
+      "home": "Kaiserslautern",
+      "away": "Dynamo Dresden",
+      "kickoff_utc": "2026-11-22T12:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3hvsne",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2WMm6y",
+      "league": "2. Bundesliga",
+      "home": "Energie Cottbus",
+      "away": "Hertha BSC",
+      "kickoff_utc": "2026-11-22T12:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3hvsne",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_35ea7a",
+      "league": "2. Bundesliga",
+      "home": "Karlsruher SC",
+      "away": "VfL Osnabrück",
+      "kickoff_utc": "2026-11-22T12:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3hvsne",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_37a9Ka",
+      "league": "3. Liga",
+      "home": "Stuttgart II",
+      "away": "FC Ingolstadt",
+      "kickoff_utc": "2026-11-22T12:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_47077Y",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": false,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0QTviZ",
+      "league": "Allsvenskan",
+      "home": "Sirius",
+      "away": "Djurgården",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1XsMdH",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0d0c1o",
+      "league": "Super Lig",
+      "home": "Kasımpaşa",
+      "away": "Alanyaspor",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0S1uaf",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1lrxfA",
+      "league": "Super Lig",
+      "home": "Konyaspor",
+      "away": "Beşiktaş",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0S1uaf",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_280z4I",
+      "league": "Allsvenskan",
+      "home": "Häcken",
+      "away": "Elfsborg",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1XsMdH",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2xAkEu",
+      "league": "LaLiga",
+      "home": "Barcelona",
+      "away": "Villarreal",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_39OgRc",
+      "league": "1. Lig",
+      "home": "Esenler Erokspor",
+      "away": "Antalyaspor",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1BFfna",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3K2opG",
+      "league": "Superligaen",
+      "home": "AC Horsens",
+      "away": "Silkeborg",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_49Zmno",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3PdoRM",
+      "league": "Superligaen",
+      "home": "Viborg",
+      "away": "Randers FC",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_49Zmno",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3Yn4FI",
+      "league": "LaLiga2",
+      "home": "Córdoba",
+      "away": "Real Oviedo",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3kyHLd",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3j0B3z",
+      "league": "1. Lig",
+      "home": "Manisa",
+      "away": "Pendikspor",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1BFfna",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4JF2ZS",
+      "league": "Super League",
+      "home": "FC Zürich",
+      "away": "St. Gallen",
+      "kickoff_utc": "2026-11-22T13:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4d6Bwl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0sPfsg",
+      "league": "Eredivisie",
+      "home": "Sparta Rotterdam",
+      "away": "AZ Alkmaar",
+      "kickoff_utc": "2026-11-22T13:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_20pvmk",
+      "league": "Premier League",
+      "home": "Dynamo Makhachkala",
+      "away": "Spartak Moscow",
+      "kickoff_utc": "2026-11-22T13:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2Mh0jT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2L6PuX",
+      "league": "Eredivisie",
+      "home": "Ajax",
+      "away": "ADO Den Haag",
+      "kickoff_utc": "2026-11-22T13:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2ejVu0",
+      "league": "Bundesliga",
+      "home": "Altach",
+      "away": "Sturm Graz",
+      "kickoff_utc": "2026-11-22T13:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3zsMpo",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_41RRAV",
+      "league": "Bundesliga",
+      "home": "Wolfsberger AC",
+      "away": "Ried",
+      "kickoff_utc": "2026-11-22T13:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3zsMpo",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3Q3mcd",
+      "league": "Ekstraklasa",
+      "home": "GKS Katowice",
+      "away": "Lech Poznań",
+      "kickoff_utc": "2026-11-22T13:45:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_214sqK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_00TD2Q",
+      "league": "Indian Super League",
+      "home": "Churchill Brothers",
+      "away": "Mohun Bagan SG",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1qpFVw",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0ALVJ2",
+      "league": "Serie B",
+      "home": "Avellino",
+      "away": "Mantova",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0jy5yE",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_11vVyC",
+      "league": "Ligue 1",
+      "home": "Paris FC",
+      "away": "Angers",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_18ul5S",
+      "league": "Premier League",
+      "home": "Hull City",
+      "away": "Brighton & Hove Albion",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1PKq2V",
+      "league": "Serie A",
+      "home": "Bologna",
+      "away": "Udinese",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1wb1Gr",
+      "league": "1. Liga",
+      "home": "Slovácko",
+      "away": "Hradec Králové",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0F4I4F",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2OQCLe",
+      "league": "Super Liga",
+      "home": "IMT",
+      "away": "Partizan Beograd",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2xBPKk",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3YrxS4",
+      "league": "HNL",
+      "home": "Dinamo Zagreb",
+      "away": "Istra 1961",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2tFk9k",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4TXXCg",
+      "league": "Serie A",
+      "home": "Sassuolo",
+      "away": "Genoa",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4VUUts",
+      "league": "Super League 1",
+      "home": "Levadiakos",
+      "away": "Atromitos",
+      "kickoff_utc": "2026-11-22T14:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3xwVF2",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_34jUwH",
+      "league": "Bundesliga",
+      "home": "Augsburg",
+      "away": "Mainz 05",
+      "kickoff_utc": "2026-11-22T14:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_36nVyY",
+      "league": "1. liga",
+      "home": "Košice",
+      "away": "Skalica",
+      "kickoff_utc": "2026-11-22T14:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4MU9Yh",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2WvtVu",
+      "league": "LaLiga",
+      "home": "Racing Santander",
+      "away": "Real Sociedad",
+      "kickoff_utc": "2026-11-22T15:15:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1Sosat",
+      "league": "Eredivisie",
+      "home": "Go Ahead Eagles",
+      "away": "Fortuna Sittard",
+      "kickoff_utc": "2026-11-22T15:45:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4H43wr",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_053xJU",
+      "league": "Super Lig",
+      "home": "Trabzonspor",
+      "away": "Eyüpspor",
+      "kickoff_utc": "2026-11-22T16:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0S1uaf",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1dDLS1",
+      "league": "Bundesliga",
+      "home": "Austria Wien",
+      "away": "Salzburg",
+      "kickoff_utc": "2026-11-22T16:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3zsMpo",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3Pu66U",
+      "league": "Premier League",
+      "home": "Rodina",
+      "away": "Lokomotiv Moscow",
+      "kickoff_utc": "2026-11-22T16:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_2Mh0jT",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1AvzJo",
+      "league": "Ligue 1",
+      "home": "Lorient",
+      "away": "Rennes",
+      "kickoff_utc": "2026-11-22T16:15:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0LAj7k",
+      "league": "Serie A",
+      "home": "Manta",
+      "away": "Delfín",
+      "kickoff_utc": "2026-11-22T16:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1dmt9H",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1FnTzR",
+      "league": "Bundesliga",
+      "home": "Werder Bremen",
+      "away": "Hamburger SV",
+      "kickoff_utc": "2026-11-22T16:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1Isor4",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_1qi8rv",
+      "league": "Ekstraklasa",
+      "home": "Wisła Płock",
+      "away": "Legia Warszawa",
+      "kickoff_utc": "2026-11-22T16:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_214sqK",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4Pdd0e",
+      "league": "Premier League",
+      "home": "Liverpool",
+      "away": "Manchester United",
+      "kickoff_utc": "2026-11-22T16:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_4WFCIZ",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_40elPe",
+      "league": "Serie A",
+      "home": "Milan",
+      "away": "Frosinone",
+      "kickoff_utc": "2026-11-22T17:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_25yFU8",
+      "league": "LaLiga",
+      "home": "Osasuna",
+      "away": "Málaga",
+      "kickoff_utc": "2026-11-22T17:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2Y41YM",
+      "league": "Serie A",
+      "home": "Orense",
+      "away": "Mushuc Runa",
+      "kickoff_utc": "2026-11-22T19:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1dmt9H",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_4foYix",
+      "league": "Serie A",
+      "home": "Athletico Paranaense",
+      "away": "Remo",
+      "kickoff_utc": "2026-11-22T19:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1D8Xrl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_0ZgZVI",
+      "league": "Serie A",
+      "home": "Atalanta",
+      "away": "Inter",
+      "kickoff_utc": "2026-11-22T19:45:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ALvwF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3pvUaB",
+      "league": "Ligue 1",
+      "home": "Marseille",
+      "away": "Le Mans",
+      "kickoff_utc": "2026-11-22T19:45:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_3FJFUl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3ZF56r",
+      "league": "LaLiga",
+      "home": "Getafe",
+      "away": "Atlético Madrid",
+      "kickoff_utc": "2026-11-22T20:00:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_0ErfuF",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_3m2DCt",
+      "league": "Serie A",
+      "home": "LDU Quito",
+      "away": "Aucas",
+      "kickoff_utc": "2026-11-22T21:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1dmt9H",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_44gdG4",
+      "league": "Serie A",
+      "home": "Fluminense",
+      "away": "Mirassol",
+      "kickoff_utc": "2026-11-22T21:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1D8Xrl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    },
+    {
+      "fixture_id": "m_2rKTe9",
+      "league": "Serie A",
+      "home": "RB Bragantino",
+      "away": "Vasco da Gama",
+      "kickoff_utc": "2026-11-22T22:30:00Z",
+      "snapshot_utc": "2026-11-20T12:52:43.204010+00:00",
+      "league_id": "l_1D8Xrl",
+      "country_code": null,
+      "home_team_id": null,
+      "away_team_id": null,
+      "source_provider": "PitchAPI",
+      "identity_blockers": [],
+      "context_sufficient": true,
+      "models_requested": [
+        "dixon-coles",
+        "elo",
+        "xgboost"
+      ]
+    }
+  ],
+  "note": "Queue only; not model predictions. Each model independently checks training readiness."
+}
