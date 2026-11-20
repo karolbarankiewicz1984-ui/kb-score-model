@@ -63,3 +63,23 @@ Dokumenty opisują zasady bukmachera; **nie dowodzą**, że konkretne pola `hand
 - [ ] GitHub Actions z testami oraz odczytem archiwum przechodzi pomyślnie.
 - [ ] W audycie końcowym istnieją dwa poprawne PDF; brak trzeciego raportu dla użytkownika.
 - [ ] Przesłany raport stanowi dokumentację postępu, nie obietnicę, że handicapy czy kartki zostały już zatwierdzone do obstawiania.
+
+## Potwierdzenie wdrożenia produkcyjnego — 20.11.2026
+
+- **PR #70 scalony do `main`:** https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/70
+- **Regresje + analiza rzeczywistego archiwum: PASS** https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44728416499
+  - 11/11 testów bezpieczeństwa zakończonych powodzeniem.
+  - 48 915 ofert w 76 migawkach skontrolowanych bez wywołań OddsPapi.
+  - 4 186 ofert fauli **zawodników**; **0** dopasowanych w tej migawce ofert fauli **całego meczu**.
+  - 1 311 ofert szerokiej grupy bookings/kartki (różne okresy i drużyny, nie jest to 1 311 ofert żółtych kartek pełnego meczu).
+  - 430 ofert azjatyckich handicapów pełnego meczu; 1 888 ofert europejskiego handicapu łącznie z okresami innymi niż cały mecz.
+  - **0** niezweryfikowanych rynków automatycznie promowanych do rozliczenia.
+- **Dwa końcowe PDF-y: PASS** https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44728416352
+  - `MULTIMODEL_2026-11-20.pdf` — 10 stron; `MULTIMODEL_AUDYT_2026-11-20.pdf` — 1 strona (dodatkowy stan bezpieczeństwa rynków).
+  - Automatyczny artefakt: `multimodel-final-two-pdfs`.
+  - Zgodne zamrożone źródła, **0** dodatkowych płatnych wywołań, bez zmian wag modeli.
+- **Etap I częściowo wykonany:** inwentaryzacja nazw, zakresów i blokad w codziennym CI. Zgodność statystyki fauli PitchAPI i jednostek kartek z regulaminem oraz konwencje linii i strony OddsPapi **jeszcze niepotwierdzone**.
+- **Etap II częściowo wykonany:** regresje i bezpieczne raportowanie PASS, lecz rozszerzenie rzeczywistego rozliczenia fauli/kartek/handicapów pozostaje zablokowane do czasu potwierdzenia reguł i historii wyników.
+- **Etap III oczekuje na dane:** brak wystarczającej prospektywnej próbki per rynek do formalnej kalibracji; nowo wygenerowane prawdopodobieństwa SHADOW nie mogą być uznane za skalibrowane.
+
+Ostatnie sprawdzenie potwierdza sprawność kodu audytu i publikacji, **nie potwierdza** poprawności ani opłacalności żadnego niezweryfikowanego typu.
