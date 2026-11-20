@@ -119,11 +119,15 @@ def quote_pairs(collection, queue, shadow):
         # The quote can be >=1.20 even if its complementary side is below.
         market_sides = defaultdict(set)
         for q in s.get("quotes", []):
+            if q.get("bookmaker") != BOOK:
+                raise ValueError("quote_outside_superbet")
             ident = quote_identity(q)
             if ident:
                 market_sides[(q["market_id"], q["market_name"], q["handicap"])].add(
                     q["outcome_name"])
         for q in s.get("quotes", []):
+            if q.get("bookmaker") != BOOK:
+                raise ValueError("quote_outside_superbet")
             ident = quote_identity(q)
             if not ident:
                 continue
@@ -278,7 +282,7 @@ def review_archive(odds_dir, frozen_dir, history, *, as_of_utc):
         except (ValueError, OSError, KeyError, TypeError):
             continue
     first, reasons = {}, Counter()
-    counted, skipped = 0, Counter()
+    counted, skipped, duplicates = 0, Counter(), 0
     for cp in sorted(Path(odds_dir).glob("*/collection.json")):
         folder = cp.parent
         qfile = folder / "pitch_queue.json"
@@ -310,14 +314,15 @@ def review_archive(odds_dir, frozen_dir, history, *, as_of_utc):
             key = _key(row)
             if key not in first:
                 first[key] = row
-            elif utc(row["odds_captured_at_utc"]) < utc(first[key]["odds_captured_at_utc"]):
-                first[key] = row
+            else:
+                duplicates += 1
+                if utc(row["odds_captured_at_utc"]) < utc(first[key]["odds_captured_at_utc"]):
+                    first[key] = row
     ordered = sorted(first.values(), key=lambda r: (
         r["kickoff_utc"], r["fixture_id"], r["market"], r["selection"],
         -1 if r["line"] is None else r["line"]))
     report = summarize(ordered, reasons=dict(reasons), audits=counted)
-    report["duplicate_source_quotes_suppressed"] = sum(
-        1 for _ in [] )  # Replaced by a derived count below.
+    report["duplicate_source_quotes_suppressed"] = duplicates
     report["archives_skipped"] = dict(skipped)
     report["quote_archive_files_seen"] = len(list(Path(odds_dir).glob("*/collection.json")))
     return report, ordered
