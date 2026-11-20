@@ -171,6 +171,25 @@ def build_day(abc_root,odds_root,day,dest):
             if moment(c["price_captured_at_utc"])>=moment(fixtures[k[0]]["kickoff_utc"]):
                 continue
             rows[k]["odds"]=pr
+    # Exact, independently documented OddsPapi Asian half-goal market
+    # identity. Retain SHADOW research status; do not imply real book payouts.
+    priced_shadow_by_market = {"btts": 0, "handicap": 0}
+    if shadow:
+        from github_models.priced_shadow_settlement import quote_pairs
+        matched_quotes, quote_exclusions = quote_pairs(
+            load(odds_root,"collection.json"), q, shadow)
+        for quote in matched_quotes:
+            k = key(quote)
+            if k not in rows or rows[k]["kind"] != "SHADOW":
+                raise ValueError("quoted_shadow_not_in_frozen_pdf_rows")
+            if rows[k]["probability"] != quote["p_model"]:
+                raise ValueError("quoted_model_probability_mismatch")
+            if rows[k]["odds"] is not None and rows[k]["odds"] != quote["price"]:
+                raise ValueError("conflicting_quote_between_independent_adapters")
+            if k[0] in fixtures:
+                rows[k]["odds"] = quote["price"]
+                rows[k]["price_status"] = "archived_exact_research"
+                priced_shadow_by_market[quote["market"]] += 1
     st=pdf_style()
     def P(x,kind="body"):
         return paragraph(x,st[kind])
@@ -183,7 +202,8 @@ def build_day(abc_root,odds_root,day,dest):
     story=[P("MULTIMODEL — "+day,"title"),
            P("Jeden raport: A/B/C, SHADOW oraz rzeczywiste zapisane kursy Superbet."),
            P("Prawdopodobieństwa niekalibrowane. Kursy mogą być już nieaktualne. "
-             "Nie stosujemy oceny punktowej 67/100. Kurs poniżej 1,20 nie jest prezentowany."),
+             "Nie stosujemy oceny punktowej 67/100. Kurs poniżej 1,20 nie jest prezentowany. "
+             "Handicapy azjatyckie ±1,5: kursy archiwalne, badawcze, niekalibrowane."),
            P(f"Zamrożenie: {moment(q['generated_at_utc']):%d.%m.%Y %H:%M} | "
              f"Oferta Superbet: {moment(market['as_of_utc']):%d.%m.%Y %H:%M} | "
              f"Mecze: {len(fixtures)} | A/B/C: {abc_count} | SHADOW: {shadow_count} | Z kursem: {priced}"),
@@ -215,12 +235,16 @@ def build_day(abc_root,odds_root,day,dest):
         story.append(make_table(["Rynek","P modelu","Superbet","Model","Status"],
                                 rr,[195,67,60,65,78],st))
     story.append(P("Braki i ograniczenia","head"))
-    story.append(P("Faule i kartki bez zgodnego kursu nie są usuwane. "
-                   "Handicapy SHADOW są niewycenione do weryfikacji zasad rozliczania. "
-                   "Strzały, strzały celne i spalone pozostają niedostępne bez zweryfikowanej historii. "
-                   "Nie utożsamiamy wariantów A/B/C z kategoriami dostępności kursów."))
+    story.append(P("Faule i kartki bez potwierdzonej zgodności źródeł pozostają badawcze, "
+                   "bez przypisywania nieodpowiednich rynków i kursów. "
+                   "BTTS i azjatyckie handicapy ±1,5 otrzymują jedynie dokładnie "
+                   "dopasowane ceny archiwalne Superbet; nie jest to potwierdzenie "
+                   "wypłaty bukmachera ani przewagi modelu. "
+                   "Strzały, strzały celne i spalone nadal wymagają danych. "
+                   "Nie utożsamiamy wariantów A/B/C z dostępnością kursów."))
     export_pdf(dest,story)
-    return dict(fixtures=len(fixtures),abc=abc_count,shadow=shadow_count,with_odds=priced)
+    return dict(fixtures=len(fixtures),abc=abc_count,shadow=shadow_count,
+                with_odds=priced, priced_shadow_by_market=priced_shadow_by_market)
 
 def build_audit(abc_root,odds_root,audit_root,day,dest):
     # Inventory of exact stored Superbet market names; no odds API requests.
@@ -231,6 +255,8 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
     a=load(abc_root,p+f"filters/AUDIT_{day}.json")
     s=load(abc_root,p+f"shadow/SHADOW_AUDIT_{day}.json",True)
     b=load(audit_root,"REPLAY_AUDIT.json",True) if audit_root else None
+    priced_settlement=(load(audit_root,"PRICED_SHADOW_SETTLEMENT.json",True)
+                       if audit_root else None)
     st=pdf_style()
     def P(x,kind="body"):
         return paragraph(x,st[kind])
@@ -280,7 +306,25 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
         story.append(P("Decyzja: "+str(b.get("decision","brak wystarczających danych"))))
     else:
         story.append(P("Brak audytu kursów — wyniki i ROI pozostają nieustalone."))
-    story.append(P("4. Kontrola zgodności rynków Superbet","head"))
+    story.append(P("4. Rozliczanie BTTS i handicapu ±1,5 na zapisanych kursach","head"))
+    if priced_settlement and priced_settlement.get("schema")=="multimodel-priced-shadow-outcomes-v1":
+        story.append(P(
+            f"Zamrożone archiwa z cenami: {priced_settlement.get('archived_oddspapi_collections',0)} | "
+            f"Unikalne wycenione typy: {priced_settlement.get('exact_quoted_selections',0)} | "
+            f"Rozliczone: {priced_settlement.get('status',{}).get('settled',0)}. "
+            "Wyniki niezależne od bukmachera, bez potwierdzenia wypłaty Superbet."))
+        pr=[]
+        for k, name in (("btts","BTTS"),("handicap","Handicap ±1,5")):
+            x=priced_settlement.get("market_summary",{}).get(k,{})
+            pr.append([name,str(x.get("quoted_research",0)),
+                       str(x.get("settled",0)),percent(x.get("hit_rate"))])
+        story.append(make_table(["Rynek","Zapisane kursy","Rozliczone","Trafność"],
+                                pr,[163,115,103,84],st))
+    else:
+        story.append(P("Próba cenowa SHADOW oczekuje na pierwszy uruchomiony audyt "
+                       "po weryfikacji rzeczywistych wyników. "
+                       "Brak wartości nie oznacza przegranej."))
+    story.append(P("5. Kontrola zgodności rynków Superbet","head"))
     families = semantics["family_counts"]
     gaps = semantics.get("model_vs_bookmaker_gaps", {})
     story.append(P(
@@ -304,7 +348,7 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
             f"kartki {cards.get('without_comparable_offer','—')} / "
             f"{cards.get('modeled_candidates','—')}. "
             "Brak ceny nie oznacza przegranej prognozy."))
-    story.append(P("5. Plan i bramki jakości","head"))
+    story.append(P("6. Plan i bramki jakości","head"))
     story.append(P("Najpierw: udokumentowane wyniki, rozliczenie SHADOW i pełny audyt Superbet. "
                    "Dalej: porównania rynków w identycznej próbie, poprawne reguły kartkowe "
                    "i handicapowe, weryfikacja dostępności danych strzałów i spalonych. "
