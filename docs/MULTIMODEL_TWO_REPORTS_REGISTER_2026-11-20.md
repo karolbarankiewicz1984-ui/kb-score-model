@@ -72,3 +72,11 @@ Dodano rozdzielanie jednostek *bookings* od żółtych kartek, fauli gracza od f
 Źródło: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44728416352
 
 Reguły fauli, kartek i handicapów podlegają osobnemu testowi semantycznemu: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44728416499.
+
+## Aktualizacja po potwierdzonych dopasowaniach handicapów i audycie historycznym (20.11.2026)
+
+- PR #71 wprowadza dokładne dopasowanie źródłowych handicapów azjatyckich ±1,5 oraz nowe badawcze rozliczanie zapisanych cen BTTS/handicap; PR #72 poprawia label dostawcy i PR #73 dopasowanie kursów tylko do daty PDF.
+- Ostateczne dwa PDF-y 20.11.2026 w GitHub Actions: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44733417657 (PASS): główny 10 stron, audyt 2 strony, cena w 29 pozycjach dziennych, bez zmiany modelu lub dodatkowych zapytań OddsPapi.
+- Audyt 200 zarejestrowanych ofert badawczych BTTS/handicap ma **0 niezależnych wyników `settled`**; raport poprawnie nie podaje ROI ani nie uważa tych zakładów za rozliczone przez Superbet. Wynik: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44732878148.
+- Oddzielne źródła OPTA i jednostki kartek pozostają nieweryfikowane; nie przywracać fikcyjnych ofert fauli/kartkowych w głównym PDF.
+- Rozwinięty rejestr wszystkich kroków i spraw otwartych: [MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md).
