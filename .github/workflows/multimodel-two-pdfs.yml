@@ -1,0 +1,141 @@
+name: MultiModel V2 - two final user-facing PDFs (daily)
+on:
+  workflow_run:
+    workflows:
+      - 'MULTIMODEL V2 - Superbet OddsPapi market layer (daily)'
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/multimodel-two-pdfs.yml'
+      - 'github_models/unified_output.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: multimodel-two-pdfs-user-output
+  cancel-in-progress: false
+
+jobs:
+  compose:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name != 'workflow_run' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout independent report composer
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Unicode PDF prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
+
+      - name: Fetch saved Superbet report data; never call bookmaker API
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_ODDS_RUN: ${{ github.event.workflow_run.id || '' }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$SOURCE_ODDS_RUN" ]]; then
+            run_id="$SOURCE_ODDS_RUN"
+          else
+            run_id="$(gh run list --repo "$GITHUB_REPOSITORY"               --workflow oddspapi-daily.yml --status success --limit 1               --json databaseId --jq '.[0].databaseId')"
+          fi
+          test -n "$run_id" && test "$run_id" != "null"
+          mkdir -p input/odds
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY"             --name oddspapi-daily --dir input/odds
+          test -s input/odds/pitch_queue.json
+          test -s input/odds/market_overlay.json
+          echo "SOURCE_ODDSPAPI_RUN=$run_id" >> "$GITHUB_ENV"
+          day="$(python - <<'PY'
+          import json
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          q=json.load(open('input/odds/pitch_queue.json',encoding='utf-8'))
+          print(datetime.fromisoformat(q['generated_at_utc'].replace('Z','+00:00')).astimezone(ZoneInfo('Europe/Warsaw')).date().isoformat())
+          PY
+          )"
+          echo "INPUT_DAY=$day" >> "$GITHUB_ENV"
+
+      - name: Retrieve exact A/B/C and SHADOW archive matching Superbet queue
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          found=0
+          while IFS= read -r run_id; do
+            [[ -z "$run_id" ]] && continue
+            artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts"               --jq '.artifacts[] | select(.expired == false and (.name | startswith("github-models-v2-abc-complete-"))) | .name' | head -n 1)"
+            [[ -z "$artifact" ]] && continue
+            mkdir -p "candidates/$run_id"
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY"               --name "$artifact" --dir "candidates/$run_id"; then
+              echo "::warning::Cannot download ABC archive for run $run_id"
+              continue
+            fi
+            abc_queue="candidates/$run_id/reports/github_models/queues/$INPUT_DAY.json"
+            if [[ -s "$abc_queue" ]] && cmp -s "$abc_queue" input/odds/pitch_queue.json; then
+              mv "candidates/$run_id" input/abc
+              found=1
+              echo "SOURCE_ABC_RUN=$run_id" >> "$GITHUB_ENV"
+              break
+            fi
+          done < <(gh run list --repo "$GITHUB_REPOSITORY"             --workflow github-models-v2-daily-audit.yml --status success             --limit 15 --json databaseId --jq '.[].databaseId')
+          if [[ "$found" != 1 ]]; then
+            echo "::error::No exact ABC/SHADOW archive matches frozen Superbet source"
+            exit 1
+          fi
+          test -s "input/abc/reports/github_models/filters/ABC_$INPUT_DAY.json"
+          test -s "input/abc/reports/github_models/shadow/$INPUT_DAY.json"
+
+      - name: Retrieve latest independent bookmaker settlement audit
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p input/bookmaker_audit
+          audit_run="$(gh run list --repo "$GITHUB_REPOSITORY"             --workflow oddspapi-audit.yml --status success --limit 1             --json databaseId --jq '.[0].databaseId')"
+          if [[ -n "$audit_run" && "$audit_run" != "null" ]]; then
+            gh run download "$audit_run" --repo "$GITHUB_REPOSITORY"               --name oddspapi-rolling-audit --dir input/bookmaker_audit               || echo "::warning::Bookmaker audit unavailable; PDF will mark missing metrics"
+          fi
+
+      - name: Compose exactly two user-facing PDFs for today
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m github_models.unified_output             --abc-dir input/abc             --odds-dir input/odds             --audit-dir input/bookmaker_audit             --day "$INPUT_DAY"             --output-dir reports/unified
+          for pdf in "reports/unified/MULTIMODEL_$INPUT_DAY.pdf"                      "reports/unified/MULTIMODEL_AUDYT_$INPUT_DAY.pdf"; do
+            test -s "$pdf"
+            pdfinfo "$pdf" | grep 'Pages:'
+            pdftotext "$pdf" - | grep -q 'MULTIMODEL'
+          done
+          echo "Exactly two published PDF files. All underlying technical archives remain untouched."
+
+      - name: Publish only two PDFs in one artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-final-two-pdfs
+          path: reports/unified/*.pdf
+          if-no-files-found: error
+          retention-days: 90
