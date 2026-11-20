@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'github_models/market_rule_gate.py'
+      - 'github_models/priced_shadow_settlement.py'
+      - 'tests/test_priced_shadow_settlement.py'
       - 'tests/test_multimodel_market_rule_gate.py'
       - 'github_models/unified_output.py'
       - '.github/workflows/multimodel-market-rules.yml'
@@ -45,7 +47,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Regression tests — no scope or settlement substitutions
-        run: python -m unittest -v tests.test_multimodel_market_rule_gate
+        run: python -m unittest -v tests.test_multimodel_market_rule_gate tests.test_priced_shadow_settlement
 
       - name: Fetch ONLY already archived odds (no paid API)
         if: github.event_name != 'pull_request'
