@@ -180,6 +180,10 @@ def build_day(abc_root,odds_root,day,dest):
             load(odds_root,"collection.json"), q, shadow)
         for quote in matched_quotes:
             k = key(quote)
+            # OddsPapi archives seven days, but this PDF is ONE local day.
+            # Ignore correctly frozen quotes outside this report's date.
+            if k[0] not in fixtures:
+                continue
             if k not in rows or rows[k]["kind"] != "SHADOW":
                 raise ValueError("quoted_shadow_not_in_frozen_pdf_rows")
             if rows[k]["probability"] != quote["p_model"]:
