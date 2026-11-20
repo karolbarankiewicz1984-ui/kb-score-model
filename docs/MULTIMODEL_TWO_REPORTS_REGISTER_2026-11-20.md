@@ -61,3 +61,14 @@ Pełny **10-krokowy rejestr dalszych działań**, aktualne dowody z archiwum Odd
 **[MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md)**
 
 Dodano rozdzielanie jednostek *bookings* od żółtych kartek, fauli gracza od fauli meczu oraz handicapów azjatyckich od europejskich; wynik semantyczny zostanie dodany do istniejącego PDF audytu. Modele A/B/C i SHADOW pozostają bez zmian, zero nowych wywołań OddsPapi. Integracja rzeczywistych reguł rozliczeń i dalsza kalibracja są oddzielnymi krokami zależnymi od weryfikacji danych.
+
+## Kontrola końcowa 20.11.2026 — po rozbudowie zasad rynków
+
+- [x] Nowy workflow dwudokumentowy zakończył się sukcesem na `main` i opublikował artefakt `multimodel-final-two-pdfs`, dokładnie 2 PDF.
+- [x] Oba pliki przeszły kontrolę otwieralności/treści w GitHub Actions — 10 i 1 strona.
+- [x] Rozbudowa nie wywołuje OddsPapi i nie zmienia wag prognoz A/B/C/SHADOW.
+- [ ] Nadal kontrolować kolejne cykle oraz kompletność historycznych źródeł i rozliczeń.
+
+Źródło: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44728416352
+
+Reguły fauli, kartek i handicapów podlegają osobnemu testowi semantycznemu: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44728416499.
