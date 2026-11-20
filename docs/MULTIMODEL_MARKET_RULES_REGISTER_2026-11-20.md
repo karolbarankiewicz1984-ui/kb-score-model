@@ -83,3 +83,66 @@ Dokumenty opisują zasady bukmachera; **nie dowodzą**, że konkretne pola `hand
 - **Etap III oczekuje na dane:** brak wystarczającej prospektywnej próbki per rynek do formalnej kalibracji; nowo wygenerowane prawdopodobieństwa SHADOW nie mogą być uznane za skalibrowane.
 
 Ostatnie sprawdzenie potwierdza sprawność kodu audytu i publikacji, **nie potwierdza** poprawności ani opłacalności żadnego niezweryfikowanego typu.
+
+## Weryfikacja merytoryczna źródeł — 20.11.2026, kolejna faza
+
+### 1. Faule — weryfikacja zgodności
+
+**Wymaganie bukmachera:** Superbet w komunikacie dotyczącym piłki nożnej stwierdza, że do rozliczenia fauli bierze pod uwagę wyłącznie przewinienia odgwizdane przez sędziego, wyłączając akcje zakończone przywilejem korzyści. W osobnym komunikacie (widoczna treść 29.04.2026) potwierdza oficjalne statystyki **OPTA** jako główne źródło rozliczenia statystycznego:
+- https://superbet.pl/wiki/oficjalny-komunikat-nr-06-2022-z-dnia-18-11-2024-r
+- https://superbet.pl/wiki/oficjalny-komunikat-nr-02-2022-z-dnia-091122
+
+**Weryfikacja danych MultiModelu:** `github_models/event_parser.py` w gałęzi `codex/multimodel-v2` importuje z `football-data.co.uk` kolumny `HF`/`AF`. W lokalnym odczycie zapisanego artefaktu `github-models-v2-abc-complete-44703910677-1` stwierdzono 25 571 rekordów statystyk `verified_events.json`; dostawca wszystkich rekordów to `football-data.co.uk`, nie udokumentowany zbiór OPTA. **Brak wspólnej próby zdarzeń z potwierdzonymi statystykami OPTA**, dlatego nie da się dziś wiarygodnie obliczyć zgodności liczbowej tego źródła z zasadami Superbet. `match_fouls` pozostaje bez statusu `bookmaker_settlement_verified`; nie podmieniamy fauli zawodnika na faule meczu.
+
+**Wynik:** zasadę Superbet i pochodzenie statystyk zweryfikowano; **równoważności liczbowej nie potwierdzono**. Warunek dalszego uruchomienia: niezależne zakończone mecze z OPTA i `football-data.co.uk` identyczną datą, drużynami, periodem i statystyką, plus udokumentowane różnice.
+
+### 2. Kartki — odrębne jednostki
+
+Komunikat Superbet rozdziela:
+- żółte kartki (jednostki żółtych; z wyłączeniem sztabu/rezerwowych/po gwizdku i szczegółowymi zasadami przerwy);
+- łączną liczbę kartek z przeliczeniem: żółta **1**, bezpośrednia czerwona **2**, wykluczenie za drugą żółtą **3**;
+- punkty kartkowe: żółta **10**, druga żółta/czerwona **25**, limit **35 punktów na zawodnika**, z dodatkowymi wyłączeniami.
+
+Historyczne kolumny `HY`/`AY` z `football-data.co.uk` to liczba **żółtych kartek**, a nie `bookings` ani punkty kartkowe; brak zdarzeń czerwonych i informacji o uczestnikach/czasie potrzebnych do pozostałych jednostek. Sam `market_name="Bookings - Over Under Full Time"` i `market_type="totals-bookings"` z OddsPapi **nie określa pewnie sposobu punktacji** dla Superbet.
+
+**Wynik:** definicje jednostek rozdzielono, automatyczne `cards ↔ bookings` nadal zablokowane. Do zamknięcia: uzyskać konkretne, oficjalnie rozliczone przykłady rynku `Bookings` z identyfikatorami oraz pełnymi zdarzeniami.
+
+### 3. Azjatyckie handicapy ±1,5 — zweryfikowany znak
+
+Dokumentacja producenta OddsPapi potwierdza, że pole `handicap` w katalogu jest linią **gospodarzy**, `outcome_name="1"` to gospodarze, a `"2"` to goście:
+- https://oddspapi.io/blog/asian-handicap-calculator-python/
+- https://oddspapi.io/us/docs/get-markets
+
+Zatem:
+- `Asian Handicap`, `spreads`, `fulltime`, `handicap=-1.5`, outcome `1` ↔ gospodarze **−1,5**;
+- te same dane outcome `2` ↔ goście **+1,5**;
+- `handicap=+1.5`, outcome `1` ↔ gospodarze **+1,5**, outcome `2` ↔ goście **−1,5**.
+
+W migawce `collection.json` z 20.11.2026 oba wyniki `1`/`2` występują dla jednakowego `market_id`. Ścisłe dopasowanie zapisanej prognozy SHADOW i kursu `>=1,20` daje **114** dopasowanych pozycji w **43** meczach (wyłącznie archiwalne kursy do badań, nie rekomendacje).
+
+**Wynik:** tożsamość i matematyczne warunki linii ±1,5 zweryfikowane źródłem operatora danych i kontrolą archiwum. Europejskie handicapy `spreads-european` i inne linie pozostają osobnymi, nieobsługiwanymi rynkami. Rzeczywiste rozliczenie u bukmachera nadal wymaga przykładowego kuponu/wypłaty; model używa niezależnego wyniku i nie udaje potwierdzenia Superbet.
+
+### 4. Implementacja prospektywnego rozliczania tylko potwierdzonych kategorii
+
+- **`github_models/priced_shadow_settlement.py`**: połączenie zamrożonych prognoz `BTTS Full Time` i `Asian Handicap ±1.5 Full Time` z realnymi cenami, pod warunkiem tożsamości meczu, katalogu, strony, znaku, czasu publikacji przed kickoff oraz kursu **>=1,20**. Wszystkie inne rynki wykluczone. Brak odpytywania OddsPapi.
+- Niezależny resolver `github_models.shadow_audit.settle_one` weryfikuje wynik według **rzeczywiście dostępnych po meczu** danych; brak finalnego wyniku daje `pending`/`unresolved`, nie automatyczne przegranie. Zwracane `hit/Brier` i symulowana stopa zwrotu z zapisanej ceny to **badanie**, nie rzeczywista wypłata u bukmachera.
+- W nocnym `.github/workflows/oddspapi-audit.yml` do istniejącego pobrania niezależnych zakończonych wyników dodano replay kursów na zgodnych, niemodyfikowanych archiwach SHADOW. Publikacja jako `PRICED_SHADOW_SETTLEMENT.json` w **technicznym** artefakcie `oddspapi-rolling-audit`, bez trzeciego PDF.
+- `github_models/unified_output.py`: pierwsza strona ma jednoznacznie oznaczone archiwalne kursy AH/BTTS, audyt jako drugi PDF pokazuje liczbę rozliczonych i nierozliczonych. Zachowuje układ **dwóch** dokumentów.
+- `tests/test_priced_shadow_settlement.py`: brak mapowania fauli/kartki, testy znaku handicapu, pełnego okresu, ceny minimum, źródła, rozbieżności dat i brak udawanych rozliczeń.
+
+### Status wykonania etapów po tej zmianie
+
+| Krok | Wynik | Nadal niezbędne |
+|---|---|---|
+| 1. Rynki | Skatalogowane istniejące oferty i znaki AH | Monitorować zmiany katalogu |
+| 2. Definicje | Rozdzielone mecz/zawodnik, okres, jednostka, AH home/away | Uzupełniać nowe rynki dopiero z dowodem |
+| 3. Faule | Oficjalna zasada i źródło `HF/AF` potwierdzone | **Brak porównania tej samej próby z OPTA** |
+| 4. Kartki/AH | Jednostki rozdzielone, znak AH ±1,5 potwierdzony | **Brak oficjalnych próbek wypłat bookings** |
+| 5. Testy | Nowe testy regresyjne w PR | CI na main i weryfikacja archiwów |
+| 6. Rozliczanie | Kod automatycznego replay BTTS/AH z final score | Potwierdzić pierwszy przebieg; brak oficjalnych payoutów |
+| 7. PDF | Dokładne ceny AH w głównym PDF i opis rozliczeń w audycie | Weryfikować pierwszy produkcyjny artefakt |
+| 8. Workflow | Dodany replay do nocnego audytu, bez API | Potwierdzić pierwszy przeprowadzony run |
+| 9. Próba | Archiwizacja i deduplikacja cen, statusy finalne | Zebrać niezależne zakończone mecze |
+| 10. Kalibracja | **Nie włączona** | Dane z >=100 niezależnych meczów + poprawa na holdoucie |
+
+Ten wpis jest rejestrem implementacji i stanu wiedzy. Nie oznacza automatycznej zgody na promowanie SHADOW lub na przekazywanie niesprawdzonych kursów fauli i kartek.
