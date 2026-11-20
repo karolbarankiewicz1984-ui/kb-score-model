@@ -1,7 +1,7 @@
 {
   "schema": "pitchapi-prematch-context-v1",
   "target_date": "2026-11-23",
-  "snapshot_utc": "2026-11-19T23:37:41.604895+00:00",
+  "snapshot_utc": "2026-11-20T12:53:58.827701+00:00",
   "source": "PitchAPI",
   "available_upcoming": 33,
   "fixtures_collected": 33,
@@ -827,16 +827,22 @@
         "complete_samples": 5,
         "requested_samples": 5,
         "data_quality": "sufficient",
-        "mean_xg_for": 1.444,
-        "mean_xg_against": 1.484,
+        "mean_xg_for": 1.582,
+        "mean_xg_against": 1.304,
         "source_match_ids": [
+          "m_3nNOFf",
           "m_1QNA4X",
           "m_2pYTsi",
           "m_4WKSad",
-          "m_15aohm",
-          "m_2C8jjD"
+          "m_15aohm"
         ],
         "samples": [
+          {
+            "match_id": "m_3nNOFf",
+            "kickoff_utc": "2026-11-19T22:30:00Z",
+            "xg_for": 1.53,
+            "xg_against": 0.52
+          },
           {
             "match_id": "m_1QNA4X",
             "kickoff_utc": "2026-11-04T00:30:00Z",
@@ -860,12 +866,6 @@
             "kickoff_utc": "2026-10-16T23:00:00Z",
             "xg_for": 0.93,
             "xg_against": 3.19
-          },
-          {
-            "match_id": "m_2C8jjD",
-            "kickoff_utc": "2026-10-11T20:30:00Z",
-            "xg_for": 0.84,
-            "xg_against": 1.42
           }
         ]
       },
@@ -873,16 +873,22 @@
         "complete_samples": 5,
         "requested_samples": 5,
         "data_quality": "sufficient",
-        "mean_xg_for": 0.948,
-        "mean_xg_against": 1.75,
+        "mean_xg_for": 1.056,
+        "mean_xg_against": 1.676,
         "source_match_ids": [
+          "m_1Af0Xl",
           "m_0UNq3X",
           "m_16eywp",
           "m_0FzKFd",
-          "m_3xh6Zh",
-          "m_1E6nrp"
+          "m_3xh6Zh"
         ],
         "samples": [
+          {
+            "match_id": "m_1Af0Xl",
+            "kickoff_utc": "2026-11-19T22:30:00Z",
+            "xg_for": 1.3,
+            "xg_against": 1.43
+          },
           {
             "match_id": "m_0UNq3X",
             "kickoff_utc": "2026-11-06T23:00:00Z",
@@ -906,12 +912,6 @@
             "kickoff_utc": "2026-10-19T23:00:00Z",
             "xg_for": 1.04,
             "xg_against": 1.62
-          },
-          {
-            "match_id": "m_1E6nrp",
-            "kickoff_utc": "2026-10-11T00:00:00Z",
-            "xg_for": 0.76,
-            "xg_against": 1.8
           }
         ]
       },
@@ -974,16 +974,22 @@
         "complete_samples": 5,
         "requested_samples": 5,
         "data_quality": "sufficient",
-        "mean_xg_for": 1.386,
-        "mean_xg_against": 1.064,
+        "mean_xg_for": 1.214,
+        "mean_xg_against": 1.068,
         "source_match_ids": [
+          "m_4C4yum",
           "m_4LDkHQ",
           "m_3n5ijr",
           "m_0xbyaX",
-          "m_12VjKm",
-          "m_1E6nrp"
+          "m_12VjKm"
         ],
         "samples": [
+          {
+            "match_id": "m_4C4yum",
+            "kickoff_utc": "2026-11-20T00:30:00Z",
+            "xg_for": 0.94,
+            "xg_against": 0.78
+          },
           {
             "match_id": "m_4LDkHQ",
             "kickoff_utc": "2026-11-05T00:30:00Z",
@@ -1007,12 +1013,6 @@
             "kickoff_utc": "2026-10-18T00:00:00Z",
             "xg_for": 1.24,
             "xg_against": 0.9
-          },
-          {
-            "match_id": "m_1E6nrp",
-            "kickoff_utc": "2026-10-11T00:00:00Z",
-            "xg_for": 1.8,
-            "xg_against": 0.76
           }
         ]
       },
