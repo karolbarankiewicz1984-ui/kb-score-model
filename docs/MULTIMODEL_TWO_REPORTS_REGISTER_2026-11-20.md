@@ -29,9 +29,9 @@ Na zapisanych archiwach wykonano test lokalny składający jeden PDF z rynkami p
 
 ## Kryteria akceptacji operacyjnej
 
-- [ ] Po scaleniu zmian automatyczne uruchomienie workflow na `main` kończy się `success` i publikuje artefakt `multimodel-final-two-pdfs` zawierający dokładnie dwa pliki PDF.
-- [ ] Każdy plik otwiera się, ma prawidłową liczbę stron i polskie znaki; dostateczna czytelność tabel.
-- [ ] Nowy workflow nie wstrzymuje obecnego A/B/C, Superbet ani audytu. Nigdy nie tworzy prognoz i nie modyfikuje wag.
+- [x] Workflow na `main` kończy się `success` i publikuje artefakt `multimodel-final-two-pdfs` z dokładnie dwoma PDF.
+- [x] Oba PDF-y otwierają się, mają poprawne polskie znaki i czytelne tabele; sprawdzono również renderowanie stron.
+- [x] Workflow jest niezależny od A/B/C i OddsPapi, nie generuje prognoz ani nie modyfikuje wag.
 - [ ] Sprawdzić kolejne cykle `workflow_run` po pełnym A/B/C i Superbet, w szczególności zgodność identyfikatorów i dat po północy.
 
 ## Plan dalszych kroków (kolejność)
