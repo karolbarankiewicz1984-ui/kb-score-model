@@ -62,7 +62,7 @@ def quote_identity(q):
 
 
 def quote_pairs(collection, queue, shadow):
-    if collection.get("provider") != "oddspapi-v4" or collection.get("bookmakers") != [BOOK]:
+    if collection.get("provider") not in ("OddsPapi", "oddspapi-v4") or collection.get("bookmakers") != [BOOK]:
         raise ValueError("unverified_bookmaker_or_provider")
     if queue.get("schema") != "github-models-fixture-queue-v1":
         raise ValueError("unverified_frozen_queue")
