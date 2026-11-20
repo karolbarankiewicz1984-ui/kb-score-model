@@ -263,6 +263,9 @@ def summarize(items, *, reasons=None, audits=1, duplicate=0):
 
 def review_one(collection, queue, shadow, history, *, as_of_utc):
     rows, rejected = quote_pairs(collection, queue, shadow)
+    now = utc(as_of_utc)
+    if any(utc(r["odds_captured_at_utc"]) > now for r in rows):
+        raise ValueError("quote_recorded_after_audit_cutoff")
     resolved = settle_quotes(rows, queue, shadow, history, as_of_utc=as_of_utc)
     return summarize(resolved, reasons=rejected), resolved
 
