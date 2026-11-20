@@ -38,6 +38,12 @@ jobs:
           ref: research/github-models-frozen
           path: frozen_source
           persist-credentials: false
+      - name: Checkout isolated SHADOW research code (no forecasts modified)
+        uses: actions/checkout@v4
+        with:
+          ref: codex/multimodel-v2
+          path: shadow_impl
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -145,6 +151,23 @@ jobs:
           test -s reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf
           pdfinfo reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf | grep 'Pages:'
           pdftotext reports/oddspapi_daily/MULTIMODEL_V2_SUPERBET_MARKET.pdf - | grep -q 'SUPERBET.PL'
+      - name: Read-only Superbet BTTS SHADOW overlay and missing-market report
+        shell: bash
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          REL="$ODDSPAPI_INPUT_REL"
+          if test -s "frozen_source/shadow/$REL"; then
+            # No OddsPapi endpoint is called here: use saved collection.json only.
+            PYTHONPATH="$PWD/shadow_impl:$PWD" python -B -m github_models.shadow_superbet \
+              --collection reports/oddspapi_daily/collection.json \
+              --queue reports/oddspapi_daily/pitch_queue.json \
+              --shadow "frozen_source/shadow/$REL" \
+              --output-dir reports/oddspapi_daily
+          else
+            echo "::warning::Matching SHADOW archive not present; A/B/C odds remain intact"
+            echo '{"status":"shadow_archive_not_available","production_unchanged":true}' > reports/oddspapi_daily/shadow_health.json
+          fi
       - name: Publish health and missing-market warnings
         shell: bash
         run: |
