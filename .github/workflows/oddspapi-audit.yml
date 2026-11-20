@@ -72,6 +72,49 @@ jobs:
             --input reports/oddspapi_audit/REPLAY_AUDIT.json \
             --output reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf
           pdfinfo reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf | grep 'Pages:'
+      - name: Checkout exact SHADOW/Asian-handicap settlement extension
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: priced_impl
+          persist-credentials: false
+      - name: Checkout frozen SHADOW outcome resolver, unchanged
+        uses: actions/checkout@v4
+        with:
+          ref: codex/multimodel-v2
+          path: shadow_impl
+          persist-credentials: false
+      - name: Checkout immutable research inputs for matching
+        uses: actions/checkout@v4
+        with:
+          ref: research/github-models-frozen
+          path: frozen_source
+          persist-credentials: false
+      - name: Prospectively settle only exact BTTS and half-goal Asian-handicap quotes
+        shell: bash
+        env:
+          PYTHONPATH: ${{ github.workspace }}/priced_impl:${{ github.workspace }}/shadow_impl:${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -B -m github_models.priced_shadow_settlement \
+            --archive-dir audit_inputs \
+            --frozen-dir frozen_source \
+            --history reports/oddspapi_audit/outcomes/verified_results.json \
+            --as-of "$NOW" \
+            --out reports/oddspapi_audit/PRICED_SHADOW_SETTLEMENT.json
+          test -s reports/oddspapi_audit/PRICED_SHADOW_SETTLEMENT.json
+          python - <<'PY'
+          import json
+          r=json.load(open('reports/oddspapi_audit/PRICED_SHADOW_SETTLEMENT.json',encoding='utf-8'))
+          assert r['production_promotion'] is False
+          assert r['paid_api_calls'] == 0
+          assert r['official_bookmaker_payout_confirmed'] is False
+          assert r['fouls_superbet_equivalent'] is False
+          assert r['cards_bookings_equivalent'] is False
+          print('PRICED_SHADOW_SETTLEMENT_GATES=PASS')
+          PY
+
       - name: Preserve independent source manifest and audited metrics
         if: always()
         uses: actions/upload-artifact@v4
@@ -79,6 +122,7 @@ jobs:
           name: oddspapi-rolling-audit
           path: |
             reports/oddspapi_audit/REPLAY_AUDIT.json
+            reports/oddspapi_audit/PRICED_SHADOW_SETTLEMENT.json
             reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf
             reports/oddspapi_audit/outcomes/source_manifest.json
           if-no-files-found: ignore
