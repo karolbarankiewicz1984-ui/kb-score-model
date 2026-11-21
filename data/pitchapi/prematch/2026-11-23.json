@@ -1,11 +1,11 @@
 {
   "schema": "pitchapi-prematch-context-v1",
   "target_date": "2026-11-23",
-  "snapshot_utc": "2026-11-20T23:06:17.714845+00:00",
+  "snapshot_utc": "2026-11-21T12:39:03.650866+00:00",
   "source": "PitchAPI",
   "available_upcoming": 33,
   "fixtures_collected": 33,
-  "fixtures_with_both_sides_sufficient": 32,
+  "fixtures_with_both_sides_sufficient": 33,
   "league_errors": [],
   "fixtures": [
     {
@@ -1225,7 +1225,7 @@
       "league": "MLS",
       "league_id": "l_0eg6C9",
       "home": "Vancouver Whitecaps",
-      "away": "Seattle Sounders FC/Real Salt Lake",
+      "away": "Real Salt Lake",
       "kickoff_utc": "2026-11-23T01:30:00Z",
       "home_recent": {
         "complete_samples": 5,
@@ -1274,15 +1274,52 @@
         ]
       },
       "away_recent": {
-        "complete_samples": 0,
-        "requested_samples": 0,
-        "data_quality": "insufficient",
-        "mean_xg_for": null,
-        "mean_xg_against": null,
-        "source_match_ids": [],
-        "samples": []
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.308,
+        "mean_xg_against": 1.294,
+        "source_match_ids": [
+          "m_2i2gIX",
+          "m_17z4XD",
+          "m_16heI2",
+          "m_31kjXI",
+          "m_0yyUIt"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2i2gIX",
+            "kickoff_utc": "2026-11-20T03:00:00Z",
+            "xg_for": 1.2,
+            "xg_against": 2.96
+          },
+          {
+            "match_id": "m_17z4XD",
+            "kickoff_utc": "2026-11-08T00:10:00Z",
+            "xg_for": 2.93,
+            "xg_against": 0.7
+          },
+          {
+            "match_id": "m_16heI2",
+            "kickoff_utc": "2026-10-31T21:00:00Z",
+            "xg_for": 1.4,
+            "xg_against": 1.69
+          },
+          {
+            "match_id": "m_31kjXI",
+            "kickoff_utc": "2026-10-29T00:30:00Z",
+            "xg_for": 1.96,
+            "xg_against": 1.01
+          },
+          {
+            "match_id": "m_0yyUIt",
+            "kickoff_utc": "2026-10-25T01:30:00Z",
+            "xg_for": 4.05,
+            "xg_against": 0.11
+          }
+        ]
       },
-      "both_sides_sufficient": false
+      "both_sides_sufficient": true
     },
     {
       "pitch_match_id": "m_3gpWdF",

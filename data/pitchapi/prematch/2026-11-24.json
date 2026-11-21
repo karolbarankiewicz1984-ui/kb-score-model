@@ -1,7 +1,7 @@
 {
   "schema": "pitchapi-prematch-context-v1",
   "target_date": "2026-11-24",
-  "snapshot_utc": "2026-11-20T23:07:05.091703+00:00",
+  "snapshot_utc": "2026-11-21T12:39:37.927332+00:00",
   "source": "PitchAPI",
   "available_upcoming": 47,
   "fixtures_collected": 47,
@@ -4481,16 +4481,22 @@
         "complete_samples": 5,
         "requested_samples": 5,
         "data_quality": "sufficient",
-        "mean_xg_for": 1.456,
-        "mean_xg_against": 0.844,
+        "mean_xg_for": 0.996,
+        "mean_xg_against": 0.9,
         "source_match_ids": [
+          "m_2AXJxn",
           "m_04OMui",
           "m_4gGSbj",
           "m_3Yt6Qc",
-          "m_0EdKsk",
-          "m_3m5MI6"
+          "m_0EdKsk"
         ],
         "samples": [
+          {
+            "match_id": "m_2AXJxn",
+            "kickoff_utc": "2026-11-21T01:40:00Z",
+            "xg_for": 0.29,
+            "xg_against": 0.45
+          },
           {
             "match_id": "m_04OMui",
             "kickoff_utc": "2026-11-14T20:30:00Z",
@@ -4514,12 +4520,6 @@
             "kickoff_utc": "2026-10-21T01:30:00Z",
             "xg_for": 0.45,
             "xg_against": 1.66
-          },
-          {
-            "match_id": "m_3m5MI6",
-            "kickoff_utc": "2026-10-17T23:00:00Z",
-            "xg_for": 2.59,
-            "xg_against": 0.17
           }
         ]
       },
@@ -4527,15 +4527,21 @@
         "complete_samples": 4,
         "requested_samples": 5,
         "data_quality": "sufficient",
-        "mean_xg_for": 1.61,
-        "mean_xg_against": 0.99,
+        "mean_xg_for": 1.638,
+        "mean_xg_against": 1.01,
         "source_match_ids": [
+          "m_1lr9va",
           "m_0Gj49E",
           "m_0bzJ8E",
-          "m_30mOCU",
-          "m_0bLbQb"
+          "m_30mOCU"
         ],
         "samples": [
+          {
+            "match_id": "m_1lr9va",
+            "kickoff_utc": "2026-11-20T23:35:00Z",
+            "xg_for": 0.8,
+            "xg_against": 1.41
+          },
           {
             "match_id": "m_0Gj49E",
             "kickoff_utc": "2026-11-14T20:30:00Z",
@@ -4553,12 +4559,6 @@
             "kickoff_utc": "2026-10-31T01:05:00Z",
             "xg_for": 3.15,
             "xg_against": 0.74
-          },
-          {
-            "match_id": "m_0bLbQb",
-            "kickoff_utc": "2026-10-27T01:05:00Z",
-            "xg_for": 0.69,
-            "xg_against": 1.33
           }
         ]
       },
