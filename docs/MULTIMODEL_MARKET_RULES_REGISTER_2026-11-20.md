@@ -371,3 +371,34 @@ Na koniec dnia wynik GitHub Actions powinien zostać odnotowany poniżej, z nume
 - Oficjalna dokumentacja endpointu określa `playerId` jako **opcjonalny**, a `500 INTERNAL_ERROR` jako błąd po stronie dostawcy mogący wystąpić nawet dla prawidłowego żądania: https://oddspapi.io/us/docs/get-settlements i https://oddspapi.io/fr/docs/errors .
 - Dostawca potwierdza rodzinę rynków `Bookings – Over Under Full Time`, ale publiczna dokumentacja nie podaje dokładnego sposobu liczenia zdarzeń dla konkretnego Superbet; nie wywodzić rozliczenia tylko z nazwy rynku: https://oddspapi.io/blog/corners-cards-odds-api/ .
 - **Status techniczny:** `Bookings` niezatwierdzone do oficjalnego rozliczania; brak nowych płatnych testów, modeli A/B/C, SHADOW, limitu ceny 1,20 i dwóch PDF nie zmieniano. Po odpowiedzi sprawdzić jej treść, uzupełnić mapowanie jednostek i testy rozliczania tylko dla potwierdzonych zdarzeń.
+
+## Diagnoza rozliczania historycznych SHADOW — 21.11.2026, kolejny przegląd
+
+**Wniosek:** bazowy moduł `github_models.shadow_audit.settle_one`, `github_models.priced_shadow_settlement.settle_quotes`, `github_models.settlement.matching_outcomes` i automatyzacja auditów **istniały już wcześniej**. Nie należy przepisywać ich od podstaw. Główny problem zaobserwowany dzisiaj to **zbyt wczesne oznaczanie brakującego źródła jako `unresolved`**, a nie potwierdzone błędne dopasowanie meczu.
+
+### Udokumentowane dane wejściowe
+
+1. Faktycznie pobrano artefakt `oddspapi-rolling-audit` z udanego runu [44850299149](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44850299149), z datą audytu **2026-11-21T01:32:26Z**. Plik `PRICED_SHADOW_SETTLEMENT.json`: **200 wycenionych prognoz** w **43** meczach; **180 `pending`**, **20 `unresolved`**, **0 `settled`**. Wszystkie 20 mają `reason=no_exact_final`, dotyczą dokładnie **czterech** spotkań z 20 listopada (Red Star–Pau, Guingamp–Rodez, Verona–Cesena, Barnsley–Sheffield Wednesday). Pozostałe 180 występują w meczach z 21, 22 i 24 listopada, które w chwili audytu jeszcze się nie rozpoczęły.
+2. Niezależny `source_manifest.json` z tego samego uruchomienia raportuje **88/88 udanych pobrań** piłkarskich CSV, 4 sezony **2023/24–2026/27**. Brak rozliczenia nie wynika z całkowitego braku sezonu 2026/27.
+3. Z osobnego późniejszego archiwum modelu (run [44918574707](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44918574707)) pobrano `data/github_models/verified_results.json` utworzony 21.11 o 15:22 UTC: **42 472** rekordy, **0** rekordów dopuszczonych do rozliczenia z datą **20.11.2026**.
+4. Przyczyna: importer `github_models.public_results.parse_csv` jawnie odrzuca rekordy, dla których `completed_bound = match_date (00:00 UTC) + 2 dni` nie nastąpiło przed czasem obserwacji. Jest to świadome zabezpieczenie przed przedwczesnym wykorzystaniem lub przyjęciem wyników i uniemożliwia rozliczenie 20 listopada już 21 listopada. Najwcześniejsza granica dla daty **20.11** wynosi **22.11.2026 00:00 UTC**; źródło CSV musi ponadto faktycznie zawierać zakończony mecz. Nie wnioskujemy z tego, że 22.11 na pewno będą wyniki.
+5. Historyczny `REPLAY_AUDIT.json` w tym samym 01:31 UTC runie ma odrębnie **727** unikalnych zapisanych cen A/B/C: 674 przyszłe, 53 nierozstrzygnięte i 0 rozliczonych. Nie sumować tego z 200 SHADOW — to różne populacje.
+
+### Zmiany naprawcze
+
+- `github_models/priced_shadow_settlement.py`: po próbie uzyskania prawdziwego niezależnego wyniku, jeśli `no_exact_final` występuje przed upływem bezpiecznego **48-godzinnego bufora od rozpoczęcia**, nadajemy status **`pending`** i jawny powód `independent_result_publication_grace_48h`. Jest to wyłącznie etykieta diagnostyczna: kod nadal próbuje rozliczyć prawdziwy dostępny wynik **od razu**, niezależnie od bufora. Po buforze brak dokładnego wyniku pozostaje `unresolved/no_exact_final`, a błędy identyfikacji nie są maskowane.
+- Nowe zagregowane pola `status_reason_counts` i `distinct_fixtures_by_status` w technicznym `PRICED_SHADOW_SETTLEMENT.json` pozwalają odróżnić oczekiwanie na publikację od rzeczywistej nieweryfikowalności. Nazwa schematu zostaje bez zmiany i starsze czytniki mogą pominąć te nowe pola.
+- `tests/test_priced_shadow_settlement.py`: test udowadnia relabel 20.11 przy audycie 21.11 oraz zachowanie `unresolved` po buforze; istniejący test wcześniej potwierdził obliczenia z realnego wyniku.
+- `github_models/unified_output.py`: drugi użytkowy PDF wyświetla osobno liczbę oczekujących z 48-godzinnego bufora i ostrzeżenie, że bazowe SHADOW może nadal oznaczać opóźnione wyniki jako `unresolved`.
+- `.github/workflows/oddspapi-audit.yml`: rozszerzenie wyzwalacza na zmiany kodu klasyfikacji, aby po scaleniu odświeżyć audyt realnymi CSV bez nowych zapytań do OddsPapi.
+
+### Granice potwierdzenia i następne działania
+
+- [ ] Potwierdzić **CI na `main`** dla nowych testów i automatycznego audytu; zapisać numer runu i wynik, nie dopisywać go z góry.
+- [ ] Po następnej publikacji CSV (najwcześniej 22 listopada dla 20 listopada) sprawdzić, czy 4 zakończone spotkania rozliczają się niezależnie; jeśli nie, zebrać dokładne przyczyny `unresolved` i dopiero wtedy naprawiać mapowanie drużyn / krajów / dat.
+- [ ] Przeanalizować osobno 53 nierozstrzygnięte pozycje A/B/C z `REPLAY_AUDIT`, z tym samym uwzględnieniem daty publikacji, bez mieszania ich z SHADOW.
+- [ ] Wydzielić ewentualnie późniejszy status `source_lag` także w bazowym module SHADOW, ale dopiero po testach w jego **odrębnej** gałęzi. Nie zmieniać nieprzetestowanych źródeł zamrożonych prognoz i nie ruszać wag.
+- [ ] Utrzymać osobny problem `Bookings`/OPTA — nie ma związku z brakiem finalnych bramek w terminie 48 h.
+- [ ] Kalibracja nadal wymaga niezależnie rozliczonych meczów; statusy `pending` i `unresolved` nie są ani trafieniami, ani przegranymi.
+
+**Stabilne zasady:** dwie końcowe PDF, minimalny faktyczny kurs 1,20, brak obowiązkowego filtra punktowego 67/100, żadnych fikcyjnych kursów lub ROI, brak zmian wag i prognoz produkcyjnych. Wprowadzona poprawka nie kosztuje żadnych dodatkowych jednostek OddsPapi.
