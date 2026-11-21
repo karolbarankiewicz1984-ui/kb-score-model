@@ -7,6 +7,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/oddspapi-audit.yml'
+      - 'github_models/priced_shadow_settlement.py'
 
 permissions:
   contents: read
