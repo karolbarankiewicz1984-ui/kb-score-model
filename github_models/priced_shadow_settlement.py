@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter, defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import math
 from pathlib import Path
@@ -199,6 +199,16 @@ def settle_quotes(rows, queue, shadow, history, *, as_of_utc):
         row = dict(r)
         status = evaluation["status"]
         row["status"] = status
+        # football-data.co.uk ingestion uses a conservative match-date+2d
+        # completion bound. A missing final inside the first 48h after
+        # kickoff is source-publication latency, NOT a failed fixture match.
+        # Always attempt independent settlement first; a genuinely observed
+        # result can be settled immediately without waiting for this window.
+        if (status == "unresolved"
+                and evaluation.get("reason") == "no_exact_final"
+                and utc(r["kickoff_utc"]) + timedelta(hours=48) > now):
+            row["status"] = status = "pending"
+            row["reason"] = "independent_result_publication_grace_48h"
         if status == "settled":
             row["hit"] = evaluation["hit"]
             row["source_fixture_id"] = evaluation.get("source_fixture_id")
@@ -210,8 +220,8 @@ def settle_quotes(rows, queue, shadow, history, *, as_of_utc):
                 (row["price"] if row["hit"] else 0.0) - 1.0, 6)
             row["brier"] = round((row["p_model"] - int(row["hit"])) ** 2, 6)
         else:
-            row["reason"] = evaluation.get("reason",
-                "kickoff_not_yet_passed" if status == "pending" else "unverified_final_score")
+            row.setdefault("reason", evaluation.get("reason",
+                "kickoff_not_yet_passed" if status == "pending" else "unverified_final_score"))
             row["simulated_unit_return_before_fees"] = None
             row["brier"] = None
         result.append(row)
@@ -220,6 +230,10 @@ def settle_quotes(rows, queue, shadow, history, *, as_of_utc):
 
 def summarize(items, *, reasons=None, audits=1, duplicate=0):
     statuses = Counter(r["status"] for r in items)
+    status_reasons = Counter(
+        (r["status"], r.get("reason", "awaiting_kickoff" if r["status"] == "pending"
+                           else "verified_final"))
+        for r in items)
     bymarket = {}
     for family in ("btts", "handicap"):
         rows = [r for r in items if r["market"] == family]
@@ -244,7 +258,16 @@ def summarize(items, *, reasons=None, audits=1, duplicate=0):
         "duplicates_suppressed": duplicate,
         "exact_quoted_selections": len(items),
         "distinct_fixtures": len({r["fixture_id"] for r in items}),
-        "status": dict(statuses), "market_summary": bymarket,
+        "status": dict(statuses),
+        "status_reason_counts": {
+            status + ":" + reason: count
+            for (status, reason), count in sorted(status_reasons.items())
+        },
+        "distinct_fixtures_by_status": {
+            status: len({r["fixture_id"] for r in items if r["status"] == status})
+            for status in sorted(statuses)
+        },
+        "market_summary": bymarket,
         "reasons_excluded": reasons or {},
         "production_promotion": False, "auto_calibration": False,
         "official_bookmaker_payout_confirmed": False,
@@ -256,6 +279,8 @@ def summarize(items, *, reasons=None, audits=1, duplicate=0):
             "Away selected-side handicap is negative of catalog home line.",
             "Only BTTS fulltime and Asian half-goal +/-1.5 are priced/settled here.",
             "A verified independent final score is not confirmation of Superbet payout.",
+            "Missing final scores in the first 48 hours after kickoff are pending publication; observed independent finals may settle sooner.",
+            "After that grace period, no exact final stays unresolved and needs identity/source diagnostics, never an automatic loss.",
             "Missing or contradictory outcomes remain pending/unresolved, never losses.",
         ],
     }

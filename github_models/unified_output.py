@@ -293,6 +293,11 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
         story.append(P(f"Archiwa SHADOW: {s.get('archives_processed',0)} | "
                        f"Prognozy: {s.get('unique_forecasts',0)} | "
                        f"Rozliczone: {s.get('status',{}).get('settled',0)}."))
+        story.append(P(
+            "Uwaga do SHADOW: status nierozstrzygnięty obejmuje także "
+            "przypadki, w których niezależne źródło jeszcze nie udostępniło "
+            "wyniku według konserwatywnej reguły daty meczu + 2 dni. "
+            "To nie dowodzi błędu dopasowania ani przegranej."))
         sr=[[MARKETS.get(x["market"],x["market"]),str(x.get("settled",0)),
              percent(x.get("hit_rate"))] for x in s.get("summary",[])]
         if sr:
@@ -317,6 +322,14 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
             f"Unikalne wycenione typy: {priced_settlement.get('exact_quoted_selections',0)} | "
             f"Rozliczone: {priced_settlement.get('status',{}).get('settled',0)}. "
             "Wyniki niezależne od bukmachera, bez potwierdzenia wypłaty Superbet."))
+        counts = priced_settlement.get("status", {})
+        reasons = priced_settlement.get("status_reason_counts", {})
+        story.append(P(
+            f"Oczekujące: {counts.get('pending',0)} | "
+            f"Nierozstrzygnięte: {counts.get('unresolved',0)} | "
+            f"Brak publikacji wyniku w pierwszych 48 h od rozpoczęcia: "
+            f"{reasons.get('pending:independent_result_publication_grace_48h',0)}. "
+            "Wynik i uzasadnienie można podać dopiero po niezależnej obserwacji."))
         pr=[]
         for k, name in (("btts","BTTS"),("handicap","Handicap ±1,5")):
             x=priced_settlement.get("market_summary",{}).get(k,{})
