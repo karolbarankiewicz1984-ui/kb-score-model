@@ -137,11 +137,11 @@ def main():
             "bookings_unit_confirmed":False,"production_promotion":False,
             "max_billable_calls":4,"fixtures":[]}
     if before and before["used"]+len(FIXTURES)<=before["cap"]:
+        # One preflight reserves the entire four-call batch under the same
+        # concurrency group as the collector. Respect account (1 s) and
+        # settlements (2 s) endpoint cooldowns, with a conservative margin.
+        time.sleep(3.0)
         for fid in FIXTURES:
-            q,err=quota()
-            if err or q["used"]+1>q["cap"]:
-                result["stop_reason"]=err or "quota_reserve_guard"
-                break
             s,quotes=allowed[fid]
             result["attempted_billable_calls"]+=1
             payload,err=request("settlements",fixtureId=fid,playerId=0)
@@ -151,9 +151,10 @@ def main():
             if err in ("http_401","http_403","http_429"):
                 result["stop_reason"]=err
                 break
-            time.sleep(2.2)
+            time.sleep(3.0)
     else:
         result["stop_reason"]=error or "quota_reserve_guard"
+    time.sleep(3.0)
     result["quota_after"],result["quota_after_error"]=quota()
     target=Path("out/BOOKINGS_SETTLEMENT_PILOT.json")
     target.parent.mkdir(exist_ok=True)
