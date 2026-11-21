@@ -241,3 +241,43 @@ Odkryto endpoint `GET /v4/settlements`, który zwraca WIN/LOSE/PUSH/HALFWIN/HALF
 2. Uzyskać pisemne potwierdzenie od OddsPapi/Superbet, czy IDs 10926/10930 oznaczają ważoną liczbę kartek 1/2/3 w superbet.pl. Alternatywą jest porównanie rzeczywiście rozliczonych ofert badawczych na meczach z dyskryminującymi czerwonymi kartkami.
 3. Wynik z `/v4/settlements` przechowywać oddzielnie od rzeczywistego statusu wypłaty bukmachera; przed użyciem sprawdzić `/v4/account`, nie przekraczać 200/250.
 4. Do czasu tych dowodów pozostawić blokady fauli/kartek, bez zmiany A/B/C, wag, prawdopodobieństw i dwóch PDF. Brak ceny i brak danych to nie przegrana. Nowe płatne wywołania: 0.
+
+## Rozszerzenie weryfikacji OPTA oraz pilotaż Settlements — 21.11.2026
+
+### Porównanie dodatkowych dziewięciu meczów z tym samym archiwum verified_events.json
+
+Wartości w tabeli podano gospodarz/gość. Źródło w kolumnie ID to publiczna strona statystyk Premier League; liga deklaruje Opta jako dostawcę. Dane historyczne odczytano z archiwum A/B/C run 44703910677. Próba celowo obejmuje mecze z czerwonymi kartkami, nie stanowi losowej reprezentacji wszystkich lig.
+
+| Data | Mecz | Rekord FD | Faule FD / OPTA | Żółte FD / OPTA | Czerwone OPTA | ID strony PL |
+|---|---|---|---|---|---|---|
+| 2024-11-09 | Crystal Palace – Fulham | 2425:E0:103 | 10:11 / 10:11 | 1:1 / 1:1 | 1:0 | 2444573 |
+| 2025-09-20 | Man United – Chelsea | 2526:E0:47 | 13:14 / 13:14 | 0:5 / 0:5 | 1:1 | 2561941 |
+| 2025-10-25 | Brentford – Liverpool | 2526:E0:86 | 7:10 / 7:10 | 3:2 / 3:2 | 0:0 | 2561978 |
+| 2026-01-01 | Liverpool – Leeds | 2526:E0:189 | 10:8 / 10:8 | 0:2 / 0:2 | 0:0 | 2562080 |
+| 2026-01-01 | Sunderland – Man City | 2526:E0:191 | 9:6 / 9:6 | 1:1 / 1:1 | 0:0 | 2562083 |
+| 2026-01-18 | Aston Villa – Everton | 2526:E0:220 | 15:13 / 15:13 | 1:2 / 1:2 | 0:0 | 2562105 |
+| 2026-02-07 | Newcastle – Brentford | 2526:E0:249 | 14:18 / 14:18 | 2:2 / 2:2 | 0:0 | 2562143 |
+| 2026-02-08 | Brighton – Crystal Palace | 2526:E0:250 | 12:9 / 12:9 | 1:3 / 1:3 | 0:0 | 2562137 |
+| 2026-03-05 | Tottenham – Crystal Palace | 2526:E0:292 | 14:14 / 14:14 | 3:2 / 3:2 | 1:0 | 2562183 |
+
+Źródła:
+- https://www.premierleague.com/en/match/2444573/crystal-palace-vs-fulham/stats
+- https://www.premierleague.com/en/match/2561941/manchester-united-vs-chelsea/stats
+- https://www.premierleague.com/en/match/2561978/brentford-vs-liverpool/stats
+- https://www.premierleague.com/en/match/2562080/liverpool-vs-leeds-united/stats
+- https://www.premierleague.com/en/match/2562083/sunderland-vs-manchester-city/stats
+- https://www.premierleague.com/en/match/2562105/aston-villa-vs-everton/stats
+- https://www.premierleague.com/en/match/2562143/newcastle-united-vs-brentford/stats
+- https://www.premierleague.com/en/match/2562137/brighton-hove-albion-vs-crystal-palace/stats
+- https://www.premierleague.com/en/match/2562183/tottenham-hotspur-vs-crystal-palace/stats
+
+Łącznie z poprzednią próbą: 13/13 zgodnych sum fauli, w tym 12/12 meczów z porównaniem obu drużyn (24/24 wartości) i 12/12 zgodnych żółtych kart (24/24 wartości). Trzy mecze z czerwonymi kartkami (cztery wykluczenia). Przypadek Manchester United–Chelsea pokazuje, że Opta wykazuje 0 żółtych dla gospodarzy mimo wykluczenia Casemiro po drugiej żółtej. To istotne dla rozróżnienia HY/AY, liczby kartek oraz punktów kartkowych. Nie utożsamiać wyłącznie sumy żółtych z ważoną jednostką łącznej liczby kartek. W próbie nie weryfikowano wypłaty Superbet. Pozostało minimum 17 meczów do bramki 30 oraz inne ligi i przypadki kartkowe. Otwieranie niektórych publicznych stron PL zwracało wyłącznie szkielet strony; takich spotkań nie dopisano do liczników.
+
+### Pilotaż /v4/settlements: ograniczenia i plan
+
+- Najnowszy audyt 44850299149, 21.11.2026 01:32 UTC: 200 wycenionych prognoz SHADOW, 180 pending, 20 unresolved, 0 settled, dwa dopasowane archiwa i 200 duplikatów. Nie liczyć trafności/ROI; brak niezależnych wyników nie oznacza przegranej.
+- Najnowszy zapis OddsPapi 44776156677: limit 250; 58 wykorzystanych przed pobraniem, 4 wywołania tego procesu. To stan historyczny, nie bieżące saldo.
+- Z archiwum wybrano cztery oddzielne fixtureId z pełnoczasowymi liniami Bookings: Barnsley–Sheffield Wednesday, Guingamp–Rodez, Red Star–Pau i Hellas Verona–Cesena (20.11.2026). Nie twierdzimy, że w tych czterech meczach wystąpiły czerwone kartki; ich zdarzenia muszą zostać potwierdzone niezależnie.
+- Dodano `github_models/bookings_settlement_pilot_20261121.py` i jednorazowy workflow `multimodel-bookings-pilot-20261121.yml`. Sprawdza aktualny bezpłatny account i dopuszcza maksymalnie 4 płatne próby, przy limicie min(200, request_limit-50); współdzieli blokadę concurrency z kolektorem, nie ma harmonogramu ani automatycznego ponawiania. Nie ujawnia klucza ani odpowiedzi account. Odczytuje tylko 7 znanych linii Bookings z powiązanej migawki Superbet; zapisuje wynik WIN/LOSE itd. oraz przedział/ewentualnie jednoznacznie wyliczoną liczbę jednostek dostawcy.
+- Settlements nie przyjmuje parametru bookmaker; dane rozliczeń dostawcy zachowujemy oddzielnie od oficjalnej wypłaty Superbet. https://oddspapi.io/en/docs/get-settlements ; https://oddspapi.io/us/docs/requests-and-quota
+- Brak automatycznego odblokowania Bookings/fauli, bez zmian modeli, dwóch głównych PDF, limitu 1,20 i braku obowiązkowej oceny punktowej 67/100. Wyniki pilotażu zostaną dopisane po otrzymaniu odpowiedzi API; na ten moment nie uznajemy go za wykonany.
