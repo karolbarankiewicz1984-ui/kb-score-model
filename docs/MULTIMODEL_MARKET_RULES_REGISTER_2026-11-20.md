@@ -281,3 +281,35 @@ Wartości w tabeli podano gospodarz/gość. Źródło w kolumnie ID to publiczna
 - Dodano `github_models/bookings_settlement_pilot_20261121.py` i jednorazowy workflow `multimodel-bookings-pilot-20261121.yml`. Sprawdza aktualny bezpłatny account i dopuszcza maksymalnie 4 płatne próby, przy limicie min(200, request_limit-50); współdzieli blokadę concurrency z kolektorem, nie ma harmonogramu ani automatycznego ponawiania. Nie ujawnia klucza ani odpowiedzi account. Odczytuje tylko 7 znanych linii Bookings z powiązanej migawki Superbet; zapisuje wynik WIN/LOSE itd. oraz przedział/ewentualnie jednoznacznie wyliczoną liczbę jednostek dostawcy.
 - Settlements nie przyjmuje parametru bookmaker; dane rozliczeń dostawcy zachowujemy oddzielnie od oficjalnej wypłaty Superbet. https://oddspapi.io/en/docs/get-settlements ; https://oddspapi.io/us/docs/requests-and-quota
 - Brak automatycznego odblokowania Bookings/fauli, bez zmian modeli, dwóch głównych PDF, limitu 1,20 i braku obowiązkowej oceny punktowej 67/100. Wyniki pilotażu zostaną dopisane po otrzymaniu odpowiedzi API; na ten moment nie uznajemy go za wykonany.
+
+### Rozszerzenie próby do 32 meczów — dalszych 19 porównań, 21.11.2026
+
+Dane archiwalne `verified_events.json` (run 44703910677) vs oficjalna Premier League. Pary gospodarz/gość, poniżej wartości identyczne w obu źródłach; czerwone to licznik OPTA (nie wypłata bukmachera). Każda strona statystyk jest identyfikowalna po numerze meczu w oficjalnej domenie `premierleague.com/en/match/<ID>/<slug>/stats`.
+
+| Data | Mecz | Rekord FD | Faule | Żółte | Czerwone OPTA | ID PL |
+|---|---|---|---|---|---|---|
+| 2025-02-12 | Everton – Liverpool | 2425:E0:241 | 9:20 | 2:2 | 1:1 | 2444613 |
+| 2025-05-25 | Man United – Aston Villa | 2425:E0:376 | 10:10 | 2:2 | 0:1 | 2444844 |
+| 2024-12-26 | Liverpool – Leicester | 2425:E0:178 | 17:5 | 3:2 | 0:0 | 2444644 |
+| 2025-01-18 | Newcastle – Bournemouth | 2425:E0:211 | 7:18 | 1:6 | 0:0 | 2444687 |
+| 2025-01-15 | Arsenal – Tottenham | 2425:E0:208 | 16:9 | 3:1 | 0:0 | 2444670 |
+| 2025-02-15 | Leicester – Arsenal | 2425:E0:243 | 9:10 | 2:1 | 0:0 | 2444714 |
+| 2024-12-01 | Chelsea – Aston Villa | 2425:E0:128 | 21:6 | 2:2 | 0:0 | 2444592 |
+| 2025-04-16 | Newcastle – Crystal Palace | 2425:E0:321 | 9:15 | 2:3 | 0:0 | 2444758 |
+| 2024-12-26 | Man City – Everton | 2425:E0:171 | 5:10 | 1:4 | 0:0 | 2444645 |
+| 2025-04-20 | Leicester – Liverpool | 2425:E0:330 | 11:7 | 1:2 | 0:0 | 2444796 |
+| 2025-01-18 | Leicester – Fulham | 2425:E0:213 | 8:8 | 3:1 | 0:0 | 2444685 |
+| 2024-05-02 | Chelsea – Tottenham | 2324:E0:348 | 12:16 | 0:1 | 0:0 | 2367792 |
+| 2024-03-09 | Bournemouth – Sheffield United | 2324:E0:271 | 12:11 | 3:5 | 0:0 | 2367808 |
+| 2024-03-02 | Everton – West Ham | 2324:E0:261 | 9:6 | 1:2 | 0:0 | 2367800 |
+| 2023-09-30 | Bournemouth – Arsenal | 2324:E0:62 | 11:10 | 0:1 | 0:0 | 2367598 |
+| 2024-02-24 | Aston Villa – Nottingham Forest | 2324:E0:252 | 7:16 | 1:2 | 0:0 | 2367790 |
+| 2023-09-16 | Wolves – Liverpool | 2324:E0:41 | 10:4 | 1:3 | 0:0 | 2367587 |
+| 2023-09-24 | Brighton – Bournemouth | 2324:E0:57 | 12:17 | 3:3 | 0:0 | 2367590 |
+| 2023-08-12 | Arsenal – Nottingham Forest | 2324:E0:3 | 12:12 | 2:2 | 0:0 | 2367540 |
+
+**Wynik łączny:** 32/32 zgodnych sum fauli; 31/31 meczów z danymi obu drużyn (62/62 wartości); 31/31 zgodnych sum żółtych i 62/62 wartości per drużyna. Trzy sezony: 2023/24, 2024/25, 2025/26; 5 meczów z czerwonymi w statystyce OPTA i 7 zarejestrowanych czerwonych. Pierwsza bramka 30 meczów przekroczona. Próba wygodnościowa, tylko Premier League; nie dowodzi zgodności innych lig ani oficjalnego rozliczenia Superbet. Kolejna bramka: reprezentatywna próba między ligami, 100 meczów, ocena rozbieżności per próg. Nie odblokowywać ryczałtowo rynku fauli (brak odpowiadających ofert całego meczu) lub kartek na podstawie tej próby.
+
+**Przypadek krytyczny:** 12.02.2025 Everton–Liverpool: statystyka OPTA pokazuje czerwone 1:1, ale oficjalny raport Premier League potwierdza, że obie kartki zawodnicy otrzymali po końcowym gwizdku, a kartki po zakończeniu i sztabu są wyłączone z rozliczania Superbet. https://www.premierleague.com/en/news/4237353 ; https://www.premierleague.com/en/match/2444613/everton-vs-liverpool/stats ; https://superbet.pl/wiki/oficjalny-komunikat-nr-06-2022-z-dnia-18-11-2024-r . To rzeczywisty kontrprzykład dla automatycznego przeliczania sumy YC/RC bez osi czasu. Wciąż potrzebna rekonstrukcja zdarzeń, nie tylko sumy żółtych i czerwonych.
+
+**Pilotaż:** PR #75 scalony; run 44880735020 ukończył raport, ale druga natychmiastowa kontrola bezpłatnego `account` zwróciła HTTP 429; 62/250 w pierwszym odczycie, 0 prób płatnych, nie uzyskano danych settlements. Naprawa PR #76: jedna kontrola rezerwuje maksymalnie 4 próby pod wspólną blokadą kolektora, odstępy 3 s, kontrola końcowa, stop przy 401/403/429. Dokumentacja cooldown: account 1000 ms, settlements 2000 ms. Drugi jednorazowy run 44880815830, wynik do odczytania. Brak zmian w modelach i harmonogramie.
