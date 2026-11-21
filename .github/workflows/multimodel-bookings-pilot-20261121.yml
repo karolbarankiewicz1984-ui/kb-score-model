@@ -1,0 +1,45 @@
+name: MultiModel — one-off archived Bookings settlements pilot 2026-11-21
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/multimodel-bookings-pilot-20261121.yml'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: oddspapi-poland-account-collector
+  cancel-in-progress: false
+jobs:
+  evidence:
+    if: github.run_attempt == 1 && github.repository == 'karolbarankiewicz1984-ui/kb-score-model'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download exact archived quote collection
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download 44776156677 --repo "$GITHUB_REPOSITORY" --name oddspapi-daily --dir input
+          test -s input/collection.json
+      - name: Verify interpreter and test provider settlement on at most four fixtures
+        env:
+          ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
+        run: |
+          set -euo pipefail
+          python -m py_compile github_models/bookings_settlement_pilot_20261121.py
+          python -B -m github_models.bookings_settlement_pilot_20261121
+      - name: Preserve only filtered research evidence, no credentials
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-bookings-settlement-pilot
+          path: out/BOOKINGS_SETTLEMENT_PILOT.json
+          if-no-files-found: error
+          retention-days: 90
