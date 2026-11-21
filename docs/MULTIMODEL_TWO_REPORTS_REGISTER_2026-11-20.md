@@ -80,3 +80,10 @@ Reguły fauli, kartek i handicapów podlegają osobnemu testowi semantycznemu: h
 - Audyt 200 zarejestrowanych ofert badawczych BTTS/handicap ma **0 niezależnych wyników `settled`**; raport poprawnie nie podaje ROI ani nie uważa tych zakładów za rozliczone przez Superbet. Wynik: https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44732878148.
 - Oddzielne źródła OPTA i jednostki kartek pozostają nieweryfikowane; nie przywracać fikcyjnych ofert fauli/kartkowych w głównym PDF.
 - Rozwinięty rejestr wszystkich kroków i spraw otwartych: [MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md).
+
+## Aktualizacja 21.11.2026 — raportowanie opóźnionych wyników
+
+- Potwierdzono, że historyczny `priced_shadow_settlement` z 21.11 01:32 UTC miał **200** wycenionych prognoz, w tym **180** przed rozpoczęciem i **20** z czterech meczów 20.11 jeszcze bez niezależnie dopuszczonego wyniku; to NIE jest automatycznie błąd mapowania.
+- Importer `football-data.co.uk` stosuje datę meczu +2 dni jako zachowawczą granicę końca spotkania. Poprawka w [PR #79](https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/79) pokazuje w drugim PDF liczbę prognoz oczekujących na publikację wyniku (48 h od kickoff), ale nie zmienia wydrukowanych prognoz ani nie dodaje fikcyjnych rozliczeń.
+- Nadal obowiązuje **dokładnie 2 PDF**, kursy rzeczywiste >=1,20, niezależne SHADOW i brak automatycznej kalibracji. Przyszły audyt musi potwierdzić, czy po dostępności prawdziwych wyników meczów przejście z `pending` na `settled` działa; do tej chwili skuteczność pozostaje niewyliczona.
+- Testy zmiany: [21/21 PASS](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934084567). Więcej dowodów: [główny rejestr rozliczeń](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md).
