@@ -29,7 +29,7 @@ jobs:
           set -euo pipefail
           gh run download 44776156677 --repo "$GITHUB_REPOSITORY" --name oddspapi-daily --dir input
           test -s input/collection.json
-      - name: Verify interpreter and test provider settlement on at most four fixtures
+      - name: Verify interpreter and test provider settlement with explicit cooldown
         env:
           ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
         run: |
