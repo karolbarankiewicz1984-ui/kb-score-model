@@ -1,0 +1,73 @@
+name: MultiModel — Opta archive 31-match reproducibility and safe bookings retry guard
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'research/multimodel/opta_fd_benchmark_20261121.json'
+      - 'github_models/opta_fd_reconciliation.py'
+      - 'github_models/bookings_settlement_pilot_20261121.py'
+      - 'tests/test_opta_fd_reconciliation.py'
+      - 'tests/test_bookings_pilot_fail_closed.py'
+      - '.github/workflows/multimodel-opta-crosscheck.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'research/multimodel/opta_fd_benchmark_20261121.json'
+      - 'github_models/opta_fd_reconciliation.py'
+      - 'github_models/bookings_settlement_pilot_20261121.py'
+      - 'tests/test_opta_fd_reconciliation.py'
+      - 'tests/test_bookings_pilot_fail_closed.py'
+      - '.github/workflows/multimodel-opta-crosscheck.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  crosscheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests; no network, no bookmaker requests
+        run: python -m unittest -v tests.test_opta_fd_reconciliation tests.test_bookings_pilot_fail_closed
+      - name: Download exactly recorded 20.11 archive of original FD events
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p input
+          gh run download 44703910677 --repo "$GITHUB_REPOSITORY" --name github-models-v2-abc-complete-44703910677-1 --dir input
+          test -s input/data/github_models/verified_events.json
+      - name: Compare 31 separately documented Opta pairs with immutable FD archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m github_models.opta_fd_reconciliation \
+            --benchmark research/multimodel/opta_fd_benchmark_20261121.json \
+            --events input/data/github_models/verified_events.json \
+            --out out/OPTA_FD_RECONCILIATION.json
+          test -s out/OPTA_FD_RECONCILIATION.json
+          python - <<'PY'
+          import json
+          v=json.load(open('out/OPTA_FD_RECONCILIATION.json',encoding='utf-8'))
+          assert v['pair_compared']==31
+          assert v['fouls_disagreement_matches']==0
+          assert v['yellow_disagreement_matches']==0
+          assert v['superbet_settlement_equivalence_proven'] is False
+          assert v['provider_Bookings_unit_proven'] is False
+          print('OPTA_FD_ARCHIVE_RECONCILIATION=PASS')
+          PY
+      - name: Store technical evidence; do not alter two user-facing PDFs
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-opta-fd-archive-crosscheck
+          path: out/OPTA_FD_RECONCILIATION.json
+          if-no-files-found: error
+          retention-days: 90
