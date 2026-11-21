@@ -344,3 +344,11 @@ Na koniec dnia wynik GitHub Actions powinien zostać odnotowany poniżej, z nume
 2. Utrzymać rozdzielenie `bookings` od żółtych, czerwonych i punktów kartkowych — brak rozliczonego kuponu, brak jednostki.
 3. Rozszerzać próbę OPTA **poza Premier League**, zachować per-team wartości, okres i zdarzenia po końcowym gwizdku. Próba 32 jest wygodnościowa; nie usprawiedliwia wdrożenia w innych ligach.
 4. Obserwować nowe rzeczywiście zakończone mecze w SHADOW; na końcu oddzielać kursy historyczne od rzeczywistych wygranych i nie włączać kalibracji automatycznie.
+
+### Wynik automatycznego odtworzenia archiwum — 21.11.2026, 15:09 UTC
+
+- [GitHub Actions run 44917662068](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44917662068) **SUCCESS**; 6/6 testów poprawności, brak płatnych wywołań OddsPapi.
+- Bezpośrednio porównano **31** zapisanych w benchmarku ręcznie zweryfikowanych par gospodarzy/gości z rzeczywistym niezmienionym plikiem `verified_events.json` z archiwum run 44703910677: **0 różnic fauli** i **0 różnic żółtych kartek**.
+- Liczba 32 w wcześniejszym rejestrze obejmuje również **jedno dodatkowe porównanie tylko sumy fauli** Newcastle–Liverpool. Nie dodawać go do licznika par, bo nie mamy w tej samej tabeli obu oddzielnych wartości.
+- Rezultat niezależnego sprawdzenia **spójności danych z archiwum**, nie pozyskanie 31 nowych wartości OPTA, i w żadnym przypadku nie potwierdzenie jednostki `Bookings` u Superbet.
+- Techniczny artefakt `multimodel-opta-fd-archive-crosscheck` zawiera `OPTA_FD_RECONCILIATION.json` z parami źródłowymi i różnicami; 2 główne PDF nie uległy zmianie.
