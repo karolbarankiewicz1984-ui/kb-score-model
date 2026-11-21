@@ -362,3 +362,12 @@ Na koniec dnia wynik GitHub Actions powinien zostać odnotowany poniżej, z nume
 - **Otwarta lista po ponownym przeglądzie:** (1) dostawca musi wyjaśnić 500/Book­ings i dane wypłat; (2) analiza fauli poza Premier League, z niezależnym licencjonowanym źródłem OPTA; (3) uzupełnienie danych zdarzeń czerwonych/po gwizdku przed przelicznikiem kartek; (4) kolejne niezależnie rozliczone prognozy SHADOW; (5) dopiero kalibracja na odpowiednio dużej próbie.
 - **Utrzymane blokady:** nie utożsamiać `Bookings` z HY/AY, nie utożsamiać HF/AF ze wszystkimi źródłami OPTA, nie nazywać statusu OddsPapi oficjalną wypłatą Superbet. Model A/B/C i SHADOW, dwa PDF, minimalny rzeczywisty kurs 1,20, próg punktowy 67/100 nieobowiązkowy — bez zmian.
 
+
+## Potwierdzenie i eskalacja Bookings do OddsPapi — 21.11.2026
+
+- Wysłano z połączonego konta Gmail wiadomość do zweryfikowanego oficjalnego adresu pomocy `support@oddspapi.io`; temat: **OddsPapi v4 /settlements — four HTTP 500 errors and Superbet Bookings settlement-unit clarification**.
+- Poproszono o potwierdzenie: sposobu obliczania `Bookings - Over Under Full Time` dla Superbet (żółte, czerwona bezpośrednia, wykluczenie po drugiej żółtej), wyłączeń kartek sztabu/rezerwowych/po gwizdku, prawidłowości `playerId=0` w `/v4/settlements`, przyczyny czterech odpowiedzi HTTP 500 oraz wpływu tych błędów na wykorzystany limit.
+- Zgłoszenie powiązano z [issue #78](https://github.com/karolbarankiewicz1984-ui/kb-score-model/issues/78), komentarz ID `7064746778`; **czekamy na stanowisko źródłowe**. Nie ujawniono API key.
+- Oficjalna dokumentacja endpointu określa `playerId` jako **opcjonalny**, a `500 INTERNAL_ERROR` jako błąd po stronie dostawcy mogący wystąpić nawet dla prawidłowego żądania: https://oddspapi.io/us/docs/get-settlements i https://oddspapi.io/fr/docs/errors .
+- Dostawca potwierdza rodzinę rynków `Bookings – Over Under Full Time`, ale publiczna dokumentacja nie podaje dokładnego sposobu liczenia zdarzeń dla konkretnego Superbet; nie wywodzić rozliczenia tylko z nazwy rynku: https://oddspapi.io/blog/corners-cards-odds-api/ .
+- **Status techniczny:** `Bookings` niezatwierdzone do oficjalnego rozliczania; brak nowych płatnych testów, modeli A/B/C, SHADOW, limitu ceny 1,20 i dwóch PDF nie zmieniano. Po odpowiedzi sprawdzić jej treść, uzupełnić mapowanie jednostek i testy rozliczania tylko dla potwierdzonych zdarzeń.
