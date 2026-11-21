@@ -147,6 +147,34 @@ class Pricings(unittest.TestCase):
         with self.assertRaises(ValueError):
             quote_pairs(c,q,f)
 
+    def test_no_exact_final_within_48h_is_pending_not_failed(self):
+        c,q,f=sample()
+        priced,_=quote_pairs(c,q,f)
+        def settle_one(_,queue,pool,at):
+            return [{"fixture_id":r["fixture_id"],
+                     "market":r["market"], "selection":r["selection"],
+                     "line":r["line"], "status":"unresolved",
+                     "reason":"no_exact_final"} for r in priced]
+        shadow_module = types.ModuleType("github_models.shadow_audit")
+        shadow_module.settle_one = settle_one
+        settlement_module = types.ModuleType("github_models.settlement")
+        settlement_module.CachedHistoricalPool = lambda value: value
+        with patch.dict(sys.modules, {"github_models.shadow_audit":shadow_module,
+                                     "github_models.settlement":settlement_module}):
+            young=settle_quotes(priced,q,f,[],as_of_utc="2026-11-21T01:32:26Z")
+            old=settle_quotes(priced,q,f,[],as_of_utc="2026-11-23T01:32:26Z")
+        self.assertEqual(len(young),5)
+        self.assertTrue(all(z["status"]=="pending" and
+            z["reason"]=="independent_result_publication_grace_48h" for z in young))
+        self.assertTrue(all(z["status"]=="unresolved" and
+            z["reason"]=="no_exact_final" for z in old))
+        total=summarize(young)
+        self.assertEqual(total["status_reason_counts"][
+            "pending:independent_result_publication_grace_48h"], 5)
+        self.assertEqual(total["distinct_fixtures_by_status"]["pending"],1)
+        self.assertEqual(total["market_summary"]["handicap"]["brier"],None)
+        self.assertFalse(total["production_promotion"])
+
     def test_settlement_uses_resolved_final_and_retains_pending(self):
         c,q,f=sample()
         priced,_=quote_pairs(c,q,f)
