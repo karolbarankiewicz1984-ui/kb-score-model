@@ -107,6 +107,11 @@ def extract(payload, fid, quotes):
             "provider_integer_total_upper":upper if complete and not conflict else None,
             "uniquely_implied_total":lower if complete and not conflict and upper==lower else None}
 
+def stop_after_api_error(error):
+    """Fail closed on server errors and rate limits to avoid paying for retries."""
+    return bool(error) and (error in ("http_401", "http_403", "http_429")
+                            or error.startswith("http_5"))
+
 def main():
     co=json.loads(Path("input/collection.json").read_text())
     assert co["bookmakers"]==["superbet.pl"]
@@ -148,7 +153,7 @@ def main():
             record={"fixture_id":fid,"home":s["home"],"away":s["away"],"kickoff_utc":s["kickoff_utc"]}
             record.update({"status":"request_failed","reason":err} if err else extract(payload,fid,quotes))
             result["fixtures"].append(record)
-            if err in ("http_401","http_403","http_429"):
+            if stop_after_api_error(err):
                 result["stop_reason"]=err
                 break
             time.sleep(3.0)
