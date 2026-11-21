@@ -352,3 +352,13 @@ Na koniec dnia wynik GitHub Actions powinien zostać odnotowany poniżej, z nume
 - Liczba 32 w wcześniejszym rejestrze obejmuje również **jedno dodatkowe porównanie tylko sumy fauli** Newcastle–Liverpool. Nie dodawać go do licznika par, bo nie mamy w tej samej tabeli obu oddzielnych wartości.
 - Rezultat niezależnego sprawdzenia **spójności danych z archiwum**, nie pozyskanie 31 nowych wartości OPTA, i w żadnym przypadku nie potwierdzenie jednostki `Bookings` u Superbet.
 - Techniczny artefakt `multimodel-opta-fd-archive-crosscheck` zawiera `OPTA_FD_RECONCILIATION.json` z parami źródłowymi i różnicami; 2 główne PDF nie uległy zmianie.
+
+### Zakończenie bieżącej realizacji i odczyt końcowy — 21.11.2026
+
+- **PR #77 scalony do `main`**: https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/77
+- **Ostateczny workflow na głównej gałęzi: PASS** https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44917754853 — 31 par z zamrożonego archiwum, 0 rozbieżności fauli i żółtych, bez wywołań OddsPapi. Odrębna 32. obserwacja nadal dotyczy tylko sumy fauli.
+- **Zewnętrzna przeszkoda**: cztery HTTP 500 z API OddsPapi; brak skutecznych `Settlements`. Utworzono [issue #78](https://github.com/karolbarankiewicz1984-ui/kb-score-model/issues/78) z czterema identyfikatorami, godzinami UTC, pytaniem o `playerId=0`, katalog i jednostki Bookings. Nie wysłano wiadomości do dostawcy; zgłoszenie do wsparcia jest oddzielnym krokiem otwartym.
+- **Nie przeprowadzono** kolejnych płatnych wywołań po pilotażu; ostatni widoczny stan 66/250 pochodzi z godz. 07:34 UTC, nie jest bieżącym odczytem.
+- **Otwarta lista po ponownym przeglądzie:** (1) dostawca musi wyjaśnić 500/Book­ings i dane wypłat; (2) analiza fauli poza Premier League, z niezależnym licencjonowanym źródłem OPTA; (3) uzupełnienie danych zdarzeń czerwonych/po gwizdku przed przelicznikiem kartek; (4) kolejne niezależnie rozliczone prognozy SHADOW; (5) dopiero kalibracja na odpowiednio dużej próbie.
+- **Utrzymane blokady:** nie utożsamiać `Bookings` z HY/AY, nie utożsamiać HF/AF ze wszystkimi źródłami OPTA, nie nazywać statusu OddsPapi oficjalną wypłatą Superbet. Model A/B/C i SHADOW, dwa PDF, minimalny rzeczywisty kurs 1,20, próg punktowy 67/100 nieobowiązkowy — bez zmian.
+
