@@ -313,3 +313,34 @@ Dane archiwalne `verified_events.json` (run 44703910677) vs oficjalna Premier Le
 **Przypadek krytyczny:** 12.02.2025 Everton–Liverpool: statystyka OPTA pokazuje czerwone 1:1, ale oficjalny raport Premier League potwierdza, że obie kartki zawodnicy otrzymali po końcowym gwizdku, a kartki po zakończeniu i sztabu są wyłączone z rozliczania Superbet. https://www.premierleague.com/en/news/4237353 ; https://www.premierleague.com/en/match/2444613/everton-vs-liverpool/stats ; https://superbet.pl/wiki/oficjalny-komunikat-nr-06-2022-z-dnia-18-11-2024-r . To rzeczywisty kontrprzykład dla automatycznego przeliczania sumy YC/RC bez osi czasu. Wciąż potrzebna rekonstrukcja zdarzeń, nie tylko sumy żółtych i czerwonych.
 
 **Pilotaż:** PR #75 scalony; run 44880735020 ukończył raport, ale druga natychmiastowa kontrola bezpłatnego `account` zwróciła HTTP 429; 62/250 w pierwszym odczycie, 0 prób płatnych, nie uzyskano danych settlements. Naprawa PR #76: jedna kontrola rezerwuje maksymalnie 4 próby pod wspólną blokadą kolektora, odstępy 3 s, kontrola końcowa, stop przy 401/403/429. Dokumentacja cooldown: account 1000 ms, settlements 2000 ms. Drugi jednorazowy run 44880815830, wynik do odczytania. Brak zmian w modelach i harmonogramie.
+
+## Kontrola po pilotażu Settlements i odtwarzalność próby OPTA — 21.11.2026, godz. ok. 16:00 Europe/Warsaw
+
+### Wynik faktycznie wykonanych wywołań OddsPapi (nie mylić PASS workflow z sukcesem danych)
+
+- **Pierwszy jednorazowy run** [44880735020](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44880735020): zakończył workflow sukcesem, ale sam test zatrzymał się przy `http_429` na odczycie `account`. `attempted_billable_calls=0`; brak nowych danych Bookings.
+- **Drugi jednorazowy run** [44880815830](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44880815830): odczyt konta **62/250** (limit operacyjny 200), wykonano **4 płatne wywołania** `GET /v4/settlements?fixtureId=...&playerId=0` na zakończonych spotkaniach z zapisanym rynkiem `Bookings - Over Under Full Time`. Wszystkie cztery zwróciły **HTTP 500**:
+  - Barnsley – Sheffield Wednesday: `id1000002472341382`;
+  - Guingamp – Rodez: `id1000018272037454`;
+  - Red Star – Pau: `id1000018272037464`;
+  - Hellas Verona – Cesena: `id1000005373093090`.
+- Końcowy odczyt konta: **66/250**; stan dotyczy zakończenia testu, nie jest gwarancją bieżącego salda.
+- Wniosek: **0 odpowiedzi rozliczeniowych**, **0 potwierdzonych jednostek Bookings**, brak danych potwierdzających faktyczne wypłaty Superbet. `workflow success` oznacza jedynie bezpieczne zachowanie artefaktu diagnostycznego.
+- Dokumentacja dostawcy: `/v4/settlements` ma chłodzenie **2000 ms**, a HTTP 500 oznacza błąd wewnętrzny. Pomoc techniczna jest właściwym kolejnym krokiem po powtarzalnych 500. https://oddspapi.io/us/docs/get-settlements ; https://oddspapi.io/es/docs/errors . Może istnieć problem dostępności danych tuż po zakończeniu meczu, ale na tej podstawie nie wolno rozstrzygać przyczyny.
+- Nowa ochrona w `github_models/bookings_settlement_pilot_20261121.py`: **natychmiastowy STOP przy pierwszym 5xx**, 401/403/429, bez ponawiania i wydawania czterech kolejnych jednostek. Dotychczasowy jednorazowy workflow nie otrzymuje nowego harmonogramu ani kolejnego wywołania; testy są bezpłatne.
+- Dokumentacja `GET /v4/settlements` nie wymaga `playerId=0`, jest parametrem opcjonalnym. **Do wyjaśnienia u dostawcy**: czy `playerId=0` dla rynku zespołowego jest obsługiwane oraz czy settlements działa dla wymienionych meczów w chwili zapytania. Nie testować alternatywy kosztem kolejnych zapytań bez nowej przesłanki.
+
+### Ustrukturyzowane źródła i automatyczny test OPTA
+
+Zarejestrowano `research/multimodel/opta_fd_benchmark_20261121.json` — **31** par gospodarz/gość (dokumentowane obserwacje z publicznych stron Premier League / Opta) odpowiadających źródłowym `source_record_id` z `data/github_models/verified_events.json`. Czwarty, odrębny typ dowodu to mecz Newcastle–Liverpool, gdzie wcześniejszy rejestr potwierdzał wyłącznie sumę fauli — nie wprowadzamy fałszywych danych per drużyna.
+
+Dodano `github_models/opta_fd_reconciliation.py`, `tests/test_opta_fd_reconciliation.py` i `.github/workflows/multimodel-opta-crosscheck.yml`: test przetwarza autentyczny plik `verified_events.json` z **run 44703910677**, odporny na powtórzone ID i brakujące rekordy. Raport techniczny pokazuje osobno różnice fauli i żółtych kartek; nie jest to nowa niezależna kontrola wszystkich ręcznie podanych wartości OPTA, nie jest dowodem na oficjalne rozliczenie Superbet.
+
+Na koniec dnia wynik GitHub Actions powinien zostać odnotowany poniżej, z numerem run i liczbą rozbieżności, zamiast z góry deklarować PASS.
+
+### Priorytety po obecnej weryfikacji
+
+1. Nie uruchamiać ponownie płatnego endpointu `settlements` w tym samym stanie bez wyjaśnienia serwerowych HTTP 500. Przygotować dla dostawcy cztery `fixtureId`, czasy, parametry bez klucza i identyfikatory linii `Bookings`; uzyskać informację, czy `playerId=0` jest obsługiwane.
+2. Utrzymać rozdzielenie `bookings` od żółtych, czerwonych i punktów kartkowych — brak rozliczonego kuponu, brak jednostki.
+3. Rozszerzać próbę OPTA **poza Premier League**, zachować per-team wartości, okres i zdarzenia po końcowym gwizdku. Próba 32 jest wygodnościowa; nie usprawiedliwia wdrożenia w innych ligach.
+4. Obserwować nowe rzeczywiście zakończone mecze w SHADOW; na końcu oddzielać kursy historyczne od rzeczywistych wygranych i nie włączać kalibracji automatycznie.
