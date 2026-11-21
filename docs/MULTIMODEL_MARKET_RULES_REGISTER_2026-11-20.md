@@ -402,3 +402,11 @@ Na koniec dnia wynik GitHub Actions powinien zostać odnotowany poniżej, z nume
 - [ ] Kalibracja nadal wymaga niezależnie rozliczonych meczów; statusy `pending` i `unresolved` nie są ani trafieniami, ani przegranymi.
 
 **Stabilne zasady:** dwie końcowe PDF, minimalny faktyczny kurs 1,20, brak obowiązkowego filtra punktowego 67/100, żadnych fikcyjnych kursów lub ROI, brak zmian wag i prognoz produkcyjnych. Wprowadzona poprawka nie kosztuje żadnych dodatkowych jednostek OddsPapi.
+
+### Wdrożenie klasyfikacji opóźnionych wyników — 21.11.2026, 18:11 UTC
+
+- **PR #79 scalony do `main`**: https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/79
+- Testy regresyjne na gałęzi [44934084567](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934084567): **21/21 PASS**. W pierwszym podejściu [44934035001](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934035001) test ujawnił nadpisywanie powodu `independent_result_publication_grace_48h` przez `no_exact_final`; poprawiono `setdefault('reason',...)` i udokumentowano pomyślny ponowny przebieg.
+- Po scaleniu GitHub uruchomił na `main` trzy zadania: test zgodności rynków [44934125602](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934125602), dwa raporty PDF [44934125551](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934125551), niezależny nocny audyt z archiwów [44934125549](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934125549). Ich końcowy status wymaga osobnej weryfikacji; nie traktować samego startu jako PASS.
+- W `priced_shadow_settlement` zaktualizowano wyłącznie diagnostyczne statusy 20 nierozliczonych prognoz z czterech meczów 20 listopada, pod warunkiem że wynik nie jest jeszcze dostępny. Żaden wynik nie został dopisany, nie zmieniła się trafność, nie wyliczano nowego ROI.
+- Pozostałe trudniejsze zadania (53 nierozstrzygnięte wpisy A/B/C z wcześniejszego `REPLAY_AUDIT`, wyniki po zakończeniu 48-godzinnej ochrony, przeliczniki `Bookings`, pozostałe ligi) nadal są otwarte i wymagają odrębnych dowodów.
