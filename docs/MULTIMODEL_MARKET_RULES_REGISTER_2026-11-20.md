@@ -187,3 +187,57 @@ Ten wpis jest rejestrem implementacji i stanu wiedzy. Nie oznacza automatycznej 
 9. **[PRODUKT]** STS nadal niedostępny w subskrypcji, a dodatkowego harmonogramu e-mail z PDF nie ustanowiono; aktualny system utrzymuje wyłącznie 2 artefakty PDF dziennie.
 
 Wyniki historyczne A/B/C w audycie, szczególnie dla `fouls` i `cards`, są statystykami badań `football-data.co.uk`; **nie stanowią potwierdzonego rozliczenia bukmacherskiego OPTA/Superbet**.
+
+## Weryfikacja źródłowa OPTA i Bookings — 21.11.2026
+
+Status: **częściowe potwierdzenie empiryczne, bez promocji rynków do rozliczenia produkcyjnego**.
+
+### OPTA: oficjalne źródło i pierwsza próba porównawcza
+
+- Superbet, komunikat obowiązujący od 29.04.2026: OPTA jest podstawowym źródłem statystyk bukmacherskich, z określonymi wyjątkami i źródłami zastępczymi. https://superbet.pl/wiki/oficjalny-komunikat-nr-02-2022-z-dnia-091122
+- Superbet, komunikat obowiązujący od 16.12.2025: rozliczenie fauli tylko odgwizdanych (bez przywileju korzyści), szczegółowe zasady kartek. https://superbet.pl/wiki/oficjalny-komunikat-nr-06-2022-z-dnia-18-11-2024-r
+- Premier League oficjalnie potwierdza, że dostawcą jej statystyk meczowych jest Opta/Stats Perform: https://www.premierleague.com/en/stats/clarification
+- Football-data podaje zróżnicowane źródła statystyk (BBC, ESPN i inne), nie gwarantuje jednej definicji dla całego zbioru: https://football-data.co.uk/data
+- W dokumentacji kolumn HF/AF, HY/AY, HR/AR i HBP/ABP opisano różnice księgowania żółtych kartek w rozgrywkach angielskich/szkockich i europejskich; HFKC/AFKC obejmują więcej przewinień niż faule. Nie zastępować HF/AF przez HFKC/AFKC. https://www.football-data.co.uk/notes.txt
+
+Porównanie wykonane ręcznie na rzeczywistym zapisanym pliku `data/github_models/verified_events.json` z artefaktu A/B/C run 44703910677, SHA-256: `5f8dc727c4b8941e4927614d61556d6bba11091fd04030de00350d5bd855e63a`. Zbiór zawiera 25 571 rekordów, w tym 1240 z kodem E0.
+
+| Data | Mecz | ID źródłowe w archiwum | HF/AF | OPTA faule | HY/AY | OPTA żółte |
+|---|---|---|---|---|---|---|
+| 2026-01-24 | Bournemouth–Liverpool | 2526:E0:226 | 7/7 | 7/7 | 1/1 | 1/1 |
+| 2026-01-24 | Fulham–Brighton | 2526:E0:224 | 10/6 | 10/6 | 1/1 | 1/1 |
+| 2026-01-24 | Manchester City–Wolves | 2526:E0:225 | 16/14 | 16/14 | 1/3 | 1/3 |
+
+Oficjalne strony odpowiednio:
+- https://www.premierleague.com/en/match/2562115/bournemouth-vs-liverpool/stats
+- https://www.premierleague.com/en/match/2562121/fulham-vs-brighton-hove-albion/stats
+- https://www.premierleague.com/en/match/2562122/manchester-city-vs-wolverhampton-wanderers/stats
+
+Dodatkowa kontrola samej sumy fauli: Newcastle–Liverpool, 25.08.2025, archiwum 2526:E0:21: 17+15=32; oficjalny artykuł Premier League podaje 32 faule: https://www.premierleague.com/es/news/4391961/newcastle-united-2-liverpool-3-august-2025-is-another-classic-premier-league-match
+
+Wynik: 3/3 zgodności fauli i żółtych kartek po obu stronach; dodatkowo zgodna suma fauli w czwartym meczu (4/4 sumy fauli). Próba mała, nielosowa, wyłącznie Premier League, trzy mecze bez czerwonych kartek. Nie potwierdza pełnej zgodności wszystkich lig, sezonów ani oficjalnej wypłaty Superbet. Poprzedni zapis o całkowitym braku porównania OPTA jest od tej chwili nieaktualny: istnieje pierwsza ręczna próba źródłowa. Nadal brak zweryfikowanych ofert fauli całego meczu z poprzedniej migawki OddsPapi.
+
+### Bookings: identyfikatory potwierdzone, przelicznik Superbet niepotwierdzony
+
+Przeanalizowano rzeczywisty `collection.json` z 20.11.2026 09:14 UTC, SHA-256 `7229787d090e83365949bc1a0b38885c95f1666202354f7934b284e84f00bacb`. Dla superbet.pl znaleziono 353 zapisane ceny w 53 meczach, w rodzinie `Bookings - Over Under Full Time` / `totals-bookings`:
+
+| Linia | market_id | Liczba zapisanych cen |
+|---|---|---:|
+| 0.5 | 10914 | 1 |
+| 1.5 | 10918 | 4 |
+| 2.5 | 10922 | 60 |
+| 3.5 | 10926 | 104 |
+| 4.5 | 10930 | 104 |
+| 5.5 | 10934 | 62 |
+| 6.5 | 10938 | 18 |
+
+Skala jest charakterystyczna dla liczby kartek, nie standardowych punktów 10/25, ale sama nie dowodzi sposobu liczenia wykluczeń. Superbet rozróżnia żółte kartki, łączną ważoną liczbę kartek (1/2/3) oraz punkty (10/25, limit 35). Dokumentacja katalogu OddsPapi opisuje pola, nie zawiera specyficznego dla Superbet przelicznika bookings. https://oddspapi.io/en/docs/get-markets
+
+Odkryto endpoint `GET /v4/settlements`, który zwraca WIN/LOSE/PUSH/HALFWIN/HALFLOSS/CANCELLED/UNDECIDED dla fixtureId, marketId, outcomeId i playerId. https://oddspapi.io/us/docs/get-settlements . Nie przyjmuje parametru bookmaker, więc sam nie dowodzi wypłaty Superbet. Jest płatny (1 wywołanie z limitu), https://oddspapi.io/us/docs/requests-and-quota . Nie wywoływano go w tej weryfikacji.
+
+### Następne kryteria i decyzja
+
+1. Poszerzyć próbę OPTA/football-data do co najmniej 30 różnych meczów wstępnie, z czasem do 100, z różnych kolejek/lig i przypadkami czerwonych oraz drugich żółtych kartek; podawać per-team i per-match różnicę oraz zgodność progów.
+2. Uzyskać pisemne potwierdzenie od OddsPapi/Superbet, czy IDs 10926/10930 oznaczają ważoną liczbę kartek 1/2/3 w superbet.pl. Alternatywą jest porównanie rzeczywiście rozliczonych ofert badawczych na meczach z dyskryminującymi czerwonymi kartkami.
+3. Wynik z `/v4/settlements` przechowywać oddzielnie od rzeczywistego statusu wypłaty bukmachera; przed użyciem sprawdzić `/v4/account`, nie przekraczać 200/250.
+4. Do czasu tych dowodów pozostawić blokady fauli/kartek, bez zmiany A/B/C, wag, prawdopodobieństw i dwóch PDF. Brak ceny i brak danych to nie przegrana. Nowe płatne wywołania: 0.
