@@ -220,8 +220,8 @@ def settle_quotes(rows, queue, shadow, history, *, as_of_utc):
                 (row["price"] if row["hit"] else 0.0) - 1.0, 6)
             row["brier"] = round((row["p_model"] - int(row["hit"])) ** 2, 6)
         else:
-            row["reason"] = evaluation.get("reason",
-                "kickoff_not_yet_passed" if status == "pending" else "unverified_final_score")
+            row.setdefault("reason", evaluation.get("reason",
+                "kickoff_not_yet_passed" if status == "pending" else "unverified_final_score"))
             row["simulated_unit_return_before_fees"] = None
             row["brier"] = None
         result.append(row)
