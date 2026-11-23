@@ -375,6 +375,23 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
             f"kartki {cards.get('without_comparable_offer','—')} / "
             f"{cards.get('modeled_candidates','—')}. "
             "Brak ceny nie oznacza przegranej prognozy."))
+    source_gate=semantics.get("disciplinary_source_validation",{})
+    if source_gate:
+        fa=source_gate.get("fouls",{})
+        ca=source_gate.get("cards",{})
+        story.append(P(
+            "Oficjalne zasady Superbet: faul liczy się tylko, jeśli został "
+            "odgwizdany; przywilej korzyści wyklucza faul. "
+            "Kartki: żółta = 1, czerwona bezpośrednia = 2, "
+            "wykluczenie po dwóch żółtych = 3; bez kartek ławki, "
+            "sztabu i po ostatnim gwizdku."))
+        story.append(P(
+            f"Walidacja źródła football-data.co.uk (nie OPTA): "
+            f"faule — {len(fa.get('missing_required_fields',[]))} brakujących "
+            f"pól zdarzeniowych; kartki — "
+            f"{len(ca.get('missing_required_fields',[]))} brakujących pól. "
+            "Brak dowodu jednostki OddsPapi Bookings i oficjalnej wypłaty "
+            "Superbet. Rynki te pozostają wyłącznie badawcze."))
     story.append(P(
         "Przed formalną kalibracją: prospektywna próba niezależnie rozliczonych "
         "meczów, Brier/log loss na holdoucie, osobna walidacja fauli i kartek "
