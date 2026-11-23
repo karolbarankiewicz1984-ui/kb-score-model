@@ -11,9 +11,9 @@ from zoneinfo import ZoneInfo
 from github_models.abc_pdf_style import fonts, p, render, styles, table
 
 ZONE = ZoneInfo("Europe/Warsaw")
-MARKETS = {"1X2": "Wynik 1X2", "goals": "Bramki", "fouls": "Faule",
+MARKETS = {"1X2": "Wynik 1X2", "double_chance": "Podwójna szansa", "goals": "Bramki", "fouls": "Faule",
            "cards": "Żółte kartki", "corners": "Rożne"}
-ORDER = {"1X2": 0, "goals": 1, "fouls": 2, "cards": 3, "corners": 4}
+ORDER = {"1X2": 0, "double_chance": 1, "goals": 2, "fouls": 3, "cards": 4, "corners": 5}
 PRIORITY = {"A": 0, "B": 1, "C": 2}
 LIMIT_TOP = 12
 
@@ -42,6 +42,12 @@ def market_str(row):
     if row["market"] == "1X2":
         sel = {"1": "1 – gospodarze", "X": "X – remis",
                "2": "2 – goście"}.get(row["selection"], str(row["selection"]))
+        return name + ": " + sel
+    if row["market"] == "double_chance":
+        sel = {"1X": "1X – gospodarze lub remis", "X2": "X2 – remis lub goście",
+               "12": "12 – gospodarze lub goście"}.get(row["selection"])
+        if sel is None:
+            raise ValueError("unknown_double_chance_selection")
         return name + ": " + sel
     direction = {"over": "Powyżej", "under": "Poniżej"}.get(
         row["selection"], str(row["selection"]))
