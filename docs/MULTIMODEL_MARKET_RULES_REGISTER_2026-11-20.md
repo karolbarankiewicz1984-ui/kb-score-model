@@ -521,3 +521,5 @@ Polecenie: najpierw **podwójna szansa**, potem **linie bramek i rożnych**, nas
 - `codex/oddspapi-odds-layer` jest adapterem kursów przypinanym przez `main/.github/workflows/oddspapi-daily.yml`; pin musi wskazywać przetestowany SHA z PR #83, bez kosztownego `push` dodatkowego pobrania. Zwykły codzienny cykl ma pozostać.
 - Dotychczasowe dwa wynikowe PDF-y, granica kursu 1,20, bez zmian wag i brak twardej punktowej oceny 67/100 — bez zmian. Wszystkie szacunki `P` są badawcze i niekalibrowane; minimum 4 niezależnie rozliczonych meczów dotychczas nie usprawiedliwia zmian modelu.
 - CI końcowe dla `main`, przyszłe archiwa i zewnętrzna walidacja fauli/kartek mają być raportowane osobno; nie utożsamiać testu syntetycznego z potwierdzonym rozliczeniem Superbet.
+
+**Formalne zadanie na brakujące dowody:** [issue #84](https://github.com/karolbarankiewicz1984-ui/kb-score-model/issues/84), otwarte 23.11.2026. Oddzielnie od istniejącego problemu dostawcy Bookings [#78](https://github.com/karolbarankiewicz1984-ui/kb-score-model/issues/78). Do czasu dowodów na faul odgwizdany, event-level karty i źródło OPTA: `automatic_market_promotion=false`.
