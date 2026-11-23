@@ -47,7 +47,7 @@ class DoubleChanceOdds(unittest.TestCase):
         self.assertEqual({r["selection"] for r in rows},{"1X","X2","12"})
         self.assertTrue(all(r["market"]=="double_chance" and r["line"] is None
                             and r["price"] >= 1.20 and r["settlement_verified"]
-                            and r["forecast_frozen_at_utc"]==FREEZE and
+                            and r["forecast_frozen_at_utc"].replace("+00:00","Z")==FREEZE and
                             r["bookmaker"]=="superbet.pl" for r in rows))
         self.assertAlmostEqual(next(r["p_model"] for r in rows if r["selection"]=="1X"),.75)
 
