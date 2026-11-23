@@ -28,6 +28,10 @@ def frozen_fixture_map(frozen_dir):
         for f in q.get("fixtures",[]):
             fid = str(f.get("fixture_id"))
             if fid in ALLOWED:
+                # Isolated smoke queues intentionally strip provider-native team
+                # IDs. They are not valid identity evidence for source bridging.
+                if not f.get("home_team_id") or not f.get("away_team_id"):
+                    continue
                 ident = {k:f.get(k) for k in
                          ("fixture_id","league","league_id","country_code",
                           "home","away","kickoff_utc","home_team_id","away_team_id")}
