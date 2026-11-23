@@ -343,6 +343,8 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
     b=load(audit_root,"REPLAY_AUDIT.json",True) if audit_root else None
     priced_settlement=(load(audit_root,"PRICED_SHADOW_SETTLEMENT.json",True)
                        if audit_root else None)
+    source_coverage=(load(audit_root,"DISCIPLINARY_SOURCE_COVERAGE.json",True)
+                     if audit_root else None)
     st=pdf_style()
     def P(x,kind="body"):
         return paragraph(x,st[kind])
@@ -465,6 +467,28 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
             f"{len(ca.get('missing_required_fields',[]))} brakujących pól. "
             "Brak dowodu jednostki OddsPapi Bookings i oficjalnej wypłaty "
             "Superbet. Rynki te pozostają wyłącznie badawcze."))
+    if source_coverage:
+        if source_coverage.get("schema")!="multimodel-disciplinary-source-coverage-v1":
+            raise ValueError("unexpected_disciplinary_source_coverage_schema")
+        fouls_src=source_coverage.get("fouls",{})
+        cards_src=source_coverage.get("cards",{})
+        story.append(P(
+            "Rzeczywiste pokrycie danych wtórnych football-data.co.uk (NIE OPTA): "
+            f"mecze z agregatem HF/AF: {fouls_src.get('aggregate_pair_matches',0)}; "
+            f"HY/AY: {cards_src.get('aggregate_pair_matches',0)}; "
+            f"źródłowo potwierdzone mecze OPTA poza PL: "
+            f"{source_coverage.get('opta_non_pl_verified_foul_matches',0)}. "
+            "HY/AY nie oznacza pełnych kartek Superbet ani Bookings."))
+        top_leagues=source_coverage.get("league_coverage",[])[:4]
+        if top_leagues:
+            source_rows=[[str(x.get("country_code") or "—")+" / "+
+                          str(x.get("league") or "—"),
+                          str(x.get("fouls_aggregate_pairs",0)),
+                          str(x.get("cards_aggregate_pairs",0))]
+                         for x in top_leagues]
+            story.append(make_table(
+                ["Liga (źródło wtórne)","HF/AF","HY/AY"],
+                source_rows,[245,110,110],st))
     story.append(P(
         "Przed formalną kalibracją: prospektywna próba niezależnie rozliczonych "
         "meczów, Brier/log loss na holdoucie, osobna walidacja fauli i kartek "
