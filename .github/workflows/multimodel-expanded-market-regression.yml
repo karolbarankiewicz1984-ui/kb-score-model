@@ -1,0 +1,76 @@
+name: MultiModel expanded markets regression (read-only)
+on:
+  push:
+    branches:
+      - feat/multimodel-doublechance-goals-corners-20261123
+      - codex/multimodel-v2
+    paths:
+      - 'github_models/abc_filter.py'
+      - 'github_models/abc_settlement.py'
+      - 'github_models/event_markets.py'
+      - 'github_models/abc_report.py'
+      - 'github_models/abc_chronological_pdf.py'
+      - 'tests/test_market_extension_20261123.py'
+      - '.github/workflows/multimodel-expanded-market-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: No bookmaker API; extra markets, correct totals, safe settlement
+        run: python -m unittest -v tests.test_market_extension_20261123
+      - name: Download pre-existing frozen A/B/C archived forecasts (zero external APIs)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p archived
+          gh run download 45037233530 --repo "$GITHUB_REPOSITORY" \
+            --name github-models-v2-abc-complete-45037233530-1 --dir archived
+          test -s archived/reports/github_models/queues/2026-11-22.json
+          test -s archived/reports/github_models/predictions/2026-11-22.json
+          test -s archived/data/github_models/verified_events.json
+          test -s archived/data/github_models/verified_results.json
+      - name: Real frozen 1X2 and event-market replay, preserve all source cutoffs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from github_models.abc_filter import evaluate
+          from github_models.event_markets import run,THRESHOLDS
+          root=Path('archived')
+          read=lambda p:json.loads((root/p).read_text(encoding='utf-8'))
+          q=read('reports/github_models/queues/2026-11-22.json')
+          predictions=read('reports/github_models/predictions/2026-11-22.json')
+          history=read('data/github_models/verified_results.json')
+          events=read('data/github_models/verified_events.json')
+          at=q['generated_at_utc']
+          chosen={p['fixture_id'] for p in predictions['predictions']}
+          subset={**q,'fixtures':[f for f in q['fixtures'] if f['fixture_id'] in chosen][:20]}
+          event=run(subset,history,events,at)
+          selected=evaluate(predictions,event)
+          dc=[x for x in selected['candidates'] if x['market']=='double_chance']
+          assert dc, 'frozen data must yield some double-chance candidates'
+          assert all(x['selection'] in ('1X','X2','12') and 0<=x['probability_min']<=1
+                     and 'odds' not in x for x in dc)
+          assert all(r['line'] in THRESHOLDS[r['market']] for r in event['markets'])
+          assert all(r['frozen_at_utc']==at and r['probability_status']=='uncalibrated_research'
+                     for r in event['markets'])
+          assert all(r['selection'] in ('over','under') for r in event['markets'])
+          print('REAL_FROZEN_DOUBLE_CHANCE_CANDIDATES='+str(len(dc)))
+          print('REAL_EVENT_LINE_PREDICTIONS='+str(len(event['markets'])))
+          print('NO_PAID_ODDS_API_CALLS=true')
+          PY
