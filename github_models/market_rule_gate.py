@@ -79,6 +79,11 @@ def classify_quote(q):
                                                else "provider_line_sign_and_side_unverified")
         else:
             family, reason = "other_handicap", "market_identity_not_verified"
+    elif (name == "double chance full time" and kind == "doublechance"
+          and period == "fulltime" and not player
+          and _is_number(line) and line == 0 and
+          outcome in ("1x","2x","12")):
+        family, reason = "double_chance", "research_exact_fulltime_quote"
     elif (name, kind) == GOALS and period == "fulltime" and not player:
         family, reason = "goals", "existing_exact_comparison_only"
     elif (name, kind) == CORNERS and period == "fulltime" and not player:
@@ -87,12 +92,12 @@ def classify_quote(q):
         family, reason = "btts", "research_exact_fulltime_quote"
     else:
         family, reason = "other", "unmapped_or_different_scope"
-    if family in ("goals", "corners", "btts"):
-        if family != "btts" and (not _is_number(line) or line < 0 or outcome not in ("over", "under")):
+    if family in ("goals", "corners", "btts", "double_chance"):
+        if family in ("goals","corners") and (not _is_number(line) or line < 0 or outcome not in ("over", "under")):
             reason = "line_or_selection_not_verified"
         if not price_eligible:
             reason = "price_below_1_20"
-    safe_comparison = family in ("goals", "corners", "btts") and reason in (
+    safe_comparison = family in ("goals", "corners", "btts", "double_chance") and reason in (
         "existing_exact_comparison_only", "research_exact_fulltime_quote")
     return {
         "family": family, "reason": reason, "period": period,
