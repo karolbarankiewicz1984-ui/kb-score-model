@@ -5,7 +5,10 @@ from github_models.competition_identity import canonicalize, country_code
 from github_models.elo_engine import eligible_history, utc
 from github_models.settlement import fixture_index
 
-THRESHOLDS = {"goals": (1.5, 2.5, 3.5), "corners": (7.5, 8.5, 9.5),
+# Additional half-integer lines reuse the SAME observed data, Poisson model
+# and frozen cutoff. No market odds are guessed and A/B/C thresholds unchanged.
+THRESHOLDS = {"goals": (0.5, 1.5, 2.5, 3.5, 4.5),
+              "corners": (6.5, 7.5, 8.5, 9.5, 10.5, 11.5),
               "cards": (2.5, 3.5, 4.5), "fouls": (19.5, 22.5, 25.5)}
 MIN_LEAGUE = 60
 MIN_TEAM = 8
