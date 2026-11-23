@@ -68,6 +68,17 @@ jobs:
           ref: research/github-models-frozen
           path: frozen_source
           persist-credentials: false
+      - name: Recover independent pre-existing results history for integration
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p verified_history
+          gh run download 45037233530 --repo "$GITHUB_REPOSITORY" \
+            --name github-models-v2-abc-complete-45037233530-1 \
+            --dir verified_history
+          test -s verified_history/data/github_models/verified_results.json
       - name: Prove all four verified external finals settle only exact archived SHADOW selections
         if: github.event_name == 'pull_request'
         env:
@@ -79,7 +90,8 @@ jobs:
           from github_models.independent_final_score_bridge import reconcile
           from github_models.shadow_audit import settle_one
           e=json.load(open("data/github_models/independent_final_evidence_2026-11-20.json",encoding="utf-8"))
-          history,m=reconcile([],e,"frozen_source",observed_at_utc="2026-11-23T09:00:00Z")
+          original=json.load(open("verified_history/data/github_models/verified_results.json",encoding="utf-8"))
+          history,m=reconcile(original,e,"frozen_source",observed_at_utc="2026-11-23T09:00:00Z")
           assert m["new_finished_rows"] == 4
           wanted={x["fixture_id"] for x in e["rows"]}
           for p in Path("frozen_source/queues").glob("*/*.json"):
