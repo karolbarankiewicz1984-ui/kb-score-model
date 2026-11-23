@@ -38,8 +38,11 @@ class DoubleChance(unittest.TestCase):
                              for x in evaluate(one,{"markets":[]})["candidates"]))
         disagree=forecasts(elo=(.75,.20,.05),dc=(.30,.20,.50))
         items=evaluate(disagree,{"markets":[]})["candidates"]
-        self.assertFalse(any(x["market"]=="double_chance"
-                             for x in items))
+        # 1X and X2 disagree and must fail; 12 agrees because the draw
+        # probability is identical in both independent frozen models.
+        dc=[x for x in items if x["market"]=="double_chance"]
+        self.assertTrue(dc)
+        self.assertEqual({x["selection"] for x in dc},{"12"})
 
     def test_reject_invalid_input_vector(self):
         bad=forecasts(elo=(.7,.4,-.1))
