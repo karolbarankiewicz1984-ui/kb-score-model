@@ -107,3 +107,11 @@ Reguły fauli, kartek i handicapów podlegają osobnemu testowi semantycznemu: h
 ### Test dwudokumentowej publikacji po rozbudowie 1X/X2/12 — 23.11.2026, 17:05 UTC
 
 [GitHub Actions 45223679448](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45223679448) na `main`: **SUCCESS**, wynikowy plik prognoz **14 stron**, audyt **2 strony**, oba z istniejącej pary dokładnie zgodnych zamrożonych archiwów z 22.11, bez nowych zapytań do OddsPapi. Kod etykiet 1X/X2/12 i raportu ograniczeń fauli/kartek przetestowany, lecz ten przebieg na *starszym* archiwum nie potwierdza jeszcze pojawienia się nowych rynków w świeżo wygenerowanym PDF. [Test bezpieczeństwa 45223679412](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45223679412): 36/36 PASS. Kolejny normalny dzienny cykl pobierze nowe prognozy; nie uruchamiać dodatkowego płatnego skanu tylko po to, by wymusić PDF.
+
+### Kontynuacja 23.11.2026 — obserwacja rozszerzonych typów bez trzeciego PDF
+
+- Skrót końcowego `MULTIMODEL_YYYY-MM-DD.pdf`: najwyżej 3 pozycje na mecz, z preferencją różnych rodzin rynków (1X2 i podwójna szansa to jedna skorelowana rodzina). Pełna sekcja per mecz nie usuwa żadnego obliczonego rynku.
+- Naprawiono identyfikację ceny 1X2, gdy prognoza nie ma linii, a OddsPapi zapisuje linię równą zero. Podwójna szansa 1X/X2/12 analogicznie ma tylko kategorię, bez handikapowej linii. Dla goli i rożnych wymagana dokładna zgodność progu liczbowego.
+- Manifest techniczny obejmuje obecność nowych rynków, linii i rzeczywiście dopasowanych cen Superbet >=1,20; nigdy nie twierdzi, że poprzedni PDF z 22.11 był wygenerowany po wdrożeniu nowego modelu.
+- `MULTIMODEL_AUDYT_YYYY-MM-DD.pdf`: fakultatywne dane o rzeczywistym pokryciu wtórnych statystyk fauli HF/AF i żółtych kartek HY/AY w podziale na ligi z wyraźnym napisem **NIE OPTA**. Żadna z tych statystyk nie jest automatycznie równoważna bukmacherskim Bookings/kartkom.
+- W wynikowym archiwum pozostają **dokładnie dwa PDF**; manifest i szczegółowe diagnostyki są źródłami technicznymi, nie trzecim raportem użytkownika.
