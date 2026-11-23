@@ -69,6 +69,25 @@ class DisciplinaryValidation(unittest.TestCase):
         self.assertIn("official_superbet_rules",out)
         self.assertFalse(out["disciplinary_source_validation"]["cards"]["source_event_schema_compatible"])
 
+    def test_double_chance_market_quote_stays_only_exact_fulltime_research(self):
+        from github_models.market_rule_gate import classify_quote
+        base={"bookmaker":"superbet.pl",
+              "market_name":"Double Chance Full Time",
+              "market_type":"doublechance","period":"fulltime",
+              "handicap":0.0,"player_prop":False,"player_id":"0",
+              "odds":1.38,"outcome_name":"2X","market_id":"dc"}
+        valid=classify_quote(base)
+        self.assertEqual(valid["family"],"double_chance")
+        self.assertTrue(valid["comparison_allowed"])
+        self.assertFalse(valid["settlement_allowed"])
+        for key,val in [
+            ("market_name","Double Chance First Half"),
+            ("period","p1"),("handicap",1.5),
+            ("outcome_name","Over"),("market_type","doublechance-wrong")]:
+            with self.subTest(key=key):
+                self.assertFalse(classify_quote({**base,key:val})["comparison_allowed"])
+        self.assertFalse(classify_quote({**base,"odds":1.19})["comparison_allowed"])
+
     def test_double_chance_pdf_market_identity_is_strict(self):
         self.assertIn("1X",market_label({"market":"double_chance","selection":"1X","line":None}))
         self.assertIn("X2",market_label({"market":"double_chance","selection":"X2","line":None}))
