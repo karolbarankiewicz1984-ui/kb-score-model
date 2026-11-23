@@ -552,3 +552,28 @@ Potwierdzono [run 45223679417](https://github.com/karolbarankiewicz1984-ui/kb-sc
 **Wykonanie i kryteria odbioru:** Aktualizować poniżej o rzeczywiste artefakty i status CI, odróżniać kod gotowy od *świeżego* raportu. Stare archiwa z 22.11 nie zawierają prognoz utworzonych po wdrożeniu rozszerzeń — nie wolno ich dopisywać wstecznie. Raport powinien zachować maksymalnie 3 pozycje na mecz w bloku najlepszych, zachowując różnorodność rynków i wskazania statusu rzeczywistego archiwalnego kursu. Wszystkie pozycje per mecz pozostają w pełnej tabeli. Rozliczanie powinno rozpoznawać brak dokładnego wyniku zdarzeniowego, nawet kiedy końcowy wynik bramkowy jest znany, ale nie zastępować go liczbą zero. Source gaps fauli i kartek muszą być wykazane na danych, a nie na syntetycznych wynikach.
 
 **Status otwarcia:** w realizacji. Oddzielne issue [#84](https://github.com/karolbarankiewicz1984-ui/kb-score-model/issues/84) zbiera wymagania licencjonowanych statystyk OPTA, [#78](https://github.com/karolbarankiewicz1984-ui/kb-score-model/issues/78) czeka na znaczenie OddsPapi Bookings.
+
+### Implementacja i wyniki w bieżącej kontynuacji (23.11.2026)
+
+**1. Raportowanie i nowe typy:**
+- [x] W generatorze dwóch PDF poprawiono **normalizację linii 1X2**: brak linii w modelu ABC jest tym samym rynkiem, co OddsPapi `line=0`; dotychczas ten szczegół mógł ukrywać rzeczywiście zapisany kurs 1X2. `1X/X2/12` dopuszczają tylko linię brak/zero; rynki Over/Under zachowują ścisłe dopasowanie liczbowej linii.
+- [x] Skrót maksymalnie 3 pozycji na mecz uwzględnia **różne rodziny rynków**, zanim wybierze drugą pozycję z tej samej rodziny. Wynik 1X2 i podwójna szansa to jedna rodzina (silnie skorelowane). Wysokie P nadal jest badawcze, kursy to zapisane i dokładnie dopasowane przedmeczowe Superbet. Wszystkie rynki bez zmian pozostają w sekcji pełnej.
+- [x] Dzienny manifest (techniczny plik JSON, nie trzeci PDF) zapisuje rzeczywiście widziane typy 1X/X2/12, linie 0,5 i 4,5 bramek oraz 6,5/10,5/11,5 rożnych, liczbę dopasowanych ofert na rynek i przekrój najlepszych. `new_markets_observed` jest prawdą tylko, gdy obserwowane są nowe typy/linie; dla starszego archiwum jawny status `awaiting_fresh_market_output_or_source_coverage`. Nie powstają sztuczne prognozy lub kursy. `tests/test_multimodel_rollout_observation.py` sprawdza sortowanie i tożsamość linii.
+
+**2. Nierozliczone pozycje:**
+- [x] [PR #85](https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/85) **scalony** do adaptera archiwalnego OddsPapi (`codex/oddspapi-odds-layer`), commit `db83245f2504c1d3b11159bb049d3199a0e9d820`. Dopisano wynikową listę identyfikatorów **naprawdę rozliczonych różnych spotkań** i pełne szczegóły nierozstrzygniętych wyborów `fixture_id/market/line/selection`; w przypadku braku dokładnej liczby zdarzeń diagnoza rozdziela `verified_final_score_exists_event_total_missing` od `independent_final_score_not_found`. Nie podmienia statusów, nie dopisuje fikcyjnego wyniku, nie wybiera lepszej ceny po meczu.
+- [x] [CI #45241690368](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45241690368): 2/2 offline PASS; nowy audyt na `main` zostanie skierowany na dokładnie przetestowany SHA bez dodatkowych płatnych zapytań. Znane 70 i 11 pozostają statusem wejściowym, dopóki nowy rzeczywisty przebieg nie da dowodów zmiany.
+
+**3. Faule i kartki, bez zgadywania jednostek:**
+- [x] `github_models/disciplinary_source_coverage.py` oblicza **rzeczywiste**, wtórne pokrycie agregatów HF/AF oraz HY/AY per liga i kraj na podstawie odczytanych publicznych plików football-data.co.uk, z obsługą sprzecznych duplikatów, daty publikacji i brakujących par. Nie nazywa tych danych oficjalnym OPTA.
+- [x] Nowy artefakt archiwalnego audytu `DISCIPLINARY_SOURCE_COVERAGE.json` podsumuje źródłowe statystyki, a w dwóch PDF-ach audytowych pokażemy pokrycie per liga z wyraźną blokadą. `official_opta_event_level_source_observed=false`; `market_promotion_allowed=false`; bez zgody na `Bookings = HY+AY`. Testy: `tests/test_multimodel_disciplinary_source_coverage.py`.
+- [ ] Ostateczny dowód dla fauli/kartek nadal wymaga zewnętrznych, meczowych statystyk OPTA poza PL i odpowiedzi dostawcy OddsPapi co do jednostki Bookings. Zależności zapisane w #84 i #78; kod nie generuje fałszywej walidacji.
+
+**4. Gotowość do kalibracji:**
+- [x] `multimodel_calibration_gate.py`: zidentyfikowane rzeczywiste `settled_fixture_ids` A/B/C pozwalają teraz liczyć **dokładną sumę zbiorów** meczów A/B/C i SHADOW, bez podwójnego liczenia wspólnych spotkań. Dotychczasowa wartość `max(A,B)` jest wyraźnie nazwana konserwatywną **dolną granicą**, a nie górną.
+- [x] Audyt wyświetli gotowość według rynku A/B/C, liczbę brakujących różnych meczów do przeglądu 100 oraz plan przyszłego holdoutu: chronologiczny podział całymi meczami, te same spotkania nie mogą wystąpić w treningu i walidacji, dane i kursy zamrożone przed kickoff.
+- [ ] Wagi modelu i wybór kalibratora **bez zmian**. Niezależnego holdoutu nadal nie ma; samą liczbą 100 nie wolno zatwierdzać modelu.
+
+**5. Strzały ogółem i celne:** odłożone na koniec, bez kodu prognozującego i bez sztucznego źródła.
+
+**Wdrożeniowe testy i obserwacja kolejnego normalnego cyklu** są warunkiem końcowego potwierdzenia. Wspomniane testy na przykładowych rekordach nie są niezależnie rozliczonymi meczami. 0 dodatkowych płatnych wywołań OddsPapi.
