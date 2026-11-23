@@ -60,7 +60,7 @@ class DoubleChance(unittest.TestCase):
         outcomes={(r["market"],r["selection"]):r["hit"]
                   for r in rows if r["market"]=="double_chance"}
         self.assertTrue(outcomes[("double_chance","1X")])
-        self.assertNotIn(("double_chance","12"),outcomes)  # fails consensus threshold
+        self.assertFalse(outcomes[("double_chance","12")])  # draw loses 12
         self.assertTrue(all(r["status"]=="settled" for r in rows))
 
     def test_missing_final_remains_unresolved(self):
