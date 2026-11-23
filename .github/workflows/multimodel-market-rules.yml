@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'github_models/market_rule_gate.py'
+      - 'github_models/disciplinary_rules.py'
+      - 'tests/test_multimodel_disciplinary_review.py'
       - 'github_models/priced_shadow_settlement.py'
       - 'github_models/independent_final_score_bridge.py'
       - 'github_models/multimodel_calibration_gate.py'
@@ -18,6 +20,8 @@ on:
     branches: [main]
     paths:
       - 'github_models/market_rule_gate.py'
+      - 'github_models/disciplinary_rules.py'
+      - 'tests/test_multimodel_disciplinary_review.py'
       - 'tests/test_multimodel_market_rule_gate.py'
       - 'github_models/unified_output.py'
       - '.github/workflows/multimodel-market-rules.yml'
@@ -51,8 +55,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install PDF library for reporting integration regression
+        run: python -m pip install 'reportlab>=4,<5'
       - name: Regression tests — no scope or settlement substitutions
-        run: python -m unittest -v tests.test_multimodel_market_rule_gate tests.test_priced_shadow_settlement tests.test_independent_final_score_bridge
+        run: python -m unittest -v tests.test_multimodel_market_rule_gate tests.test_priced_shadow_settlement tests.test_independent_final_score_bridge tests.test_multimodel_disciplinary_review
 
       - name: Checkout archived resolver and frozen forecasts for evidence integration
         if: github.event_name == 'pull_request'
