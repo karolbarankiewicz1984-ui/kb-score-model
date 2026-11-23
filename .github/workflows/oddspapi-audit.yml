@@ -10,6 +10,8 @@ on:
       - 'github_models/priced_shadow_settlement.py'
       - 'github_models/independent_final_score_bridge.py'
       - 'data/github_models/independent_final_evidence_2026-11-20.json'
+      - 'github_models/multimodel_calibration_gate.py'
+      - 'research/multimodel/non_pl_opta_source_inventory_20261123.json'
 
 permissions:
   contents: read
@@ -132,6 +134,23 @@ jobs:
           print('PRICED_SHADOW_SETTLEMENT_GATES=PASS')
           PY
 
+      - name: Audit distinct-fixture sample size and block premature calibration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B priced_impl/github_models/multimodel_calibration_gate.py \
+            --replay reports/oddspapi_audit/REPLAY_AUDIT.json \
+            --shadow reports/oddspapi_audit/PRICED_SHADOW_SETTLEMENT.json \
+            --opta-scope priced_impl/research/multimodel/non_pl_opta_source_inventory_20261123.json \
+            --out reports/oddspapi_audit/MULTIMODEL_CALIBRATION_READINESS.json
+          python - <<'PY'
+          import json
+          v=json.load(open("reports/oddspapi_audit/MULTIMODEL_CALIBRATION_READINESS.json"))
+          assert v["model_weights_changed"] is False
+          assert v["calibration_authorized"] is False
+          assert v["bookmaker_payout_confirmed"] is False
+          print("MULTIMODEL_CALIBRATION_READINESS=PASS")
+          PY
       - name: Preserve independent source manifest and audited metrics
         if: always()
         uses: actions/upload-artifact@v4
@@ -143,5 +162,6 @@ jobs:
             reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf
             reports/oddspapi_audit/outcomes/source_manifest.json
             reports/oddspapi_audit/outcomes/independent_final_bridge_manifest.json
+            reports/oddspapi_audit/MULTIMODEL_CALIBRATION_READINESS.json
           if-no-files-found: ignore
           retention-days: 90
