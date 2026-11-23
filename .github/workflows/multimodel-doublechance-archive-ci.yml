@@ -28,7 +28,7 @@ jobs:
         run: python -m unittest -v tests.test_oddspapi_doublechance_20261123
       - name: Download only existing validated Superbet and A/B/C archives
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p odds abc
