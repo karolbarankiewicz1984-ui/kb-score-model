@@ -417,3 +417,43 @@ Na koniec dnia wynik GitHub Actions powinien zostać odnotowany poniżej, z nume
 - [GitHub Actions 44934125551](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934125551): **SUCCESS na `main`**, dokładnie dwa PDF: prognozy (18 stron) i audyt (2 strony), dzień 21.11, 68 meczów, 170 A/B/C, 288 SHADOW, 3 ceny bez dopisywania kursów; nowe opisy nie łamią generatora.
 - Niezależny przegląd `oddspapi-audit` [44934125549](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934125549) został uruchomiony automatycznie po zmianie kodu; wynik powinien być oceniony oddzielnie, nie wliczać uruchomionego zadania jako ukończonego.
 - Kluczowe: **nie ma nowych wygranych ani przegranych do wyliczenia z daty 20.11 na dzień 21.11** w konserwatywnym źródle niezależnym. Same oznaczenia pending/no_exact nie podnoszą skuteczności modelu i nie zmieniają zbioru prognostycznego.
+
+## Etapy 1–5 wykonane równolegle — 23.11.2026, przegląd i wdrożenie audytu
+
+Zakres: **MultiModel repo `kb-score-model`**, nie KB Score 3.0. Ostatni potwierdzony przed zmianami audyt: [GitHub #45090939091](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45090939091), 23.11 godz. 00:50–01:08 UTC. Wynik wyjściowy: SHADOW **501 wycenionych typów / 108 meczów**, 481 `pending`, **20 `unresolved:no_exact_final` z czterech meczów 20 listopada**, 0 `settled`. A/B/C replay: **1330 unikalnych wycenionych pozycji**, 657 `pending_future`, 673 `unresolved` (568 `no_exact_verified_outcome`, 105 `no_verified_final_yet`), 0 `settled`. To **dwie różne próbki**, nie sumować ich.
+
+### 1. Niezależne wyniki i naprawa przepływu SHADOW
+
+Znaleziono i udokumentowano cztery faktycznie zakończone mecze:
+- **Red Star–Pau 2:1**: oficjalny [raport Red Star](https://www.redstar.fr/2026-11-21/les-pros/red-star-fc-pau-2-1/), wtórnie FBref. Uwaga: część agregatorów podawała 1:1; wybrano potwierdzony raport klubu i zgodny wynik FBref, nie wpis z niezweryfikowanego agregatora.
+- **Guingamp–Rodez 1:3**: raport [Centre Presse](https://www.centrepresseaveyron.fr/sports/resultats-sportifs/football/ligue-2/rencontre/548038/guingamp-rodez) oraz FBref.
+- **Hellas Verona–Cesena 0:2**: [Lega B](https://www.legab.it/seriebkt/calendario/2026-2027/stagione-regolare/12) i [oficjalny raport Verona](https://www.hellasverona.it/news/serie-bkt-2026-27-al-bentegodi-passa-il-cesena?cat=669).
+- **Barnsley–Sheffield Wednesday 1:2**: [EFL](https://www.efl.com/news/2026/november/20/lowe-double-sees-sheffield-wednesday-win-at-barnsley/) i [oficjalny raport Sheffield Wednesday](https://www.swfc.co.uk/news/2026/november/20/report---barnsley-v-wednesday-/).
+
+Rejestr dowodów: `data/github_models/independent_final_evidence_2026-11-20.json` — wynik, dokładne źródła URL, niezmienne `fixture_id`, kraj, liga, natywne identyfikatory drużyn i kickoff z zamrożonego PitchAPI. Skrypt `github_models/independent_final_score_bridge.py` potwierdza zgodność z oryginalnym archiwum, wymaga dwóch różnych domen i zakończenia spotkania, porównuje istniejące niezależne wyniki pod kątem sprzeczności, a **czas pierwszego odczytu ustala na moment wywołania**. Źródła dodawane są **wyłącznie do późniejszego audytu, nigdy do historycznego wejścia prognoz**. W archiwum znajdują się izolowane przebiegi smoke bez identyfikatorów drużyn: nie są dowodem tożsamości i są pomijane; rozbieżne kompletne rekordy są blokowane. Brak domniemanej wypłaty bukmachera.
+
+### 2. Naprawa rozliczania cen A/B/C bez przepisywania modelu
+
+Zachowano kod oryginalnego `github_models.oddspapi_replay_audit`, `market_settlement`, `shadow_audit` i zamrożone kursy. W `.github/workflows/oddspapi-audit.yml` źródło z czterema dokładnie zweryfikowanymi wynikami jest dodawane **po pobraniu niezależnych CSV**, następnie jeden replay A/B/C i SHADOW wykorzystuje tę samą rzeczywistą historię. Umożliwia to matematyczne rozliczenie wyłącznie obsługiwanych rynków (1X2/gole, BTTS i azjatycki handicap ±1,5) dla poprawnie dopasowanego spotkania; faule i kartki bez pełnej zgodności pozostają zablokowane.
+
+Błędy początkowe rozdzielone: (a) wyniki zakończonych spotkań niewidoczne w źródłowym CSV, (b) rynki bez potwierdzonej jednostki, (c) opóźnione publikacje, (d) przyszłe spotkania. Oznaczeń `pending`/`unresolved` nie wolno uznawać za przegrane. Prawdopodobieństwa i pierwsze ceny przedmeczowe pozostają identyczne.
+
+### 3. OddsPapi / Bookings — dalsza kontrola
+
+23.11 sprawdzono połączony Gmail pod kątem odpowiedzi `from:support@oddspapi.io after:2026/11/20`: **brak otrzymanej odpowiedzi**. Otwarte [issue #78](https://github.com/karolbarankiewicz1984-ui/kb-score-model/issues/78) dokumentuje cztery płatne HTTP 500 oraz pytania o jednostkę `Bookings` i `playerId=0`. Nie wykonano nowych płatnych zapytań. **Bookings, faul zawodnika/meczu, OPTA/Superbet payout — nadal niepromowane**. Kolejny test API dopiero po potwierdzeniu przez dostawcę, z budżetem i bez automatycznego ponawiania błędów 5xx.
+
+### 4. Rozszerzenie OPTA poza Premier League — rzeczywisty poziom dowodu
+
+Poprzedni audyt [44917754853](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44917754853) potwierdził zgodność archiwum z **31 odnotowanymi parami Premier League**, 0 rozbieżności. To nie dowód dla innych lig. Sprawdzono obecnie źródła oficjalne Serie B (Lega B, Hellas Verona), Ligue 2 (Red Star), League One (EFL). Oficjalny komunikat Hellas Verona jawnie przypisuje statystyki przedmeczowe `Opta – Stats Perform` (https://www.hellasverona.it/en/news/serie-bkt-2026-27-veronacesena-stats-and-where-to-watch-the-match?cat=2), ale **nie publikuje zweryfikowanych po meczu liczebności fauli gospodarze/goście**. Zapisano `research/multimodel/non_pl_opta_source_inventory_20261123.json`: **0 dodatkowych zweryfikowanych meczów OPTA spoza PL**. Nie podmieniano wartości z nieopisanych agregatorów na OPTA; nadal blokada porównania z faulami u bukmachera.
+
+### 5. Bramka gotowości do kalibracji (bez zmian wag)
+
+`github_models/multimodel_calibration_gate.py` zapisuje **oddzielnie A/B/C i SHADOW**, diagnostykę na bazie minimum **20 odrębnych zakończonych meczów**, dopiero od około **100** meczów przegląd formalny, i osobne warunki udokumentowanego holdoutu oraz payoutów. Nie sumuje skorelowanych linii z jednego meczu jako niezależnych próbek. Niezależnie od liczby prognoz `calibration_authorized=False`, `model_weights_changed=False`. Publikuje tylko techniczne `MULTIMODEL_CALIBRATION_READINESS.json` w istniejącym artefakcie audytu, bez trzeciego użytkowego PDF. Pozostają dwa PDF, kurs od 1,20 i brak obowiązkowego progu punktowego 67/100.
+
+### Testy i wdrożenie
+
+- [PR #80](https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/80), testy zaufanego źródła i archiwalnych ofert bez płatnych zapytań.
+- [CI na oryginalnym archiwum, pierwszy poprawny przebieg](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45137638541): **29/29 testów PASS**, **24 rozliczenia testowe SHADOW** z 4 spotkań z odrębnego zweryfikowanego wyniku. Liczba 24 obejmuje wszystkie prognozy w próbie testowej, nie tylko wycenione kupony z rzeczywistego audytu.
+- Dodatkowe testy przeciw pełnej historii ponad 42 tys. rekordów i główny produkcyjny cykl 1X2/gole/BTTS/AH wymagają końcowego sprawdzenia. Status `settled` w dotychczasowej produkcji pozostaje 0 dopóki nie ma nowego pomyślnego raportu. Nie nazywać samego PR lub PASS testowego dowodem aktualizacji produkcji.
+
+**Otwarte po pięciu krokach:** (1) przyjęcie nowej historii przez pełny replay bez konfliktów nazw, (2) potwierdzenie liczby naprawdę rozliczonych w najnowszym audycie, (3) wypłaty Superbet/Book­ings po odpowiedzi OddsPapi, (4) liczby fauli OPTA z innych lig, (5) odpowiednia liczebność próby i niezależny holdout. Te zależności nie uzasadniają zmiany wag dzisiaj.
