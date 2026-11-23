@@ -1,0 +1,47 @@
+{
+  "schema": "multimodel-non-pl-opta-evidence-scope-v1",
+  "audited_on": "2026-11-23",
+  "verified_non_pl_opta_per_team_fouls": 0,
+  "verified_pl_pair_records": 31,
+  "status": "independent_per_match_non_PL_opta_fouls_missing",
+  "sources": [
+    {
+      "competition": "Serie B",
+      "publisher": "Lega B",
+      "url": "https://www.legab.it/seriebkt/calendario/2026-2027/stagione-regolare/12",
+      "observation": "Official finished score Verona 0-2 Cesena, not independently published Opta home/away foul totals",
+      "official_score_verified": true,
+      "verified_opta_fouls": false
+    },
+    {
+      "competition": "Serie B",
+      "publisher": "Hellas Verona official",
+      "url": "https://www.hellasverona.it/en/news/serie-bkt-2026-27-veronacesena-stats-and-where-to-watch-the-match?cat=2",
+      "observation": "Explicit Opta/Stats Perform attribution for pre-match statistics, not full-time match foul totals",
+      "official_score_verified": false,
+      "verified_opta_fouls": false
+    },
+    {
+      "competition": "Ligue 2",
+      "publisher": "Red Star official",
+      "url": "https://www.redstar.fr/2026-11-21/les-pros/red-star-fc-pau-2-1/",
+      "observation": "Club match report verifies result, no authoritative per-team Opta foul counts",
+      "official_score_verified": true,
+      "verified_opta_fouls": false
+    },
+    {
+      "competition": "League One",
+      "publisher": "English Football League",
+      "url": "https://www.efl.com/news/2026/november/20/lowe-double-sees-sheffield-wednesday-win-at-barnsley/",
+      "observation": "Official result, no licensed per-team Opta foul total",
+      "official_score_verified": true,
+      "verified_opta_fouls": false
+    }
+  ],
+  "promotion_gate": {
+    "minimum_football_data_vs_independent_opta_non_pl_matches": 30,
+    "current_verified": 0,
+    "bookmaker_foul_settlement_equivalent": false
+  },
+  "note": "This is a researched source inventory, NOT new independent Opta statistics. No use of vendor-unverified aggregated stats for betting market calibration."
+}
