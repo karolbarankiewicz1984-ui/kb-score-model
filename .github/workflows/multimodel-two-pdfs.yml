@@ -132,6 +132,31 @@ jobs:
           done
           echo "Exactly two published PDF files. All underlying technical archives remain untouched."
 
+      - name: Validate read-only market rollout observation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          d=json.load(open('reports/unified/manifest.json',encoding='utf-8'))
+          c=d.get('prognoses',{}).get('market_rollout',{})
+          assert c.get('schema')=='multimodel-market-rollout-observation-v1'
+          assert c.get('no_new_bookmaker_queries') is True
+          assert type(c.get('new_market_output_observed')) is bool
+          assert d.get('added_paid_api_calls')==0
+          assert d.get('minimum_verified_odds')==1.20
+          print('MARKET_ROLLOUT_STATUS='+str(c.get('rollout_status')))
+          print('MARKET_ROLLOUT_OBSERVED='+str(c.get('observed_market_rows')))
+          print('MARKET_ROLLOUT_PRICED='+str(c.get('priced_rows')))
+          PY
+      - name: Preserve technical rollout evidence separately (no third user PDF)
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-market-rollout-evidence
+          path: reports/unified/manifest.json
+          if-no-files-found: error
+          retention-days: 90
+
       - name: Publish only two PDFs in one artifact
         if: success()
         uses: actions/upload-artifact@v4
