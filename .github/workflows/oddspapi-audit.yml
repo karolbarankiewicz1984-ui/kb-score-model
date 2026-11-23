@@ -8,6 +8,8 @@ on:
     paths:
       - '.github/workflows/oddspapi-audit.yml'
       - 'github_models/priced_shadow_settlement.py'
+      - 'github_models/independent_final_score_bridge.py'
+      - 'data/github_models/independent_final_evidence_2026-11-20.json'
 
 permissions:
   contents: read
@@ -58,21 +60,6 @@ jobs:
         run: |
           set -euo pipefail
           python -B -m github_models.oddspapi_outcomes --outdir reports/oddspapi_audit/outcomes
-      - name: Compare frozen forecast, verified pre-match quote and actual results
-        shell: bash
-        run: |
-          set -euo pipefail
-          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          python -B -m github_models.oddspapi_replay_audit \
-            --archive-dir audit_inputs \
-            --history reports/oddspapi_audit/outcomes/verified_results.json \
-            --events reports/oddspapi_audit/outcomes/verified_events.json \
-            --as-of "$NOW" \
-            --out reports/oddspapi_audit/REPLAY_AUDIT.json
-          python -B -m github_models.oddspapi_audit_pdf \
-            --input reports/oddspapi_audit/REPLAY_AUDIT.json \
-            --output reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf
-          pdfinfo reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf | grep 'Pages:'
       - name: Checkout exact SHADOW/Asian-handicap settlement extension
         uses: actions/checkout@v4
         with:
@@ -91,6 +78,35 @@ jobs:
           ref: research/github-models-frozen
           path: frozen_source
           persist-credentials: false
+      - name: Add four strictly reviewed independent scores only if source CSV is missing them
+        shell: bash
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -B priced_impl/github_models/independent_final_score_bridge.py \
+            --history reports/oddspapi_audit/outcomes/verified_results.json \
+            --evidence priced_impl/data/github_models/independent_final_evidence_2026-11-20.json \
+            --frozen-dir frozen_source \
+            --as-of "$NOW" \
+            --out reports/oddspapi_audit/outcomes/verified_results_extended.json \
+            --manifest reports/oddspapi_audit/outcomes/independent_final_bridge_manifest.json
+          test -s reports/oddspapi_audit/outcomes/verified_results_extended.json
+          test -s reports/oddspapi_audit/outcomes/independent_final_bridge_manifest.json
+      - name: Replay A/B/C against independent results and freeze original pre-match quotes
+        shell: bash
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -B -m github_models.oddspapi_replay_audit \
+            --archive-dir audit_inputs \
+            --history reports/oddspapi_audit/outcomes/verified_results_extended.json \
+            --events reports/oddspapi_audit/outcomes/verified_events.json \
+            --as-of "$NOW" \
+            --out reports/oddspapi_audit/REPLAY_AUDIT.json
+          python -B -m github_models.oddspapi_audit_pdf \
+            --input reports/oddspapi_audit/REPLAY_AUDIT.json \
+            --output reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf
+          pdfinfo reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf | grep 'Pages:'
       - name: Prospectively settle only exact BTTS and half-goal Asian-handicap quotes
         shell: bash
         env:
@@ -101,7 +117,7 @@ jobs:
           python -B -m github_models.priced_shadow_settlement \
             --archive-dir audit_inputs \
             --frozen-dir frozen_source \
-            --history reports/oddspapi_audit/outcomes/verified_results.json \
+            --history reports/oddspapi_audit/outcomes/verified_results_extended.json \
             --as-of "$NOW" \
             --out reports/oddspapi_audit/PRICED_SHADOW_SETTLEMENT.json
           test -s reports/oddspapi_audit/PRICED_SHADOW_SETTLEMENT.json
@@ -126,5 +142,6 @@ jobs:
             reports/oddspapi_audit/PRICED_SHADOW_SETTLEMENT.json
             reports/oddspapi_audit/MULTIMODEL_V2_SUPERBET_AUDIT.pdf
             reports/oddspapi_audit/outcomes/source_manifest.json
+            reports/oddspapi_audit/outcomes/independent_final_bridge_manifest.json
           if-no-files-found: ignore
           retention-days: 90
