@@ -87,3 +87,10 @@ Reguły fauli, kartek i handicapów podlegają osobnemu testowi semantycznemu: h
 - Importer `football-data.co.uk` stosuje datę meczu +2 dni jako zachowawczą granicę końca spotkania. Poprawka w [PR #79](https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/79) pokazuje w drugim PDF liczbę prognoz oczekujących na publikację wyniku (48 h od kickoff), ale nie zmienia wydrukowanych prognoz ani nie dodaje fikcyjnych rozliczeń.
 - Nadal obowiązuje **dokładnie 2 PDF**, kursy rzeczywiste >=1,20, niezależne SHADOW i brak automatycznej kalibracji. Przyszły audyt musi potwierdzić, czy po dostępności prawdziwych wyników meczów przejście z `pending` na `settled` działa; do tej chwili skuteczność pozostaje niewyliczona.
 - Testy zmiany: [21/21 PASS](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/44934084567). Więcej dowodów: [główny rejestr rozliczeń](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md).
+
+## Aktualizacja 23.11.2026 — pierwsze rozliczone A/B/C i SHADOW
+
+- [Pełny audyt GitHub Actions 45137989936](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45137989936) zakończony `success`: **30** wycenionych pozycji A/B/C i **20** wycenionych pozycji SHADOW zostało niezależnie rozliczonych z **tych samych czterech** meczów. Nie sumować liczby pozycji jako liczby niezależnych spotkań. Pozostało 643 nierozstrzygniętych A/B/C, 657 przyszłych A/B/C i 481 oczekujących SHADOW.
+- Techniczny `MULTIMODEL_CALIBRATION_READINESS.json` wymusza `calibration_authorized=false`; minimum 20/100 różnych meczów nieosiągnięte. Bez zmiany wag, danych przedmeczowych, min. kursu 1,20 i zasad wydawania dwóch PDF.
+- Dwa końcowe dokumenty dla użytkownika nadal obowiązują. Bieżący nocny audyt publikuje JSON i techniczny PDF w `oddspapi-rolling-audit`; włączenie zaktualizowanych liczników do kolejnego głównego `MULTIMODEL_AUDYT_YYYY-MM-DD.pdf` następuje poprzez następne udane uruchomienie generatora dwóch PDF po OddsPapi. Nie oznaczać starych raportów jako nowe.
+- Pełne dane, źródła czterech wyników, problemy Bookings/OPTA i warunki kalibracji: [rejestr rynków](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md).
