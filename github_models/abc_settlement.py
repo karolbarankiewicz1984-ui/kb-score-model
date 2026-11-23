@@ -14,11 +14,16 @@ def audit(predictions, markets, queue, history, events, as_of):
     out=[]
     for c in candidates:
         fid=str(c["fixture_id"])
-        if c["market"]=="1X2":
+        if c["market"] in ("1X2", "double_chance"):
             x=a.get((fid,"github-elo"),{})
             y=a.get((fid,"callumfm-dixon-coles"),{})
             ok=x.get("status")=="settled" and y.get("status")=="settled" and x.get("actual")==y.get("actual")
-            hit=x["actual"]==c["selection"] if ok else None
+            # Double chance covers two disjoint 1X2 results; no additional
+            # outcomes feed or implied bookmaker settlement needed.
+            dc_results = {"1X": ("1", "X"), "X2": ("X", "2"), "12": ("1", "2")}
+            hit = (x["actual"] in dc_results[c["selection"]]
+                   if c["market"] == "double_chance" else
+                   x["actual"] == c["selection"]) if ok else None
             reason=None if ok else (x.get("reason") or y.get("reason") or "no_verified_final_yet")
             probability=c["probability_min"]
         else:
