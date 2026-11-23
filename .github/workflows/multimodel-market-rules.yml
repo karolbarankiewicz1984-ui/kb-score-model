@@ -5,6 +5,11 @@ on:
     paths:
       - 'github_models/market_rule_gate.py'
       - 'github_models/priced_shadow_settlement.py'
+      - 'github_models/independent_final_score_bridge.py'
+      - 'github_models/multimodel_calibration_gate.py'
+      - 'data/github_models/independent_final_evidence_2026-11-20.json'
+      - 'research/multimodel/non_pl_opta_source_inventory_20261123.json'
+      - 'tests/test_independent_final_score_bridge.py'
       - 'tests/test_priced_shadow_settlement.py'
       - 'tests/test_multimodel_market_rule_gate.py'
       - 'github_models/unified_output.py'
@@ -47,7 +52,53 @@ jobs:
         with:
           python-version: '3.12'
       - name: Regression tests — no scope or settlement substitutions
-        run: python -m unittest -v tests.test_multimodel_market_rule_gate tests.test_priced_shadow_settlement
+        run: python -m unittest -v tests.test_multimodel_market_rule_gate tests.test_priced_shadow_settlement tests.test_independent_final_score_bridge
+
+      - name: Checkout archived resolver and frozen forecasts for evidence integration
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          ref: codex/multimodel-v2
+          path: shadow_impl
+          persist-credentials: false
+      - name: Read frozen pre-match queue from original research branch
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          ref: research/github-models-frozen
+          path: frozen_source
+          persist-credentials: false
+      - name: Prove all four verified external finals settle only exact archived SHADOW selections
+        if: github.event_name == 'pull_request'
+        env:
+          PYTHONPATH: ${{ github.workspace }}/shadow_impl:${{ github.workspace }}
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from github_models.independent_final_score_bridge import reconcile
+          from github_models.shadow_audit import settle_one
+          e=json.load(open("data/github_models/independent_final_evidence_2026-11-20.json",encoding="utf-8"))
+          history,m=reconcile([],e,"frozen_source",observed_at_utc="2026-11-23T09:00:00Z")
+          assert m["new_finished_rows"] == 4
+          wanted={x["fixture_id"] for x in e["rows"]}
+          for p in Path("frozen_source/queues").glob("*/*.json"):
+              q=json.loads(p.read_text(encoding="utf-8"))
+              if not wanted.issubset({f["fixture_id"] for f in q["fixtures"]}):
+                  continue
+              s=Path("frozen_source/shadow")/p.relative_to("frozen_source/queues")
+              if not s.exists():
+                  continue
+              f=json.loads(s.read_text(encoding="utf-8"))
+              candidates=[c for c in f["candidates"] if c["fixture_id"] in wanted]
+              out=settle_one({"candidates":candidates},q,history,"2026-11-23T09:01:00Z")
+              assert len({x["fixture_id"] for x in out})==4
+              assert all(x["status"]=="settled" for x in out), [x for x in out if x["status"]!="settled"][:6]
+              print("REAL_SHADOW_FIXTURE_SETTLEMENT="+str(len(out)))
+              break
+          else:
+              raise AssertionError("no_original_frozen_queue_matching_all_four")
+          PY
 
       - name: Fetch ONLY already archived odds (no paid API)
         if: github.event_name != 'pull_request'
