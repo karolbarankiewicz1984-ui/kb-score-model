@@ -54,7 +54,33 @@ def report(replay, shadow, opta_scope=None):
     abc_unique=replay.get("unique_settled_fixtures")
     if type(abc_unique) is not int or abc_unique<0:
         raise ValueError("invalid_abc_settled_count")
-    conservative_max=max(shadow_unique,abc_unique) # Can't assert A/B/C and SHADOW are disjoint.
+    # Use actual PitchAPI fixture IDs when the retrospective replay exposes
+    # them. A count of max(A,B) is only a LOWER BOUND for a union, not an upper.
+    abc_ids=replay.get("settled_fixture_ids")
+    if abc_ids is not None:
+        if (not isinstance(abc_ids,list) or
+                any(type(x) is not str or not x.strip() for x in abc_ids) or
+                len(abc_ids)!=len(set(abc_ids)) or
+                len(abc_ids)!=abc_unique):
+            raise ValueError("invalid_independent_abc_fixture_ids")
+    shadow_ids={str(r["fixture_id"]) for r in priced}
+    exact_set_available=abc_ids is not None
+    union_ids=(set(abc_ids)|shadow_ids) if exact_set_available else None
+    conservative_max=max(shadow_unique,abc_unique)  # exact lower bound
+    verified_count=(len(union_ids) if union_ids is not None else conservative_max)
+    abc_markets={}
+    for item in replay.get("by_market",[]):
+        if item.get("variant")!="model_only":
+            continue
+        market=item.get("market")
+        matches=item.get("matches")
+        if type(market) is not str or type(matches) is not int or matches<0:
+            raise ValueError("invalid_abc_market_sample")
+        abc_markets[market]={
+            "settled_quotes":item.get("n"),
+            "distinct_settled_fixtures":matches,
+            "diagnostic_20_fixtures_reached":matches>=DIAGNOSTIC_MIN_GAMES,
+            "review_100_fixtures_reached":matches>=RECALIBRATION_MIN_GAMES}
     status_count=replay.get("status_counts",{})
     unresolved=replay.get("unresolved_reasons",{})
     opta_scope=opta_scope or {}
@@ -67,6 +93,12 @@ def report(replay, shadow, opta_scope=None):
         "abc_settled_quotes":replay.get("settled_selection_quotes",0),
         "abc_distinct_settled_fixtures":abc_unique,
         "conservative_max_distinct_fixtures":conservative_max,
+        "conservative_max_is_union_lower_bound":True,
+        "combined_distinct_fixtures_exact":len(union_ids) if union_ids is not None else None,
+        "shared_abc_shadow_fixtures_exact":len(set(abc_ids)&shadow_ids) if union_ids is not None else None,
+        "exact_cross_model_fixture_union_verified":exact_set_available,
+        "distinct_fixtures_used_for_gate":verified_count,
+        "fixtures_remaining_to_100_review":max(0,RECALIBRATION_MIN_GAMES-verified_count),
         "abc_status_counts":status_count,
         "abc_unresolved_reasons":unresolved,
         "abc_unsettled_market_rules_not_yet_verified":unresolved.get("market_settlement_not_verified",0),
@@ -75,16 +107,26 @@ def report(replay, shadow, opta_scope=None):
         "shadow_status_counts":shadow.get("status",{}),
         "shadow_unresolved_reason_counts":shadow.get("status_reason_counts",{}),
         "market_summaries":stats,
+        "abc_market_readiness":abc_markets,
+        "holdout_plan":{
+            "split_unit":"distinct_pitch_fixture_id",
+            "split_order":"kickoff_utc_forward",
+            "freeze_guard":"forecast_and_odds_strictly_before_kickoff",
+            "minimum_distinct_match_review":RECALIBRATION_MIN_GAMES,
+            "calibration_and_evaluation_same_fixture_allowed":False,
+            "selection_variants_same_fixture_in_same_partition":True,
+            "status":"not_constructed_or_scored",
+        },
         "opta_outside_premier_league_verified_matches":opta_scope.get("verified_non_pl_opta_per_team_fouls",0),
         "opta_non_pl_production_equivalence":False,
-        "diagnostic_threshold_met":conservative_max>=DIAGNOSTIC_MIN_GAMES,
-        "minimum_100_distinct_match_review":conservative_max>=RECALIBRATION_MIN_GAMES,
+        "diagnostic_threshold_met":verified_count>=DIAGNOSTIC_MIN_GAMES,
+        "minimum_100_distinct_match_review":verified_count>=RECALIBRATION_MIN_GAMES,
         "holdout_evidence_available":False, # neither output supplies separate out-of-sample validation
         "bookmaker_payout_confirmed":False,
         "calibration_authorized":False,
         "model_weights_changed":False,
         "reason":("only_independent_fixture_count_below_100"
-                  if conservative_max<RECALIBRATION_MIN_GAMES
+                  if verified_count<RECALIBRATION_MIN_GAMES
                   else "holdout_and_bookmaker_equivalence_not_verified"),
         "note":"No automatic tuning. Same-fixture correlated selections must not be counted as independent validation matches."
     }
@@ -101,7 +143,8 @@ def main():
     o=Path(v.out);o.parent.mkdir(parents=True,exist_ok=True)
     o.write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False)+"\n",
                  encoding="utf-8")
-    print("CALIBRATION_DISTINCT_MATCHES_UPPER_BOUND="+str(result["conservative_max_distinct_fixtures"]))
+    print("CALIBRATION_DISTINCT_MATCHES_FOR_GATE="+str(result["distinct_fixtures_used_for_gate"]))
+    print("CALIBRATION_EXACT_FIXTURE_UNION="+str(result["exact_cross_model_fixture_union_verified"]))
     print("CALIBRATION_GO=false")
 
 if __name__=="__main__":

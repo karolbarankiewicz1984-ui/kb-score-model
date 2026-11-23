@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: f9aa94343efff7911fddcf5957b31884e150fc31
+          ref: db83245f2504c1d3b11159bb049d3199a0e9d820
           persist-credentials: false
       - uses: actions/setup-python@v5
         with:
@@ -94,6 +94,27 @@ jobs:
             --manifest reports/oddspapi_audit/outcomes/independent_final_bridge_manifest.json
           test -s reports/oddspapi_audit/outcomes/verified_results_extended.json
           test -s reports/oddspapi_audit/outcomes/independent_final_bridge_manifest.json
+      - name: Report sourced HF/AF and HY/AY coverage by league (never Opta equivalence)
+        shell: bash
+        env:
+          PYTHONPATH: ${{ github.workspace }}/priced_impl
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python -B -m github_models.disciplinary_source_coverage \
+            --events reports/oddspapi_audit/outcomes/verified_events.json \
+            --source-manifest reports/oddspapi_audit/outcomes/source_manifest.json \
+            --opta-scope priced_impl/research/multimodel/non_pl_opta_source_inventory_20261123.json \
+            --as-of "$NOW" \
+            --out reports/oddspapi_audit/DISCIPLINARY_SOURCE_COVERAGE.json
+          python - <<'PY'
+          import json
+          r=json.load(open('reports/oddspapi_audit/DISCIPLINARY_SOURCE_COVERAGE.json'))
+          assert r['market_promotion_allowed'] is False
+          assert r['paid_oddspapi_calls'] == 0
+          assert r['opta_non_pl_verified_foul_matches'] == 0
+          print('DISCIPLINARY_COVERAGE_EVIDENCE=PASS')
+          PY
       - name: Replay A/B/C against independent results and freeze original pre-match quotes
         shell: bash
         run: |
@@ -163,5 +184,6 @@ jobs:
             reports/oddspapi_audit/outcomes/source_manifest.json
             reports/oddspapi_audit/outcomes/independent_final_bridge_manifest.json
             reports/oddspapi_audit/MULTIMODEL_CALIBRATION_READINESS.json
+            reports/oddspapi_audit/DISCIPLINARY_SOURCE_COVERAGE.json
           if-no-files-found: ignore
           retention-days: 90
