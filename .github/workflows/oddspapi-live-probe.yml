@@ -1,0 +1,28 @@
+name: OddsPapi live one-shot subscription and market acceptance
+on:
+  push:
+    branches: [codex/oddspapi-odds-layer]
+    paths:
+      - 'github_models/oddspapi_live_probe.py'
+      - '.github/workflows/oddspapi-live-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  one-shot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Safely verify configured secret and test up to three billable endpoints
+        env:
+          ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
+        run: |
+          python -B -m github_models.oddspapi_live_probe

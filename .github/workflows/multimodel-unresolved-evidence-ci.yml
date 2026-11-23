@@ -1,0 +1,24 @@
+name: MultiModel independent unresolved evidence diagnostic CI
+on:
+  push:
+    branches:
+      - feat/multimodel-independent-audit-detail-20261123
+      - codex/oddspapi-odds-layer
+    paths:
+      - 'github_models/oddspapi_replay_audit.py'
+      - 'tests/test_multimodel_unresolved_evidence_20261123.py'
+      - '.github/workflows/multimodel-unresolved-evidence-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate missing-statistic diagnostics with zero bookmaker calls
+        run: python -m unittest -v tests.test_multimodel_unresolved_evidence_20261123

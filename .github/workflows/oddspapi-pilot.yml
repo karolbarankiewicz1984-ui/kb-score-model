@@ -1,0 +1,87 @@
+name: OddsPapi Poland market research pilot (manual + isolated first run)
+# Live pilot: researched-only; do not add a schedule before batch and quota acceptance.
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/oddspapi-odds-layer]
+    paths:
+      - '.github/workflows/oddspapi-pilot.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: oddspapi-poland-account-collector
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: research/github-models-frozen
+          path: frozen_source
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF renderer and Polish fonts
+        run: |
+          python -m pip install reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
+      - name: Define monthly market catalog cache
+        id: period
+        shell: bash
+        run: echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: research_cache
+          key: oddspapi-v4-soccer-catalog-${{ steps.period.outputs.month }}
+      - name: Verify queue files and safely run ONE Superbet tournament-batch request
+        env:
+          ODDSPAPI_API_KEY: ${{ secrets.ODDSPAPI_API_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
+          test -n "$QUEUE"
+          mkdir -p reports/oddspapi_pilot
+          cp "$QUEUE" reports/oddspapi_pilot/pitch_queue.json
+          python -B -m github_models.oddspapi_collect \
+            --queue "$QUEUE" \
+            --catalog-cache "research_cache/${{ steps.period.outputs.month }}/markets.json" \
+            --batches 1 \
+            --output-dir reports/oddspapi_pilot
+      - name: Build full market comparison, evidence-aware audit and separate PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          QUEUE="$(find frozen_source/queues -mindepth 2 -maxdepth 2 -name '*.json' -type f | sort | tail -n 1)"
+          REL="${QUEUE#frozen_source/queues/}"
+          test -f "frozen_source/frozen/$REL"
+          test -f "frozen_source/markets/$REL"
+          python -B -m github_models.oddspapi_produce \
+            --collection reports/oddspapi_pilot/collection.json \
+            --queue "$QUEUE" \
+            --frozen "frozen_source/frozen/$REL" \
+            --markets "frozen_source/markets/$REL" \
+            --outdir reports/oddspapi_pilot
+          test -s reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf
+          pdfinfo reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf | grep 'Pages:'
+          pdftotext reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf - | grep -q 'SUPERBET.PL'
+          pdftoppm -f 1 -singlefile -r 100 -png reports/oddspapi_pilot/MULTIMODEL_V2_SUPERBET_MARKET.pdf reports/oddspapi_pilot/first_page
+          test -s reports/oddspapi_pilot/first_page.png
+      - name: Retain read-only evidence for manual review (no provider key)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: odds-polish-research-${{ github.run_id }}
+          path: reports/oddspapi_pilot/
+          retention-days: 90
+          if-no-files-found: ignore
