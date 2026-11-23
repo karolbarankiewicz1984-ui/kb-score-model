@@ -63,7 +63,7 @@ def audit_one(overlay, queue, history, events, now):
             entry.update(status="pending_future", reason="kickoff_not_yet_passed")
         elif str(row["fixture_id"]) not in fixtures:
             entry["reason"]="fixture_missing_in_archived_queue"
-        elif row["market"]=="1X2":
+        elif row["market"] in {"1X2","double_chance"}:
             try:
                 candidates=matching_outcomes(fixtures[str(row["fixture_id"])],history,
                                              as_of_utc=now.isoformat(),
@@ -72,7 +72,14 @@ def audit_one(overlay, queue, history, events, now):
                     event=candidates[0]
                     hg,ag=event["home_goals"],event["away_goals"]
                     actual="1" if hg>ag else "2" if hg<ag else "X"
-                    entry.update(status="settled",hit=(actual==row["selection"]),reason=None)
+                    if row["market"]=="double_chance":
+                        allowed={"1X":("1","X"),"X2":("X","2"),"12":("1","2")}
+                        if row["selection"] not in allowed or row["line"] is not None:
+                            raise ValueError("invalid_double_chance_identity")
+                        hit=actual in allowed[row["selection"]]
+                    else:
+                        hit=actual==row["selection"]
+                    entry.update(status="settled",hit=hit,reason=None)
                 elif len(candidates)>1:
                     entry["reason"]="ambiguous_verified_final"
                 else:

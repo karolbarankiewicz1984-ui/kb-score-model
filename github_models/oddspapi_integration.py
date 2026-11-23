@@ -150,6 +150,10 @@ def classify_market(item):
         family,scope = "player_prop","player"
     elif name == "full time result" and period == "fulltime":
         family = "1X2"
+    elif (name == "double chance full time" and
+          fold(item.get("market_type")) == "doublechance" and
+          period == "fulltime" and type(line) in (int,float) and line == 0):
+        family = "double_chance"
     elif name == "both teams to score" and period == "fulltime":
         family = "btts"
     elif name == "over under full time" and period == "fulltime":
@@ -181,7 +185,8 @@ def classify_market(item):
             family = "unverified_line"
     # Bookings market settlement is not verified to match independently sourced
     # yellow-card event totals. Do not allow a probabilistic join yet.
-    playable_family = {"1X2":"1X2","goals":"goals","corners":"corners",
+    playable_family = {"1X2":"1X2","double_chance":"double_chance",
+                       "goals":"goals","corners":"corners",
                        "fouls_match":"fouls"}.get(family)
     return {"family":family,"scope":scope,"period":period,"line":line,
             "model_market":playable_family,
@@ -192,6 +197,9 @@ def _selection(quote, ident):
     o=fold(quote.get("outcome_name"))
     if ident["model_market"]=="1X2":
         return {"1":"1","x":"X","2":"2"}.get(o)
+    if ident["model_market"]=="double_chance":
+        # Provider uses 2X, while the frozen model uses canonical X2.
+        return {"1x":"1X","2x":"X2","12":"12"}.get(o)
     if ident["model_market"] in {"goals","corners","fouls"}:
         return {"over":"over","under":"under"}.get(o)
     return None
@@ -233,6 +241,24 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc, fr
                 continue
         except (ValueError,KeyError,TypeError):
             continue
+        # Derived double chance is NOT an independent model: sum mutually
+        # exclusive outcomes separately in each frozen 1X2 forecast.
+        dc_fields={"1X":("p_home","p_draw"),
+                   "X2":("p_draw","p_away"),
+                   "12":("p_home","p_away")}
+        for selection,fields in dc_fields.items():
+            pa=math.fsum(a[k] for k in fields)
+            pb=math.fsum(b[k] for k in fields)
+            if abs(pa-pb)>.10:
+                continue
+            originals[fid].append({
+                "fixture_id":fid,"market":"double_chance","line":None,
+                "selection":selection,"model_id":"elo-and-dixon-min-consensus",
+                "probability":min(pa,pb),
+                "probability_status":"research_uncalibrated",
+                "resolved_identity":a.get("resolved_identity")
+                    if a.get("resolved_identity")==b.get("resolved_identity") else None,
+                "frozen_at_utc":frozen})
         for field,selection in (("p_home","1"),("p_draw","X"),("p_away","2")):
             if abs(a[field]-b[field])>.10:
                 continue
@@ -271,6 +297,15 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc, fr
             counters["late_odds"] += 1
             continue
         grouped={}
+        # Fulltime DC is a three-outcome market. Require an exact
+        # timestamped complete {1X, 2X, 12} source market before any price
+        # can be matched. Other products and half-times are never substitutes.
+        dc_covered=defaultdict(set)
+        for q in odd.get("quotes",[]):
+            ident=classify_market(q)
+            sel=_selection(q,ident)
+            if ident["model_market"] == "double_chance" and sel is not None:
+                dc_covered[(q["bookmaker"],str(q["market_id"]))].add(sel)
         for q in odd.get("quotes",[]):
             if q.get("bookmaker") not in BOOKMAKERS:
                 raise ValueError("non_polish_bookmaker_in_overlay")
@@ -278,7 +313,19 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc, fr
             sel=_selection(q,ident)
             if sel is None:
                 continue
-            key=(ident["model_market"],ident["line"],sel)
+            if ident["model_market"]=="double_chance":
+                if dc_covered[(q["bookmaker"],str(q["market_id"]))] != {"1X","X2","12"}:
+                    counters["incomplete_double_chance_quote"]+=1
+                    continue
+                if not q.get("changed_at_utc"):
+                    counters["double_chance_quote_missing_provider_time"]+=1
+                    continue
+                changed=utc(q["changed_at_utc"])
+                captured=utc(odd["captured_at_utc"])
+                if changed>captured or changed>=utc(link["kickoff_utc"]):
+                    counters["double_chance_quote_after_cutoff"]+=1
+                    continue
+            key=(ident["model_market"],None if ident["model_market"]=="double_chance" else ident["line"],sel)
             if key not in grouped or grouped[key]["odds"] < q["odds"]:
                 grouped[key]=q
         for p in originals.get(fid,[]):
@@ -312,7 +359,7 @@ def market_overlay(links, normalized_odds, frozen_markets=None, *, as_of_utc, fr
                 "forecast_frozen_at_utc":p["frozen_at_utc"],
                 "source_market_id":offer["market_id"],
                 "source_outcome_id":offer["outcome_id"],
-                "calibration_verified":False,"settlement_verified":p["market"] in {"goals","corners","1X2"},
+                "calibration_verified":False,"settlement_verified":p["market"] in {"goals","corners","1X2","double_chance"},
                 "not_an_ev_claim":True})
             counters["matched_exact_market"]+=1
     return {"schema":"github-models-oddspapi-market-comparison-v1",
