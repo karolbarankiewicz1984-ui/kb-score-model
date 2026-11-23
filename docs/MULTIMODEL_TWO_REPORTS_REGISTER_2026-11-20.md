@@ -94,3 +94,12 @@ Reguły fauli, kartek i handicapów podlegają osobnemu testowi semantycznemu: h
 - Techniczny `MULTIMODEL_CALIBRATION_READINESS.json` wymusza `calibration_authorized=false`; minimum 20/100 różnych meczów nieosiągnięte. Bez zmiany wag, danych przedmeczowych, min. kursu 1,20 i zasad wydawania dwóch PDF.
 - Dwa końcowe dokumenty dla użytkownika nadal obowiązują. Bieżący nocny audyt publikuje JSON i techniczny PDF w `oddspapi-rolling-audit`; włączenie zaktualizowanych liczników do kolejnego głównego `MULTIMODEL_AUDYT_YYYY-MM-DD.pdf` następuje poprzez następne udane uruchomienie generatora dwóch PDF po OddsPapi. Nie oznaczać starych raportów jako nowe.
 - Pełne dane, źródła czterech wyników, problemy Bookings/OPTA i warunki kalibracji: [rejestr rynków](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md).
+
+## Rozbudowa prognoz i audytu — 23.11.2026 (podwójna szansa, bramki, rożne)
+
+- Nowe `double_chance` = `1X`, `X2`, `12` w źródłowym `ABC`, wyliczone z dwóch zamrożonych modeli 1X2 i potwierdzane ich zgodnością; nie osobny niezależny model i nie podwójnie liczone próbki.
+- Dodatkowe linie **bramek 0,5 i 4,5; rożnych 6,5, 10,5 i 11,5**. Dotychczasowe linie pozostają. Brak kursu jest wyraźnie oznaczony; prawdziwy Superbet tylko od 1,20.
+- Na zarchiwizowanym skanie 22.11 wyszukano 163 dokładne oferty `Double Chance Full Time` z 68 meczów, 129 ofert spełnia minimalny kurs, [CI #45222743135](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45222743135). Nie są to kursy bieżące. `2X` OddsPapi odpowiada `X2` modelu. Bez dodatkowych płatnych wywołań.
+- Dwudokumentowy generator `github_models/unified_output.py` ma osobną, jednoznaczną etykietę 1X/X2/12. W audycie osobno pokazuje luki źródłowe fauli (odgwizdane, bez przewagi) i kartek (z wykluczeniami, czerwonymi) według oficjalnych zasad Superbet, bez automatycznego oznaczania `Bookings` jako żółte kartki.
+- Dwa końcowe PDF nie zmieniają nazw i liczby. Aktualizacji raportów z nowymi rynkami oczekujemy **dopiero w następnej poprawnie zamrożonej dziennej prognozie i dopasowanym skanie**, nie wstecz.
+- Pełna kolejność prac 1–5, kryteria i przeszkody prawdziwej walidacji OPTA/Bookings: [główny rejestr](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md).
