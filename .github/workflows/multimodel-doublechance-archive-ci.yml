@@ -1,0 +1,64 @@
+name: MultiModel verified archived Superbet double-chance integration
+on:
+  push:
+    branches:
+      - feat/multimodel-superbet-doublechance-archive-20261123
+      - codex/oddspapi-odds-layer
+    paths:
+      - 'github_models/oddspapi_integration.py'
+      - 'github_models/oddspapi_replay_audit.py'
+      - 'tests/test_oddspapi_doublechance_20261123.py'
+      - '.github/workflows/multimodel-doublechance-archive-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit regression with no network or odds requests
+        run: python -m unittest -v tests.test_oddspapi_doublechance_20261123
+      - name: Download only existing validated Superbet and A/B/C archives
+        env:
+          GH_TOKEN: \${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p odds abc
+          gh run download 45045069985 --repo "$GITHUB_REPOSITORY" \
+            --name oddspapi-daily --dir odds
+          gh run download 45037233530 --repo "$GITHUB_REPOSITORY" \
+            --name github-models-v2-abc-complete-45037233530-1 --dir abc
+          test -s odds/collection.json
+          test -s odds/fixture_links.json
+          test -s abc/reports/github_models/predictions/2026-11-22.json
+      - name: Confirm exact verified full-time 1X X2 12 quote matches in real archive
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from github_models.oddspapi_integration import market_overlay
+          read=lambda p:json.loads(Path(p).read_text(encoding='utf-8'))
+          c=read('odds/collection.json')
+          links=read('odds/fixture_links.json')
+          pred=read('abc/reports/github_models/predictions/2026-11-22.json')
+          replay=market_overlay(links,c['snapshots'],as_of_utc=c['as_of_utc'],
+                                frozen_predictions=pred)
+          rows=[x for x in replay['comparisons'] if x['market']=='double_chance']
+          assert rows, 'Archived source must contain exact verified double chance quotes'
+          assert all(z['selection'] in ('1X','X2','12') and z['line'] is None
+                     and z['bookmaker']=='superbet.pl'
+                     and z['price']>=1.01 and z['settlement_verified']
+                     and not z['calibration_verified'] for z in rows)
+          print('MATCHED_ARCHIVED_DOUBLE_CHANCE_QUOTES='+str(len(rows)))
+          print('ARCHIVED_DOUBLE_CHANCE_FIXTURES='+str(len({z['fixture_id'] for z in rows})))
+          print('MATCHED_MIN_1_20='+str(sum(z['eligible_min_odds_1_20'] for z in rows)))
+          print('NO_PAID_ODDSPAPI_CALLS=true')
+          PY
