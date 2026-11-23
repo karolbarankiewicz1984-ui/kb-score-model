@@ -64,6 +64,68 @@ def market_label(r):
     suffix = (" " + str(line).replace(".",",")) if line is not None else ""
     return MARKETS.get(m,m)+" "+side+suffix
 
+def leader_shortlist(groups, *, limit_per_fixture=3):
+    """Diverse preview; never remove any row from the full fixture tables.
+
+    Outcome 1X2 and double chance share a family because they are
+    correlated, not independent evidence. Archive prices remain preferred.
+    """
+    if type(limit_per_fixture) is not int or limit_per_fixture not in (1,2,3):
+        raise ValueError("leader_limit_must_be_1_to_3")
+    choices=[]
+    for fid, rows in groups.items():
+        ordered=sorted(rows,key=lambda z:(
+            z.get("odds") is None,-z["probability"],str(z["market"]),
+            str(z.get("line")),str(z["selection"])))
+        one,rest=[],[]
+        seen=set()
+        for row in ordered:
+            family=("match_outcome" if row["market"] in ("1X2","double_chance")
+                    else row["market"])
+            if family in seen:
+                rest.append(row)
+            else:
+                one.append(row)
+                seen.add(family)
+        choices.extend((one+rest)[:limit_per_fixture])
+    return sorted(choices,key=lambda z:(
+        z.get("odds") is None,-z["probability"],str(z["fixture_id"]),
+        str(z["market"]),str(z.get("line"))))
+
+
+def rollout_manifest(rows, leaders, queue_cutoff_utc, *, priced_as_of_utc):
+    """Read-only coverage evidence; NOT claims about model calibration."""
+    from collections import Counter
+    records=list(rows)
+    by_market=Counter(r["market"] for r in records)
+    priced_market=Counter(r["market"] for r in records if r.get("odds") is not None)
+    lines={}
+    for kind in ("goals","corners"):
+        lines[kind]=sorted({float(r["line"]) for r in records
+                            if r["market"]==kind and r.get("line") is not None})
+    expected={"goals":[.5,1.5,2.5,3.5,4.5],
+              "corners":[6.5,7.5,8.5,9.5,10.5,11.5]}
+    available_dc=sorted({r["selection"] for r in records if r["market"]=="double_chance"})
+    new_lines={"goals":(.5,4.5),"corners":(6.5,10.5,11.5)}
+    observed_new={k:[line for line in vals if line in lines[k]]
+                  for k,vals in new_lines.items()}
+    return {"schema":"multimodel-market-rollout-observation-v1",
+            "forecast_cutoff_utc":queue_cutoff_utc,
+            "price_snapshot_utc":priced_as_of_utc,
+            "observed_market_rows":dict(sorted(by_market.items())),
+            "priced_rows":dict(sorted(priced_market.items())),
+            "double_chance_selections":available_dc,
+            "observed_new_lines":observed_new,
+            "all_supported_lines":expected,
+            "leader_market_mix":dict(sorted(Counter(
+                r["market"] for r in leaders).items())),
+            "leader_max_three_per_fixture":True,
+            "model_probabilities_status":"uncalibrated_research",
+            "fresh_post_deployment_forecast_verified":False,
+            "no_new_bookmaker_queries":True,
+            "note":"Presence is observation only. Absence in a frozen old report is not an error; a fresh post-deployment cycle must be checked separately."}
+
+
 def pdf_style():
     path="/usr/share/fonts/truetype/dejavu/"
     pdfmetrics.registerFont(TTFont("Multi",path+"DejaVuSans.ttf"))
@@ -221,10 +283,7 @@ def build_day(abc_root,odds_root,day,dest):
              f"Oferta Superbet: {moment(market['as_of_utc']):%d.%m.%Y %H:%M} | "
              f"Mecze: {len(fixtures)} | A/B/C: {abc_count} | SHADOW: {shadow_count} | Z kursem: {priced}"),
            P("Najważniejsze do przeglądu (maksymalnie 3 na mecz)","head")]
-    leaders=[]
-    for fid,items in grouped.items():
-        leaders.extend(sorted(items,key=lambda z:(z["odds"] is None,-z["probability"]))[:3])
-    leaders.sort(key=lambda z:(z["odds"] is None,-z["probability"]))
+    leaders=leader_shortlist(grouped)
     leading=[]
     for row in leaders[:35]:
         f=fixtures[row["fixture_id"]]
@@ -256,8 +315,11 @@ def build_day(abc_root,odds_root,day,dest):
                    "Strzały, strzały celne i spalone nadal wymagają danych. "
                    "Nie utożsamiamy wariantów A/B/C z dostępnością kursów."))
     export_pdf(dest,story)
+    observation=rollout_manifest(rows.values(),leaders,q["generated_at_utc"],
+                                  priced_as_of_utc=market["as_of_utc"])
     return dict(fixtures=len(fixtures),abc=abc_count,shadow=shadow_count,
-                with_odds=priced, priced_shadow_by_market=priced_shadow_by_market)
+                with_odds=priced, priced_shadow_by_market=priced_shadow_by_market,
+                market_rollout=observation)
 
 def build_audit(abc_root,odds_root,audit_root,day,dest):
     # Inventory of exact stored Superbet market names; no odds API requests.
