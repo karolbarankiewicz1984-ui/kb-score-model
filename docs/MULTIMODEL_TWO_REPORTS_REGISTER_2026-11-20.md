@@ -103,3 +103,7 @@ Reguły fauli, kartek i handicapów podlegają osobnemu testowi semantycznemu: h
 - Dwudokumentowy generator `github_models/unified_output.py` ma osobną, jednoznaczną etykietę 1X/X2/12. W audycie osobno pokazuje luki źródłowe fauli (odgwizdane, bez przewagi) i kartek (z wykluczeniami, czerwonymi) według oficjalnych zasad Superbet, bez automatycznego oznaczania `Bookings` jako żółte kartki.
 - Dwa końcowe PDF nie zmieniają nazw i liczby. Aktualizacji raportów z nowymi rynkami oczekujemy **dopiero w następnej poprawnie zamrożonej dziennej prognozie i dopasowanym skanie**, nie wstecz.
 - Pełna kolejność prac 1–5, kryteria i przeszkody prawdziwej walidacji OPTA/Bookings: [główny rejestr](MULTIMODEL_MARKET_RULES_REGISTER_2026-11-20.md).
+
+### Test dwudokumentowej publikacji po rozbudowie 1X/X2/12 — 23.11.2026, 17:05 UTC
+
+[GitHub Actions 45223679448](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45223679448) na `main`: **SUCCESS**, wynikowy plik prognoz **14 stron**, audyt **2 strony**, oba z istniejącej pary dokładnie zgodnych zamrożonych archiwów z 22.11, bez nowych zapytań do OddsPapi. Kod etykiet 1X/X2/12 i raportu ograniczeń fauli/kartek przetestowany, lecz ten przebieg na *starszym* archiwum nie potwierdza jeszcze pojawienia się nowych rynków w świeżo wygenerowanym PDF. [Test bezpieczeństwa 45223679412](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45223679412): 36/36 PASS. Kolejny normalny dzienny cykl pobierze nowe prognozy; nie uruchamiać dodatkowego płatnego skanu tylko po to, by wymusić PDF.
