@@ -57,6 +57,7 @@ def audit_one(overlay, queue, history, events, now):
                "p_market":row.get("market_no_vig_probability"),
                "odds_captured_at_utc":row["odds_captured_at_utc"],
                "forecast_frozen_at_utc":row["forecast_frozen_at_utc"],
+               "resolved_identity":row.get("resolved_identity"),
                "status":"unresolved","reason":"final_result_pending"}
         # No post-match source should be consulted for fixtures not yet played.
         if utc(row["kickoff_utc"]) >= now:
@@ -124,6 +125,8 @@ def run(root, history, events, as_of_utc):
     rows=[]
     errors=Counter()
     snapshots_seen=0
+    fixtures_by_id={}
+    conflicting_fixture_ids=set()
     for file in sorted(Path(root).rglob("market_overlay.json")):
         folder=file.parent
         queuefile=folder/"pitch_queue.json"
@@ -133,6 +136,18 @@ def run(root, history, events, as_of_utc):
             overlay=json.loads(file.read_text(encoding="utf-8"))
             queue=json.loads(queuefile.read_text(encoding="utf-8"))
             chunk,issues=audit_one(overlay,queue,history,events,now)
+            # Keep source fixture identity for evidence diagnostics only.
+            # A conflict between frozen queues cannot be silently merged.
+            for fixture in queue.get("fixtures",[]):
+                fid=str(fixture["fixture_id"])
+                previous=fixtures_by_id.get(fid)
+                if previous is not None and any(
+                    previous.get(field)!=fixture.get(field)
+                    for field in ("home","away","league","kickoff_utc","country_code")
+                ):
+                    conflicting_fixture_ids.add(fid)
+                elif previous is None:
+                    fixtures_by_id[fid]=fixture
             rows+=chunk
             errors.update(issues)
             snapshots_seen+=1
@@ -172,6 +187,58 @@ def run(root, history, events, as_of_utc):
                              if r["status"]=="pending_future"})
     unresolved_reasons=Counter(r.get("reason") or "unexplained" for r in unique.values()
                                if r["status"] not in {"settled","pending_future"})
+    # Show precisely which independent proof is absent. This diagnosis does
+    # not change any status, hit, model probability, historical price or ROI.
+    unresolved_details=[]
+    unresolved_by_market=Counter()
+    unresolved_evidence=Counter()
+    score_cache={}
+    for item in unique.values():
+        if item["status"] in {"settled","pending_future"}:
+            continue
+        fid=item["fixture_id"]
+        reason=item.get("reason") or "unexplained"
+        unresolved_by_market[item["market"]]+=1
+        if fid in conflicting_fixture_ids:
+            evidence="conflicting_frozen_queue_identity"
+        elif fid not in fixtures_by_id:
+            evidence="frozen_fixture_not_available"
+        elif reason=="no_exact_verified_outcome":
+            # Goal score existence does NOT prove any corner/foul/card count.
+            # The event settlement remains unresolved until exact event
+            # evidence, compatible with the market, is independently present.
+            cache_key=(fid,json.dumps(item.get("resolved_identity"),sort_keys=True))
+            if cache_key not in score_cache:
+                try:
+                    scores=matching_outcomes(
+                        fixtures_by_id[fid],history,
+                        as_of_utc=as_of_utc,
+                        resolved_identity=item.get("resolved_identity"))
+                    score_cache[cache_key]=(len(scores),None)
+                except (ValueError,TypeError,KeyError,AttributeError) as exc:
+                    score_cache[cache_key]=(None,type(exc).__name__)
+            count,error=score_cache[cache_key]
+            if error:
+                evidence="score_identity_unverified:"+error
+            elif count==1:
+                evidence="verified_final_score_exists_event_total_missing"
+            elif count==0:
+                evidence="independent_final_score_not_found"
+            else:
+                evidence="ambiguous_independent_final_score"
+        elif reason=="no_verified_final_yet":
+            evidence="independent_final_score_not_found"
+        else:
+            evidence="unverified_reason:"+reason
+        unresolved_evidence[evidence]+=1
+        unresolved_details.append({
+            "fixture_id":fid,"market":item["market"],
+            "selection":item["selection"],"line":item["line"],
+            "kickoff_utc":item["kickoff_utc"],
+            "reason":reason,"source_evidence_state":evidence})
+    unresolved_details.sort(key=lambda z:(
+        z["kickoff_utc"],z["fixture_id"],z["market"],
+        str(z["line"]),z["selection"]))
     variants=defaultdict(list)
     by_market=defaultdict(list)
     by_band=defaultdict(list)
@@ -196,12 +263,17 @@ def run(root, history, events, as_of_utc):
             "unique_selection_quotes":len(unique),
             "settled_selection_quotes":len(settled),
             "unique_settled_fixtures":len({r["fixture_id"] for r in settled}),
+            "settled_fixture_ids":sorted({r["fixture_id"] for r in settled}),
             "status_counts":dict(status_counts),
             "pending_future_quotes":status_counts.get("pending_future",0),
             "pending_future_fixture_count":len({r["fixture_id"] for r in unique.values()
                                                 if r["status"]=="pending_future"}),
             "earliest_pending_kickoff_utc":pending_kickoffs[0] if pending_kickoffs else None,
             "unresolved_reasons":dict(unresolved_reasons),
+            "unresolved_by_market":dict(sorted(unresolved_by_market.items())),
+            "unresolved_source_evidence":dict(sorted(unresolved_evidence.items())),
+            "unresolved_exact_selections":unresolved_details,
+            "unresolved_diagnostics_only":True,
             "duplicates_suppressed":len(rows)-len(unique),
             "exclusions":dict(errors),
             "summary":[{"variant":v,**_metrics(g)} for v,g in sorted(variants.items())],
