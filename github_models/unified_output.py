@@ -42,8 +42,17 @@ def number(x):
     return "—" if x is None else ("%.2f" % float(x)).replace(".",",")
 
 def key(row):
-    return (str(row["fixture_id"]), str(row["market"]), str(row["selection"]),
-            str(row.get("line") if row.get("line") is not None else ""))
+    market=str(row["market"])
+    line=row.get("line")
+    # OddsPapi stores full-time 1X2 as line=0, while ABC 1X2 selections
+    # are categorical (line absent). Their identities are equivalent.
+    # Never map a real numeric OVER/UNDER line to another line.
+    if market in ("1X2","double_chance"):
+        if line is not None and (type(line) not in (int,float) or line != 0):
+            raise ValueError("invalid_categorical_market_line")
+        line=None
+    return (str(row["fixture_id"]),market,str(row["selection"]),
+            str(line if line is not None else ""))
 
 def market_label(r):
     m, s, line = r["market"], r["selection"], r.get("line")
@@ -121,7 +130,9 @@ def rollout_manifest(rows, leaders, queue_cutoff_utc, *, priced_as_of_utc):
                 r["market"] for r in leaders).items())),
             "leader_max_three_per_fixture":True,
             "model_probabilities_status":"uncalibrated_research",
-            "fresh_post_deployment_forecast_verified":False,
+            "new_market_output_observed":bool(available_dc and any(observed_new.values())),
+            "rollout_status":("new_markets_observed" if available_dc and any(observed_new.values())
+                              else "awaiting_fresh_market_output_or_source_coverage"),
             "no_new_bookmaker_queries":True,
             "note":"Presence is observation only. Absence in a frozen old report is not an error; a fresh post-deployment cycle must be checked separately."}
 
