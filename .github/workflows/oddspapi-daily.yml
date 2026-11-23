@@ -6,10 +6,8 @@ on:
     types: [completed]
     branches: [main]
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/oddspapi-daily.yml'
+  # No push trigger: code changes must not burn extra monthly OddsPapi credits.
+  # The normal daily A/B/C workflow_run and explicit workflow_dispatch remain.
 
 permissions:
   contents: read
@@ -30,7 +28,7 @@ jobs:
       - name: Checkout pinned, independently tested OddsPapi research implementation
         uses: actions/checkout@v4
         with:
-          ref: 0e9af0ec27889bf84ea4fa6daeeb4fcb0d0e9394
+          ref: f9aa94343efff7911fddcf5957b31884e150fc31
           persist-credentials: false
       - name: Read immutable GitHub Models V2 inputs
         uses: actions/checkout@v4

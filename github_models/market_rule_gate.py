@@ -12,6 +12,7 @@ from datetime import datetime
 import json
 from math import isfinite
 from pathlib import Path
+from github_models.disciplinary_rules import review_football_data_schema, SUPERBET_FOOTBALL_RULES, SUPERBET_OPTA_NOTICE
 
 POLISH_BOOKMAKER = "superbet.pl"
 RULES_VERSION = "2026-11-20-research-v1"
@@ -78,6 +79,11 @@ def classify_quote(q):
                                                else "provider_line_sign_and_side_unverified")
         else:
             family, reason = "other_handicap", "market_identity_not_verified"
+    elif (name == "double chance full time" and kind == "doublechance"
+          and period == "fulltime" and not player
+          and _is_number(line) and line == 0 and
+          outcome in ("1x","2x","12")):
+        family, reason = "double_chance", "research_exact_fulltime_quote"
     elif (name, kind) == GOALS and period == "fulltime" and not player:
         family, reason = "goals", "existing_exact_comparison_only"
     elif (name, kind) == CORNERS and period == "fulltime" and not player:
@@ -86,12 +92,12 @@ def classify_quote(q):
         family, reason = "btts", "research_exact_fulltime_quote"
     else:
         family, reason = "other", "unmapped_or_different_scope"
-    if family in ("goals", "corners", "btts"):
-        if family != "btts" and (not _is_number(line) or line < 0 or outcome not in ("over", "under")):
+    if family in ("goals", "corners", "btts", "double_chance"):
+        if family in ("goals","corners") and (not _is_number(line) or line < 0 or outcome not in ("over", "under")):
             reason = "line_or_selection_not_verified"
         if not price_eligible:
             reason = "price_below_1_20"
-    safe_comparison = family in ("goals", "corners", "btts") and reason in (
+    safe_comparison = family in ("goals", "corners", "btts", "double_chance") and reason in (
         "existing_exact_comparison_only", "research_exact_fulltime_quote")
     return {
         "family": family, "reason": reason, "period": period,
@@ -192,6 +198,18 @@ def audit(collection, gaps=None):
             "bookings_or_cards": "blocked_until_booking_unit_and_card_rules_verified",
             "asian_handicap": "blocked_until_odds_side_sign_convention_verified",
             "european_handicap": "not_equivalent_to_asian_half_goal",
+        },
+        "disciplinary_source_validation": review_football_data_schema(),
+        "bookings_unit_status": "provider_confirmation_missing_oddsPapi_v4",
+        "independent_opta_per_match_coverage_outside_PL": 0,
+        "official_superbet_rules": {
+            "football_effective": "2025-12-16",
+            "official_stats_source_notice_effective": "2026-04-29",
+            "fouls": "referee_whistled_only_advantage_excluded",
+            "cards": "yellow_one_straight_red_two_second_yellow_dismissal_three",
+            "staff_bench_postwhistle": "excluded",
+            "corner_counts": "awarded_but_not_taken_excluded",
+            "sources": [SUPERBET_FOOTBALL_RULES,SUPERBET_OPTA_NOTICE],
         },
         "automatically_promoted_markets": [],
         "new_paid_api_calls": 0,
