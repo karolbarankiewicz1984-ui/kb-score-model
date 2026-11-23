@@ -13,10 +13,10 @@ from zoneinfo import ZoneInfo
 from github_models.abc_filter import evaluate
 from github_models.abc_pdf_style import p, render, styles, table
 
-LABELS = {"1X2": "Wynik 1X2", "goals": "Bramki",
+LABELS = {"1X2": "Wynik 1X2", "double_chance": "Podwójna szansa", "goals": "Bramki",
           "fouls": "Faule", "cards": "Żółte kartki",
           "corners": "Rożne"}
-MARKET_ORDER = ("1X2", "goals", "fouls", "cards", "corners")
+MARKET_ORDER = ("1X2", "double_chance", "goals", "fouls", "cards", "corners")
 THRESHOLDS = {"A": 70, "B": 75, "C": 80}
 # A compact, reproducible cross-market sample, not the full candidate pool.
 PER_MARKET = 3
@@ -26,6 +26,10 @@ def label_market(row):
     if market == "1X2":
         return "Wynik meczu: " + {"1": "1 (gospodarze)", "X": "X (remis)",
                                  "2": "2 (goście)"}.get(row["selection"], str(row["selection"]))
+    if market == "double_chance":
+        return "Podwójna szansa: " + {"1X": "gospodarze lub remis",
+            "X2": "remis lub goście", "12": "gospodarze lub goście"}.get(
+                row["selection"], "NIEZWERYFIKOWANY WYBÓR")
     if market not in LABELS:
         return str(market) + " " + str(row.get("line", "")) + " " + str(row["selection"])
     direction = {"over": "Powyżej", "under": "Poniżej"}[row["selection"]]
@@ -85,6 +89,7 @@ def build(predictions, events, queue, output_json, output_pdf):
                                   predictions.get("frozen_at_utc"))
     result["rules"] = {"A": "P>=70%", "B": "P>=75%", "C": "P>=80%",
                        "1X2": "both Elo and Dixon-Coles pass; max 10pp difference",
+                       "double_chance": "sum mutually exclusive 1X2 outcomes in each frozen model; both pass; max 10pp difference",
                        "events": "single-model, mathematically complete over/under pairs"}
     target = Path(output_json)
     target.parent.mkdir(parents=True, exist_ok=True)
