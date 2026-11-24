@@ -156,6 +156,48 @@ class CurrentCycle(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"future_audit"):
             _validate(r,s,g,now=NOW)
 
+    def test_live_abc_source_guard_rejects_old_freeze_and_writes_evidence(self):
+        import json
+        import os
+        import subprocess
+        import sys
+        from textwrap import dedent
+        from zoneinfo import ZoneInfo
+        workflow=(Path(__file__).resolve().parents[1] /
+                  ".github/workflows/github-models-v2-daily-audit.yml").read_text(encoding="utf-8")
+        marker="- name: Verify Warsaw-day frozen ABC queue and preserve source health"
+        self.assertIn(marker,workflow)
+        body=workflow.split(marker,1)[1].split("python - <<'PY'",1)[1].split("PY",1)[0]
+        script=dedent(body)
+        compile(script,"workflow_abc_source_guard.py","exec")
+        now=datetime.now(timezone.utc)
+        local=now.astimezone(ZoneInfo("Europe/Warsaw")).date()
+        q={"schema":"github-models-fixture-queue-v1",
+           "generated_at_utc":now.isoformat(),
+           "dates":[str(local+timedelta(days=i)) for i in range(7)],
+           "fixtures":[]}
+        with tempfile.TemporaryDirectory() as folder:
+            work=Path(folder)
+            src=work/"reports/github_models/queues"/(str(local)+".json")
+            src.parent.mkdir(parents=True)
+            src.write_text(json.dumps(q),encoding="utf-8")
+            env=dict(os.environ,FROZEN_AT=now.isoformat())
+            run=subprocess.run([sys.executable,"-c",script],env=env,cwd=folder,
+                               text=True,capture_output=True)
+            self.assertEqual(run.returncode,0,run.stderr+run.stdout)
+            out=work/"reports/github_models/coverage"/("CYCLE_SOURCE_HEALTH_"+str(local)+".json")
+            evidence=json.loads(out.read_text(encoding="utf-8"))
+            self.assertEqual(evidence["status"],"NO_TODAY_FIXTURES_BUT_FUTURE_DATES_VALID")
+            self.assertEqual(evidence["paid_oddspapi_calls"],0)
+            prior=now-timedelta(days=1)
+            q["generated_at_utc"]=prior.isoformat()
+            src.write_text(json.dumps(q),encoding="utf-8")
+            stale=subprocess.run([sys.executable,"-c",script],cwd=folder,
+                                 env=dict(os.environ,FROZEN_AT=prior.isoformat()),
+                                 text=True,capture_output=True)
+            self.assertNotEqual(stale.returncode,0)
+            self.assertIn("ABC_SOURCE_BLOCKED",stale.stderr+stale.stdout)
+
     def test_collector_day_gate_runs_before_paid_calls(self):
         root=Path(__file__).resolve().parents[1]
         y=(root/".github/workflows/oddspapi-daily.yml").read_text()
