@@ -124,16 +124,16 @@ jobs:
                   "paid_oddspapi_calls":0}
           out=Path("reports/github_models/coverage")/("CYCLE_SOURCE_HEALTH_"+str(day)+".json")
           out.parent.mkdir(parents=True,exist_ok=True)
-          out.write_text(json.dumps(health,ensure_ascii=False,indent=2)+"\\n",encoding="utf-8")
+          out.write_text(json.dumps(health,ensure_ascii=False,indent=2)+chr(10),encoding="utf-8")
           print("ABC_SOURCE_HEALTH="+json.dumps(health,ensure_ascii=False))
           if counts[str(day)]==0:
               print("::warning::ABC source has no future fixtures today; do not force old bookmaker prices")
           if os.getenv("GITHUB_STEP_SUMMARY"):
               with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf-8") as s:
-                  s.write("\\n### ABC source chronology\\n")
-                  s.write(f"- Day: {day}; frozen cutoff: {at.isoformat()}\\n")
-                  s.write(f"- Fixtures today: {counts[str(day)]}; total 7 days: {len(fixtures)}\\n")
-                  s.write(f"- Status: {health['status']}\\n")
+                  s.write(chr(10)+"### ABC source chronology"+chr(10))
+                  s.write(f"- Day: {day}; frozen cutoff: {at.isoformat()}"+chr(10))
+                  s.write(f"- Fixtures today: {counts[str(day)]}; total 7 days: {len(fixtures)}"+chr(10))
+                  s.write(f"- Status: {health['status']}"+chr(10))
           PY
       # Publish forecasts as soon as they are computed; never block on slow historical audits.
       - name: Render GitHub Models V2 A/B/C PDF and freeze complete JSON
