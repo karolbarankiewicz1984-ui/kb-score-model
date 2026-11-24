@@ -605,3 +605,11 @@ Ponownie sprawdzono korespondencję Gmail: istnieje wysłane zgłoszenie „Odds
 - Przygotowano `tests/test_multimodel_report_freshness.py` dla starej kolejki, starej oferty, braku nadchodzących meczów, rozpoczętych meczów, publikacji po kickoff, przekroczenia 6 godzin, zmiany daty w Polsce oraz świadomego replay.
 
 **Status przed CI:** kod zapisany do osobnego PR, **jeszcze nie wdrożony na `main`**, wyniki nowych testów do potwierdzenia. Dzienny cykl może mieć status `CURRENT_PDF_BLOCKED`, co jest prawidłową odmową publikacji, a nie porażką prognozy. Historyczne wyniki modelu są nadal dostępne w niezależnym audycie.
+
+
+### Kontrola i wynik poprawki PDF — 24.11.2026
+
+- [x] PR [#90](https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/90) obejmuje kontrolę daty i świeżości danych, ograniczenie do przyszłych spotkań oraz osobny historyczny replay.
+- [x] Testy [GitHub Actions — shots 45328234152](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45328234152): **SUCCESS, 58/58**. Oryginalny archiwalny replay 22.11 nadal tworzy dokładnie dwa otwieralne PDF-y z nazwą `ODTWORZENIE`. Test negatywny potwierdził `MULTIMODEL_CURRENT_PDF_BLOCKED: queue_not_today_warsaw`; pliki o aktualnych nazwach nie zostały utworzone.
+- [x] [GitHub Actions — market-rules 45328234091](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45328234091): **SUCCESS**; istniejące zabezpieczenia rynków i archiwów utrzymane.
+- [ ] Osobna weryfikacja **pierwszego produkcyjnego przebiegu** po merge: bieżąca data i źródła, liczba wyłączonych rozpoczętych spotkań, manifest `publication_mode=current`, ostatnia kontrola `CURRENT_PDF_PUBLICATION_GUARD=PASS`. Nie opisywać testowego replay jako rzeczywistego produkcyjnego raportu.
