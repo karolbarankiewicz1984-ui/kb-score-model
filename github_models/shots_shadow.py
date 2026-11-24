@@ -116,6 +116,43 @@ def freeze(queue, collection, root, *, day, cutoff, replay=False):
     summary = Counter(m["status"] for f in results for m in f["markets"])
     summary["forecast_rows"] = sum(len(f["candidates"]) for f in results)
     summary["priced_forecast_rows"] = sum(r["odds"] is not None for f in results for r in f["candidates"])
+
+    # Diagnose empty research output without guessing a mapping from team names.
+    # One fixture may have partial coverage; count it as available if at least
+    # one genuinely sourced and timestamp-valid candidate exists.
+    reasons = Counter()
+    by_league = {}
+    missing_pitch_ids = set()
+    fixture_diagnostics = []
+    priority = ("fixture_already_started", "unverified_prematch_fixture",
+                "unverified_team_crosswalk", "insufficient_history")
+    for fixture, report in zip(fixtures.values(), results):
+        statuses = {m["status"] for m in report["markets"]}
+        reason = ("forecast_available" if report["candidates"] else
+                  next((p for p in priority if p in statuses), "no_eligible_market"))
+        reasons[reason] += 1
+        league = str(fixture.get("league") or "unknown")
+        by_league.setdefault(league, Counter())[reason] += 1
+        if reason == "unverified_team_crosswalk":
+            for side in ("home", "away"):
+                pitch_id = fixture.get(side + "_team_id")
+                if identifier(pitch_id) and pitch_id not in ids:
+                    missing_pitch_ids.add(str(pitch_id))
+        fixture_diagnostics.append({
+            "fixture_id": str(fixture["fixture_id"]),
+            "league": league, "country_code": fixture.get("country_code"),
+            "reason": reason, "candidate_rows": len(report["candidates"]),
+            "market_statuses": dict(sorted(Counter(m["status"] for m in report["markets"]).items())),
+        })
+    coverage["queue_diagnostics"] = {
+        "fixtures_checked": len(fixtures),
+        "reason_counts": dict(sorted(reasons.items())),
+        "league_reason_counts": {k: dict(sorted(v.items())) for k, v in sorted(by_league.items())},
+        "unmapped_pitch_team_ids": sorted(missing_pitch_ids),
+        "fixture_details": fixture_diagnostics,
+        "warning": ("no_eligible_forecasts_check_identity_and_history"
+                    if not summary["forecast_rows"] else None),
+    }
     return {"schema": FREEZE_SCHEMA, "day": day, "mode": "historical_replay" if replay else "prospective",
             "frozen_at_utc": cutoff, "queue_cutoff_utc": queue_cutoff, "queue_sha256": queue_digest(queue),
             "training_source": HISTORY_SOURCE, "calibration_authorized": False,
