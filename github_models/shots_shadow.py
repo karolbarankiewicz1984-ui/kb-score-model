@@ -138,7 +138,11 @@ def main():
     parser.add_argument("--replay-cutoff", help="Backtest only. Never archived as prospective evidence.")
     args = parser.parse_args()
     cutoff = args.replay_cutoff or datetime.now(timezone.utc).isoformat()
-    result = freeze(read(args.queue), read(args.collection), args.root,
+    try:
+        collection = read(args.collection)
+    except (FileNotFoundError, json.JSONDecodeError):
+        collection = {}
+    result = freeze(read(args.queue), collection, args.root,
                     day=args.day, cutoff=cutoff, replay=args.replay_cutoff is not None)
     write_new(args.output, result)
     print(json.dumps({k: result[k] for k in ("summary", "coverage", "quote_audit")}, ensure_ascii=False))
