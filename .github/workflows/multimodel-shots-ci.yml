@@ -77,6 +77,8 @@ jobs:
           assert d["quote_audit"]["superbet_quotes"] > 0, "No actual Superbet prices inspected"
           assert r["prognoses"]["shots_rows"] == d["summary"]["forecast_rows"] > 0
           assert len(list(Path("results").glob("*.pdf"))) == 2
+          assert r["publication_mode"] == "historical_replay"
+          assert (Path("results")/"MULTIMODEL_ODTWORZENIE_2026-11-22.pdf").is_file()
           a = json.loads(Path("results/settlement.json").read_text())
           assert a["distinct_settled_fixtures"] == 0 and a["calibration_authorized"] is False
           assert all(x["brier"] is None and x["log_loss"] is None for x in a["summary"])
@@ -86,7 +88,9 @@ jobs:
             pdftotext "$file" "${file%.pdf}.txt"
             grep -q 'SHADOW strzały' "${file%.pdf}.txt"
           done
-          grep -q 'Log loss' results/MULTIMODEL_AUDYT_2026-11-22.txt
+          grep -q 'Log loss' results/MULTIMODEL_AUDYT_ODTWORZENIE_2026-11-22.txt
+          test ! -e results/MULTIMODEL_2026-11-22.pdf
+          test ! -e results/MULTIMODEL_AUDYT_2026-11-22.pdf
       - name: Save replay evidence
         if: always()
         uses: actions/upload-artifact@v4
