@@ -85,7 +85,7 @@ jobs:
           print("CI ONLY: source archive day",day,"not current live bookmaker prices")
           PY
           for file in ci/replay_only_abc/*.pdf; do
-            pdfinfo "$file" | grep -q 'Page size:.*A5'
+            pdfinfo "$file" | grep -Eq '^Page size: +419[.]5[0-9]+ x 595[.]2[0-9]+ pts'
           done
       - name: Real archived settlement PDF independent of today's selections
         run: |
