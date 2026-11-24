@@ -91,6 +91,24 @@ jobs:
           grep -q 'Log loss' results/MULTIMODEL_AUDYT_ODTWORZENIE_2026-11-22.txt
           test ! -e results/MULTIMODEL_2026-11-22.pdf
           test ! -e results/MULTIMODEL_AUDYT_2026-11-22.pdf
+      - name: Prove 22 Nov archive cannot masquerade as current recommendations
+        run: |
+          set -euo pipefail
+          if python -B -m github_models.report_freshness \
+              --queue quotes/pitch_queue.json --market quotes/market_overlay.json \
+              --day 2026-11-22; then
+            echo "::error::Historical source incorrectly passed the current-day gate"
+            exit 1
+          fi
+          if python -B -m github_models.unified_output \
+              --abc-dir archive --odds-dir quotes --audit-dir audit --day 2026-11-22 \
+              --output-dir results/forbidden-current; then
+            echo "::error::Historical archive unexpectedly generated a current PDF"
+            exit 1
+          fi
+          test ! -e results/forbidden-current/MULTIMODEL_2026-11-22.pdf
+          echo "Historical reports can only be generated with --historical-replay."
+
       - name: Save replay evidence
         if: always()
         uses: actions/upload-artifact@v4
