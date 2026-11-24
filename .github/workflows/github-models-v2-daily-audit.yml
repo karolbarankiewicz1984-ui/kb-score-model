@@ -64,6 +64,77 @@ jobs:
           python -B -m github_models.coverage_audit --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --output "reports/github_models/coverage/$DAY.json" --as-of "$FROZEN_AT"
           python -B -m github_models.predict --queue "reports/github_models/queues/$DAY.json" --output "reports/github_models/predictions/$DAY.json" --as-of "$FROZEN_AT"
           python -B -m github_models.market_runner --queue "reports/github_models/queues/$DAY.json" --history data/github_models/verified_results.json --events data/github_models/verified_events.json --as-of "$FROZEN_AT" --output "reports/github_models/markets/$DAY.json"
+      # Operator-initiated one-off diagnostic (24 Nov): this workflow's existing
+      # push-path trigger initiates one NORMAL ABC run after merge. This does not
+      # add a daily schedule or make new paid OddsPapi requests by itself.
+      - name: Verify Warsaw-day frozen ABC queue and preserve source health
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timedelta, timezone
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          zone=ZoneInfo("Europe/Warsaw")
+          day=datetime.now(zone).date()
+          path=Path("reports/github_models/queues")/(str(day)+".json")
+          if not path.is_file():
+              raise SystemExit("ABC_SOURCE_BLOCKED: missing_today_frozen_queue")
+          q=json.loads(path.read_text(encoding="utf-8"))
+          stamp=q.get("generated_at_utc")
+          cutoff=os.environ["FROZEN_AT"]
+          if q.get("schema")!="github-models-fixture-queue-v1" or stamp!=cutoff:
+              raise SystemExit("ABC_SOURCE_BLOCKED: wrong_queue_schema_or_cutoff")
+          at=datetime.fromisoformat(cutoff.replace("Z","+00:00"))
+          now=datetime.now(timezone.utc)
+          expected=[str(day+timedelta(days=i)) for i in range(7)]
+          if (at.tzinfo is None or at>now or now-at>timedelta(hours=6)
+                  or at.astimezone(zone).date()!=day or q.get("dates")!=expected):
+              raise SystemExit("ABC_SOURCE_BLOCKED: stale_or_wrong_warsaw_dates")
+          fixtures=q.get("fixtures")
+          if not isinstance(fixtures,list):
+              raise SystemExit("ABC_SOURCE_BLOCKED: malformed_fixture_queue")
+          counts={d:0 for d in expected}
+          ids=set()
+          for f in fixtures:
+              if not isinstance(f,dict) or not f.get("fixture_id"):
+                  raise SystemExit("ABC_SOURCE_BLOCKED: missing_fixture_id")
+              fid=str(f["fixture_id"])
+              if fid in ids:
+                  raise SystemExit("ABC_SOURCE_BLOCKED: duplicate_fixture_id")
+              ids.add(fid)
+              kick=datetime.fromisoformat(f["kickoff_utc"].replace("Z","+00:00"))
+              if kick.tzinfo is None or kick<=at:
+                  raise SystemExit("ABC_SOURCE_BLOCKED: kickoff_not_future_at_freeze")
+              local=str(kick.astimezone(zone).date())
+              if local not in counts:
+                  raise SystemExit("ABC_SOURCE_BLOCKED: outside_seven_day_queue")
+              counts[local]+=1
+          health={"schema":"multimodel-abc-fresh-source-health-v1",
+                  "day":str(day),"source_cutoff_utc":at.isoformat(),
+                  "checked_at_utc":now.isoformat(),"queue_rows":len(fixtures),
+                  "fixtures_by_warsaw_day":counts,
+                  "today_fixtures":counts[str(day)],
+                  "missing_dates":q.get("missing_dates",[]),
+                  "invalid_dates":q.get("invalid_dates",[]),
+                  "partial_dates":q.get("partial_dates",[]),
+                  "status":"CURRENT_SOURCE_VALIDATED" if counts[str(day)] else
+                           "NO_TODAY_FIXTURES_BUT_FUTURE_DATES_VALID",
+                  "paid_oddspapi_calls":0}
+          out=Path("reports/github_models/coverage")/("CYCLE_SOURCE_HEALTH_"+str(day)+".json")
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(health,ensure_ascii=False,indent=2)+chr(10),encoding="utf-8")
+          print("ABC_SOURCE_HEALTH="+json.dumps(health,ensure_ascii=False))
+          if counts[str(day)]==0:
+              print("::warning::ABC source has no future fixtures today; do not force old bookmaker prices")
+          if os.getenv("GITHUB_STEP_SUMMARY"):
+              with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf-8") as s:
+                  s.write(chr(10)+"### ABC source chronology"+chr(10))
+                  s.write(f"- Day: {day}; frozen cutoff: {at.isoformat()}"+chr(10))
+                  s.write(f"- Fixtures today: {counts[str(day)]}; total 7 days: {len(fixtures)}"+chr(10))
+                  s.write(f"- Status: {health['status']}"+chr(10))
+          PY
       # Publish forecasts as soon as they are computed; never block on slow historical audits.
       - name: Render GitHub Models V2 A/B/C PDF and freeze complete JSON
         shell: bash

@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/oddspapi-daily.yml'
+      - '.github/workflows/github-models-v2-daily-audit.yml'
       - '.github/workflows/multimodel-independent-audit-pdf.yml'
       - '.github/workflows/multimodel-three-day-a5.yml'
       - '.github/workflows/multimodel-current-cycle-ci.yml'
