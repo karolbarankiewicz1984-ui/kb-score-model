@@ -1,0 +1,104 @@
+name: MultiModel V2 - three A5 research PDFs (today + 2 days)
+on:
+  workflow_run:
+    workflows:
+      - 'GitHub Models V2 — A/B/C | daily forecast and audit'
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: multimodel-three-day-a5-reports
+  cancel-in-progress: false
+
+jobs:
+  three-day-a5:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name != 'workflow_run' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF font and renderer
+        run: |
+          set -euo pipefail
+          python -m pip install reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
+      - name: Download exact frozen A/B/C report from successful ABC job
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ABC_TRIGGER_RUN: ${{ github.event.workflow_run.id || '' }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$ABC_TRIGGER_RUN" ]]; then
+            run_id="$ABC_TRIGGER_RUN"
+          else
+            run_id="$(gh run list --repo "$GITHUB_REPOSITORY" \
+              --workflow github-models-v2-daily-audit.yml --status success --limit 1 \
+              --json databaseId --jq '.[0].databaseId')"
+          fi
+          test -n "$run_id" && test "$run_id" != "null"
+          artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts" \
+            --jq '.artifacts[] | select(.expired == false and (.name | startswith("github-models-v2-abc-forecast-"))) | .name' | head -n 1)"
+          test -n "$artifact"
+          mkdir -p input/abc
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" \
+            --name "$artifact" --dir input/abc
+          echo "SOURCE_ABC_RUN=$run_id" >> "$GITHUB_ENV"
+      - name: Emit precisely three A5 PDFs without extrapolating missing odds
+        shell: bash
+        run: |
+          set -euo pipefail
+          day="$(TZ=Europe/Warsaw date +%F)"
+          queue="input/abc/reports/github_models/queues/$day.json"
+          abc="input/abc/reports/github_models/filters/ABC_$day.json"
+          test -s "$queue" && test -s "$abc"
+          python -B -m github_models.three_day_a5 \
+            --queue "$queue" --abc "$abc" --output-dir reports/three_day
+          python - <<'PY'
+          from datetime import date,timedelta
+          import json,os
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          from datetime import datetime
+          root=Path("reports/three_day")
+          doc=json.loads((root/"manifest.json").read_text(encoding="utf-8"))
+          today=datetime.now(ZoneInfo("Europe/Warsaw")).date()
+          days=[str(today+timedelta(days=i)) for i in range(3)]
+          assert doc["schema"]=="multimodel-three-day-a5-v1"
+          assert [x["date"] for x in doc["reports"]]==days
+          assert doc["paid_api_calls"]==0 and doc["odds_verified"] is False
+          assert doc["calibration_authorized"] is False
+          assert sorted(x.name for x in root.glob("MULTIMODEL_*.pdf")) == [
+              f"MULTIMODEL_{d}.pdf" for d in days
+          ]
+          PY
+          for pdf in reports/three_day/MULTIMODEL_*.pdf; do
+            test -s "$pdf"
+            pdfinfo "$pdf" | grep -Eq '^Page size: +419[.]5[0-9]+ x 595[.]2[0-9]+ pts'
+            pdftotext "$pdf" - | grep -q 'MULTIMODEL'
+          done
+      - name: Publish three A5 research reports and sources manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-three-day-a5
+          path: |
+            reports/three_day/MULTIMODEL_*.pdf
+            reports/three_day/manifest.json
+          if-no-files-found: error
+          retention-days: 30

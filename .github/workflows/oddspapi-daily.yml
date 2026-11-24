@@ -66,10 +66,12 @@ jobs:
           QUEUE="$(python - <<'PY'
           import json
           import os
-          from datetime import datetime,timezone
+          from datetime import datetime,timezone,timedelta
           from pathlib import Path
+          from zoneinfo import ZoneInfo
 
           now=datetime.now(timezone.utc)
+          warsaw_day=now.astimezone(ZoneInfo("Europe/Warsaw")).date()
           root=Path("frozen_source/queues")
           candidates=[]
           for path in root.glob("*/*.json"):
@@ -78,7 +80,9 @@ jobs:
                   if p.get("schema") != "github-models-fixture-queue-v1":
                       continue
                   stamp=datetime.fromisoformat(p["generated_at_utc"].replace("Z","+00:00"))
-                  if stamp.tzinfo is None or not 0 <= (now-stamp).total_seconds() <= 48*3600:
+                  # Do NOT spend monthly OddsPapi credits on yesterday's freeze.
+                  if (stamp.tzinfo is None or stamp.astimezone(ZoneInfo("Europe/Warsaw")).date() != warsaw_day
+                          or not 0 <= (now-stamp).total_seconds() <= 6*3600):
                       continue
                   rel=path.relative_to(root)
                   if not (Path("frozen_source/frozen")/rel).is_file():
@@ -91,20 +95,21 @@ jobs:
                   future=0
                   for row in rows:
                       dt=datetime.fromisoformat(row["kickoff_utc"].replace("Z","+00:00"))
-                      if dt.tzinfo is not None and dt>now:
+                      if (dt.tzinfo is not None and dt>now+timedelta(minutes=5)
+                              and dt.astimezone(ZoneInfo("Europe/Warsaw")).date()==warsaw_day):
                           future+=1
                   if future:
                       candidates.append((path.parent.name,future,stamp,path))
               except (ValueError,KeyError,TypeError,OSError,AttributeError):
                   continue
           if not candidates:
-              raise SystemExit("no_current_complete_frozen_forecast_queue")
+              raise SystemExit("ODDSPAPI_SOURCE_BLOCKED: no_fresh_warsaw_day_queue_with_unstarted_fixtures; no_paid_api_calls")
           trigger=os.environ.get("TRIGGER_RUN_ID","").strip()
           if trigger:
               # Never join full A/B/C odds with a different (e.g. smoke) run.
               matched=[r for r in candidates if r[3].stem==trigger]
               if len(matched)!=1:
-                  raise SystemExit("triggered_abc_forecast_archive_missing_or_stale")
+                  raise SystemExit("ODDSPAPI_SOURCE_BLOCKED: triggered_abc_forecast_not_current; no_paid_api_calls")
               best=matched[0]
           else:
               latest_day=max(row[0] for row in candidates)

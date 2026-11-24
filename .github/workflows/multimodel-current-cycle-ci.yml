@@ -1,0 +1,117 @@
+name: MultiModel current cycle, audit and three-day A5 regression
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/oddspapi-daily.yml'
+      - '.github/workflows/multimodel-independent-audit-pdf.yml'
+      - '.github/workflows/multimodel-three-day-a5.yml'
+      - '.github/workflows/multimodel-current-cycle-ci.yml'
+      - 'github_models/audit_only_pdf.py'
+      - 'github_models/three_day_a5.py'
+      - 'tests/test_multimodel_current_cycle.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  current-cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF test dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
+      - name: Test no-leakage, exact source and PDFs
+        run: |
+          set -euo pipefail
+          python -B -m unittest discover -s tests -p 'test_multimodel_current_cycle.py' -v
+          python -B -m unittest discover -s tests -p 'test_multimodel_report_freshness.py' -v
+      - name: Download pre-existing REAL historical sources for read-only integration
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p ci/abc ci/audit
+          abc_run="$(gh run list --repo "$GITHUB_REPOSITORY" \
+            --workflow github-models-v2-daily-audit.yml --status success --limit 1 \
+            --json databaseId --jq '.[0].databaseId')"
+          test -n "$abc_run" && test "$abc_run" != null
+          abc_artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$abc_run/artifacts" \
+            --jq '.artifacts[] | select(.expired == false and (.name | startswith("github-models-v2-abc-forecast-"))) | .name' | head -n 1)"
+          test -n "$abc_artifact"
+          gh run download "$abc_run" --repo "$GITHUB_REPOSITORY" \
+            --name "$abc_artifact" --dir ci/abc
+          audit_run="$(gh run list --repo "$GITHUB_REPOSITORY" \
+            --workflow oddspapi-audit.yml --status success --limit 1 \
+            --json databaseId --jq '.[0].databaseId')"
+          test -n "$audit_run" && test "$audit_run" != null
+          gh run download "$audit_run" --repo "$GITHUB_REPOSITORY" \
+            --name oddspapi-rolling-audit --dir ci/audit
+          echo "CI_ABC_RUN=$abc_run" >> "$GITHUB_ENV"
+          echo "CI_AUDIT_RUN=$audit_run" >> "$GITHUB_ENV"
+      - name: Real-archive replay proves three-day output WITHOUT promoting to today's picks
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from datetime import datetime, timedelta, timezone
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          from github_models.three_day_a5 import build
+          root=Path("ci/abc/reports/github_models")
+          files=sorted((root/"queues").glob("*.json"))
+          assert len(files)==1
+          queue=json.loads(files[0].read_text(encoding="utf-8"))
+          day=files[0].stem
+          selected=json.loads((root/"filters"/("ABC_"+day+".json")).read_text(encoding="utf-8"))
+          cutoff=datetime.fromisoformat(queue["generated_at_utc"].replace("Z","+00:00"))
+          replay_at=cutoff+timedelta(minutes=1)
+          assert replay_at.astimezone(ZoneInfo("Europe/Warsaw")).date().isoformat()==day
+          manifest=build(queue,selected,"ci/replay_only_abc",now_utc=replay_at)
+          assert len(manifest["reports"])==3
+          assert manifest["paid_api_calls"]==0 and manifest["odds_verified"] is False
+          print("CI ONLY: source archive day",day,"not current live bookmaker prices")
+          PY
+          for file in ci/replay_only_abc/*.pdf; do
+            pdfinfo "$file" | grep -Eq '^Page size: +419[.]5[0-9]+ x 595[.]2[0-9]+ pts'
+          done
+      - name: Real archived settlement PDF independent of today's selections
+        run: |
+          set -euo pipefail
+          python -B -m github_models.audit_only_pdf \
+            --input-dir ci/audit --output-dir ci/independent_audit \
+            --source-run-id "$CI_AUDIT_RUN"
+          for file in ci/independent_audit/*.pdf; do
+            pdfinfo "$file" | grep '^Pages:'
+            pdftotext "$file" - | grep -q 'NIEZALEŻNY AUDYT'
+          done
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path("ci/independent_audit/manifest.json").read_text(encoding="utf-8"))
+          assert a["paid_api_calls"]==0
+          assert a["current_betting_recommendations"] is False
+          print("INDEPENDENT_AUDIT",a)
+          PY
+      - name: Preserve ONLY technical manifests, never historical PDFs as today's tips
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-current-cycle-regression-evidence
+          path: |
+            ci/replay_only_abc/manifest.json
+            ci/independent_audit/manifest.json
+          if-no-files-found: ignore
+          retention-days: 14

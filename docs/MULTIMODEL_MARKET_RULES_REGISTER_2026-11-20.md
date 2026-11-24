@@ -615,3 +615,39 @@ Ponownie sprawdzono korespondencję Gmail: istnieje wysłane zgłoszenie „Odds
 - [ ] Osobna weryfikacja **pierwszego produkcyjnego przebiegu** po merge: bieżąca data i źródła, liczba wyłączonych rozpoczętych spotkań, manifest `publication_mode=current`, ostatnia kontrola `CURRENT_PDF_PUBLICATION_GUARD=PASS`. Nie opisywać testowego replay jako rzeczywistego produkcyjnego raportu.
 
 - [x] **PR #90 MERGED do `main`**: commit [`80f4903e6ce371ec21258eba5cba24b9ae70060f`](https://github.com/karolbarankiewicz1984-ui/kb-score-model/commit/80f4903e6ce371ec21258eba5cba24b9ae70060f). Po merge sprawdzono fizycznie `github_models/report_freshness.py` i oba aktywne zabezpieczenia w `.github/workflows/multimodel-two-pdfs.yml`. **Pierwszy zwykły cykl po merge pozostaje do sprawdzenia**; brak udokumentowanego nowego PDF-u nie uprawnia do podawania historycznych jako dzisiejsze.
+
+
+## 24.11.2026 — zlecone wykonanie kolejnych zadań 1–3 (P0/P1)
+
+**Polecenie użytkownika:** „Wpis w rejestrze i rób co proponujesz”. Zakres:
+1. P0 ustabilizować łańcuch bieżących danych PitchAPI→A/B/C→OddsPapi→dwa PDF; wykluczyć stare kolejki PRZED płatnym zbieraniem kursów.
+2. P0 opublikować samodzielny aktualizowany audyt historyczny, nawet gdy dziś brak aktualnych propozycji i świeżych kursów.
+3. P1 wygenerować trzy A5 PDF z aktualnie zamrożonej kolejki: dziś, jutro, pojutrze, bez wstecznych typów i bez wymyślonych kursów.
+
+**Stan wejściowy potwierdzony źródłowo:**
+- [Actions 45328381165](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45328381165) po PR #90: workflow prawidłowo zatrzymany przez `queue_not_today_warsaw`; wykorzystywał oddspapi-daily run `45261236775` z `INPUT_DAY=2026-11-23`, a próbował raportować 24.11. Nie oznacza to nieskuteczności typów, lecz brak świeżego source bundle.
+- Normalny ABC workflow `.github/workflows/github-models-v2-daily-audit.yml` ma 7-dniową kolejkę i raporty na branch `codex/multimodel-v2`; stan nowego zamrożenia dla 24.11 **niepotwierdzony**. Oddspapi collector `oddspapi-daily.yml` przyjmuje od ręcznego wywołania 48-h kolejki i może spalić limit na wczorajsze spotkania; bramka ma wejść **przed** wywołaniem API.
+- [Rolling audit 45328390911](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45328390911), `REPLAY_AUDIT.json`: 673 rozliczone wycenione pozycje A/B/C z 58 meczów; 6 unresolved (rożne). `PRICED_SHADOW_SETTLEMENT.json`: 195 rozliczonych z 42 meczów. `MULTIMODEL_CALIBRATION_READINESS.json`: union 58, 42 brakujące do przeglądu 100, holdout brak, auto-calibration zabroniona.
+- Nowy PDF audytu nie musi być powiązany z dzisiejszą ofertą. Kursy i prognozy z archiwum zawsze pozostają historyczne. Nie promować wcześniejszych wycen do PLAY. Dodatkowe płatne wywołania OddsPapi: 0.
+
+**Plan wykonania, gałąź `fix/multimodel-current-cycle-audit-three-days-20261124`:**
+- Wdrożyć fail-closed selekcję źródła na etapie OddsPapi, brak API call przy starej kolejce, dokładne trigger-run binding.
+- Dodać niezależne, read-only raportowanie PDF audytu z najnowszego rzeczywistego audytu GitHub Actions i kontrolą manifestu/proweniencji.
+- Wykorzystać istniejące zamrożone dane 7-dniowej kolejki ABC do trzech osobnych A5 PDF (badawczych) dziś/jutro/pojutrze; brak dopasowanego kursu = brak kursu, bez wyborów po rozpoczęciu meczu.
+- Testy CI na syntetycznych danych wyłącznie dla reguł i formatu oraz integracja na rzeczywistych archiwach; oddzielić wynik testu od produkcyjnych nowych prognoz. Po testach uaktualnić ten rejestr o SHA/CI/status.
+
+
+### Wykonanie i testy zlecenia 1–3 — 24.11.2026, kontynuacja
+
+- [x] **P0 source:** `.github/workflows/oddspapi-daily.yml` nie wybiera już archiwalnej kolejki 48 h. Wybór przed odpłatnym kolektorem wymaga tego samego dnia `Europe/Warsaw`, cutoff nie starszego niż 6 h i co najmniej jednego meczu tego dnia z kickoff > now+5 min. Wywołania `workflow_run` są wiązane z dokładnym runem ABC; ręczne uruchomienia nie mogą użyć wczorajszego archiwum. Brak źródła to jawne `ODDSPAPI_SOURCE_BLOCKED`, bez pobierania płatnych kursów.
+- [x] **P0 niezależny audyt:** `github_models/audit_only_pdf.py` i `.github/workflows/multimodel-independent-audit-pdf.yml` czytają wyłącznie artefakt `oddspapi-rolling-audit` (historyczny audit po `workflow_run`, możliwy także manualny). Rozdziela pozycje od różnych meczów; warunkuje zgodność sum z `MULTIMODEL_CALIBRATION_READINESS.json` i odmawia fikcyjnych wyników. Gdy brak dzisiejszych propozycji, audyt nadal może zostać wygenerowany z rzeczywiście rozliczonych archiwów. Zero dodatkowych płatnych API, zero auto-calibration.
+- [x] **P1 trzy A5:** `github_models/three_day_a5.py` i `.github/workflows/multimodel-three-day-a5.yml` tworzą dziś / jutro / pojutrze z jednego rzeczywistego świeżego artefaktu ABC, bez zgadywania kursów, ranking badawczy maks. 3 propozycje na mecz i pełny wykaz pozostałych linii. Źródłowa kolejka i filtr ABC muszą mieć ten sam cutoff; rozpoczęte/zbyt bliskie pozycje są odrzucone; brak danych jest jawnie oznaczony. Osobne PDF A5, dane badawcze bez kursów, NIE gotowy kupon.
+- [x] [CI read-only real archive #45418387124](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45418387124) — **SUCCESS**: 12 nowych testów + 13 regresji daty, 3 prawdziwe A5 z archiwum z 23.11 `CI ONLY` oraz niezależny historyczny audyt PDF (2 strony) z audytu [#45328390911](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45328390911). Manifest audytu: 673 wycenione pozycje A/B/C rozliczone z 58 różnych meczów, 195 SHADOW, dokładna unia 58, kalibracja wyłączona. *Żaden archiwalny raport testowy nie jest publikowany jako aktualny.*
+- [ ] Po merge nie potwierdzono jeszcze nowego codziennego ABC snapshotu 24.11 ani wygenerowania operacyjnych raportów A5 z rzeczywistego dzisiejszego źródła. GitHub scheduled workflow dla prognoz to zależność, nie wolno prezentować replay jako dziś.
+- [ ] Issue #56 pozostaje częściowo otwarte: pierwotny zakres PitchAPI-first obejmował także integrację natywnego archiwum i exact-market quotes; nowy trzydniowy raport A5 jest jawnie badawczy i nie zastępuje dokumentu z rzeczywistymi kursami.
+
+
+**Finalna kontrola PR #91 (przed merge):**
+- [x] [CI nowego cyklu #45418387124](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45418387124): **SUCCESS**, 12 testów source/generator/independent audit + 13 regresji daty; 3 A5 z oryginalnego archiwum ABC z 23.11 w trybie CI-only oraz niezależny audyt ze źródłowych rozliczeń #45328390911 (673/58 A/B/C, 195/42 SHADOW). Brak nowych wywołań OddsPapi i brak fikcyjnych kursów.
+- [x] [CI niezależny SHADOW #45418387373](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45418387373): **SUCCESS**, rzeczywiste archiwum BTTS/handicap, siedem PDF/regresja bez nowych zapytań.
+- [ ] Pierwszy rzeczywisty codzienny przebieg workflow **po merge** nadal do obserwacji. Oddspapi gate celowo odmówi płatnego zapytania, gdy ABC udostępni kolejkę z poprzedniego dnia. Brak nowego aktualnego snapshotu nie może zostać „naprawiony” starym.
