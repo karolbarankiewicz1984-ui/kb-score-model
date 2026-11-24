@@ -590,3 +590,18 @@ Potwierdzono [run 45223679417](https://github.com/karolbarankiewicz1984-ui/kb-sc
 ### Stan zewnętrznego potwierdzenia Bookings — 23.11.2026 wieczór
 
 Ponownie sprawdzono korespondencję Gmail: istnieje wysłane zgłoszenie „OddsPapi v4 /settlements — four HTTP 500 errors and Superbet Bookings settlement-unit clarification”, ale **brak odnotowanej odpowiedzi dostawcy**. Publiczny artykuł [OddsPapi — Corners & Cards API](https://oddspapi.io/blog/corners-cards-odds-api/) potwierdza ofertę rynku „Bookings – Over Under Full Time”, nie objaśnia jednak w sposób wystarczający **jednostki rozliczenia konkretnego produktu Superbet**. [Dokumentacja GET settlements](https://oddspapi.io/en/docs/get-settlements) opisuje endpoint, ale 4 wcześniejsze wywołania HTTP 500 nie potwierdzają faktycznej wypłaty. Nie przenosić zasad Betfair/Paddy Power na Superbet. Blokady kart i fauli, issue #78 i #84, pozostają otwarte; żadnego kolejnego zapytania płatnego nie wykonano w tej kontroli.
+
+
+## 24.11.2026 — blokada cofniętej daty w dwóch PDF MultiModel
+
+**Zgłoszenie użytkownika:** PDF z „propozycjami” z 22.11 został pokazany 24.11. Testowy replay nie jest bieżącym kuponem, nawet gdy techniczny job jest zielony. Przyczyną był brak kontroli aktualnej daty w `multimodel-two-pdfs.yml`, który przy uruchomieniu ręcznym lub przez push wybierał *ostatni udany* archiwalny run zamiast sprawdzać dzień publikacji. `unified_output.py` filtrował jedynie datę spotkania względem archiwum, bez odrzucania rozpoczętych już meczów.
+
+**Zmiana na gałęzi `fix/multimodel-current-pdf-freshness-20261124`:**
+- Dodano `github_models/report_freshness.py` z niezależną walidacją w strefie `Europe/Warsaw`: kolejka PitchAPI oraz zapisany `market_overlay.as_of_utc` muszą pochodzić z **dzisiejszej** daty, być dostępne przed chwilą publikacji i mieć najwyżej **6 godzin**; źródłowy snapshot kursów musi być po kolejce. Timestampy wymagają strefy czasowej.
+- Z aktywnego PDF wyłącza się mecze rozpoczęte oraz mające mniej niż **5 minut** do rozpoczęcia. Jeżeli brak aktualnych źródeł albo choć jednego nadchodzącego spotkania, nowy PDF z propozycjami **nie jest publikowany**, zamiast podstawienia wczorajszego.
+- Walidacja `current_window` wykonywana jest przy pobraniu źródła oraz ponownie po utworzeniu PDF i tuż przed uploadem. Ostatnia weryfikacja nie pozwala publikować meczu, który rozpoczął się w czasie przetwarzania. Zmiana daty w Warszawie między przygotowaniem a publikacją także wstrzymuje wysyłkę.
+- `github_models/unified_output.py` domyślnie działa jako raport aktualny; historyczny replay musi być jawny (`--historical-replay`), z tytułem **ODTWORZENIE HISTORYCZNE, NIE AKTUALNE TYPY** i nazwami plików `MULTIMODEL_ODTWORZENIE_*.pdf` / `MULTIMODEL_AUDYT_ODTWORZENIE_*.pdf`. Audyt historyczny pozostaje audytem — nie zamienia się w dzisiejsze rekomendacje.
+- Testowy CI z archiwum 22.11 używa jawnie `--historical-replay`, natomiast normalny workflow nigdy nie ustawia tej opcji. Nie zmieniono modelowych prawdopodobieństw, progów, archiwalnych danych, cen, wag ani API.
+- Przygotowano `tests/test_multimodel_report_freshness.py` dla starej kolejki, starej oferty, braku nadchodzących meczów, rozpoczętych meczów, publikacji po kickoff, przekroczenia 6 godzin, zmiany daty w Polsce oraz świadomego replay.
+
+**Status przed CI:** kod zapisany do osobnego PR, **jeszcze nie wdrożony na `main`**, wyniki nowych testów do potwierdzenia. Dzienny cykl może mieć status `CURRENT_PDF_BLOCKED`, co jest prawidłową odmową publikacji, a nie porażką prognozy. Historyczne wyniki modelu są nadal dostępne w niezależnym audycie.
