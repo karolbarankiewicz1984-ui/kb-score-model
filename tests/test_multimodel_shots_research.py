@@ -94,4 +94,52 @@ class ShotsResearchTests(unittest.TestCase):
                             for row in result["summary"]))
 
 
+
+    def test_real_queue_zero_forecasts_diagnostic_without_guessing_identity(self):
+        from collections import defaultdict
+        from unittest.mock import patch
+        from github_models.shots_shadow import freeze
+        queue = {"schema": "github-models-fixture-queue-v1",
+                 "generated_at_utc": "2026-11-24T09:30:00Z",
+                 "fixtures": [
+                     {"fixture_id": "p-100", "home": "Team Alpha", "away": "Team Beta",
+                      "league": "Example league", "league_id": 5,
+                      "country_code": "GB", "home_team_id": "h-1",
+                      "away_team_id": "a-2", "source_provider": "PitchAPI",
+                      "identity_blockers": [], "snapshot_utc": "2026-11-24T09:00:00Z",
+                      "kickoff_utc": "2026-11-24T18:00:00Z"},
+                     {"fixture_id": "p-101", "home": "Team C", "away": "Team D",
+                      "league": "Example league", "league_id": 5, "country_code": "GB",
+                      "home_team_id": "h-3", "away_team_id": "a-4",
+                      "source_provider": "PitchAPI", "identity_blockers": ["ambiguous"],
+                      "snapshot_utc": "2026-11-24T09:00:00Z",
+                      "kickoff_utc": "2026-11-24T18:00:00Z"},
+                 ]}
+        with patch("github_models.shots_shadow.load_history",
+                   return_value=(defaultdict(list), {}, {}, {})), patch(
+                   "github_models.shots_shadow.archived_quotes",
+                   return_value=({}, {"status": "exact_quotes_unavailable"})):
+            result = freeze(queue, {}, ".", day="2026-11-24",
+                            cutoff="2026-11-24T10:00:00Z")
+        diag = result["coverage"]["queue_diagnostics"]
+        self.assertEqual(result["summary"]["forecast_rows"], 0)
+        self.assertEqual(diag["fixtures_checked"], 2)
+        self.assertEqual(diag["reason_counts"],
+                         {"unverified_prematch_fixture": 1,
+                          "unverified_team_crosswalk": 1})
+        self.assertEqual(diag["unmapped_pitch_team_ids"], ["a-2", "h-1"])
+        self.assertEqual(diag["warning"], "no_eligible_forecasts_check_identity_and_history")
+        self.assertFalse(result["calibration_authorized"])
+
+    def test_two_pdf_workflow_surfaces_optional_shots_failures(self):
+        workflow = (Path(__file__).resolve().parents[1] /
+                    ".github/workflows/multimodel-two-pdfs.yml").read_text(encoding="utf-8")
+        self.assertIn("id: shots_audit", workflow)
+        self.assertIn("Record independent shots health and source blockers", workflow)
+        self.assertIn("MULTIMODEL_SHOTS_STATUS=", workflow)
+        self.assertIn("SOURCE_BLOCKED_ZERO_FORECASTS", workflow)
+        self.assertIn("name: multimodel-shots-health", workflow)
+        self.assertIn("::warning::MultiModel shots:", workflow)
+        self.assertIn("continue-on-error: true", workflow)
+
 if __name__=="__main__": unittest.main()
