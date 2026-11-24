@@ -65,3 +65,15 @@ Nie zmieniamy A/B/C, ich wag, wcześniej zamrożonych N, historii prognoz ani fi
 2. Diagnostyka brakujących powiązań PitchAPI→legacy na poziomie drużyny i meczu, rozróżnienie: `unverified_prematch_fixture`, `unverified_team_crosswalk`, `insufficient_history`, `fixture_already_started`; brak automatycznej identyfikacji na podobieństwie nazw.
 3. Testy regresyjne dla braku zamrożenia, brakującego audytu, archiwalnego replay oraz statystyk dostępności. Wymagać CI PASS.
 4. Po CI: niepromowanie do PLAY; dalsza walidacja źródłowa i zbieranie prospektywnych prognoz po osobnej decyzji o merge. Kalibracja dopiero po niezależnym rozliczeniu.
+
+
+### Wykonane poprawki w tej kontynuacji — 24.11.2026
+
+- [x] `github_models/shots_shadow.py`: dodano `coverage.queue_diagnostics` z `reason_counts`, rozbiciem per liga, listą niezmapowanych PitchAPI team IDs i statusami dla każdego meczu. Status `forecast_available` dotyczy tylko rzeczywiście wyliczonych wierszy. Bez automatycznej substytucji tożsamości drużyny po nazwie.
+- [x] `.github/workflows/multimodel-two-pdfs.yml`: dotychczas nieblokujące kroki `shots`, `shots_archive`, `shots_audit`, `shots_audit_archive` są teraz jawnie obserwowane. Dodano etap `Record independent shots health and source blockers`, plik `input/shots/health.json`, techniczny artefakt `multimodel-shots-health`, podsumowanie GitHub Actions i ostrzeżenie `::warning::`.
+- [x] Klasyfikacja zdrowia rozdziela `DEGRADED` (awaria modułu, brak technicznego artefaktu), `SOURCE_BLOCKED_ZERO_FORECASTS` (prawidłowe wykonanie, ale brak wiarygodnych kandydatów) oraz `RESEARCH_ONLY_UNCALIBRATED` (kandydaci dostępni, nadal bez autoryzacji kalibracji). Zawartość dwóch dotychczasowych PDF pozostała niezależna; nie powstaje trzeci dokument.
+- [x] `tests/test_multimodel_shots_research.py`: dodano regresję dla brakujących powiązań drużyn i odrębnych przyczyn blokady; kontrolę składni embedded Python; wykonanie reporter zdrowia dla trzech stanów w odizolowanym katalogu testowym.
+- [x] Zachowano `VERIFIED_MARKETS = {}`, bo sprawdzone archiwa nie mają potwierdzonych exact-market kursów strzałów. Nie uruchamiano odpłatnych zapytań OddsPapi, nie wznawiano API-Football, nie zmieniano wag lub zamrożonych danych.
+- [ ] Nowe wyniki CI **w toku przy zapisie**: [shots checks 45326251860](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45326251860) i [market-rules 45326251820](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45326251820). Nie zaliczać przed końcowym statusem sukcesu.
+- [ ] Pierwszy rzeczywisty prospektywny freeze i niezależne rozliczenia strzałów nadal niepotwierdzone. Nie scalać PR #89 wyłącznie na podstawie historycznego replay; sprawdzić zdrowie i źródła po uruchomieniu na `main`.
+- [ ] Pokrycie drużyn w słabiej udokumentowanych ligach wymaga kolejnych **jednoznacznych źródłowych powiązań**, nie fuzzy-matchingu. Weryfikacja rynków Superbet i porównywalności OPTA nadal otwarta.
