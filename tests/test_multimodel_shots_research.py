@@ -145,4 +145,49 @@ class ShotsResearchTests(unittest.TestCase):
         snippet = workflow.split("python - <<'PYHEALTH'", 1)[1].split("PYHEALTH", 1)[0]
         compile(dedent(snippet), "shots_workflow_health_embedded.py", "exec")
 
+
+    def test_health_reports_failures_and_empty_source_as_distinct_statuses(self):
+        from textwrap import dedent
+        import json
+        import os
+        import subprocess
+        import sys
+        import tempfile
+        wf = (Path(__file__).resolve().parents[1] /
+              ".github/workflows/multimodel-two-pdfs.yml").read_text(encoding="utf-8")
+        script = dedent(wf.split("python - <<'PYHEALTH'", 1)[1].split("PYHEALTH", 1)[0])
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp) / "input" / "shots"
+            folder.mkdir(parents=True)
+            env = dict(os.environ, GITHUB_STEP_SUMMARY=str(Path(tmp) / "summary.md"),
+                       SHOTS_FREEZE_OUTCOME="failure", SHOTS_ARCHIVE_OUTCOME="skipped",
+                       SHOTS_AUDIT_OUTCOME="success", SHOTS_AUDIT_ARCHIVE_OUTCOME="success")
+            failed = subprocess.run([sys.executable, "-c", script], cwd=tmp,
+                                    env=env, text=True, capture_output=True, check=True)
+            report = json.loads((folder / "health.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["status"], "DEGRADED")
+            self.assertIn("freeze", report["problems"])
+            self.assertIn("::warning::", failed.stdout)
+            (folder / "freeze.json").write_text(json.dumps({
+                "summary": {"forecast_rows": 0, "priced_forecast_rows": 0},
+                "coverage": {"queue_diagnostics": {"reason_counts": {
+                    "unverified_team_crosswalk": 2}}}}), encoding="utf-8")
+            (folder / "audit.json").write_text(
+                json.dumps({"distinct_settled_fixtures": 0}), encoding="utf-8")
+            env.update(SHOTS_FREEZE_OUTCOME="success", SHOTS_ARCHIVE_OUTCOME="success")
+            subprocess.run([sys.executable, "-c", script], cwd=tmp,
+                           env=env, text=True, capture_output=True, check=True)
+            empty = json.loads((folder / "health.json").read_text(encoding="utf-8"))
+            self.assertEqual(empty["status"], "SOURCE_BLOCKED_ZERO_FORECASTS")
+            self.assertEqual(empty["fixture_reason_counts"]["unverified_team_crosswalk"], 2)
+            (folder / "freeze.json").write_text(json.dumps({
+                "summary": {"forecast_rows": 6, "priced_forecast_rows": 0},
+                "coverage": {"queue_diagnostics": {"reason_counts": {
+                    "forecast_available": 1}}}}), encoding="utf-8")
+            subprocess.run([sys.executable, "-c", script], cwd=tmp,
+                           env=env, text=True, capture_output=True, check=True)
+            good = json.loads((folder / "health.json").read_text(encoding="utf-8"))
+            self.assertEqual(good["status"], "RESEARCH_ONLY_UNCALIBRATED")
+            self.assertFalse(good["calibration_authorized"])
+
 if __name__=="__main__": unittest.main()
