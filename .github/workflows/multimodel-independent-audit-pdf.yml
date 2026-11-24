@@ -1,0 +1,90 @@
+name: MultiModel V2 - independent audit PDF (no fresh-odds dependency)
+on:
+  workflow_run:
+    workflows:
+      - 'MULTIMODEL V2 - OddsPapi historical bookmaker audit (daily)'
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: multimodel-independent-audit-pdf
+  cancel-in-progress: false
+
+jobs:
+  historical-audit-pdf:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name != 'workflow_run' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout read-only audit renderer
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
+      - name: Retrieve verified settlement artifact only (no provider calls)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AUDIT_TRIGGER_RUN: ${{ github.event.workflow_run.id || '' }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$AUDIT_TRIGGER_RUN" ]]; then
+            run_id="$AUDIT_TRIGGER_RUN"
+          else
+            run_id="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow oddspapi-audit.yml \
+              --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
+          fi
+          test -n "$run_id" && test "$run_id" != "null"
+          mkdir -p input/audit
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" \
+            --name oddspapi-rolling-audit --dir input/audit
+          test -s input/audit/REPLAY_AUDIT.json
+          test -s input/audit/PRICED_SHADOW_SETTLEMENT.json
+          test -s input/audit/MULTIMODEL_CALIBRATION_READINESS.json
+          echo "SOURCE_AUDIT_RUN=$run_id" >> "$GITHUB_ENV"
+      - name: Compose PDF and immutable provenance manifest independently from today's picks
+        run: |
+          set -euo pipefail
+          python -B -m github_models.audit_only_pdf \
+            --input-dir input/audit --output-dir reports/independent_audit \
+            --source-run-id "$SOURCE_AUDIT_RUN"
+          day="$(TZ=Europe/Warsaw date +%F)"
+          pdf="reports/independent_audit/MULTIMODEL_AUDYT_$day.pdf"
+          test -s "$pdf"
+          pdfinfo "$pdf" | grep '^Pages:'
+          pdftotext "$pdf" - | grep -q 'NIEZALEŻNY AUDYT'
+          python - <<'PY'
+          import json
+          d=json.load(open('reports/independent_audit/manifest.json',encoding='utf-8'))
+          assert d['schema']=='multimodel-independent-audit-pdf-v1'
+          assert d['current_betting_recommendations'] is False
+          assert d['auto_calibration_allowed'] is False
+          assert d['paid_api_calls']==0
+          PY
+      - name: Publish independent historical audit even without current match PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-independent-audit-pdf
+          path: |
+            reports/independent_audit/MULTIMODEL_AUDYT_*.pdf
+            reports/independent_audit/manifest.json
+          if-no-files-found: error
+          retention-days: 90
