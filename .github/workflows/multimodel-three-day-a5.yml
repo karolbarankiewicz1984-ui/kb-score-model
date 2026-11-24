@@ -90,7 +90,7 @@ jobs:
           PY
           for pdf in reports/three_day/MULTIMODEL_*.pdf; do
             test -s "$pdf"
-            pdfinfo "$pdf" | grep -q 'Page size:.*A5'
+            pdfinfo "$pdf" | grep -Eq '^Page size: +419[.]5[0-9]+ x 595[.]2[0-9]+ pts'
             pdftotext "$pdf" - | grep -q 'MULTIMODEL'
           done
       - name: Publish three A5 research reports and sources manifest
