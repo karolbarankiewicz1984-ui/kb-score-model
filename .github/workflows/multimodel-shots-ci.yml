@@ -65,7 +65,7 @@ jobs:
             --collection quotes/collection.json --day 2026-11-22 --replay-cutoff "$cutoff" \
             --output results/replay.json
           python -B -m github_models.unified_output --abc-dir archive --odds-dir quotes --audit-dir audit \
-            --day 2026-11-22 --shots results/replay.json --shots-audit results/settlement.json \
+            --day 2026-11-22 --historical-replay --shots results/replay.json --shots-audit results/settlement.json \
             --output-dir results
           python - <<'PY'
           import json
