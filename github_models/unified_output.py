@@ -1,7 +1,7 @@
 """Two MultiModel V2 user-facing PDFs, read-only from frozen GitHub Actions artifacts.
 
-No odds requests, probability re-estimation, invented prices, or production
-changes. Exact ABC/SHADOW/OddsPapi queue provenance is mandatory.
+Exact A/B/C, SHADOW and OddsPapi queue provenance is mandatory. The separate
+shots freeze is optional and comes from the same fixture queue.
 """
 from __future__ import annotations
 import argparse
@@ -12,6 +12,9 @@ import json
 import math
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
+from github_models.shots_research import FAMILIES as SHOT_FAMILIES, FREEZE_SCHEMA
+from github_models.shots_shadow import queue_digest
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
@@ -24,7 +27,13 @@ from reportlab.platypus import SimpleDocTemplate, LongTable, Paragraph, Spacer, 
 
 ZONE = ZoneInfo("Europe/Warsaw")
 MARKETS = {"1X2":"Wynik 1X2","double_chance":"Podwójna szansa","goals":"Bramki","corners":"Rzuty rożne",
-           "fouls":"Faule","cards":"Kartki","btts":"BTTS","handicap":"Handicap"}
+           "fouls":"Faule","cards":"Kartki","btts":"BTTS","handicap":"Handicap",
+           "shots_total":"Strzały ogółem","shots_on_target":"Strzały celne"}
+SHOT_SCOPES = {"home": "gospodarze", "away": "goście", "match": "mecz"}
+SHOT_STATUSES = {"fixture_already_started": "mecz już rozpoczęty",
+                 "unverified_prematch_fixture": "niepotwierdzona tożsamość meczu",
+                 "unverified_team_crosswalk": "brak zgodnego ID drużyny w archiwum",
+                 "insufficient_history": "za mało kompletnych obserwacji"}
 
 def load(root, path, optional=False):
     p = Path(root) / path
@@ -51,8 +60,9 @@ def key(row):
         if line is not None and (type(line) not in (int,float) or line != 0):
             raise ValueError("invalid_categorical_market_line")
         line=None
-    return (str(row["fixture_id"]),market,str(row["selection"]),
-            str(line if line is not None else ""))
+    identity = (str(row["fixture_id"]), market, str(row["selection"]),
+                str(line if line is not None else ""))
+    return (*identity, row["scope"]) if market in SHOT_FAMILIES else identity
 
 def market_label(r):
     m, s, line = r["market"], r["selection"], r.get("line")
@@ -71,9 +81,10 @@ def market_label(r):
         return ("Gospodarze " if s=="home" else "Goście ") + ("%+g" % float(line)).replace(".",",")
     side = {"over":"powyżej","under":"poniżej"}.get(s,s)
     suffix = (" " + str(line).replace(".",",")) if line is not None else ""
-    return MARKETS.get(m,m)+" "+side+suffix
+    scope = f" ({SHOT_SCOPES[r['scope']]})" if m in SHOT_FAMILIES else ""
+    return MARKETS.get(m,m)+scope+" "+side+suffix
 
-def leader_shortlist(groups, *, limit_per_fixture=3):
+def leader_shortlist(groups, *, limit_per_fixture=3, distinct_families=False):
     """Diverse preview; never remove any row from the full fixture tables.
 
     Outcome 1X2 and double chance share a family because they are
@@ -96,7 +107,7 @@ def leader_shortlist(groups, *, limit_per_fixture=3):
             else:
                 one.append(row)
                 seen.add(family)
-        choices.extend((one+rest)[:limit_per_fixture])
+        choices.extend((one if distinct_families else one + rest)[:limit_per_fixture])
     return sorted(choices,key=lambda z:(
         z.get("odds") is None,-z["probability"],str(z["fixture_id"]),
         str(z["market"]),str(z.get("line"))))
@@ -187,7 +198,7 @@ def export_pdf(path, story):
     if path.stat().st_size<1500 or path.read_bytes()[:5]!=b"%PDF-":
         raise ValueError("Bad PDF: "+str(path))
 
-def build_day(abc_root,odds_root,day,dest):
+def build_day(abc_root,odds_root,day,dest,shots=None):
     p="reports/github_models/"
     q=load(abc_root,p+f"queues/{day}.json")
     a=load(abc_root,p+f"filters/ABC_{day}.json")
@@ -274,6 +285,19 @@ def build_day(abc_root,odds_root,day,dest):
                 rows[k]["odds"] = quote["price"]
                 rows[k]["price_status"] = "archived_exact_research"
                 priced_shadow_by_market[quote["market"]] += 1
+    unavailable_shots = {}
+    if shots and (shots.get("schema") != FREEZE_SCHEMA or shots.get("day") != day
+                  or shots.get("queue_sha256") != queue_digest(q)):
+        shots = None
+    if shots:
+        for item in shots["fixtures"]:
+            fid = str(item["identity"]["fixture_id"])
+            if fid not in fixtures:
+                continue
+            unavailable_shots[fid] = [m for m in item["markets"] if m["status"] in SHOT_STATUSES]
+            for c in item["candidates"]:
+                if c["fixture_id"] == fid:
+                    rows[key(c)] = {**c, "kind": "SHADOW strzały", "variants": set()}
     st=pdf_style()
     def P(x,kind="body"):
         return paragraph(x,st[kind])
@@ -282,6 +306,7 @@ def build_day(abc_root,odds_root,day,dest):
         grouped[str(row["fixture_id"])].append(row)
     abc_count=sum(r["kind"]=="ABC" for r in rows.values())
     shadow_count=sum(r["kind"]=="SHADOW" for r in rows.values())
+    shots_count=sum(r["kind"]=="SHADOW strzały" for r in rows.values())
     priced=sum(r["odds"] is not None for r in rows.values())
     story=[P("MULTIMODEL — "+day,"title"),
            P("Jeden raport: A/B/C, SHADOW oraz rzeczywiste zapisane kursy Superbet."),
@@ -292,9 +317,15 @@ def build_day(abc_root,odds_root,day,dest):
              "bez gwarancji dostępności kursu."),
            P(f"Zamrożenie: {moment(q['generated_at_utc']):%d.%m.%Y %H:%M} | "
              f"Oferta Superbet: {moment(market['as_of_utc']):%d.%m.%Y %H:%M} | "
-             f"Mecze: {len(fixtures)} | A/B/C: {abc_count} | SHADOW: {shadow_count} | Z kursem: {priced}"),
-           P("Najważniejsze do przeglądu (maksymalnie 3 na mecz)","head")]
-    leaders=leader_shortlist(grouped)
+             f"Mecze: {len(fixtures)} | A/B/C: {abc_count} | SHADOW: {shadow_count} | Z kursem: {priced}")]
+    if shots:
+        method = "Odtworzenie historyczne" if shots["mode"] == "historical_replay" else "Zamrożenie badawcze"
+        story.append(P(f"SHADOW strzały — {method} {moment(shots['frozen_at_utc']):%d.%m.%Y %H:%M %Z}. "
+                       f"Prognozy: {shots_count}. Pełny czas z doliczonym."))
+    else:
+        story.append(P("SHADOW strzały — brak zgodnego zamrożenia badawczego."))
+    story.append(P("Najważniejsze do przeglądu (maksymalnie 3 na mecz)","head"))
+    leaders=leader_shortlist(grouped, distinct_families=True)
     leading=[]
     for row in leaders[:35]:
         f=fixtures[row["fixture_id"]]
@@ -306,15 +337,23 @@ def build_day(abc_root,odds_root,day,dest):
     if len(leaders)>35:
         story.append(P(f"Pozostałe {len(leaders)-35} propozycje znajdują się poniżej przy meczach."))
     story.append(P("Wszystkie rynki, pogrupowane według meczu i godziny","head"))
-    for fid in sorted(grouped,key=lambda x:(moment(fixtures[x]["kickoff_utc"]),fixtures[x]["home"])):
+    for fid in sorted(grouped.keys() | unavailable_shots.keys(),
+                      key=lambda x:(moment(fixtures[x]["kickoff_utc"]),fixtures[x]["home"])):
         f=fixtures[fid]
         story.append(KeepTogether([P(f"{moment(f['kickoff_utc']):%H:%M} | {f['home']} – {f['away']} | {f.get('league','')}","head"),Spacer(1,2)]))
         rr=[]
         for row in sorted(grouped[fid],key=lambda x:(list(MARKETS).index(x["market"]) if x["market"] in MARKETS else 9,
                                                       x["kind"]!="ABC",-x["probability"])):
-            variant="/".join(sorted(row["variants"])) if row["kind"]=="ABC" else "SHADOW"
-            rr.append([market_label(row),percent(row["probability"]),number(row["odds"]),
-                       variant,"z kursem" if row["odds"] is not None else "bez kursu"])
+            variant="/".join(sorted(row["variants"])) if row["kind"]=="ABC" else row["kind"]
+            status = "z kursem" if row["odds"] is not None else "bez kursu"
+            if row["kind"] == "SHADOW strzały":
+                quote = row["quote"]
+                status = ("OddsPapi " + moment(quote["captured_at_utc"]).strftime("%d.%m. %H:%M %Z")
+                          if quote else "kurs niedostępny")
+            rr.append([market_label(row), percent(row["probability"]), number(row["odds"]), variant, status])
+        for market in unavailable_shots.get(fid, ()):
+            label = MARKETS[market["market"]] + " (" + SHOT_SCOPES[market["scope"]] + ")"
+            rr.append([label, "—", "—", "SHADOW strzały", SHOT_STATUSES[market["status"]]])
         story.append(make_table(["Rynek","P modelu","Superbet","Model","Status"],
                                 rr,[195,67,60,65,78],st))
     story.append(P("Braki i ograniczenia","head"))
@@ -323,16 +362,17 @@ def build_day(abc_root,odds_root,day,dest):
                    "BTTS i azjatyckie handicapy ±1,5 otrzymują jedynie dokładnie "
                    "dopasowane ceny archiwalne Superbet; nie jest to potwierdzenie "
                    "wypłaty bukmachera ani przewagi modelu. "
-                   "Strzały, strzały celne i spalone nadal wymagają danych. "
+                   "Prognozy strzałów korzystają z archiwalnych statystyk drużyn. Spalone wymagają danych. "
                    "Nie utożsamiamy wariantów A/B/C z dostępnością kursów."))
     export_pdf(dest,story)
     observation=rollout_manifest(rows.values(),leaders,q["generated_at_utc"],
                                   priced_as_of_utc=market["as_of_utc"])
     return dict(fixtures=len(fixtures),abc=abc_count,shadow=shadow_count,
                 with_odds=priced, priced_shadow_by_market=priced_shadow_by_market,
-                market_rollout=observation)
+                market_rollout=observation, shots_rows=shots_count,
+                shots_unavailable_markets=sum(map(len, unavailable_shots.values())) if shots else None)
 
-def build_audit(abc_root,odds_root,audit_root,day,dest):
+def build_audit(abc_root,odds_root,audit_root,day,dest,shots=None,shots_audit=None):
     # Inventory of exact stored Superbet market names; no odds API requests.
     from github_models.market_rule_gate import audit as market_rule_audit
     semantics = market_rule_audit(load(odds_root,"collection.json"),
@@ -489,6 +529,38 @@ def build_audit(abc_root,odds_root,audit_root,day,dest):
             story.append(make_table(
                 ["Liga (źródło wtórne)","HF/AF","HY/AY"],
                 source_rows,[245,110,110],st))
+    story.append(P("6. SHADOW strzały — prognozy i niezależne rozliczenie","head"))
+    if shots and shots.get("schema") == FREEZE_SCHEMA and shots.get("day") == day:
+        shot_sample = shots["summary"]
+        evidence = shots["quote_audit"]
+        method = "odtworzenie historyczne" if shots["mode"] == "historical_replay" else "zamrożenie prospektywne"
+        story.append(P(f"Źródło prognoz: historyczne liczniki API-Football, tożsamość PitchAPI. Tryb: {method}. "
+                       f"Prognozy: {shot_sample['forecast_rows']} | "
+                       f"Z dokładnym kursem Superbet: {shot_sample['priced_forecast_rows']} | "
+                       f"Oferty Superbet sprawdzone: {evidence.get('superbet_quotes', '—')}."))
+        if not shot_sample["priced_forecast_rows"]:
+            story.append(P("Brak potwierdzonej ceny z archiwum OddsPapi dla prognoz strzałów."))
+        samples = []
+        for market in SHOT_FAMILIES:
+            for scope in SHOT_SCOPES:
+                matching = [m for f in shots["fixtures"] for m in f["markets"]
+                            if (m["market"], m["scope"]) == (market, scope)]
+                eligible = sum(m["status"] == "research_only_uncalibrated" for m in matching)
+                samples.append([MARKETS[market], SHOT_SCOPES[scope], eligible, len(matching) - eligible])
+        story.append(make_table(["Rodzina","Zakres","Mecze z prognozą","Mecze bez prognozy"],
+                                samples,[153,91,111,110],st))
+    if shots_audit and shots_audit.get("schema") == "multimodel-shots-outcomes-v1":
+        stats = shots_audit["status"]
+        story.append(P(f"Football-Data.co.uk | Rozliczone mecze: {shots_audit['distinct_settled_fixtures']} | "
+                       f"Pozycje rozliczone: {stats.get('settled', 0)} | Oczekujące: {stats.get('pending_publication', 0)}."))
+        performance = [[MARKETS[r["market"]], SHOT_SCOPES[r["scope"]], r["settled"],
+                        r["distinct_fixtures"], number(r["brier"]), number(r["log_loss"])]
+                       for r in shots_audit["summary"]]
+        story.append(make_table(["Rodzina","Zakres","Pozycje","Mecze","Brier","Log loss"],
+                                performance,[129,83,60,55,63,75],st))
+    else:
+        story.append(P("Brak audytu zamrożonych prognoz strzałów."))
+    story.append(P("Wyniki strzałów służą do pomiaru Brier i log loss. Kalibracja pozostaje wyłączona."))
     story.append(P(
         "Przed formalną kalibracją: prospektywna próba niezależnie rozliczonych "
         "meczów, Brier/log loss na holdoucie, osobna walidacja fauli i kartek "
@@ -506,11 +578,15 @@ def main():
     for n in ("abc-dir","odds-dir","output-dir","day"):
         parser.add_argument("--"+n,required=True)
     parser.add_argument("--audit-dir")
+    parser.add_argument("--shots")
+    parser.add_argument("--shots-audit")
     arg=parser.parse_args()
     out=Path(arg.output_dir);out.mkdir(parents=True,exist_ok=True)
-    one=build_day(arg.abc_dir,arg.odds_dir,arg.day,out/f"MULTIMODEL_{arg.day}.pdf")
+    shots = load(".", arg.shots, optional=True) if arg.shots else None
+    shots_audit = load(".", arg.shots_audit, optional=True) if arg.shots_audit else None
+    one=build_day(arg.abc_dir,arg.odds_dir,arg.day,out/f"MULTIMODEL_{arg.day}.pdf",shots)
     two=build_audit(arg.abc_dir,arg.odds_dir,arg.audit_dir,arg.day,
-                    out/f"MULTIMODEL_AUDYT_{arg.day}.pdf")
+                    out/f"MULTIMODEL_AUDYT_{arg.day}.pdf",shots,shots_audit)
     state={"schema":"multimodel-two-final-pdfs-v1","day":arg.day,
            "prognoses":one,"audit":two,"minimum_verified_odds":1.20,
            "quality_67_points_mandatory":False,"raw_archives_untouched":True,
