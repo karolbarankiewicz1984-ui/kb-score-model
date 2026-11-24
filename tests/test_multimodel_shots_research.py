@@ -159,7 +159,16 @@ class ShotsResearchTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             folder = Path(tmp) / "input" / "shots"
             folder.mkdir(parents=True)
+            queue = {"schema": "github-models-fixture-queue-v1", "fixtures": [],
+                     "generated_at_utc": "2026-11-24T09:30:00Z"}
+            odds = Path(tmp) / "input" / "odds"
+            odds.mkdir(parents=True)
+            (odds / "pitch_queue.json").write_text(json.dumps(queue), encoding="utf-8")
+            from hashlib import sha256
+            queue_sha = sha256(json.dumps(queue, sort_keys=True,
+                                          separators=(",", ":")).encode()).hexdigest()
             env = dict(os.environ, GITHUB_STEP_SUMMARY=str(Path(tmp) / "summary.md"),
+                       INPUT_DAY="2026-11-24",
                        SHOTS_FREEZE_OUTCOME="failure", SHOTS_ARCHIVE_OUTCOME="skipped",
                        SHOTS_AUDIT_OUTCOME="success", SHOTS_AUDIT_ARCHIVE_OUTCOME="success")
             failed = subprocess.run([sys.executable, "-c", script], cwd=tmp,
@@ -170,6 +179,8 @@ class ShotsResearchTests(unittest.TestCase):
             self.assertIn("::warning::", failed.stdout)
             (folder / "freeze.json").write_text(json.dumps({
                 "summary": {"forecast_rows": 0, "priced_forecast_rows": 0},
+                "fixtures": [], "day": "2026-11-24", "mode": "prospective",
+                "queue_sha256": queue_sha,
                 "coverage": {"queue_diagnostics": {"reason_counts": {
                     "unverified_team_crosswalk": 2}}}}), encoding="utf-8")
             (folder / "audit.json").write_text(
@@ -182,6 +193,9 @@ class ShotsResearchTests(unittest.TestCase):
             self.assertEqual(empty["fixture_reason_counts"]["unverified_team_crosswalk"], 2)
             (folder / "freeze.json").write_text(json.dumps({
                 "summary": {"forecast_rows": 6, "priced_forecast_rows": 0},
+                "fixtures": [{"candidates": [{}] * 6}],
+                "day": "2026-11-24", "mode": "prospective",
+                "queue_sha256": queue_sha,
                 "coverage": {"queue_diagnostics": {"reason_counts": {
                     "forecast_available": 1}}}}), encoding="utf-8")
             subprocess.run([sys.executable, "-c", script], cwd=tmp,
@@ -189,5 +203,13 @@ class ShotsResearchTests(unittest.TestCase):
             good = json.loads((folder / "health.json").read_text(encoding="utf-8"))
             self.assertEqual(good["status"], "RESEARCH_ONLY_UNCALIBRATED")
             self.assertFalse(good["calibration_authorized"])
+            bad = json.loads((folder / "freeze.json").read_text(encoding="utf-8"))
+            bad["mode"] = "historical_replay"
+            (folder / "freeze.json").write_text(json.dumps(bad), encoding="utf-8")
+            subprocess.run([sys.executable, "-c", script], cwd=tmp,
+                           env=env, text=True, capture_output=True, check=True)
+            replayed = json.loads((folder / "health.json").read_text(encoding="utf-8"))
+            self.assertEqual(replayed["status"], "DEGRADED")
+            self.assertIn("not_a_prospective_freeze", replayed["problems"])
 
 if __name__=="__main__": unittest.main()
