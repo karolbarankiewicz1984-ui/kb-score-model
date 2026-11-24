@@ -201,6 +201,7 @@ jobs:
           import os
           from pathlib import Path
           from datetime import datetime, timezone
+          from hashlib import sha256
           steps = {k: os.getenv("SHOTS_" + k.upper() + "_OUTCOME", "skipped")
                    for k in ("freeze", "archive", "audit", "audit_archive")}
           def optional_json(path):
@@ -218,6 +219,21 @@ jobs:
               problems.append("freeze_json_absent_or_invalid")
           if not audit:
               problems.append("audit_json_absent_or_invalid")
+          if freeze:
+              queue = optional_json("input/odds/pitch_queue.json")
+              if not queue:
+                  problems.append("source_queue_absent_or_invalid")
+              else:
+                  expected = sha256(json.dumps(queue, sort_keys=True,
+                                              separators=(",", ":")).encode()).hexdigest()
+                  if freeze.get("queue_sha256") != expected:
+                      problems.append("freeze_queue_sha_mismatch")
+              if freeze.get("mode") != "prospective":
+                  problems.append("not_a_prospective_freeze")
+              if freeze.get("day") != os.getenv("INPUT_DAY"):
+                  problems.append("freeze_day_mismatch")
+              if sum(len(x.get("candidates", [])) for x in freeze.get("fixtures", [])) != rows:
+                  problems.append("forecast_summary_count_mismatch")
           if problems:
               status = "DEGRADED"
           elif rows == 0:
