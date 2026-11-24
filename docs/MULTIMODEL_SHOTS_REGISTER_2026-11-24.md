@@ -48,3 +48,20 @@ Nie zmieniamy A/B/C, ich wag, wcześniej zamrożonych N, historii prognoz ani fi
 - Weryfikacja jednostki na konkretnym meczu Liverpool–Manchester United, 22.11.2026, PitchAPI `m_4Pdd0e`: PitchAPI zapisało 28 i 10 zdarzeń z xGOT, zaś oficjalny raport klubu podaje 28 i 10 strzałów ogółem oraz 11 i 3 celne. Ewidencja dotyczy weryfikacji semantyki i nie zasila prognozy ani prospektywnych metryk. [Statystyki Liverpool FC](https://www.liverpoolfc.com/matches/mens-team/liverpool-v-manchester-united-english-premier-league-20261122?tab=live)
 
 - [Końcowa integracja strzałów](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324633649) i [regresja reguł rynków](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324633688) zakończyły się powodzeniem dla kodu `c0f0741`. CI wykonało 42 testy MultiModel. Pakiet ma dwa PDF (25 i 2 strony) oraz techniczne JSON. Test PDF sprawdził sekcję Brier/log loss przy zerowej próbie, z pustymi wartościami i wyłączoną kalibracją. Lokalna pełna regresja: 674/674. [PDF i ślad odtworzenia](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324633649/artifacts/14888574114)
+
+
+## Kontynuacja 24.11.2026 — polecenie „Zapisz w rejestr. I wykonuj kolejne kroki”
+
+**Punkt kontrolny (stan przed nowymi poprawkami, PR #89):**
+- GitHub Actions [45324633649](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324633649) — job `shots` SUCCESS, sprawdzony przez odczyt zadań Actions; źródłowy replay 22.11.2026: 168 pozycji (84 strzały ogółem, 84 celne), dwa otwieralne PDF. To **replay**, nie nowe prognozy z 24.11.
+- GitHub Actions [45324633688](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324633688) — job `market-rules` SUCCESS; część etapów opcjonalnego odczytu archiwum została SKIPPED, nie stanowi osobnego potwierdzenia ceny strzałów.
+- Rejestr Codexa podaje 674/674 testów lokalnych i 42/42 testy MultiModel w CI. Samo CI potwierdza sukces testów MultiModel, nie niezależny prospektywny hit-rate.
+- Historyczne archiwa OddsPapi z 19 i 22.11: 74 784 wpisy, **zero** dokładnych pełnoczasowych ofert na strzały drużyn i całego meczu. Nie zmieniać tego statusu na kursy dostępne.
+- Próba 24.11 o cutoff 02:00 UTC: **0 wygenerowanych pozycji dla 48 meczów**, przede wszystkim brak potwierdzonych przejść identyfikatorów drużyn i blokady tożsamości; nie mylić z negatywną oceną skuteczności.
+- Na `main` brak jeszcze modułu strzałów; PR #89 pozostaje osobną gałęzią. Bez przejścia nowych testów i prospektywnego run nie scalać.
+ 
+**Plan kolejnych kroków, bez rozszerzania ryzyka:**
+1. Jawne raportowanie `shots` na produkcyjnym workflow: nawet jeżeli strzały zawiodą, dwa dotychczasowe PDF mają wyjść, ale wynik podzadania ma zostać odnotowany jako WARNING/DEGRADED w artefakcie technicznym i podsumowaniu Actions (bez fałszywego SUCCESS modułu).
+2. Diagnostyka brakujących powiązań PitchAPI→legacy na poziomie drużyny i meczu, rozróżnienie: `unverified_prematch_fixture`, `unverified_team_crosswalk`, `insufficient_history`, `fixture_already_started`; brak automatycznej identyfikacji na podobieństwie nazw.
+3. Testy regresyjne dla braku zamrożenia, brakującego audytu, archiwalnego replay oraz statystyk dostępności. Wymagać CI PASS.
+4. Po CI: niepromowanie do PLAY; dalsza walidacja źródłowa i zbieranie prospektywnych prognoz po osobnej decyzji o merge. Kalibracja dopiero po niezależnym rozliczeniu.
