@@ -132,6 +132,7 @@ jobs:
             --day "$INPUT_DAY" --output input/shots/freeze.json
 
       - name: Archive independent shots snapshot
+        id: shots_archive
         if: steps.shots.outcome == 'success'
         continue-on-error: true
         uses: actions/upload-artifact@v4
@@ -142,6 +143,7 @@ jobs:
           retention-days: 90
 
       - name: Retrieve prior prospective shots and score independent results
+        id: shots_audit
         continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
@@ -173,12 +175,88 @@ jobs:
             --index input/shots/index.json --output input/shots/audit.json
 
       - name: Archive shots settlement evidence
+        id: shots_audit_archive
         continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: multimodel-shots-shadow-audit
           path: input/shots/audit.json
           if-no-files-found: ignore
+          retention-days: 90
+
+      # Shots must never block the existing two PDFs, but an optional failure
+      # must also never silently appear to the operator as a healthy shots run.
+      - name: Record independent shots health and source blockers
+        if: always()
+        shell: bash
+        env:
+          SHOTS_FREEZE_OUTCOME: ${{ steps.shots.outcome }}
+          SHOTS_ARCHIVE_OUTCOME: ${{ steps.shots_archive.outcome }}
+          SHOTS_AUDIT_OUTCOME: ${{ steps.shots_audit.outcome }}
+          SHOTS_AUDIT_ARCHIVE_OUTCOME: ${{ steps.shots_audit_archive.outcome }}
+        run: |
+          mkdir -p input/shots
+          python - <<'PYHEALTH'
+          import json
+          import os
+          from pathlib import Path
+          from datetime import datetime, timezone
+          steps = {k: os.getenv("SHOTS_" + k.upper() + "_OUTCOME", "skipped")
+                   for k in ("freeze", "archive", "audit", "audit_archive")}
+          def optional_json(path):
+              try:
+                  return json.loads(Path(path).read_text(encoding="utf-8"))
+              except (OSError, ValueError, TypeError):
+                  return None
+          freeze = optional_json("input/shots/freeze.json")
+          audit = optional_json("input/shots/audit.json")
+          rows = (freeze or {}).get("summary", {}).get("forecast_rows", 0)
+          priced = (freeze or {}).get("summary", {}).get("priced_forecast_rows", 0)
+          reasons = (freeze or {}).get("coverage", {}).get("queue_diagnostics", {}).get("reason_counts", {})
+          problems = [k for k, v in steps.items() if v != "success"]
+          if not freeze:
+              problems.append("freeze_json_absent_or_invalid")
+          if not audit:
+              problems.append("audit_json_absent_or_invalid")
+          if problems:
+              status = "DEGRADED"
+          elif rows == 0:
+              status = "SOURCE_BLOCKED_ZERO_FORECASTS"
+          else:
+              status = "RESEARCH_ONLY_UNCALIBRATED"
+          health = {
+              "schema": "multimodel-shots-health-v1",
+              "checked_at_utc": datetime.now(timezone.utc).isoformat(),
+              "status": status, "step_outcomes": steps, "problems": problems,
+              "forecast_rows": rows, "priced_rows": priced,
+              "fixture_reason_counts": reasons,
+              "distinct_settled_fixtures": (audit or {}).get("distinct_settled_fixtures"),
+              "calibration_authorized": False,
+              "note": "A successful two-PDF job is not evidence that shots have eligible picks or calibrated outcomes."
+          }
+          Path("input/shots/health.json").write_text(
+              json.dumps(health, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print("MULTIMODEL_SHOTS_STATUS=" + status)
+          if status != "RESEARCH_ONLY_UNCALIBRATED":
+              print("::warning::MultiModel shots: " + status +
+                    "; see multimodel-shots-health artifact for gaps and step outcomes")
+          summary = os.getenv("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a", encoding="utf-8") as f:
+                  f.write("\n### MultiModel shots (independent research)\n")
+                  f.write(f"- Status: **{status}**; forecast rows: **{rows}**; exact prices: **{priced}**\n")
+                  f.write(f"- CI step outcomes: `{json.dumps(steps, sort_keys=True)}`\n")
+                  f.write(f"- Source blockers: `{json.dumps(reasons, sort_keys=True)}`\n")
+                  f.write("- A green PDF job is not evidence of shots model quality.\n")
+          PYHEALTH
+
+      - name: Preserve shots health JSON (not an extra PDF)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-shots-health
+          path: input/shots/health.json
+          if-no-files-found: warn
           retention-days: 90
 
       - name: Compose exactly two user-facing PDFs for today
