@@ -79,6 +79,17 @@ jobs:
           )"
           echo "INPUT_DAY=$day" >> "$GITHUB_ENV"
 
+      # Deliberately fail CLOSED if a push/manual run selected yesterday's last
+      # successful OddsPapi artifact; never publish an old date as today's picks.
+      - name: Validate fresh Warsaw-day queue and market snapshot before any PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m github_models.report_freshness \
+            --queue input/odds/pitch_queue.json \
+            --market input/odds/market_overlay.json \
+            --day "$INPUT_DAY" --output input/odds/current_window.json
+
       - name: Retrieve exact A/B/C and SHADOW archive matching Superbet queue
         shell: bash
         env:
@@ -312,6 +323,27 @@ jobs:
           path: reports/unified/manifest.json
           if-no-files-found: error
           retention-days: 90
+
+      - name: Recheck report at publication time; refuse started or stale matches
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PUBLISH_GUARD'
+          import json
+          from pathlib import Path
+          from github_models.report_freshness import current_window, still_publishable
+          saved = json.loads(Path("reports/unified/manifest.json").read_text(encoding="utf-8"))
+          source = json.loads(Path("input/odds/pitch_queue.json").read_text(encoding="utf-8"))
+          market = json.loads(Path("input/odds/market_overlay.json").read_text(encoding="utf-8"))
+          fresh = current_window(source, market)
+          built = saved.get("current_report_window") or {}
+          if saved.get("publication_mode") != "current" or fresh["day"] != saved.get("day"):
+              raise SystemExit("CURRENT_PDF_BLOCKED: not a current-day report")
+          if set(built.get("eligible_fixture_ids", [])) - set(fresh["eligible_fixture_ids"]):
+              raise SystemExit("CURRENT_PDF_BLOCKED: a reported match started before publication")
+          still_publishable(built)
+          print("CURRENT_PDF_PUBLICATION_GUARD=PASS")
+          PUBLISH_GUARD
 
       - name: Publish only two PDFs in one artifact
         if: success()

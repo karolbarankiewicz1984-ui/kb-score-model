@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo
 
 from github_models.shots_research import FAMILIES as SHOT_FAMILIES, FREEZE_SCHEMA
 from github_models.shots_shadow import queue_digest
+from github_models.report_freshness import current_window as verify_current_window, still_publishable, StaleReportError
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
@@ -198,7 +199,7 @@ def export_pdf(path, story):
     if path.stat().st_size<1500 or path.read_bytes()[:5]!=b"%PDF-":
         raise ValueError("Bad PDF: "+str(path))
 
-def build_day(abc_root,odds_root,day,dest,shots=None):
+def build_day(abc_root,odds_root,day,dest,shots=None,*,report_window=None,historical_replay=False):
     p="reports/github_models/"
     q=load(abc_root,p+f"queues/{day}.json")
     a=load(abc_root,p+f"filters/ABC_{day}.json")
@@ -214,8 +215,13 @@ def build_day(abc_root,odds_root,day,dest,shots=None):
         raise ValueError("SHADOW/ABC cutoff mismatch")
     if sq and sq.get("forecast_cutoff_utc")!=q.get("generated_at_utc"):
         raise ValueError("SHADOW/Superbet cutoff mismatch")
+    valid_ids = (set(report_window["eligible_fixture_ids"]) if report_window else None)
     fixtures={str(f["fixture_id"]):f for f in q["fixtures"]
-              if moment(f["kickoff_utc"]).date().isoformat()==day}
+              if moment(f["kickoff_utc"]).date().isoformat()==day
+              and (valid_ids is None or str(f["fixture_id"]) in valid_ids)}
+    if report_window and not fixtures:
+        raise StaleReportError("no_current_fixtures_in_composer")
+
     rows={}
     for c in a["candidates"]:
         fid=str(c["fixture_id"])
@@ -308,7 +314,12 @@ def build_day(abc_root,odds_root,day,dest,shots=None):
     shadow_count=sum(r["kind"]=="SHADOW" for r in rows.values())
     shots_count=sum(r["kind"]=="SHADOW strzały" for r in rows.values())
     priced=sum(r["odds"] is not None for r in rows.values())
-    story=[P("MULTIMODEL — "+day,"title"),
+    title = ("MULTIMODEL — ODTWORZENIE HISTORYCZNE — " if historical_replay
+             else "MULTIMODEL — AKTUALNE PROPOZYCJE — ") + day
+    story=[P(title,"title"),
+           P("ODTWORZENIE HISTORYCZNE. Mecze i kursy z archiwum. NIE SĄ AKTUALNYMI TYPAMI."
+             if historical_replay else
+             "Bieżący raport: wyłącznie mecze nierozpoczęte w momencie walidacji; pozostałe odrzucono."),
            P("Jeden raport: A/B/C, SHADOW oraz rzeczywiste zapisane kursy Superbet."),
            P("Prawdopodobieństwa niekalibrowane. Kursy mogą być już nieaktualne. "
              "Nie stosujemy oceny punktowej 67/100. Kurs poniżej 1,20 nie jest prezentowany. "
@@ -318,6 +329,10 @@ def build_day(abc_root,odds_root,day,dest,shots=None):
            P(f"Zamrożenie: {moment(q['generated_at_utc']):%d.%m.%Y %H:%M} | "
              f"Oferta Superbet: {moment(market['as_of_utc']):%d.%m.%Y %H:%M} | "
              f"Mecze: {len(fixtures)} | A/B/C: {abc_count} | SHADOW: {shadow_count} | Z kursem: {priced}")]
+    if report_window:
+        story.append(P(f"Kontrola aktualności: {moment(report_window['checked_at_utc']):%d.%m.%Y %H:%M %Z} | "
+                       f"Pozostałe mecze: {len(fixtures)} | Odrzucone rozpoczęte/bliskie: "
+                       f"{report_window['started_or_too_close']}."))
     if shots:
         method = "Odtworzenie historyczne" if shots["mode"] == "historical_replay" else "Zamrożenie badawcze"
         story.append(P(f"SHADOW strzały — {method} {moment(shots['frozen_at_utc']):%d.%m.%Y %H:%M %Z}. "
@@ -373,9 +388,10 @@ def build_day(abc_root,odds_root,day,dest,shots=None):
     return dict(fixtures=len(fixtures),abc=abc_count,shadow=shadow_count,
                 with_odds=priced, priced_shadow_by_market=priced_shadow_by_market,
                 market_rollout=observation, shots_rows=shots_count,
+                earliest_current_kickoff_utc=(report_window["earliest_kickoff_utc"] if report_window else None),
                 shots_unavailable_markets=sum(map(len, unavailable_shots.values())) if shots else None)
 
-def build_audit(abc_root,odds_root,audit_root,day,dest,shots=None,shots_audit=None):
+def build_audit(abc_root,odds_root,audit_root,day,dest,shots=None,shots_audit=None,*,historical_replay=False):
     # Inventory of exact stored Superbet market names; no odds API requests.
     from github_models.market_rule_gate import audit as market_rule_audit
     semantics = market_rule_audit(load(odds_root,"collection.json"),
@@ -391,7 +407,9 @@ def build_audit(abc_root,odds_root,audit_root,day,dest,shots=None,shots_audit=No
     st=pdf_style()
     def P(x,kind="body"):
         return paragraph(x,st[kind])
-    story=[P("MULTIMODEL — AUDYT "+day,"title"),
+    story=[P(("MULTIMODEL — AUDYT ODTWORZENIA — " if historical_replay else "MULTIMODEL — AUDYT — ")+day,"title"),
+           P("Analiza ARCHIWALNA — nie jest aktualną listą typów." if historical_replay else
+             "Audyt historycznych wyników; nie jest listą propozycji na dzisiaj."),
            P("Jeden audyt: modele A/B/C, nowe rynki SHADOW i zapisane kursy Superbet."),
            P("Historyczny wynik A/B/C nie dowodzi opłacalności nowych propozycji. "
              "Brak rozliczonych rynków Superbet nie oznacza 0% trafności."),
@@ -583,14 +601,31 @@ def main():
     parser.add_argument("--audit-dir")
     parser.add_argument("--shots")
     parser.add_argument("--shots-audit")
+    parser.add_argument("--historical-replay", action="store_true",
+                        help="Explicit archival reproduction; never label this output as today's recommendations")
     arg=parser.parse_args()
+    window = None
+    if not arg.historical_replay:
+        queue = load(arg.odds_dir, "pitch_queue.json")
+        market = load(arg.odds_dir, "market_overlay.json")
+        window = verify_current_window(queue, market)
+        if arg.day != window["day"]:
+            raise StaleReportError("requested_day_not_today")
     out=Path(arg.output_dir);out.mkdir(parents=True,exist_ok=True)
     shots = load(".", arg.shots, optional=True) if arg.shots else None
     shots_audit = load(".", arg.shots_audit, optional=True) if arg.shots_audit else None
-    one=build_day(arg.abc_dir,arg.odds_dir,arg.day,out/f"MULTIMODEL_{arg.day}.pdf",shots)
+    suffix = ("ODTWORZENIE_" if arg.historical_replay else "") + arg.day
+    one=build_day(arg.abc_dir,arg.odds_dir,arg.day,
+                  out/f"MULTIMODEL_{suffix}.pdf",shots,
+                  report_window=window,historical_replay=arg.historical_replay)
     two=build_audit(arg.abc_dir,arg.odds_dir,arg.audit_dir,arg.day,
-                    out/f"MULTIMODEL_AUDYT_{arg.day}.pdf",shots,shots_audit)
+                    out/f"MULTIMODEL_AUDYT_{suffix}.pdf",shots,shots_audit,
+                    historical_replay=arg.historical_replay)
+    if window:
+        still_publishable(window)
     state={"schema":"multimodel-two-final-pdfs-v1","day":arg.day,
+           "publication_mode":("historical_replay" if arg.historical_replay else "current"),
+           "current_report_window":window,
            "prognoses":one,"audit":two,"minimum_verified_odds":1.20,
            "quality_67_points_mandatory":False,"raw_archives_untouched":True,
            "added_paid_api_calls":0}
