@@ -141,5 +141,8 @@ class ShotsResearchTests(unittest.TestCase):
         self.assertIn("name: multimodel-shots-health", workflow)
         self.assertIn("::warning::MultiModel shots:", workflow)
         self.assertIn("continue-on-error: true", workflow)
+        from textwrap import dedent
+        snippet = workflow.split("python - <<'PYHEALTH'", 1)[1].split("PYHEALTH", 1)[0]
+        compile(dedent(snippet), "shots_workflow_health_embedded.py", "exec")
 
 if __name__=="__main__": unittest.main()
