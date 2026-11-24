@@ -2,7 +2,7 @@
 
 Polecenie użytkownika: dołożyć **strzały ogółem** i **strzały celne**. Poprzedni warunek „dopiero po faulach i kartkach” zostaje zmieniony dla odizolowanych badań; blokady dyscyplinarne #84/#78 nadal obowiązują dla fauli i kartek.
 
-## Rejestr wykonania
+## Stan PR przed kontynuacją
 - [x] Zadanie #88 z kryteriami odbioru i zakazem fikcyjnych kursów.
 - [x] Izolowany moduł `github_models/shots_research.py`: walidacja chronologii, IDs, definicji strzałów i braków; eksperymentalny baseline Poissona przy >=5 obserwacjach; filtr rzeczywistych archiwalnych kursów Superbet >=1,20; łączny mecz tylko z dwóch rzeczywistych stron.
 - [x] Testy offline `tests/test_multimodel_shots_research.py` przygotowane. **CI i integracja produkcyjna niepotwierdzone**.
@@ -46,3 +46,5 @@ Nie zmieniamy A/B/C, ich wag, wcześniej zamrożonych N, historii prognoz ani fi
 - Druga [integracja GitHub Actions](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324349458) zakończyła się powodzeniem. W PDF z 22.11 są 119 istniejących pozycji A/B/C, 216 istniejących SHADOW i 168 prognoz strzałów (84 ogółem, 84 celne) przy odcięciu kolekcji 16:40:28 UTC. Powstały dwa otwieralne PDF. [Regresja reguł rynków](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324349141) przeszła. W kolejnej iteracji skompresowano powtarzające się statusy niedostępności w PDF przy zachowaniu wszystkich selekcji z prognozą.
 - Kolekcja z 19.11 (run 44571730918) dała 44 748 ofert, w tym 8921 wpisów typu strzał zawodnika z dogrywką. Kolekcja 22.11 zawierała 1150 wpisów tego typu. Łącznie przejrzano 74 784 wiersze ofert w dwóch archiwach. Zero dokładnych pełnoczasowych rynków gospodarzy, gości lub meczu. Jest to wynik dla sprawdzonych kolekcji, z odnotowanym brakiem pokrycia tej części oferty.
 - Weryfikacja jednostki na konkretnym meczu Liverpool–Manchester United, 22.11.2026, PitchAPI `m_4Pdd0e`: PitchAPI zapisało 28 i 10 zdarzeń z xGOT, zaś oficjalny raport klubu podaje 28 i 10 strzałów ogółem oraz 11 i 3 celne. Ewidencja dotyczy weryfikacji semantyki i nie zasila prognozy ani prospektywnych metryk. [Statystyki Liverpool FC](https://www.liverpoolfc.com/matches/mens-team/liverpool-v-manchester-united-english-premier-league-20261122?tab=live)
+
+- [Końcowa integracja strzałów](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324633649) i [regresja reguł rynków](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324633688) zakończyły się powodzeniem dla kodu `c0f0741`. CI wykonało 42 testy MultiModel. Pakiet ma dwa PDF (25 i 2 strony) oraz techniczne JSON. Test PDF sprawdził sekcję Brier/log loss przy zerowej próbie, z pustymi wartościami i wyłączoną kalibracją. Lokalna pełna regresja: 674/674. [PDF i ślad odtworzenia](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45324633649/artifacts/14888574114)
