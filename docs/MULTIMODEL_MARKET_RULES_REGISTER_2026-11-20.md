@@ -651,3 +651,10 @@ Ponownie sprawdzono korespondencję Gmail: istnieje wysłane zgłoszenie „Odds
 - [x] [CI nowego cyklu #45418387124](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45418387124): **SUCCESS**, 12 testów source/generator/independent audit + 13 regresji daty; 3 A5 z oryginalnego archiwum ABC z 23.11 w trybie CI-only oraz niezależny audyt ze źródłowych rozliczeń #45328390911 (673/58 A/B/C, 195/42 SHADOW). Brak nowych wywołań OddsPapi i brak fikcyjnych kursów.
 - [x] [CI niezależny SHADOW #45418387373](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45418387373): **SUCCESS**, rzeczywiste archiwum BTTS/handicap, siedem PDF/regresja bez nowych zapytań.
 - [ ] Pierwszy rzeczywisty codzienny przebieg workflow **po merge** nadal do obserwacji. Oddspapi gate celowo odmówi płatnego zapytania, gdy ABC udostępni kolejkę z poprzedniego dnia. Brak nowego aktualnego snapshotu nie może zostać „naprawiony” starym.
+
+
+**Status wdrożenia po scaleniu — 24.11.2026:**
+- [x] [PR #91](https://github.com/karolbarankiewicz1984-ui/kb-score-model/pull/91) **MERGED** do `main`, commit [`623950bcd8f24eddb5bcf3c118277343d9a811ee`](https://github.com/karolbarankiewicz1984-ui/kb-score-model/commit/623950bcd8f24eddb5bcf3c118277343d9a811ee).
+- [x] Zweryfikowano bezpośrednio na `main` obecność zabezpieczenia OddsPapi oraz obu nowych workflow i obu generatorów Python. Nowy proces nie obciąża limitu dostawcy przy braku świeżego źródła.
+- [x] Niezależny audyt na danych z rzeczywistego `oddspapi-rolling-audit` został też fizycznie wygenerowany i obejrzany jako `MULTIMODEL_AUDYT_NIEZALEZNY_2026-11-24.pdf` (bez bieżących propozycji). Służy do podsumowania historycznych wyników z #45328390911.
+- [ ] **Monitoring pierwszych produkcyjnych uruchomień nowego kodu pozostaje otwarty**: audit-only po kolejnym `oddspapi-audit.yml`; trzy A5 po nowym udanym `github-models-v2-daily-audit.yml`; wycenione dwudokumentowe po udanym OddsPapi z kolejką z tego samego dnia. Aktualny brak nowej kolejki 24.11 nie pozwala stwierdzić, że dzisiejsze typy już istnieją. Nie obchodzić blokady starym archiwum.
