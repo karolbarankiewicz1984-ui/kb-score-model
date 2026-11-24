@@ -1,0 +1,97 @@
+name: MultiModel shots SHADOW checks (read-only)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/multimodel-shots-ci.yml'
+      - '.github/workflows/multimodel-two-pdfs.yml'
+      - 'github_models/shots_*.py'
+      - 'github_models/unified_output.py'
+      - 'tests/test_multimodel_shots_research.py'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+jobs:
+  shots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install report dependencies
+        run: |
+          python -m pip install 'reportlab>=4,<5'
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils
+      - name: Run MultiModel tests
+        run: python -B -m unittest discover -s tests -p 'test_multimodel*.py' -v
+      - name: Retrieve matching real archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 45045069985 --repo "$GITHUB_REPOSITORY" --name oddspapi-daily --dir quotes
+          gh run download 45037233530 --repo "$GITHUB_REPOSITORY" \
+            --name github-models-v2-abc-complete-45037233530-1 --dir archive
+          gh run download 45223679417 --repo "$GITHUB_REPOSITORY" \
+            --name oddspapi-rolling-audit --dir audit
+          gh run download 44571730918 --repo "$GITHUB_REPOSITORY" --name oddspapi-daily --dir older-odds
+      - name: Inspect shots contracts in another stored Superbet collection
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from github_models.shots_archive import archived_quotes
+          c = json.loads(Path("older-odds/collection.json").read_text())
+          q = json.loads(Path("older-odds/pitch_queue.json").read_text())
+          cutoff = c["as_of_utc"]
+          fixtures = {str(f["fixture_id"]): f for f in q["fixtures"]}
+          _, report = archived_quotes(c, fixtures, cutoff, q["generated_at_utc"])
+          assert report["superbet_quotes"] > 0
+          print("ODDS-2026-11-19", json.dumps(report, ensure_ascii=False))
+          PY
+      - name: Replay shots with original timestamps and compose the two PDFs
+        run: |
+          set -euo pipefail
+          mkdir results
+          printf '[]\n' > results/empty-index.json
+          python -B -m github_models.shots_settlement --index results/empty-index.json \
+            --output results/settlement.json
+          cutoff="$(python -c 'import json; print(json.load(open("quotes/collection.json"))["as_of_utc"])')"
+          python -B -m github_models.shots_shadow --queue quotes/pitch_queue.json \
+            --collection quotes/collection.json --day 2026-11-22 --replay-cutoff "$cutoff" \
+            --output results/replay.json
+          python -B -m github_models.unified_output --abc-dir archive --odds-dir quotes --audit-dir audit \
+            --day 2026-11-22 --shots results/replay.json --shots-audit results/settlement.json \
+            --output-dir results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d = json.loads(Path("results/replay.json").read_text())
+          r = json.loads(Path("results/manifest.json").read_text())
+          assert d["mode"] == "historical_replay" and d["calibration_authorized"] is False
+          assert d["coverage"]["pitchapi_exact_legacy_both_totals_agree"] > 0
+          assert d["quote_audit"]["superbet_quotes"] > 0, "No actual Superbet prices inspected"
+          assert r["prognoses"]["shots_rows"] == d["summary"]["forecast_rows"] > 0
+          assert len(list(Path("results").glob("*.pdf"))) == 2
+          a = json.loads(Path("results/settlement.json").read_text())
+          assert a["distinct_settled_fixtures"] == 0 and a["calibration_authorized"] is False
+          assert all(x["brier"] is None and x["log_loss"] is None for x in a["summary"])
+          PY
+          for file in results/*.pdf; do
+            pdfinfo "$file" | grep '^Pages:'
+            pdftotext "$file" "${file%.pdf}.txt"
+            grep -q 'SHADOW strzały' "${file%.pdf}.txt"
+          done
+          grep -q 'Log loss' results/MULTIMODEL_AUDYT_2026-11-22.txt
+      - name: Save replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-shots-ci-evidence
+          path: results/
+          if-no-files-found: ignore
+          retention-days: 14

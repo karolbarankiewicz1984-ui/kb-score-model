@@ -12,6 +12,7 @@ on:
       - '.github/workflows/multimodel-two-pdfs.yml'
       - 'github_models/unified_output.py'
       - 'github_models/priced_shadow_settlement.py'
+      - 'github_models/shots_*.py'
 
 permissions:
   contents: read
@@ -35,6 +36,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
           persist-credentials: false
 
       - uses: actions/setup-python@v5
@@ -120,11 +122,165 @@ jobs:
             gh run download "$audit_run" --repo "$GITHUB_REPOSITORY"               --name oddspapi-rolling-audit --dir input/bookmaker_audit               || echo "::warning::Bookmaker audit unavailable; PDF will mark missing metrics"
           fi
 
+      - name: Freeze eligible shots SHADOW before kickoff
+        id: shots
+        continue-on-error: true
+        run: |
+          mkdir -p input/shots
+          python -B -m github_models.shots_shadow \
+            --queue input/odds/pitch_queue.json --collection input/odds/collection.json \
+            --day "$INPUT_DAY" --output input/shots/freeze.json
+
+      - name: Archive independent shots snapshot
+        id: shots_archive
+        if: steps.shots.outcome == 'success'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-shots-shadow-freeze
+          path: input/shots/freeze.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Retrieve prior prospective shots and score independent results
+        id: shots_audit
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p input/shots/history
+          gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?name=multimodel-shots-shadow-freeze&per_page=100" \
+            --jq '.artifacts[] | select(.expired == false and .workflow_run.head_branch == "main") |
+                  [.id, .created_at, .workflow_run.id] | @tsv' > input/shots/artifacts.tsv
+          : > input/shots/downloaded.tsv
+          while IFS=$'\t' read -r artifact created run_id; do
+            [[ "$run_id" == "$GITHUB_RUN_ID" ]] && continue
+            dest="input/shots/history/$artifact"
+            if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" \
+                --name multimodel-shots-shadow-freeze --dir "$dest" && test -s "$dest/freeze.json"; then
+              printf 'history/%s/freeze.json\t%s\n' "$artifact" "$created" >> input/shots/downloaded.tsv
+            fi
+          done < input/shots/artifacts.tsv
+          python - <<'PYINDEX'
+          import json
+          from pathlib import Path
+          root = Path("input/shots")
+          records = [line.split("\t") for line in (root / "downloaded.tsv").read_text().splitlines()]
+          (root / "index.json").write_text(json.dumps([
+              {"path": path, "created_at": created} for path, created in records
+          ]))
+          PYINDEX
+          python -B -m github_models.shots_settlement \
+            --index input/shots/index.json --output input/shots/audit.json
+
+      - name: Archive shots settlement evidence
+        id: shots_audit_archive
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-shots-shadow-audit
+          path: input/shots/audit.json
+          if-no-files-found: ignore
+          retention-days: 90
+
+      # Shots must never block the existing two PDFs, but an optional failure
+      # must also never silently appear to the operator as a healthy shots run.
+      - name: Record independent shots health and source blockers
+        if: always()
+        shell: bash
+        env:
+          SHOTS_FREEZE_OUTCOME: ${{ steps.shots.outcome }}
+          SHOTS_ARCHIVE_OUTCOME: ${{ steps.shots_archive.outcome }}
+          SHOTS_AUDIT_OUTCOME: ${{ steps.shots_audit.outcome }}
+          SHOTS_AUDIT_ARCHIVE_OUTCOME: ${{ steps.shots_audit_archive.outcome }}
+        run: |
+          mkdir -p input/shots
+          python - <<'PYHEALTH'
+          import json
+          import os
+          from pathlib import Path
+          from datetime import datetime, timezone
+          from hashlib import sha256
+          steps = {k: os.getenv("SHOTS_" + k.upper() + "_OUTCOME", "skipped")
+                   for k in ("freeze", "archive", "audit", "audit_archive")}
+          def optional_json(path):
+              try:
+                  return json.loads(Path(path).read_text(encoding="utf-8"))
+              except (OSError, ValueError, TypeError):
+                  return None
+          freeze = optional_json("input/shots/freeze.json")
+          audit = optional_json("input/shots/audit.json")
+          rows = (freeze or {}).get("summary", {}).get("forecast_rows", 0)
+          priced = (freeze or {}).get("summary", {}).get("priced_forecast_rows", 0)
+          reasons = (freeze or {}).get("coverage", {}).get("queue_diagnostics", {}).get("reason_counts", {})
+          problems = [k for k, v in steps.items() if v != "success"]
+          if not freeze:
+              problems.append("freeze_json_absent_or_invalid")
+          if not audit:
+              problems.append("audit_json_absent_or_invalid")
+          if freeze:
+              queue = optional_json("input/odds/pitch_queue.json")
+              if not queue:
+                  problems.append("source_queue_absent_or_invalid")
+              else:
+                  expected = sha256(json.dumps(queue, sort_keys=True,
+                                              separators=(",", ":")).encode()).hexdigest()
+                  if freeze.get("queue_sha256") != expected:
+                      problems.append("freeze_queue_sha_mismatch")
+              if freeze.get("mode") != "prospective":
+                  problems.append("not_a_prospective_freeze")
+              if freeze.get("day") != os.getenv("INPUT_DAY"):
+                  problems.append("freeze_day_mismatch")
+              if sum(len(x.get("candidates", [])) for x in freeze.get("fixtures", [])) != rows:
+                  problems.append("forecast_summary_count_mismatch")
+          if problems:
+              status = "DEGRADED"
+          elif rows == 0:
+              status = "SOURCE_BLOCKED_ZERO_FORECASTS"
+          else:
+              status = "RESEARCH_ONLY_UNCALIBRATED"
+          health = {
+              "schema": "multimodel-shots-health-v1",
+              "checked_at_utc": datetime.now(timezone.utc).isoformat(),
+              "status": status, "step_outcomes": steps, "problems": problems,
+              "forecast_rows": rows, "priced_rows": priced,
+              "fixture_reason_counts": reasons,
+              "distinct_settled_fixtures": (audit or {}).get("distinct_settled_fixtures"),
+              "calibration_authorized": False,
+              "note": "A successful two-PDF job is not evidence that shots have eligible picks or calibrated outcomes."
+          }
+          Path("input/shots/health.json").write_text(
+              json.dumps(health, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print("MULTIMODEL_SHOTS_STATUS=" + status)
+          if status != "RESEARCH_ONLY_UNCALIBRATED":
+              print("::warning::MultiModel shots: " + status +
+                    "; see multimodel-shots-health artifact for gaps and step outcomes")
+          summary = os.getenv("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a", encoding="utf-8") as f:
+                  f.write("\n### MultiModel shots (independent research)\n")
+                  f.write(f"- Status: **{status}**; forecast rows: **{rows}**; exact prices: **{priced}**\n")
+                  f.write(f"- CI step outcomes: `{json.dumps(steps, sort_keys=True)}`\n")
+                  f.write(f"- Source blockers: `{json.dumps(reasons, sort_keys=True)}`\n")
+                  f.write("- A green PDF job is not evidence of shots model quality.\n")
+          PYHEALTH
+
+      - name: Preserve shots health JSON (not an extra PDF)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-shots-health
+          path: input/shots/health.json
+          if-no-files-found: warn
+          retention-days: 90
+
       - name: Compose exactly two user-facing PDFs for today
         shell: bash
         run: |
           set -euo pipefail
-          python -B -m github_models.unified_output             --abc-dir input/abc             --odds-dir input/odds             --audit-dir input/bookmaker_audit             --day "$INPUT_DAY"             --output-dir reports/unified
+          python -B -m github_models.unified_output             --abc-dir input/abc             --odds-dir input/odds             --audit-dir input/bookmaker_audit             --day "$INPUT_DAY"             --output-dir reports/unified \
+            --shots input/shots/freeze.json --shots-audit input/shots/audit.json
           for pdf in "reports/unified/MULTIMODEL_$INPUT_DAY.pdf"                      "reports/unified/MULTIMODEL_AUDYT_$INPUT_DAY.pdf"; do
             test -s "$pdf"
             pdfinfo "$pdf" | grep 'Pages:'
