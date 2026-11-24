@@ -77,3 +77,14 @@ Nie zmieniamy A/B/C, ich wag, wcześniej zamrożonych N, historii prognoz ani fi
 - [ ] Nowe wyniki CI **w toku przy zapisie**: [shots checks 45326251860](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45326251860) i [market-rules 45326251820](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45326251820). Nie zaliczać przed końcowym statusem sukcesu.
 - [ ] Pierwszy rzeczywisty prospektywny freeze i niezależne rozliczenia strzałów nadal niepotwierdzone. Nie scalać PR #89 wyłącznie na podstawie historycznego replay; sprawdzić zdrowie i źródła po uruchomieniu na `main`.
 - [ ] Pokrycie drużyn w słabiej udokumentowanych ligach wymaga kolejnych **jednoznacznych źródłowych powiązań**, nie fuzzy-matchingu. Weryfikacja rynków Superbet i porównywalności OPTA nadal otwarta.
+
+
+### Weryfikacja CI i wdrożenie — 24.11.2026
+
+- [x] **PR #89 MERGED do `main`**: commit squash [`79a9141e09a15506f004ec8216b97b9beeac430a`](https://github.com/karolbarankiewicz1984-ui/kb-score-model/commit/79a9141e09a15506f004ec8216b97b9beeac430a). Zmiany wyłącznie badawcze; wagi A/B/C i istniejące zamrożenia pozostają bez zmian.
+- [x] [GitHub Actions — SHOTS 45326408836](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45326408836): **SUCCESS, 45/45 testów**; replay źródłowego archiwum 22.11 wygenerował 168 wierszy strzałów i dokładnie dwa otwieralne PDF, 0 nowych ofert Superbet na strzały meczowe/drużynowe i 0 niezależnie rozliczonych strzałów.
+- [x] [GitHub Actions — reguły rynku 45326408850](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45326408850): job `market-rules` **SUCCESS**. Kroki bez odczytu dodatkowych archiwów są `SKIPPED`, nie stanowią dowodu obecności nowych kursów.
+- [x] Zabezpieczenia zdrowia zostały dodatkowo rozszerzone o kontrolę `queue_sha256` względem aktualnej źródłowej kolejki, `mode=prospective`, zgodność dnia oraz liczby wierszy z rzeczywistym JSON. Replay ani niezgodny z kolejką freeze nie może mieć statusu zdrowej produkcji.
+- [x] Diagnostyka replay 22.11: 59 spotkań kolejki; 6 z prognozami badawczymi, 28 z brakiem potwierdzonego crosswalk, 4 z niezweryfikowanym prematch i 21 rozpoczętych już przed odcięciem. To **osobne kategorie**, nie liczba przegranych typów.
+- [ ] **Pierwszy produkcyjny run po merge wymaga odrębnej kontroli**: `multimodel-shots-health`, `multimodel-shots-shadow-freeze`, `multimodel-shots-shadow-audit` i dwa PDF. Dopóki ten run nie został potwierdzony, nie zgłaszać faktycznych nowych prospektywnych typów.
+- [ ] Nadal brak zgodnych kursów na strzały drużyny lub całego meczu w zbadanych kolekcjach OddsPapi, brak źródłowo zweryfikowanej równoważności z OPTA, brak formalnej kalibracji; zadanie #88 pozostaje otwarte na dowody źródłowe i prospektywne rozliczenia.
