@@ -1,7 +1,7 @@
 {
   "schema": "pitchapi-prematch-context-v1",
   "target_date": "2026-11-26",
-  "snapshot_utc": "2026-11-23T14:37:23.892151+00:00",
+  "snapshot_utc": "2026-11-24T03:22:18.700768+00:00",
   "source": "PitchAPI",
   "available_upcoming": 54,
   "fixtures_collected": 54,
@@ -2973,15 +2973,21 @@
         "requested_samples": 5,
         "data_quality": "sufficient",
         "mean_xg_for": 1.214,
-        "mean_xg_against": 1.068,
+        "mean_xg_against": 1.212,
         "source_match_ids": [
+          "m_2xfxuW",
           "m_4C4yum",
           "m_4LDkHQ",
           "m_3n5ijr",
-          "m_0xbyaX",
-          "m_12VjKm"
+          "m_0xbyaX"
         ],
         "samples": [
+          {
+            "match_id": "m_2xfxuW",
+            "kickoff_utc": "2026-11-23T23:00:00Z",
+            "xg_for": 1.24,
+            "xg_against": 1.62
+          },
           {
             "match_id": "m_4C4yum",
             "kickoff_utc": "2026-11-20T00:30:00Z",
@@ -3005,12 +3011,6 @@
             "kickoff_utc": "2026-10-24T19:30:00Z",
             "xg_for": 1.13,
             "xg_against": 1.29
-          },
-          {
-            "match_id": "m_12VjKm",
-            "kickoff_utc": "2026-10-18T00:00:00Z",
-            "xg_for": 1.24,
-            "xg_against": 0.9
           }
         ]
       },
