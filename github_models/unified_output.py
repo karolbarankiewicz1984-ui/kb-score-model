@@ -351,9 +351,9 @@ def build_day(abc_root,odds_root,day,dest,shots=None):
                 status = ("OddsPapi " + moment(quote["captured_at_utc"]).strftime("%d.%m. %H:%M %Z")
                           if quote else "kurs niedostępny")
             rr.append([market_label(row), percent(row["probability"]), number(row["odds"]), variant, status])
-        for market in unavailable_shots.get(fid, ()):
-            label = MARKETS[market["market"]] + " (" + SHOT_SCOPES[market["scope"]] + ")"
-            rr.append([label, "—", "—", "SHADOW strzały", SHOT_STATUSES[market["status"]]])
+        for unavailable in unavailable_shots.get(fid, ()):
+            label = MARKETS[unavailable["market"]] + " (" + SHOT_SCOPES[unavailable["scope"]] + ")"
+            rr.append([label, "—", "—", "SHADOW strzały", SHOT_STATUSES[unavailable["status"]]])
         story.append(make_table(["Rynek","P modelu","Superbet","Model","Status"],
                                 rr,[195,67,60,65,78],st))
     story.append(P("Braki i ograniczenia","head"))

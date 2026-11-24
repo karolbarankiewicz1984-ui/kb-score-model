@@ -191,7 +191,7 @@ def archived_quotes(collection, fixtures, cutoff, queue_cutoff):
     snapshots = Counter(str(s.get("pitch_fixture_id")) for s in collection.get("snapshots", []))
     vendor_ids = Counter(str(z.get("odds_fixture_id")) for group in links.values() for z in group)
     found, ambiguous, inventory = {}, set(), Counter()
-    counts = Counter()
+    counts = Counter(fulltime_nonplayer_shot_like_quotes=0)
     for snapshot in collection.get("snapshots", []):
         fid = str(snapshot.get("pitch_fixture_id"))
         for quote in snapshot.get("quotes", []):
@@ -199,7 +199,11 @@ def archived_quotes(collection, fixtures, cutoff, queue_cutoff):
                 continue
             counts["superbet_quotes"] += 1
             name = str(quote.get("market_name") or "")
-            if any(word in name.casefold() for word in SHOT_WORDS):
+            search = f"{name} {quote.get('market_type') or ''}".casefold()
+            if any(word in search for word in SHOT_WORDS):
+                counts["shot_like_quotes"] += 1
+                if quote.get("player_prop") is False and quote.get("period") == "fulltime":
+                    counts["fulltime_nonplayer_shot_like_quotes"] += 1
                 inventory[(str(quote.get("market_id")), name, str(quote.get("market_type")),
                            str(quote.get("period")), str(quote.get("player_prop")))] += 1
             rules = VERIFIED_MARKETS.get(str(quote.get("market_id")))

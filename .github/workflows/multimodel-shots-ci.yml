@@ -38,6 +38,21 @@ jobs:
             --name github-models-v2-abc-complete-45037233530-1 --dir archive
           gh run download 45223679417 --repo "$GITHUB_REPOSITORY" \
             --name oddspapi-rolling-audit --dir audit
+          gh run download 44571730918 --repo "$GITHUB_REPOSITORY" --name oddspapi-daily --dir older-odds
+      - name: Inspect shots contracts in another stored Superbet collection
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from github_models.shots_archive import archived_quotes
+          c = json.loads(Path("older-odds/collection.json").read_text())
+          q = json.loads(Path("older-odds/pitch_queue.json").read_text())
+          cutoff = c["as_of_utc"]
+          fixtures = {str(f["fixture_id"]): f for f in q["fixtures"]}
+          _, report = archived_quotes(c, fixtures, cutoff, q["generated_at_utc"])
+          assert report["superbet_quotes"] > 0
+          print("ODDS-2026-11-19", json.dumps(report, ensure_ascii=False))
+          PY
       - name: Replay shots with original timestamps and compose the two PDFs
         run: |
           set -euo pipefail
