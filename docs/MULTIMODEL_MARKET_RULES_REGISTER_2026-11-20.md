@@ -658,3 +658,20 @@ Ponownie sprawdzono korespondencję Gmail: istnieje wysłane zgłoszenie „Odds
 - [x] Zweryfikowano bezpośrednio na `main` obecność zabezpieczenia OddsPapi oraz obu nowych workflow i obu generatorów Python. Nowy proces nie obciąża limitu dostawcy przy braku świeżego źródła.
 - [x] Niezależny audyt na danych z rzeczywistego `oddspapi-rolling-audit` został też fizycznie wygenerowany i obejrzany jako `MULTIMODEL_AUDYT_NIEZALEZNY_2026-11-24.pdf` (bez bieżących propozycji). Służy do podsumowania historycznych wyników z #45328390911.
 - [ ] **Monitoring pierwszych produkcyjnych uruchomień nowego kodu pozostaje otwarty**: audit-only po kolejnym `oddspapi-audit.yml`; trzy A5 po nowym udanym `github-models-v2-daily-audit.yml`; wycenione dwudokumentowe po udanym OddsPapi z kolejką z tego samego dnia. Aktualny brak nowej kolejki 24.11 nie pozwala stwierdzić, że dzisiejsze typy już istnieją. Nie obchodzić blokady starym archiwum.
+
+
+## 24.11.2026 — Priorytet: pierwszy realny cykl po PR #91
+
+**Polecenie użytkownika:** „Wykonaj priorytet” — sprawdzić i uruchomić rzeczywisty łańcuch A/B/C → OddsPapi Superbet → raporty bieżące (3 A5 oraz 2-PDF); dokumentować rzeczywisty brak aktualnego źródła bez retroaktywnych typów.
+
+**Odczyt GitHub Actions i dowody, stan wejściowy:**
+- Najnowszy zarejestrowany **udany** `GitHub Models V2 — A/B/C | daily forecast and audit`: [#45246471045](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45246471045), uruchomiony 23.11.2026. Brak udanego runu ABC z 24.11 po wdrożeniu PR #91 na moment kontroli.
+- `Superbet OddsPapi market layer`: ostatni udany [#45261236775](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45261236775), 23.11; brak potwierdzonej nowej oferty Superbet na 24.11. Generator 2-PDF prawidłowo odrzuca wczorajszą kolejkę, [#45328381165](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45328381165), `queue_not_today_warsaw`.
+- PitchAPI nie jest zupełnie niedostępny: **odrębny** pipeline prematch context [#45418595675](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45418595675) zakończył się SUCCESS; archiwum `pitchapi-prematch-context` zawiera datowane konteksty na 24.11 (47 fixture), 25.11 (45), 26.11 (56) i 27.11 (59). To **nie** jest wynik nowego A/B/C, nie zawiera gwarantowanych notowań i nie upoważnia do typowania bez zamrożenia.
+- Audyt rzeczywistych, wycenionych archiwów [#45328390911](https://github.com/karolbarankiewicz1984-ui/kb-score-model/actions/runs/45328390911) nadal 673 rozliczone A/B/C z 58 różnych meczów, 195 SHADOW z 42 meczów; nie zwiększać tych liczb bez nowego niezależnego rozliczenia.
+
+**Wykonanie w PR przygotowującym kontrolowane uruchomienie normalnego pipeline:**
+- `.github/workflows/github-models-v2-daily-audit.yml`: dodany jawny test `Verify Warsaw-day frozen ABC queue and preserve source health` przed tworzeniem PDF i archiwizacją. Weryfikuje `FROZEN_AT == queue.generated_at_utc`, seven-day Warsaw dates, maks. 6 h, poprawne przedmeczowe `kickoff_utc` i unikalne ID. Zapisuje `reports/github_models/coverage/CYCLE_SOURCE_HEALTH_DAY.json`, status i liczności per dzień do istniejącego artefaktu forecast oraz `GITHUB_STEP_SUMMARY`.
+- Aktualizacja **samego** pliku workflow wyzwala istniejący `push.paths` na `main`, więc po scaleniu jest to **jednorazowe, zwykłe uruchomienie istniejącego ABC**, bez nowego cyklicznego cron i bez uruchomienia dodatkowego skanera OddsPapi w teście; dotychczasowa normalna łańcuchowa integracja Oddspapi z quota guard pozostaje bez zmian. Nie włączamy dawnego API-Football.
+- Test reguł kolejki na świeżych oraz przeterminowanych danych w `tests/test_multimodel_current_cycle.py`, CI na PR przez `multimodel-current-cycle-ci.yml`.
+- [ ] Po CI PASS i ewentualnym merge odczytać faktyczny **nowy** run ABC, oryginalną kolejkę/freeze, status 3 A5, kolektor (czas, limit, exact-match) i 2-PDF. Gdy run nie powstanie albo źródła nie spełnią warunków — pozostawić blokadę i zapisać stan. Nie deklarować nowej oferty bez artefaktów; brak = brak, nie „0 trafień”.
