@@ -1,0 +1,16 @@
+{
+  "name": "multimodel-private",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-25",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {"directory": "./dist", "binding": "ASSETS", "run_worker_first": true},
+  "r2_buckets": [{"binding": "PANEL_BUCKET", "bucket_name": "REPLACE_WITH_PRIVATE_BUCKET"}],
+  "vars": {
+    "APP_ORIGIN": "https://REPLACE_WITH_AUTHORIZED_HOST",
+    "ACCESS_ISSUER": "https://REPLACE_WITH_TEAM.cloudflareaccess.com",
+    "ACCESS_AUD": "REPLACE_WITH_APPLICATION_AUDIENCE"
+  },
+  "routes": [{"pattern": "REPLACE_WITH_AUTHORIZED_HOST", "custom_domain": true}],
+  "observability": {"enabled": false}
+}
