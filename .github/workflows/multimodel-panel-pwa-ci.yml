@@ -1,0 +1,50 @@
+name: MultiModel PWA — offline build and tests
+on:
+  pull_request:
+    paths:
+      - 'panel/**'
+      - '.github/workflows/multimodel-panel-pwa-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  panel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: panel
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned direct dependencies
+        run: npm install --no-audit --no-fund
+      - name: Import and regression tests (synthetic only)
+        run: npm test
+      - name: Typecheck and production build
+        run: npm run build
+      - name: Check generated shell
+        run: |
+          test -s dist/sw.js
+          test -s dist/manifest.webmanifest
+          test -s dist/icon-192.png
+          test -s dist/icon-512.png
+          test -s dist/index.html
+          node --check dist/sw.js
+          find dist -type f
+      - name: Build offline Node verifier (code only)
+        run: ./node_modules/.bin/esbuild src/import.ts --bundle --platform=node --format=esm --outfile=verifier.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-pwa-build
+          path: panel/dist/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: multimodel-pwa-offline-verifier
+          path: panel/verifier.mjs
+          retention-days: 7
