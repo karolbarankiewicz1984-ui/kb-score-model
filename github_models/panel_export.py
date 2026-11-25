@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 
+from github_models.panel_links import panel_links
+
 SCHEMA = 'multimodel-panel-v1'
 SECTIONS = set('FIXTURES FORECASTS ODDS RESULTS AUDIT CALIBRATION_READINESS CALIBRATION_EXPERIMENTS MODEL_VERSIONS SOURCE_HEALTH'.split())
 MAX_BYTES = 100_000_000
@@ -70,9 +72,9 @@ def build(abc_path, odds_path, audit_path, day, run_ids, out):
                 require(stamp(r['kickoff_utc'])==stamp(f['kickoff_utc']),'kickoff_mismatch')
             require(all(type(p) in (int,float) and math.isfinite(p) and 0<=p<=1 for p in probs),'invalid_probability')
         pred=get('abc',a,prefix+'predictions/'+day+'.json','github-models-independent-predictions-v1')
-        markets=get('abc',a,prefix+'markets/'+day+'.json')
+        markets=get('abc',a,prefix+'markets/'+day+'.json','github-models-event-markets-v1')
         abc=get('abc',a,prefix+'filters/ABC_'+day+'.json','github-models-abc-v1')
-        shadow=get('abc',a,prefix+'shadow/'+day+'.json')
+        shadow=get('abc',a,prefix+'shadow/'+day+'.json','multimodel-v2-shadow-markets-v1')
         for d in (pred,markets,shadow): require(stamp(d['generated_at_utc'])==cut,'source_cutoff_mismatch')
         require(stamp(abc['input_cutoff_utc'])==cut,'abc_cutoff_mismatch')
         for r in pred['predictions']: check(r,r['frozen_at_utc'],[r[k] for k in ('p_home','p_draw','p_away')])
@@ -101,6 +103,8 @@ def build(abc_path, odds_path, audit_path, day, run_ids, out):
             except (ValueError,UnicodeError): health['issues'].append({'source':name,'status':'invalid_json','sha256':digest(a.read(name))})
         else: health['issues'].append({'source':name,'status':'missing'})
         sections={'FIXTURES':q,'FORECASTS':{'predictions':pred,'markets':markets,'abc':abc,'shadow':shadow,'score_67_status':'not_computed','top_status':'blocked_missing_quality_score'},'ODDS':{'abc_comparisons':overlay,'shadow_comparisons':so,'gaps':get('odds',o,'market_gaps.json'),'minimum_view_odds':1.2,'automatic_forecast_join':False},'RESULTS':{'source_results':get('abc',a,'data/github_models/settlement_verified_results.json'),'source_events':get('abc',a,'data/github_models/settlement_verified_events.json'),'identity_status':'source_ids_not_automatically_joined','exact_shadow_outcomes':priced['entries']},'AUDIT':{'abc':get('abc',a,prefix+'filters/AUDIT_'+day+'.json'),'shadow':get('abc',a,prefix+'shadow/SHADOW_AUDIT_'+day+'.json'),'priced_abc':replay,'priced_shadow':priced},'CALIBRATION_READINESS':readiness,'CALIBRATION_EXPERIMENTS':{'status':'not_available','experiments':[]},'MODEL_VERSIONS':{'status':'partial','observed':sorted({(r['model_id'],r['model_version']) for r in pred['predictions']}),'history_available':False},'SOURCE_HEALTH':health}
+    sections['ODDS']['panel_links']=panel_links(sections['FIXTURES'],sections['FORECASTS'],sections['ODDS'],sections['RESULTS'])
+    sections['FORECASTS']['research_view_status']='available_using_existing_abc_thresholds'
     payload={k+'.json':encode(v) for k,v in sections.items()}
     manifest={'schema':SCHEMA,'generated_at_utc':datetime.now(timezone.utc).isoformat(),'forecast_cutoff_utc':cutoff,'day':day,'audit_as_of_utc':max(replay['as_of_utc'],priced['as_of_utc'],key=stamp),'sources':sources,'source_run_ids_attestation':'caller_supplied','files':{k:{'sha256':digest(v),'bytes':len(v)} for k,v in payload.items()},'historical_snapshot':True,'publication':'local_only'}
     out=Path(out); tmp=out.with_suffix(out.suffix+'.tmp')
@@ -126,6 +130,8 @@ def verify(path, previous=None):
         if previous:
             for field in ('forecast_cutoff_utc','audit_as_of_utc'):
                 require(stamp(m[field])>=stamp(previous[field]),'older_snapshot:'+field)
+            if all(stamp(m[f])==stamp(previous[f]) for f in ('forecast_cutoff_utc','audit_as_of_utc')):
+                require(m['files']==previous['files'],'same_cutoff_conflicting_payload')
         return m
 
 def main():
