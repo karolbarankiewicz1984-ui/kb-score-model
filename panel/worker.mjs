@@ -27,7 +27,7 @@ export function handler(resolve=remote){return async function(request,env){
   if(!obj)return reply('No published bundle',404);
   if(!Number.isSafeInteger(obj.size)||obj.size<=0||obj.size>MAX){await obj.body?.cancel();return reply('Invalid bundle size',503);}
   if(request.method==='HEAD')await obj.body?.cancel();
-  return new Response(request.method==='HEAD'?null:obj.body,{headers:{...headers,'Content-Type':'application/zip','Content-Length':String(obj.size),'Content-Disposition':'attachment; filename="MULTIMODEL_PANEL.zip"','X-MultiModel-Sync':'v1'}});
+  return new Response(request.method==='HEAD'?null:obj.body,{headers:{...headers,'Content-Type':'application/zip','Content-Length':String(obj.size),'X-MultiModel-Bytes':String(obj.size),'Content-Disposition':'attachment; filename="MULTIMODEL_PANEL.zip"','X-MultiModel-Sync':'v1'}});
  }
  if(url.pathname.startsWith('/api/')||url.pathname==='/api')return reply('Not found',404);
  if(!env.ASSETS)return reply('No application build',503);

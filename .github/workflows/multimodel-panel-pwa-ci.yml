@@ -25,6 +25,9 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Import and regression tests (synthetic only)
         run: npm test
+      - name: Private publisher tests (mocked only)
+        working-directory: .
+        run: python -m unittest discover -s tests -p test_panel_private_sync.py -v
       - name: Typecheck and production build
         run: npm run build
       - name: Check generated shell
@@ -40,6 +43,7 @@ jobs:
         run: |
           ./node_modules/.bin/esbuild src/import.ts --bundle --platform=node --format=esm --outfile=verifier.mjs
           ./node_modules/.bin/esbuild src/markets.ts --bundle --platform=node --format=esm --outfile=markets-verifier.mjs
+          ./node_modules/.bin/esbuild src/sync.ts --bundle --platform=node --format=esm --outfile=sync-verifier.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: multimodel-pwa-build
@@ -51,4 +55,5 @@ jobs:
           path: |
             panel/verifier.mjs
             panel/markets-verifier.mjs
+            panel/sync-verifier.mjs
           retention-days: 7
