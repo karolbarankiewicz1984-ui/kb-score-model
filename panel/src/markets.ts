@@ -45,7 +45,7 @@ export type ResearchFilters={market:string;variant:string;minProbability:number;
 export function filterResearch(rows:LinkRow[],ids:Set<string>,f:ResearchFilters){
  const minimum=Math.max(1.2,Number.isFinite(f.minOdds)?f.minOdds:1.2);
  return rows.filter(r=>ids.has(r.fixture_id)&&(f.market==='all'||r.market===f.market)&&(f.variant==='all'||(f.variant==='SHADOW'?r.lane==='SHADOW':f.variant==='ABC'?r.lane==='ABC':r.lane==='ABC'&&r.variant===f.variant))&&(f.line==='all'||String(r.line)===f.line)&&r.probability>=f.minProbability&&
- (f.quoteMode==='all'||(f.quoteMode==='missing'?r.quote===null:r.quote_status==='archived_research_quote'&&r.quote!==null&&r.quote.price>=minimum)));
+ ((f.quoteMode==='all'&&r.quote_status!=='below_minimum_odds'&&(r.quote===null||r.quote.price>=1.2))||(f.quoteMode==='missing'?r.quote===null:f.quoteMode==='all'?false:r.quote_status==='archived_research_quote'&&r.quote!==null&&r.quote.price>=minimum)));
 }
 export function researchGroups(rows:LinkRow[],fixtures:Fixture[],preview:boolean){
  const index=new Map(fixtures.map(f=>[f.fixture_id,f])),groups=new Map<string,LinkRow[]>();

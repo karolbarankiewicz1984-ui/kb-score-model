@@ -37,7 +37,9 @@ jobs:
           node --check dist/sw.js
           find dist -type f
       - name: Build offline Node verifier (code only)
-        run: ./node_modules/.bin/esbuild src/import.ts --bundle --platform=node --format=esm --outfile=verifier.mjs
+        run: |
+          ./node_modules/.bin/esbuild src/import.ts --bundle --platform=node --format=esm --outfile=verifier.mjs
+          ./node_modules/.bin/esbuild src/markets.ts --bundle --platform=node --format=esm --outfile=markets-verifier.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: multimodel-pwa-build
@@ -46,5 +48,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: multimodel-pwa-offline-verifier
-          path: panel/verifier.mjs
+          path: |
+            panel/verifier.mjs
+            panel/markets-verifier.mjs
           retention-days: 7
