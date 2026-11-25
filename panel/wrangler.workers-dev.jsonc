@@ -1,0 +1,22 @@
+{
+  "name": "multimodel-private",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-25",
+  "workers_dev": true,
+  "preview_urls": false,
+  "keep_vars": true,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "r2_buckets": [
+    {
+      "binding": "PANEL_BUCKET",
+      "bucket_name": "mm-data"
+    }
+  ],
+  "observability": {
+    "enabled": false
+  }
+}
