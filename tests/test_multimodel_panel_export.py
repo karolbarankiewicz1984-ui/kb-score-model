@@ -40,6 +40,15 @@ class BundleTests(unittest.TestCase):
         self.write()
         with self.assertRaisesRegex(ValueError,'older_snapshot:audit_as_of_utc'): verify(self.path,{**self.manifest,'audit_as_of_utc':'2026-11-26T12:00:00Z'})
 
+    def test_same_cutoff_conflict(self):
+        self.write()
+        previous={**self.manifest,'files':{}}
+        with self.assertRaisesRegex(ValueError,'same_cutoff_conflicting_payload'): verify(self.path,previous)
+
+    def test_same_cutoff_identical(self):
+        self.write()
+        self.assertEqual(verify(self.path,self.manifest),self.manifest)
+
     def test_duplicate_key(self):
         with self.assertRaisesRegex(ValueError,'duplicate_json_key'): decode(b'{"a":1,"a":2}')
 
