@@ -1,0 +1,19 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {generateKeyPair,exportJWK,createLocalJWKSet,SignJWT} from 'jose';
+import {handler} from '../worker.mjs';
+const env={APP_ORIGIN:'https://panel.example.test',ACCESS_ISSUER:'https://team.cloudflareaccess.com',ACCESS_AUD:'a'.repeat(64),OWNER_EMAIL:'owner@example.test'};
+const {publicKey,privateKey}=await generateKeyPair('RS256',{extractable:true});
+const jwk=await exportJWK(publicKey);jwk.kid='test';jwk.alg='RS256';
+const app=handler(()=>createLocalJWKSet({keys:[jwk]}));
+async function token(over:Record<string,unknown>={}){return new SignJWT({email:env.OWNER_EMAIL,iss:env.ACCESS_ISSUER,aud:env.ACCESS_AUD,sub:'test-user',iat:Math.floor(Date.now()/1000),exp:Math.floor(Date.now()/1000)+300,...over}).setProtectedHeader({alg:'RS256',kid:'test'}).sign(privateKey);}
+function req(t?:string,path='/api/panel/latest',method='GET',origin=env.APP_ORIGIN){return new Request(origin+path,{method,headers:t?{'Cf-Access-Jwt-Assertion':t}:undefined});}
+function storage(){let calls=0;const bytes=new Uint8Array([80,75,3,4]);return {PANEL_BUCKET:{get:async(k:string)=>{calls++;assert.equal(k,'multimodel/latest.zip');return {size:bytes.length,body:new Response(bytes).body};}},calls:()=>calls};}
+test('valid signed user can read private object with no cache',async()=>{const d=storage();const r=await app(req(await token()),{...env,...d});assert.equal(r.status,200);assert.equal(r.headers.get('cache-control'),'private, no-store, max-age=0');assert.equal(r.headers.get('x-multimodel-sync'),'v1');assert.deepEqual(new Uint8Array(await r.arrayBuffer()),new Uint8Array([80,75,3,4]));assert.equal(d.calls(),1);});
+test('missing, fake, wrong audience/issuer/email, expired token never touches bucket',async()=>{const d=storage();for(const t of [undefined,'bad',await token({aud:'wrong'}),await token({iss:'https://wrong.cloudflareaccess.com'}),await token({email:'other@example.test'}),await token({exp:1}),await token({iat:Math.floor(Date.now()/1000)+500})]){assert.equal((await app(req(t),{...env,...d})).status,401);}assert.equal(d.calls(),0);});
+test('wrong host, missing config, write request all fail closed',async()=>{const d=storage(),t=await token();assert.equal((await app(req(t,'/api/panel/latest','GET','https://other.example.test'),{...env,...d})).status,503);assert.equal((await app(req(t),{...env,OWNER_EMAIL:'',...d})).status,503);assert.equal((await app(req(t,'/api/panel/latest','POST'),{...env,...d})).status,405);assert.equal(d.calls(),0);});
+test('no alternate object paths or arbitrary API reads',async()=>{const d=storage(),t=await token();assert.equal((await app(req(t,'/api/panel/other'),{...env,...d})).status,404);assert.equal(d.calls(),0);});
+test('missing private object and storage errors',async()=>{const t=await token();assert.equal((await app(req(t),{...env,PANEL_BUCKET:{get:async()=>null}})).status,404);assert.equal((await app(req(t),{...env,PANEL_BUCKET:{get:async()=>{throw Error('unavailable');}}})).status,503);});
+test('static assets require signed access and no-store',async()=>{let calls=0;const d={...env,ASSETS:{fetch:async()=>{calls++;return new Response('code');}}};assert.equal((await app(req(undefined,'/'),d)).status,401);assert.equal(calls,0);const r=await app(req(await token(),'/'),d);assert.equal(r.status,200);assert.match(r.headers.get('cache-control')!,/no-store/);assert.equal(calls,1);});
+
+test('tampered signature fails closed',async()=>{const d=storage(),t=await token(),parts=t.split('.');parts[2]=(parts[2][0]==='a'?'b':'a')+parts[2].slice(1);assert.equal((await app(req(parts.join('.')),{...env,...d})).status,401);assert.equal(d.calls(),0);});
