@@ -1,0 +1,52 @@
+# COPY ONLY to .github/workflows/publish-panel.yml in a PRIVATE repository.
+# Never activate in the public engine repository.
+# Replace ENGINE_COMMIT with the reviewed immutable main commit after merge.
+name: Private MultiModel snapshot
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish validated current snapshot to private R2'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: private-multimodel-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.event.repository.private && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: karolbarankiewicz1984-ui/kb-score-model
+          ref: ENGINE_COMMIT
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate selector
+        run: python -m unittest discover -s tests -p test_panel_auto_prepare.py -v
+      - name: Prepare existing frozen artifacts only
+        env:
+          GH_TOKEN: ${{ secrets.MM_SOURCE_ACTIONS_READ_TOKEN }}
+        run: python -m tools.panel_auto_prepare --out "$RUNNER_TEMP/latest.zip"
+      - name: Validate local bundle
+        run: python -m tools.panel_publish "$RUNNER_TEMP/latest.zip"
+      - name: Install publisher dependency
+        if: inputs.publish
+        run: python -m pip install 'boto3>=1.36,<2'
+      - name: Conditional write to private R2
+        if: inputs.publish
+        env:
+          MM_R2_ACCOUNT_ID: ${{ secrets.MM_R2_ACCOUNT_ID }}
+          MM_R2_BUCKET: mm-data
+          AWS_ACCESS_KEY_ID: ${{ secrets.MM_R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.MM_R2_SECRET_ACCESS_KEY }}
+        run: python -m tools.panel_publish "$RUNNER_TEMP/latest.zip" --publish-private
+      - name: Remove local bundle
+        if: always()
+        run: rm -f "$RUNNER_TEMP/latest.zip"
