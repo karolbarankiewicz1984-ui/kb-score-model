@@ -1,0 +1,97 @@
+name: MM audit index parity (offline)
+on:
+  pull_request:
+    branches: [codex/multimodel-v2]
+    paths:
+      - github_models/settlement.py
+      - tests/test_mm_audit_index_parity.py
+      - tools/mm_audit_real_benchmark.py
+      - tools/mm_audit_full_parity.py
+      - .github/workflows/mm-audit-index-parity.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare indexed and direct settlement
+        run: |
+          python -m unittest discover -s tests -p test_mm_audit_index_parity.py -v
+          python -m unittest discover -s tests -p 'test_github_models*settlement.py' -v
+          python -m unittest discover -s tests -p 'test_multimodel_v2_settlement.py' -v
+      - name: Checkout immutable research archive
+        uses: actions/checkout@v4
+        with:
+          ref: a1613b4514f34643812b3630d57c5e049fb4b8ad
+          path: benchmark_archive
+          persist-credentials: false
+      - name: Recover existing verified evidence and benchmark
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/15055364229/zip" > "$RUNNER_TEMP/evidence.zip"
+          python -m tools.mm_audit_real_benchmark --archive benchmark_archive --evidence "$RUNNER_TEMP/evidence.zip"
+      - name: Remove downloaded evidence
+        if: always()
+        run: rm -f "$RUNNER_TEMP/evidence.zip"
+  full-replay:
+    needs: parity
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Checkout immutable research archive
+        uses: actions/checkout@v4
+        with:
+          ref: a1613b4514f34643812b3630d57c5e049fb4b8ad
+          path: benchmark_archive
+          persist-credentials: false
+      - name: Checkout reference implementation
+        uses: actions/checkout@v4
+        with:
+          ref: 5b8053df5de088844654ce1674fceb0e68f8d80c
+          path: reference_code
+          persist-credentials: false
+      - name: Replay both complete audits on the same immutable inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/15055364229/zip" > "$RUNNER_TEMP/evidence.zip"
+          unset GH_TOKEN
+          PYTHONPATH="$GITHUB_WORKSPACE" python tools/mm_audit_full_parity.py --archive "$GITHUB_WORKSPACE/benchmark_archive" --evidence "$RUNNER_TEMP/evidence.zip" --out "$RUNNER_TEMP/indexed.json"
+          cd "$GITHUB_WORKSPACE/reference_code"
+          PYTHONPATH="$PWD" python "$GITHUB_WORKSPACE/tools/mm_audit_full_parity.py" --archive "$GITHUB_WORKSPACE/benchmark_archive" --evidence "$RUNNER_TEMP/evidence.zip" --out "$RUNNER_TEMP/reference.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"])
+          reference = json.loads((root/"reference.json").read_text())
+          indexed = json.loads((root/"indexed.json").read_text())
+          for name in ("abc", "shadow"):
+              old, new = reference[name], indexed[name]
+              for key in ("report_sha256","lookup_sha256","lookup_calls","archives","records"):
+                  if old[key] != new[key]:
+                      raise AssertionError(f"full_replay_mismatch:{name}:{key}")
+              print(json.dumps({"audit":name,"parity":True,"archives":new["archives"],
+                  "records":new["records"],"lookup_calls":new["lookup_calls"],
+                  "reference_seconds":old["seconds"],"indexed_seconds":new["seconds"],
+                  "speedup":round(old["seconds"]/max(new["seconds"],1e-9),2)}))
+          PY
+      - name: Remove temporary evidence and hashes
+        if: always()
+        run: rm -f "$RUNNER_TEMP/evidence.zip" "$RUNNER_TEMP/reference.json" "$RUNNER_TEMP/indexed.json"
