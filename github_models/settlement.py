@@ -13,6 +13,7 @@ class CachedHistoricalPool:
     def __init__(self, rows):
         self.rows = rows
         self.cache = {}
+        self.eligible_by_cutoff = {}
         self.hits = 0
         self.misses = 0
 
@@ -23,8 +24,11 @@ class CachedHistoricalPool:
         if key not in self.cache:
             self.misses += 1
             try:
+                cutoff = str(as_of_utc)
+                if cutoff not in self.eligible_by_cutoff:
+                    self.eligible_by_cutoff[cutoff] = _IndexedEligiblePool(self.rows, as_of_utc)
                 value = matching_outcomes(
-                    fixture, self.rows, as_of_utc=as_of_utc,
+                    fixture, self.eligible_by_cutoff[cutoff], as_of_utc=as_of_utc,
                     resolved_identity=resolved_identity)
                 self.cache[key] = (True, value)
             except (ValueError, TypeError, KeyError, AttributeError) as error:
@@ -105,11 +109,7 @@ def _frozen_team_id(identity, side):
     return values[0] if values else None
 
 
-def matching_outcomes(fixture, pool, *, as_of_utc, resolved_identity=None):
-    """Return exact league, ordered-team and local-date candidates available now."""
-    if isinstance(pool, CachedHistoricalPool):
-        return pool.lookup(fixture, as_of_utc=as_of_utc,
-                           resolved_identity=resolved_identity)
+def _eligible_rows(pool, as_of_utc):
     now = utc(as_of_utc)
     eligible = []
     for row in pool:
@@ -122,7 +122,46 @@ def matching_outcomes(fixture, pool, *, as_of_utc, resolved_identity=None):
             eligible.append(row)
         except (ValueError, TypeError, KeyError, AttributeError):
             continue
-    mapped = resolve(canonicalize(fixture), eligible)
+    return eligible
+
+
+class _IndexedEligiblePool:
+    """Run-local indexes of the exact original eligible rows, preserving order.
+
+    Resolver uses normalized raw league labels, settlement uses canonical league
+    and literal ordered team names. These are distinct keys by design.
+    """
+    def __init__(self, rows, as_of_utc):
+        from github_models.team_mapping import normalize
+        self.resolver = {}
+        self.outcomes = {}
+        for row in _eligible_rows(rows, as_of_utc):
+            self.resolver.setdefault(normalize(row.get("league")), []).append(row)
+            try:
+                canonical = canonicalize(row)
+                key = (canonical["league"], row["home"], row["away"])
+                if all(isinstance(x, str) for x in key):
+                    self.outcomes.setdefault(key, []).append(row)
+            except (ValueError, TypeError, KeyError, AttributeError):
+                continue
+
+    def resolver_rows(self, fixture):
+        from github_models.team_mapping import normalize
+        return self.resolver.get(normalize(fixture["league"]), [])
+
+    def outcome_rows(self, mapped):
+        return self.outcomes.get((mapped["league"], mapped["home"], mapped["away"]), [])
+
+
+def matching_outcomes(fixture, pool, *, as_of_utc, resolved_identity=None):
+    """Return exact league, ordered-team and local-date candidates available now."""
+    if isinstance(pool, CachedHistoricalPool):
+        return pool.lookup(fixture, as_of_utc=as_of_utc,
+                           resolved_identity=resolved_identity)
+    indexed = isinstance(pool, _IndexedEligiblePool)
+    eligible = None if indexed else _eligible_rows(pool, as_of_utc)
+    prepared_fixture = canonicalize(fixture)
+    mapped = resolve(prepared_fixture, pool.resolver_rows(prepared_fixture) if indexed else eligible)
     if resolved_identity is not None:
         original = canonicalize(resolved_identity)
         if any(mapped.get(k) != original.get(k) for k in ("league", "home", "away")):
@@ -148,7 +187,7 @@ def matching_outcomes(fixture, pool, *, as_of_utc, resolved_identity=None):
     zone = ZoneInfo(COUNTRY_ZONES.get(mapped.get("country_code"), "UTC"))
     day = utc(fixture["kickoff_utc"]).astimezone(zone).date()
     matches = []
-    for row in eligible:
+    for row in (pool.outcome_rows(mapped) if indexed else eligible):
         try:
             canonical = canonicalize(row)
             if (canonical["league"], row["home"], row["away"]) != (mapped["league"], mapped["home"], mapped["away"]):
