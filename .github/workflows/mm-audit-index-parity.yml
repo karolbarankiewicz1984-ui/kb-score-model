@@ -1,0 +1,26 @@
+name: MM audit index parity (offline)
+on:
+  pull_request:
+    branches: [codex/multimodel-v2]
+    paths:
+      - github_models/settlement.py
+      - tests/test_mm_audit_index_parity.py
+      - .github/workflows/mm-audit-index-parity.yml
+permissions:
+  contents: read
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare indexed and direct settlement
+        run: |
+          python -m unittest discover -s tests -p test_mm_audit_index_parity.py -v
+          python -m unittest discover -s tests -p 'test_github_models*settlement.py' -v
+          python -m unittest discover -s tests -p 'test_multimodel_v2_settlement.py' -v
