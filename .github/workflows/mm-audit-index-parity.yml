@@ -5,13 +5,15 @@ on:
     paths:
       - github_models/settlement.py
       - tests/test_mm_audit_index_parity.py
+      - tools/mm_audit_real_benchmark.py
       - .github/workflows/mm-audit-index-parity.yml
 permissions:
   contents: read
+  actions: read
 jobs:
   parity:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,3 +26,19 @@ jobs:
           python -m unittest discover -s tests -p test_mm_audit_index_parity.py -v
           python -m unittest discover -s tests -p 'test_github_models*settlement.py' -v
           python -m unittest discover -s tests -p 'test_multimodel_v2_settlement.py' -v
+      - name: Checkout immutable research archive
+        uses: actions/checkout@v4
+        with:
+          ref: a1613b4514f34643812b3630d57c5e049fb4b8ad
+          path: benchmark_archive
+          persist-credentials: false
+      - name: Recover existing verified evidence and benchmark
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/15055364229/zip" > "$RUNNER_TEMP/evidence.zip"
+          python -m tools.mm_audit_real_benchmark --archive benchmark_archive --evidence "$RUNNER_TEMP/evidence.zip"
+      - name: Remove downloaded evidence
+        if: always()
+        run: rm -f "$RUNNER_TEMP/evidence.zip"
