@@ -1,7 +1,7 @@
 {
   "schema": "pitchapi-prematch-context-v1",
   "target_date": "2026-11-29",
-  "snapshot_utc": "2026-11-27T01:01:20.838792+00:00",
+  "snapshot_utc": "2026-11-27T13:51:13.124193+00:00",
   "source": "PitchAPI",
   "available_upcoming": 168,
   "fixtures_collected": 80,
@@ -4749,12 +4749,99 @@
       "both_sides_sufficient": true
     },
     {
+      "pitch_match_id": "m_2KMWgb",
+      "league": "Primera A",
+      "league_id": "l_1xXulJ",
+      "home": "Independiente Santa Fe",
+      "away": "Atlético Nacional",
+      "kickoff_utc": "2026-11-29T00:30:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.762,
+        "mean_xg_against": 0.938,
+        "source_match_ids": [
+          "m_2eJDhA",
+          "m_24axG5",
+          "m_3mZOjp",
+          "m_0ar9hL"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2eJDhA",
+            "kickoff_utc": "2026-11-25T23:20:00Z",
+            "xg_for": 1.45,
+            "xg_against": 0.72
+          },
+          {
+            "match_id": "m_24axG5",
+            "kickoff_utc": "2026-11-20T21:30:00Z",
+            "xg_for": 0.28,
+            "xg_against": 1.18
+          },
+          {
+            "match_id": "m_3mZOjp",
+            "kickoff_utc": "2026-11-14T01:30:00Z",
+            "xg_for": 0.58,
+            "xg_against": 0.88
+          },
+          {
+            "match_id": "m_0ar9hL",
+            "kickoff_utc": "2026-11-05T00:45:00Z",
+            "xg_for": 0.74,
+            "xg_against": 0.97
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.545,
+        "mean_xg_against": 0.805,
+        "source_match_ids": [
+          "m_1N0Qut",
+          "m_0LDEzH",
+          "m_3PJfjK",
+          "m_0bzJ8E"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1N0Qut",
+            "kickoff_utc": "2026-11-26T01:30:00Z",
+            "xg_for": 3.08,
+            "xg_against": 0.83
+          },
+          {
+            "match_id": "m_0LDEzH",
+            "kickoff_utc": "2026-11-22T01:15:00Z",
+            "xg_for": 0.46,
+            "xg_against": 0.41
+          },
+          {
+            "match_id": "m_3PJfjK",
+            "kickoff_utc": "2026-11-14T20:30:00Z",
+            "xg_for": 0.96,
+            "xg_against": 0.7
+          },
+          {
+            "match_id": "m_0bzJ8E",
+            "kickoff_utc": "2026-11-03T01:15:00Z",
+            "xg_for": 1.68,
+            "xg_against": 1.28
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
       "pitch_match_id": "m_2q9acT",
       "league": "Liga Profesional",
       "league_id": "l_45VZuL",
       "home": "Instituto",
       "away": "River Plate",
-      "kickoff_utc": "2026-11-29T00:00:00Z",
+      "kickoff_utc": "2026-11-29T01:00:00Z",
       "home_recent": {
         "complete_samples": 5,
         "requested_samples": 5,
@@ -4844,295 +4931,6 @@
             "kickoff_utc": "2026-10-18T23:15:00Z",
             "xg_for": 1.16,
             "xg_against": 1.04
-          }
-        ]
-      },
-      "both_sides_sufficient": true
-    },
-    {
-      "pitch_match_id": "m_33Z3JB",
-      "league": "Liga Profesional",
-      "league_id": "l_45VZuL",
-      "home": "Rosario Central",
-      "away": "Barracas Central",
-      "kickoff_utc": "2026-11-29T00:00:00Z",
-      "home_recent": {
-        "complete_samples": 5,
-        "requested_samples": 5,
-        "data_quality": "sufficient",
-        "mean_xg_for": 1.436,
-        "mean_xg_against": 0.802,
-        "source_match_ids": [
-          "m_0gBMgw",
-          "m_20IYEi",
-          "m_004i39",
-          "m_0KVqet",
-          "m_09B77o"
-        ],
-        "samples": [
-          {
-            "match_id": "m_0gBMgw",
-            "kickoff_utc": "2026-11-22T19:00:00Z",
-            "xg_for": 1.82,
-            "xg_against": 1.35
-          },
-          {
-            "match_id": "m_20IYEi",
-            "kickoff_utc": "2026-11-07T20:30:00Z",
-            "xg_for": 1.05,
-            "xg_against": 0.03
-          },
-          {
-            "match_id": "m_004i39",
-            "kickoff_utc": "2026-10-31T00:15:00Z",
-            "xg_for": 1.5,
-            "xg_against": 0.79
-          },
-          {
-            "match_id": "m_0KVqet",
-            "kickoff_utc": "2026-10-25T01:30:00Z",
-            "xg_for": 2.07,
-            "xg_against": 0.45
-          },
-          {
-            "match_id": "m_09B77o",
-            "kickoff_utc": "2026-10-17T23:00:00Z",
-            "xg_for": 0.74,
-            "xg_against": 1.39
-          }
-        ]
-      },
-      "away_recent": {
-        "complete_samples": 5,
-        "requested_samples": 5,
-        "data_quality": "sufficient",
-        "mean_xg_for": 1.714,
-        "mean_xg_against": 0.902,
-        "source_match_ids": [
-          "m_2PFZiV",
-          "m_3SBDok",
-          "m_2fHnYt",
-          "m_0hQUjo",
-          "m_1GfIB4"
-        ],
-        "samples": [
-          {
-            "match_id": "m_2PFZiV",
-            "kickoff_utc": "2026-11-21T18:00:00Z",
-            "xg_for": 0.9,
-            "xg_against": 0.94
-          },
-          {
-            "match_id": "m_3SBDok",
-            "kickoff_utc": "2026-11-06T18:00:00Z",
-            "xg_for": 2.6,
-            "xg_against": 0.59
-          },
-          {
-            "match_id": "m_2fHnYt",
-            "kickoff_utc": "2026-11-01T21:30:00Z",
-            "xg_for": 1.13,
-            "xg_against": 1.54
-          },
-          {
-            "match_id": "m_0hQUjo",
-            "kickoff_utc": "2026-10-26T00:30:00Z",
-            "xg_for": 1.25,
-            "xg_against": 0.71
-          },
-          {
-            "match_id": "m_1GfIB4",
-            "kickoff_utc": "2026-10-19T22:00:00Z",
-            "xg_for": 2.69,
-            "xg_against": 0.73
-          }
-        ]
-      },
-      "both_sides_sufficient": true
-    },
-    {
-      "pitch_match_id": "m_3BWh3T",
-      "league": "Liga Profesional",
-      "league_id": "l_45VZuL",
-      "home": "Vélez Sarsfield",
-      "away": "Independiente",
-      "kickoff_utc": "2026-11-29T00:00:00Z",
-      "home_recent": {
-        "complete_samples": 5,
-        "requested_samples": 5,
-        "data_quality": "sufficient",
-        "mean_xg_for": 1.646,
-        "mean_xg_against": 1.174,
-        "source_match_ids": [
-          "m_2elZCb",
-          "m_3J9Dx6",
-          "m_0EpGRg",
-          "m_0gEtiQ",
-          "m_04w0dX"
-        ],
-        "samples": [
-          {
-            "match_id": "m_2elZCb",
-            "kickoff_utc": "2026-11-20T23:00:00Z",
-            "xg_for": 1.69,
-            "xg_against": 1.61
-          },
-          {
-            "match_id": "m_3J9Dx6",
-            "kickoff_utc": "2026-11-06T22:15:00Z",
-            "xg_for": 0.44,
-            "xg_against": 1.89
-          },
-          {
-            "match_id": "m_0EpGRg",
-            "kickoff_utc": "2026-10-31T22:15:00Z",
-            "xg_for": 1.18,
-            "xg_against": 1.09
-          },
-          {
-            "match_id": "m_0gEtiQ",
-            "kickoff_utc": "2026-10-26T00:30:00Z",
-            "xg_for": 3.43,
-            "xg_against": 0.56
-          },
-          {
-            "match_id": "m_04w0dX",
-            "kickoff_utc": "2026-10-17T23:00:00Z",
-            "xg_for": 1.49,
-            "xg_against": 0.72
-          }
-        ]
-      },
-      "away_recent": {
-        "complete_samples": 5,
-        "requested_samples": 5,
-        "data_quality": "sufficient",
-        "mean_xg_for": 1.548,
-        "mean_xg_against": 1.382,
-        "source_match_ids": [
-          "m_4OuNth",
-          "m_4HejXW",
-          "m_1SO3r3",
-          "m_2rj5Sh",
-          "m_1RACu0"
-        ],
-        "samples": [
-          {
-            "match_id": "m_4OuNth",
-            "kickoff_utc": "2026-11-21T20:00:00Z",
-            "xg_for": 2.4,
-            "xg_against": 1.66
-          },
-          {
-            "match_id": "m_4HejXW",
-            "kickoff_utc": "2026-11-06T22:15:00Z",
-            "xg_for": 1.08,
-            "xg_against": 1.31
-          },
-          {
-            "match_id": "m_1SO3r3",
-            "kickoff_utc": "2026-11-02T22:00:00Z",
-            "xg_for": 1.66,
-            "xg_against": 0.96
-          },
-          {
-            "match_id": "m_2rj5Sh",
-            "kickoff_utc": "2026-10-25T20:00:00Z",
-            "xg_for": 1.52,
-            "xg_against": 1.61
-          },
-          {
-            "match_id": "m_1RACu0",
-            "kickoff_utc": "2026-10-18T17:45:00Z",
-            "xg_for": 1.08,
-            "xg_against": 1.37
-          }
-        ]
-      },
-      "both_sides_sufficient": true
-    },
-    {
-      "pitch_match_id": "m_2KMWgb",
-      "league": "Primera A",
-      "league_id": "l_1xXulJ",
-      "home": "Independiente Santa Fe",
-      "away": "Atlético Nacional",
-      "kickoff_utc": "2026-11-29T00:30:00Z",
-      "home_recent": {
-        "complete_samples": 4,
-        "requested_samples": 5,
-        "data_quality": "sufficient",
-        "mean_xg_for": 0.762,
-        "mean_xg_against": 0.938,
-        "source_match_ids": [
-          "m_2eJDhA",
-          "m_24axG5",
-          "m_3mZOjp",
-          "m_0ar9hL"
-        ],
-        "samples": [
-          {
-            "match_id": "m_2eJDhA",
-            "kickoff_utc": "2026-11-25T23:20:00Z",
-            "xg_for": 1.45,
-            "xg_against": 0.72
-          },
-          {
-            "match_id": "m_24axG5",
-            "kickoff_utc": "2026-11-20T21:30:00Z",
-            "xg_for": 0.28,
-            "xg_against": 1.18
-          },
-          {
-            "match_id": "m_3mZOjp",
-            "kickoff_utc": "2026-11-14T01:30:00Z",
-            "xg_for": 0.58,
-            "xg_against": 0.88
-          },
-          {
-            "match_id": "m_0ar9hL",
-            "kickoff_utc": "2026-11-05T00:45:00Z",
-            "xg_for": 0.74,
-            "xg_against": 0.97
-          }
-        ]
-      },
-      "away_recent": {
-        "complete_samples": 4,
-        "requested_samples": 5,
-        "data_quality": "sufficient",
-        "mean_xg_for": 1.545,
-        "mean_xg_against": 0.805,
-        "source_match_ids": [
-          "m_1N0Qut",
-          "m_0LDEzH",
-          "m_3PJfjK",
-          "m_0bzJ8E"
-        ],
-        "samples": [
-          {
-            "match_id": "m_1N0Qut",
-            "kickoff_utc": "2026-11-26T01:30:00Z",
-            "xg_for": 3.08,
-            "xg_against": 0.83
-          },
-          {
-            "match_id": "m_0LDEzH",
-            "kickoff_utc": "2026-11-22T01:15:00Z",
-            "xg_for": 0.46,
-            "xg_against": 0.41
-          },
-          {
-            "match_id": "m_3PJfjK",
-            "kickoff_utc": "2026-11-14T20:30:00Z",
-            "xg_for": 0.96,
-            "xg_against": 0.7
-          },
-          {
-            "match_id": "m_0bzJ8E",
-            "kickoff_utc": "2026-11-03T01:15:00Z",
-            "xg_for": 1.68,
-            "xg_against": 1.28
           }
         ]
       },
@@ -6938,6 +6736,201 @@
             "kickoff_utc": "2026-10-23T18:00:00Z",
             "xg_for": 1.71,
             "xg_against": 1.91
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_2FQjQr",
+      "league": "Indian Super League",
+      "league_id": "l_1qpFVw",
+      "home": "FC Goa",
+      "away": "Kerala Blasters FC",
+      "kickoff_utc": "2026-11-29T11:30:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.928,
+        "mean_xg_against": 0.952,
+        "source_match_ids": [
+          "m_1NLf0Y",
+          "m_2PtllL",
+          "m_2Ym50i",
+          "m_46SJs3",
+          "m_2LQy0D"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1NLf0Y",
+            "kickoff_utc": "2026-11-21T14:00:00Z",
+            "xg_for": 0.5,
+            "xg_against": 1.39
+          },
+          {
+            "match_id": "m_2PtllL",
+            "kickoff_utc": "2026-11-06T14:00:00Z",
+            "xg_for": 0.25,
+            "xg_against": 1.96
+          },
+          {
+            "match_id": "m_2Ym50i",
+            "kickoff_utc": "2026-11-01T14:00:00Z",
+            "xg_for": 2.21,
+            "xg_against": 0.23
+          },
+          {
+            "match_id": "m_46SJs3",
+            "kickoff_utc": "2026-10-28T14:00:00Z",
+            "xg_for": 0.92,
+            "xg_against": 0.26
+          },
+          {
+            "match_id": "m_2LQy0D",
+            "kickoff_utc": "2026-10-10T14:00:00Z",
+            "xg_for": 0.76,
+            "xg_against": 0.92
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 4,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.035,
+        "mean_xg_against": 1.008,
+        "source_match_ids": [
+          "m_1TjfEG",
+          "m_1TruhJ",
+          "m_2h6O72",
+          "m_4JDrjL"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1TjfEG",
+            "kickoff_utc": "2026-10-31T11:30:00Z",
+            "xg_for": 1.01,
+            "xg_against": 1.24
+          },
+          {
+            "match_id": "m_1TruhJ",
+            "kickoff_utc": "2026-10-25T14:00:00Z",
+            "xg_for": 1.13,
+            "xg_against": 0.98
+          },
+          {
+            "match_id": "m_2h6O72",
+            "kickoff_utc": "2026-10-18T14:00:00Z",
+            "xg_for": 0.63,
+            "xg_against": 1.41
+          },
+          {
+            "match_id": "m_4JDrjL",
+            "kickoff_utc": "2026-10-11T11:30:00Z",
+            "xg_for": 1.37,
+            "xg_against": 0.4
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_2r1hKU",
+      "league": "Thai League 1",
+      "league_id": "l_3hW1NO",
+      "home": "Ayutthaya United FC",
+      "away": "Rayong FC",
+      "kickoff_utc": "2026-11-29T11:30:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.608,
+        "mean_xg_against": 1.258,
+        "source_match_ids": [
+          "m_2dLTJi",
+          "m_0QyUwZ",
+          "m_0MLsGX",
+          "m_4Y7PDR",
+          "m_4IsCWY"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2dLTJi",
+            "kickoff_utc": "2026-11-22T11:00:00Z",
+            "xg_for": 1.07,
+            "xg_against": 1.55
+          },
+          {
+            "match_id": "m_0QyUwZ",
+            "kickoff_utc": "2026-11-07T12:00:00Z",
+            "xg_for": 0.88,
+            "xg_against": 0.42
+          },
+          {
+            "match_id": "m_0MLsGX",
+            "kickoff_utc": "2026-11-01T11:00:00Z",
+            "xg_for": 1.72,
+            "xg_against": 1.57
+          },
+          {
+            "match_id": "m_4Y7PDR",
+            "kickoff_utc": "2026-10-25T11:00:00Z",
+            "xg_for": 3.54,
+            "xg_against": 0.91
+          },
+          {
+            "match_id": "m_4IsCWY",
+            "kickoff_utc": "2026-10-16T12:00:00Z",
+            "xg_for": 0.83,
+            "xg_against": 1.84
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.572,
+        "mean_xg_against": 0.994,
+        "source_match_ids": [
+          "m_26xtZs",
+          "m_3mRAIK",
+          "m_2XGEoW",
+          "m_2Q1lHK",
+          "m_0ICD6l"
+        ],
+        "samples": [
+          {
+            "match_id": "m_26xtZs",
+            "kickoff_utc": "2026-11-22T12:00:00Z",
+            "xg_for": 2.18,
+            "xg_against": 0.1
+          },
+          {
+            "match_id": "m_3mRAIK",
+            "kickoff_utc": "2026-11-08T11:00:00Z",
+            "xg_for": 0.88,
+            "xg_against": 1.57
+          },
+          {
+            "match_id": "m_2XGEoW",
+            "kickoff_utc": "2026-11-01T12:00:00Z",
+            "xg_for": 1.59,
+            "xg_against": 0.86
+          },
+          {
+            "match_id": "m_2Q1lHK",
+            "kickoff_utc": "2026-10-24T11:00:00Z",
+            "xg_for": 1.26,
+            "xg_against": 1.29
+          },
+          {
+            "match_id": "m_0ICD6l",
+            "kickoff_utc": "2026-10-17T12:00:00Z",
+            "xg_for": 1.95,
+            "xg_against": 1.15
           }
         ]
       },
