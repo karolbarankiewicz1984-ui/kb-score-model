@@ -250,7 +250,7 @@ jobs:
           from pathlib import Path
           manifest = {"schema":"v2-postmatch-public-verified-v1","status":"ok","provider":"football-data.co.uk and configured public CSV sources","api_football_used":False,"note":"Only independently collected observed results/events; missing market statistics remain missing, never inferred.","observed_at_utc":datetime.now(timezone.utc).isoformat()}
           Path("reports/github_models/api_final_manifest.json").parent.mkdir(parents=True,exist_ok=True)
-          Path("reports/github_models/api_final_manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\\n",encoding="utf-8")
+          Path("reports/github_models/api_final_manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
       - name: Set post-result audit cutoff
         shell: bash
