@@ -848,3 +848,19 @@ Użytkownik pokazał prywatny R2 (Standard, Public Access Disabled), wybrał naz
 
 
 - 28.11 — właściciel potwierdził w aplikacji w trybie incognito komunikat „Pobrano i zweryfikowano pakiet”. Pierwszy test pobrania i walidacji po publikacji R2 zakończony sukcesem według relacji właściciela. Zwykły Chrome wcześniej ERR_FAILED; przyczyna nieustalona. Brak niezależnego potwierdzenia daty synchronizacji, zawartości ekranów i trwałości offline. Następnie zweryfikować te elementy, zwykłą sesję Chrome oraz stabilność wdrożeń. Bez zmian modeli, harmonogramu i dodatkowych zapytań API.
+
+
+## 28.11.2026 — plan dalszych prac po pierwszej publikacji (backlog, nie wdrożenie)
+
+Właściciel potwierdził, że aplikacja po synchronizacji w incognito działa i wyświetla dane. Nie potwierdzono niezależnie trwałości offline ani zwykłej sesji Chrome. Priorytety do zatwierdzenia:
+1. MM-05: automatyczny prywatny publikator po kompletnym bieżącym cyklu ABC/OddsPapi i dopuszczalnym audycie; bez duplikacji, zachować poprzedni pakiet, osobne daty źródeł, statusy i powiadomienia tylko o błędach wymagających działania. Proponowany test odbioru: trzy kolejne poprawne dzienne cykle bez ręcznej obsługi. Nie włączać harmonogramu przed zatwierdzeniem i sprawdzeniem zależności.
+2. Stabilizacja: diagnoza nieregularnego schedule, budżetu i timeoutów; zaprojektować niezależne generowanie/freeze/kursy oraz rozliczenie/audyt, zachować bramki kompletności, aktualności, zgodności kolejki i limitów. Nie powtarzać zakończonej optymalizacji PR #99 (34.2x, zero różnic). Testy regresji, parytetu i awarii; rejestr statusów cyklu. Bez dodatkowych płatnych zapytań.
+3. MM-06: audyt graficzny i opisowy ABC/SHADOW per model, rynek, linia, przedział p, liga (gdy próba wystarcza), okres; liczba niezależnych meczów i pozycji, trafność, Brier, log loss, kalibracja, symulowany ROI tylko dla zweryfikowanych kursów i rozliczeń; jawne braki, push/void i nieporównywalne próby. Najpierw sprawdzić aktualny audyt i kontrakt; szczegółowe rozliczenia ABC nadal wymagają ekspozycji i ścisłego powiązania, bez dopasowania po nazwie. Testy na istniejących danych, bez zmiany matematyki.
+Backlog pozostały (nie wykonywać w tym kroku):
+- MM-07: odczytać aktualną liczebność niezależnych meczów, progi 20/100 i chronologiczny holdout; panel postępu, eksperymenty Platt/izotoniczna/wagi ABC tylko po spełnieniu odpowiednich bramek, porównanie out-of-sample, brak automatycznej promocji. Historyczny wpis 59/100 nie jest aktualnym pomiarem.
+- Osobna definicja i walidacja quality_score 67/100; nie utożsamiać z p*100. TOP pozostaje zablokowany do zatwierdzenia; kurs >=1.20, maks. 3 różne pozycje/mecz, dokładne linie Superbet.
+- Uzupełnienie strzałów ogółem/celnych oraz brakujących rynków i ocen double chance, wyłącznie przy zweryfikowanych źródłach.
+- Rozbudowa prywatnego archiwum, historii wersji modeli, szczegółowych rozliczeń i identyfikatorów źródłowych.
+- Test normalnego Chrome, instalacja PWA na OPPO i komputerze, trwałość IndexedDB po przeładowaniu i offline, browser E2E, lockfile npm, kontrola niepotrzebnych deploy po zmianach dokumentacji/danych. Nie przebudowywać działającego Access/R2 bez potrzeby.
+- Zachować istniejące ograniczenia dostępu, nie ujawniać sekretów; wcześniejsze zalecenie rotacji ujawnionych kluczy pozostaje aktualne, bez wymuszania zmian w tym kroku.
+Wpis planistyczny na polecenie właściciela; nie zmieniono modeli, workflow, harmonogramów, danych ani konfiguracji Cloudflare; brak dodatkowych wywołań API sportowych.
