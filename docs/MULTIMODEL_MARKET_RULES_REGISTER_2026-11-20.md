@@ -845,3 +845,6 @@ Użytkownik pokazał prywatny R2 (Standard, Public Access Disabled), wybrał naz
 
 
 - 28.11 14:28 Warsaw — po potwierdzonej wymianie pary kluczy S3 ponowiono wyłącznie nieudane zadanie prywatnej publikacji 45899433229. Job 140993489724 SUCCESS, selektor potwierdził bieżący dzień Warsaw i źródła ABC 46143751500, OddsPapi 46145785656, audit 46099122861. Conditional write to private R2 SUCCESS; końcowy log 13:28:06 UTC: published. Pierwszy rzeczywisty zapis R2 potwierdzony. Nie wykonywano dodatkowych zapytań do dostawców ani zmian modeli, harmonogramu lub walidacji. Następny krok: test przycisku Pobierz dane w aplikacji, sprawdzenie daty synchronizacji i widoczności aktualnych prognoz, kursów oraz audytu. Monitoring pierwszej publikacji można zakończyć; harmonogram GitHub pozostaje bez zmian.
+
+
+- 28.11 — właściciel potwierdził w aplikacji w trybie incognito komunikat „Pobrano i zweryfikowano pakiet”. Pierwszy test pobrania i walidacji po publikacji R2 zakończony sukcesem według relacji właściciela. Zwykły Chrome wcześniej ERR_FAILED; przyczyna nieustalona. Brak niezależnego potwierdzenia daty synchronizacji, zawartości ekranów i trwałości offline. Następnie zweryfikować te elementy, zwykłą sesję Chrome oraz stabilność wdrożeń. Bez zmian modeli, harmonogramu i dodatkowych zapytań API.
