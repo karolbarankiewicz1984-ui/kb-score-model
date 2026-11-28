@@ -1,0 +1,3481 @@
+{
+  "schema": "pitchapi-prematch-context-v1",
+  "target_date": "2026-12-01",
+  "snapshot_utc": "2026-11-28T00:34:40.266140+00:00",
+  "source": "PitchAPI",
+  "available_upcoming": 35,
+  "fixtures_collected": 35,
+  "fixtures_with_both_sides_sufficient": 35,
+  "league_errors": [],
+  "fixtures": [
+    {
+      "pitch_match_id": "m_2auuWk",
+      "league": "Premier League",
+      "league_id": "l_4WFCIZ",
+      "home": "Coventry City",
+      "away": "Ipswich Town",
+      "kickoff_utc": "2026-12-01T20:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.102,
+        "mean_xg_against": 1.45,
+        "source_match_ids": [
+          "m_0B6kF2",
+          "m_0ZFoVd",
+          "m_0IHgwr",
+          "m_26YjGK",
+          "m_2KXrBt"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0B6kF2",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 2.08,
+            "xg_against": 1.74
+          },
+          {
+            "match_id": "m_0ZFoVd",
+            "kickoff_utc": "2026-11-06T20:00:00Z",
+            "xg_for": 1.4,
+            "xg_against": 2.29
+          },
+          {
+            "match_id": "m_0IHgwr",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.7,
+            "xg_against": 1.83
+          },
+          {
+            "match_id": "m_26YjGK",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.52,
+            "xg_against": 0.54
+          },
+          {
+            "match_id": "m_2KXrBt",
+            "kickoff_utc": "2026-10-19T19:00:00Z",
+            "xg_for": 0.81,
+            "xg_against": 0.85
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.976,
+        "mean_xg_against": 2.292,
+        "source_match_ids": [
+          "m_2PtCYr",
+          "m_0sKilh",
+          "m_0n3Keu",
+          "m_0CikU4",
+          "m_1308RP"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2PtCYr",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.46,
+            "xg_against": 2.69
+          },
+          {
+            "match_id": "m_0sKilh",
+            "kickoff_utc": "2026-11-08T14:00:00Z",
+            "xg_for": 1.26,
+            "xg_against": 2.24
+          },
+          {
+            "match_id": "m_0n3Keu",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.04,
+            "xg_against": 0.67
+          },
+          {
+            "match_id": "m_0CikU4",
+            "kickoff_utc": "2026-10-23T19:00:00Z",
+            "xg_for": 0.46,
+            "xg_against": 2.33
+          },
+          {
+            "match_id": "m_1308RP",
+            "kickoff_utc": "2026-10-17T14:00:00Z",
+            "xg_for": 1.66,
+            "xg_against": 3.53
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1XMwMe",
+      "league": "Saudi First Division",
+      "league_id": "l_3CB6qX",
+      "home": "Al Taee",
+      "away": "Al Jabalain",
+      "kickoff_utc": "2026-12-01T12:20:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.74,
+        "mean_xg_against": 1.58,
+        "source_match_ids": [
+          "m_1U2ScF",
+          "m_3ZMiFq",
+          "m_0VaNHM",
+          "m_3DnGPc"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1U2ScF",
+            "kickoff_utc": "2026-11-24T14:30:00Z",
+            "xg_for": 0.33,
+            "xg_against": 2.07
+          },
+          {
+            "match_id": "m_3ZMiFq",
+            "kickoff_utc": "2026-11-01T15:00:00Z",
+            "xg_for": 0.87,
+            "xg_against": 1.74
+          },
+          {
+            "match_id": "m_0VaNHM",
+            "kickoff_utc": "2026-10-27T13:45:00Z",
+            "xg_for": 1.42,
+            "xg_against": 1.03
+          },
+          {
+            "match_id": "m_3DnGPc",
+            "kickoff_utc": "2026-10-19T15:20:00Z",
+            "xg_for": 0.34,
+            "xg_against": 1.48
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.585,
+        "mean_xg_against": 0.365,
+        "source_match_ids": [
+          "m_3n70g5",
+          "m_0369dr",
+          "m_0y8PoB",
+          "m_0O7cHX"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3n70g5",
+            "kickoff_utc": "2026-11-08T15:20:00Z",
+            "xg_for": 2.48,
+            "xg_against": 0.38
+          },
+          {
+            "match_id": "m_0369dr",
+            "kickoff_utc": "2026-11-02T12:30:00Z",
+            "xg_for": 1.8,
+            "xg_against": 0.48
+          },
+          {
+            "match_id": "m_0y8PoB",
+            "kickoff_utc": "2026-10-28T15:05:00Z",
+            "xg_for": 0.64,
+            "xg_against": 0.26
+          },
+          {
+            "match_id": "m_0O7cHX",
+            "kickoff_utc": "2026-10-21T16:50:00Z",
+            "xg_for": 1.42,
+            "xg_against": 0.34
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0HYS9O",
+      "league": "Saudi First Division",
+      "league_id": "l_3CB6qX",
+      "home": "Al-Jandal",
+      "away": "Jeddah",
+      "kickoff_utc": "2026-12-01T12:25:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.576,
+        "mean_xg_against": 1.274,
+        "source_match_ids": [
+          "m_1gtF1W",
+          "m_2RFopT",
+          "m_2i6oSC",
+          "m_31c24q",
+          "m_3Tig0Y"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1gtF1W",
+            "kickoff_utc": "2026-11-25T12:10:00Z",
+            "xg_for": 0.87,
+            "xg_against": 2.27
+          },
+          {
+            "match_id": "m_2RFopT",
+            "kickoff_utc": "2026-11-07T12:30:00Z",
+            "xg_for": 0.49,
+            "xg_against": 0.63
+          },
+          {
+            "match_id": "m_2i6oSC",
+            "kickoff_utc": "2026-11-02T14:55:00Z",
+            "xg_for": 0.15,
+            "xg_against": 1.49
+          },
+          {
+            "match_id": "m_31c24q",
+            "kickoff_utc": "2026-10-28T12:35:00Z",
+            "xg_for": 0.27,
+            "xg_against": 0.75
+          },
+          {
+            "match_id": "m_3Tig0Y",
+            "kickoff_utc": "2026-10-14T15:30:00Z",
+            "xg_for": 1.1,
+            "xg_against": 1.23
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.758,
+        "mean_xg_against": 1.32,
+        "source_match_ids": [
+          "m_1HWKSc",
+          "m_0SJEaq",
+          "m_0VaNHM",
+          "m_0O7cHX"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1HWKSc",
+            "kickoff_utc": "2026-11-06T14:55:00Z",
+            "xg_for": 0.6,
+            "xg_against": 1.49
+          },
+          {
+            "match_id": "m_0SJEaq",
+            "kickoff_utc": "2026-11-01T16:45:00Z",
+            "xg_for": 1.06,
+            "xg_against": 0.95
+          },
+          {
+            "match_id": "m_0VaNHM",
+            "kickoff_utc": "2026-10-27T13:45:00Z",
+            "xg_for": 1.03,
+            "xg_against": 1.42
+          },
+          {
+            "match_id": "m_0O7cHX",
+            "kickoff_utc": "2026-10-21T16:50:00Z",
+            "xg_for": 0.34,
+            "xg_against": 1.42
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0QyAQl",
+      "league": "Saudi First Division",
+      "league_id": "l_3CB6qX",
+      "home": "Al-Adalah",
+      "away": "Al-Raed",
+      "kickoff_utc": "2026-12-01T14:30:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.804,
+        "mean_xg_against": 0.776,
+        "source_match_ids": [
+          "m_2hyPZV",
+          "m_4QHczv",
+          "m_0SJEaq",
+          "m_2LUOMU",
+          "m_3yWWTn"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2hyPZV",
+            "kickoff_utc": "2026-11-25T15:10:00Z",
+            "xg_for": 0.29,
+            "xg_against": 0.86
+          },
+          {
+            "match_id": "m_4QHczv",
+            "kickoff_utc": "2026-11-18T14:30:00Z",
+            "xg_for": 4.16,
+            "xg_against": 1.41
+          },
+          {
+            "match_id": "m_0SJEaq",
+            "kickoff_utc": "2026-11-01T16:45:00Z",
+            "xg_for": 0.95,
+            "xg_against": 1.06
+          },
+          {
+            "match_id": "m_2LUOMU",
+            "kickoff_utc": "2026-10-27T16:30:00Z",
+            "xg_for": 0.59,
+            "xg_against": 0.3
+          },
+          {
+            "match_id": "m_3yWWTn",
+            "kickoff_utc": "2026-10-20T16:50:00Z",
+            "xg_for": 3.03,
+            "xg_against": 0.25
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.923,
+        "mean_xg_against": 1.038,
+        "source_match_ids": [
+          "m_45XSDN",
+          "m_3Zw5bs",
+          "m_0y8PoB",
+          "m_1JoL3b"
+        ],
+        "samples": [
+          {
+            "match_id": "m_45XSDN",
+            "kickoff_utc": "2026-11-24T12:15:00Z",
+            "xg_for": 0.94,
+            "xg_against": 0.54
+          },
+          {
+            "match_id": "m_3Zw5bs",
+            "kickoff_utc": "2026-11-03T15:00:00Z",
+            "xg_for": 1.0,
+            "xg_against": 1.68
+          },
+          {
+            "match_id": "m_0y8PoB",
+            "kickoff_utc": "2026-10-28T15:05:00Z",
+            "xg_for": 0.26,
+            "xg_against": 0.64
+          },
+          {
+            "match_id": "m_1JoL3b",
+            "kickoff_utc": "2026-10-19T16:50:00Z",
+            "xg_for": 1.49,
+            "xg_against": 1.29
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_3pb6Md",
+      "league": "Ligat ha'Al",
+      "league_id": "l_16Sq13",
+      "home": "Ironi Tiberias",
+      "away": "Hapoel Ramat Gan",
+      "kickoff_utc": "2026-12-01T17:30:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.144,
+        "mean_xg_against": 2.546,
+        "source_match_ids": [
+          "m_1Lnha0",
+          "m_1A5yul",
+          "m_2sWIOf",
+          "m_400Gha",
+          "m_47LQXD"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1Lnha0",
+            "kickoff_utc": "2026-11-07T17:30:00Z",
+            "xg_for": 1.43,
+            "xg_against": 1.86
+          },
+          {
+            "match_id": "m_1A5yul",
+            "kickoff_utc": "2026-10-31T16:00:00Z",
+            "xg_for": 0.56,
+            "xg_against": 3.68
+          },
+          {
+            "match_id": "m_2sWIOf",
+            "kickoff_utc": "2026-10-24T16:00:00Z",
+            "xg_for": 1.72,
+            "xg_against": 4.41
+          },
+          {
+            "match_id": "m_400Gha",
+            "kickoff_utc": "2026-10-17T15:45:00Z",
+            "xg_for": 0.99,
+            "xg_against": 1.46
+          },
+          {
+            "match_id": "m_47LQXD",
+            "kickoff_utc": "2026-10-10T16:00:00Z",
+            "xg_for": 1.02,
+            "xg_against": 1.32
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.395,
+        "mean_xg_against": 1.035,
+        "source_match_ids": [
+          "m_4HEExR",
+          "m_0jeXem",
+          "m_3RI5C0",
+          "m_2YfROb"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4HEExR",
+            "kickoff_utc": "2026-11-07T13:00:00Z",
+            "xg_for": 1.48,
+            "xg_against": 0.97
+          },
+          {
+            "match_id": "m_0jeXem",
+            "kickoff_utc": "2026-10-24T16:00:00Z",
+            "xg_for": 1.09,
+            "xg_against": 0.95
+          },
+          {
+            "match_id": "m_3RI5C0",
+            "kickoff_utc": "2026-10-17T16:00:00Z",
+            "xg_for": 1.63,
+            "xg_against": 0.8
+          },
+          {
+            "match_id": "m_2YfROb",
+            "kickoff_utc": "2026-10-11T17:15:00Z",
+            "xg_for": 1.38,
+            "xg_against": 1.42
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0UmTfx",
+      "league": "Ligat ha'Al",
+      "league_id": "l_16Sq13",
+      "home": "Maccabi Petah Tikva",
+      "away": "Hapoel Petah Tikva",
+      "kickoff_utc": "2026-12-01T17:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.2,
+        "mean_xg_against": 2.018,
+        "source_match_ids": [
+          "m_1M3ysL",
+          "m_0VrzX1",
+          "m_3Qh48P",
+          "m_0jeXem",
+          "m_3vp78V"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1M3ysL",
+            "kickoff_utc": "2026-11-27T12:00:00Z",
+            "xg_for": 1.48,
+            "xg_against": 1.7
+          },
+          {
+            "match_id": "m_0VrzX1",
+            "kickoff_utc": "2026-11-06T12:00:00Z",
+            "xg_for": 1.91,
+            "xg_against": 3.14
+          },
+          {
+            "match_id": "m_3Qh48P",
+            "kickoff_utc": "2026-11-01T18:00:00Z",
+            "xg_for": 1.05,
+            "xg_against": 3.07
+          },
+          {
+            "match_id": "m_0jeXem",
+            "kickoff_utc": "2026-10-24T16:00:00Z",
+            "xg_for": 0.95,
+            "xg_against": 1.09
+          },
+          {
+            "match_id": "m_3vp78V",
+            "kickoff_utc": "2026-10-17T16:30:00Z",
+            "xg_for": 0.61,
+            "xg_against": 1.09
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.704,
+        "mean_xg_against": 1.51,
+        "source_match_ids": [
+          "m_4HEExR",
+          "m_0h5bv1",
+          "m_39a89i",
+          "m_4EY6DG",
+          "m_0idwjY"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4HEExR",
+            "kickoff_utc": "2026-11-07T13:00:00Z",
+            "xg_for": 0.97,
+            "xg_against": 1.48
+          },
+          {
+            "match_id": "m_0h5bv1",
+            "kickoff_utc": "2026-10-31T15:30:00Z",
+            "xg_for": 0.9,
+            "xg_against": 1.86
+          },
+          {
+            "match_id": "m_39a89i",
+            "kickoff_utc": "2026-10-25T18:15:00Z",
+            "xg_for": 0.58,
+            "xg_against": 1.78
+          },
+          {
+            "match_id": "m_4EY6DG",
+            "kickoff_utc": "2026-10-17T16:15:00Z",
+            "xg_for": 0.71,
+            "xg_against": 0.53
+          },
+          {
+            "match_id": "m_0idwjY",
+            "kickoff_utc": "2026-10-10T16:15:00Z",
+            "xg_for": 0.36,
+            "xg_against": 1.9
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_2F97MA",
+      "league": "Ligat ha'Al",
+      "league_id": "l_16Sq13",
+      "home": "Hapoel Jerusalem",
+      "away": "Hapoel Haifa",
+      "kickoff_utc": "2026-12-01T17:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.932,
+        "mean_xg_against": 1.834,
+        "source_match_ids": [
+          "m_1N7llx",
+          "m_0OIfsT",
+          "m_1Ry6It",
+          "m_3EuCTW",
+          "m_0mjg0K"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1N7llx",
+            "kickoff_utc": "2026-11-07T16:00:00Z",
+            "xg_for": 1.82,
+            "xg_against": 0.76
+          },
+          {
+            "match_id": "m_0OIfsT",
+            "kickoff_utc": "2026-10-31T17:30:00Z",
+            "xg_for": 0.68,
+            "xg_against": 1.63
+          },
+          {
+            "match_id": "m_1Ry6It",
+            "kickoff_utc": "2026-10-24T15:45:00Z",
+            "xg_for": 0.22,
+            "xg_against": 1.21
+          },
+          {
+            "match_id": "m_3EuCTW",
+            "kickoff_utc": "2026-10-18T17:15:00Z",
+            "xg_for": 0.67,
+            "xg_against": 2.71
+          },
+          {
+            "match_id": "m_0mjg0K",
+            "kickoff_utc": "2026-10-12T17:30:00Z",
+            "xg_for": 1.27,
+            "xg_against": 2.86
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.922,
+        "mean_xg_against": 1.572,
+        "source_match_ids": [
+          "m_3EYnG5",
+          "m_0h5bv1",
+          "m_38KVNT",
+          "m_3RI5C0",
+          "m_0gQkyu"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3EYnG5",
+            "kickoff_utc": "2026-11-07T16:00:00Z",
+            "xg_for": 0.41,
+            "xg_against": 1.31
+          },
+          {
+            "match_id": "m_0h5bv1",
+            "kickoff_utc": "2026-10-31T15:30:00Z",
+            "xg_for": 1.86,
+            "xg_against": 0.9
+          },
+          {
+            "match_id": "m_38KVNT",
+            "kickoff_utc": "2026-10-24T16:30:00Z",
+            "xg_for": 0.58,
+            "xg_against": 3.35
+          },
+          {
+            "match_id": "m_3RI5C0",
+            "kickoff_utc": "2026-10-17T16:00:00Z",
+            "xg_for": 0.8,
+            "xg_against": 1.63
+          },
+          {
+            "match_id": "m_0gQkyu",
+            "kickoff_utc": "2026-10-10T16:00:00Z",
+            "xg_for": 0.96,
+            "xg_against": 0.67
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1QjVxk",
+      "league": "Ligat ha'Al",
+      "league_id": "l_16Sq13",
+      "home": "Ironi Kiryat Shmona",
+      "away": "Maccabi Tel Aviv",
+      "kickoff_utc": "2026-12-01T18:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.24,
+        "mean_xg_against": 1.362,
+        "source_match_ids": [
+          "m_3EYnG5",
+          "m_3sohHR",
+          "m_4d5eOt",
+          "m_3lKmly",
+          "m_10qUC3"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3EYnG5",
+            "kickoff_utc": "2026-11-07T16:00:00Z",
+            "xg_for": 1.31,
+            "xg_against": 0.41
+          },
+          {
+            "match_id": "m_3sohHR",
+            "kickoff_utc": "2026-10-31T13:00:00Z",
+            "xg_for": 1.24,
+            "xg_against": 1.83
+          },
+          {
+            "match_id": "m_4d5eOt",
+            "kickoff_utc": "2026-10-24T15:45:00Z",
+            "xg_for": 0.7,
+            "xg_against": 1.03
+          },
+          {
+            "match_id": "m_3lKmly",
+            "kickoff_utc": "2026-10-17T16:15:00Z",
+            "xg_for": 1.32,
+            "xg_against": 1.46
+          },
+          {
+            "match_id": "m_10qUC3",
+            "kickoff_utc": "2026-10-10T16:15:00Z",
+            "xg_for": 1.63,
+            "xg_against": 2.08
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.555,
+        "mean_xg_against": 0.91,
+        "source_match_ids": [
+          "m_0VrzX1",
+          "m_38KVNT",
+          "m_2vNtXD",
+          "m_0XGjgJ"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0VrzX1",
+            "kickoff_utc": "2026-11-06T12:00:00Z",
+            "xg_for": 3.14,
+            "xg_against": 1.91
+          },
+          {
+            "match_id": "m_38KVNT",
+            "kickoff_utc": "2026-10-24T16:30:00Z",
+            "xg_for": 3.35,
+            "xg_against": 0.58
+          },
+          {
+            "match_id": "m_2vNtXD",
+            "kickoff_utc": "2026-10-19T17:30:00Z",
+            "xg_for": 1.69,
+            "xg_against": 1.0
+          },
+          {
+            "match_id": "m_0XGjgJ",
+            "kickoff_utc": "2026-10-10T16:30:00Z",
+            "xg_for": 2.04,
+            "xg_against": 0.15
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0AzhFf",
+      "league": "Primera Division",
+      "league_id": "l_4dzm4e",
+      "home": "Real Oruro",
+      "away": "ABB",
+      "kickoff_utc": "2026-12-01T19:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.44,
+        "mean_xg_against": 1.734,
+        "source_match_ids": [
+          "m_2fh5OC",
+          "m_3cHWog",
+          "m_4ZvFVc",
+          "m_1tzsjm",
+          "m_4NGXyK"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2fh5OC",
+            "kickoff_utc": "2026-11-23T19:00:00Z",
+            "xg_for": 0.77,
+            "xg_against": 2.16
+          },
+          {
+            "match_id": "m_3cHWog",
+            "kickoff_utc": "2026-11-07T19:00:00Z",
+            "xg_for": 1.67,
+            "xg_against": 0.62
+          },
+          {
+            "match_id": "m_4ZvFVc",
+            "kickoff_utc": "2026-10-31T19:00:00Z",
+            "xg_for": 1.94,
+            "xg_against": 0.69
+          },
+          {
+            "match_id": "m_1tzsjm",
+            "kickoff_utc": "2026-10-25T19:00:00Z",
+            "xg_for": 0.91,
+            "xg_against": 3.9
+          },
+          {
+            "match_id": "m_4NGXyK",
+            "kickoff_utc": "2026-10-17T19:00:00Z",
+            "xg_for": 1.91,
+            "xg_against": 1.3
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.345,
+        "mean_xg_against": 1.18,
+        "source_match_ids": [
+          "m_3Wcgur",
+          "m_2oEqbr",
+          "m_1asNdQ",
+          "m_2zr9bR"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3Wcgur",
+            "kickoff_utc": "2026-11-21T21:15:00Z",
+            "xg_for": 1.8,
+            "xg_against": 1.98
+          },
+          {
+            "match_id": "m_2oEqbr",
+            "kickoff_utc": "2026-10-31T21:15:00Z",
+            "xg_for": 1.96,
+            "xg_against": 1.13
+          },
+          {
+            "match_id": "m_1asNdQ",
+            "kickoff_utc": "2026-10-24T23:30:00Z",
+            "xg_for": 1.29,
+            "xg_against": 1.11
+          },
+          {
+            "match_id": "m_2zr9bR",
+            "kickoff_utc": "2026-10-16T19:00:00Z",
+            "xg_for": 0.33,
+            "xg_against": 0.5
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1kBaKg",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Leyton Orient",
+      "away": "Peterborough United",
+      "kickoff_utc": "2026-12-01T19:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.08,
+        "mean_xg_against": 1.638,
+        "source_match_ids": [
+          "m_4VGJaJ",
+          "m_0esv7J",
+          "m_0Uh9sg",
+          "m_1hTjql",
+          "m_1OGHtZ"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4VGJaJ",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 2.16,
+            "xg_against": 2.66
+          },
+          {
+            "match_id": "m_0esv7J",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 2.04,
+            "xg_against": 2.24
+          },
+          {
+            "match_id": "m_0Uh9sg",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.68,
+            "xg_against": 1.04
+          },
+          {
+            "match_id": "m_1hTjql",
+            "kickoff_utc": "2026-10-21T19:00:00Z",
+            "xg_for": 3.28,
+            "xg_against": 1.43
+          },
+          {
+            "match_id": "m_1OGHtZ",
+            "kickoff_utc": "2026-10-17T14:00:00Z",
+            "xg_for": 2.24,
+            "xg_against": 0.82
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.506,
+        "mean_xg_against": 1.314,
+        "source_match_ids": [
+          "m_1n9Lsc",
+          "m_3zexeG",
+          "m_0O9CyG",
+          "m_0D1T6r",
+          "m_4TsByT"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1n9Lsc",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.6,
+            "xg_against": 1.0
+          },
+          {
+            "match_id": "m_3zexeG",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.97,
+            "xg_against": 1.42
+          },
+          {
+            "match_id": "m_0O9CyG",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.25,
+            "xg_against": 0.7
+          },
+          {
+            "match_id": "m_0D1T6r",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.17,
+            "xg_against": 2.55
+          },
+          {
+            "match_id": "m_4TsByT",
+            "kickoff_utc": "2026-10-17T11:30:00Z",
+            "xg_for": 2.54,
+            "xg_against": 0.9
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0A3T1m",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Oxford United",
+      "away": "Sheffield Wednesday",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.226,
+        "mean_xg_against": 1.42,
+        "source_match_ids": [
+          "m_2PJg9e",
+          "m_2bna1q",
+          "m_2KRYXv",
+          "m_3ZQC6i",
+          "m_20pOav"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2PJg9e",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 4.04,
+            "xg_against": 0.63
+          },
+          {
+            "match_id": "m_2bna1q",
+            "kickoff_utc": "2026-11-04T19:45:00Z",
+            "xg_for": 0.73,
+            "xg_against": 1.75
+          },
+          {
+            "match_id": "m_2KRYXv",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.68,
+            "xg_against": 0.86
+          },
+          {
+            "match_id": "m_3ZQC6i",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 2.02,
+            "xg_against": 2.46
+          },
+          {
+            "match_id": "m_20pOav",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.66,
+            "xg_against": 1.4
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.194,
+        "mean_xg_against": 1.416,
+        "source_match_ids": [
+          "m_0BwFQI",
+          "m_4clIHb",
+          "m_1N3mav",
+          "m_4Qx6jW",
+          "m_1cnqOo"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0BwFQI",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 1.25,
+            "xg_against": 1.5
+          },
+          {
+            "match_id": "m_4clIHb",
+            "kickoff_utc": "2026-11-20T20:00:00Z",
+            "xg_for": 1.1,
+            "xg_against": 0.89
+          },
+          {
+            "match_id": "m_1N3mav",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.24,
+            "xg_against": 1.7
+          },
+          {
+            "match_id": "m_4Qx6jW",
+            "kickoff_utc": "2026-11-01T14:00:00Z",
+            "xg_for": 0.67,
+            "xg_against": 1.19
+          },
+          {
+            "match_id": "m_1cnqOo",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 1.71,
+            "xg_against": 1.8
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0DVlGl",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Mansfield Town",
+      "away": "Stockport County",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.51,
+        "mean_xg_against": 1.182,
+        "source_match_ids": [
+          "m_3gsMU6",
+          "m_18Nn0z",
+          "m_01aPQS",
+          "m_2fWT1F",
+          "m_0NBvSF"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3gsMU6",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.81,
+            "xg_against": 1.83
+          },
+          {
+            "match_id": "m_18Nn0z",
+            "kickoff_utc": "2026-11-03T19:45:00Z",
+            "xg_for": 1.16,
+            "xg_against": 1.51
+          },
+          {
+            "match_id": "m_01aPQS",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.56,
+            "xg_against": 1.05
+          },
+          {
+            "match_id": "m_2fWT1F",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.86,
+            "xg_against": 1.07
+          },
+          {
+            "match_id": "m_0NBvSF",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 2.16,
+            "xg_against": 0.45
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.344,
+        "mean_xg_against": 0.868,
+        "source_match_ids": [
+          "m_2wQHMF",
+          "m_2MU3g3",
+          "m_0RWnOI",
+          "m_3ZQC6i",
+          "m_3OEY3x"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2wQHMF",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.71,
+            "xg_against": 0.32
+          },
+          {
+            "match_id": "m_2MU3g3",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 3.23,
+            "xg_against": 0.7
+          },
+          {
+            "match_id": "m_0RWnOI",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.79,
+            "xg_against": 0.96
+          },
+          {
+            "match_id": "m_3ZQC6i",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 2.46,
+            "xg_against": 2.02
+          },
+          {
+            "match_id": "m_3OEY3x",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 2.53,
+            "xg_against": 0.34
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0XdNoX",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "York City",
+      "away": "Shrewsbury Town",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.9,
+        "mean_xg_against": 1.44,
+        "source_match_ids": [
+          "m_0ciT7L",
+          "m_0VvR9k",
+          "m_411DsT",
+          "m_4XcScF",
+          "m_4EP9lj"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0ciT7L",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.25,
+            "xg_against": 0.47
+          },
+          {
+            "match_id": "m_0VvR9k",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.05,
+            "xg_against": 1.67
+          },
+          {
+            "match_id": "m_411DsT",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 0.35,
+            "xg_against": 2.87
+          },
+          {
+            "match_id": "m_4XcScF",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 0.66,
+            "xg_against": 1.5
+          },
+          {
+            "match_id": "m_4EP9lj",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.19,
+            "xg_against": 0.69
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.682,
+        "mean_xg_against": 1.398,
+        "source_match_ids": [
+          "m_0gICaW",
+          "m_1LBgCi",
+          "m_2IYMb6",
+          "m_1oOej6",
+          "m_02YWcL"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0gICaW",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.75,
+            "xg_against": 1.91
+          },
+          {
+            "match_id": "m_1LBgCi",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.63,
+            "xg_against": 0.38
+          },
+          {
+            "match_id": "m_2IYMb6",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.03,
+            "xg_against": 1.87
+          },
+          {
+            "match_id": "m_1oOej6",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 2.22,
+            "xg_against": 1.44
+          },
+          {
+            "match_id": "m_02YWcL",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.78,
+            "xg_against": 1.39
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0YtGNv",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Oldham Athletic",
+      "away": "Bristol Rovers",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.14,
+        "mean_xg_against": 1.298,
+        "source_match_ids": [
+          "m_3fq0eb",
+          "m_1LBgCi",
+          "m_4InsrW",
+          "m_4TbPsO",
+          "m_0K9U7U"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3fq0eb",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.02,
+            "xg_against": 0.48
+          },
+          {
+            "match_id": "m_1LBgCi",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.38,
+            "xg_against": 1.63
+          },
+          {
+            "match_id": "m_4InsrW",
+            "kickoff_utc": "2026-11-03T19:45:00Z",
+            "xg_for": 0.86,
+            "xg_against": 1.03
+          },
+          {
+            "match_id": "m_4TbPsO",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.94,
+            "xg_against": 1.94
+          },
+          {
+            "match_id": "m_0K9U7U",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 2.5,
+            "xg_against": 1.41
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.382,
+        "mean_xg_against": 1.334,
+        "source_match_ids": [
+          "m_42Gfog",
+          "m_0jLg47",
+          "m_4JTFBP",
+          "m_4TtLTz",
+          "m_4Agzba"
+        ],
+        "samples": [
+          {
+            "match_id": "m_42Gfog",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 2.51,
+            "xg_against": 1.41
+          },
+          {
+            "match_id": "m_0jLg47",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.6,
+            "xg_against": 0.65
+          },
+          {
+            "match_id": "m_4JTFBP",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.2,
+            "xg_against": 2.21
+          },
+          {
+            "match_id": "m_4TtLTz",
+            "kickoff_utc": "2026-10-24T11:30:00Z",
+            "xg_for": 1.99,
+            "xg_against": 1.77
+          },
+          {
+            "match_id": "m_4Agzba",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.61,
+            "xg_against": 0.63
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0fGf31",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Newport County",
+      "away": "Walsall",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.368,
+        "mean_xg_against": 1.484,
+        "source_match_ids": [
+          "m_0iNH9Y",
+          "m_1ShLAK",
+          "m_24MLxE",
+          "m_0GZvnW",
+          "m_3VgPrc"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0iNH9Y",
+            "kickoff_utc": "2026-11-21T12:30:00Z",
+            "xg_for": 1.87,
+            "xg_against": 1.88
+          },
+          {
+            "match_id": "m_1ShLAK",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.54,
+            "xg_against": 1.54
+          },
+          {
+            "match_id": "m_24MLxE",
+            "kickoff_utc": "2026-10-30T19:45:00Z",
+            "xg_for": 1.15,
+            "xg_against": 1.36
+          },
+          {
+            "match_id": "m_0GZvnW",
+            "kickoff_utc": "2026-10-24T11:30:00Z",
+            "xg_for": 1.32,
+            "xg_against": 1.29
+          },
+          {
+            "match_id": "m_3VgPrc",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.96,
+            "xg_against": 1.35
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.686,
+        "mean_xg_against": 1.9,
+        "source_match_ids": [
+          "m_0ciT7L",
+          "m_3jjYDS",
+          "m_0Nn6Nl",
+          "m_4FSdqD",
+          "m_1wtOTb"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0ciT7L",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.47,
+            "xg_against": 1.25
+          },
+          {
+            "match_id": "m_3jjYDS",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.3,
+            "xg_against": 2.65
+          },
+          {
+            "match_id": "m_0Nn6Nl",
+            "kickoff_utc": "2026-10-26T20:00:00Z",
+            "xg_for": 1.71,
+            "xg_against": 2.3
+          },
+          {
+            "match_id": "m_4FSdqD",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 2.22,
+            "xg_against": 1.46
+          },
+          {
+            "match_id": "m_1wtOTb",
+            "kickoff_utc": "2026-10-17T14:00:00Z",
+            "xg_for": 1.73,
+            "xg_against": 1.84
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0urpQW",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Plymouth Argyle",
+      "away": "Bromley",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.184,
+        "mean_xg_against": 1.326,
+        "source_match_ids": [
+          "m_1n9Lsc",
+          "m_1N3mav",
+          "m_1l09XP",
+          "m_2IIqSQ",
+          "m_2hs2mF"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1n9Lsc",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.0,
+            "xg_against": 1.6
+          },
+          {
+            "match_id": "m_1N3mav",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.7,
+            "xg_against": 1.24
+          },
+          {
+            "match_id": "m_1l09XP",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 0.78,
+            "xg_against": 1.08
+          },
+          {
+            "match_id": "m_2IIqSQ",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.51,
+            "xg_against": 1.44
+          },
+          {
+            "match_id": "m_2hs2mF",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 0.93,
+            "xg_against": 1.27
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.238,
+        "mean_xg_against": 2.072,
+        "source_match_ids": [
+          "m_2J3L99",
+          "m_2cdVqW",
+          "m_3N565g",
+          "m_3uEPKP",
+          "m_0O9CyG"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2J3L99",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 2.19,
+            "xg_against": 1.18
+          },
+          {
+            "match_id": "m_2cdVqW",
+            "kickoff_utc": "2026-11-21T12:30:00Z",
+            "xg_for": 0.64,
+            "xg_against": 3.17
+          },
+          {
+            "match_id": "m_3N565g",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.81,
+            "xg_against": 2.41
+          },
+          {
+            "match_id": "m_3uEPKP",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 0.85,
+            "xg_against": 2.35
+          },
+          {
+            "match_id": "m_0O9CyG",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.7,
+            "xg_against": 1.25
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_10gqt3",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Grimsby Town",
+      "away": "Colchester United",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.496,
+        "mean_xg_against": 1.088,
+        "source_match_ids": [
+          "m_2RuHUK",
+          "m_3cqZ3b",
+          "m_411DsT",
+          "m_0HHlkr",
+          "m_1Mje0c"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2RuHUK",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.99,
+            "xg_against": 0.47
+          },
+          {
+            "match_id": "m_3cqZ3b",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 3.19,
+            "xg_against": 1.91
+          },
+          {
+            "match_id": "m_411DsT",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 2.87,
+            "xg_against": 0.35
+          },
+          {
+            "match_id": "m_0HHlkr",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 2.9,
+            "xg_against": 0.49
+          },
+          {
+            "match_id": "m_1Mje0c",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 2.53,
+            "xg_against": 2.22
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.536,
+        "mean_xg_against": 1.484,
+        "source_match_ids": [
+          "m_2hyFhA",
+          "m_0FkOQI",
+          "m_3jjYDS",
+          "m_0qsdlx",
+          "m_1YhUdM"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2hyFhA",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.64,
+            "xg_against": 1.81
+          },
+          {
+            "match_id": "m_0FkOQI",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 2.7,
+            "xg_against": 0.43
+          },
+          {
+            "match_id": "m_3jjYDS",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.65,
+            "xg_against": 2.3
+          },
+          {
+            "match_id": "m_0qsdlx",
+            "kickoff_utc": "2026-10-24T11:30:00Z",
+            "xg_for": 1.02,
+            "xg_against": 0.72
+          },
+          {
+            "match_id": "m_1YhUdM",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 0.67,
+            "xg_against": 2.16
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1b2BaW",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Barnet",
+      "away": "Rotherham United",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.412,
+        "mean_xg_against": 0.92,
+        "source_match_ids": [
+          "m_0gdcrZ",
+          "m_0Hve86",
+          "m_2AD04l",
+          "m_4XcScF",
+          "m_0K9U7U"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0gdcrZ",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 2.27,
+            "xg_against": 0.3
+          },
+          {
+            "match_id": "m_0Hve86",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.39,
+            "xg_against": 0.3
+          },
+          {
+            "match_id": "m_2AD04l",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.49,
+            "xg_against": 0.84
+          },
+          {
+            "match_id": "m_4XcScF",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 1.5,
+            "xg_against": 0.66
+          },
+          {
+            "match_id": "m_0K9U7U",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.41,
+            "xg_against": 2.5
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.924,
+        "mean_xg_against": 1.554,
+        "source_match_ids": [
+          "m_2RuHUK",
+          "m_45zs6u",
+          "m_1oOej6",
+          "m_3VgPrc",
+          "m_1IYRfG"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2RuHUK",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.47,
+            "xg_against": 0.99
+          },
+          {
+            "match_id": "m_45zs6u",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.37,
+            "xg_against": 0.98
+          },
+          {
+            "match_id": "m_1oOej6",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.44,
+            "xg_against": 2.22
+          },
+          {
+            "match_id": "m_3VgPrc",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.35,
+            "xg_against": 1.96
+          },
+          {
+            "match_id": "m_1IYRfG",
+            "kickoff_utc": "2026-10-17T11:30:00Z",
+            "xg_for": 0.99,
+            "xg_against": 1.62
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1cyu7Y",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Blackpool",
+      "away": "Luton Town",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.408,
+        "mean_xg_against": 1.812,
+        "source_match_ids": [
+          "m_0qZKKS",
+          "m_3Y7FOH",
+          "m_4GrXUg",
+          "m_4Qx6jW",
+          "m_2fWT1F"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0qZKKS",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 1.14,
+            "xg_against": 3.26
+          },
+          {
+            "match_id": "m_3Y7FOH",
+            "kickoff_utc": "2026-11-21T12:30:00Z",
+            "xg_for": 2.38,
+            "xg_against": 2.72
+          },
+          {
+            "match_id": "m_4GrXUg",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.26,
+            "xg_against": 0.55
+          },
+          {
+            "match_id": "m_4Qx6jW",
+            "kickoff_utc": "2026-11-01T14:00:00Z",
+            "xg_for": 1.19,
+            "xg_against": 0.67
+          },
+          {
+            "match_id": "m_2fWT1F",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.07,
+            "xg_against": 1.86
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.666,
+        "mean_xg_against": 0.928,
+        "source_match_ids": [
+          "m_0oafdm",
+          "m_3Bxp0i",
+          "m_3zexeG",
+          "m_3VD2gL",
+          "m_1Rj6oy"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0oafdm",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 2.45,
+            "xg_against": 0.63
+          },
+          {
+            "match_id": "m_3Bxp0i",
+            "kickoff_utc": "2026-11-03T19:45:00Z",
+            "xg_for": 0.61,
+            "xg_against": 0.95
+          },
+          {
+            "match_id": "m_3zexeG",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.42,
+            "xg_against": 0.97
+          },
+          {
+            "match_id": "m_3VD2gL",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 2.25,
+            "xg_against": 1.04
+          },
+          {
+            "match_id": "m_1Rj6oy",
+            "kickoff_utc": "2026-10-24T11:30:00Z",
+            "xg_for": 1.6,
+            "xg_against": 1.05
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1j5Ysp",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Bradford City",
+      "away": "Milton Keynes Dons",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.548,
+        "mean_xg_against": 1.326,
+        "source_match_ids": [
+          "m_4Nl73o",
+          "m_3FIcMw",
+          "m_0bXZhn",
+          "m_20pOav",
+          "m_10dEJz"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4Nl73o",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 2.77,
+            "xg_against": 1.19
+          },
+          {
+            "match_id": "m_3FIcMw",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.4,
+            "xg_against": 0.73
+          },
+          {
+            "match_id": "m_0bXZhn",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 0.81,
+            "xg_against": 1.68
+          },
+          {
+            "match_id": "m_20pOav",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.4,
+            "xg_against": 1.66
+          },
+          {
+            "match_id": "m_10dEJz",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.36,
+            "xg_against": 1.37
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.584,
+        "mean_xg_against": 0.622,
+        "source_match_ids": [
+          "m_3gsMU6",
+          "m_1NWxhG",
+          "m_0QJPky",
+          "m_3uEPKP",
+          "m_25uK4G"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3gsMU6",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.83,
+            "xg_against": 0.81
+          },
+          {
+            "match_id": "m_1NWxhG",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 2.62,
+            "xg_against": 0.32
+          },
+          {
+            "match_id": "m_0QJPky",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 4.22,
+            "xg_against": 0.68
+          },
+          {
+            "match_id": "m_3uEPKP",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 2.35,
+            "xg_against": 0.85
+          },
+          {
+            "match_id": "m_25uK4G",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.9,
+            "xg_against": 0.45
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1lu3Of",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Cambridge United",
+      "away": "Leicester City",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.316,
+        "mean_xg_against": 1.448,
+        "source_match_ids": [
+          "m_2wQHMF",
+          "m_0esv7J",
+          "m_1cnqOo",
+          "m_2IIqSQ",
+          "m_03ebKz"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2wQHMF",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.32,
+            "xg_against": 0.71
+          },
+          {
+            "match_id": "m_0esv7J",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 2.24,
+            "xg_against": 2.04
+          },
+          {
+            "match_id": "m_1cnqOo",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 1.8,
+            "xg_against": 1.71
+          },
+          {
+            "match_id": "m_2IIqSQ",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.44,
+            "xg_against": 1.51
+          },
+          {
+            "match_id": "m_03ebKz",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 0.78,
+            "xg_against": 1.27
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 2.078,
+        "mean_xg_against": 1.366,
+        "source_match_ids": [
+          "m_0qZKKS",
+          "m_4IoOo1",
+          "m_2073Ys",
+          "m_0yq1NX",
+          "m_1Rj6oy"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0qZKKS",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 3.26,
+            "xg_against": 1.14
+          },
+          {
+            "match_id": "m_4IoOo1",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.13,
+            "xg_against": 1.87
+          },
+          {
+            "match_id": "m_2073Ys",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.08,
+            "xg_against": 1.18
+          },
+          {
+            "match_id": "m_0yq1NX",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 2.87,
+            "xg_against": 1.04
+          },
+          {
+            "match_id": "m_1Rj6oy",
+            "kickoff_utc": "2026-10-24T11:30:00Z",
+            "xg_for": 1.05,
+            "xg_against": 1.6
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1oUcIX",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Cheltenham Town",
+      "away": "Rochdale",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.184,
+        "mean_xg_against": 1.532,
+        "source_match_ids": [
+          "m_42Gfog",
+          "m_3qZBZc",
+          "m_15HUcL",
+          "m_0GZvnW",
+          "m_1IWKxi"
+        ],
+        "samples": [
+          {
+            "match_id": "m_42Gfog",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.41,
+            "xg_against": 2.51
+          },
+          {
+            "match_id": "m_3qZBZc",
+            "kickoff_utc": "2026-11-14T12:30:00Z",
+            "xg_for": 0.79,
+            "xg_against": 0.45
+          },
+          {
+            "match_id": "m_15HUcL",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.56,
+            "xg_against": 1.03
+          },
+          {
+            "match_id": "m_0GZvnW",
+            "kickoff_utc": "2026-10-24T11:30:00Z",
+            "xg_for": 1.29,
+            "xg_against": 1.32
+          },
+          {
+            "match_id": "m_1IWKxi",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.87,
+            "xg_against": 2.35
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.236,
+        "mean_xg_against": 2.27,
+        "source_match_ids": [
+          "m_1at2rz",
+          "m_0VvR9k",
+          "m_2SbsQl",
+          "m_3CGGlS",
+          "m_1Mje0c"
+        ],
+        "samples": [
+          {
+            "match_id": "m_1at2rz",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.21,
+            "xg_against": 2.77
+          },
+          {
+            "match_id": "m_0VvR9k",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.67,
+            "xg_against": 1.05
+          },
+          {
+            "match_id": "m_2SbsQl",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 0.77,
+            "xg_against": 3.17
+          },
+          {
+            "match_id": "m_3CGGlS",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.31,
+            "xg_against": 1.83
+          },
+          {
+            "match_id": "m_1Mje0c",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 2.22,
+            "xg_against": 2.53
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1sFn0m",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Notts County",
+      "away": "AFC Wimbledon",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.042,
+        "mean_xg_against": 1.242,
+        "source_match_ids": [
+          "m_49HbCt",
+          "m_01aPQS",
+          "m_3OEY3x",
+          "m_06W1wR",
+          "m_0X2DSj"
+        ],
+        "samples": [
+          {
+            "match_id": "m_49HbCt",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.06,
+            "xg_against": 0.75
+          },
+          {
+            "match_id": "m_01aPQS",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.05,
+            "xg_against": 1.56
+          },
+          {
+            "match_id": "m_3OEY3x",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.34,
+            "xg_against": 2.53
+          },
+          {
+            "match_id": "m_06W1wR",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 2.35,
+            "xg_against": 0.28
+          },
+          {
+            "match_id": "m_0X2DSj",
+            "kickoff_utc": "2026-10-17T14:00:00Z",
+            "xg_for": 0.41,
+            "xg_against": 1.09
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.238,
+        "mean_xg_against": 1.978,
+        "source_match_ids": [
+          "m_4VGJaJ",
+          "m_4GrXUg",
+          "m_0RWnOI",
+          "m_0MSW9m",
+          "m_0NBvSF"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4VGJaJ",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 2.66,
+            "xg_against": 2.16
+          },
+          {
+            "match_id": "m_4GrXUg",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.55,
+            "xg_against": 1.26
+          },
+          {
+            "match_id": "m_0RWnOI",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.96,
+            "xg_against": 2.79
+          },
+          {
+            "match_id": "m_0MSW9m",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.57,
+            "xg_against": 1.52
+          },
+          {
+            "match_id": "m_0NBvSF",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 0.45,
+            "xg_against": 2.16
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_1svV6P",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Barnsley",
+      "away": "Wycombe Wanderers",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.132,
+        "mean_xg_against": 1.678,
+        "source_match_ids": [
+          "m_4Nl73o",
+          "m_4clIHb",
+          "m_2x4hhb",
+          "m_2KRYXv",
+          "m_2dlDOs"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4Nl73o",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 1.19,
+            "xg_against": 2.77
+          },
+          {
+            "match_id": "m_4clIHb",
+            "kickoff_utc": "2026-11-20T20:00:00Z",
+            "xg_for": 0.89,
+            "xg_against": 1.1
+          },
+          {
+            "match_id": "m_2x4hhb",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.96,
+            "xg_against": 0.93
+          },
+          {
+            "match_id": "m_2KRYXv",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.86,
+            "xg_against": 2.68
+          },
+          {
+            "match_id": "m_2dlDOs",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.76,
+            "xg_against": 0.91
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.17,
+        "mean_xg_against": 1.878,
+        "source_match_ids": [
+          "m_2J3L99",
+          "m_2PJg9e",
+          "m_3Cdc82",
+          "m_0MSW9m",
+          "m_03ebKz"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2J3L99",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 1.18,
+            "xg_against": 2.19
+          },
+          {
+            "match_id": "m_2PJg9e",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.63,
+            "xg_against": 4.04
+          },
+          {
+            "match_id": "m_3Cdc82",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.25,
+            "xg_against": 0.81
+          },
+          {
+            "match_id": "m_0MSW9m",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.52,
+            "xg_against": 1.57
+          },
+          {
+            "match_id": "m_03ebKz",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.27,
+            "xg_against": 0.78
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_2FUbut",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Accrington Stanley",
+      "away": "Crewe Alexandra",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.254,
+        "mean_xg_against": 1.088,
+        "source_match_ids": [
+          "m_20p5PZ",
+          "m_3JkSlj",
+          "m_1wOTT8",
+          "m_3CGGlS",
+          "m_2os5Et"
+        ],
+        "samples": [
+          {
+            "match_id": "m_20p5PZ",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.69,
+            "xg_against": 0.43
+          },
+          {
+            "match_id": "m_3JkSlj",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.6,
+            "xg_against": 2.26
+          },
+          {
+            "match_id": "m_1wOTT8",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.12,
+            "xg_against": 0.63
+          },
+          {
+            "match_id": "m_3CGGlS",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.83,
+            "xg_against": 0.31
+          },
+          {
+            "match_id": "m_2os5Et",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.03,
+            "xg_against": 1.81
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.044,
+        "mean_xg_against": 1.424,
+        "source_match_ids": [
+          "m_38Cpdk",
+          "m_1ShLAK",
+          "m_2AD04l",
+          "m_3Ptcvc",
+          "m_13D6jY"
+        ],
+        "samples": [
+          {
+            "match_id": "m_38Cpdk",
+            "kickoff_utc": "2026-11-21T12:30:00Z",
+            "xg_for": 1.74,
+            "xg_against": 2.44
+          },
+          {
+            "match_id": "m_1ShLAK",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.54,
+            "xg_against": 0.54
+          },
+          {
+            "match_id": "m_2AD04l",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.84,
+            "xg_against": 0.49
+          },
+          {
+            "match_id": "m_3Ptcvc",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.46,
+            "xg_against": 1.81
+          },
+          {
+            "match_id": "m_13D6jY",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 0.64,
+            "xg_against": 1.84
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_2HPLK9",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Gillingham",
+      "away": "Swindon Town",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.388,
+        "mean_xg_against": 2.046,
+        "source_match_ids": [
+          "m_38Cpdk",
+          "m_0FkOQI",
+          "m_2IYMb6",
+          "m_0HHlkr",
+          "m_33y8Oz"
+        ],
+        "samples": [
+          {
+            "match_id": "m_38Cpdk",
+            "kickoff_utc": "2026-11-21T12:30:00Z",
+            "xg_for": 2.44,
+            "xg_against": 1.74
+          },
+          {
+            "match_id": "m_0FkOQI",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.43,
+            "xg_against": 2.7
+          },
+          {
+            "match_id": "m_2IYMb6",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.87,
+            "xg_against": 2.03
+          },
+          {
+            "match_id": "m_0HHlkr",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.49,
+            "xg_against": 2.9
+          },
+          {
+            "match_id": "m_33y8Oz",
+            "kickoff_utc": "2026-10-20T19:00:00Z",
+            "xg_for": 1.71,
+            "xg_against": 0.86
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.598,
+        "mean_xg_against": 2.22,
+        "source_match_ids": [
+          "m_0iNH9Y",
+          "m_3cqZ3b",
+          "m_45zs6u",
+          "m_4TtLTz",
+          "m_2J2Zf5"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0iNH9Y",
+            "kickoff_utc": "2026-11-21T12:30:00Z",
+            "xg_for": 1.88,
+            "xg_against": 1.87
+          },
+          {
+            "match_id": "m_3cqZ3b",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 1.91,
+            "xg_against": 3.19
+          },
+          {
+            "match_id": "m_45zs6u",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.98,
+            "xg_against": 0.37
+          },
+          {
+            "match_id": "m_4TtLTz",
+            "kickoff_utc": "2026-10-24T11:30:00Z",
+            "xg_for": 1.77,
+            "xg_against": 1.99
+          },
+          {
+            "match_id": "m_2J2Zf5",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.45,
+            "xg_against": 3.68
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_3l9uXq",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Chesterfield",
+      "away": "Exeter City",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.578,
+        "mean_xg_against": 0.726,
+        "source_match_ids": [
+          "m_0gICaW",
+          "m_0jLg47",
+          "m_24MLxE",
+          "m_3Ptcvc",
+          "m_1YhUdM"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0gICaW",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.91,
+            "xg_against": 0.75
+          },
+          {
+            "match_id": "m_0jLg47",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.65,
+            "xg_against": 0.6
+          },
+          {
+            "match_id": "m_24MLxE",
+            "kickoff_utc": "2026-10-30T19:45:00Z",
+            "xg_for": 1.36,
+            "xg_against": 1.15
+          },
+          {
+            "match_id": "m_3Ptcvc",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.81,
+            "xg_against": 0.46
+          },
+          {
+            "match_id": "m_1YhUdM",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 2.16,
+            "xg_against": 0.67
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.958,
+        "mean_xg_against": 0.89,
+        "source_match_ids": [
+          "m_3fq0eb",
+          "m_3qZBZc",
+          "m_2LT576",
+          "m_4A0VSM",
+          "m_13D6jY"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3fq0eb",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.48,
+            "xg_against": 1.02
+          },
+          {
+            "match_id": "m_3qZBZc",
+            "kickoff_utc": "2026-11-14T12:30:00Z",
+            "xg_for": 0.45,
+            "xg_against": 0.79
+          },
+          {
+            "match_id": "m_2LT576",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.81,
+            "xg_against": 1.11
+          },
+          {
+            "match_id": "m_4A0VSM",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.21,
+            "xg_against": 0.89
+          },
+          {
+            "match_id": "m_13D6jY",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.84,
+            "xg_against": 0.64
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_3mxsul",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Burton Albion",
+      "away": "Wigan Athletic",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.834,
+        "mean_xg_against": 1.672,
+        "source_match_ids": [
+          "m_0oafdm",
+          "m_1NWxhG",
+          "m_3Cdc82",
+          "m_0Uh9sg",
+          "m_10dEJz"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0oafdm",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.63,
+            "xg_against": 2.45
+          },
+          {
+            "match_id": "m_1NWxhG",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.32,
+            "xg_against": 2.62
+          },
+          {
+            "match_id": "m_3Cdc82",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.81,
+            "xg_against": 1.25
+          },
+          {
+            "match_id": "m_0Uh9sg",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.04,
+            "xg_against": 0.68
+          },
+          {
+            "match_id": "m_10dEJz",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.37,
+            "xg_against": 1.36
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.722,
+        "mean_xg_against": 2.036,
+        "source_match_ids": [
+          "m_3Y7FOH",
+          "m_2x4hhb",
+          "m_18Nn0z",
+          "m_3N565g",
+          "m_0yq1NX"
+        ],
+        "samples": [
+          {
+            "match_id": "m_3Y7FOH",
+            "kickoff_utc": "2026-11-21T12:30:00Z",
+            "xg_for": 2.72,
+            "xg_against": 2.38
+          },
+          {
+            "match_id": "m_2x4hhb",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.93,
+            "xg_against": 1.96
+          },
+          {
+            "match_id": "m_18Nn0z",
+            "kickoff_utc": "2026-11-03T19:45:00Z",
+            "xg_for": 1.51,
+            "xg_against": 1.16
+          },
+          {
+            "match_id": "m_3N565g",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.41,
+            "xg_against": 1.81
+          },
+          {
+            "match_id": "m_0yq1NX",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 1.04,
+            "xg_against": 2.87
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_3uPgCH",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Huddersfield Town",
+      "away": "Stevenage",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.752,
+        "mean_xg_against": 0.992,
+        "source_match_ids": [
+          "m_0D7Zt6",
+          "m_4IoOo1",
+          "m_3Bxp0i",
+          "m_0bXZhn",
+          "m_023IL4"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0D7Zt6",
+            "kickoff_utc": "2026-11-26T20:00:00Z",
+            "xg_for": 1.12,
+            "xg_against": 1.9
+          },
+          {
+            "match_id": "m_4IoOo1",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.87,
+            "xg_against": 1.13
+          },
+          {
+            "match_id": "m_3Bxp0i",
+            "kickoff_utc": "2026-11-03T19:45:00Z",
+            "xg_for": 0.95,
+            "xg_against": 0.61
+          },
+          {
+            "match_id": "m_0bXZhn",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 1.68,
+            "xg_against": 0.81
+          },
+          {
+            "match_id": "m_023IL4",
+            "kickoff_utc": "2026-10-24T11:30:00Z",
+            "xg_for": 3.14,
+            "xg_against": 0.51
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.03,
+        "mean_xg_against": 1.444,
+        "source_match_ids": [
+          "m_0BwFQI",
+          "m_49HbCt",
+          "m_2073Ys",
+          "m_25uK4G",
+          "m_2hs2mF"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0BwFQI",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 1.5,
+            "xg_against": 1.25
+          },
+          {
+            "match_id": "m_49HbCt",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.75,
+            "xg_against": 1.06
+          },
+          {
+            "match_id": "m_2073Ys",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.18,
+            "xg_against": 2.08
+          },
+          {
+            "match_id": "m_25uK4G",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.45,
+            "xg_against": 1.9
+          },
+          {
+            "match_id": "m_2hs2mF",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.27,
+            "xg_against": 0.93
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_46V6ro",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Crawley Town",
+      "away": "Port Vale",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.156,
+        "mean_xg_against": 1.464,
+        "source_match_ids": [
+          "m_0gdcrZ",
+          "m_03aLmG",
+          "m_4TbPsO",
+          "m_3s9zRP",
+          "m_02YWcL"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0gdcrZ",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 0.3,
+            "xg_against": 2.27
+          },
+          {
+            "match_id": "m_03aLmG",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.21,
+            "xg_against": 1.13
+          },
+          {
+            "match_id": "m_4TbPsO",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 1.94,
+            "xg_against": 0.94
+          },
+          {
+            "match_id": "m_3s9zRP",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.94,
+            "xg_against": 1.2
+          },
+          {
+            "match_id": "m_02YWcL",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 1.39,
+            "xg_against": 1.78
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.95,
+        "mean_xg_against": 0.902,
+        "source_match_ids": [
+          "m_4F2ohI",
+          "m_0Hve86",
+          "m_3JkSlj",
+          "m_2SbsQl",
+          "m_4EP9lj"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4F2ohI",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 3.33,
+            "xg_against": 0.56
+          },
+          {
+            "match_id": "m_0Hve86",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.3,
+            "xg_against": 1.39
+          },
+          {
+            "match_id": "m_3JkSlj",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 2.26,
+            "xg_against": 0.6
+          },
+          {
+            "match_id": "m_2SbsQl",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 3.17,
+            "xg_against": 0.77
+          },
+          {
+            "match_id": "m_4EP9lj",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.69,
+            "xg_against": 1.19
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_4KFobt",
+      "league": "League Two",
+      "league_id": "l_1W6idJ",
+      "home": "Northampton Town",
+      "away": "Fleetwood Town",
+      "kickoff_utc": "2026-12-01T19:45:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.118,
+        "mean_xg_against": 1.416,
+        "source_match_ids": [
+          "m_4F2ohI",
+          "m_1at2rz",
+          "m_4Ginuf",
+          "m_4InsrW",
+          "m_1wOTT8"
+        ],
+        "samples": [
+          {
+            "match_id": "m_4F2ohI",
+            "kickoff_utc": "2026-11-24T19:45:00Z",
+            "xg_for": 0.56,
+            "xg_against": 3.33
+          },
+          {
+            "match_id": "m_1at2rz",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 2.77,
+            "xg_against": 1.21
+          },
+          {
+            "match_id": "m_4Ginuf",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.6,
+            "xg_against": 0.56
+          },
+          {
+            "match_id": "m_4InsrW",
+            "kickoff_utc": "2026-11-03T19:45:00Z",
+            "xg_for": 1.03,
+            "xg_against": 0.86
+          },
+          {
+            "match_id": "m_1wOTT8",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.63,
+            "xg_against": 1.12
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.544,
+        "mean_xg_against": 1.098,
+        "source_match_ids": [
+          "m_03aLmG",
+          "m_2TasTu",
+          "m_4JTFBP",
+          "m_4A0VSM",
+          "m_1IWKxi"
+        ],
+        "samples": [
+          {
+            "match_id": "m_03aLmG",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 1.13,
+            "xg_against": 1.21
+          },
+          {
+            "match_id": "m_2TasTu",
+            "kickoff_utc": "2026-11-14T17:30:00Z",
+            "xg_for": 1.14,
+            "xg_against": 1.0
+          },
+          {
+            "match_id": "m_4JTFBP",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 2.21,
+            "xg_against": 0.2
+          },
+          {
+            "match_id": "m_4A0VSM",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.89,
+            "xg_against": 1.21
+          },
+          {
+            "match_id": "m_1IWKxi",
+            "kickoff_utc": "2026-10-20T18:45:00Z",
+            "xg_for": 2.35,
+            "xg_against": 1.87
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_4Tza5e",
+      "league": "League One",
+      "league_id": "l_0ahLw8",
+      "home": "Reading",
+      "away": "Doncaster Rovers",
+      "kickoff_utc": "2026-12-01T20:00:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.522,
+        "mean_xg_against": 1.228,
+        "source_match_ids": [
+          "m_2cdVqW",
+          "m_2MU3g3",
+          "m_2bna1q",
+          "m_1l09XP",
+          "m_2dlDOs"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2cdVqW",
+            "kickoff_utc": "2026-11-21T12:30:00Z",
+            "xg_for": 3.17,
+            "xg_against": 0.64
+          },
+          {
+            "match_id": "m_2MU3g3",
+            "kickoff_utc": "2026-11-14T15:00:00Z",
+            "xg_for": 0.7,
+            "xg_against": 3.23
+          },
+          {
+            "match_id": "m_2bna1q",
+            "kickoff_utc": "2026-11-04T19:45:00Z",
+            "xg_for": 1.75,
+            "xg_against": 0.73
+          },
+          {
+            "match_id": "m_1l09XP",
+            "kickoff_utc": "2026-10-31T12:30:00Z",
+            "xg_for": 1.08,
+            "xg_against": 0.78
+          },
+          {
+            "match_id": "m_2dlDOs",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 0.91,
+            "xg_against": 0.76
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.11,
+        "mean_xg_against": 2.0,
+        "source_match_ids": [
+          "m_0D7Zt6",
+          "m_3FIcMw",
+          "m_0QJPky",
+          "m_3VD2gL",
+          "m_3HKdqQ"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0D7Zt6",
+            "kickoff_utc": "2026-11-26T20:00:00Z",
+            "xg_for": 1.9,
+            "xg_against": 1.12
+          },
+          {
+            "match_id": "m_3FIcMw",
+            "kickoff_utc": "2026-11-21T15:00:00Z",
+            "xg_for": 0.73,
+            "xg_against": 1.4
+          },
+          {
+            "match_id": "m_0QJPky",
+            "kickoff_utc": "2026-10-31T15:00:00Z",
+            "xg_for": 0.68,
+            "xg_against": 4.22
+          },
+          {
+            "match_id": "m_3VD2gL",
+            "kickoff_utc": "2026-10-27T19:45:00Z",
+            "xg_for": 1.04,
+            "xg_against": 2.25
+          },
+          {
+            "match_id": "m_3HKdqQ",
+            "kickoff_utc": "2026-10-24T14:00:00Z",
+            "xg_for": 1.2,
+            "xg_against": 1.01
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_074XIU",
+      "league": "Primera Division",
+      "league_id": "l_4dzm4e",
+      "home": "Real Tomayapo",
+      "away": "Guabirá",
+      "kickoff_utc": "2026-12-01T21:15:00Z",
+      "home_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.724,
+        "mean_xg_against": 1.332,
+        "source_match_ids": [
+          "m_2tgGLx",
+          "m_1eLmmn",
+          "m_0H9bFj",
+          "m_1ZFxQ0",
+          "m_1K920x"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2tgGLx",
+            "kickoff_utc": "2026-11-21T19:00:00Z",
+            "xg_for": 1.92,
+            "xg_against": 2.11
+          },
+          {
+            "match_id": "m_1eLmmn",
+            "kickoff_utc": "2026-11-06T23:00:00Z",
+            "xg_for": 1.23,
+            "xg_against": 0.65
+          },
+          {
+            "match_id": "m_0H9bFj",
+            "kickoff_utc": "2026-11-02T21:15:00Z",
+            "xg_for": 1.92,
+            "xg_against": 1.49
+          },
+          {
+            "match_id": "m_1ZFxQ0",
+            "kickoff_utc": "2026-10-25T21:15:00Z",
+            "xg_for": 0.85,
+            "xg_against": 1.38
+          },
+          {
+            "match_id": "m_1K920x",
+            "kickoff_utc": "2026-10-17T00:00:00Z",
+            "xg_for": 2.7,
+            "xg_against": 1.03
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.228,
+        "mean_xg_against": 1.448,
+        "source_match_ids": [
+          "m_2fh5OC",
+          "m_46SEp7",
+          "m_1QZLPQ",
+          "m_29T2JA"
+        ],
+        "samples": [
+          {
+            "match_id": "m_2fh5OC",
+            "kickoff_utc": "2026-11-23T19:00:00Z",
+            "xg_for": 2.16,
+            "xg_against": 0.77
+          },
+          {
+            "match_id": "m_46SEp7",
+            "kickoff_utc": "2026-11-01T21:15:00Z",
+            "xg_for": 0.76,
+            "xg_against": 2.13
+          },
+          {
+            "match_id": "m_1QZLPQ",
+            "kickoff_utc": "2026-10-26T22:00:00Z",
+            "xg_for": 0.35,
+            "xg_against": 1.82
+          },
+          {
+            "match_id": "m_29T2JA",
+            "kickoff_utc": "2026-10-18T23:30:00Z",
+            "xg_for": 1.64,
+            "xg_against": 1.07
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_0PoUNw",
+      "league": "Primera A",
+      "league_id": "l_1xXulJ",
+      "home": "Atlético Bucaramanga",
+      "away": "Deportivo Cali",
+      "kickoff_utc": "2026-12-01T23:20:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.1,
+        "mean_xg_against": 1.202,
+        "source_match_ids": [
+          "m_36opUl",
+          "m_1lr9va",
+          "m_0Gj49E",
+          "m_0bzJ8E"
+        ],
+        "samples": [
+          {
+            "match_id": "m_36opUl",
+            "kickoff_utc": "2026-11-24T23:20:00Z",
+            "xg_for": 1.0,
+            "xg_against": 1.51
+          },
+          {
+            "match_id": "m_1lr9va",
+            "kickoff_utc": "2026-11-20T23:35:00Z",
+            "xg_for": 0.8,
+            "xg_against": 1.41
+          },
+          {
+            "match_id": "m_0Gj49E",
+            "kickoff_utc": "2026-11-14T20:30:00Z",
+            "xg_for": 1.32,
+            "xg_against": 0.21
+          },
+          {
+            "match_id": "m_0bzJ8E",
+            "kickoff_utc": "2026-11-03T01:15:00Z",
+            "xg_for": 1.28,
+            "xg_against": 1.68
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.876,
+        "mean_xg_against": 0.686,
+        "source_match_ids": [
+          "m_34HFs3",
+          "m_2AXJxn",
+          "m_3553GR",
+          "m_3XVj8D",
+          "m_2jYUWs"
+        ],
+        "samples": [
+          {
+            "match_id": "m_34HFs3",
+            "kickoff_utc": "2026-11-25T01:30:00Z",
+            "xg_for": 0.76,
+            "xg_against": 1.61
+          },
+          {
+            "match_id": "m_2AXJxn",
+            "kickoff_utc": "2026-11-21T01:40:00Z",
+            "xg_for": 0.45,
+            "xg_against": 0.29
+          },
+          {
+            "match_id": "m_3553GR",
+            "kickoff_utc": "2026-11-14T20:30:00Z",
+            "xg_for": 2.17,
+            "xg_against": 0.37
+          },
+          {
+            "match_id": "m_3XVj8D",
+            "kickoff_utc": "2026-11-08T01:45:00Z",
+            "xg_for": 0.32,
+            "xg_against": 0.4
+          },
+          {
+            "match_id": "m_2jYUWs",
+            "kickoff_utc": "2026-11-01T21:05:00Z",
+            "xg_for": 0.68,
+            "xg_against": 0.76
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    },
+    {
+      "pitch_match_id": "m_064Wxe",
+      "league": "Primera Division",
+      "league_id": "l_4dzm4e",
+      "home": "Real Potosí",
+      "away": "Universitario de Vinto",
+      "kickoff_utc": "2026-12-01T23:30:00Z",
+      "home_recent": {
+        "complete_samples": 4,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 0.99,
+        "mean_xg_against": 0.495,
+        "source_match_ids": [
+          "m_0vdm6C",
+          "m_1pFzg8",
+          "m_46dcCp",
+          "m_2zr9bR"
+        ],
+        "samples": [
+          {
+            "match_id": "m_0vdm6C",
+            "kickoff_utc": "2026-11-22T19:00:00Z",
+            "xg_for": 1.1,
+            "xg_against": 0.42
+          },
+          {
+            "match_id": "m_1pFzg8",
+            "kickoff_utc": "2026-11-08T19:00:00Z",
+            "xg_for": 1.09,
+            "xg_against": 0.23
+          },
+          {
+            "match_id": "m_46dcCp",
+            "kickoff_utc": "2026-10-30T22:00:00Z",
+            "xg_for": 1.27,
+            "xg_against": 1.0
+          },
+          {
+            "match_id": "m_2zr9bR",
+            "kickoff_utc": "2026-10-16T19:00:00Z",
+            "xg_for": 0.5,
+            "xg_against": 0.33
+          }
+        ]
+      },
+      "away_recent": {
+        "complete_samples": 5,
+        "requested_samples": 5,
+        "data_quality": "sufficient",
+        "mean_xg_for": 1.032,
+        "mean_xg_against": 1.564,
+        "source_match_ids": [
+          "m_28fBOs",
+          "m_1EmehY",
+          "m_0smEef",
+          "m_3ElP7U",
+          "m_4bPfNx"
+        ],
+        "samples": [
+          {
+            "match_id": "m_28fBOs",
+            "kickoff_utc": "2026-11-23T21:15:00Z",
+            "xg_for": 1.46,
+            "xg_against": 0.5
+          },
+          {
+            "match_id": "m_1EmehY",
+            "kickoff_utc": "2026-11-10T00:30:00Z",
+            "xg_for": 0.35,
+            "xg_against": 1.82
+          },
+          {
+            "match_id": "m_0smEef",
+            "kickoff_utc": "2026-11-01T23:30:00Z",
+            "xg_for": 1.42,
+            "xg_against": 1.75
+          },
+          {
+            "match_id": "m_3ElP7U",
+            "kickoff_utc": "2026-10-27T00:00:00Z",
+            "xg_for": 0.15,
+            "xg_against": 2.9
+          },
+          {
+            "match_id": "m_4bPfNx",
+            "kickoff_utc": "2026-10-17T21:15:00Z",
+            "xg_for": 1.78,
+            "xg_against": 0.85
+          }
+        ]
+      },
+      "both_sides_sufficient": true
+    }
+  ],
+  "model_effect": "NONE",
+  "kb_n_effect": 0,
+  "dev_n_effect": 0,
+  "important": "Historic xG averages, not predicted goals or betting probabilities. Only fixtures played BEFORE snapshot enter samples."
+}
